@@ -433,7 +433,7 @@ export class MigrationManager {
       successfulMigrations: successful,
       failedMigrations: failed,
       averageDuration: avgDuration,
-      mostUsedMigrations: [], // TODO: Implement in next phase
+      mostUsedMigrations: this.calculateMostUsedMigrations(),
       errorRate: total > 0 ? (failed / total) * 100 : 0
     };
   }
@@ -447,6 +447,23 @@ export class MigrationManager {
       mostUsedMigrations: [],
       errorRate: 0
     };
+  }
+
+  private calculateMostUsedMigrations(): Array<{ stepId: string; usage: number }> {
+    const usageCount = new Map<string, number>();
+    
+    // Count usage from migration history
+    this.migrationHistory.forEach(entry => {
+      if (entry.success) {
+        usageCount.set(entry.id, (usageCount.get(entry.id) || 0) + 1);
+      }
+    });
+    
+    // Convert to array and sort by usage
+    return Array.from(usageCount.entries())
+      .map(([stepId, usage]) => ({ stepId, usage }))
+      .sort((a, b) => b.usage - a.usage)
+      .slice(0, 10); // Top 10 most used
   }
 }
 

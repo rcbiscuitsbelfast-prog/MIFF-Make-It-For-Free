@@ -7,9 +7,9 @@
  * Provides CRUD operations, filtering, and reporting capabilities.
  */
 
-import { CAPARegistryManager } from './CAPARegistry.js';
-import { EventBus } from '../EventBusPure/index.js';
-import { CAPACategory, CAPASeverity, CAPAStatus } from './CAPASystem.js';
+import { CAPARegistryManager } from './CAPARegistry';
+import { EventBus } from '../EventBusPure/index';
+import { CAPACategory, CAPASeverity, CAPAStatus } from './CAPASystem';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CAPACLI {

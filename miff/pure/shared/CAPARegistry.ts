@@ -5,8 +5,8 @@
  * Provides persistence, querying, and reporting capabilities.
  */
 
-import { CAPAEntry, CAPACategory, CAPASeverity, CAPAStatus, CAPARegistry, CAPAMetrics } from './CAPASystem.js';
-import { EventBus } from '../EventBusPure/index.js';
+import { CAPAEntry, CAPACategory, CAPASeverity, CAPAStatus, CAPARegistry, CAPAMetrics } from './CAPASystem';
+import { EventBus } from '../EventBusPure/index';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';

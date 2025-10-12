@@ -5,6 +5,7 @@
       "description": "177+ schema references across modules with potential conflicts between BridgeSchemaPure, SharedSchemaPure, and module-specific schemas",
       "category": "schema_drift",
       "severity": "critical",
+      "discoveredBy": "Comprehensive Audit",
       "impact": {
         "modulesAffected": [
           "BridgeSchemaPure",
@@ -32,17 +33,16 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760012122846-crdun4wbz",
-      "discoveredAt": "2025-10-09T12:15:22.846Z",
-      "status": "resolved",
-      "resolvedAt": "2025-10-09T22:24:45.865Z",
-      "resolution": "Schema consolidation completed with ConsolidatedSchema system - workflows can proceed"
+      "id": "CAPA-1760267911058-s0dym9v4w",
+      "discoveredAt": "2025-10-12T11:18:31.058Z",
+      "status": "open"
     },
     {
       "title": "Migration System Gaps",
       "description": "357+ migration references found with no centralized migration system, scattered module-specific migration logic",
       "category": "migration_gaps",
       "severity": "critical",
+      "discoveredBy": "Comprehensive Audit",
       "impact": {
         "modulesAffected": [
           "All Modules"
@@ -66,17 +66,16 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760012122848-1ybslcvvo",
-      "discoveredAt": "2025-10-09T12:15:22.848Z",
-      "status": "resolved",
-      "resolvedAt": "2025-10-09T22:24:45.840Z",
-      "resolution": "Migration system implemented with MigrationManager and CLI tools - workflows can proceed"
+      "id": "CAPA-1760267911064-ywqrqy9cc",
+      "discoveredAt": "2025-10-12T11:18:31.064Z",
+      "status": "open"
     },
     {
       "title": "Excessive Test Mock Usage",
       "description": "1,350+ mock/stub instances across codebase masking real behavior and creating false test confidence",
       "category": "stubbed_logic",
       "severity": "high",
+      "discoveredBy": "Comprehensive Audit",
       "impact": {
         "modulesAffected": [
           "EffectsPure",
@@ -104,17 +103,16 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760012122848-85jtoq66d",
-      "discoveredAt": "2025-10-09T12:15:22.848Z",
-      "status": "resolved",
-      "resolvedAt": "2025-10-09T22:24:58.406Z",
-      "resolution": "Test infrastructure stabilization completed with mock replacement - workflows can proceed"
+      "id": "CAPA-1760267911064-xigiir5py",
+      "discoveredAt": "2025-10-12T11:18:31.064Z",
+      "status": "open"
     },
     {
       "title": "Asset Pipeline Validation Gaps",
       "description": "711+ asset references without existence validation, potential broken pipelines and missing assets",
       "category": "asset_pipeline",
       "severity": "high",
+      "discoveredBy": "Comprehensive Audit",
       "impact": {
         "modulesAffected": [
           "UnityBridgePure",
@@ -142,17 +140,16 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760012122848-r0c3t6t9v",
-      "discoveredAt": "2025-10-09T12:15:22.848Z",
-      "status": "resolved",
-      "resolvedAt": "2025-10-09T22:24:58.719Z",
-      "resolution": "Asset pipeline validation implemented with capability introspection - workflows can proceed"
+      "id": "CAPA-1760267911065-2lrutx52t",
+      "discoveredAt": "2025-10-12T11:18:31.065Z",
+      "status": "open"
     },
     {
       "title": "Mixed Interface Safety",
       "description": "Inconsistent interface patterns, mixed safety levels, documentation gaps across modules",
       "category": "interface_safety",
       "severity": "medium",
+      "discoveredBy": "Comprehensive Audit",
       "impact": {
         "modulesAffected": [
           "All CLI Harnesses"
@@ -176,17 +173,16 @@
       "prRequired": false,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760012122849-7ezmmirs7",
-      "discoveredAt": "2025-10-09T12:15:22.849Z",
-      "status": "resolved",
-      "resolvedAt": "2025-10-09T12:21:36.499Z",
-      "resolution": "Interface standardization system completed with comprehensive interface analysis and standardization"
+      "id": "CAPA-1760267911066-bye6f79gy",
+      "discoveredAt": "2025-10-12T11:18:31.066Z",
+      "status": "open"
     },
     {
       "title": "Mixed Runtime Fidelity",
       "description": "99+ lifecycle/transport references with mock implementations, simulation vs reality gaps",
       "category": "runtime_fidelity",
       "severity": "medium",
+      "discoveredBy": "Comprehensive Audit",
       "impact": {
         "modulesAffected": [
           "NetworkBridgePure",
@@ -214,88 +210,8 @@
       "prRequired": false,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760012122849-ro9ul0ik6",
-      "discoveredAt": "2025-10-09T12:15:22.849Z",
-      "status": "resolved",
-      "resolvedAt": "2025-10-09T12:29:26.520Z",
-      "resolution": "Runtime fidelity system completed with mock replacement, transport layer implementation, and lifecycle hook management"
-    },
-    {
-      "title": "Mock/Stub Implementation Proliferation",
-      "description": "1,777 mock/stub instances across 169 files creating false system confidence and production failure risk",
-      "category": "stubbed_logic",
-      "severity": "critical",
-      "impact": {
-        "modulesAffected": [],
-        "usersAffected": [
-          "Contributors"
-        ],
-        "businessImpact": "To be determined",
-        "technicalDebt": 5,
-        "riskLevel": "medium"
-      },
-      "tags": [],
-      "relatedModules": [
-        "All Modules"
-      ],
-      "ciBlocking": true,
-      "prRequired": true,
-      "correctiveActions": [],
-      "preventiveActions": [],
-      "id": "CAPA-1760049357751-edo8uzbzr",
-      "discoveredAt": "2025-10-09T22:35:57.751Z",
-      "status": "open"
-    },
-    {
-      "title": "Capability System Underutilization",
-      "description": "Only 2 out of 174 modules implement MIFFCapable interface, architectural vision unrealized",
-      "category": "interface_safety",
-      "severity": "high",
-      "impact": {
-        "modulesAffected": [],
-        "usersAffected": [
-          "Contributors"
-        ],
-        "businessImpact": "To be determined",
-        "technicalDebt": 5,
-        "riskLevel": "medium"
-      },
-      "tags": [],
-      "relatedModules": [
-        "All Modules"
-      ],
-      "ciBlocking": false,
-      "prRequired": true,
-      "correctiveActions": [],
-      "preventiveActions": [],
-      "id": "CAPA-1760049358559-4oblhdzt9",
-      "discoveredAt": "2025-10-09T22:35:58.559Z",
-      "status": "open"
-    },
-    {
-      "title": "Bridge Module Transport Layer Mocking",
-      "description": "Bridge modules using mock transport instead of real IPC/socket integration",
-      "category": "runtime_fidelity",
-      "severity": "critical",
-      "impact": {
-        "modulesAffected": [],
-        "usersAffected": [
-          "Contributors"
-        ],
-        "businessImpact": "To be determined",
-        "technicalDebt": 5,
-        "riskLevel": "medium"
-      },
-      "tags": [],
-      "relatedModules": [
-        "UnityBridgePure,GodotBridgePure,WebSocketBridgePure"
-      ],
-      "ciBlocking": true,
-      "prRequired": true,
-      "correctiveActions": [],
-      "preventiveActions": [],
-      "id": "CAPA-1760049360370-yf7gauy6n",
-      "discoveredAt": "2025-10-09T22:36:00.370Z",
+      "id": "CAPA-1760267911067-zr6io8efg",
+      "discoveredAt": "2025-10-12T11:18:31.067Z",
       "status": "open"
     }
   ]
