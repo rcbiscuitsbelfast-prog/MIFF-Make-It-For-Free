@@ -137,14 +137,8 @@ export class XPLevelingManager {
         growthRate: 1.1,
         levels: this.generateLevelEntries(100, 100, 1.1),
         metadata: {
-
-          type: 'balanced' 
-
-        
-
-
+          type: 'balanced'
         }
-        };
       },
       {
         id: 'fast',

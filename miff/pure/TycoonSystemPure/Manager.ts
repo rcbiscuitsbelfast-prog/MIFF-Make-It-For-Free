@@ -11,12 +11,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
-
 import { EventBus } from '../EventBusPure/index.js';
 // Types are defined in this file to avoid circular imports
 
@@ -50,8 +49,7 @@ export class TycoonSystemPure {
   setIntegrations(integrations: any): void {}
   
   getStats(): any { 
-    return { isInitialized: true, totalFacilities: 0, totalRevenue: 0;
-    }; 
+    return { isInitialized: true, totalFacilities: 0, totalRevenue: 0 }; 
   }
   
   setPaused(paused: boolean): void {}

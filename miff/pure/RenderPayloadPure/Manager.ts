@@ -87,15 +87,10 @@ export class RenderPayloadManager {
         size: 1024,
         format: 'PNG',
         metadata: {
-
-          width: 64, height: 64, channels: 4;
-    
-
-        
-
-
+          width: 64,
+          height: 64,
+          channels: 4
         }
-        };
       },
       {
         id: 'town_theme',
