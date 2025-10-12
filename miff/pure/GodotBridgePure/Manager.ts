@@ -308,15 +308,8 @@ export class GodotBridgeManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'GodotBridgeManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
