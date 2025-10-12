@@ -15,6 +15,10 @@
  * @author MIFF Framework
  */
 
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+
 export interface GodotBridgeConfig {
   enableBridgeCreation: boolean;
   enableBridgeManagement: boolean;
@@ -272,6 +276,8 @@ export class GodotBridgeManager {
   private bridges: Map<string, GodotBridge> = new Map();
   private stats: GodotBridgeStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<GodotBridgeConfig> = {}) {
     this.config = {
@@ -295,12 +301,28 @@ export class GodotBridgeManager {
       enableVersioning: true,
       ...config
     };
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'GodotBridgeManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `GodotBridgeManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'GodotBridgeManager');
   }
 
   /**
    * Initialize Godot bridge manager
    */
   async initialize(): Promise<boolean> {
+    const timerId = this.logger.startTimer('GodotBridgeManager', 'initialize');
+    
     try {
       // Initialize Godot bridge manager
       await this.initializeGodotBridgeManager();
@@ -309,10 +331,21 @@ export class GodotBridgeManager {
       await this.loadDefaultGodotBridges();
       
       this.isInitialized = true;
-      console.log('Godot bridge manager initialized successfully');
+      this.logger.info('GodotBridgeManager', 'Godot bridge manager initialized successfully', {
+        bridgesCount: this.bridges.size,
+        config: this.config
+      });
+      
+      const duration = this.logger.endTimer(timerId);
+      this.logger.logPerformance('GodotBridgeManager', 'initialize', duration);
+      
       return true;
     } catch (error) {
-      console.error('Failed to initialize Godot bridge manager:', error);
+      this.logger.error('GodotBridgeManager', 'Failed to initialize Godot bridge manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
+      
+      this.logger.endTimer(timerId);
       return false;
     }
   }
@@ -339,7 +372,14 @@ export class GodotBridgeManager {
     this.bridges.set(newBridge.id, newBridge);
     this.updateStats('create_bridge', newBridge);
 
-    console.log(`Created Godot bridge: ${newBridge.name}`);
+    this.logger.info('GodotBridgeManager', 'Created Godot bridge', {
+      bridgeId: newBridge.id,
+      bridgeName: newBridge.name,
+      bridgeType: newBridge.type,
+      totalBridges: this.bridges.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
     return newBridge;
   }
 
@@ -349,12 +389,17 @@ export class GodotBridgeManager {
   createBridge(godotBridgeId: string, bridge: Partial<Bridge>): Bridge | null {
     const godotBridge = this.bridges.get(godotBridgeId);
     if (!godotBridge) {
-      console.warn(`Godot bridge ${godotBridgeId} not found`);
+      this.logger.warn('GodotBridgeManager', 'Godot bridge not found', {
+        godotBridgeId
+      });
       return null;
     }
 
     if (godotBridge.bridges.length >= this.config.maxBridges) {
-      console.warn('Maximum number of bridges reached');
+      this.logger.warn('GodotBridgeManager', 'Maximum number of bridges reached', {
+        currentCount: godotBridge.bridges.length,
+        maxBridges: this.config.maxBridges
+      });
       return null;
     }
 
@@ -373,10 +418,18 @@ export class GodotBridgeManager {
       godotBridge.modified = Date.now();
 
       this.updateStats('create_bridge', godotBridge);
-      console.log(`Created bridge: ${newBridge.name}`);
+      this.logger.info('GodotBridgeManager', 'Created bridge', {
+        bridgeId: newBridge.id,
+        bridgeName: newBridge.name,
+        bridgeType: newBridge.type,
+        godotBridgeId: godotBridge.id
+      });
       return newBridge;
     } catch (error) {
-      console.error(`Failed to create bridge in Godot bridge ${godotBridgeId}:`, error);
+      this.logger.error('GodotBridgeManager', 'Failed to create bridge in Godot bridge', {
+        godotBridgeId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -387,12 +440,17 @@ export class GodotBridgeManager {
   createGodotScene(godotBridgeId: string, scene: Partial<GodotScene>): GodotScene | null {
     const godotBridge = this.bridges.get(godotBridgeId);
     if (!godotBridge) {
-      console.warn(`Godot bridge ${godotBridgeId} not found`);
+      this.logger.warn('GodotBridgeManager', 'Godot bridge not found', {
+        godotBridgeId
+      });
       return null;
     }
 
     if (godotBridge.scenes.length >= this.config.maxScenes) {
-      console.warn('Maximum number of scenes reached');
+      this.logger.warn('GodotBridgeManager', 'Maximum number of scenes reached', {
+        currentCount: godotBridge.scenes.length,
+        maxScenes: this.config.maxScenes
+      });
       return null;
     }
 
@@ -412,10 +470,18 @@ export class GodotBridgeManager {
       godotBridge.modified = Date.now();
 
       this.updateStats('create_scene', godotBridge);
-      console.log(`Created Godot scene: ${newScene.name}`);
+      this.logger.info('GodotBridgeManager', 'Created Godot scene', {
+        sceneId: newScene.id,
+        sceneName: newScene.name,
+        sceneType: newScene.type,
+        godotBridgeId: godotBridge.id
+      });
       return newScene;
     } catch (error) {
-      console.error(`Failed to create Godot scene in Godot bridge ${godotBridgeId}:`, error);
+      this.logger.error('GodotBridgeManager', 'Failed to create Godot scene in Godot bridge', {
+        godotBridgeId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -453,7 +519,7 @@ export class GodotBridgeManager {
    * Initialize Godot bridge manager
    */
   private async initializeGodotBridgeManager(): Promise<void> {
-    console.log('Initializing Godot bridge manager...');
+    this.logger.debug('GodotBridgeManager', 'Initializing Godot bridge manager...');
   }
 
   /**
@@ -473,7 +539,10 @@ export class GodotBridgeManager {
       }
     }
 
-    console.log(`Loaded ${defaultBridges.length} default Godot bridges`);
+    this.logger.info('GodotBridgeManager', 'Loaded default Godot bridges', {
+      count: defaultBridges.length,
+      bridges: defaultBridges.map(b => b.name)
+    });
   }
 
   /**
@@ -611,9 +680,19 @@ export class GodotBridgeManager {
    * Cleanup resources
    */
   destroy(): void {
+    this.logger.info('GodotBridgeManager', 'Destroying Godot bridge manager', {
+      bridgesCount: this.bridges.size
+    });
+    
     this.bridges.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

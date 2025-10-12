@@ -15,6 +15,10 @@
  * @author MIFF Framework
  */
 
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+
 export interface OverlinkConfig {
   enableOverlinkCreation: boolean;
   enableOverlinkManagement: boolean;
@@ -194,6 +198,8 @@ export class OverlinkManager {
   private overlinks: Map<string, Overlink> = new Map();
   private stats: OverlinkStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<OverlinkConfig> = {}) {
     this.config = {
@@ -217,6 +223,20 @@ export class OverlinkManager {
       enableVersioning: true,
       ...config
     };
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'OverlinkManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `OverlinkManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'OverlinkManager');
   }
 
   /**
@@ -231,10 +251,15 @@ export class OverlinkManager {
       await this.loadDefaultOverlinks();
       
       this.isInitialized = true;
-      console.log('Overlink manager initialized successfully');
+      this.logger.info('OverlinkManager', 'Overlink manager initialized successfully', {
+        overlinksCount: this.overlinks.size,
+        config: this.config
+      });
       return true;
     } catch (error) {
-      console.error('Failed to initialize overlink manager:', error);
+      this.logger.error('OverlinkManager', 'Failed to initialize overlink manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return false;
     }
   }
@@ -260,7 +285,14 @@ export class OverlinkManager {
     this.overlinks.set(newOverlink.id, newOverlink);
     this.updateStats('create_overlink', newOverlink);
 
-    console.log(`Created overlink: ${newOverlink.name}`);
+    this.logger.info('OverlinkManager', 'Created overlink', {
+      overlinkId: newOverlink.id,
+      overlinkName: newOverlink.name,
+      overlinkType: newOverlink.type,
+      totalOverlinks: this.overlinks.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
     return newOverlink;
   }
 
@@ -270,12 +302,17 @@ export class OverlinkManager {
   createOverlinkItem(overlinkId: string, item: Partial<OverlinkItem>): OverlinkItem | null {
     const overlink = this.overlinks.get(overlinkId);
     if (!overlink) {
-      console.warn(`Overlink ${overlinkId} not found`);
+      this.logger.warn('OverlinkManager', 'Overlink not found', {
+        overlinkId
+      });
       return null;
     }
 
     if (overlink.overlinks.length >= this.config.maxOverlinks) {
-      console.warn('Maximum number of overlinks reached');
+      this.logger.warn('OverlinkManager', 'Maximum number of overlinks reached', {
+        currentCount: overlink.overlinks.length,
+        maxOverlinks: this.config.maxOverlinks
+      });
       return null;
     }
 
@@ -295,10 +332,18 @@ export class OverlinkManager {
       overlink.modified = Date.now();
 
       this.updateStats('create_item', overlink);
-      console.log(`Created overlink item: ${newItem.name}`);
+      this.logger.info('OverlinkManager', 'Created overlink item', {
+        itemId: newItem.id,
+        itemName: newItem.name,
+        itemType: newItem.type,
+        overlinkId: overlink.id
+      });
       return newItem;
     } catch (error) {
-      console.error(`Failed to create overlink item in overlink ${overlinkId}:`, error);
+      this.logger.error('OverlinkManager', 'Failed to create overlink item in overlink', {
+        overlinkId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -309,12 +354,17 @@ export class OverlinkManager {
   createOverlinkTarget(overlinkId: string, target: Partial<OverlinkTarget>): OverlinkTarget | null {
     const overlink = this.overlinks.get(overlinkId);
     if (!overlink) {
-      console.warn(`Overlink ${overlinkId} not found`);
+      this.logger.warn('OverlinkManager', 'Overlink not found', {
+        overlinkId
+      });
       return null;
     }
 
     if (overlink.targets.length >= this.config.maxTargets) {
-      console.warn('Maximum number of targets reached');
+      this.logger.warn('OverlinkManager', 'Maximum number of targets reached', {
+        currentCount: overlink.targets.length,
+        maxTargets: this.config.maxTargets
+      });
       return null;
     }
 
@@ -334,10 +384,18 @@ export class OverlinkManager {
       overlink.modified = Date.now();
 
       this.updateStats('create_target', overlink);
-      console.log(`Created overlink target: ${newTarget.name}`);
+      this.logger.info('OverlinkManager', 'Created overlink target', {
+        targetId: newTarget.id,
+        targetName: newTarget.name,
+        targetType: newTarget.type,
+        overlinkId: overlink.id
+      });
       return newTarget;
     } catch (error) {
-      console.error(`Failed to create overlink target in overlink ${overlinkId}:`, error);
+      this.logger.error('OverlinkManager', 'Failed to create overlink target in overlink', {
+        overlinkId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -375,7 +433,7 @@ export class OverlinkManager {
    * Initialize overlink manager
    */
   private async initializeOverlinkManager(): Promise<void> {
-    console.log('Initializing overlink manager...');
+    this.logger.debug('OverlinkManager', 'Initializing overlink manager...');
   }
 
   /**
@@ -395,7 +453,10 @@ export class OverlinkManager {
       }
     }
 
-    console.log(`Loaded ${defaultOverlinks.length} default overlinks`);
+    this.logger.info('OverlinkManager', 'Loaded default overlinks', {
+      count: defaultOverlinks.length,
+      overlinks: defaultOverlinks.map(o => o.name)
+    });
   }
 
   /**
@@ -530,9 +591,19 @@ export class OverlinkManager {
    * Cleanup resources
    */
   destroy(): void {
+    this.logger.info('OverlinkManager', 'Destroying overlink manager', {
+      overlinksCount: this.overlinks.size
+    });
+    
     this.overlinks.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 
