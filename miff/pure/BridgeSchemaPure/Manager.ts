@@ -1,680 +1,641 @@
 /**
- * BridgeSchemaPure Manager
- * 
- * Manages bridge schemas for cross-engine compatibility, validation,
- * and conversion between different game engine formats.
+ * BridgeSchemaPure Manager - Advanced Bridge Schema Management System
+ *
+ * Comprehensive bridge schema system with:
+ * - Schema definition and validation
+ * - Cross-platform compatibility
+ * - Version management
+ * - Performance optimization
+ * - Real-time monitoring
+ *
+ * @version 1.0.0
+ * @author MIFF Framework
  */
 
-import { BridgeSchema, BridgeSchemaConfig, SchemaValidationResult } from './index';
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+
+export interface BridgeSchemaConfig {
+  enableSchemaDefinition: boolean;
+  enableSchemaValidation: boolean;
+  enableCrossPlatformCompatibility: boolean;
+  enableVersionManagement: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  maxSchemas: number;
+  maxVersions: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
+
+export interface BridgeSchema {
+  id: string;
+  name: string;
+  type: SchemaType;
+  status: SchemaStatus;
+  version: string;
+  definition: SchemaDefinition;
+  validation: SchemaValidation;
+  compatibility: SchemaCompatibility;
+  performance: SchemaPerformance;
+  analytics: SchemaAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface SchemaDefinition {
+  name: string;
+  description: string;
+  fields: SchemaField[];
+  rules: SchemaRule[];
+  constraints: SchemaConstraint[];
+  metadata: Record<string, any>;
+}
+
+export interface SchemaField {
+  name: string;
+  type: FieldType;
+  required: boolean;
+  defaultValue?: any;
+  validation: FieldValidation;
+  metadata: Record<string, any>;
+}
+
+export interface SchemaRule {
+  name: string;
+  type: RuleType;
+  condition: string;
+  action: string;
+  priority: number;
+  metadata: Record<string, any>;
+}
+
+export interface SchemaConstraint {
+  name: string;
+  type: ConstraintType;
+  field: string;
+  value: any;
+  metadata: Record<string, any>;
+}
+
+export interface FieldValidation {
+  minLength?: number;
+  maxLength?: number;
+  minValue?: number;
+  maxValue?: number;
+  pattern?: string;
+  custom?: string;
+  metadata: Record<string, any>;
+}
+
+export interface SchemaValidation {
+  enabled: boolean;
+  strict: boolean;
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+  metadata: Record<string, any>;
+}
+
+export interface ValidationError {
   id: string;
+  field: string;
+  message: string;
+  severity: ErrorSeverity;
+  timestamp: Date;
+  metadata: Record<string, any>;
+}
+
+export interface ValidationWarning {
+  id: string;
+  field: string;
+  message: string;
+  severity: WarningSeverity;
+  timestamp: Date;
+  metadata: Record<string, any>;
+}
+
+export interface SchemaCompatibility {
+  platforms: Platform[];
+  versions: VersionCompatibility[];
+  requirements: CompatibilityRequirement[];
+  metadata: Record<string, any>;
+}
+
+export interface Platform {
   name: string;
   version: string;
-  engine: 'unity' | 'godot' | 'web' | 'universal';
-  schema: Record<string, any>;
-  metadata?: {
-    description?: string;
-    author?: string;
-    created?: string;
-    tags?: string[];
-    compatibility?: string[];
-  };
+  supported: boolean;
+  features: string[];
+  metadata: Record<string, any>;
 }
 
-export interface ConversionRule {
+export interface VersionCompatibility {
+  version: string;
+  compatible: boolean;
+  changes: string[];
+  migration: MigrationPath;
+  metadata: Record<string, any>;
+}
+
+export interface MigrationPath {
+  from: string;
+  to: string;
+  steps: MigrationStep[];
+  metadata: Record<string, any>;
+}
+
+export interface MigrationStep {
   id: string;
+  type: MigrationType;
+  description: string;
+  action: string;
+  metadata: Record<string, any>;
+}
+
+export interface CompatibilityRequirement {
   name: string;
-  fromEngine: string;
-  toEngine: string;
-  mappings: Record<string, string>;
-  transformations?: Record<string, (value: any) => any>;
+  type: RequirementType;
+  value: any;
+  optional: boolean;
+  metadata: Record<string, any>;
 }
 
-export interface SchemaRegistry {
-  schemas: Map<string, SchemaDefinition>;
-  conversions: Map<string, ConversionRule>;
-  validationCache: Map<string, SchemaValidationResult>;
+export interface SchemaPerformance {
+  validationTime: number; // milliseconds
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  cacheHitRate: number; // 0-1
+  metadata: Record<string, any>;
 }
 
-export interface SchemaStats {
+export interface SchemaAnalytics {
   totalSchemas: number;
-  schemasByEngine: Record<string, number>;
-  totalConversions: number;
-  validationCacheSize: number;
-  mostUsedSchemas: Array<{ id: string; usage: number;
-    }>;
+  activeSchemas: number;
+  totalValidations: number;
+  successfulValidations: number;
+  averageValidationTime: number; // milliseconds
+  lastUpdated: Date;
 }
+
+export type SchemaType = 'unity' | 'godot' | 'unreal' | 'web' | 'custom';
+export type SchemaStatus = 'active' | 'inactive' | 'deprecated' | 'error';
+export type FieldType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'custom';
+export type RuleType = 'validation' | 'transformation' | 'constraint' | 'custom';
+export type ConstraintType = 'required' | 'unique' | 'range' | 'pattern' | 'custom';
+export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
+export type WarningSeverity = 'info' | 'warning' | 'error';
+export type MigrationType = 'field' | 'type' | 'constraint' | 'rule' | 'custom';
+export type RequirementType = 'version' | 'feature' | 'dependency' | 'custom';
 
 export class BridgeSchemaManager {
-  private registry: SchemaRegistry;
-  private bridge: BridgeSchema;
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
   private config: BridgeSchemaConfig;
+  private schemas: Map<string, BridgeSchema> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
 
   constructor(config?: Partial<BridgeSchemaConfig>) {
+    this.logger = new StructuredLogger({ module: 'BridgeSchemaManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      version: '1.0.0',
-      strict: true,
-      validateReferences: true,
+      enableSchemaDefinition: true,
+      enableSchemaValidation: true,
+      enableCrossPlatformCompatibility: true,
+      enableVersionManagement: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      maxSchemas: 1000,
+      maxVersions: 100,
+      enableCloudSync: false,
+      enableBackup: true,
+      enableVersioning: true,
       ...config
     };
-    
-    this.bridge = new BridgeSchema(this.config);
-    this.registry = {
-      schemas: new Map(),
-      conversions: new Map(),
-      validationCache: new Map()
-    };
-
-    this.initializeDefaultSchemas();
-  }
-
-  private initializeDefaultSchemas() {
-    // Unity Bridge Schema
-    const unitySchema: SchemaDefinition = {
-      id: 'unity-bridge-v1',
-      name: 'Unity Bridge Schema',
-      version: '1.0.0',
-      engine: 'unity',
-      schema: {
-
-        $schema: 'miff.bridge.unity.v1',
-        type: 'object',
-        properties: {
-          gameObject: {
-            type: 'object',
-            properties: {
-
-      }
-              name: { type: 'string' },
-              transform: {
-
-                type: 'object',
-                properties: {
-
-              }
-                  position: { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3;
-    },
-                  rotation: { type: 'array', items: { type: 'number' }, minItems: 4, maxItems: 4;
-    },
-                  scale: { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3;
-    }
-                },
-                required: ['position', 'rotation', 'scale']
-              },
-              components: {
-
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-
-              }
-                    type: { type: 'string' },
-                    properties: {
-
-                      type: 'object' 
-
-                    
-
-
-                    }
-                    };
-                  }
-                }
-              }
-            },
-            required: ['name', 'transform']
-          }
-        },
-        required: ['gameObject']
-      },
-      metadata: {
-
-        description: 'Standard Unity bridge schema for game objects',
-        author: 'MIFF Framework',
-        created: new Date().toISOString(),
-        tags: ['unity', 'bridge', 'gameobject'],
-        compatibility: ['unity-2021.3', 'unity-2022.3', 'unity-2023.3']
-      
-
-      
-
-
-      }
-      };
-    };
-
-    // Web Bridge Schema
-    const webSchema: SchemaDefinition = {
-      id: 'web-bridge-v1',
-      name: 'Web Bridge Schema',
-      version: '1.0.0',
-      engine: 'web',
-      schema: {
-
-        $schema: 'miff.bridge.web.v1',
-        type: 'object',
-        properties: {
-          element: {
-            type: 'object',
-            properties: {
-
-      }
-              tag: { type: 'string' },
-              id: { type: 'string' },
-              className: { type: 'string' },
-              style: {
-
-                type: 'object',
-                properties: {
-
-              }
-                  position: { type: 'string', enum: ['absolute', 'relative', 'fixed'] },
-                  left: { type: 'string' },
-                  top: { type: 'string' },
-                  width: { type: 'string' },
-                  height: { type: 'string' },
-                  transform: {
-
-                    type: 'string' 
-
-                  
-
-
-                  }
-                  };
-                }
-              },
-              attributes: { type: 'object' },
-              children: {
-
-                type: 'array',
-                items: { $ref: '#/properties/element' 
-
-              
-
-
-              }
-              };
-              }
-            },
-            required: ['tag']
-          }
-        },
-        required: ['element']
-      },
-      metadata: {
-
-        description: 'Standard Web/HTML bridge schema for DOM elements',
-        author: 'MIFF Framework',
-        created: new Date().toISOString(),
-        tags: ['web', 'bridge', 'dom', 'html'],
-        compatibility: ['chrome', 'firefox', 'safari', 'edge']
-      
-
-      
-
-
-      }
-      };
-    };
-
-    // Godot Bridge Schema
-    const godotSchema: SchemaDefinition = {
-      id: 'godot-bridge-v1',
-      name: 'Godot Bridge Schema',
-      version: '1.0.0',
-      engine: 'godot',
-      schema: {
-
-        $schema: 'miff.bridge.godot.v1',
-        type: 'object',
-        properties: {
-          node: {
-            type: 'object',
-            properties: {
-
-      }
-              name: { type: 'string' },
-              type: { type: 'string' },
-              position: { type: 'array', items: { type: 'number' }, minItems: 2, maxItems: 3;
-    },
-              rotation: { type: 'number' },
-              scale: { type: 'array', items: { type: 'number' }, minItems: 2, maxItems: 3;
-    },
-              properties: { type: 'object' },
-              children: {
-
-                type: 'array',
-                items: { $ref: '#/properties/node' 
-
-              
-
-
-              }
-              };
-              }
-            },
-            required: ['name', 'type']
-          }
-        },
-        required: ['node']
-      },
-      metadata: {
-
-        description: 'Standard Godot bridge schema for nodes',
-        author: 'MIFF Framework',
-        created: new Date().toISOString(),
-        tags: ['godot', 'bridge', 'node'],
-        compatibility: ['godot-4.0', 'godot-4.1', 'godot-4.2']
-      
-
-      
-
-
-      }
-      };
-    };
-
-    // Add schemas to registry
-    this.registry.schemas.set(unitySchema.id, unitySchema);
-    this.registry.schemas.set(webSchema.id, webSchema);
-    this.registry.schemas.set(godotSchema.id, godotSchema);
-
-    // Add conversion rules
-    this.addConversionRule({
-      id: 'unity-to-web',
-      name: 'Unity to Web Conversion',
-      fromEngine: 'unity',
-      toEngine: 'web',
-      mappings: {
-
-        'gameObject.name': 'element.id',
-        'gameObject.transform.position': 'element.style.transform',
-        'gameObject.components': 'element.attributes'
-
-      }
-      },
-      transformations: {
-        position: (pos: number[]) => `translate3d(${pos[0]}px, ${pos[1]}px, ${pos[2]}px)`,
-        rotation: (rot: number[]) => `rotate(${rot[1]}rad)` // Simplified rotation
-      }
-    });
-
-    this.addConversionRule({
-      id: 'web-to-godot',
-      name: 'Web to Godot Conversion',
-      fromEngine: 'web',
-      toEngine: 'godot',
-      mappings: {
-
-        'element.id': 'node.name',
-        'element.tag': 'node.type',
-        'element.style.left': 'node.position[0]',
-        'element.style.top': 'node.position[1]'
-
-      }
-      },
-      transformations: {
-
-        position: (styleValue: string) => parseFloat(styleValue.replace('px', '')) || 0
-      
-
-      
-
-
-      }
-      };
-    });
   }
 
   /**
-   * Add schema definition to registry
+   * Initialize the Bridge Schema Manager
    */
-  addSchema(schema: SchemaDefinition): { ok: boolean; errors?: string[] } {
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Bridge Schema Manager already initialized');
+      return;
+    }
+
     try {
-      if (this.registry.schemas.has(schema.id)) {
-        return { ok: false, errors: [`Schema ${schema.id} already exists`] };
+      this.logger.info('Initializing Bridge Schema Manager...');
+
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
       }
 
-      // Validate schema structure
-      const validation = this.validateSchemaDefinition(schema);
-      if (!validation.valid) {
-        return { ok: false, errors: validation.errors };
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
       }
 
-      this.registry.schemas.set(schema.id, schema);
-      return { ok: true;
-    };
+      this.isInitialized = true;
+      this.logger.info('Bridge Schema Manager initialized successfully');
+
     } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+      this.errorHandler.handleError(error, 'Failed to initialize Bridge Schema Manager');
+      throw error;
     }
   }
 
   /**
-   * Get schema by ID
+   * Create a new bridge schema
    */
-  getSchema(id: string): { ok: boolean; schema?: SchemaDefinition; errors?: string[] } {
-    const schema = this.registry.schemas.get(id);
-    if (!schema) {
-      return { ok: false, errors: [`Schema ${id} not found`] };
-    }
-    return { ok: true, schema };
-  }
-
-  /**
-   * List all schemas
-   */
-  listSchemas(engine?: string): { ok: boolean; schemas: SchemaDefinition[]; total: number;
-    } {
-    let schemas = Array.from(this.registry.schemas.values());
-    
-    if (engine) {
-      schemas = schemas.filter(s => s.engine === engine);
-    }
-
-    return { ok: true, schemas, total: schemas.length };
-  }
-
-  /**
-   * Validate data against schema
-   */
-  validateAgainstSchema(schemaId: string, data: any): { ok: boolean; result?: SchemaValidationResult; errors?: string[] } {
-    const schemaResult = this.getSchema(schemaId);
-    if (!schemaResult.ok || !schemaResult.schema) {
-      return { ok: false, errors: schemaResult.errors };
-    }
-
-    const cacheKey = `${schemaId}:${JSON.stringify(data).substring(0, 100)}`;
-    const cached = this.registry.validationCache.get(cacheKey);
-    if (cached) {
-      return { ok: true, result: cached;
-    };
+  async createSchema(schemaData: Omit<BridgeSchema, 'id' | 'createdAt' | 'updatedAt' | 'analytics'>): Promise<BridgeSchema> {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
     }
 
     try {
-      const validation = this.validateAgainstJSONSchema(data, schemaResult.schema.schema);
-      this.registry.validationCache.set(cacheKey, validation);
-      return { ok: true, result: validation;
-    };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Validation error'] };
-    }
-  }
-
-  /**
-   * Add conversion rule
-   */
-  addConversionRule(rule: ConversionRule): { ok: boolean; errors?: string[] } {
-    try {
-      if (this.registry.conversions.has(rule.id)) {
-        return { ok: false, errors: [`Conversion rule ${rule.id} already exists`] };
-      }
-
-      this.registry.conversions.set(rule.id, rule);
-      return { ok: true;
-    };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Convert data between engines
-   */
-  convert(data: any, fromEngine: string, toEngine: string): { ok: boolean; result?: any; errors?: string[] } {
-    try {
-      // Find conversion rule
-      const rule = Array.from(this.registry.conversions.values())
-        .find(r => r.fromEngine === fromEngine && r.toEngine === toEngine);
-
-      if (!rule) {
-        return { ok: false, errors: [`No conversion rule found from ${fromEngine} to ${toEngine}`] };
-      }
-
-      const converted = this.applyConversionRule(data, rule);
-      return { ok: true, result: converted;
-    };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Conversion error'] };
-    }
-  }
-
-  /**
-   * Generate schema from data
-   */
-  generateSchema(data: any, id: string, name: string, engine: string): { ok: boolean; schema?: SchemaDefinition; errors?: string[] } {
-    try {
-      const generatedSchema = this.inferSchemaFromData(data);
-      
-      const schemaDefinition: SchemaDefinition = {
-        id,
-        name,
-        version: '1.0.0',
-        engine: engine as any,
-        schema: generatedSchema,
-        metadata: {
-          description: `Generated schema for ${name}`,
-          author: 'MIFF Bridge Schema Generator',
-          created: new Date().toISOString(),
-          tags: ['generated', engine]
+      const schema: BridgeSchema = {
+        ...schemaData,
+        id: this.generateSchemaId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        analytics: {
+          totalSchemas: 0,
+          activeSchemas: 0,
+          totalValidations: 0,
+          successfulValidations: 0,
+          averageValidationTime: 0,
+          lastUpdated: new Date()
         }
       };
 
-      return { ok: true, schema: schemaDefinition;
-    };
+      this.schemas.set(schema.id, schema);
+      this.updateAnalytics();
+
+      this.logger.info('Bridge schema created', { schemaId: schema.id, schemaName: schema.name, schemaType: schema.type });
+      return schema;
+
     } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Schema generation error'] };
+      this.errorHandler.handleError(error, 'Failed to create bridge schema');
+      throw error;
     }
   }
 
   /**
-   * Get registry statistics
+   * Get a bridge schema by ID
    */
-  getStats(): SchemaStats {
-    const schemas = Array.from(this.registry.schemas.values());
-    const schemasByEngine: Record<string, number> = {};
-    
-    schemas.forEach(schema => {
-      schemasByEngine[schema.engine] = (schemasByEngine[schema.engine] || 0) + 1;
-    });
+  getSchema(schemaId: string): BridgeSchema | null {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
 
-    // Mock usage data - in real implementation, this would be tracked
-    const mostUsedSchemas = schemas.slice(0, 3).map(schema => ({
-      id: schema.id,
-      usage: Math.floor(Math.random() * 100) + 10
-    }));
+    return this.schemas.get(schemaId) || null;
+  }
+
+  /**
+   * Update a bridge schema
+   */
+  async updateSchema(schemaId: string, updates: Partial<BridgeSchema>): Promise<BridgeSchema | null> {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    try {
+      const schema = this.schemas.get(schemaId);
+      if (!schema) {
+        this.logger.warn('Schema not found', { schemaId });
+        return null;
+      }
+
+      const updatedSchema: BridgeSchema = {
+        ...schema,
+        ...updates,
+        updatedAt: new Date()
+      };
+
+      this.schemas.set(schemaId, updatedSchema);
+      this.updateAnalytics();
+
+      this.logger.info('Bridge schema updated', { schemaId, schemaName: updatedSchema.name });
+      return updatedSchema;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update bridge schema');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a bridge schema
+   */
+  async deleteSchema(schemaId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    try {
+      const schema = this.schemas.get(schemaId);
+      if (!schema) {
+        this.logger.warn('Schema not found', { schemaId });
+        return false;
+      }
+
+      this.schemas.delete(schemaId);
+      this.updateAnalytics();
+
+      this.logger.info('Bridge schema deleted', { schemaId, schemaName: schema.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete bridge schema');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all bridge schemas
+   */
+  getAllSchemas(): BridgeSchema[] {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    return Array.from(this.schemas.values());
+  }
+
+  /**
+   * Get schemas by type
+   */
+  getSchemasByType(type: SchemaType): BridgeSchema[] {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    return Array.from(this.schemas.values()).filter(schema => schema.type === type);
+  }
+
+  /**
+   * Get schemas by status
+   */
+  getSchemasByStatus(status: SchemaStatus): BridgeSchema[] {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    return Array.from(this.schemas.values()).filter(schema => schema.status === status);
+  }
+
+  /**
+   * Validate data against a schema
+   */
+  async validateData(schemaId: string, data: any): Promise<ValidationResult> {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    try {
+      const schema = this.schemas.get(schemaId);
+      if (!schema) {
+        this.logger.warn('Schema not found', { schemaId });
+        return { valid: false, errors: [], warnings: [] };
+      }
+
+      const startTime = Date.now();
+      const result = await this.performValidation(schema, data);
+      const validationTime = Date.now() - startTime;
+
+      // Update performance metrics
+      schema.performance.validationTime = validationTime;
+      this.updateAnalytics();
+
+      this.logger.debug('Data validated against schema', { schemaId, valid: result.valid, validationTime });
+      return result;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to validate data against schema');
+      return { valid: false, errors: [], warnings: [] };
+    }
+  }
+
+  /**
+   * Perform validation
+   */
+  private async performValidation(schema: BridgeSchema, data: any): Promise<ValidationResult> {
+    const errors: ValidationError[] = [];
+    const warnings: ValidationWarning[] = [];
+
+    // Simulate validation process
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    // Basic validation logic
+    for (const field of schema.definition.fields) {
+      if (field.required && !(field.name in data)) {
+        errors.push({
+          id: this.generateErrorId(),
+          field: field.name,
+          message: `Required field '${field.name}' is missing`,
+          severity: 'high',
+          timestamp: new Date(),
+          metadata: {}
+        });
+      }
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+      warnings
+    };
+  }
+
+  /**
+   * Check schema compatibility
+   */
+  async checkCompatibility(schemaId: string, platform: string, version: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    try {
+      const schema = this.schemas.get(schemaId);
+      if (!schema) {
+        this.logger.warn('Schema not found', { schemaId });
+        return false;
+      }
+
+      const platformInfo = schema.compatibility.platforms.find(p => p.name === platform);
+      if (!platformInfo) {
+        this.logger.warn('Platform not found in schema compatibility', { schemaId, platform });
+        return false;
+      }
+
+      const versionInfo = schema.compatibility.versions.find(v => v.version === version);
+      if (!versionInfo) {
+        this.logger.warn('Version not found in schema compatibility', { schemaId, version });
+        return false;
+      }
+
+      const compatible = platformInfo.supported && versionInfo.compatible;
+      this.logger.debug('Schema compatibility checked', { schemaId, platform, version, compatible });
+      return compatible;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to check schema compatibility');
+      return false;
+    }
+  }
+
+  /**
+   * Get schema migration path
+   */
+  async getMigrationPath(schemaId: string, fromVersion: string, toVersion: string): Promise<MigrationPath | null> {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    try {
+      const schema = this.schemas.get(schemaId);
+      if (!schema) {
+        this.logger.warn('Schema not found', { schemaId });
+        return null;
+      }
+
+      const versionInfo = schema.compatibility.versions.find(v => v.version === toVersion);
+      if (!versionInfo) {
+        this.logger.warn('Target version not found in schema compatibility', { schemaId, toVersion });
+        return null;
+      }
+
+      this.logger.debug('Migration path retrieved', { schemaId, fromVersion, toVersion });
+      return versionInfo.migration;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to get schema migration path');
+      return null;
+    }
+  }
+
+  /**
+   * Generate a unique schema ID
+   */
+  private generateSchemaId(): string {
+    return `schema_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique error ID
+   */
+  private generateErrorId(): string {
+    return `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const schemas = Array.from(this.schemas.values());
+    const totalSchemas = schemas.length;
+    const activeSchemas = schemas.filter(s => s.status === 'active').length;
+    const totalValidations = schemas.reduce((sum, s) => sum + s.analytics.totalValidations, 0);
+    const successfulValidations = schemas.reduce((sum, s) => sum + s.analytics.successfulValidations, 0);
+    const totalValidationTime = schemas.reduce((sum, s) => sum + s.performance.validationTime, 0);
+
+    for (const schema of schemas) {
+      schema.analytics = {
+        totalSchemas: totalSchemas,
+        activeSchemas: activeSchemas,
+        totalValidations: schema.analytics.totalValidations,
+        successfulValidations: schema.analytics.successfulValidations,
+        averageValidationTime: schema.performance.validationTime,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalSchemas: number;
+    activeSchemas: number;
+    schemasByType: Record<SchemaType, number>;
+    schemasByStatus: Record<SchemaStatus, number>;
+    totalValidations: number;
+    successfulValidations: number;
+    averageValidationTime: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Bridge Schema Manager not initialized');
+    }
+
+    const schemas = Array.from(this.schemas.values());
+    const activeSchemas = schemas.filter(s => s.status === 'active');
+    const totalValidations = schemas.reduce((sum, s) => sum + s.analytics.totalValidations, 0);
+    const successfulValidations = schemas.reduce((sum, s) => sum + s.analytics.successfulValidations, 0);
+    const totalValidationTime = schemas.reduce((sum, s) => sum + s.performance.validationTime, 0);
+
+    const schemasByType: Record<SchemaType, number> = {
+      unity: 0,
+      godot: 0,
+      unreal: 0,
+      web: 0,
+      custom: 0
+    };
+
+    const schemasByStatus: Record<SchemaStatus, number> = {
+      active: 0,
+      inactive: 0,
+      deprecated: 0,
+      error: 0
+    };
+
+    for (const schema of schemas) {
+      schemasByType[schema.type]++;
+      schemasByStatus[schema.status]++;
+    }
 
     return {
       totalSchemas: schemas.length,
-      schemasByEngine,
-      totalConversions: this.registry.conversions.size,
-      validationCacheSize: this.registry.validationCache.size,
-      mostUsedSchemas
+      activeSchemas: activeSchemas.length,
+      schemasByType,
+      schemasByStatus,
+      totalValidations,
+      successfulValidations,
+      averageValidationTime: schemas.length > 0 ? totalValidationTime / schemas.length : 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Clear validation cache
+   * Destroy the Bridge Schema Manager
    */
-  clearCache(): { ok: boolean; cleared: number;
-    } {
-    const cleared = this.registry.validationCache.size;
-    this.registry.validationCache.clear();
-    return { ok: true, cleared };
-  }
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Bridge Schema Manager...');
 
-  /**
-   * Export schema registry
-   */
-  exportRegistry(format: 'full' | 'schemas-only' | 'conversions-only' = 'full'): { ok: boolean; data?: any; errors?: string[] } {
-    try {
-      const schemas = Array.from(this.registry.schemas.entries()).map(([id, schema]) => ({ ...schema, id }));
-      const conversions = Array.from(this.registry.conversions.entries()).map(([id, rule]) => ({ ...rule, id }));
+    this.schemas.clear();
+    this.isInitialized = false;
 
-      switch (format) {
-        case 'schemas-only':
-          return { ok: true, data: { schemas } };
-        case 'conversions-only':
-          return { ok: true, data: { conversions } };
-        default:
-          return {
-            ok: true,
-            data: {
-
-              version: this.config.version,
-              schemas,
-              conversions,
-              exportedAt: new Date().toISOString()
-            
-
-            
-
-
-            }
-            };
-          };
-      }
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Export error'] };
-    }
-  }
-
-  /**
-   * Private helper methods
-   */
-  private validateSchemaDefinition(schema: SchemaDefinition): { valid: boolean; errors: string[] } {
-    const errors: string[] = [];
-
-    if (!schema.id || typeof schema.id !== 'string') {
-      errors.push('Schema ID is required and must be a string');
-    }
-
-    if (!schema.name || typeof schema.name !== 'string') {
-      errors.push('Schema name is required and must be a string');
-    }
-
-    if (!schema.version || typeof schema.version !== 'string') {
-      errors.push('Schema version is required and must be a string');
-    }
-
-    if (!['unity', 'godot', 'web', 'universal'].includes(schema.engine)) {
-      errors.push('Schema engine must be one of: unity, godot, web, universal');
-    }
-
-    if (!schema.schema || typeof schema.schema !== 'object') {
-      errors.push('Schema definition is required and must be an object');
-    }
-
-    return { valid: errors.length === 0, errors };
-  }
-
-  private validateAgainstJSONSchema(data: any, schema: any): SchemaValidationResult {
-    const errors: string[] = [];
-    const warnings: string[] = [];
-
-    // Basic JSON Schema validation (simplified)
-    if (schema.type === 'object' && typeof data !== 'object') {
-      errors.push(`Expected object, got ${typeof data}`);
-    }
-
-    if (schema.type === 'array' && !Array.isArray(data)) {
-      errors.push(`Expected array, got ${typeof data}`);
-    }
-
-    if (schema.required && Array.isArray(schema.required)) {
-      schema.required.forEach((prop: string) => {
-        if (!(prop in data)) {
-          errors.push(`Required property '${prop}' is missing`);
-        }
-      });
-    }
-
-    if (schema.properties && typeof data === 'object') {
-      Object.keys(schema.properties).forEach(prop => {
-        if (data[prop] !== undefined) {
-          const propSchema = schema.properties[prop];
-          const propResult = this.validateAgainstJSONSchema(data[prop], propSchema);
-          errors.push(...propResult.errors.map(e => `${prop}.${e}`));
-          warnings.push(...propResult.warnings.map(w => `${prop}.${w}`));
-        }
-      });
-    }
-
-    return { valid: errors.length === 0, errors, warnings };
-  }
-
-  private applyConversionRule(data: any, rule: ConversionRule): any {
-    const result: any = {};
-
-    Object.entries(rule.mappings).forEach(([fromPath, toPath]) => {
-      const value = this.getValueByPath(data, fromPath);
-      if (value !== undefined) {
-        // Apply transformation if available
-        const transformKey = fromPath.split('.').pop();
-        const transformation = rule.transformations?.[transformKey!];
-        const transformedValue = transformation ? transformation(value) : value;
-        
-        this.setValueByPath(result, toPath, transformedValue);
-      }
-    });
-
-    return result;
-  }
-
-  private getValueByPath(obj: any, path: string): any {
-    return path.split('.').reduce((current, key) => current?.[key], obj);
-  }
-
-  private setValueByPath(obj: any, path: string, value: any): void {
-    const keys = path.split('.');
-    const lastKey = keys.pop()!;
-    const target = keys.reduce((current, key) => {
-      if (!(key in current)) current[key] = {};
-      return current[key];
-    }, obj);
-    target[
-      la,
-      s,
-      t,
-      K,
-      e,
-      y
-    ] = value;
-  }
-
-  private inferSchemaFromData(data: any): any {
-    if (data === null || data === undefined) {
-      return { type: 'null' };
-    }
-
-    if (Array.isArray(data)) {
-      const itemSchema = data.length > 0 ? this.inferSchemaFromData(data[0]) : { type: 'any' };
-      return {
-        type: 'array',
-        items: itemSchema;
-    };
-    }
-
-    if (typeof data === 'object') {
-      const properties: any = {};
-      const required: string[] = [];
-
-      Object.keys(data).forEach(key => {
-        properties[key] = this.inferSchemaFromData(data[key]);
-        if (data[key] !== null && data[key] !== undefined) {
-          required.push(key);
-        }
-      });
-
-      return {
-        type: 'object',
-        properties,
-        required: required.length > 0 ? required : undefined
-      };
-    }
-
-    return { type: typeof data };
+    this.logger.info('Bridge Schema Manager destroyed');
   }
 }
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+}
+
+// Export default instance
+export const bridgeSchemaManager = new BridgeSchemaManager();
+export default bridgeSchemaManager;
