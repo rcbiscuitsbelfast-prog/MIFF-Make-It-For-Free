@@ -13,11 +13,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
 
 export interface NeuralNetworkConfig {
   enableArchitectureDesign: boolean;
@@ -569,15 +569,8 @@ export class NeuralNetworkManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'NeuralNetworkManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
