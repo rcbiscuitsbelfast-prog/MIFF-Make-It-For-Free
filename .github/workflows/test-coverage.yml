@@ -29,10 +29,10 @@ jobs:
         run: npm ci
         
       - name: Run tests with coverage
-        run: npm run test || echo "Test script not available, skipping"
+        run: npm run test:ci -- --coverage
         
       - name: Generate coverage report
-        run: echo "Coverage report generation not available, skipping"
+        run: npm run test:ci -- --coverage --coverageReporters=json-summary
         
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
