@@ -57,12 +57,9 @@ export interface SettingsConfig {
   accessibility: {
         colorBlindSupport: boolean;
     fontSize: 'small' | 'medium' | 'large';
-    highContras,
-        t: boolean;
-    screenReade,
-        r: boolean;
-    reducedMotio,
-        n: boolean;
+    highContrast: boolean;
+    screenReader: boolean;
+    reducedMotion: boolean;
   
 
 
