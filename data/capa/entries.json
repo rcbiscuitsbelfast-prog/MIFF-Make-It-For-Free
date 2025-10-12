@@ -33,8 +33,8 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760267911058-s0dym9v4w",
-      "discoveredAt": "2025-10-12T11:18:31.058Z",
+      "id": "CAPA-1760268397406-uskjc8w9q",
+      "discoveredAt": "2025-10-12T11:26:37.407Z",
       "status": "open"
     },
     {
@@ -66,8 +66,8 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760267911064-ywqrqy9cc",
-      "discoveredAt": "2025-10-12T11:18:31.064Z",
+      "id": "CAPA-1760268397408-c6el3p1l0",
+      "discoveredAt": "2025-10-12T11:26:37.408Z",
       "status": "open"
     },
     {
@@ -103,8 +103,8 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760267911064-xigiir5py",
-      "discoveredAt": "2025-10-12T11:18:31.064Z",
+      "id": "CAPA-1760268397411-n81kkwefz",
+      "discoveredAt": "2025-10-12T11:26:37.411Z",
       "status": "open"
     },
     {
@@ -140,8 +140,8 @@
       "prRequired": true,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760267911065-2lrutx52t",
-      "discoveredAt": "2025-10-12T11:18:31.065Z",
+      "id": "CAPA-1760268397412-u380iatpn",
+      "discoveredAt": "2025-10-12T11:26:37.412Z",
       "status": "open"
     },
     {
@@ -173,8 +173,8 @@
       "prRequired": false,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760267911066-bye6f79gy",
-      "discoveredAt": "2025-10-12T11:18:31.066Z",
+      "id": "CAPA-1760268397412-f5nmdmp6t",
+      "discoveredAt": "2025-10-12T11:26:37.412Z",
       "status": "open"
     },
     {
@@ -210,8 +210,8 @@
       "prRequired": false,
       "correctiveActions": [],
       "preventiveActions": [],
-      "id": "CAPA-1760267911067-zr6io8efg",
-      "discoveredAt": "2025-10-12T11:18:31.067Z",
+      "id": "CAPA-1760268397413-skfmqa0cy",
+      "discoveredAt": "2025-10-12T11:26:37.413Z",
       "status": "open"
     }
   ]
