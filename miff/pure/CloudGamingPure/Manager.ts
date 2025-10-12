@@ -490,15 +490,8 @@ export class CloudGamingManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'CloudGamingManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

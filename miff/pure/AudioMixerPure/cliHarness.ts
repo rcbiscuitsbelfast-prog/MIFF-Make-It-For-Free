@@ -1,6 +1,6 @@
+#!/usr/bin/env -S node --no-warnings
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
-#!/usr/bin/env -S node --no-warnings
 
 function linearToDb(linear:number){
   if(linear<=0.0001) return -80;
