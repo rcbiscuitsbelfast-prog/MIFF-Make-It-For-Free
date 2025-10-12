@@ -1,33 +1,56 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
-    "moduleResolution": "node",
+    "module": "commonjs",
+    "lib": ["ES2020", "DOM"],
+    "outDir": "./dist",
+    "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./miff/pure",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "downlevelIteration": true
+    "removeComments": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["miff/pure/*"],
+      "@shared/*": ["miff/pure/shared/*"],
+      "@managers/*": ["miff/pure/*/Manager.ts"],
+      "@tests/*": ["miff/pure/*/Manager.test.ts"]
+    }
   },
   "include": [
-    "miff/pure/**/*"
+    "miff/**/*",
+    "scripts/**/*",
+    "*.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "badges/**",
-    "**/*.test.ts",
-    "**/cliHarness.ts",
-    "**/cli/**",
     "coverage",
-    "miff-nextjs/tailwind.config.ts",
-    "scenarios/**/*.ts",
-    "docs/assets/vendor/**/*.js",
-    "**/*.min.js"
-  ]
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }
