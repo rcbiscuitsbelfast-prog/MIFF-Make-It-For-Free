@@ -11,12 +11,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
-
 import { EventBus } from '../EventBusPure/index.js';
 // Types are defined in this file to avoid circular imports
 
@@ -99,7 +98,6 @@ export interface IdleIntegration {
 
 
   }
-  };
 }
 
 /**
@@ -277,33 +275,39 @@ export class IdleManagerPure {
     enableAchievements: true,
     enablePrestige: true,
     performanceMode: 'high',
-    debugMode: false;
+    debugMode: false
+  };
+
+  constructor(config: Partial<IdleManagerConfig> = {}) {
+    // Merge with defaults
+    this.config = {
+      ...this.config,
+      ...config
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'IdleSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
     this.memoryId = `IdleSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'IdleSystemManager');
-  }) {
-    this.eventBus = eventBus;
-    this.config = config;
-    this.idleSystem = this.createIdleSystem(eventBus, config);
+  }
 
-    this.initializeManagers();
+  /**
+   * Initialize the idle system
+   */
+  async initialize(): Promise<boolean> {
+    try {
+      this.eventBus = new EventBus();
+      this.idleSystem = this.createIdleSystem(this.eventBus, this.config);
+      this.initializeManagers();
     this.setupEventListeners();
     this.initialize();
   }
