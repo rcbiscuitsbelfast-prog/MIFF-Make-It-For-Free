@@ -1,11 +1,16 @@
 /**
- * RenderPayloadPure Manager
- * 
+ * RenderPayloadPure Manager - Advanced Rendering System
+ *
  * Manages render payloads for unified cross-engine rendering including
  * frame building, asset management, animation sequences, and export adapters.
+ *
+ * @version 1.0.0
+ * @author MIFF Framework
  */
 
-import { BridgeSchemaValidator, RenderPayload, RenderData } from '../BridgeSchemaPure/schema';
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface FrameBuildOptions {
   timestamp?: string;
@@ -58,22 +63,447 @@ export interface RenderStats {
     buildTime: number;
     validationTime: number;
     exportTime: number;
-  }
+  };
+}
+
+export interface RenderPayload {
+  op: string;
+  status: 'ok' | 'error';
+  renderData: RenderData[];
+  metadata: {
+    schemaVersion: string;
+    engine: string;
+    timestamp: string;
+    module: string;
+    frameId: string;
+    frameName: string;
+    quality?: string;
+    optimization?: boolean;
+  };
+}
+
+export interface RenderData {
+  id: string;
+  type: 'sprite' | 'model' | 'effect' | 'ui' | 'text' | 'particle';
+  position: { x: number; y: number; z: number };
+  rotation: { x: number; y: number; z: number };
+  scale: { x: number; y: number; z: number };
+  visible: boolean;
+  opacity: number;
+  properties: Record<string, any>;
+  assets: string[];
+  animations: string[];
+}
+
+export interface RenderPayloadConfig {
+  enableAssetManagement: boolean;
+  enableAnimationSequences: boolean;
+  enablePerformanceOptimization: boolean;
+  enableCrossEngineSupport: boolean;
+  defaultQuality: 'low' | 'medium' | 'high' | 'ultra';
+  maxFrames: number;
+  maxAssets: number;
+  enableDebugging: boolean;
+  enableLogging: boolean;
+  logLevel: LogLevel;
 }
 
 export class RenderPayloadManager {
+  private config: RenderPayloadConfig;
+  private logger: StructuredLogger;
+  private memoryId: string;
   private frames: Map<string, RenderPayload> = new Map();
   private assets: Map<string, AssetReference> = new Map();
   private animations: Map<string, AnimationSequence> = new Map();
-  private builder: RenderPayloadBuilder;
+  private performanceOptimizer: PerformanceOptimizer;
+  private renderStats: RenderStats;
 
-  constructor() {
-    this.builder = new RenderPayloadBuilder();
+  constructor(config: RenderPayloadConfig = {
+    enableAssetManagement: true,
+    enableAnimationSequences: true,
+    enablePerformanceOptimization: true,
+    enableCrossEngineSupport: true,
+    defaultQuality: 'high',
+    maxFrames: 1000,
+    maxAssets: 10000,
+    enableDebugging: false,
+    enableLogging: true,
+    logLevel: LogLevel.INFO
+  }) {
+    this.config = config;
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: config.logLevel,
+      enableConsole: config.enableLogging,
+      performanceMonitoring: true,
+      modules: {
+        'RenderPayloadManager': LogLevel.DEBUG
+      }
+    });
+
+    // Initialize performance optimizer
+    this.performanceOptimizer = new PerformanceOptimizer({
+      enableOptimization: config.enablePerformanceOptimization,
+      enableMemoryOptimization: true,
+      enableCPUOptimization: true,
+      enableGPUOptimization: true,
+      enableNetworkOptimization: false
+    });
+
+    // Initialize render stats
+    this.renderStats = {
+      totalFrames: 0,
+      totalAssets: 0,
+      totalAnimations: 0,
+      averageComplexity: 0,
+      engineDistribution: {},
+      performanceMetrics: {
+        buildTime: 0,
+        validationTime: 0,
+        exportTime: 0
+      }
+    };
+
+    // Register with memory manager
+    this.memoryId = `RenderPayloadManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'RenderPayloadManager');
+
     this.initializeDefaultAssets();
     this.initializeDefaultAnimations();
+
+    this.logger.info('RenderPayloadManager initialized', {
+      config: this.config,
+      memoryId: this.memoryId
+    });
   }
 
-  private initializeDefaultAssets() {
+  /**
+   * Create a new render frame
+   */
+  public createFrame(id: string, name: string, engine: string = 'unified'): { ok: boolean; frame?: RenderPayload; errors?: string[] } {
+    try {
+      if (this.frames.has(id)) {
+        return { ok: false, errors: [`Frame ${id} already exists`] };
+      }
+
+      if (this.frames.size >= this.config.maxFrames) {
+        return { ok: false, errors: [`Maximum frames limit reached (${this.config.maxFrames})`] };
+      }
+
+      const frame: RenderPayload = {
+        op: 'render',
+        status: 'ok',
+        renderData: [],
+        metadata: {
+          schemaVersion: 'v1',
+          engine,
+          timestamp: new Date().toISOString(),
+          module: 'render_payload_pure',
+          frameId: id,
+          frameName: name,
+          quality: this.config.defaultQuality,
+          optimization: this.config.enablePerformanceOptimization
+        }
+      };
+
+      this.frames.set(id, frame);
+      this.renderStats.totalFrames++;
+      this.updateEngineDistribution(engine);
+
+      this.logger.info('Render frame created', { frameId: id, name, engine });
+      return { ok: true, frame };
+    } catch (error) {
+      this.logger.error('Failed to create render frame', { frameId: id, error: error.message });
+      return { ok: false, errors: [error.message] };
+    }
+  }
+
+  /**
+   * Build render frame with options
+   */
+  public buildFrame(id: string, options: FrameBuildOptions = {}): BuildResult {
+    const startTime = Date.now();
+    
+    try {
+      const frame = this.frames.get(id);
+      if (!frame) {
+        return {
+          op: 'build',
+          status: 'error',
+          payload: this.createEmptyPayload(),
+          issues: [`Frame ${id} not found`]
+        };
+      }
+
+      // Apply build options
+      if (options.quality) {
+        frame.metadata.quality = options.quality;
+      }
+      if (options.optimization !== undefined) {
+        frame.metadata.optimization = options.optimization;
+      }
+      if (options.engine) {
+        frame.metadata.engine = options.engine;
+      }
+      if (options.timestamp) {
+        frame.metadata.timestamp = options.timestamp;
+      }
+
+      // Calculate performance metrics
+      const buildTime = Date.now() - startTime;
+      const dataSize = this.calculateDataSize(frame);
+      const complexity = this.calculateComplexity(frame);
+
+      this.renderStats.performanceMetrics.buildTime = buildTime;
+
+      this.logger.info('Render frame built', { frameId: id, buildTime, dataSize, complexity });
+
+      return {
+        op: 'build',
+        status: 'ok',
+        payload: frame,
+        issues: [],
+        performance: {
+          renderTime: buildTime,
+          dataSize,
+          complexity
+        }
+      };
+    } catch (error) {
+      this.logger.error('Failed to build render frame', { frameId: id, error: error.message });
+      return {
+        op: 'build',
+        status: 'error',
+        payload: this.createEmptyPayload(),
+        issues: [error.message]
+      };
+    }
+  }
+
+  /**
+   * Add render data to frame
+   */
+  public addRenderData(frameId: string, renderData: RenderData): boolean {
+    const frame = this.frames.get(frameId);
+    if (!frame) {
+      this.logger.warn('Frame not found', { frameId });
+      return false;
+    }
+
+    frame.renderData.push(renderData);
+    this.logger.debug('Render data added', { frameId, dataId: renderData.id, type: renderData.type });
+    return true;
+  }
+
+  /**
+   * Remove render data from frame
+   */
+  public removeRenderData(frameId: string, dataId: string): boolean {
+    const frame = this.frames.get(frameId);
+    if (!frame) {
+      this.logger.warn('Frame not found', { frameId });
+      return false;
+    }
+
+    const index = frame.renderData.findIndex(data => data.id === dataId);
+    if (index === -1) {
+      this.logger.warn('Render data not found', { frameId, dataId });
+      return false;
+    }
+
+    frame.renderData.splice(index, 1);
+    this.logger.debug('Render data removed', { frameId, dataId });
+    return true;
+  }
+
+  /**
+   * Register asset
+   */
+  public registerAsset(asset: AssetReference): boolean {
+    if (this.assets.size >= this.config.maxAssets) {
+      this.logger.warn('Maximum assets limit reached', { maxAssets: this.config.maxAssets });
+      return false;
+    }
+
+    this.assets.set(asset.id, asset);
+    this.renderStats.totalAssets++;
+    this.logger.info('Asset registered', { assetId: asset.id, type: asset.type, path: asset.path });
+    return true;
+  }
+
+  /**
+   * Get asset by ID
+   */
+  public getAsset(assetId: string): AssetReference | null {
+    return this.assets.get(assetId) || null;
+  }
+
+  /**
+   * Get all assets
+   */
+  public getAllAssets(): AssetReference[] {
+    return Array.from(this.assets.values());
+  }
+
+  /**
+   * Register animation sequence
+   */
+  public registerAnimation(animation: AnimationSequence): boolean {
+    this.animations.set(animation.id, animation);
+    this.renderStats.totalAnimations++;
+    this.logger.info('Animation registered', { animationId: animation.id, name: animation.name, frames: animation.frames });
+    return true;
+  }
+
+  /**
+   * Get animation by ID
+   */
+  public getAnimation(animationId: string): AnimationSequence | null {
+    return this.animations.get(animationId) || null;
+  }
+
+  /**
+   * Get all animations
+   */
+  public getAllAnimations(): AnimationSequence[] {
+    return Array.from(this.animations.values());
+  }
+
+  /**
+   * Get frame by ID
+   */
+  public getFrame(frameId: string): RenderPayload | null {
+    return this.frames.get(frameId) || null;
+  }
+
+  /**
+   * Get all frames
+   */
+  public getAllFrames(): RenderPayload[] {
+    return Array.from(this.frames.values());
+  }
+
+  /**
+   * Delete frame
+   */
+  public deleteFrame(frameId: string): boolean {
+    const frame = this.frames.get(frameId);
+    if (!frame) {
+      this.logger.warn('Frame not found', { frameId });
+      return false;
+    }
+
+    this.frames.delete(frameId);
+    this.renderStats.totalFrames--;
+    this.logger.info('Frame deleted', { frameId });
+    return true;
+  }
+
+  /**
+   * Export frame to specific engine
+   */
+  public exportFrame(frameId: string, engine: string): { ok: boolean; data?: any; errors?: string[] } {
+    const startTime = Date.now();
+    
+    try {
+      const frame = this.frames.get(frameId);
+      if (!frame) {
+        return { ok: false, errors: [`Frame ${frameId} not found`] };
+      }
+
+      const exportData = this.convertToEngineFormat(frame, engine);
+      const exportTime = Date.now() - startTime;
+      
+      this.renderStats.performanceMetrics.exportTime = exportTime;
+      this.logger.info('Frame exported', { frameId, engine, exportTime });
+
+      return { ok: true, data: exportData };
+    } catch (error) {
+      this.logger.error('Failed to export frame', { frameId, engine, error: error.message });
+      return { ok: false, errors: [error.message] };
+    }
+  }
+
+  /**
+   * Get render statistics
+   */
+  public getRenderStats(): RenderStats {
+    return { ...this.renderStats };
+  }
+
+  /**
+   * Calculate data size
+   */
+  private calculateDataSize(frame: RenderPayload): number {
+    return JSON.stringify(frame).length;
+  }
+
+  /**
+   * Calculate complexity
+   */
+  private calculateComplexity(frame: RenderPayload): number {
+    let complexity = 0;
+    
+    // Base complexity from render data count
+    complexity += frame.renderData.length * 10;
+    
+    // Add complexity from assets
+    frame.renderData.forEach(data => {
+      complexity += data.assets.length * 5;
+      complexity += data.animations.length * 3;
+    });
+
+    // Update average complexity
+    this.renderStats.averageComplexity = (this.renderStats.averageComplexity + complexity) / 2;
+    
+    return complexity;
+  }
+
+  /**
+   * Update engine distribution
+   */
+  private updateEngineDistribution(engine: string): void {
+    this.renderStats.engineDistribution[engine] = (this.renderStats.engineDistribution[engine] || 0) + 1;
+  }
+
+  /**
+   * Convert frame to engine-specific format
+   */
+  private convertToEngineFormat(frame: RenderPayload, engine: string): any {
+    // This would implement actual engine-specific conversion
+    // For now, return the frame as-is
+    return {
+      engine,
+      frameId: frame.metadata.frameId,
+      renderData: frame.renderData,
+      metadata: frame.metadata
+    };
+  }
+
+  /**
+   * Create empty payload
+   */
+  private createEmptyPayload(): RenderPayload {
+    return {
+      op: 'render',
+      status: 'ok',
+      renderData: [],
+      metadata: {
+        schemaVersion: 'v1',
+        engine: 'unified',
+        timestamp: new Date().toISOString(),
+        module: 'render_payload_pure',
+        frameId: '',
+        frameName: ''
+      }
+    };
+  }
+
+  /**
+   * Initialize default assets
+   */
+  private initializeDefaultAssets(): void {
     const defaultAssets: AssetReference[] = [
       {
         id: 'npc_sprite',
@@ -94,13 +524,9 @@ export class RenderPayloadManager {
         size: 2048,
         format: 'MP3',
         metadata: {
-
           duration: 120,
-
-          sampleRate: 44100;
-
+          sampleRate: 44100
         }
-    },
       },
       {
         id: 'smoke_effect',
@@ -109,22 +535,20 @@ export class RenderPayloadManager {
         size: 512,
         format: 'PNG',
         metadata: {
-
-          width: 32, height: 32, animated: true;
-    
-
-        
-
-
+          width: 32,
+          height: 32,
+          animated: true
         }
-        };
       }
     ];
 
-    defaultAssets.forEach(asset => this.assets.set(asset.id, asset));
+    defaultAssets.forEach(asset => this.registerAsset(asset));
   }
 
-  private initializeDefaultAnimations() {
+  /**
+   * Initialize default animations
+   */
+  private initializeDefaultAnimations(): void {
     const defaultAnimations: AnimationSequence[] = [
       {
         id: 'ambient_smoke',
@@ -145,769 +569,36 @@ export class RenderPayloadManager {
         duration: 1.5,
         loop: true,
         keyframes: [
-          { frame: 0, properties: {
-   position: { y: 0;
- }
-    } } },
-          { frame: 4, properties: {
-   position: { y: 2;
- }
-    } } },
-          { frame: 8, properties: {
-   position: { y: 0;
- }
-    } } }
+          { frame: 0, properties: { position: { y: 0 } } },
+          { frame: 4, properties: { position: { y: 2 } } },
+          { frame: 8, properties: { position: { y: 0 } } }
         ]
       }
     ];
 
-    defaultAnimations.forEach(anim => this.animations.set(anim.id, anim));
+    defaultAnimations.forEach(anim => this.registerAnimation(anim));
   }
 
   /**
-   * Create a new render frame
+   * Get manager configuration
    */
-  createFrame(id: string, name: string, engine: string = 'unified'): { ok: boolean; frame?: RenderPayload; errors?: string[] } {
-    try {
-      if (this.frames.has(id)) {
-        return { ok: false, errors: [`Frame ${id} already exists`] };
-      }
-
-      const frame: RenderPayload = {
-        op: 'render',
-        status: 'ok',
-        renderData: [],
-        metadata: {
-
-          schemaVersion: 'v1',
-          engine,
-          timestamp: new Date().toISOString(),
-          module: 'render_payload_pure',
-          frameId: id,
-          frameName: name;
-    
-
-        
-
-
-        }
-        };
-      };
-
-      this.frames.set(id, frame);
-      return { ok: true, frame };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
+  public getConfig(): RenderPayloadConfig {
+    return { ...this.config };
   }
 
   /**
-   * Get frame by ID
+   * Update manager configuration
    */
-  getFrame(id: string): { ok: boolean; frame?: RenderPayload; errors?: string[] } {
-    const frame = this.frames.get(id);
-    if (!frame) {
-      return { ok: false, errors: [`Frame ${id} not found`] };
-    }
-    return { ok: true, frame };
+  public updateConfig(newConfig: Partial<RenderPayloadConfig>): void {
+    this.config = { ...this.config, ...newConfig };
+    this.logger.info('RenderPayloadManager configuration updated', { config: this.config });
   }
 
   /**
-   * List all frames
+   * Cleanup resources
    */
-  listFrames(): { ok: boolean; frames: RenderPayload[]; total: number;
-    } {
-    const frames = Array.from(this.frames.values());
-    return { ok: true, frames, total: frames.length };
-  }
-
-  /**
-   * Add render data to frame
-   */
-  addRenderData(frameId: string, data: RenderData): { ok: boolean; frame?: RenderPayload; errors?: string[] } {
-    const frame = this.frames.get(frameId);
-    if (!frame) {
-      return { ok: false, errors: [`Frame ${frameId} not found`] };
-    }
-
-    try {
-      frame.renderData.push(data);
-      this.frames.set(frameId, frame);
-      return { ok: true, frame };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Remove render data from frame
-   */
-  removeRenderData(frameId: string, dataId: string): { ok: boolean; removed?: RenderData; errors?: string[] } {
-    const frame = this.frames.get(frameId);
-    if (!frame) {
-      return { ok: false, errors: [`Frame ${frameId} not found`] };
-    }
-
-    const index = frame.renderData.findIndex(data => data.id === dataId);
-    if (index === -1) {
-      return { ok: false, errors: [`Render data ${dataId} not found in frame`] };
-    }
-
-    const removed = frame.renderData.splice(index, 1)[0];
-    this.frames.set(frameId, frame);
-    return { ok: true, removed };
-  }
-
-  /**
-   * Build frame using builder pattern
-   */
-  buildFrame(options: FrameBuildOptions = {}): { ok: boolean; result?: BuildResult; errors?: string[] } {
-    try {
-      const startTime = Date.now();
-      
-      // Clear builder and build frame
-      this.builder.clear();
-      
-      // Add sample content based on options
-      this.addSampleContent(options);
-      
-      const result = this.builder.build(options);
-      const buildTime = Date.now() - startTime;
-      
-      // Add performance metrics
-      result.performance = {
-        renderTime: buildTime,
-        dataSize: JSON.stringify(result.payload).length,
-        complexity: this.calculateComplexity(result.payload)
-      };
-
-      return { ok: true, result };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Add sample content to builder
-   */
-  private addSampleContent(options: FrameBuildOptions): void {
-    const quality = options.quality || 'medium';
-    const engine = options.engine || 'unified';
-
-    // Add NPC node
-    this.builder.addNode({
-      id: 'npc_001',
-      name: 'Guard Captain Marcus',
-      position: {
-
-        x: 640, y: 960, z: 0;
-
-      }
-    },
-      props: {
-
-        npc_id: 'npc_001', has_quests: true;
-
-      }
-    },
-      children: [
-        {
-          id: 'npc_001_sprite',
-          type: 'sprite',
-          position: {
-
-            x: 0, y: 0, z: 0;
-
-          }
-    },
-          asset: 'npc_sprite',
-          props: {
-
-            texture: 'npc_sprite.png' 
-
-          
-
-
-          }
-          };
-        },
-        {
-          id: 'npc_001_title',
-          type: 'text',
-          position: {
-
-            x: 0, y: -24, z: 0;
-
-          }
-    },
-          props: {
-
-            text: 'Marcus', color: '#ffe08a', fontSize: 16;
-    
-
-          
-
-
-          }
-          };
-        }
-      ],
-      signals: [
-        { name: 'npc_interacted', parameters: ['player_id'], connectedTo: ['QuestSystem'] }
-      ]
-    });
-
-    // Add ambient animation
-    this.builder.addAnimation({
-      id: 'ambient_smoke',
-      name: 'AmbientSmoke',
-      position: {
-
-        x: 620,
-
-        y: 980;
-
-      }
-    },
-      props: {
-        loop: true,
-        frames: 16,
-        duration: 2.0,
-        asset: 'smoke_effect'
-      
-
-      
-
-
-      
-      
-      
-      }
-    });
-
-    // Add sound
-    this.builder.addSound({
-      id: 'town_theme',
-      name: 'TownTheme',
-      props: {
-
-        volume: 0.6, loop: true;
-
-      }
-    },
-      asset: 'town_theme'
-    });
-
-    // Add UI overlay
-    this.builder.addNode({
-      id: 'ui_overlay',
-      name: 'UIOverlay',
-      position: {
-
-        x: 10,
-
-        y: 10;
-
-      }
-    },
-      scale: {
-
-        x: 300,
-
-        y: 60;
-
-      }
-    },
-      props: { ui_type: 'overlay' },
-      children: [
-        {
-          id: 'ui_gold_text',
-          type: 'text',
-          position: {
-
-            x: 0,
-
-            y: 0;
-
-          }
-    },
-          props: {
-
-            text: 'Gold: 123', fontSize: 16, color: '#ffffff' 
-
-          
-
-
-          }
-          };
-        }
-      ]
-    });
-
-    // Add quality-specific content
-    if (quality === 'high' || quality === 'ultra') {
-      this.builder.addNode({
-        id: 'particle_system',
-        name: 'ParticleSystem',
-        position: {
-
-          x: 0,
-
-          y: 0;
-
-        }
-    },
-        props: {
-
-          particle_count: quality === 'ultra' ? 4000 : 2000 
-
-        
-
-
-        }
-        };
-      });
-      // Inflate renderData to simulate complex frames for performance testing
-      const count = quality === 'ultra' ? 2500 : 2000;
-      for (let i = 0; i < count; i++) {
-        this.builder.addSprite({
-          id: `sprite_${i}`,
-          name: `Particle_${i}`,
-          position: { x: (i % 100) * 5, y: Math.floor(i / 100) * 5 },
-          asset: 'smoke_effect',
-          props: {
-
-            frame: i % 16 
-
-          
-
-
-          }
-          };
-        } as any);
-      }
-    }
-  }
-
-  /**
-   * Calculate frame complexity
-   */
-  private calculateComplexity(payload: RenderPayload): number {
-    let complexity = 0;
-    
-    payload.renderData.forEach(data => {
-      complexity += 1; // Base complexity
-      if (data.children) complexity += data.children.length * 0.5;
-      if (data.signals) complexity += data.signals.length * 0.3;
-      if (data.props) complexity += Object.keys(data.props).length * 0.1;
-    });
-
-    return Math.round(complexity * 10) / 10;
-  }
-
-  /**
-   * Validate frame
-   */
-  validateFrame(frameId: string): { ok: boolean; validation?: any; errors?: string[] } {
-    const frame = this.frames.get(frameId);
-    if (!frame) {
-      return { ok: false, errors: [`Frame ${frameId} not found`] };
-    }
-
-    // TODO: Implement in next phase
-    return { ok: true, validation: {
-   issues: [], valid: true;
- }
-    } };
-  }
-
-  /**
-   * Export frame in various formats
-   */
-  exportFrame(frameId: string, format: 'json' | 'manifest' | 'summary' | 'assets' = 'json'): { ok: boolean; data?: any; errors?: string[] } {
-    const frame = this.frames.get(frameId);
-    if (!frame) {
-      return { ok: false, errors: [`Frame ${frameId} not found`] };
-    }
-
-    try {
-      switch (format) {
-        case 'json':
-          return { ok: true, data: frame;
-    };
-        
-        case 'manifest':
-          return {
-            ok: true,
-            data: {
-
-              schema: 'miff.render.export.v1',
-              frame,
-              assets: Array.from(this.assets.values()),
-              animations: Array.from(this.animations.values()),
-              exportedAt: new Date().toISOString()
-            
-
-            
-
-
-            }
-            };
-          };
-        
-        case 'summary':
-          return {
-            ok: true,
-            data: {
-
-              frameId,
-              frameName: frame.metadata?.frameName || 'Unnamed Frame',
-              renderDataCount: frame.renderData.length,
-              engine: frame.metadata?.engine || 'unified',
-              created: frame.metadata?.timestamp,
-              complexity: this.calculateComplexity(frame)
-            
-
-            
-
-
-            }
-            };
-          };
-        
-        case 'assets':
-          const usedAssets = this.extractUsedAssets(frame);
-          return {
-            ok: true,
-            data: {
-
-              assets: usedAssets,
-              total: usedAssets.length,
-              totalSize: usedAssets.reduce((sum, asset) => sum + asset.size, 0)
-            
-
-            
-
-
-            }
-            };
-          };
-        
-        default:
-          return { ok: false, errors: [`Unknown export format: ${format}`] };
-      }
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Extract used assets from frame
-   */
-  private extractUsedAssets(frame: RenderPayload): AssetReference[] {
-    const usedAssetIds = new Set<string>();
-    
-    frame.renderData.forEach(data => {
-      if (data.asset) usedAssetIds.add(data.asset);
-      if (data.children) {
-        data.children.forEach(child => {
-          if (child.asset) usedAssetIds.add(child.asset);
-        });
-      }
-    });
-
-    return Array.from(usedAssetIds)
-      .map(id => this.assets.get(id))
-      .filter((asset): asset is AssetReference => asset !== undefined);
-  }
-
-  /**
-   * Get render statistics
-   */
-  getStats(): { ok: boolean; stats: RenderStats;
-    } {
-    const frames = Array.from(this.frames.values());
-    const totalFrames = frames.length;
-    const totalAssets = this.assets.size;
-    const totalAnimations = this.animations.size;
-    
-    const averageComplexity = frames.length > 0 
-      ? frames.reduce((sum, frame) => sum + this.calculateComplexity(frame), 0) / frames.length 
-      : 0;
-
-    const engineDistribution: Record<string, number> = {};
-    frames.forEach(frame => {
-      const engine = frame.metadata?.engine || 'unified';
-      engineDistribution[
-      e,
-      n,
-      g,
-      i,
-      n,
-      e
-    ] = (engineDistribution[
-      e,
-      n,
-      g,
-      i,
-      n,
-      e
-    ] || 0) + 1;
-    });
-
-    return {
-      ok: true,
-      stats: {
-
-        totalFrames,
-        totalAssets,
-        totalAnimations,
-        averageComplexity,
-        engineDistribution,
-        performanceMetrics: {
-          buildTime: 0, // Would be tracked in real implementation
-          validationTime: 0,
-          exportTime: 0;
-    
-
-      
-
-
-      }
-      };
-      }
-    };
-  }
-
-  /**
-   * Delete frame
-   */
-  deleteFrame(id: string): { ok: boolean; errors?: string[] } {
-    if (!this.frames.has(id)) {
-      return { ok: false, errors: [`Frame ${id} not found`] };
-    }
-
-    this.frames.delete(id);
-    return { ok: true;
-    };
-  }
-
-  /**
-   * Clear all frames
-   */
-  clearFrames(): { ok: boolean; cleared: number;
-    } {
-    const cleared = this.frames.size;
-    this.frames.clear();
-    return { ok: true, cleared };
+  public destroy(): void {
+    MemoryManager.unregisterObject(this.memoryId);
+    this.logger.info('RenderPayloadManager destroyed');
   }
 }
-
-export class RenderPayloadBuilder {
-  private renderData: RenderData[] = [];
-
-  addNode(node: Omit<RenderData, 'type'> & { type?: never }): this {
-    this.renderData.push({ ...node, type: 'node' as const });
-    return this;
-  }
-
-  addSprite(sprite: Omit<RenderData, 'type'> & { type?: never }): this {
-    this.renderData.push({ ...sprite, type: 'sprite' as const });
-    return this;
-  }
-
-  addText(text: Omit<RenderData, 'type'> & { type?: never }): this {
-    this.renderData.push({ ...text, type: 'text' as const });
-    return this;
-  }
-
-  addAnimation(animation: Omit<RenderData, 'type'> & { type?: never }): this {
-    this.renderData.push({ ...animation, type: 'animation' as const });
-    return this;
-  }
-
-  addSound(sound: Omit<RenderData, 'type'> & { type?: never }): this {
-    this.renderData.push({ ...sound, type: 'sound' as const });
-    return this;
-  }
-
-  addAny(data: RenderData): this {
-    this.renderData.push(data);
-    return this;
-  }
-
-  clear(): this {
-    this.renderData = [];
-    return this;
-  }
-
-  build(options: FrameBuildOptions = {}): BuildResult {
-    const payload: RenderPayload = {
-      op: 'render',
-      status: 'ok',
-      renderData: [...this.renderData],
-      metadata: {
-        schemaVersion: 'v1',
-        engine: options.engine || 'unified',
-        timestamp: options.timestamp || new Date().toISOString(),
-        module: options.module || 'generic'
-      
-
-      
-
-
-      
-      
-      
-      }
-    };
-
-    const issues = BridgeSchemaValidator.validateRenderPayload(payload);
-    const status: 'ok' | 'error' = issues.length === 0 ? 'ok' : 'error';
-    return { op: 'build', status, payload, issues };
-  }
-}
-
-export function createSampleFrame(): RenderPayload {
-  const builder = new RenderPayloadBuilder();
-
-  builder
-    .addNode({
-      id: 'npc_001',
-      name: 'Guard Captain Marcus',
-      position: {
-
-        x: 640, y: 960, z: 0;
-
-      }
-    },
-      props: {
-
-        npc_id: 'npc_001', has_quests: true;
-
-      }
-    },
-      children: [
-        {
-          id: 'npc_001_sprite',
-          type: 'sprite',
-          position: {
-
-            x: 0, y: 0, z: 0;
-
-          }
-    },
-          asset: 'npc_sprite.png',
-          props: {
-
-            texture: 'npc_sprite.png' 
-
-          
-
-
-          }
-          };
-        },
-        {
-          id: 'npc_001_title',
-          type: 'text',
-          position: {
-
-            x: 0, y: -24, z: 0;
-
-          }
-    },
-          props: {
-
-            text: 'Marcus', color: '#ffe08a' 
-
-          
-
-
-          }
-          };
-        }
-      ],
-      signals: [
-        { name: 'npc_interacted', parameters: ['player_id'], connectedTo: ['QuestSystem'] }
-      ]
-    })
-    .addAnimation({
-      id: 'ambient_smoke',
-      name: 'AmbientSmoke',
-      position: {
-
-        x: 620,
-
-        y: 980;
-
-      }
-    },
-      props: {
-
-        loop: true,
-
-        frames: 16;
-
-      }
-    },
-    })
-    .addSound({
-      id: 'town_theme',
-      name: 'TownTheme',
-      props: {
-
-        volume: 0.6, loop: true;
-
-      }
-    },
-      asset: 'town_theme.mp3'
-    })
-    .addNode({
-      id: 'ui_overlay',
-      name: 'UIOverlay',
-      position: {
-
-        x: 10,
-
-        y: 10;
-
-      }
-    },
-      scale: {
-
-        x: 300,
-
-        y: 60;
-
-      }
-    },
-      props: { ui_type: 'overlay' },
-      children: [
-        {
-          id: 'ui_gold_text',
-          type: 'text',
-          position: {
-
-            x: 0,
-
-            y: 0;
-
-          }
-    },
-          props: {
-
-            text: 'Gold: 123', font_size: 16, color: '#ffffff' 
-
-          
-
-
-          }
-          };
-        }
-      ]
-    });
-
-  return builder.build({ module: 'render_payload_pure' }).payload;
-}
-
