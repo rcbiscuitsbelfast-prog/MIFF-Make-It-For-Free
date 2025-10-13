@@ -336,15 +336,8 @@ export class CutsceneSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'CutsceneSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
