@@ -325,7 +325,6 @@ export class EventSystemManager {
     // Register with memory manager
     this.memoryId = `EventSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'EventSystemManager');
-  };
   }
 
   /**

@@ -364,7 +364,6 @@ export class StatusEffectsManager {
     // Register with memory manager
     this.memoryId = `StatusEffectsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'StatusEffectsManager');
-  };
   }
 
   /**

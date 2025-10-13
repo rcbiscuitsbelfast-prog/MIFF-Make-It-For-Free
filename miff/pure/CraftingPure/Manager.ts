@@ -101,17 +101,15 @@ export class CraftingManager {
         inputs: { 'iron_ingot': 2, 'wood': 1 },
         outputs: { 'iron_sword': 1 },
         statMods: [
-          { key: 'damage', base: 15;
-    },
-          { key: 'durability', base: 100;
-    }
+          { key: 'damage', base: 15 },
+          { key: 'durability', base: 100 }
         ],
         skillRequired: 'smithing',
         skillLevel: 1,
         craftingTime: 30,
         difficulty: 'easy',
         quality: 'normal',
-        unlockLevel: 1;
+        unlockLevel: 1
     },
       {
         id: 'health_potion',
@@ -121,15 +119,14 @@ export class CraftingManager {
         inputs: { 'healing_herb': 3, 'water': 1, 'bottle': 1 },
         outputs: { 'health_potion': 2 },
         statMods: [
-          { key: 'healing', base: 50;
-    }
+          { key: 'healing', base: 50 }
         ],
         skillRequired: 'alchemy',
         skillLevel: 1,
         craftingTime: 15,
         difficulty: 'easy',
         quality: 'normal',
-        unlockLevel: 1;
+        unlockLevel: 1
     },
       {
         id: 'leather_armor',
@@ -149,7 +146,7 @@ export class CraftingManager {
         craftingTime: 45,
         difficulty: 'easy',
         quality: 'normal',
-        unlockLevel: 1;
+        unlockLevel: 1
     },
       {
         id: 'steel_sword',
