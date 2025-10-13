@@ -1,1180 +1,873 @@
 /**
- * IoTPure Manager - Advanced IoT Management System
+ * IoTPure Manager - Advanced Internet of Things Management System
  *
- * Comprehensive IoT system with:
- * - Device management and monitoring
+ * Comprehensive IoT management system with:
+ * - IoT device management and monitoring
  * - Data collection and processing
- * - Real-time analytics and insights
- * - Edge computing capabilities
+ * - Device communication and protocols
  * - Security and authentication
- * - Protocol support and integration
- * - Cloud connectivity and synchronization
- * - Predictive maintenance and alerts
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Performance optimization
+ * - Real-time IoT monitoring
+ * - IoT analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
-export interface IoTConfig {
+export interface IoTPureConfig {
+  enableIoTManagement: boolean;
   enableDeviceManagement: boolean;
   enableDataCollection: boolean;
-  enableRealTimeAnalytics: boolean;
-  enableEdgeComputing: boolean;
-  enableSecurity: boolean;
-  enableProtocolSupport: boolean;
-  enableCloudConnectivity: boolean;
-  enablePredictiveMaintenance: boolean;
-  enableAlerts: boolean;
-  enableMonitoring: boolean;
-  enableAutomation: boolean;
-  enableScalability: boolean;
+  enableDeviceCommunication: boolean;
+  enableSecurityManagement: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableIoTAnalytics: boolean;
+  enableIoTReporting: boolean;
   maxDevices: number;
-  maxDataPoints: number;
+  maxGateways: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface IoT {
+export interface IoTPureManager {
   id: string;
   name: string;
-  type: IoTType;
-  status: IoTStatus;
+  type: IoTPureManagerType;
+  status: IoTPureManagerStatus;
   devices: IoTDevice[];
-  data: IoTData[];
-  analytics: IoTAnalytics;
+  gateways: IoTGateway[];
+  protocols: IoTProtocol[];
+  dataStreams: DataStream[];
   alerts: IoTAlert[];
-  automations: IoTAutomation[];
-  security: IoTSecurity;
-  metadata: IoTMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  performanceMetrics: IoTPurePerformanceMetrics;
+  analytics: IoTPureAnalytics;
+  reporting: IoTPureReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum IoTType {
-  SMART_HOME = 'smart_home',
-  INDUSTRIAL = 'industrial',
-  AGRICULTURE = 'agriculture',
-  HEALTHCARE = 'healthcare',
-  TRANSPORTATION = 'transportation',
-  CUSTOM = 'custom'
-}
-
-export enum IoTStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  MAINTENANCE = 'maintenance',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
+export type IoTPureManagerType = 'industrial' | 'smart_home' | 'agriculture' | 'healthcare' | 'custom';
+export type IoTPureManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface IoTDevice {
   id: string;
   name: string;
   type: DeviceType;
   status: DeviceStatus;
-  location: DeviceLocation;
+  manufacturer: string;
+  model: string;
+  firmware: FirmwareInfo;
   capabilities: DeviceCapabilities;
-  sensors: Sensor[];
-  actuators: Actuator[];
+  configuration: DeviceConfiguration;
+  location: DeviceLocation;
   connectivity: ConnectivityInfo;
-  power: PowerInfo;
-  metadata: Map<string, any>;
+  security: SecurityInfo;
+  metadata: Record<string, any>;
 }
 
-export enum DeviceType {
-  SENSOR = 'sensor',
-  ACTUATOR = 'actuator',
-  GATEWAY = 'gateway',
-  CONTROLLER = 'controller',
-  CUSTOM = 'custom'
-}
+export type DeviceType = 'sensor' | 'actuator' | 'gateway' | 'controller' | 'camera' | 'custom';
+export type DeviceStatus = 'online' | 'offline' | 'maintenance' | 'error' | 'sleeping';
 
-export enum DeviceStatus {
-  ONLINE = 'online',
-  OFFLINE = 'offline',
-  MAINTENANCE = 'maintenance',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface DeviceLocation {
-  building: string;
-  floor: string;
-  room: string;
-  coordinates: Coordinates;
-  metadata: Map<string, any>;
-}
-
-export interface Coordinates {
-  latitude: number;
-  longitude: number;
-  altitude: number;
-  metadata: Map<string, any>;
+export interface FirmwareInfo {
+  version: string;
+  build: string;
+  releaseDate: number;
+  checksum: string;
+  updateAvailable: boolean;
+  lastUpdate: number;
 }
 
 export interface DeviceCapabilities {
-  sensing: SensingCapabilities;
-  actuation: ActuationCapabilities;
-  processing: ProcessingCapabilities;
-  communication: CommunicationCapabilities;
-  metadata: Map<string, any>;
+  sensors: SensorCapability[];
+  actuators: ActuatorCapability[];
+  communication: CommunicationCapability[];
+  power: PowerCapability;
+  storage: StorageCapability;
+  processing: ProcessingCapability;
 }
 
-export interface SensingCapabilities {
-  temperature: boolean;
-  humidity: boolean;
-  pressure: boolean;
-  light: boolean;
-  motion: boolean;
-  sound: boolean;
-  custom: string[];
-  metadata: Map<string, any>;
+export interface SensorCapability {
+  type: SensorType;
+  unit: string;
+  range: ValueRange;
+  accuracy: number;
+  resolution: number;
+  samplingRate: number;
 }
 
-export interface ActuationCapabilities {
-  relay: boolean;
-  motor: boolean;
-  valve: boolean;
-  light: boolean;
-  custom: string[];
-  metadata: Map<string, any>;
+export type SensorType = 'temperature' | 'humidity' | 'pressure' | 'light' | 'motion' | 'sound' | 'custom';
+
+export interface ValueRange {
+  min: number;
+  max: number;
+  step: number;
 }
 
-export interface ProcessingCapabilities {
+export interface ActuatorCapability {
+  type: ActuatorType;
+  unit: string;
+  range: ValueRange;
+  precision: number;
+  responseTime: number;
+  powerConsumption: number;
+}
+
+export type ActuatorType = 'relay' | 'motor' | 'valve' | 'led' | 'speaker' | 'display' | 'custom';
+
+export interface CommunicationCapability {
+  protocol: string;
+  frequency: number;
+  range: number;
+  dataRate: number;
+  powerConsumption: number;
+}
+
+export interface PowerCapability {
+  type: PowerType;
+  voltage: number;
+  current: number;
+  capacity: number;
+  consumption: number;
+  batteryLevel: number;
+}
+
+export type PowerType = 'battery' | 'solar' | 'wired' | 'usb' | 'custom';
+
+export interface StorageCapability {
+  type: StorageType;
+  size: number;
+  used: number;
+  format: string;
+  encryption: boolean;
+}
+
+export type StorageType = 'flash' | 'sd' | 'eeprom' | 'ram' | 'custom';
+
+export interface ProcessingCapability {
   cpu: string;
   memory: number;
   storage: number;
   os: string;
-  metadata: Map<string, any>;
+  architecture: string;
 }
 
-export interface CommunicationCapabilities {
-  wifi: boolean;
-  bluetooth: boolean;
-  zigbee: boolean;
-  zWave: boolean;
-  cellular: boolean;
-  ethernet: boolean;
-  custom: string[];
-  metadata: Map<string, any>;
+export interface DeviceConfiguration {
+  parameters: ConfigurationParameter[];
+  schedules: Schedule[];
+  thresholds: Threshold[];
+  rules: Rule[];
+  lastUpdated: number;
 }
 
-export interface Sensor {
+export interface ConfigurationParameter {
+  name: string;
+  value: any;
+  type: ParameterType;
+  unit: string;
+  description: string;
+  writable: boolean;
+}
+
+export type ParameterType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'custom';
+
+export interface Schedule {
   id: string;
   name: string;
-  type: SensorType;
-  status: SensorStatus;
-  data: SensorData;
-  calibration: CalibrationData;
-  metadata: Map<string, any>;
+  enabled: boolean;
+  cron: string;
+  action: string;
+  parameters: Record<string, any>;
 }
 
-export enum SensorType {
-  TEMPERATURE = 'temperature',
-  HUMIDITY = 'humidity',
-  PRESSURE = 'pressure',
-  LIGHT = 'light',
-  MOTION = 'motion',
-  SOUND = 'sound',
-  CUSTOM = 'custom'
-}
-
-export enum SensorStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  CALIBRATING = 'calibrating',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface SensorData {
+export interface Threshold {
+  id: string;
+  parameter: string;
+  operator: ThresholdOperator;
   value: number;
-  unit: string;
-  timestamp: number;
-  quality: DataQuality;
-  metadata: Map<string, any>;
+  action: string;
+  enabled: boolean;
 }
 
-export enum DataQuality {
-  EXCELLENT = 'excellent',
-  GOOD = 'good',
-  FAIR = 'fair',
-  POOR = 'poor',
-  CUSTOM = 'custom'
-}
+export type ThresholdOperator = 'greater' | 'less' | 'equal' | 'not_equal' | 'greater_equal' | 'less_equal';
 
-export interface CalibrationData {
-  offset: number;
-  scale: number;
-  lastCalibrated: number;
-  nextCalibration: number;
-  metadata: Map<string, any>;
-}
-
-export interface Actuator {
+export interface Rule {
   id: string;
   name: string;
-  type: ActuatorType;
-  status: ActuatorStatus;
-  state: ActuatorState;
-  control: ActuatorControl;
-  metadata: Map<string, any>;
+  condition: RuleCondition;
+  action: RuleAction;
+  enabled: boolean;
+  priority: number;
 }
 
-export enum ActuatorType {
-  RELAY = 'relay',
-  MOTOR = 'motor',
-  VALVE = 'valve',
-  LIGHT = 'light',
-  CUSTOM = 'custom'
+export interface RuleCondition {
+  type: ConditionType;
+  parameter: string;
+  operator: ConditionOperator;
+  value: any;
+  logic: LogicOperator;
 }
 
-export enum ActuatorStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
+export type ConditionType = 'sensor' | 'time' | 'event' | 'custom';
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'custom';
+export type LogicOperator = 'and' | 'or' | 'not';
+
+export interface RuleAction {
+  type: ActionType;
+  target: string;
+  parameters: Record<string, any>;
+  delay: number;
 }
 
-export interface ActuatorState {
-  on: boolean;
-  value: number;
-  timestamp: number;
-  metadata: Map<string, any>;
-}
+export type ActionType = 'set_parameter' | 'send_alert' | 'execute_script' | 'custom';
 
-export interface ActuatorControl {
-  min: number;
-  max: number;
-  step: number;
-  unit: string;
-  metadata: Map<string, any>;
+export interface DeviceLocation {
+  latitude: number;
+  longitude: number;
+  altitude: number;
+  address: string;
+  room: string;
+  floor: string;
+  building: string;
 }
 
 export interface ConnectivityInfo {
-  protocol: ProtocolType;
-  network: NetworkInfo;
-  security: SecurityInfo;
-  metadata: Map<string, any>;
-}
-
-export enum ProtocolType {
-  MQTT = 'mqtt',
-  HTTP = 'http',
-  COAP = 'coap',
-  MODBUS = 'modbus',
-  CUSTOM = 'custom'
-}
-
-export interface NetworkInfo {
-  ssid: string;
-  ip: string;
+  protocol: string;
+  address: string;
   port: number;
   signal: number;
-  metadata: Map<string, any>;
+  quality: number;
+  lastSeen: number;
 }
 
 export interface SecurityInfo {
-  encryption: EncryptionType;
-  authentication: AuthType;
-  certificates: string[];
-  metadata: Map<string, any>;
+  encryption: EncryptionInfo;
+  authentication: AuthenticationInfo;
+  certificates: CertificateInfo[];
+  access: AccessControl[];
 }
 
-export enum EncryptionType {
-  NONE = 'none',
-  WEP = 'wep',
-  WPA = 'wpa',
-  WPA2 = 'wpa2',
-  WPA3 = 'wpa3',
-  CUSTOM = 'custom'
+export interface EncryptionInfo {
+  enabled: boolean;
+  algorithm: string;
+  keySize: number;
+  mode: string;
 }
 
-export enum AuthType {
-  NONE = 'none',
-  PASSWORD = 'password',
-  CERTIFICATE = 'certificate',
-  TOKEN = 'token',
-  CUSTOM = 'custom'
+export interface AuthenticationInfo {
+  enabled: boolean;
+  method: string;
+  credentials: string;
+  token: string;
+  expires: number;
 }
 
-export interface PowerInfo {
-  source: PowerSource;
-  battery: BatteryInfo;
-  consumption: PowerConsumption;
-  metadata: Map<string, any>;
-}
-
-export enum PowerSource {
-  BATTERY = 'battery',
-  AC = 'ac',
-  SOLAR = 'solar',
-  CUSTOM = 'custom'
-}
-
-export interface BatteryInfo {
-  level: number;
-  voltage: number;
-  current: number;
-  temperature: number;
-  metadata: Map<string, any>;
-}
-
-export interface PowerConsumption {
-  current: number;
-  average: number;
-  peak: number;
-  metadata: Map<string, any>;
-}
-
-export interface IoTData {
+export interface CertificateInfo {
   id: string;
-  deviceId: string;
-  sensorId: string;
-  type: DataType;
-  value: any;
-  unit: string;
-  timestamp: number;
-  quality: DataQuality;
-  location: DataLocation;
-  metadata: Map<string, any>;
+  type: string;
+  issuer: string;
+  subject: string;
+  validFrom: number;
+  validTo: number;
+  fingerprint: string;
 }
 
-export enum DataType {
-  SENSOR = 'sensor',
-  ACTUATOR = 'actuator',
-  STATUS = 'status',
-  EVENT = 'event',
-  CUSTOM = 'custom'
+export interface AccessControl {
+  user: string;
+  role: string;
+  permissions: string[];
+  expires: number;
 }
 
-export interface DataLocation {
-  building: string;
-  floor: string;
-  room: string;
-  coordinates: Coordinates;
-  metadata: Map<string, any>;
-}
-
-export interface IoTAnalytics {
-  totalDevices: number;
-  onlineDevices: number;
-  totalDataPoints: number;
-  averageDataQuality: number;
-  trends: DataTrend[];
-  insights: DataInsight[];
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface DataTrend {
+export interface IoTGateway {
   id: string;
   name: string;
-  type: TrendType;
-  direction: TrendDirection;
-  value: number;
-  confidence: number;
-  metadata: Map<string, any>;
+  type: GatewayType;
+  status: GatewayStatus;
+  location: DeviceLocation;
+  connectivity: ConnectivityInfo;
+  protocols: string[];
+  devices: string[];
+  configuration: GatewayConfiguration;
+  performance: GatewayPerformance;
+  metadata: Record<string, any>;
 }
 
-export enum TrendType {
-  INCREASING = 'increasing',
-  DECREASING = 'decreasing',
-  STABLE = 'stable',
-  VOLATILE = 'volatile',
-  CUSTOM = 'custom'
+export type GatewayType = 'edge' | 'cloud' | 'fog' | 'custom';
+export type GatewayStatus = 'online' | 'offline' | 'maintenance' | 'error';
+
+export interface GatewayConfiguration {
+  protocols: ProtocolConfiguration[];
+  routing: RoutingConfiguration;
+  security: SecurityInfo;
+  performance: PerformanceConfiguration;
 }
 
-export enum TrendDirection {
-  UP = 'up',
-  DOWN = 'down',
-  STABLE = 'stable',
-  CUSTOM = 'custom'
+export interface ProtocolConfiguration {
+  name: string;
+  enabled: boolean;
+  port: number;
+  parameters: Record<string, any>;
 }
 
-export interface DataInsight {
+export interface RoutingConfiguration {
+  rules: RoutingRule[];
+  fallback: string;
+  loadBalancing: boolean;
+}
+
+export interface RoutingRule {
+  condition: string;
+  destination: string;
+  priority: number;
+}
+
+export interface PerformanceConfiguration {
+  maxConnections: number;
+  timeout: number;
+  retryCount: number;
+  bufferSize: number;
+}
+
+export interface GatewayPerformance {
+  connections: number;
+  throughput: number;
+  latency: number;
+  errors: number;
+  uptime: number;
+}
+
+export interface IoTProtocol {
   id: string;
-  title: string;
+  name: string;
+  type: ProtocolType;
+  version: string;
   description: string;
-  type: InsightType;
-  confidence: number;
-  impact: InsightImpact;
-  recommendations: string[];
-  metadata: Map<string, any>;
+  features: ProtocolFeature[];
+  configuration: ProtocolConfiguration;
+  security: SecurityInfo;
+  metadata: Record<string, any>;
 }
 
-export enum InsightType {
-  ANOMALY = 'anomaly',
-  PATTERN = 'pattern',
-  PREDICTION = 'prediction',
-  OPTIMIZATION = 'optimization',
-  CUSTOM = 'custom'
+export type ProtocolType = 'mqtt' | 'coap' | 'http' | 'websocket' | 'modbus' | 'custom';
+
+export interface ProtocolFeature {
+  name: string;
+  description: string;
+  supported: boolean;
+  parameters: Record<string, any>;
 }
 
-export enum InsightImpact {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CRITICAL = 'critical',
-  CUSTOM = 'custom'
+export interface DataStream {
+  id: string;
+  name: string;
+  device: string;
+  type: StreamType;
+  format: DataFormat;
+  frequency: number;
+  buffer: BufferConfiguration;
+  processing: ProcessingConfiguration;
+  destination: string;
+  metadata: Record<string, any>;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  networkUsage: number;
-  storageUsage: number;
-  metadata: Map<string, any>;
+export type StreamType = 'sensor' | 'event' | 'log' | 'video' | 'audio' | 'custom';
+export type DataFormat = 'json' | 'xml' | 'csv' | 'binary' | 'text' | 'custom';
+
+export interface BufferConfiguration {
+  size: number;
+  strategy: BufferStrategy;
+  timeout: number;
+  compression: boolean;
+}
+
+export type BufferStrategy = 'fifo' | 'lifo' | 'priority' | 'custom';
+
+export interface ProcessingConfiguration {
+  filters: DataFilter[];
+  transformations: DataTransformation[];
+  aggregations: DataAggregation[];
+  rules: ProcessingRule[];
+}
+
+export interface DataFilter {
+  field: string;
+  operator: FilterOperator;
+  value: any;
+  enabled: boolean;
+}
+
+export type FilterOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'regex' | 'custom';
+
+export interface DataTransformation {
+  type: TransformationType;
+  parameters: Record<string, any>;
+  order: number;
+}
+
+export type TransformationType = 'map' | 'filter' | 'aggregate' | 'join' | 'sort' | 'custom';
+
+export interface DataAggregation {
+  field: string;
+  function: AggregationFunction;
+  window: TimeWindow;
+  groupBy: string[];
+}
+
+export type AggregationFunction = 'sum' | 'avg' | 'count' | 'min' | 'max' | 'median' | 'mode' | 'custom';
+
+export interface TimeWindow {
+  size: number;
+  unit: TimeUnit;
+  slide: number;
+}
+
+export type TimeUnit = 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'custom';
+
+export interface ProcessingRule {
+  condition: string;
+  action: string;
+  parameters: Record<string, any>;
+  enabled: boolean;
 }
 
 export interface IoTAlert {
   id: string;
-  deviceId: string;
+  device: string;
   type: AlertType;
   severity: AlertSeverity;
-  status: AlertStatus;
-  title: string;
-  description: string;
-  timestamp: number;
-  acknowledged: boolean;
-  actions: AlertAction[];
-  metadata: Map<string, any>;
-}
-
-export enum AlertType {
-  THRESHOLD = 'threshold',
-  ANOMALY = 'anomaly',
-  DEVICE_OFFLINE = 'device_offline',
-  MAINTENANCE = 'maintenance',
-  CUSTOM = 'custom'
-}
-
-export enum AlertSeverity {
-  INFO = 'info',
-  WARNING = 'warning',
-  ERROR = 'error',
-  CRITICAL = 'critical',
-  CUSTOM = 'custom'
-}
-
-export enum AlertStatus {
-  ACTIVE = 'active',
-  ACKNOWLEDGED = 'acknowledged',
-  RESOLVED = 'resolved',
-  CUSTOM = 'custom'
-}
-
-export interface AlertAction {
-  type: ActionType;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export enum ActionType {
-  NOTIFY = 'notify',
-  EMAIL = 'email',
-  SMS = 'sms',
-  ACTUATE = 'actuate',
-  CUSTOM = 'custom'
-}
-
-export interface IoTAutomation {
-  id: string;
-  name: string;
-  type: AutomationType;
-  status: AutomationStatus;
-  triggers: AutomationTrigger[];
-  actions: AutomationAction[];
-  conditions: AutomationCondition[];
-  schedule: AutomationSchedule;
-  metadata: Map<string, any>;
-}
-
-export enum AutomationType {
-  RULE_BASED = 'rule_based',
-  TIME_BASED = 'time_based',
-  EVENT_BASED = 'event_based',
-  CUSTOM = 'custom'
-}
-
-export enum AutomationStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface AutomationTrigger {
-  id: string;
-  type: TriggerType;
-  deviceId: string;
-  sensorId: string;
-  condition: TriggerCondition;
-  metadata: Map<string, any>;
-}
-
-export enum TriggerType {
-  SENSOR_VALUE = 'sensor_value',
-  TIME = 'time',
-  DEVICE_STATUS = 'device_status',
-  CUSTOM = 'custom'
-}
-
-export interface TriggerCondition {
-  operator: ConditionOperator;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum ConditionOperator {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  CUSTOM = 'custom'
-}
-
-export interface AutomationAction {
-  id: string;
-  type: ActionType;
-  deviceId: string;
-  actuatorId: string;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export interface AutomationCondition {
-  id: string;
-  type: ConditionType;
-  deviceId: string;
-  sensorId: string;
-  operator: ConditionOperator;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum ConditionType {
-  SENSOR_VALUE = 'sensor_value',
-  DEVICE_STATUS = 'device_status',
-  TIME = 'time',
-  CUSTOM = 'custom'
-}
-
-export interface AutomationSchedule {
-  enabled: boolean;
-  startTime: string;
-  endTime: string;
-  days: string[];
-  timezone: string;
-  metadata: Map<string, any>;
-}
-
-export interface IoTSecurity {
-  encryption: SecurityEncryption;
-  authentication: SecurityAuthentication;
-  accessControl: AccessControl;
-  monitoring: SecurityMonitoring;
-  metadata: Map<string, any>;
-}
-
-export interface SecurityEncryption {
-  enabled: boolean;
-  algorithm: string;
-  keySize: number;
-  metadata: Map<string, any>;
-}
-
-export interface SecurityAuthentication {
-  enabled: boolean;
-  method: string;
-  tokens: string[];
-  metadata: Map<string, any>;
-}
-
-export interface AccessControl {
-  enabled: boolean;
-  roles: SecurityRole[];
-  permissions: SecurityPermission[];
-  metadata: Map<string, any>;
-}
-
-export interface SecurityRole {
-  id: string;
-  name: string;
-  permissions: string[];
-  metadata: Map<string, any>;
-}
-
-export interface SecurityPermission {
-  id: string;
-  name: string;
-  resource: string;
-  actions: string[];
-  metadata: Map<string, any>;
-}
-
-export interface SecurityMonitoring {
-  enabled: boolean;
-  alerts: SecurityAlert[];
-  logs: SecurityLog[];
-  metadata: Map<string, any>;
-}
-
-export interface SecurityAlert {
-  id: string;
-  type: SecurityAlertType;
-  severity: AlertSeverity;
-  description: string;
-  timestamp: number;
-  metadata: Map<string, any>;
-}
-
-export enum SecurityAlertType {
-  UNAUTHORIZED_ACCESS = 'unauthorized_access',
-  MALICIOUS_ACTIVITY = 'malicious_activity',
-  DATA_BREACH = 'data_breach',
-  CUSTOM = 'custom'
-}
-
-export interface SecurityLog {
-  id: string;
-  type: SecurityLogType;
   message: string;
   timestamp: number;
-  metadata: Map<string, any>;
+  acknowledged: boolean;
+  resolved: boolean;
+  metadata: Record<string, any>;
 }
 
-export enum SecurityLogType {
-  AUTHENTICATION = 'authentication',
-  AUTHORIZATION = 'authorization',
-  DATA_ACCESS = 'data_access',
-  CUSTOM = 'custom'
-}
+export type AlertType = 'device_offline' | 'threshold_exceeded' | 'security_breach' | 'maintenance_required' | 'custom';
+export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
-export interface IoTMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface IoTStats {
+export interface IoTPurePerformanceMetrics {
   totalDevices: number;
   onlineDevices: number;
-  totalDataPoints: number;
-  averageDataQuality: number;
+  totalGateways: number;
+  onlineGateways: number;
+  totalDataStreams: number;
   totalAlerts: number;
-  activeAlerts: number;
-  totalAutomations: number;
-  activeAutomations: number;
+  averageLatency: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface IoTPureAnalytics {
+  totalDevices: number;
+  totalDataStreams: number;
+  averageLatency: number;
+  deviceTypeDistribution: DeviceTypeDistribution[];
+  protocolDistribution: ProtocolDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface DeviceTypeDistribution {
+  type: DeviceType;
+  count: number;
+  percentage: number;
+  averageUptime: number;
+}
+
+export interface ProtocolDistribution {
+  protocol: string;
+  count: number;
+  percentage: number;
+  averageLatency: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  devices: number;
+  gateways: number;
+  dataStreams: number;
+  latency: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface IoTPureReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeDevices: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
 }
 
-export class IoTManager {
-  private config: IoTConfig;
-  private iots: Map<string, IoT> = new Map();
-  private stats: IoTStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
 
-  constructor(config: Partial<IoTConfig> = {}) {
+export interface IoTPureOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class IoTPure {
+  private managers: Map<string, IoTPureManager> = new Map();
+  private config: IoTPureConfig;
+  private performanceMetrics: IoTPurePerformanceMetrics;
+  private analytics: IoTPureAnalytics;
+
+  constructor(config: Partial<IoTPureConfig> = {}) {
     this.config = {
+      enableIoTManagement: true,
       enableDeviceManagement: true,
       enableDataCollection: true,
-      enableRealTimeAnalytics: true,
-      enableEdgeComputing: true,
-      enableSecurity: true,
-      enableProtocolSupport: true,
-      enableCloudConnectivity: true,
-      enablePredictiveMaintenance: true,
-      enableAlerts: true,
-      enableMonitoring: true,
-      enableAutomation: true,
-      enableScalability: true,
+      enableDeviceCommunication: true,
+      enableSecurityManagement: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableIoTAnalytics: true,
+      enableIoTReporting: true,
       maxDevices: 10000,
-      maxDataPoints: 1000000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      maxGateways: 100,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'IoTManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `IoTManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'IoTManager');
-  };
-  }
-
-  /**
-   * Initialize IoT manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize IoT manager
-      await this.initializeIoTManager();
-      
-      // Load default IoTs
-      await this.loadDefaultIoTs();
-      
-      this.isInitialized = true;
-      this.logger.info('IoTManager', 'IoT manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('IoTManager', 'Failed to initialize IoT manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new IoT
-   */
-  createIoT(iot: Partial<IoT>): IoT | null {
-    const newIoT: IoT = {
-      id: `iot_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: iot.name || 'New IoT',
-      type: iot.type || IoTType.SMART_HOME,
-      status: IoTStatus.ACTIVE,
-      devices: iot.devices || [],
-      data: iot.data || [],
-      analytics: iot.analytics || this.createDefaultAnalytics(),
-      alerts: iot.alerts || [],
-      automations: iot.automations || [],
-      security: iot.security || this.createDefaultSecurity(),
-      metadata: iot.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
 
-    this.iots.set(newIoT.id, newIoT);
-    this.updateStats('create_iot', newIoT);
+    this.performanceMetrics = {
+      totalDevices: 0,
+      onlineDevices: 0,
+      totalGateways: 0,
+      onlineGateways: 0,
+      totalDataStreams: 0,
+      totalAlerts: 0,
+      averageLatency: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-    this.logger.info('IoTManager', `Created IoT: ${newIoT.name}`);
-    return newIoT;
+    this.analytics = {
+      totalDevices: 0,
+      totalDataStreams: 0,
+      averageLatency: 0,
+      deviceTypeDistribution: [],
+      protocolDistribution: [],
+      performanceTrends: []
+    };
+  }
+
+  /**
+   * Create a new IoT manager
+   */
+  createManager(managerData: Partial<IoTPureManager>): IoTPureOutput {
+    if (!this.config.enableIoTManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['IoT management is disabled']
+      };
+    }
+
+    const manager: IoTPureManager = {
+      id: managerData.id || `iot-${Date.now()}`,
+      name: managerData.name || 'Unnamed IoT Manager',
+      type: managerData.type || 'industrial',
+      status: 'active',
+      devices: [],
+      gateways: [],
+      protocols: [],
+      dataStreams: [],
+      alerts: [],
+      performanceMetrics: {
+        totalDevices: 0,
+        onlineDevices: 0,
+        totalGateways: 0,
+        onlineGateways: 0,
+        totalDataStreams: 0,
+        totalAlerts: 0,
+        averageLatency: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalDevices: 0,
+        totalDataStreams: 0,
+        averageLatency: 0,
+        deviceTypeDistribution: [],
+        protocolDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeDevices: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): IoTPureOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
    * Create IoT device
    */
-  createIoTDevice(iotId: string, device: Partial<IoTDevice>): IoTDevice | null {
-    const iot = this.iots.get(iotId);
-    if (!iot) {
-      this.logger.warn('IoTManager', `IoT ${iotId} not found`);
-      return null;
-    }
-
-    if (iot.devices.length >= this.config.maxDevices) {
-      this.logger.warn('IoTManager', 'Maximum number of devices reached');
-      return null;
-    }
-
-    try {
-      const newDevice: IoTDevice = {
-        id: `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: device.name || 'New Device',
-        type: device.type || DeviceType.SENSOR,
-        status: DeviceStatus.ONLINE,
-        location: device.location || this.createDefaultDeviceLocation(),
-        capabilities: device.capabilities || this.createDefaultDeviceCapabilities(),
-        sensors: device.sensors || [],
-        actuators: device.actuators || [],
-        connectivity: device.connectivity || this.createDefaultConnectivityInfo(),
-        power: device.power || this.createDefaultPowerInfo(),
-        metadata: device.metadata || new Map()
+  createDevice(managerId: string, device: Partial<IoTDevice>): IoTPureOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-device',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
       };
-
-      iot.devices.push(newDevice);
-      iot.modified = Date.now();
-
-      this.updateStats('create_device', iot);
-      this.logger.info('IoTManager', `Created IoT device: ${newDevice.name}`);
-      return newDevice;
-    } catch (error) {
-      this.logger.error('IoTManager', `Failed to create IoT device in IoT ${iotId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Get IoT
-   */
-  getIoT(iotId: string): IoT | null {
-    return this.iots.get(iotId) || null;
-  }
-
-  /**
-   * Get all IoTs
-   */
-  getIoTs(): IoT[] {
-    return Array.from(this.iots.values());
-  }
-
-  /**
-   * Get IoTs by type
-   */
-  getIoTsByType(type: IoTType): IoT[] {
-    return Array.from(this.iots.values())
-      .filter(iot => iot.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): IoTStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize IoT manager
-   */
-  private async initializeIoTManager(): Promise<void> {
-    this.logger.info('IoTManager', 'Initializing IoT manager...');
-  }
-
-  /**
-   * Load default IoTs
-   */
-  private async loadDefaultIoTs(): Promise<void> {
-    // Load default IoTs
-    const defaultIoTs = [
-      this.createDefaultSmartHome(),
-      this.createDefaultIndustrial(),
-      this.createDefaultAgriculture()
-    ];
-
-    for (const iot of defaultIoTs) {
-      if (iot) {
-        this.iots.set(iot.id, iot);
-      }
     }
 
-    this.logger.info('IoTManager', `Loaded ${defaultIoTs.length} default IoTs`);
-  }
+    if (manager.devices.length >= this.config.maxDevices) {
+      return {
+        op: 'create-device',
+        status: 'error',
+        issues: ['Maximum number of devices reached']
+      };
+    }
 
-  /**
-   * Create default device location
-   */
-  private createDefaultDeviceLocation(): DeviceLocation {
-    return {
-      building: 'Building A',
-      floor: '1',
-      room: 'Room 101',
-      coordinates: {
-        latitude: 37.7749,
-        longitude: -122.4194,
+    const newDevice: IoTDevice = {
+      id: device.id || `device-${Date.now()}`,
+      name: device.name || 'Unnamed Device',
+      type: device.type || 'sensor',
+      status: 'offline',
+      manufacturer: device.manufacturer || 'Unknown',
+      model: device.model || 'Unknown',
+      firmware: device.firmware || {
+        version: '1.0.0',
+        build: '1',
+        releaseDate: Date.now(),
+        checksum: '',
+        updateAvailable: false,
+        lastUpdate: Date.now()
+      },
+      capabilities: device.capabilities || {
+        sensors: [],
+        actuators: [],
+        communication: [],
+        power: {
+          type: 'battery',
+          voltage: 3.3,
+          current: 0.1,
+          capacity: 1000,
+          consumption: 0.05,
+          batteryLevel: 100
+        },
+        storage: {
+          type: 'flash',
+          size: 1024,
+          used: 0,
+          format: 'fat32',
+          encryption: false
+        },
+        processing: {
+          cpu: 'ARM Cortex-M0',
+          memory: 32,
+          storage: 1024,
+          os: 'FreeRTOS',
+          architecture: 'ARM'
+        }
+      },
+      configuration: device.configuration || {
+        parameters: [],
+        schedules: [],
+        thresholds: [],
+        rules: [],
+        lastUpdated: Date.now()
+      },
+      location: device.location || {
+        latitude: 0,
+        longitude: 0,
         altitude: 0,
-        metadata: new Map()
-
-      
-      
-      }
+        address: '',
+        room: '',
+        floor: '',
+        building: ''
       },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default device capabilities
-   */
-  private createDefaultDeviceCapabilities(): DeviceCapabilities {
-    return {
-      sensing: {
-
-        temperature: true,
-        humidity: false,
-        pressure: false,
-        light: false,
-        motion: false,
-        sound: false,
-        custom: [],
-        metadata: new Map()
-
-      }
+      connectivity: device.connectivity || {
+        protocol: 'wifi',
+        address: '',
+        port: 0,
+        signal: 0,
+        quality: 0,
+        lastSeen: 0
       },
-      actuation: {
-
-        relay: false,
-        motor: false,
-        valve: false,
-        light: false,
-        custom: [],
-        metadata: new Map()
-
-      }
-      },
-      processing: {
-
-        cpu: 'ARM Cortex-M4',
-        memory: 256,
-        storage: 1024,
-        os: 'FreeRTOS',
-        metadata: new Map()
-
-      }
-      },
-      communication: {
-
-        wifi: true,
-        bluetooth: false,
-        zigbee: false,
-        zWave: false,
-        cellular: false,
-        ethernet: false,
-        custom: [],
-        metadata: new Map()
-
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default connectivity info
-   */
-  private createDefaultConnectivityInfo(): ConnectivityInfo {
-    return {
-      protocol: ProtocolType.MQTT,
-      network: {
-
-        ssid: 'IoT_Network',
-        ip: '192.168.1.100',
-        port: 1883,
-        signal: -50,
-        metadata: new Map()
-
-      }
-      },
-      security: {
-        encryption: EncryptionType.WPA2,
-        authentication: AuthType.PASSWORD,
+      security: device.security || {
+        encryption: {
+          enabled: false,
+          algorithm: 'AES-256',
+          keySize: 256,
+          mode: 'CBC'
+        },
+        authentication: {
+          enabled: false,
+          method: 'none',
+          credentials: '',
+          token: '',
+          expires: 0
+        },
         certificates: [],
-        metadata: new Map()
-
-      
-      
-      }
+        access: []
       },
-      metadata: new Map()
+      metadata: {},
+      ...device
     };
-  }
 
-  /**
-   * Create default power info
-   */
-  private createDefaultPowerInfo(): PowerInfo {
+    manager.devices.push(newDevice);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalDevices++;
+
     return {
-      source: PowerSource.AC,
-      battery: {
-
-        level: 100,
-        voltage: 3.7,
-        current: 0,
-        temperature: 25,
-        metadata: new Map()
-
-      }
-      },
-      consumption: {
-        current: 0.1,
-        average: 0.1,
-        peak: 0.2,
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      metadata: new Map()
+      op: 'create-device',
+      status: 'ok',
+      result: newDevice
     };
   }
 
   /**
-   * Create default analytics
+   * Get performance metrics
    */
-  private createDefaultAnalytics(): IoTAnalytics {
-    return {
-      totalDevices: 0,
-      onlineDevices: 0,
-      totalDataPoints: 0,
-      averageDataQuality: 0,
-      trends: [],
-      insights: [],
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        networkUsage: 0,
-        storageUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
+  getPerformanceMetrics(): IoTPurePerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
-   * Create default security
+   * Get analytics
    */
-  private createDefaultSecurity(): IoTSecurity {
-    return {
-      encryption: {
-        enabled: true,
-        algorithm: 'AES-256',
-        keySize: 256,
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      authentication: {
-        enabled: true,
-        method: 'JWT',
-        tokens: [],
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      accessControl: {
-        enabled: true,
-        roles: [],
-        permissions: [],
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      monitoring: {
-        enabled: true,
-        alerts: [],
-        logs: [],
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      metadata: new Map()
-    };
+  getAnalytics(): IoTPureAnalytics {
+    return { ...this.analytics };
   }
 
   /**
-   * Create default metadata
+   * Get all managers
    */
-  private createDefaultMetadata(): IoTMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
+  getAllManagers(): IoTPureManager[] {
+    return Array.from(this.managers.values());
   }
 
   /**
-   * Create default smart home
+   * Update performance metrics
    */
-  private createDefaultSmartHome(): IoT {
-    return this.createIoT({
-      name: 'Smart Home',
-      type: IoTType.SMART_HOME,
-      description: 'Smart home IoT system'
-    });
-  }
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalDevices = 0;
+    let onlineDevices = 0;
+    let totalGateways = 0;
+    let onlineGateways = 0;
+    let totalDataStreams = 0;
+    let totalAlerts = 0;
 
-  /**
-   * Create default industrial
-   */
-  private createDefaultIndustrial(): IoT {
-    return this.createIoT({
-      name: 'Industrial IoT',
-      type: IoTType.INDUSTRIAL,
-      description: 'Industrial IoT system'
-    });
-  }
-
-  /**
-   * Create default agriculture
-   */
-  private createDefaultAgriculture(): IoT {
-    return this.createIoT({
-      name: 'Agriculture IoT',
-      type: IoTType.AGRICULTURE,
-      description: 'Agriculture IoT system'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, iot: IoT): void {
-    switch (action) {
-      case 'create_iot':
-        this.stats.totalDevices += iot.devices.length;
-        this.stats.totalDataPoints += iot.data.length;
-        this.stats.totalAlerts += iot.alerts.length;
-        this.stats.totalAutomations += iot.automations.length;
-        break;
-      case 'create_device':
-        this.stats.totalDevices++;
-        this.stats.onlineDevices++;
-        break;
+    for (const manager of this.managers.values()) {
+      totalDevices += manager.devices.length;
+      onlineDevices += manager.devices.filter(d => d.status === 'online').length;
+      totalGateways += manager.gateways.length;
+      onlineGateways += manager.gateways.filter(g => g.status === 'online').length;
+      totalDataStreams += manager.dataStreams.length;
+      totalAlerts += manager.alerts.length;
     }
 
-    this.stats.lastUpdate = Date.now();
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): IoTStats {
-    return {
-      totalDevices: 0,
-      onlineDevices: 0,
-      totalDataPoints: 0,
-      averageDataQuality: 0,
-      totalAlerts: 0,
-      activeAlerts: 0,
-      totalAutomations: 0,
-      activeAutomations: 0,
-      lastUpdate: Date.now()
-    };
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.iots.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+    this.performanceMetrics.totalDevices = totalDevices;
+    this.performanceMetrics.onlineDevices = onlineDevices;
+    this.performanceMetrics.totalGateways = totalGateways;
+    this.performanceMetrics.onlineGateways = onlineGateways;
+    this.performanceMetrics.totalDataStreams = totalDataStreams;
+    this.performanceMetrics.totalAlerts = totalAlerts;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultIoTManager = new IoTManager();
-export { IoTManager as default };
