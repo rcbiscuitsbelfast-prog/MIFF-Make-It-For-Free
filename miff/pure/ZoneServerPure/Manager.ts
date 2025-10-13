@@ -77,15 +77,8 @@ export class ZoneServerManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'ZoneServerManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

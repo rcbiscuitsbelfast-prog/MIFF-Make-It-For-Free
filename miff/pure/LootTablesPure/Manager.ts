@@ -93,8 +93,7 @@ export class LootTablesManager {
             id: 'gold_coin',
             weight: 50,
             rarity: 'common',
-            statRolls: [{ key: 'value', min: 1, max: 5;
-    }]
+            statRolls: [{ key: 'value', min: 1, max: 5 }]
           },
           {
             id: 'health_potion',
@@ -106,10 +105,8 @@ export class LootTablesManager {
             weight: 10,
             rarity: 'uncommon',
             statRolls: [
-              { key: 'damage', min: 5, max: 10;
-    },
-              { key: 'durability', min: 50, max: 100;
-    }
+              { key: 'damage', min: 5, max: 10 },
+              { key: 'durability', min: 50, max: 100 }
             ]
           },
           {
@@ -117,8 +114,7 @@ export class LootTablesManager {
             weight: 5,
             rarity: 'rare',
             statRolls: [
-              { key: 'magic_power', min: 10, max: 25;
-    }
+              { key: 'magic_power', min: 10, max: 25 }
             ]
           }
         ],
@@ -142,8 +138,7 @@ export class LootTablesManager {
             weight: 100,
             rarity: 'epic',
             statRolls: [
-              { key: 'power', min: 50, max: 100;
-    }
+              { key: 'power', min: 50, max: 100 }
             ]
           },
           {

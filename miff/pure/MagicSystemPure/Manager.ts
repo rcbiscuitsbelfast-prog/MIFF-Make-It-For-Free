@@ -28,15 +28,8 @@ export class MagicManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'MagicSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
