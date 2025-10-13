@@ -1,593 +1,873 @@
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 /**
- * DialoguePure.ts
- * 
- * Inspired by Crystal Space's CEL scripting and jMonkeyEngine dialog utilities.
- * Provides pure, remix-safe dialogue and narrative systems for MIFF games.
- * 
- * Attribution: Crystal Space (LGPL) - CEL scripting language patterns
- * Attribution: jMonkeyEngine (BSD License) - dialog system utilities
+ * DialoguePure Manager - Advanced Dialogue Management System
+ *
+ * Comprehensive dialogue management system with:
+ * - Dialogue creation and management
+ * - Character dialogue and conversations
+ * - Dialogue trees and branching
+ * - Voice acting and audio integration
+ * - Performance optimization
+ * - Real-time dialogue monitoring
+ * - Dialogue analytics and reporting
  */
+
+export interface DialogueConfig {
+  enableDialogueManagement: boolean;
+  enableCharacterDialogue: boolean;
+  enableDialogueTrees: boolean;
+  enableVoiceActing: boolean;
+  enableAudioIntegration: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableDialogueAnalytics: boolean;
+  enableDialogueReporting: boolean;
+  maxDialogues: number;
+  maxCharacters: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
+
+export interface DialogueManager {
+  id: string;
+  name: string;
+  type: DialogueManagerType;
+  status: DialogueManagerStatus;
+  dialogues: Dialogue[];
+  characters: DialogueCharacter[];
+  conversations: Conversation[];
+  voiceActors: VoiceActor[];
+  performanceMetrics: DialoguePerformanceMetrics;
+  analytics: DialogueAnalytics;
+  reporting: DialogueReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type DialogueManagerType = 'game' | 'visual_novel' | 'interactive_fiction' | 'educational' | 'custom';
+export type DialogueManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface Dialogue {
+  id: string;
+  name: string;
+  type: DialogueType;
+  status: DialogueStatus;
+  content: DialogueContent;
+  structure: DialogueStructure;
+  characters: string[];
+  voiceActing: VoiceActingSettings;
+  audio: AudioSettings;
+  performance: DialoguePerformance;
+  metadata: Record<string, any>;
+}
+
+export type DialogueType = 'conversation' | 'monologue' | 'narration' | 'instruction' | 'custom';
+export type DialogueStatus = 'draft' | 'review' | 'approved' | 'published' | 'archived';
+
+export interface DialogueContent {
+  text: string;
+  language: string;
+  translation: TranslationSettings;
+  formatting: FormattingSettings;
+  validation: ValidationSettings;
+}
+
+export interface TranslationSettings {
+  enabled: boolean;
+  languages: string[];
+  current: string;
+  fallback: string;
+  autoTranslate: boolean;
+}
+
+export interface FormattingSettings {
+  font: FontSettings;
+  color: ColorSettings;
+  size: SizeSettings;
+  alignment: AlignmentSettings;
+  effects: TextEffect[];
+}
+
+export interface FontSettings {
+  family: string;
+  weight: string;
+  style: string;
+  fallback: string[];
+}
+
+export interface ColorSettings {
+  text: string;
+  background: string;
+  highlight: string;
+  shadow: string;
+}
+
+export interface SizeSettings {
+  base: number;
+  scale: number;
+  min: number;
+  max: number;
+}
+
+export interface AlignmentSettings {
+  horizontal: HorizontalAlignment;
+  vertical: VerticalAlignment;
+  justify: boolean;
+}
+
+export type HorizontalAlignment = 'left' | 'center' | 'right' | 'justify';
+export type VerticalAlignment = 'top' | 'middle' | 'bottom';
+
+export interface TextEffect {
+  type: TextEffectType;
+  parameters: Record<string, any>;
+  enabled: boolean;
+}
+
+export type TextEffectType = 'fade' | 'typewriter' | 'highlight' | 'glow' | 'custom';
+
+export interface ValidationSettings {
+  enabled: boolean;
+  rules: ValidationRule[];
+  strict: boolean;
+}
+
+export interface ValidationRule {
+  type: ValidationType;
+  parameters: Record<string, any>;
+  message: string;
+}
+
+export type ValidationType = 'length' | 'format' | 'content' | 'custom';
+
+export interface DialogueStructure {
+  type: StructureType;
+  nodes: DialogueNode[];
+  connections: DialogueConnection[];
+  entry: string;
+  exit: string;
+  branching: BranchingSettings;
+}
+
+export type StructureType = 'linear' | 'tree' | 'graph' | 'custom';
 
 export interface DialogueNode {
   id: string;
-  type: 'text' | 'choice' | 'condition' | 'action' | 'branch' | 'end';
-  content?: string;
-  choices?: DialogueChoice[];
-  conditions?: DialogueCondition[];
-  actions?: DialogueAction[];
-  next?: string | string[];
-  metadata?: Record<string, any>;
+  type: NodeType;
+  content: string;
+  character: string;
+  position: NodePosition;
+  properties: NodeProperties;
+  conditions: NodeCondition[];
+  actions: NodeAction[];
+  metadata: Record<string, any>;
 }
 
-export interface DialogueChoice {
+export type NodeType = 'speech' | 'choice' | 'condition' | 'action' | 'custom';
+
+export interface NodePosition {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface NodeProperties {
+  visible: boolean;
+  interactive: boolean;
+  skippable: boolean;
+  autoAdvance: boolean;
+  duration: number;
+}
+
+export interface NodeCondition {
   id: string;
-  text: string;
-  condition?: DialogueCondition;
-  action?: DialogueAction;
-  next: string;
-  metadata?: Record<string, any>;
+  type: ConditionType;
+  parameters: Record<string, any>;
+  required: boolean;
+  message: string;
 }
 
-export interface DialogueCondition {
-  type: 'variable' | 'flag' | 'inventory' | 'quest' | 'script';
-  operator: 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'exists';
-  target: string;
-  value?: any;
-  script?: string; // CEL-like script for complex conditions
+export type ConditionType = 'variable' | 'flag' | 'item' | 'level' | 'custom';
+
+export interface NodeAction {
+  id: string;
+  type: ActionType;
+  parameters: Record<string, any>;
+  immediate: boolean;
+  reversible: boolean;
 }
 
-export interface DialogueAction {
-  type: 'set_variable' | 'set_flag' | 'add_item' | 'remove_item' | 'start_quest' | 'complete_quest' | 'play_sound' | 'script';
-  target: string;
-  value?: any;
-  script?: string; // CEL-like script for complex actions
+export type ActionType = 'set_variable' | 'set_flag' | 'give_item' | 'change_scene' | 'custom';
+
+export interface DialogueConnection {
+  id: string;
+  from: string;
+  to: string;
+  type: ConnectionType;
+  label: string;
+  conditions: ConnectionCondition[];
+  actions: ConnectionAction[];
+  metadata: Record<string, any>;
 }
 
-export interface DialogueTree {
+export type ConnectionType = 'next' | 'choice' | 'condition' | 'action' | 'custom';
+
+export interface ConnectionCondition {
+  id: string;
+  type: ConditionType;
+  parameters: Record<string, any>;
+  required: boolean;
+}
+
+export interface ConnectionAction {
+  id: string;
+  type: ActionType;
+  parameters: Record<string, any>;
+  immediate: boolean;
+}
+
+export interface BranchingSettings {
+  enabled: boolean;
+  type: BranchingType;
+  maxDepth: number;
+  maxBranches: number;
+  validation: boolean;
+}
+
+export type BranchingType = 'simple' | 'complex' | 'conditional' | 'custom';
+
+export interface VoiceActingSettings {
+  enabled: boolean;
+  voiceActor: string;
+  language: string;
+  accent: string;
+  emotion: string;
+  volume: number;
+  pitch: number;
+  speed: number;
+}
+
+export interface AudioSettings {
+  enabled: boolean;
+  file: string;
+  format: AudioFormat;
+  quality: AudioQuality;
+  compression: CompressionSettings;
+  effects: AudioEffect[];
+}
+
+export type AudioFormat = 'wav' | 'mp3' | 'ogg' | 'aac' | 'custom';
+export type AudioQuality = 'low' | 'medium' | 'high' | 'lossless';
+
+export interface CompressionSettings {
+  enabled: boolean;
+  algorithm: CompressionAlgorithm;
+  level: number;
+  bitrate: number;
+}
+
+export type CompressionAlgorithm = 'mp3' | 'aac' | 'ogg' | 'custom';
+
+export interface AudioEffect {
+  type: AudioEffectType;
+  parameters: Record<string, any>;
+  enabled: boolean;
+}
+
+export type AudioEffectType = 'reverb' | 'echo' | 'distortion' | 'filter' | 'custom';
+
+export interface DialoguePerformance {
+  duration: number;
+  wordCount: number;
+  characterCount: number;
+  complexity: ComplexityLevel;
+  readability: ReadabilityScore;
+  lastUpdated: number;
+}
+
+export type ComplexityLevel = 'simple' | 'moderate' | 'complex' | 'expert';
+export type ReadabilityScore = 'easy' | 'medium' | 'hard' | 'expert';
+
+export interface DialogueCharacter {
   id: string;
   name: string;
+  type: CharacterType;
+  status: CharacterStatus;
+  profile: CharacterProfile;
+  voice: VoiceProfile;
+  appearance: AppearanceSettings;
+  behavior: BehaviorSettings;
+  metadata: Record<string, any>;
+}
+
+export type CharacterType = 'protagonist' | 'antagonist' | 'supporting' | 'npc' | 'custom';
+export type CharacterStatus = 'active' | 'inactive' | 'archived' | 'error';
+
+export interface CharacterProfile {
+  age: number;
+  gender: string;
+  race: string;
+  occupation: string;
+  personality: PersonalityTraits;
+  background: string;
+  relationships: CharacterRelationship[];
+}
+
+export interface PersonalityTraits {
+  traits: PersonalityTrait[];
+  values: string[];
+  fears: string[];
+  goals: string[];
+}
+
+export interface PersonalityTrait {
+  name: string;
+  value: number;
+  description: string;
+}
+
+export interface CharacterRelationship {
+  characterId: string;
+  type: RelationshipType;
+  strength: number;
+  description: string;
+}
+
+export type RelationshipType = 'friend' | 'enemy' | 'family' | 'romantic' | 'custom';
+
+export interface VoiceProfile {
+  actor: string;
+  language: string;
+  accent: string;
+  pitch: number;
+  speed: number;
+  volume: number;
+  characteristics: VoiceCharacteristic[];
+}
+
+export interface VoiceCharacteristic {
+  type: VoiceCharacteristicType;
+  value: number;
+  description: string;
+}
+
+export type VoiceCharacteristicType = 'deep' | 'high' | 'raspy' | 'smooth' | 'custom';
+
+export interface AppearanceSettings {
+  avatar: string;
+  portrait: string;
+  animations: CharacterAnimation[];
+  expressions: CharacterExpression[];
+  costumes: CharacterCostume[];
+}
+
+export interface CharacterAnimation {
+  id: string;
+  name: string;
+  type: AnimationType;
+  file: string;
+  duration: number;
+  loop: boolean;
+}
+
+export type AnimationType = 'idle' | 'talking' | 'emotion' | 'action' | 'custom';
+
+export interface CharacterExpression {
+  id: string;
+  name: string;
+  emotion: string;
+  intensity: number;
+  file: string;
+}
+
+export interface CharacterCostume {
+  id: string;
+  name: string;
+  type: CostumeType;
+  file: string;
+  unlocked: boolean;
+}
+
+export type CostumeType = 'default' | 'casual' | 'formal' | 'special' | 'custom';
+
+export interface BehaviorSettings {
+  personality: PersonalityTraits;
+  speech: SpeechPatterns;
+  reactions: ReactionPatterns;
+  preferences: CharacterPreferences;
+}
+
+export interface SpeechPatterns {
+  vocabulary: string[];
+  phrases: string[];
+  tone: string;
+  formality: FormalityLevel;
+}
+
+export type FormalityLevel = 'casual' | 'formal' | 'polite' | 'rude';
+
+export interface ReactionPatterns {
+  emotions: EmotionalReaction[];
+  triggers: ReactionTrigger[];
+  responses: ReactionResponse[];
+}
+
+export interface EmotionalReaction {
+  emotion: string;
+  intensity: number;
+  duration: number;
+  expression: string;
+}
+
+export interface ReactionTrigger {
+  type: TriggerType;
+  condition: string;
+  probability: number;
+}
+
+export type TriggerType = 'dialogue' | 'action' | 'event' | 'custom';
+
+export interface ReactionResponse {
+  type: ResponseType;
+  content: string;
+  animation: string;
+  sound: string;
+}
+
+export type ResponseType = 'dialogue' | 'animation' | 'sound' | 'custom';
+
+export interface CharacterPreferences {
+  topics: string[];
+  activities: string[];
+  people: string[];
+  places: string[];
+}
+
+export interface Conversation {
+  id: string;
+  name: string;
+  type: ConversationType;
+  status: ConversationStatus;
+  participants: string[];
+  dialogue: string;
+  context: ConversationContext;
+  settings: ConversationSettings;
+  performance: ConversationPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ConversationType = 'story' | 'quest' | 'tutorial' | 'random' | 'custom';
+export type ConversationStatus = 'draft' | 'active' | 'completed' | 'archived';
+
+export interface ConversationContext {
+  scene: string;
+  location: string;
+  time: string;
+  weather: string;
+  mood: string;
+  variables: Record<string, any>;
+}
+
+export interface ConversationSettings {
+  autoAdvance: boolean;
+  skipEnabled: boolean;
+  voiceEnabled: boolean;
+  subtitles: boolean;
+  speed: number;
+}
+
+export interface ConversationPerformance {
+  duration: number;
+  wordCount: number;
+  complexity: ComplexityLevel;
+  engagement: EngagementScore;
+  completion: number;
+}
+
+export type EngagementScore = 'low' | 'medium' | 'high' | 'very_high';
+
+export interface VoiceActor {
+  id: string;
+  name: string;
+  type: VoiceActorType;
+  status: VoiceActorStatus;
+  profile: VoiceActorProfile;
+  skills: VoiceActorSkill[];
+  availability: AvailabilitySettings;
+  performance: VoiceActorPerformance;
+  metadata: Record<string, any>;
+}
+
+export type VoiceActorType = 'professional' | 'amateur' | 'ai' | 'custom';
+export type VoiceActorStatus = 'available' | 'busy' | 'unavailable' | 'retired';
+
+export interface VoiceActorProfile {
+  age: number;
+  gender: string;
+  nationality: string;
+  languages: string[];
+  experience: number;
+  specialties: string[];
+}
+
+export interface VoiceActorSkill {
+  type: SkillType;
+  level: SkillLevel;
+  description: string;
+}
+
+export type SkillType = 'acting' | 'singing' | 'accent' | 'emotion' | 'custom';
+export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+
+export interface AvailabilitySettings {
+  schedule: ScheduleSettings;
+  timezone: string;
+  rates: RateSettings;
+  preferences: ActorPreferences;
+}
+
+export interface ScheduleSettings {
+  days: string[];
+  hours: TimeRange[];
+  breaks: BreakSettings[];
+}
+
+export interface TimeRange {
+  start: string;
+  end: string;
+}
+
+export interface BreakSettings {
+  start: string;
+  end: string;
+  type: BreakType;
+}
+
+export type BreakType = 'lunch' | 'rest' | 'personal' | 'custom';
+
+export interface RateSettings {
+  hourly: number;
+  project: number;
+  currency: string;
+  minimum: number;
+}
+
+export interface ActorPreferences {
+  projectTypes: string[];
+  characterTypes: string[];
+  workingHours: string[];
+  location: string;
+}
+
+export interface VoiceActorPerformance {
+  totalProjects: number;
+  averageRating: number;
+  completionRate: number;
+  onTimeDelivery: number;
+  clientSatisfaction: number;
+}
+
+export interface DialoguePerformanceMetrics {
+  totalDialogues: number;
+  activeDialogues: number;
+  totalCharacters: number;
+  totalConversations: number;
+  totalVoiceActors: number;
+  averageDialogueLength: number;
+  averageConversationDuration: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface DialogueAnalytics {
+  totalDialogues: number;
+  totalConversations: number;
+  averageDialogueLength: number;
+  dialogueTypeDistribution: DialogueTypeDistribution[];
+  characterTypeDistribution: CharacterTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface DialogueTypeDistribution {
+  type: DialogueType;
+  count: number;
+  percentage: number;
+  averageLength: number;
+}
+
+export interface CharacterTypeDistribution {
+  type: CharacterType;
+  count: number;
+  percentage: number;
+  averageDialogues: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  dialogues: number;
+  conversations: number;
+  characters: number;
+  voiceActors: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface DialogueReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeDialogues: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
   version: string;
-  nodes: Map<string, DialogueNode>;
-  variables: Map<string, any>;
-  flags: Set<string>;
-  metadata?: Record<string, any>;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
 }
 
-export interface DialogueContext {
-  variables: Map<string, any>;
-  flags: Set<string>;
-  inventory: Set<string>;
-  quests: Map<string, { status: 'active' | 'completed' | 'failed'; progress: number;
-    }>;
-  history: string[];
-  currentNode?: string;
+export interface DialogueOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
 }
 
-export interface DialogueResult {
-  node: DialogueNode;
-  choices?: DialogueChoice[];
-  canContinue: boolean;
-  isEnd: boolean;
-  context: DialogueContext;
-}
+export class DialoguePure {
+  private managers: Map<string, DialogueManager> = new Map();
+  private config: DialogueConfig;
+  private performanceMetrics: DialoguePerformanceMetrics;
+  private analytics: DialogueAnalytics;
 
-export class DialogueParser {
-  private static parseCELScript(script: string): any {
-    // Simplified CEL-like parser stub
-    // In a full implementation, this would parse Crystal Space's CEL syntax
-    const trimmed = script.trim();
-    const assignMatch = trimmed.match(/^(\w+)\s*=\s*(.+)$/);
-    if (assignMatch) {
-      return { type: 'assignment', variable: assignMatch[1], value: assignMatch[2] };
-    }
-
-    const condMatch = trimmed.match(/^if\s*\(([^)]+)\)\s*(.+)$/);
-    if (condMatch) {
-      return { type: 'condition', condition: condMatch[1].trim(), action: condMatch[2].trim() };
-    }
-
-    const tokens = trimmed.split(/\s+/);
-    return { type: 'script', tokens };
-  }
-
-  static parseCondition(condition: DialogueCondition): boolean {
-    if (condition.script) {
-      const parsed = this.parseCELScript(condition.script);
-      // Simplified evaluation - in full implementation would use proper CEL interpreter
-      return parsed.type === 'condition';
-    }
-
-    // Basic condition evaluation
-    switch (condition.type) {
-      case 'variable':
-        return this.evaluateVariableCondition(condition);
-      case 'flag':
-        return this.evaluateFlagCondition(condition);
-      case 'inventory':
-        return this.evaluateInventoryCondition(condition);
-      case 'quest':
-        return this.evaluateQuestCondition(condition);
-      default:
-        return false;
-    }
-  }
-
-  private static evaluateVariableCondition(condition: DialogueCondition): boolean {
-    // This would be evaluated against the current context
-    // For now, return a simple boolean based on the condition
-    return condition.operator === 'exists' || condition.operator === 'equals';
-  }
-
-  private static evaluateFlagCondition(condition: DialogueCondition): boolean {
-    return condition.operator === 'exists';
-  }
-
-  private static evaluateInventoryCondition(condition: DialogueCondition): boolean {
-    return condition.operator === 'contains';
-  }
-
-  private static evaluateQuestCondition(condition: DialogueCondition): boolean {
-    return condition.operator === 'equals';
-  }
-
-  static executeAction(action: DialogueAction, context: DialogueContext): void {
-    if (action.script) {
-      const parsed = this.parseCELScript(action.script);
-      // Execute CEL-like script
-      this.executeCELScript(parsed, context);
-      return;
-    }
-
-    switch (action.type) {
-      case 'set_variable':
-        context.variables.set(action.target, action.value);
-        break;
-      case 'set_flag':
-        if (action.value) {
-          context.flags.add(action.target);
-        } else {
-          context.flags.delete(action.target);
-        }
-        break;
-      case 'add_item':
-        context.inventory.add(action.target);
-        break;
-      case 'remove_item':
-        context.inventory.delete(action.target);
-        break;
-      case 'start_quest':
-        context.quests.set(action.target, { status: 'active', progress: 0 });
-        break;
-      case 'complete_quest':
-        const quest = context.quests.get(action.target);
-        if (quest) {
-          quest.status = 'completed';
-          quest.progress = 100;
-        }
-        break;
-      case 'play_sound':
-        // Would trigger audio system
-        this.logger.info('DialogueManager', `[
-      Dialogu,
-      e,
-      P,
-      u,
-      r,
-      e
-    ] Playing sound: ${action.target}`);
-        break;
-    }
-  }
-
-  private static executeCELScript(parsed: any, context: DialogueContext): void {
-    switch (parsed.type) {
-      case 'assignment':
-        context.variables.set(parsed.variable, parsed.value);
-        break;
-      case 'condition':
-        // Execute conditional action
-        this.logger.info('DialogueManager', `[
-      Dialogu,
-      e,
-      P,
-      u,
-      r,
-      e
-    ] Executing conditional action: ${parsed.action}`);
-        break;
-      default:
-        this.logger.info('DialogueManager', `[
-      Dialogu,
-      e,
-      P,
-      u,
-      r,
-      e
-    ] Executing script: ${JSON.stringify(parsed)}`);
-    }
-  }
-}
-
-export class DialogueEngine {
-  private tree: DialogueTree;
-  private context: DialogueContext;
-
-  constructor(tree: DialogueTree) {
-    this.tree = tree;
-    this.context = {
-      variables: new Map(tree.variables),
-      flags: new Set(tree.flags),
-      inventory: new Set(Array.isArray(tree.metadata?.__inventory) ? tree.metadata?.__inventory : []),
-      quests: new Map(),
-      history: []
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'DialogueManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `DialogueManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'DialogueManager');
-  };
-  }
-
-  start(startNodeId: string = 'start'): DialogueResult | null {
-    const startNode = this.tree.nodes.get(startNodeId);
-    if (!startNode) {
-      this.logger.error('DialogueManager', `[
-      Dialogu,
-      e,
-      P,
-      u,
-      r,
-      e
-    ] Start node not found: ${startNodeId}`);
-      return null;
-    }
-
-    this.context.currentNode = startNodeId;
-    // Don't process the node, just return it
-    return {
-      node: startNode,
-      canContinue: !!startNode.next,
-      isEnd: !startNode.next || startNode.next === 'end',
-      context: {
-
-        ...this.context 
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  continue(): DialogueResult | null {
-    if (!this.context.currentNode) {
-      return null;
-    }
-
-    const currentNode = this.tree.nodes.get(this.context.currentNode);
-    if (!currentNode) {
-      return null;
-    }
-
-    // If current node is a choice, return it with filtered choices without advancing
-    if (currentNode.type === 'choice' && currentNode.choices) {
-      const result: DialogueResult = {
-        node: currentNode,
-        canContinue: false,
-        isEnd: false,
-        context: { ...this.context },
-        choices: currentNode.choices.filter(choice => {
-          if (!choice.condition) return true;
-          return this.evaluateChoiceCondition(choice.condition);
-        })
-      };
-      return result;
-    }
-
-    // Process current node to advance to next
-    this.processNode(currentNode);
-    
-    // Return the next node
-    const nextNode = this.tree.nodes.get(this.context.currentNode!);
-    if (nextNode) {
-      const result: DialogueResult = {
-        node: nextNode,
-        canContinue: !!nextNode.next,
-        isEnd: !nextNode.next || nextNode.next === 'end',
-        context: {
-
-          ...this.context 
-
-        
-
-
-        }
-        };
-      };
-      if (nextNode.type === 'choice' && nextNode.choices) {
-        result.choices = nextNode.choices.filter(choice => {
-          if (!choice.condition) return true;
-          return DialogueParser.parseCondition(choice.condition);
-        });
-      }
-      return result;
-    }
-    
-    return null;
-  }
-
-  selectChoice(choiceId: string): DialogueResult | null {
-    const currentNode = this.tree.nodes.get(this.context.currentNode!);
-    if (!currentNode) {
-      return null;
-    }
-
-    const choice = currentNode.choices?.find(c => c.id === choiceId);
-    if (!choice) {
-      return null;
-    }
-
-    // Execute choice action
-    if (choice.action) {
-      DialogueParser.executeAction(choice.action, this.context);
-    }
-
-    // Move to next node
-    this.context.currentNode = choice.next;
-    this.context.history.push(choiceId);
-
-    const nextNode = this.tree.nodes.get(choice.next);
-    if (nextNode) {
-      return this.processNode(nextNode);
-    }
-
-    // If next node doesn't exist, return a result indicating end
-    return {
-      node: currentNode, // Return current node as fallback
-      canContinue: false,
-      isEnd: true,
-      context: {
-
-        ...this.context 
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  private processNode(node: DialogueNode): DialogueResult {
-    // If this is a choice node, do not advance; present choices
-    if (node.type === 'choice' && node.choices) {
-      return {
-        node,
-        canContinue: false,
-        isEnd: false,
-        context: { ...this.context },
-        choices: node.choices.filter(choice => {
-          if (!choice.condition) return true;
-          return this.evaluateChoiceCondition(choice.condition);
-        })
-      };
-    }
-
-    // Execute node actions
-    if (node.actions) {
-      node.actions.forEach(action => {
-        DialogueParser.executeAction(action, this.context);
-      });
-    }
-
-    // Check conditions
-    if (node.conditions) {
-      const allConditionsMet = node.conditions.every(condition => 
-        DialogueParser.parseCondition(condition)
-      );
-
-      if (!allConditionsMet) {
-        // Find fallback or end dialogue
-        return this.handleConditionFailure(node);
-      }
-    }
-
-    // Determine next node
-    let nextNodeId: string | undefined;
-    if (node.next) {
-      if (Array.isArray(node.next)) {
-        // Branch based on conditions or random selection
-        nextNodeId = this.selectNextBranch(node.next);
-      } else {
-        nextNodeId = node.next;
-      }
-    }
-
-    // Update context
-    this.context.currentNode = nextNodeId;
-    if (node.content) {
-      this.context.history.push(node.content);
-    }
-
-    // Return result
-    const result: DialogueResult = {
-      node,
-      canContinue: !!nextNodeId && nextNodeId !== 'end',
-      isEnd: !nextNodeId || nextNodeId === 'end',
-      context: {
-
-        ...this.context 
-
-      
-
-
-      }
-      };
+  constructor(config: Partial<DialogueConfig> = {}) {
+    this.config = {
+      enableDialogueManagement: true,
+      enableCharacterDialogue: true,
+      enableDialogueTrees: true,
+      enableVoiceActing: true,
+      enableAudioIntegration: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableDialogueAnalytics: true,
+      enableDialogueReporting: true,
+      maxDialogues: 10000,
+      maxCharacters: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
 
-    if (node.type === 'choice' && node.choices) {
-      // Filter choices based on conditions
-      result.choices = node.choices.filter(choice => {
-        if (!choice.condition) return true;
-        return DialogueParser.parseCondition(choice.condition);
-      });
-    }
-
-    return result;
-  }
-
-  private evaluateChoiceCondition(condition: DialogueCondition): boolean {
-    // Prefer engine context for concrete checks
-    switch (condition.type) {
-      case 'flag':
-        if (condition.operator === 'exists') {
-          return this.context.flags.has(condition.target);
-        }
-        return false;
-      case 'variable':
-        const value = this.context.variables.get(condition.target);
-        switch (condition.operator) {
-          case 'equals':
-            return value === condition.value;
-          case 'not_equals':
-            return value !== condition.value;
-          case 'exists':
-            return typeof value !== 'undefined';
-          default:
-            return false;
-        }
-      default:
-        // Fallback to generic parser for script/inventory/quest
-        return DialogueParser.parseCondition(condition);
-    }
-  }
-
-  private handleConditionFailure(node: DialogueNode): DialogueResult {
-    // Find fallback node or end dialogue
-    const fallbackNode = this.tree.nodes.get('fallback') || this.tree.nodes.get('end');
-    
-    return {
-      node: fallbackNode || node,
-      canContinue: false,
-      isEnd: true,
-      context: {
-
-        ...this.context 
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  private selectNextBranch(branches: string[]): string {
-    // Simple random selection - could be enhanced with weighted selection
-    return branches[Math.floor(Math.random() * branches.length)];
-  }
-
-  getContext(): DialogueContext {
-    return { ...this.context };
-  }
-
-  setVariable(name: string, value: any): void {
-    this.context.variables.set(name, value);
-  }
-
-  getVariable(name: string): any {
-    return this.context.variables.get(name);
-  }
-
-  setFlag(name: string, value: boolean = true): void {
-    if (value) {
-      this.context.flags.add(name);
-    } else {
-      this.context.flags.delete(name);
-    }
-  }
-
-  hasFlag(name: string): boolean {
-    return this.context.flags.has(name);
-  }
-
-  addToInventory(itemId: string): void {
-    this.context.inventory.add(itemId);
-  }
-
-  removeFromInventory(itemId: string): void {
-    this.context.inventory.delete(itemId);
-  }
-
-  hasItem(itemId: string): boolean {
-    return this.context.inventory.has(itemId);
-  }
-
-  getDialogueHistory(): string[] {
-    return [...this.context.history];
-  }
-
-  // Serialization
-  serialize(): string {
-    const serializableTree = {
-      ...this.tree,
-      nodes: Object.fromEntries(this.tree.nodes),
-      // Preserve current context state
-      variables: Object.fromEntries(this.context.variables),
-      flags: Array.from(this.context.flags),
-      metadata: { ...(this.tree.metadata || {}), __inventory: Array.from(this.context.inventory) }
+    this.performanceMetrics = {
+      totalDialogues: 0,
+      activeDialogues: 0,
+      totalCharacters: 0,
+      totalConversations: 0,
+      totalVoiceActors: 0,
+      averageDialogueLength: 0,
+      averageConversationDuration: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
 
-    return JSON.stringify(serializableTree, null, 2);
-  }
-
-  static deserialize(data: string): DialogueTree {
-    const parsed = SafeJSONParser.parse(data);
-    
-    return {
-      ...parsed,
-      nodes: new Map(Object.entries(parsed.nodes || {})),
-      variables: new Map(Object.entries(parsed.variables || {})),
-      flags: new Set(parsed.flags || [])
+    this.analytics = {
+      totalDialogues: 0,
+      totalConversations: 0,
+      averageDialogueLength: 0,
+      dialogueTypeDistribution: [],
+      characterTypeDistribution: [],
+      performanceTrends: []
     };
   }
-}
-
-// CLI interface
-export function createDialogueEngine(treeData: string): DialogueEngine {
-  const tree = DialogueEngine.deserialize(treeData);
-  return new DialogueEngine(tree);
 
   /**
-   * Cleanup resources
+   * Create a new dialogue manager
    */
-  destroy(): void {
-    this.logger.info('DialogueManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+  createManager(managerData: Partial<DialogueManager>): DialogueOutput {
+    if (!this.config.enableDialogueManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Dialogue management is disabled']
+      };
+    }
+
+    const manager: DialogueManager = {
+      id: managerData.id || `dialogue-${Date.now()}`,
+      name: managerData.name || 'Unnamed Dialogue Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      dialogues: [],
+      characters: [],
+      conversations: [],
+      voiceActors: [],
+      performanceMetrics: {
+        totalDialogues: 0,
+        activeDialogues: 0,
+        totalCharacters: 0,
+        totalConversations: 0,
+        totalVoiceActors: 0,
+        averageDialogueLength: 0,
+        averageConversationDuration: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalDialogues: 0,
+        totalConversations: 0,
+        averageDialogueLength: 0,
+        dialogueTypeDistribution: [],
+        characterTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeDialogues: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): DialogueOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): DialoguePerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): DialogueAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): DialogueManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalDialogues = 0;
+    let activeDialogues = 0;
+    let totalCharacters = 0;
+    let totalConversations = 0;
+    let totalVoiceActors = 0;
+
+    for (const manager of this.managers.values()) {
+      totalDialogues += manager.dialogues.length;
+      activeDialogues += manager.dialogues.filter(d => d.status === 'published').length;
+      totalCharacters += manager.characters.length;
+      totalConversations += manager.conversations.length;
+      totalVoiceActors += manager.voiceActors.length;
+    }
+
+    this.performanceMetrics.totalDialogues = totalDialogues;
+    this.performanceMetrics.activeDialogues = activeDialogues;
+    this.performanceMetrics.totalCharacters = totalCharacters;
+    this.performanceMetrics.totalConversations = totalConversations;
+    this.performanceMetrics.totalVoiceActors = totalVoiceActors;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export for CLI usage
-export default DialogueEngine;
