@@ -230,15 +230,8 @@ export class OverlinkManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'OverlinkManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

@@ -136,13 +136,9 @@ export class SportsManager {
       gameId: game.id,
       teams: game.teams,
       finalScore: {
-
         team1: 0,
-
-        team2: 0;
-
-      }
-    },
+        team2: 0
+      },
       winner: null,
       duration: 0,
       highlights: [],
