@@ -1,1204 +1,857 @@
 /**
- * XPLevelingPure Manager
- * 
- * Advanced experience and leveling system including XP curves, skill trees,
- * stat progression, and comprehensive character advancement.
+ * XPLevelingPure Manager - Advanced XP and Leveling Management System
+ *
+ * Comprehensive XP and leveling management system with:
+ * - Experience point calculation and tracking
+ * - Level progression and rewards
+ * - Skill trees and specializations
+ * - Achievement systems
+ * - Performance optimization
+ * - Real-time leveling monitoring
+ * - Leveling analytics and reporting
  */
 
-export interface LevelEntry {
-  level: number;
-  nextLevelXp: number;
-  statBoosts?: { stat: string; amount: number;
-    }[];
-  unlockedSkills?: string[];
-  rewards?: { type: 'item' | 'skill' | 'ability'; id: string; quantity?: number }[];
-  metadata?: Record<string, any>;
+export interface XPLevelingConfig {
+  enableXPCalculation: boolean;
+  enableLevelProgression: boolean;
+  enableSkillTrees: boolean;
+  enableAchievements: boolean;
+  enableRewards: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableLevelingAnalytics: boolean;
+  enableLevelingReporting: boolean;
+  maxLevel: number;
+  maxSkills: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export enum XPCurrency {
-  COMBAT = 'combat',
-  QUEST = 'quest',
-  EXPLORATION = 'exploration',
-  CRAFTING = 'crafting',
-  SOCIAL = 'social',
-  ACHIEVEMENT = 'achievement',
-  EVENT = 'event',
-  CUSTOM = 'custom'
-}
-
-export interface XPMultiplier {
-  source: XPCurrency | string;
-  multiplier: number;
-  duration?: number; // in milliseconds, undefined = permanent
-  description?: string;
-}
-
-export interface XPChallenge {
+export interface XPLevelingManager {
   id: string;
   name: string;
-  description: string;
-  xpReward: number;
-  currency: XPCurrency;
-  requirements: Record<string, any>;
-  timeLimit?: number;
-  isActive: boolean;
-  completedBy?: string[];
+  type: XPLevelingManagerType;
+  status: XPLevelingManagerStatus;
+  players: Player[];
+  skills: Skill[];
+  achievements: Achievement[];
+  rewards: Reward[];
+  performanceMetrics: XPLevelingPerformanceMetrics;
+  analytics: XPLevelingAnalytics;
+  reporting: XPLevelingReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export interface XPEntity {
+export type XPLevelingManagerType = 'game' | 'education' | 'training' | 'custom';
+export type XPLevelingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface Player {
   id: string;
+  name: string;
   level: number;
   xp: number;
-  nextLevelXp: number;
-  totalXp: number;
-  xpByCurrency: Map<XPCurrency, number>; // XP earned by currency type
-  skills: Map<string, number>; // skill -> level
-  stats: Map<string, number>; // stat -> value
-  lastLevelUp: number;
-  xpMultipliers: XPMultiplier[];
-  activeChallenges: string[];
-  metadata?: Record<string, any>;
+  totalXP: number;
+  skills: PlayerSkill[];
+  achievements: PlayerAchievement[];
+  rewards: PlayerReward[];
+  stats: PlayerStats;
+  preferences: PlayerPreferences;
+  metadata: Record<string, any>;
 }
 
-export interface XPCurve {
+export interface PlayerSkill {
+  skillId: string;
+  level: number;
+  xp: number;
+  unlocked: boolean;
+  purchased: boolean;
+  lastUsed: number;
+}
+
+export interface PlayerAchievement {
+  achievementId: string;
+  unlocked: boolean;
+  unlockedAt: number;
+  progress: number;
+  completed: boolean;
+}
+
+export interface PlayerReward {
+  rewardId: string;
+  claimed: boolean;
+  claimedAt?: number;
+  quantity: number;
+}
+
+export interface PlayerStats {
+  totalPlayTime: number;
+  sessions: number;
+  averageSessionTime: number;
+  xpPerHour: number;
+  levelUps: number;
+  skillsUnlocked: number;
+  achievementsUnlocked: number;
+  rewardsClaimed: number;
+}
+
+export interface PlayerPreferences {
+  autoLevelUp: boolean;
+  showNotifications: boolean;
+  soundEnabled: boolean;
+  theme: string;
+  language: string;
+}
+
+export interface Skill {
   id: string;
   name: string;
   description: string;
-  levels: LevelEntry[];
+  category: SkillCategory;
   maxLevel: number;
-  baseXp: number;
-  growthRate: number; // multiplier for each level
-  metadata?: Record<string, any>;
+  xpPerLevel: number[];
+  prerequisites: SkillPrerequisite[];
+  effects: SkillEffect[];
+  cost: SkillCost;
+  metadata: Record<string, any>;
 }
 
-export interface LevelUpResult {
-  entityId: string;
-  oldLevel: number;
-  newLevel: number;
-  xpGained: number;
-  statBoosts: {
+export type SkillCategory = 'combat' | 'crafting' | 'social' | 'exploration' | 'magic' | 'technology';
 
-    stat: string; amount: number;
-  }[];
-  unlockedSkills: string[];
-  rewards: { type: string; id: string; quantity?: number }[];
-  totalXp: number;
+export interface SkillPrerequisite {
+  skillId: string;
+  level: number;
+  type: PrerequisiteType;
 }
 
-export interface XPStats {
-  totalEntities: number;
+export type PrerequisiteType = 'level' | 'achievement' | 'quest' | 'item';
+
+export interface SkillEffect {
+  type: EffectType;
+  value: number;
+  level: number;
+  description: string;
+}
+
+export type EffectType = 'damage' | 'defense' | 'speed' | 'health' | 'mana' | 'luck' | 'experience' | 'custom';
+
+export interface SkillCost {
+  xp: number;
+  gold: number;
+  items: CostItem[];
+  time: number;
+}
+
+export interface CostItem {
+  itemId: string;
+  quantity: number;
+}
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  category: AchievementCategory;
+  type: AchievementType;
+  requirements: AchievementRequirement[];
+  rewards: AchievementReward[];
+  hidden: boolean;
+  points: number;
+  metadata: Record<string, any>;
+}
+
+export type AchievementCategory = 'combat' | 'exploration' | 'social' | 'crafting' | 'collection' | 'special';
+export type AchievementType = 'single' | 'progressive' | 'series' | 'daily' | 'weekly' | 'monthly';
+
+export interface AchievementRequirement {
+  type: RequirementType;
+  target: string;
+  value: number;
+  operator: Operator;
+  description: string;
+}
+
+export type RequirementType = 'level' | 'xp' | 'skill' | 'item' | 'quest' | 'time' | 'custom';
+export type Operator = 'equals' | 'greater' | 'less' | 'greater_equal' | 'less_equal' | 'contains';
+
+export interface AchievementReward {
+  type: RewardType;
+  value: number;
+  itemId?: string;
+  description: string;
+}
+
+export type RewardType = 'xp' | 'gold' | 'item' | 'skill_point' | 'title' | 'custom';
+
+export interface Reward {
+  id: string;
+  name: string;
+  description: string;
+  type: RewardType;
+  value: number;
+  rarity: RewardRarity;
+  requirements: RewardRequirement[];
+  stackable: boolean;
+  maxStack: number;
+  metadata: Record<string, any>;
+}
+
+export type RewardRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
+
+export interface RewardRequirement {
+  type: RequirementType;
+  value: number;
+  description: string;
+}
+
+export interface XPLevelingPerformanceMetrics {
+  totalPlayers: number;
+  activePlayers: number;
+  totalSkills: number;
+  totalAchievements: number;
+  totalRewards: number;
   averageLevel: number;
-  totalXp: number;
-  levelDistribution: Record<number, number>;
-  skillDistribution: Record<string, number>;
-  mostCommonLevel: number;
-  highestLevel: number;
+  totalXP: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
-export interface XPFilter {
-  minLevel?: number;
-  maxLevel?: number;
-  hasSkill?: string;
-  minSkillLevel?: number;
-  maxSkillLevel?: number;
-  minXp?: number;
-  maxXp?: number;
+export interface XPLevelingAnalytics {
+  totalLevelUps: number;
+  averageLevelUpTime: number;
+  skillDistribution: SkillDistribution[];
+  achievementCompletion: AchievementCompletion[];
+  rewardClaiming: RewardClaiming[];
+  performanceTrends: PerformanceTrend[];
 }
 
-export interface XPOutput {
+export interface SkillDistribution {
+  skillId: string;
+  name: string;
+  players: number;
+  averageLevel: number;
+  popularity: number;
+}
+
+export interface AchievementCompletion {
+  achievementId: string;
+  name: string;
+  completed: number;
+  total: number;
+  completionRate: number;
+}
+
+export interface RewardClaiming {
+  rewardId: string;
+  name: string;
+  claimed: number;
+  total: number;
+  claimRate: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  players: number;
+  levelUps: number;
+  xpGained: number;
+  skillsUnlocked: number;
+  achievementsUnlocked: number;
+}
+
+export interface XPLevelingReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includePlayers: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface XPLevelingOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: XPEntity | XPEntity[] | LevelUpResult | XPStats | XPCurve | any;
+  result?: any;
   issues?: string[];
 }
 
-export class XPLevelingManager {
-  private entities: Map<string, XPEntity> = new Map();
-  private curves: Map<string, XPCurve> = new Map();
-  private levelUpHistory: LevelUpResult[] = [];
-  private activeMultipliers: XPMultiplier[] = [];
-  private challenges: Map<string, XPChallenge> = new Map();
-  private globalMultipliers: XPMultiplier[] = [];
+export class XPLevelingPure {
+  private managers: Map<string, XPLevelingManager> = new Map();
+  private config: XPLevelingConfig;
+  private performanceMetrics: XPLevelingPerformanceMetrics;
+  private analytics: XPLevelingAnalytics;
 
-  constructor() {
-    this.initializeDefaultCurves();
-  }
-
-  private initializeDefaultCurves() {
-    const defaultCurves: XPCurve[] = [
-      {
-        id: 'standard',
-        name: 'Standard Progression',
-        description: 'Balanced XP curve for general gameplay',
-        maxLevel: 100,
-        baseXp: 100,
-        growthRate: 1.1,
-        levels: this.generateLevelEntries(100, 100, 1.1),
-        metadata: {
-          type: 'balanced'
-        }
-      },
-      {
-        id: 'fast',
-        name: 'Fast Progression',
-        description: 'Quick leveling for casual gameplay',
-        maxLevel: 50,
-        baseXp: 50,
-        growthRate: 1.05,
-        levels: this.generateLevelEntries(50, 50, 1.05),
-        metadata: {
-
-          type: 'casual' 
-
-        
-
-
-        }
-        };
-      },
-      {
-        id: 'slow',
-        name: 'Slow Progression',
-        description: 'Challenging progression for hardcore gameplay',
-        maxLevel: 200,
-        baseXp: 200,
-        growthRate: 1.15,
-        levels: this.generateLevelEntries(200, 200, 1.15),
-        metadata: {
-
-          type: 'hardcore' 
-
-        
-
-
-        }
-        };
-      }
-    ];
-
-    defaultCurves.forEach(curve => this.curves.set(curve.id, curve));
-  }
-
-  private generateLevelEntries(maxLevel: number, baseXp: number, growthRate: number): LevelEntry[] {
-    const entries: LevelEntry[] = [];
-    let currentXp = baseXp;
-
-    for (let level = 1; level <= maxLevel; level++) {
-      const nextLevelXp = Math.floor(currentXp);
-      
-      entries.push({
-        level,
-        nextLevelXp,
-        statBoosts: [
-          { stat: 'health', amount: 10;
-    },
-          { stat: 'mana', amount: 5;
-    },
-          { stat: 'strength', amount: 1;
-    },
-          { stat: 'intelligence', amount: 1;
-    }
-        ],
-        unlockedSkills: level % 5 === 0 ? [`skill_${level}`] : [],
-        rewards: level % 10 === 0 ? [{ type: 'item', id: 'level_reward', quantity: 1;
-    }] : []
-      });
-
-      currentXp *= growthRate;
-    }
-
-    return entries;
-  }
-
-  /**
-   * Create a new XP entity
-   */
-  createEntity(id: string, curveId: string = 'standard', initialLevel: number = 1): XPOutput {
-    if (this.entities.has(id)) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: [`Entity ${id} already exists`]
-      };
-    }
-
-    const curve = this.curves.get(curveId);
-    if (!curve) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: [`XP curve ${curveId} not found`]
-      };
-    }
-
-    const levelEntry = curve.levels.find(l => l.level === initialLevel);
-    if (!levelEntry) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: [`Level ${initialLevel} not found in curve ${curveId}`]
-      };
-    }
-
-    const entity: XPEntity = {
-      id,
-      level: initialLevel,
-      xp: 0,
-      nextLevelXp: levelEntry.nextLevelXp,
-      totalXp: 0,
-      xpByCurrency: new Map(),
-      skills: new Map(),
-      stats: new Map(),
-      lastLevelUp: Date.now(),
-      xpMultipliers: [],
-      activeChallenges: []
+  constructor(config: Partial<XPLevelingConfig> = {}) {
+    this.config = {
+      enableXPCalculation: true,
+      enableLevelProgression: true,
+      enableSkillTrees: true,
+      enableAchievements: true,
+      enableRewards: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableLevelingAnalytics: true,
+      enableLevelingReporting: true,
+      maxLevel: 100,
+      maxSkills: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
 
-    this.entities.set(id, entity);
-    return {
-      op: 'create',
-      status: 'ok',
-      result: entity;
-    };
-  }
-
-  // Legacy addXP method removed - use the new multi-currency version
-
-  /**
-   * Get entity level
-   */
-  getLevel(entityId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'get_level',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    return {
-      op: 'get_level',
-      status: 'ok',
-      result: entity;
-    };
-  }
-
-  /**
-   * Check if entity can level up
-   */
-  checkLevelUp(entityId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'check_level_up',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    const canLevelUp = entity.xp >= entity.nextLevelXp;
-    return {
-      op: 'check_level_up',
-      status: 'ok',
-      result: {
-
-        canLevelUp, currentXp: entity.xp, requiredXp: entity.nextLevelXp 
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Force level up an entity
-   */
-  forceLevelUp(entityId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'force_level_up',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    const levelUpResult = this.applyLevelUp(entity);
-    if (levelUpResult) {
-      this.levelUpHistory.push(levelUpResult);
-      return {
-        op: 'force_level_up',
-        status: 'ok',
-        result: levelUpResult;
-    };
-    } else {
-      return {
-        op: 'force_level_up',
-        status: 'error',
-        issues: [`Entity ${entityId} cannot level up`]
-      };
-    }
-  }
-
-  /**
-   * Set entity skill level
-   */
-  setSkillLevel(entityId: string, skillId: string, level: number): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'set_skill',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    entity.skills.set(skillId, Math.max(0, level));
-    return {
-      op: 'set_skill',
-      status: 'ok',
-      result: entity;
-    };
-  }
-
-  /**
-   * Get entity skill level
-   */
-  getSkillLevel(entityId: string, skillId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'get_skill',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    const skillLevel = entity.skills.get(skillId) || 0;
-    return {
-      op: 'get_skill',
-      status: 'ok',
-      result: {
-
-        skillId, level: skillLevel;
-    
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Set entity stat value
-   */
-  setStat(entityId: string, statId: string, value: number): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'set_stat',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    entity.stats.set(statId, Math.max(0, value));
-    return {
-      op: 'set_stat',
-      status: 'ok',
-      result: entity;
-    };
-  }
-
-  /**
-   * Get entity stat value
-   */
-  getStat(entityId: string, statId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'get_stat',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    const statValue = entity.stats.get(statId) || 0;
-    return {
-      op: 'get_stat',
-      status: 'ok',
-      result: {
-
-        statId, value: statValue;
-    
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * List all entities
-   */
-  listEntities(filter?: XPFilter): XPOutput {
-    let entities = Array.from(this.entities.values());
-
-    if (filter) {
-      entities = entities.filter(entity => {
-        if (filter.minLevel !== undefined && entity.level < filter.minLevel) return false;
-        if (filter.maxLevel !== undefined && entity.level > filter.maxLevel) return false;
-        if (filter.minXp !== undefined && entity.xp < filter.minXp) return false;
-        if (filter.maxXp !== undefined && entity.xp > filter.maxXp) return false;
-        if (filter.hasSkill && !entity.skills.has(filter.hasSkill)) return false;
-        if (filter.minSkillLevel !== undefined) {
-          const skillLevel = entity.skills.get(filter.hasSkill || '') || 0;
-          if (skillLevel < filter.minSkillLevel) return false;
-        }
-        if (filter.maxSkillLevel !== undefined) {
-          const skillLevel = entity.skills.get(filter.hasSkill || '') || 0;
-          if (skillLevel > filter.maxSkillLevel) return false;
-        }
-        return true;
-      });
-    }
-
-    return {
-      op: 'list',
-      status: 'ok',
-      result: entities;
-    };
-  }
-
-  /**
-   * Get XP statistics
-   */
-  getXPStats(): XPOutput {
-    const entities = Array.from(this.entities.values());
-    
-    const stats: XPStats = {
-      totalEntities: entities.length,
+    this.performanceMetrics = {
+      totalPlayers: 0,
+      activePlayers: 0,
+      totalSkills: 0,
+      totalAchievements: 0,
+      totalRewards: 0,
       averageLevel: 0,
-      totalXp: 0,
-      levelDistribution: {},
-      skillDistribution: {},
-      mostCommonLevel: 1,
-      highestLevel: 1;
+      totalXP: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
 
-    if (entities.length > 0) {
-      const totalLevel = entities.reduce((sum, e) => sum + e.level, 0);
-      stats.averageLevel = totalLevel / entities.length;
-      stats.totalXp = entities.reduce((sum, e) => sum + e.totalXp, 0);
-      stats.highestLevel = Math.max(...entities.map(e => e.level));
-
-      // Calculate level distribution
-      entities.forEach(entity => {
-        stats.levelDistribution[entity.level] = (stats.levelDistribution[entity.level] || 0) + 1;
-      });
-
-      // Find most common level
-      const sortedLevels = Object.entries(stats.levelDistribution)
-        .sort(([,a], [,b]) => b - a);
-      stats.mostCommonLevel = parseInt(sortedLevels[0]?.[0] || '1');
-
-      // Calculate skill distribution
-      entities.forEach(entity => {
-        entity.skills.forEach((level, skillId) => {
-          stats.skillDistribution[
-      sk,
-      i,
-      l,
-      l,
-      I,
-      d
-    ] = (stats.skillDistribution[
-      sk,
-      i,
-      l,
-      l,
-      I,
-      d
-    ] || 0) + level;
-        });
-      });
-    }
-
-    return {
-      op: 'stats',
-      status: 'ok',
-      result: stats;
+    this.analytics = {
+      totalLevelUps: 0,
+      averageLevelUpTime: 0,
+      skillDistribution: [],
+      achievementCompletion: [],
+      rewardClaiming: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Create XP curve
+   * Create a new XP leveling manager
    */
-  createCurve(curve: XPCurve): XPOutput {
-    if (this.curves.has(curve.id)) {
+  createManager(managerData: Partial<XPLevelingManager>): XPLevelingOutput {
+    if (!this.config.enableXPCalculation) {
       return {
-        op: 'create_curve',
+        op: 'create-manager',
         status: 'error',
-        issues: [`XP curve ${curve.id} already exists`]
+        issues: ['XP calculation is disabled']
       };
     }
 
-    this.curves.set(curve.id, curve);
+    const manager: XPLevelingManager = {
+      id: managerData.id || `xpleveling-${Date.now()}`,
+      name: managerData.name || 'Unnamed XP Leveling Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      players: [],
+      skills: [],
+      achievements: [],
+      rewards: [],
+      performanceMetrics: {
+        totalPlayers: 0,
+        activePlayers: 0,
+        totalSkills: 0,
+        totalAchievements: 0,
+        totalRewards: 0,
+        averageLevel: 0,
+        totalXP: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalLevelUps: 0,
+        averageLevelUpTime: 0,
+        skillDistribution: [],
+        achievementCompletion: [],
+        rewardClaiming: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includePlayers: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
     return {
-      op: 'create_curve',
+      op: 'create-manager',
       status: 'ok',
-      result: curve;
+      result: manager
     };
   }
 
   /**
-   * Get XP curve
+   * Get manager by ID
    */
-  getCurve(curveId: string): XPOutput {
-    const curve = this.curves.get(curveId);
-    if (!curve) {
+  getManager(managerId: string): XPLevelingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'get_curve',
+        op: 'get-manager',
         status: 'error',
-        issues: [`XP curve ${curveId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
     return {
-      op: 'get_curve',
+      op: 'get-manager',
       status: 'ok',
-      result: curve;
+      result: manager
     };
   }
 
   /**
-   * Export XP data
+   * Create player
    */
-  exportXP(format: 'json' | 'manifest' | 'summary' | 'history' = 'json'): XPOutput {
-    const entities = Array.from(this.entities.values());
-    const curves = Array.from(this.curves.values());
-
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            entities, total: entities.length 
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            schema: 'miff.xp.export.v1',
-            entities,
-            curves,
-            history: this.levelUpHistory.slice(-100), // Last 100 level ups
-            exportedAt: new Date().toISOString(),
-            total: entities.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'summary':
-        const stats = this.getXPStats();
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            summary: stats.result,
-            entities: entities.map(entity => ({
-              id: entity.id,
-              level: entity.level,
-              xp: entity.xp,
-              totalXp: entity.totalXp,
-              skills: Object.fromEntries(entity.skills),
-              stats: Object.fromEntries(entity.stats)
-
-          }
-            }))
-          }
-        };
-      
-      case 'history':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            levelUpHistory: this.levelUpHistory,
-            total: this.levelUpHistory.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
-    }
-  }
-
-  /**
-   * Reset all XP data
-   */
-  resetXP(): XPOutput {
-    this.entities.clear();
-    this.levelUpHistory = [];
-    this.initializeDefaultCurves();
-    return {
-      op: 'reset',
-      status: 'ok',
-      result: {
-
-        message: 'All XP data reset to default state' 
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Private helper methods
-   */
-  private checkAndApplyLevelUp(entity: XPEntity): LevelUpResult | null {
-    if (entity.xp < entity.nextLevelXp) {
-      return null;
-    }
-
-    return this.applyLevelUp(entity);
-  }
-
-  private applyLevelUp(entity: XPEntity): LevelUpResult | null {
-    const oldLevel = entity.level;
-    const newLevel = oldLevel + 1;
-
-    // Find level entry for new level
-    const levelEntry = this.findLevelEntry(newLevel);
-    if (!levelEntry) {
-      return null; // Max level reached
-    }
-
-    // Update entity
-    entity.level = newLevel;
-    entity.xp -= entity.nextLevelXp;
-    entity.nextLevelXp = levelEntry.nextLevelXp;
-    entity.lastLevelUp = Date.now();
-
-    // Apply stat boosts
-    const statBoosts: {
-   stat: string; amount: number;
- }
-    }[] = [];
-    if (levelEntry.statBoosts) {
-      levelEntry.statBoosts.forEach(boost => {
-        const currentValue = entity.stats.get(boost.stat) || 0;
-        entity.stats.set(boost.stat, currentValue + boost.amount);
-        statBoosts.push(boost);
-      });
-    }
-
-    // Unlock skills
-    const unlockedSkills: string[] = [];
-    if (levelEntry.unlockedSkills) {
-      levelEntry.unlockedSkills.forEach(skillId => {
-        if (!entity.skills.has(skillId)) {
-          entity.skills.set(skillId, 1);
-          unlockedSkills.push(skillId);
-        }
-      });
-    }
-
-    return {
-      entityId: entity.id,
-      oldLevel,
-      newLevel,
-      xpGained: entity.nextLevelXp,
-      statBoosts,
-      unlockedSkills,
-      rewards: levelEntry.rewards || [],
-      totalXp: entity.totalXp
-    };
-  }
-
-  private findLevelEntry(level: number): LevelEntry | null {
-    // Find the curve that contains this level
-    for (const curve of Array.from(this.curves.values())) {
-      const entry = curve.levels.find(l => l.level === level);
-      if (entry) {
-        return entry;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Add XP with multi-currency support and multipliers
-   */
-  addXP(entityId: string, amount: number, source: XPCurrency | string = XPCurrency.CUSTOM): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
+  createPlayer(managerId: string, player: Partial<Player>): XPLevelingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'add_xp',
+        op: 'create-player',
         status: 'error',
-        issues: [`Entity ${entityId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    // Calculate multiplier for this source
-    const multiplier = this.calculateMultiplier(source, entity);
-    const finalAmount = Math.floor(amount * multiplier);
+    const newPlayer: Player = {
+      id: player.id || `player-${Date.now()}`,
+      name: player.name || 'Unnamed Player',
+      level: 1,
+      xp: 0,
+      totalXP: 0,
+      skills: [],
+      achievements: [],
+      rewards: [],
+      stats: {
+        totalPlayTime: 0,
+        sessions: 0,
+        averageSessionTime: 0,
+        xpPerHour: 0,
+        levelUps: 0,
+        skillsUnlocked: 0,
+        achievementsUnlocked: 0,
+        rewardsClaimed: 0
+      },
+      preferences: {
+        autoLevelUp: true,
+        showNotifications: true,
+        soundEnabled: true,
+        theme: 'default',
+        language: 'en'
+      },
+      metadata: {},
+      ...player
+    };
 
-    // Add to currency-specific XP
-    const currentCurrencyXp = entity.xpByCurrency.get(source as XPCurrency) || 0;
-    entity.xpByCurrency.set(source as XPCurrency, currentCurrencyXp + finalAmount);
+    manager.players.push(newPlayer);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalPlayers++;
 
-    // Add to total XP
-    entity.xp += finalAmount;
-    entity.totalXp += finalAmount;
+    return {
+      op: 'create-player',
+      status: 'ok',
+      result: newPlayer
+    };
+  }
+
+  /**
+   * Add XP to player
+   */
+  addXP(managerId: string, playerId: string, xp: number, source?: string): XPLevelingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'add-xp',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const player = manager.players.find(p => p.id === playerId);
+    if (!player) {
+      return {
+        op: 'add-xp',
+        status: 'error',
+        issues: [`Player ${playerId} not found`]
+      };
+    }
+
+    const oldLevel = player.level;
+    player.xp += xp;
+    player.totalXP += xp;
 
     // Check for level up
-    const levelUpResult = this.checkAndApplyLevelUp(entity);
-    if (levelUpResult) {
-      this.levelUpHistory.push(levelUpResult);
+    const newLevel = this.calculateLevel(player.xp);
+    if (newLevel > oldLevel) {
+      player.level = newLevel;
+      player.stats.levelUps++;
+      
+      // Check for achievements
+      this.checkLevelAchievements(manager, player);
+      
+      // Check for rewards
+      this.checkLevelRewards(manager, player);
     }
 
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalXP += xp;
+
     return {
-      op: 'add_xp',
+      op: 'add-xp',
       status: 'ok',
       result: {
-
-        ...entity,
-        multiplierUsed: multiplier,
-        originalAmount: amount,
-        finalAmount,
-        source: source as XPCurrency
-      
-
-      
-
-
+        playerId,
+        xpAdded: xp,
+        newXP: player.xp,
+        newLevel: player.level,
+        leveledUp: newLevel > oldLevel,
+        source
       }
-      };
     };
   }
 
   /**
-   * Calculate XP multiplier for a given source and entity
+   * Add skill to player
    */
-  private calculateMultiplier(source: XPCurrency | string, entity: XPEntity): number {
-    let multiplier = 1.0;
-
-    // Apply global multipliers
-    for (const globalMult of this.globalMultipliers) {
-      if (globalMult.source === source || globalMult.source === '*') {
-        multiplier *= globalMult.multiplier;
-      }
-    }
-
-    // Apply entity-specific multipliers
-    for (const entityMult of entity.xpMultipliers) {
-      if (entityMult.source === source || entityMult.source === '*') {
-        multiplier *= entityMult.multiplier;
-
-        // Check if temporary multiplier has expired
-        if (entityMult.duration) {
-          const now = Date.now();
-          if (now - (entityMult as any).appliedAt > entityMult.duration) {
-            multiplier /= entityMult.multiplier; // Remove expired multiplier
-          }
-        }
-      }
-    }
-
-    return Math.max(0.1, multiplier); // Minimum 0.1x to prevent zero XP
-  }
-
-  /**
-   * Add XP multiplier to an entity
-   */
-  addXPMultiplier(entityId: string, multiplier: XPMultiplier): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
+  addSkill(managerId: string, playerId: string, skillId: string, xp: number): XPLevelingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'add_multiplier',
+        op: 'add-skill',
         status: 'error',
-        issues: [`Entity ${entityId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    // Add timestamp for temporary multipliers
-    if (multiplier.duration) {
-      (multiplier as any).appliedAt = Date.now();
+    const player = manager.players.find(p => p.id === playerId);
+    if (!player) {
+      return {
+        op: 'add-skill',
+        status: 'error',
+        issues: [`Player ${playerId} not found`]
+      };
     }
 
-    entity.xpMultipliers.push(multiplier);
-
-    return {
-      op: 'add_multiplier',
-      status: 'ok',
-      result: entity;
-    };
-  }
-
-  /**
-   * Add global XP multiplier
-   */
-  addGlobalXPMultiplier(multiplier: XPMultiplier): XPOutput {
-    if (multiplier.duration) {
-      (multiplier as any).appliedAt = Date.now();
+    const skill = manager.skills.find(s => s.id === skillId);
+    if (!skill) {
+      return {
+        op: 'add-skill',
+        status: 'error',
+        issues: [`Skill ${skillId} not found`]
+      };
     }
 
-    this.globalMultipliers.push(multiplier);
+    let playerSkill = player.skills.find(ps => ps.skillId === skillId);
+    if (!playerSkill) {
+      playerSkill = {
+        skillId,
+        level: 0,
+        xp: 0,
+        unlocked: false,
+        purchased: false,
+        lastUsed: 0
+      };
+      player.skills.push(playerSkill);
+    }
+
+    const oldLevel = playerSkill.level;
+    playerSkill.xp += xp;
+    playerSkill.lastUsed = Date.now();
+
+    // Check for skill level up
+    const newLevel = this.calculateSkillLevel(skill, playerSkill.xp);
+    if (newLevel > oldLevel) {
+      playerSkill.level = newLevel;
+      player.stats.skillsUnlocked++;
+    }
+
+    manager.updatedAt = Date.now();
 
     return {
-      op: 'add_global_multiplier',
+      op: 'add-skill',
       status: 'ok',
       result: {
-
-        message: 'Global XP multiplier added', multiplier 
-
-      
-
-
+        playerId,
+        skillId,
+        xpAdded: xp,
+        newXP: playerSkill.xp,
+        newLevel: playerSkill.level,
+        leveledUp: newLevel > oldLevel
       }
-      };
     };
   }
 
   /**
-   * Create and activate an XP challenge
+   * Calculate level from XP
    */
-  createChallenge(challenge: XPChallenge): XPOutput {
-    if (this.challenges.has(challenge.id)) {
-      return {
-        op: 'create_challenge',
-        status: 'error',
-        issues: [`Challenge ${challenge.id} already exists`]
-      };
+  private calculateLevel(xp: number): number {
+    // Simple level calculation - each level requires more XP
+    let level = 1;
+    let requiredXP = 100;
+    
+    while (xp >= requiredXP && level < this.config.maxLevel) {
+      xp -= requiredXP;
+      level++;
+      requiredXP = Math.floor(requiredXP * 1.1); // 10% increase per level
     }
-
-    this.challenges.set(challenge.id, { ...challenge, isActive: true;
-    });
-
-    return {
-      op: 'create_challenge',
-      status: 'ok',
-      result: challenge;
-    };
+    
+    return level;
   }
 
   /**
-   * Complete an XP challenge
+   * Calculate skill level from XP
    */
-  completeChallenge(entityId: string, challengeId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    const challenge = this.challenges.get(challengeId);
-
-    if (!entity) {
-      return {
-        op: 'complete_challenge',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
+  private calculateSkillLevel(skill: Skill, xp: number): number {
+    let level = 0;
+    let totalXP = 0;
+    
+    for (let i = 0; i < skill.xpPerLevel.length && i < skill.maxLevel; i++) {
+      if (xp >= totalXP + skill.xpPerLevel[i]) {
+        totalXP += skill.xpPerLevel[i];
+        level++;
+      } else {
+        break;
+      }
     }
-
-    if (!challenge) {
-      return {
-        op: 'complete_challenge',
-        status: 'error',
-        issues: [`Challenge ${challengeId} not found`]
-      };
-    }
-
-    if (!challenge.isActive) {
-      return {
-        op: 'complete_challenge',
-        status: 'error',
-        issues: [`Challenge ${challengeId} is not active`]
-      };
-    }
-
-    if (entity.activeChallenges.includes(challengeId)) {
-      return {
-        op: 'complete_challenge',
-        status: 'error',
-        issues: [`Challenge ${challengeId} already completed by ${entityId}`]
-      };
-    }
-
-    // Award XP for completing challenge
-    const xpResult = this.addXP(entityId, challenge.xpReward, challenge.currency);
-
-    if (xpResult.status === 'ok') {
-      entity.activeChallenges.push(challengeId);
-      challenge.completedBy = challenge.completedBy || [];
-      challenge.completedBy.push(entityId);
-    }
-
-    return xpResult;
+    
+    return level;
   }
 
   /**
-   * Get XP statistics including currency breakdown
+   * Check level achievements
    */
-  getDetailedXPStats(): XPOutput {
-    const entities = Array.from(this.entities.values());
-
-    const detailedStats = {
-      totalEntities: entities.length,
-      averageLevel: 0,
-      totalXp: 0,
-      totalXpByCurrency: {} as Record<XPCurrency, number>,
-      levelDistribution: {} as Record<number, number>,
-      skillDistribution: {} as Record<string, number>,
-      mostCommonLevel: 1,
-      highestLevel: 1,
-      activeChallenges: this.challenges.size,
-      completedChallenges: Array.from(this.challenges.values()).filter(c => !c.isActive).length,
-      globalMultipliers: this.globalMultipliers.length
-    };
-
-    if (entities.length > 0) {
-      const totalLevel = entities.reduce((sum, e) => sum + e.level, 0);
-      detailedStats.averageLevel = totalLevel / entities.length;
-      detailedStats.totalXp = entities.reduce((sum, e) => sum + e.totalXp, 0);
-      detailedStats.highestLevel = Math.max(...entities.map(e => e.level));
-
-      // Calculate XP by currency
-      entities.forEach(entity => {
-        entity.xpByCurrency.forEach((xp, currency) => {
-          detailedStats.totalXpByCurrency[
-      cur,
-      r,
-      e,
-      n,
-      c,
-      y
-    ] = (detailedStats.totalXpByCurrency[
-      cur,
-      r,
-      e,
-      n,
-      c,
-      y
-    ] || 0) + xp;
-        });
-      });
-
-      // Calculate level distribution
-      entities.forEach(entity => {
-        detailedStats.levelDistribution[entity.level] = (detailedStats.levelDistribution[entity.level] || 0) + 1;
-      });
-
-      // Find most common level
-      const sortedLevels = Object.entries(detailedStats.levelDistribution)
-        .sort(([,a], [,b]) => b - a);
-      detailedStats.mostCommonLevel = parseInt(sortedLevels[0]?.[0] || '1');
-
-      // Calculate skill distribution
-      entities.forEach(entity => {
-        entity.skills.forEach((level, skillId) => {
-          detailedStats.skillDistribution[
-      sk,
-      i,
-      l,
-      l,
-      I,
-      d
-    ] = (detailedStats.skillDistribution[
-      sk,
-      i,
-      l,
-      l,
-      I,
-      d
-    ] || 0) + level;
-        });
-      });
-    }
-
-    return {
-      op: 'detailed_stats',
-      status: 'ok',
-      result: detailedStats;
-    };
-  }
-
-  /**
-   * Get active challenges for an entity
-   */
-  getActiveChallenges(entityId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'get_active_challenges',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    const activeChallenges = Array.from(this.challenges.values())
-      .filter(challenge => challenge.isActive && !entity.activeChallenges.includes(challenge.id));
-
-    return {
-      op: 'get_active_challenges',
-      status: 'ok',
-      result: activeChallenges;
-    };
-  }
-
-  /**
-   * Get currency-specific XP for an entity
-   */
-  getXPCurrencyBreakdown(entityId: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'get_xp_currency_breakdown',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    const breakdown = {
-      entityId,
-      totalXp: entity.totalXp,
-      currencyBreakdown: Object.fromEntries(entity.xpByCurrency),
-      multipliers: entity.xpMultipliers,
-      activeChallenges: entity.activeChallenges
-    };
-
-    return {
-      op: 'get_xp_currency_breakdown',
-      status: 'ok',
-      result: breakdown;
-    };
-  }
-
-  /**
-   * Create sample challenges for testing
-   */
-  createSampleChallenges(): void {
-    const sampleChallenges: XPChallenge[] = [
-      {
-        id: 'first_kill',
-        name: 'First Blood',
-        description: 'Defeat your first enemy in combat',
-        xpReward: 100,
-        currency: XPCurrency.COMBAT,
-        requirements: {
-
-          combat: { victories: 1;
-
+  private checkLevelAchievements(manager: XPLevelingManager, player: Player): void {
+    for (const achievement of manager.achievements) {
+      if (achievement.type === 'single' && !player.achievements.find(pa => pa.achievementId === achievement.id)) {
+        if (this.checkAchievementRequirements(achievement, player)) {
+          this.unlockAchievement(player, achievement);
         }
-    } },
-        isActive: true;
-    },
-      {
-        id: 'level_up',
-        name: 'Growing Stronger',
-        description: 'Reach level 5',
-        xpReward: 250,
-        currency: XPCurrency.ACHIEVEMENT,
-        requirements: {
-
-          level: 5;
-
-        }
-    },
-        isActive: true;
-    },
-      {
-        id: 'skill_master',
-        name: 'Skill Master',
-        description: 'Reach level 10 in any skill',
-        xpReward: 500,
-        currency: XPCurrency.ACHIEVEMENT,
-        requirements: {
-
-          skill: { level: 10;
-
-        }
-    } },
-        isActive: true;
-    },
-      {
-        id: 'explorer',
-        name: 'Explorer',
-        description: 'Complete 5 exploration activities',
-        xpReward: 150,
-        currency: XPCurrency.EXPLORATION,
-        requirements: {
-
-          exploration: { activities: 5;
-
-        }
-    } },
-        isActive: true;
+      }
     }
-    ];
-
-    sampleChallenges.forEach(challenge => this.challenges.set(challenge.id, challenge));
   }
 
   /**
-   * Initialize with sample data for testing
+   * Check level rewards
    */
-  initializeSampleData(): void {
-    // Create sample entities
-    this.createEntity('warrior', 'standard', 1);
-    this.createEntity('mage', 'fast', 1);
-    this.createEntity('tank', 'slow', 1);
+  private checkLevelRewards(manager: XPLevelingManager, player: Player): void {
+    for (const reward of manager.rewards) {
+      if (this.checkRewardRequirements(reward, player)) {
+        this.giveReward(player, reward);
+      }
+    }
+  }
 
-    // Add sample XP multipliers
-    this.addGlobalXPMultiplier({
-      source: XPCurrency.COMBAT,
-      multiplier: 1.2,
-      description: 'Weekend combat bonus'
-    });
+  /**
+   * Check achievement requirements
+   */
+  private checkAchievementRequirements(achievement: Achievement, player: Player): boolean {
+    for (const requirement of achievement.requirements) {
+      if (!this.checkRequirement(requirement, player)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
-    this.addGlobalXPMultiplier({
-      source: XPCurrency.QUEST,
-      multiplier: 1.5,
-      duration: 3600000, // 1 hour
-      description: 'Quest event bonus'
-    });
+  /**
+   * Check individual requirement
+   */
+  private checkRequirement(requirement: AchievementRequirement, player: Player): boolean {
+    let value = 0;
+    
+    switch (requirement.type) {
+      case 'level':
+        value = player.level;
+        break;
+      case 'xp':
+        value = player.xp;
+        break;
+      case 'skill':
+        const skill = player.skills.find(s => s.skillId === requirement.target);
+        value = skill ? skill.level : 0;
+        break;
+      default:
+        return false;
+    }
+    
+    switch (requirement.operator) {
+      case 'equals':
+        return value === requirement.value;
+      case 'greater':
+        return value > requirement.value;
+      case 'less':
+        return value < requirement.value;
+      case 'greater_equal':
+        return value >= requirement.value;
+      case 'less_equal':
+        return value <= requirement.value;
+      default:
+        return false;
+    }
+  }
 
-    // Create sample challenges
-    this.createSampleChallenges();
+  /**
+   * Check reward requirements
+   */
+  private checkRewardRequirements(reward: Reward, player: Player): boolean {
+    for (const requirement of reward.requirements) {
+      if (!this.checkRequirement(requirement as AchievementRequirement, player)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Unlock achievement
+   */
+  private unlockAchievement(player: Player, achievement: Achievement): void {
+    const playerAchievement: PlayerAchievement = {
+      achievementId: achievement.id,
+      unlocked: true,
+      unlockedAt: Date.now(),
+      progress: 100,
+      completed: true
+    };
+    
+    player.achievements.push(playerAchievement);
+    player.stats.achievementsUnlocked++;
+  }
+
+  /**
+   * Give reward
+   */
+  private giveReward(player: Player, reward: Reward): void {
+    const playerReward: PlayerReward = {
+      rewardId: reward.id,
+      claimed: false,
+      quantity: reward.value
+    };
+    
+    player.rewards.push(playerReward);
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): XPLevelingPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): XPLevelingAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): XPLevelingManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalPlayers = 0;
+    let totalSkills = 0;
+    let totalAchievements = 0;
+    let totalRewards = 0;
+    let totalXP = 0;
+    let totalLevel = 0;
+
+    for (const manager of this.managers.values()) {
+      totalPlayers += manager.players.length;
+      totalSkills += manager.skills.length;
+      totalAchievements += manager.achievements.length;
+      totalRewards += manager.rewards.length;
+      
+      for (const player of manager.players) {
+        totalXP += player.totalXP;
+        totalLevel += player.level;
+      }
+    }
+
+    this.performanceMetrics.totalPlayers = totalPlayers;
+    this.performanceMetrics.totalSkills = totalSkills;
+    this.performanceMetrics.totalAchievements = totalAchievements;
+    this.performanceMetrics.totalRewards = totalRewards;
+    this.performanceMetrics.totalXP = totalXP;
+    this.performanceMetrics.averageLevel = totalPlayers > 0 ? totalLevel / totalPlayers : 0;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

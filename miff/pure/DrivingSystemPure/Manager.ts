@@ -1,941 +1,894 @@
 /**
- * MIFF Driving System Manager
+ * DrivingSystemPure Manager - Advanced Driving System Management
  *
- * Core business logic for vehicle management, racing sessions, and driving mechanics
+ * Comprehensive driving system management with:
+ * - Vehicle physics and dynamics
+ * - AI driving behavior and pathfinding
+ * - Traffic simulation and management
+ * - Road network and navigation
+ * - Performance optimization
+ * - Real-time driving monitoring
+ * - Driving analytics and reporting
  */
 
-// Local type stubs to satisfy strict type-checking without pulling heavy dependencies
-export interface Vector3 { x: number; y: number; z: number;
-    }
-
-export interface VehicleAbilityEffect {
-  type: string;
-  magnitude?: number;
-  duration?: number;
-  condition?: string;
-  description?: string;
+export interface DrivingSystemConfig {
+  enableVehiclePhysics: boolean;
+  enableAIDriving: boolean;
+  enableTrafficSimulation: boolean;
+  enableRoadNetworks: boolean;
+  enableNavigation: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableDrivingAnalytics: boolean;
+  enableDrivingReporting: boolean;
+  maxVehicles: number;
+  maxRoads: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface VehicleAbility {
+export interface DrivingSystemManager {
   id: string;
   name: string;
-  description: string;
-  type: 'active' | 'passive';
-  cooldown?: number;
-  duration?: number;
-  activationRequirements?: string[];
-  effects: VehicleAbilityEffect[];
+  type: DrivingSystemManagerType;
+  status: DrivingSystemManagerStatus;
+  vehicles: Vehicle[];
+  roads: Road[];
+  traffic: TrafficSystem;
+  ai: AISystem;
+  performanceMetrics: DrivingSystemPerformanceMetrics;
+  analytics: DrivingSystemAnalytics;
+  reporting: DrivingSystemReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export interface VehicleDefinition {
+export type DrivingSystemManagerType = 'simulation' | 'game' | 'training' | 'custom';
+export type DrivingSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface Vehicle {
   id: string;
   name: string;
-  type: string;
-  category: string;
-  description: string;
+  type: VehicleType;
+  position: Vector3;
+  rotation: Quaternion;
+  velocity: Vector3;
+  acceleration: Vector3;
+  physics: VehiclePhysics;
+  ai: VehicleAI;
+  status: VehicleStatus;
+  metadata: Record<string, any>;
+}
+
+export type VehicleType = 'car' | 'truck' | 'motorcycle' | 'bus' | 'emergency' | 'custom';
+export type VehicleStatus = 'idle' | 'driving' | 'parked' | 'crashed' | 'maintenance';
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Quaternion {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+}
+
+export interface VehiclePhysics {
   mass: number;
-  dragCoefficient: number;
-  frictionCoefficient: number;
+  drag: number;
+  angularDrag: number;
   maxSpeed: number;
   acceleration: number;
-  brakingForce: number;
-  handling: number;
-  length: number;
-  width: number;
-  height: number;
-  wheelbase?: number;
-  terrainTypes: string[];
-  weatherEffects: Map<string, number>;
-  abilities: VehicleAbility[];
-  boostPower?: number;
-  boostDuration?: number;
-  boostCooldown?: number;
-  model: string;
-  texture: string;
-  soundProfile: string;
-  particleEffects: string[];
-  fuelCapacity?: number;
-  fuelConsumption: number;
-  durability: number;
-  repairCost: number;
-  upgradeSlots: number;
-  compatibleUpgrades: string[];
-  unlockRequirements: string[];
-  skillRequirements: Map<string, number>;
-  manufacturer: string;
-  modelYear: number;
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | string;
-  value: number;
+  braking: number;
+  turning: number;
+  suspension: SuspensionSettings;
+  wheels: WheelSettings[];
 }
 
-export interface EquippedUpgrade { id: string; level: number; }
-export type Upgrade = EquippedUpgrade;
-
-export interface VehicleInstance {
-  id: string;
-  ownerId: string;
-  definition: VehicleDefinition;
-  health: number;
-  maxHealth: number;
-  fuel: number;
-  maxFuel: number;
-  isEngineRunning: boolean;
-  isBoosting: boolean;
-  throttle: number;
-  steering: number;
-  brakeInput: number;
-  isBraking?: boolean;
-  currentSpeed: number;
-  currentPosition: Vector3;
+export interface SuspensionSettings {
+  spring: number;
+  damper: number;
+  restLength: number;
+  targetPosition: number;
 }
 
-export interface Checkpoint {
-  id: string;
+export interface WheelSettings {
   position: Vector3;
-  direction: Vector3;
-  size: {
-
-    width: number; height: number;
-    
-
-
-  };
-  type: 'start' | 'intermediate' | 'finish' | string;
-  isRequired: boolean;
-  visualEffect?: string;
+  radius: number;
+  width: number;
+  friction: number;
+  brake: boolean;
+  motor: boolean;
+  steering: boolean;
 }
 
-export interface Obstacle { id: string; position: Vector3; radius?: number; }
-export interface PowerUp { id: string; type: string; position: Vector3; }
-export interface WeatherZone { id: string; type: string; intensity?: number }
-export interface MovementPattern { id: string; type: string;
-    }
+export interface VehicleAI {
+  enabled: boolean;
+  behavior: AIBehavior;
+  target: Vector3;
+  path: PathPoint[];
+  speed: number;
+  aggression: number;
+  awareness: number;
+  reactionTime: number;
+}
 
-export interface TrackDefinition {
+export type AIBehavior = 'follow_path' | 'avoid_obstacles' | 'overtake' | 'park' | 'emergency';
+
+export interface PathPoint {
+  position: Vector3;
+  speed: number;
+  timestamp: number;
+}
+
+export interface Road {
   id: string;
   name: string;
-  description: string;
-  type: 'circuit' | 'sprint' | 'drag' | string;
-  waypoints: Vector3[];
-  checkpoints: Checkpoint[];
-  startLine: {
-
-    position: Vector3; direction: Vector3;
-    
-
-
-  }
-  };
-  finishLine: {
-    position: Vector3; direction: Vector3;
-  };
-  length: number;
-  width: number;
-  elevation: number;
-  surfaceType: string;
-  terrainModifiers: Map<string, number>;
-  obstacles: Obstacle[];
-  powerUps: PowerUp[];
-  weatherZones: WeatherZone[];
-  lapCount: number;
-  direction: string;
-  allowedVehicles: string[];
-  penalties: Map<string, number>;
-  environment: string;
-  lighting: string;
-  skybox: string;
-  backgroundMusic: string;
-  ambientSounds: string[];
+  type: RoadType;
+  points: Vector3[];
+  lanes: Lane[];
+  speedLimit: number;
+  trafficLights: TrafficLight[];
+  metadata: Record<string, any>;
 }
 
-export interface DrivingPenalty { type: string; timePenalty: number;
-    }
+export type RoadType = 'highway' | 'street' | 'alley' | 'bridge' | 'tunnel';
 
-export interface DrivingStats {
-  totalSessions: number;
-  totalDistance: number;
-  totalTime: number;
-  totalCrashes: number;
-  totalRepairs: number;
-  totalFuelConsumed: number;
-  averageSpeed: number;
-  bestLapTime: number;
-  vehiclesOwned: number;
-  tracksCompleted: number;
-  achievements: string[];
-  favoriteVehicle: string;
-  favoriteTrack: string;
-}
-
-export interface DrivingConfig {
-  physicsUpdateRate: number;
-  enableDetailedCollisions: boolean;
-  enableDamageSystem: boolean;
-  enableFuelSystem: boolean;
-  gravity: number;
-  airDensity: number;
-}
-
-export interface DrivingSession {
+export interface Lane {
   id: string;
-  vehicleId: string;
-  driverId: string;
+  direction: LaneDirection;
+  width: number;
+  markings: LaneMarking[];
+  restrictions: LaneRestriction[];
+}
+
+export type LaneDirection = 'forward' | 'backward' | 'both' | 'turn_left' | 'turn_right' | 'u_turn';
+
+export interface LaneMarking {
+  type: MarkingType;
+  position: number;
+  length: number;
+  color: string;
+}
+
+export type MarkingType = 'solid' | 'dashed' | 'double' | 'zigzag' | 'stop';
+
+export interface LaneRestriction {
+  type: RestrictionType;
+  vehicles: VehicleType[];
+  time: TimeRestriction;
+}
+
+export type RestrictionType = 'no_entry' | 'no_parking' | 'speed_limit' | 'weight_limit' | 'height_limit';
+
+export interface TimeRestriction {
+  start: number;
+  end: number;
+  days: number[];
+}
+
+export interface TrafficLight {
+  id: string;
+  position: Vector3;
+  state: TrafficLightState;
+  timing: TrafficLightTiming;
+  sensors: TrafficSensor[];
+}
+
+export type TrafficLightState = 'red' | 'yellow' | 'green' | 'flashing';
+
+export interface TrafficLightTiming {
+  red: number;
+  yellow: number;
+  green: number;
+  cycle: number;
+}
+
+export interface TrafficSensor {
+  id: string;
+  position: Vector3;
+  range: number;
+  type: SensorType;
+  active: boolean;
+}
+
+export type SensorType = 'pressure' | 'magnetic' | 'optical' | 'acoustic';
+
+export interface TrafficSystem {
+  density: number;
+  flow: number;
+  congestion: number;
+  incidents: TrafficIncident[];
+  patterns: TrafficPattern[];
+  rules: TrafficRule[];
+}
+
+export interface TrafficIncident {
+  id: string;
+  type: IncidentType;
+  location: Vector3;
+  severity: IncidentSeverity;
+  description: string;
   startTime: number;
-  startPosition: Vector3;
-  currentLap: number;
-  totalLaps: number;
-  lapTimes: number[];
-  bestLapTime: number;
-  checkpointsPassed: number;
-  totalCheckpoints: number;
-  topSpeed: number;
+  endTime?: number;
+  affectedVehicles: string[];
+}
+
+export type IncidentType = 'accident' | 'breakdown' | 'construction' | 'weather' | 'police';
+export type IncidentSeverity = 'low' | 'medium' | 'high' | 'critical';
+
+export interface TrafficPattern {
+  id: string;
+  name: string;
+  time: TimePattern;
+  flow: FlowPattern;
+  density: DensityPattern;
+}
+
+export interface TimePattern {
+  start: number;
+  end: number;
+  days: number[];
+  seasonal: boolean;
+}
+
+export interface FlowPattern {
+  direction: Vector3;
+  speed: number;
+  volume: number;
+}
+
+export interface DensityPattern {
+  vehicles: number;
+  spacing: number;
+  distribution: string;
+}
+
+export interface TrafficRule {
+  id: string;
+  type: RuleType;
+  condition: RuleCondition;
+  action: RuleAction;
+  priority: number;
+  active: boolean;
+}
+
+export type RuleType = 'speed_limit' | 'lane_change' | 'overtaking' | 'parking' | 'emergency';
+
+export interface RuleCondition {
+  location: Vector3;
+  radius: number;
+  time: TimeRestriction;
+  weather: WeatherCondition[];
+  traffic: TrafficCondition;
+}
+
+export interface WeatherCondition {
+  type: string;
+  intensity: number;
+  visibility: number;
+}
+
+export interface TrafficCondition {
+  density: number;
+  speed: number;
+  flow: number;
+}
+
+export interface RuleAction {
+  type: ActionType;
+  parameters: Record<string, any>;
+  duration: number;
+}
+
+export type ActionType = 'limit_speed' | 'change_lane' | 'stop' | 'yield' | 'detour';
+
+export interface AISystem {
+  enabled: boolean;
+  algorithms: AIAlgorithm[];
+  behaviors: AIBehavior[];
+  learning: LearningSystem;
+  performance: AIPerformance;
+}
+
+export interface AIAlgorithm {
+  id: string;
+  name: string;
+  type: AlgorithmType;
+  parameters: Record<string, any>;
+  performance: number;
+  active: boolean;
+}
+
+export type AlgorithmType = 'pathfinding' | 'behavior' | 'prediction' | 'optimization' | 'learning';
+
+export interface LearningSystem {
+  enabled: boolean;
+  method: LearningMethod;
+  data: TrainingData[];
+  model: AIModel;
+  performance: number;
+}
+
+export type LearningMethod = 'supervised' | 'unsupervised' | 'reinforcement' | 'deep_learning';
+
+export interface TrainingData {
+  id: string;
+  input: Record<string, any>;
+  output: Record<string, any>;
+  quality: number;
+  timestamp: number;
+}
+
+export interface AIModel {
+  id: string;
+  name: string;
+  type: ModelType;
+  version: string;
+  accuracy: number;
+  size: number;
+  parameters: number;
+}
+
+export type ModelType = 'neural_network' | 'decision_tree' | 'svm' | 'regression' | 'custom';
+
+export interface AIPerformance {
+  accuracy: number;
+  speed: number;
+  memory: number;
+  cpu: number;
+  uptime: number;
+}
+
+export interface DrivingSystemPerformanceMetrics {
+  totalVehicles: number;
+  activeVehicles: number;
+  totalRoads: number;
+  totalTrafficLights: number;
   averageSpeed: number;
-  distanceTraveled: number;
-  fuelConsumed: number;
-  penalties: DrivingPenalty[];
-  collisionCount: number;
-  offTrackTime: number;
-  status: 'active' | 'completed' | 'failed' | string;
+  trafficDensity: number;
+  incidentCount: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
-// Minimal stub implementation for the core Driving System used by tests
+export interface DrivingSystemAnalytics {
+  totalTrips: number;
+  averageTripTime: number;
+  averageSpeed: number;
+  fuelEfficiency: number;
+  safetyScore: number;
+  trafficEfficiency: number;
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  vehicles: number;
+  speed: number;
+  density: number;
+  incidents: number;
+  efficiency: number;
+}
+
+export interface DrivingSystemReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeVehicles: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface DrivingSystemOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
 export class DrivingSystemPure {
-  private stats: DrivingStats = {
-    totalSessions: 0,
-    totalDistance: 0,
-    totalTime: 0,
-    totalCrashes: 0,
-    totalRepairs: 0,
-    totalFuelConsumed: 0,
-    averageSpeed: 0,
-    bestLapTime: 0,
-    vehiclesOwned: 0,
-    tracksCompleted: 0,
-    achievements: [],
-    favoriteVehicle: '',
-    favoriteTrack: ''
-  };
+  private managers: Map<string, DrivingSystemManager> = new Map();
+  private config: DrivingSystemConfig;
+  private performanceMetrics: DrivingSystemPerformanceMetrics;
+  private analytics: DrivingSystemAnalytics;
 
-  private config: DrivingConfig = {
-    physicsUpdateRate: 60,
-    enableDetailedCollisions: true,
-    enableDamageSystem: true,
-    enableFuelSystem: true,
-    gravity: 9.81,
-    airDensity: 1.225
-  };
+  constructor(config: Partial<DrivingSystemConfig> = {}) {
+    this.config = {
+      enableVehiclePhysics: true,
+      enableAIDriving: true,
+      enableTrafficSimulation: true,
+      enableRoadNetworks: true,
+      enableNavigation: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableDrivingAnalytics: true,
+      enableDrivingReporting: true,
+      maxVehicles: 1000,
+      maxRoads: 500,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
 
-  private vehicles: Map<string, VehicleInstance> = new Map();
-  private vehicleDefinitions: Map<string, VehicleDefinition> = new Map();
-  private tracks: Map<string, TrackDefinition> = new Map();
+    this.performanceMetrics = {
+      totalVehicles: 0,
+      activeVehicles: 0,
+      totalRoads: 0,
+      totalTrafficLights: 0,
+      averageSpeed: 0,
+      trafficDensity: 0,
+      incidentCount: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-  constructor(_eventBus: any, _inputSystem: any, _rng: any) {
-    // Seed with a demo vehicle and track to satisfy tests
-    const demoVehicle: VehicleDefinition = {
-      id: 'demo-car',
-      name: 'Demo Sports Car',
-      type: 'car',
-      category: 'land',
-      description: 'A demo vehicle',
-      mass: 1200,
-      dragCoefficient: 0.3,
-      frictionCoefficient: 0.8,
-      maxSpeed: 80,
-      acceleration: 12,
-      brakingForce: 20,
-      handling: 0.8,
-      length: 4.2,
-      width: 1.9,
-      height: 1.4,
-      terrainTypes: ['road', 'track'],
-      weatherEffects: new Map(),
-      abilities: [{ id: 'boost', name: 'Boost', description: '', type: 'active', cooldown: 10000, duration: 3000, effects: [{ type: 'boost', magnitude: 1.5, duration: 3000;
-    }] }],
-      model: 'demo_model',
-      texture: 'demo_tex',
-      soundProfile: 'demo_sound',
-      particleEffects: ['exhaust'],
-      fuelCapacity: 60,
-      fuelConsumption: 0.1,
-      durability: 1000,
-      repairCost: 100,
-      upgradeSlots: 3,
-      compatibleUpgrades: [],
-      unlockRequirements: [],
-      skillRequirements: new Map(),
-      manufacturer: 'MIFF',
-      modelYear: 2025,
-      rarity: 'common',
-      value: 0;
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
+    this.analytics = {
+      totalTrips: 0,
+      averageTripTime: 0,
+      averageSpeed: 0,
+      fuelEfficiency: 0,
+      safetyScore: 0,
+      trafficEfficiency: 0,
+      performanceTrends: []
+    };
+  }
 
-        'DrivingSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
+  /**
+   * Create a new driving system manager
+   */
+  createManager(managerData: Partial<DrivingSystemManager>): DrivingSystemOutput {
+    if (!this.config.enableVehiclePhysics) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Vehicle physics is disabled']
       };
-    });
-
-    // Register with memory manager
-    this.memoryId = `DrivingSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'DrivingSystemManager');
-  };
-    this.vehicleDefinitions.set(demoVehicle.id, demoVehicle);
-
-    const demoTrack: TrackDefinition = {
-      id: 'demo-circuit',
-      name: 'Demo Circuit',
-      description: 'A simple circuit',
-      type: 'circuit',
-      waypoints: [
-        { x: 0, y: 0, z: 0;
-    },
-        { x: 100, y: 0, z: 0;
-    },
-        { x: 100, y: 0, z: 100;
-    },
-        { x: 0, y: 0, z: 100;
-    }
-      ],
-      checkpoints: [
-        { id: 'start-finish', position: {
-   x: 0, y: 0, z: 0;
- }
-    }, direction: {
-   x: 1, y: 0, z: 0;
- }
-    }, size: {
-   width: 20, height: 5;
- }
-    }, type: 'start', isRequired: true;
-    },
-        { id: 'cp-1', position: {
-   x: 100, y: 0, z: 0;
- }
-    }, direction: {
-   x: 0, y: 0, z: 1;
- }
-    }, size: {
-   width: 20, height: 5;
- }
-    }, type: 'intermediate', isRequired: true;
-    }
-      ],
-      startLine: {
-
-        position: { x: 0, y: 0, z: 0;
-
-      }
-    }, direction: {
-   x: 1, y: 0, z: 0;
- }
-    } },
-      finishLine: {
-
-        position: { x: 0, y: 0, z: 0;
-
-      }
-    }, direction: {
-   x: 1, y: 0, z: 0;
- }
-    } },
-      length: 400,
-      width: 15,
-      elevation: 0,
-      surfaceType: 'track',
-      terrainModifiers: new Map([['grip', 1.0]]),
-      obstacles: [],
-      powerUps: [],
-      weatherZones: [],
-      lapCount: 3,
-      direction: 'clockwise',
-      allowedVehicles: ['car', 'bike'],
-      penalties: new Map(),
-      environment: 'racetrack',
-      lighting: 'day',
-      skybox: 'clear_sky',
-      backgroundMusic: 'race_music',
-      ambientSounds: ['engine_sounds']
-    };
-    this.tracks.set(demoTrack.id, demoTrack);
-  }
-
-  getConfig(): DrivingConfig { return this.config }
-  getStats(): DrivingStats { return this.stats }
-  getTrack(id: string): TrackDefinition | null { return this.tracks.get(id) || null }
-  getAllTracks(): TrackDefinition[] { return Array.from(this.tracks.values()) }
-  getVehicleDefinition(id: string): VehicleDefinition | null { return this.vehicleDefinitions.get(id) || null }
-  getVehicleInstance(id: string): VehicleInstance | null { return this.vehicles.get(id) || null }
-  startEngine(vehicle: VehicleInstance): void { vehicle.isEngineRunning = true }
-  updateVehiclePhysics(_vehicleId: string, _dt: number): void { /* no-op */ }
-  activateAbility(_vehicleId: string, _abilityId: string): void { /* no-op */ }
-  createVehicle(vehicleId: string, playerId: string): VehicleInstance | null {
-    const def = this.vehicleDefinitions.get(vehicleId);
-    if (!def) return null;
-    const instance: VehicleInstance = {
-      id: `veh_${Date.now()}`,
-      ownerId: playerId,
-      definition: def,
-      health: 1000,
-      maxHealth: 1000,
-      fuel: 60,
-      maxFuel: 60,
-      isEngineRunning: false,
-      isBoosting: false,
-      throttle: 0,
-      steering: 0,
-      brakeInput: 0,
-      currentSpeed: 0,
-      currentPosition: {
-
-        x: 0, y: 0, z: 0;
-    
-
-      
-
-
-      }
-      };
-    };
-    this.vehicles.set(instance.id, instance);
-    return instance;
-  }
-}
-
-export class DrivingManager {
-  private drivingSystem: DrivingSystemPure;
-
-  constructor(drivingSystem: DrivingSystemPure) {
-    this.drivingSystem = drivingSystem;
-  }
-
-  /**
-   * Create a new vehicle definition with validation
-   */
-  createVehicleDefinition(vehicleData: Partial<VehicleDefinition>): VehicleDefinition | null {
-    // Validate required fields
-    if (!vehicleData.id || vehicleData.id.trim() === '') {
-      this.logger.error('DrivingSystemManager', '❌ Vehicle ID is required');
-      return null;
     }
 
-    if (!vehicleData.name || vehicleData.name.trim() === '') {
-      this.logger.error('DrivingSystemManager', '❌ Vehicle name is required');
-      return null;
-    }
-
-    if (!vehicleData.type) {
-      this.logger.error('DrivingSystemManager', '❌ Vehicle type is required');
-      return null;
-    }
-
-    if (!vehicleData.mass || vehicleData.mass <= 0) {
-      this.logger.error('DrivingSystemManager', '❌ Vehicle mass must be positive');
-      return null;
-    }
-
-    if (!vehicleData.maxSpeed || vehicleData.maxSpeed <= 0) {
-      this.logger.error('DrivingSystemManager', '❌ Vehicle max speed must be positive');
-      return null;
-    }
-
-    // Create vehicle definition
-    const vehicle: VehicleDefinition = {
-      id: vehicleData.id,
-      name: vehicleData.name,
-      type: vehicleData.type,
-      category: vehicleData.category || 'land',
-      description: vehicleData.description || 'A vehicle',
-      mass: vehicleData.mass!,
-      dragCoefficient: vehicleData.dragCoefficient || 0.3,
-      frictionCoefficient: vehicleData.frictionCoefficient || 0.7,
-      maxSpeed: vehicleData.maxSpeed!,
-      acceleration: vehicleData.acceleration || 10,
-      brakingForce: vehicleData.brakingForce || 20,
-      handling: vehicleData.handling || 0.8,
-      length: vehicleData.length || 4.0,
-      width: vehicleData.width || 2.0,
-      height: vehicleData.height || 1.5,
-      wheelbase: vehicleData.wheelbase,
-      terrainTypes: vehicleData.terrainTypes || ['road'],
-      weatherEffects: vehicleData.weatherEffects || new Map(),
-      abilities: vehicleData.abilities || [],
-      boostPower: vehicleData.boostPower,
-      boostDuration: vehicleData.boostDuration,
-      boostCooldown: vehicleData.boostCooldown,
-      model: vehicleData.model || 'default',
-      texture: vehicleData.texture || 'default',
-      soundProfile: vehicleData.soundProfile || 'default',
-      particleEffects: vehicleData.particleEffects || [],
-      fuelCapacity: vehicleData.fuelCapacity,
-      fuelConsumption: vehicleData.fuelConsumption || 0.1,
-      durability: vehicleData.durability || 1000,
-      repairCost: vehicleData.repairCost || 100,
-      upgradeSlots: vehicleData.upgradeSlots || 4,
-      compatibleUpgrades: vehicleData.compatibleUpgrades || [],
-      unlockRequirements: vehicleData.unlockRequirements || [],
-      skillRequirements: vehicleData.skillRequirements || new Map(),
-      manufacturer: vehicleData.manufacturer || 'Unknown',
-      modelYear: vehicleData.modelYear || new Date().getFullYear(),
-      rarity: vehicleData.rarity || 'common',
-      value: vehicleData.value || 0
-    };
-
-    return vehicle;
-  }
-
-  /**
-   * Register a vehicle in the system
-   */
-  registerVehicle(vehicle: VehicleDefinition): boolean {
-    // Validate vehicle
-    if (!this.validateVehicleDefinition(vehicle)) {
-      this.logger.error('DrivingSystemManager', `❌ Invalid vehicle definition: ${vehicle.id}`);
-      return false;
-    }
-
-    // Store in system (this would normally go through the main system)
-    this.logger.info('DrivingSystemManager', `✅ Registered vehicle: ${vehicle.name} (${vehicle.id})`);
-    return true;
-  }
-
-  /**
-   * Create a vehicle instance for a player
-   */
-  createVehicleForPlayer(vehicleId: string, playerId: string): VehicleInstance | null {
-    try {
-      // Check if vehicle is unlocked for this player
-      if (!this.isVehicleUnlocked(vehicleId, playerId)) {
-        this.logger.warn('DrivingSystemManager', `⚠️ Vehicle not unlocked: ${vehicleId} for player ${playerId}`);
-        return null;
-      }
-
-      // Create the vehicle instance
-      const vehicle = this.drivingSystem.createVehicle(vehicleId, playerId);
-
-      if (vehicle) {
-        this.logger.info('DrivingSystemManager', `🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
-        this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
-      }
-
-      return vehicle;
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
-      this.logger.error('DrivingSystemManager', `❌ Error creating vehicle ${vehicleId}: ${message}`);
-      return null;
-    }
-  }
-
-  /**
-   * Check if vehicle is unlocked for player
-   */
-  private isVehicleUnlocked(vehicleId: string, playerId: string): boolean {
-    // This would check player's progress, purchases, etc.
-    // For now, assume demo vehicles are always unlocked
-    return vehicleId.startsWith('demo-');
-  }
-
-  /**
-   * Start a driving session
-   */
-  startDrivingSession(vehicleId: string, trackId: string, playerId: string): DrivingSession | null {
-    try {
-      const vehicle = this.drivingSystem.getVehicleInstance(vehicleId);
-      const track = this.drivingSystem.getTrack(trackId);
-
-      if (!vehicle) {
-        throw new Error(`Vehicle not found: ${vehicleId}`);
-      }
-
-      if (!track) {
-        throw new Error(`Track not found: ${trackId}`);
-      }
-
-      // Check if vehicle is compatible with track
-      if (!track.allowedVehicles.includes(vehicle.definition.type)) {
-        throw new Error(`Vehicle ${vehicle.definition.name} not allowed on track ${track.name}`);
-      }
-
-      // Create driving session
-      const session: DrivingSession = {
-        id: this.generateSessionId(),
-        vehicleId,
-        driverId: playerId,
-        startTime: Date.now(),
-        startPosition: { ...vehicle.currentPosition },
-        currentLap: 1,
-        totalLaps: track.lapCount,
-        lapTimes: [],
-        bestLapTime: 0,
-        checkpointsPassed: 0,
-        totalCheckpoints: track.checkpoints.length,
-        topSpeed: 0,
+    const manager: DrivingSystemManager = {
+      id: managerData.id || `driving-${Date.now()}`,
+      name: managerData.name || 'Unnamed Driving System Manager',
+      type: managerData.type || 'simulation',
+      status: 'active',
+      vehicles: [],
+      roads: [],
+      traffic: {
+        density: 0,
+        flow: 0,
+        congestion: 0,
+        incidents: [],
+        patterns: [],
+        rules: []
+      },
+      ai: {
+        enabled: true,
+        algorithms: [],
+        behaviors: [],
+        learning: {
+          enabled: false,
+          method: 'supervised',
+          data: [],
+          model: {
+            id: '',
+            name: '',
+            type: 'neural_network',
+            version: '1.0.0',
+            accuracy: 0,
+            size: 0,
+            parameters: 0
+          },
+          performance: 0
+        },
+        performance: {
+          accuracy: 0,
+          speed: 0,
+          memory: 0,
+          cpu: 0,
+          uptime: 0
+        }
+      },
+      performanceMetrics: {
+        totalVehicles: 0,
+        activeVehicles: 0,
+        totalRoads: 0,
+        totalTrafficLights: 0,
         averageSpeed: 0,
-        distanceTraveled: 0,
-        fuelConsumed: 0,
-        penalties: [],
-        collisionCount: 0,
-        offTrackTime: 0,
-        status: 'active'
+        trafficDensity: 0,
+        incidentCount: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalTrips: 0,
+        averageTripTime: 0,
+        averageSpeed: 0,
+        fuelEfficiency: 0,
+        safetyScore: 0,
+        trafficEfficiency: 0,
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeVehicles: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): DrivingSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
       };
-
-      // Store session (would normally go through main system)
-      this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
-
-      this.logger.info('DrivingSystemManager', `🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
-      return session;
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
-      this.logger.error('DrivingSystemManager', `❌ Error starting session: ${message}`);
-      return null;
     }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Update vehicle controls
+   * Create vehicle
    */
-  updateVehicleControls(vehicleId: string, controls: {
-   throttle?: number;
-    steering?: number;
-    brake?: number;
-    boost?: boolean;
-    ability?: string;
- }
-  }): boolean {
-    const vehicle = this.drivingSystem.getVehicleInstance(vehicleId);
-    if (!vehicle) return false;
-
-    // Update control inputs
-    if (controls.throttle !== undefined) {
-      vehicle.throttle = Math.max(0, Math.min(1, controls.throttle));
+  createVehicle(managerId: string, vehicle: Partial<Vehicle>): DrivingSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-vehicle',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    if (controls.steering !== undefined) {
-      vehicle.steering = Math.max(-1, Math.min(1, controls.steering));
+    if (manager.vehicles.length >= this.config.maxVehicles) {
+      return {
+        op: 'create-vehicle',
+        status: 'error',
+        issues: ['Maximum number of vehicles reached']
+      };
     }
 
-    if (controls.brake !== undefined) {
-      vehicle.brakeInput = Math.max(0, Math.min(1, controls.brake));
-      vehicle.isBraking = controls.brake > 0;
+    const newVehicle: Vehicle = {
+      id: vehicle.id || `vehicle-${Date.now()}`,
+      name: vehicle.name || 'Unnamed Vehicle',
+      type: vehicle.type || 'car',
+      position: vehicle.position || { x: 0, y: 0, z: 0 },
+      rotation: vehicle.rotation || { x: 0, y: 0, z: 0, w: 1 },
+      velocity: vehicle.velocity || { x: 0, y: 0, z: 0 },
+      acceleration: vehicle.acceleration || { x: 0, y: 0, z: 0 },
+      physics: vehicle.physics || {
+        mass: 1500,
+        drag: 0.3,
+        angularDrag: 5,
+        maxSpeed: 50,
+        acceleration: 10,
+        braking: 15,
+        turning: 2,
+        suspension: {
+          spring: 35000,
+          damper: 4500,
+          restLength: 0.5,
+          targetPosition: 0
+        },
+        wheels: []
+      },
+      ai: vehicle.ai || {
+        enabled: false,
+        behavior: 'follow_path',
+        target: { x: 0, y: 0, z: 0 },
+        path: [],
+        speed: 0,
+        aggression: 0.5,
+        awareness: 0.8,
+        reactionTime: 0.2
+      },
+      status: 'idle',
+      metadata: {},
+      ...vehicle
+    };
+
+    manager.vehicles.push(newVehicle);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalVehicles++;
+
+    return {
+      op: 'create-vehicle',
+      status: 'ok',
+      result: newVehicle
+    };
+  }
+
+  /**
+   * Create road
+   */
+  createRoad(managerId: string, road: Partial<Road>): DrivingSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-road',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    // Handle boost
-    if (controls.boost && !vehicle.isBoosting) {
-      const boostAbility = vehicle.definition.abilities.find((ability: VehicleAbility) =>
-        ability.type === 'active' && ability.effects.some((effect: VehicleAbilityEffect) => effect.type === 'boost')
-      );
-      if (boostAbility) {
-        this.drivingSystem.activateAbility(vehicleId, boostAbility.id);
+    if (manager.roads.length >= this.config.maxRoads) {
+      return {
+        op: 'create-road',
+        status: 'error',
+        issues: ['Maximum number of roads reached']
+      };
+    }
+
+    const newRoad: Road = {
+      id: road.id || `road-${Date.now()}`,
+      name: road.name || 'Unnamed Road',
+      type: road.type || 'street',
+      points: road.points || [],
+      lanes: road.lanes || [],
+      speedLimit: road.speedLimit || 50,
+      trafficLights: road.trafficLights || [],
+      metadata: {},
+      ...road
+    };
+
+    manager.roads.push(newRoad);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalRoads++;
+
+    return {
+      op: 'create-road',
+      status: 'ok',
+      result: newRoad
+    };
+  }
+
+  /**
+   * Update vehicle physics
+   */
+  updateVehiclePhysics(managerId: string, vehicleId: string, deltaTime: number): DrivingSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'update-vehicle-physics',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const vehicle = manager.vehicles.find(v => v.id === vehicleId);
+    if (!vehicle) {
+      return {
+        op: 'update-vehicle-physics',
+        status: 'error',
+        issues: [`Vehicle ${vehicleId} not found`]
+      };
+    }
+
+    // Simple physics simulation
+    const physics = vehicle.physics;
+    
+    // Update velocity based on acceleration
+    vehicle.velocity.x += vehicle.acceleration.x * deltaTime;
+    vehicle.velocity.y += vehicle.acceleration.y * deltaTime;
+    vehicle.velocity.z += vehicle.acceleration.z * deltaTime;
+
+    // Apply drag
+    const dragFactor = 1 - (physics.drag * deltaTime);
+    vehicle.velocity.x *= dragFactor;
+    vehicle.velocity.y *= dragFactor;
+    vehicle.velocity.z *= dragFactor;
+
+    // Limit speed
+    const speed = Math.sqrt(vehicle.velocity.x ** 2 + vehicle.velocity.y ** 2 + vehicle.velocity.z ** 2);
+    if (speed > physics.maxSpeed) {
+      const factor = physics.maxSpeed / speed;
+      vehicle.velocity.x *= factor;
+      vehicle.velocity.y *= factor;
+      vehicle.velocity.z *= factor;
+    }
+
+    // Update position
+    vehicle.position.x += vehicle.velocity.x * deltaTime;
+    vehicle.position.y += vehicle.velocity.y * deltaTime;
+    vehicle.position.z += vehicle.velocity.z * deltaTime;
+
+    manager.updatedAt = Date.now();
+
+    return {
+      op: 'update-vehicle-physics',
+      status: 'ok',
+      result: {
+        position: vehicle.position,
+        velocity: vehicle.velocity,
+        speed: Math.sqrt(vehicle.velocity.x ** 2 + vehicle.velocity.y ** 2 + vehicle.velocity.z ** 2)
       }
-    }
-
-    // Handle ability activation
-    if (controls.ability) {
-      this.drivingSystem.activateAbility(vehicleId, controls.ability);
-    }
-
-    return true;
-  }
-
-  /**
-   * Get driving statistics
-   */
-  getDrivingStats(): {
-    totalSessions: number;
-    totalDistance: number;
-    totalTime: number;
-    totalCrashes: number;
-    totalRepairs: number;
-    totalFuelConsumed: number;
-    averageSpeed: number;
-    bestLapTime: number;
-    vehiclesOwned: number;
-    tracksCompleted: number;
-    achievements: string[];
-    favoriteVehicle: string;
-    favoriteTrack: string;
-    performanceRating: string;
-  } {
-    const stats = this.drivingSystem.getStats();
-
-    // Calculate performance rating
-    let performanceRating = 'Beginner';
-    if (stats.totalSessions > 50) {
-      performanceRating = 'Expert';
-    } else if (stats.totalSessions > 20) {
-      performanceRating = 'Advanced';
-    } else if (stats.totalSessions > 5) {
-      performanceRating = 'Intermediate';
-    }
-
-    return {
-      ...stats,
-      performanceRating
     };
   }
 
   /**
-   * Get available vehicles for a player
+   * Set vehicle AI behavior
    */
-  getAvailableVehicles(playerId: string): VehicleDefinition[] {
-    const allVehicles = this.getAllVehicleDefinitions();
-    return allVehicles.filter(vehicle => this.isVehicleUnlocked(vehicle.id, playerId));
-  }
-
-  /**
-   * Get all vehicle definitions
-   */
-  getAllVehicleDefinitions(): VehicleDefinition[] {
-    // This would normally come from the main system
-    return [];
-  }
-
-  /**
-   * Get vehicle recommendations for a player
-   */
-  getVehicleRecommendations(playerId: string): Array<{
-    vehicle: VehicleDefinition;
-    reason: string;
-    suitability: 'excellent' | 'good' | 'fair' | 'poor';
-    estimatedCost: number;
-  }> {
-    const availableVehicles = this.getAvailableVehicles(playerId);
-    const recommendations: Array<{
-      vehicle: VehicleDefinition;
-      reason: string;
-      suitability: 'excellent' | 'good' | 'fair' | 'poor';
-      estimatedCost: number;
-    }> = [];
-
-    for (const vehicle of availableVehicles) {
-      const suitability = this.assessVehicleSuitability(vehicle, playerId);
-      const reason = this.getVehicleRecommendationReason(vehicle);
-      const estimatedCost = vehicle.value * (1 + (vehicle.rarity === 'rare' ? 0.5 : 0));
-
-      recommendations.push({
-        vehicle,
-        reason,
-        suitability,
-        estimatedCost
-      });
+  setVehicleAIBehavior(managerId: string, vehicleId: string, behavior: AIBehavior, target?: Vector3): DrivingSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'set-vehicle-ai-behavior',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    return recommendations.slice(0, 5); // Top 5 recommendations
-  }
-
-  /**
-   * Assess vehicle suitability for a player
-   */
-  private assessVehicleSuitability(vehicle: VehicleDefinition, playerId: string): 'excellent' | 'good' | 'fair' | 'poor' {
-    // This would check player's driving stats, preferences, etc.
-    // For now, return based on vehicle tier
-    switch (vehicle.rarity) {
-      case 'legendary':
-        return 'excellent';
-      case 'epic':
-        return 'good';
-      case 'rare':
-        return 'good';
-      case 'uncommon':
-        return 'fair';
-      default:
-        return 'poor';
-    }
-  }
-
-  /**
-   * Get recommendation reason for a vehicle
-   */
-  private getVehicleRecommendationReason(vehicle: VehicleDefinition): string {
-    if (vehicle.type === 'car') {
-      return 'Great all-around performance for most tracks';
-    } else if (vehicle.type === 'bike') {
-      return 'Excellent handling and acceleration for tight courses';
-    } else {
-      return 'Specialized vehicle for specific track types';
-    }
-  }
-
-  /**
-   * Get track information
-   */
-  getTrackInfo(trackId: string): TrackDefinition | null {
-    return this.drivingSystem.getTrack(trackId);
-  }
-
-  /**
-   * Get all tracks
-   */
-  getAllTracks(): TrackDefinition[] {
-    return this.drivingSystem.getAllTracks();
-  }
-
-  /**
-   * Get track recommendations
-   */
-  getTrackRecommendations(): Array<{
-    track: TrackDefinition;
-    difficulty: 'easy' | 'medium' | 'hard' | 'expert';
-    reason: string;
-    estimatedTime: number;
-  }> {
-    const allTracks = this.getAllTracks();
-    const recommendations: Array<{
-      track: TrackDefinition;
-      difficulty: 'easy' | 'medium' | 'hard' | 'expert';
-      reason: string;
-      estimatedTime: number;
-    }> = [];
-
-    for (const track of allTracks) {
-      const difficulty = this.assessTrackDifficulty(track);
-      const reason = this.getTrackRecommendationReason(track);
-      const estimatedTime = Math.ceil(track.length / 50); // Rough estimate
-
-      recommendations.push({
-        track,
-        difficulty,
-        reason,
-        estimatedTime
-      });
+    const vehicle = manager.vehicles.find(v => v.id === vehicleId);
+    if (!vehicle) {
+      return {
+        op: 'set-vehicle-ai-behavior',
+        status: 'error',
+        issues: [`Vehicle ${vehicleId} not found`]
+      };
     }
 
-    return recommendations.slice(0, 5);
-  }
-
-  /**
-   * Assess track difficulty
-   */
-  private assessTrackDifficulty(track: TrackDefinition): 'easy' | 'medium' | 'hard' | 'expert' {
-    if (track.length < 200) return 'easy';
-    if (track.length < 500) return 'medium';
-    if (track.length < 1000) return 'hard';
-    return 'expert';
-  }
-
-  /**
-   * Get track recommendation reason
-   */
-  private getTrackRecommendationReason(track: TrackDefinition): string {
-    if (track.type === 'circuit') {
-      return 'Classic racing circuit with multiple laps';
-    } else if (track.type === 'sprint') {
-      return 'Short, fast sprint track';
-    } else if (track.type === 'drag') {
-      return 'Straight-line drag racing';
-    } else {
-      return 'Specialized track for unique racing experiences';
+    vehicle.ai.behavior = behavior;
+    if (target) {
+      vehicle.ai.target = target;
     }
-  }
+    vehicle.ai.enabled = true;
 
-  /**
-   * Apply penalty to driving session
-   */
-  applyPenalty(sessionId: string, penalty: DrivingPenalty): void {
-    // This would apply penalty to a driving session
-    this.logger.info('DrivingSystemManager', `⚠️ Applied penalty: ${penalty.type} (${penalty.timePenalty}s)`);
-  }
+    manager.updatedAt = Date.now();
 
-  /**
-   * Update driving statistics
-   */
-  updateStats(updates: Partial<DrivingStats>): void {
-    // This would update the player's driving statistics
-    this.logger.info('DrivingSystemManager', 'Updated driving statistics');
-  }
-
-  /**
-   * Validate vehicle definition
-   */
-  private validateVehicleDefinition(vehicle: VehicleDefinition): boolean {
-    if (!vehicle.id || vehicle.id.trim() === '') {
-      this.logger.error('DrivingSystemManager', 'Vehicle ID is required');
-      return false;
-    }
-
-    if (!vehicle.name || vehicle.name.trim() === '') {
-      this.logger.error('DrivingSystemManager', 'Vehicle name is required');
-      return false;
-    }
-
-    if (vehicle.mass <= 0) {
-      this.logger.error('DrivingSystemManager', 'Vehicle mass must be positive');
-      return false;
-    }
-
-    if (vehicle.maxSpeed <= 0) {
-      this.logger.error('DrivingSystemManager', 'Vehicle max speed must be positive');
-      return false;
-    }
-
-    if (vehicle.acceleration <= 0) {
-      this.logger.error('DrivingSystemManager', 'Vehicle acceleration must be positive');
-      return false;
-    }
-
-    return true;
-  }
-
-  /**
-   * Generate unique session ID
-   */
-  private generateSessionId(): string {
-    const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, 8);
-    return `session_${timestamp}_${random}`;
-  }
-
-  /**
-   * Export driving system data
-   */
-  exportData(): {
-    vehicles: VehicleDefinition[];
-    tracks: TrackDefinition[];
-    stats: DrivingStats;
-    config: DrivingConfig;
-    timestamp: number;
-  } {
     return {
-      vehicles: this.getAllVehicleDefinitions(),
-      tracks: this.getAllTracks(),
-      stats: this.drivingSystem.getStats(),
-      config: this.drivingSystem.getConfig(),
-      timestamp: Date.now()
+      op: 'set-vehicle-ai-behavior',
+      status: 'ok',
+      result: {
+        vehicleId,
+        behavior,
+        target: vehicle.ai.target
+      }
     };
   }
 
   /**
-   * Import driving system data
+   * Get performance metrics
    */
-  importData(data: ReturnType<typeof this.exportData>): void {
-    // Import logic would go here
-    this.logger.info('DrivingSystemManager', 'Driving system data imported');
+  getPerformanceMetrics(): DrivingSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
-   * Cleanup resources
+   * Get analytics
    */
-  destroy(): void {
-    this.logger.info('DrivingSystemManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+  getAnalytics(): DrivingSystemAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): DrivingSystemManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalVehicles = 0;
+    let activeVehicles = 0;
+    let totalRoads = 0;
+    let totalTrafficLights = 0;
+    let totalSpeed = 0;
+
+    for (const manager of this.managers.values()) {
+      totalVehicles += manager.vehicles.length;
+      activeVehicles += manager.vehicles.filter(v => v.status === 'driving').length;
+      totalRoads += manager.roads.length;
+      totalTrafficLights += manager.roads.reduce((sum, road) => sum + road.trafficLights.length, 0);
+      
+      const speeds = manager.vehicles.map(v => 
+        Math.sqrt(v.velocity.x ** 2 + v.velocity.y ** 2 + v.velocity.z ** 2)
+      );
+      totalSpeed += speeds.reduce((sum, speed) => sum + speed, 0);
+    }
+
+    this.performanceMetrics.totalVehicles = totalVehicles;
+    this.performanceMetrics.activeVehicles = activeVehicles;
+    this.performanceMetrics.totalRoads = totalRoads;
+    this.performanceMetrics.totalTrafficLights = totalTrafficLights;
+    this.performanceMetrics.averageSpeed = totalVehicles > 0 ? totalSpeed / totalVehicles : 0;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
