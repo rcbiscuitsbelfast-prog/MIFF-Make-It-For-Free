@@ -1419,21 +1419,6 @@ export class WitcherExplorerManager {
             enableMultiplayer: false,
             ...config
       
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'WitcherExplorerDemoManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `WitcherExplorerDemoManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'WitcherExplorerDemoManager');
-  };
-    }
 
     /**
      * Initialize Witcher Explorer
@@ -1574,13 +1559,13 @@ export class WitcherExplorerManager {
             description: `A ${type} region`,
             bounds: {
 
-              min: { x: 0, y: 0, z: 0;
+              min: { x: 0, y: 0, z: 0 
 
             }
     },
                 max: {
 
-                  x: 1000, y: 1000, z: 100;
+                  x: 1000, y: 1000, z: 100 
     
 
                 
@@ -1597,21 +1582,6 @@ export class WitcherExplorerManager {
             quests: [],
             locations: [],
             events: [],
-            weather: {
-
-              type: WeatherType.CLEAR,
-                intensity: 1.0,
-                temperature: 20,
-                humidity: 50,
-                windSpeed: 5,
-                windDirection: 0,
-                precipitation: 0,
-                visibility: 10000,
-                metadata: new Map()
-
-            }
-            },
-            metadata: new Map()
         };
     }
 

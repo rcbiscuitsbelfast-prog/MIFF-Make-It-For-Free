@@ -1,969 +1,549 @@
 /**
- * IdleSystemPure Manager - Advanced Idle Game Management
+ * IdleSystemPure Manager - Advanced Idle System Management
  *
- * Manages complex idle game mechanics including:
- * - Resource management and balancing
- * - Generator optimization and automation
- * - Upgrade system coordination
- * - Achievement tracking and rewards
- * - Prestige system management
- * - Performance monitoring and optimization
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * Comprehensive idle system management with:
+ * - Idle detection and monitoring
+ * - Power management and optimization
+ * - Resource conservation
+ * - Activity tracking and analytics
+ * - Performance optimization
+ * - Real-time idle monitoring
+ * - Idle analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { EventBus } from '../EventBusPure/index.js';
-// Types are defined in this file to avoid circular imports
-
-// ============================================================================
-// IDLE MANAGER INTERFACES
-// ============================================================================
-
-export interface Resource {
-  id: string;
-  name: string;
-  amount: number;
-  maxAmount: number;
-  generationRate: number;
-  unlocked: boolean;
-  description: string;
-  icon: string;
-  color: string;
+export interface IdleSystemConfig {
+  enableIdleManagement: boolean;
+  enableIdleDetection: boolean;
+  enablePowerManagement: boolean;
+  enableResourceConservation: boolean;
+  enableActivityTracking: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableIdleAnalytics: boolean;
+  enableIdleReporting: boolean;
+  idleThreshold: number;
+  maxIdleTime: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface Generator {
+export interface IdleSystemManager {
   id: string;
   name: string;
-  description: string;
-  baseCost: number;
-  costMultiplier: number;
-  baseProduction: number;
-  productionMultiplier: number;
-  unlocked: boolean;
-  level: number;
-  maxLevel: number;
-  requirements: string[];
-  effects: Record<string, number>;
+  type: IdleSystemManagerType;
+  status: IdleSystemManagerStatus;
+  sessions: IdleSession[];
+  activities: Activity[];
+  policies: IdlePolicy[];
+  monitors: IdleMonitor[];
+  powerSettings: PowerSettings;
+  performanceMetrics: IdleSystemPerformanceMetrics;
+  analytics: IdleSystemAnalytics;
+  reporting: IdleSystemReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export interface Upgrade {
+export type IdleSystemManagerType = 'desktop' | 'mobile' | 'server' | 'embedded' | 'custom';
+export type IdleSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface IdleSession {
+  id: string;
+  userId: string;
+  startTime: number;
+  endTime: number | null;
+  duration: number;
+  type: SessionType;
+  status: SessionStatus;
+  activities: string[];
+  idlePeriods: IdlePeriod[];
+  performance: SessionPerformance;
+  metadata: Record<string, any>;
+}
+
+export type SessionType = 'user' | 'system' | 'background' | 'custom';
+export type SessionStatus = 'active' | 'idle' | 'suspended' | 'terminated';
+
+export interface IdlePeriod {
+  startTime: number;
+  endTime: number;
+  duration: number;
+  type: IdleType;
+  reason: IdleReason;
+  actions: IdleAction[];
+}
+
+export type IdleType = 'user' | 'system' | 'power' | 'network' | 'custom';
+export type IdleReason = 'no_input' | 'low_activity' | 'power_save' | 'network_idle' | 'custom';
+
+export interface IdleAction {
+  type: ActionType;
+  timestamp: number;
+  parameters: Record<string, any>;
+  success: boolean;
+}
+
+export type ActionType = 'suspend' | 'hibernate' | 'power_off' | 'network_disconnect' | 'custom';
+
+export interface SessionPerformance {
+  cpuUsage: number;
+  memoryUsage: number;
+  diskUsage: number;
+  networkUsage: number;
+  powerUsage: number;
+  lastActivity: number;
+}
+
+export interface Activity {
   id: string;
   name: string;
-  description: string;
-  cost: number;
-  unlocked: boolean;
-  purchased: boolean;
-  requirements: string[];
-  effects: Record<string, number>;
-  category: string;
-  tier: number;
+  type: ActivityType;
+  status: ActivityStatus;
+  startTime: number;
+  endTime: number | null;
+  duration: number;
+  intensity: ActivityIntensity;
+  resources: ResourceUsage;
+  metadata: Record<string, any>;
 }
 
-export interface Achievement {
+export type ActivityType = 'user_input' | 'system_process' | 'network_activity' | 'file_operation' | 'custom';
+export type ActivityStatus = 'active' | 'paused' | 'completed' | 'cancelled';
+export type ActivityIntensity = 'low' | 'medium' | 'high' | 'critical';
+
+export interface ResourceUsage {
+  cpu: number;
+  memory: number;
+  disk: number;
+  network: number;
+  power: number;
+}
+
+export interface IdlePolicy {
   id: string;
   name: string;
-  description: string;
-  unlocked: boolean;
-  unlockedAt?: Date;
-  requirements: Record<string, number>;
-  rewards: Record<string, number>;
-  category: string;
-  hidden: boolean;
-}
-
-export interface PrestigeConfig {
+  type: PolicyType;
   enabled: boolean;
-  minLevel: number;
-  currency: string;
-  multiplier: number;
-  requirements: Record<string, number>;
-  rewards: Record<string, number>;
-}
-
-export interface IdleIntegration {
-  systemId: string;
-  enabled: boolean;
+  conditions: PolicyCondition[];
+  actions: PolicyAction[];
   priority: number;
-  callbacks: {
-
-    onResourceChange?: (resource: Resource) => void;
-    onGeneratorLevelUp?: (generator: Generator) => void;
-    onUpgradePurchased?: (upgrade: Upgrade) => void;
-    onAchievementUnlocked?: (achievement: Achievement) => void;
-  
-
-
-  }
+  metadata: Record<string, any>;
 }
 
-/**
- * Idle manager configuration
- */
-export interface IdleManagerConfig {
-  enableAutoSave: boolean;
-  saveInterval: number;
-  enableAnalytics: boolean;
-  enableAchievements: boolean;
-  enablePrestige: boolean;
-  performanceMode: 'high' | 'medium' | 'low';
-  debugMode: boolean;
+export type PolicyType = 'power' | 'performance' | 'security' | 'custom';
+
+export interface PolicyCondition {
+  type: ConditionType;
+  parameter: string;
+  operator: ConditionOperator;
+  value: any;
+  duration: number;
 }
 
-/**
- * Resource manager for balancing
- */
-export interface ResourceManager {
-  balanceResources: () => void;
-  optimizeProduction: () => void;
-  predictResourceNeeds: (timeframe: number) => Map<string, number>;
-  getResourceEfficiency: (resourceId: string) => number;
-  getOptimalGeneratorOrder: () => string[];
+export type ConditionType = 'idle_time' | 'cpu_usage' | 'memory_usage' | 'power_level' | 'custom';
+export type ConditionOperator = 'equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
+
+export interface PolicyAction {
+  type: ActionType;
+  parameters: Record<string, any>;
+  delay: number;
+  repeat: boolean;
 }
 
-/**
- * Generator manager for automation
- */
-export interface GeneratorManager {
-  autoBuyGenerators: (budget: number, targetResource: string) => string[];
-  optimizeGeneratorPurchase: (availableCurrency: number) => string[];
-  calculateOptimalGeneratorLevels: () => Map<string, number>;
-  getGeneratorEfficiency: (generatorId: string) => number;
-  predictGeneratorROI: (generatorId: string, timeframe: number) => number;
+export interface IdleMonitor {
+  id: string;
+  name: string;
+  type: MonitorType;
+  status: MonitorStatus;
+  configuration: MonitorConfiguration;
+  metrics: MonitorMetrics;
+  alerts: MonitorAlert[];
+  metadata: Record<string, any>;
 }
 
-/**
- * Upgrade manager for progression
- */
-export interface UpgradeManager {
-  getOptimalUpgradeOrder: () => string[];
-  calculateUpgradeValue: (upgradeId: string, level: number) => number;
-  getUpgradeRecommendations: (budget: number) => string[];
-  predictUpgradeImpact: (upgradeId: string) => number;
+export type MonitorType = 'input' | 'process' | 'network' | 'power' | 'custom';
+export type MonitorStatus = 'active' | 'inactive' | 'error';
+
+export interface MonitorConfiguration {
+  interval: number;
+  threshold: number;
+  sensitivity: number;
+  enabled: boolean;
+  filters: MonitorFilter[];
 }
 
-/**
- * Achievement manager for progression
- */
-export interface AchievementManager {
-  trackProgress: (target: string, amount: number) => void;
-  getNextAchievements: () => string[];
-  predictAchievementTime: (achievementId: string) => number;
-  getAchievementRewards: (achievementId: string) => any[];
+export interface MonitorFilter {
+  type: FilterType;
+  parameter: string;
+  value: any;
+  enabled: boolean;
 }
 
-/**
- * Prestige manager for long-term progression
- */
-export interface PrestigeManager {
-  canPrestige: (tier: string) => boolean;
-  calculatePrestigeValue: (tier: string) => number;
-  getOptimalPrestigeTiming: () => string | null;
-  predictPrestigeBenefits: (tier: string) => number;
+export type FilterType = 'process' | 'user' | 'time' | 'resource' | 'custom';
+
+export interface MonitorMetrics {
+  totalReadings: number;
+  averageValue: number;
+  minValue: number;
+  maxValue: number;
+  lastReading: number;
+  trend: TrendDirection;
 }
 
-// ============================================================================
-// IDLE MANAGER IMPLEMENTATION
-// ============================================================================
+export type TrendDirection = 'increasing' | 'decreasing' | 'stable' | 'volatile';
 
-/**
- * IdleManagerPure - Advanced Idle Game Management System
- * Provides comprehensive management of idle game mechanics
- */
-// Local stub to avoid circular dependency and missing type errors
-type IdleSystemPure = any;
+export interface MonitorAlert {
+  id: string;
+  type: AlertType;
+  message: string;
+  timestamp: number;
+  severity: AlertSeverity;
+  acknowledged: boolean;
+  resolved: boolean;
+}
 
-export class IdleManagerPure {
-  private idleSystem: IdleSystemPure;
-  private eventBus: EventBus;
-  private config: IdleManagerConfig;
-  private resourceManager!: ResourceManager;
-  private generatorManager!: GeneratorManager;
-  private upgradeManager!: UpgradeManager;
-  private achievementManager!: AchievementManager;
-  private prestigeManager!: PrestigeManager;
-  private integrations: IdleIntegration = { systemId: 'idle', enabled: true, priority: 0, callbacks: {} };
-  private isInitialized: boolean = false;
-  private analyticsData: any[] = [];
-  private lastAnalyticsUpdate: number = 0;
-  
-  // Core data structures
-  private generators: Map<string, Generator> = new Map();
-  private resources: Map<string, Resource> = new Map();
-  private achievements: Map<string, any> = new Map();
-  private prestigeConfigs: Map<string, any> = new Map();
-  private isPaused: boolean = false;
+export type AlertType = 'threshold_exceeded' | 'anomaly_detected' | 'system_error' | 'custom';
+export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
-  /**
-   * Calculate total production across all generators
-   */
-  private calculateTotalProduction(): number {
-    let total = 0;
-    for (const generator of this.generators.values()) {
-      if (generator.unlocked && generator.level > 0) {
-        total += generator.baseProduction * generator.level * generator.productionMultiplier;
-      }
-    }
-    return total;
-  }
+export interface PowerSettings {
+  powerMode: PowerMode;
+  idleTimeout: number;
+  sleepTimeout: number;
+  hibernateTimeout: number;
+  powerSaver: boolean;
+  cpuThrottling: boolean;
+  displayDimming: boolean;
+  networkStandby: boolean;
+}
 
-  /**
-   * Internal method to purchase generators
-   */
-  private purchaseGeneratorInternal(id: string, count: number): boolean {
-    const generator = this.generators.get(id);
-    if (!generator || !generator.unlocked) {
-      return false;
-    }
+export type PowerMode = 'performance' | 'balanced' | 'power_saver' | 'custom';
 
-    const totalCost = this.calculateGeneratorCost(generator, count);
-    const primaryResource = Array.from(this.resources.values())[0]; // Assume first resource is primary currency
-    
-    if (!primaryResource || primaryResource.amount < totalCost) {
-      return false;
-    }
+export interface IdleSystemPerformanceMetrics {
+  totalSessions: number;
+  activeSessions: number;
+  totalActivities: number;
+  totalPolicies: number;
+  totalMonitors: number;
+  averageIdleTime: number;
+  averageSessionDuration: number;
+  powerSavings: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
 
-    // Purchase successful
-    primaryResource.amount -= totalCost;
-    generator.level += count;
-    
-    this.eventBus.emit('generator-purchased', { generatorId: id, count, newLevel: generator.level });
-    return true;
-  }
+export interface IdleSystemAnalytics {
+  totalSessions: number;
+  totalActivities: number;
+  averageIdleTime: number;
+  sessionTypeDistribution: SessionTypeDistribution[];
+  activityTypeDistribution: ActivityTypeDistribution[];
+  idlePatternAnalysis: IdlePatternAnalysis[];
+  performanceTrends: PerformanceTrend[];
+}
 
-  /**
-   * Calculate cost for purchasing generators
-   */
-  private calculateGeneratorCost(generator: Generator, count: number): number {
-    let totalCost = 0;
-    for (let i = 0; i < count; i++) {
-      totalCost += generator.baseCost * Math.pow(generator.costMultiplier, generator.level + i);
-    }
-    return totalCost;
-  }
+export interface SessionTypeDistribution {
+  type: SessionType;
+  count: number;
+  percentage: number;
+  averageDuration: number;
+}
 
-  /**
-   * Create a proper idle system implementation
-   */
-  private createIdleSystem(eventBus: EventBus, config: IdleManagerConfig): IdleSystemPure {
-    return {
-      getResources: () => this.resources,
-      getGenerators: () => this.generators,
-      getResource: (id: string) => this.resources.get(id),
-      getTotalProduction: () => this.calculateTotalProduction(),
-      purchaseGenerator: (id: string, count: number) => this.purchaseGeneratorInternal(id, count),
-      getAchievements: () => this.achievements,
-      getPrestigeConfigs: () => this.prestigeConfigs,
-      loadGameData: () => this.loadGame(),
-      saveGameData: () => this.saveGame(),
-      resetGame: () => this.resetGame(),
-      getStats: () => this.getStats(),
-      getGameState: () => this.getGameState(),
-      setPaused: (paused: boolean) => { this.isPaused = paused; },
-      setIntegrations: (integrations: any) => this.setIntegrations(integrations),
-      on: (event: string, handler: any) => this.eventBus.subscribe(event, handler)
-    } as IdleSystemPure;
-  }
+export interface ActivityTypeDistribution {
+  type: ActivityType;
+  count: number;
+  percentage: number;
+  averageIntensity: ActivityIntensity;
+}
 
-  constructor(eventBus: EventBus, config: IdleManagerConfig = {
-    enableAutoSave: true,
-    saveInterval: 60,
-    enableAnalytics: true,
-    enableAchievements: true,
-    enablePrestige: true,
-    performanceMode: 'high',
-    debugMode: false
-  };
+export interface IdlePatternAnalysis {
+  pattern: string;
+  frequency: number;
+  averageDuration: number;
+  confidence: number;
+  recommendations: string[];
+}
 
-  constructor(config: Partial<IdleManagerConfig> = {}) {
-    // Merge with defaults
+export interface PerformanceTrend {
+  timestamp: number;
+  sessions: number;
+  activities: number;
+  idleTime: number;
+  powerSavings: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface IdleSystemReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeSessions: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface IdleSystemOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class IdleSystemPure {
+  private managers: Map<string, IdleSystemManager> = new Map();
+  private config: IdleSystemConfig;
+  private performanceMetrics: IdleSystemPerformanceMetrics;
+  private analytics: IdleSystemAnalytics;
+
+  constructor(config: Partial<IdleSystemConfig> = {}) {
     this.config = {
-      ...this.config,
+      enableIdleManagement: true,
+      enableIdleDetection: true,
+      enablePowerManagement: true,
+      enableResourceConservation: true,
+      enableActivityTracking: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableIdleAnalytics: true,
+      enableIdleReporting: true,
+      idleThreshold: 300000, // 5 minutes
+      maxIdleTime: 3600000, // 1 hour
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
     };
 
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'IdleSystemManager': LogLevel.DEBUG
-      }
-    });
+    this.performanceMetrics = {
+      totalSessions: 0,
+      activeSessions: 0,
+      totalActivities: 0,
+      totalPolicies: 0,
+      totalMonitors: 0,
+      averageIdleTime: 0,
+      averageSessionDuration: 0,
+      powerSavings: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-    // Register with memory manager
-    this.memoryId = `IdleSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'IdleSystemManager');
-  }
-
-  /**
-   * Initialize the idle system
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      this.eventBus = new EventBus();
-      this.idleSystem = this.createIdleSystem(this.eventBus, this.config);
-      this.initializeManagers();
-    this.setupEventListeners();
-    this.initialize();
-  }
-
-  /**
-   * Initialize managers
-   */
-  private initializeManagers(): void {
-    this.resourceManager = this.createResourceManager();
-    this.generatorManager = this.createGeneratorManager();
-    this.upgradeManager = this.createUpgradeManager();
-    this.achievementManager = this.createAchievementManager();
-    this.prestigeManager = this.createPrestigeManager();
-  }
-
-  /**
-   * Create resource manager
-   */
-  private createResourceManager(): ResourceManager {
-    return {
-      balanceResources: () => {
-        // Balance resource generation and consumption
-        const resources = this.idleSystem.getResources();
-        const generators = this.idleSystem.getGenerators();
-
-        // Calculate optimal resource distribution
-        optimizeResourceDistribution(resources, generators);
-      },
-
-      optimizeProduction: () => {
-        // Optimize generator production based on current resources
-        const resources = this.idleSystem.getResources();
-        optimizeGeneratorProduction(resources);
-      },
-
-      predictResourceNeeds: (timeframe: number) => {
-        const needs = new Map<string, number>();
-        const resources = this.idleSystem.getResources();
-        const generators = this.idleSystem.getGenerators();
-
-        resources.forEach((resource: any, resourceId: string) => {
-          const currentProduction = calculateResourceProduction(resourceId, generators);
-          const predictedAmount = resource.currentAmount + (currentProduction * timeframe);
-          needs.set(resourceId, Math.max(0, predictedAmount - resource.currentAmount));
-        });
-
-        return needs;
-      },
-
-      getResourceEfficiency: (resourceId: string) => {
-        const resource = this.idleSystem.getResource(resourceId);
-        if (!resource) return 0;
-
-        const generators = this.idleSystem.getGenerators();
-        const totalProduction = calculateResourceProduction(resourceId, generators);
-        const maxProduction = calculateMaxResourceProduction(resourceId, generators);
-
-        return maxProduction > 0 ? totalProduction / maxProduction : 0;
-      },
-
-      getOptimalGeneratorOrder: () => {
-        const generators = this.idleSystem.getGenerators();
-        const generatorList = Array.from(generators.values());
-
-        return generatorList
-          .filter((g: any) => (g as any).unlocked)
-          .sort((a: any, b: any) => {
-            const efficiencyA = this.generatorManager.getGeneratorEfficiency((a as any).id);
-            const efficiencyB = this.generatorManager.getGeneratorEfficiency((b as any).id);
-            return efficiencyB - efficiencyA;
-          })
-          .map((g: any) => (g as any).id);
-      }
+    this.analytics = {
+      totalSessions: 0,
+      totalActivities: 0,
+      averageIdleTime: 0,
+      sessionTypeDistribution: [],
+      activityTypeDistribution: [],
+      idlePatternAnalysis: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Create generator manager
+   * Create a new idle system manager
    */
-  private createGeneratorManager(): GeneratorManager {
-    return {
-      autoBuyGenerators: (budget: number, targetResource: string) => {
-        const purchased: string[] = [];
-        const generators = this.idleSystem.getGenerators();
-        const currencyResource = this.idleSystem.getResource('currency');
-
-        if (!currencyResource || currencyResource.currentAmount < budget) {
-          return purchased;
-        }
-
-        // Sort generators by efficiency
-        const sortedGenerators = Array.from(generators.values())
-          .filter((g: any) => (g as any).unlocked && (g as any).producesResource === targetResource)
-          .sort((a: any, b: any) => {
-            const roiA = this.generatorManager.predictGeneratorROI((a as any).id, 60);
-            const roiB = this.generatorManager.predictGeneratorROI((b as any).id, 60);
-            return roiB - roiA;
-          });
-
-        let remainingBudget = budget;
-
-        for (const generator of sortedGenerators as any[]) {
-          if (remainingBudget < (generator as any).currentCost) continue;
-
-          const maxAffordable = Math.floor(remainingBudget / (generator as any).currentCost);
-
-          if (maxAffordable > 0) {
-            this.idleSystem.purchaseGenerator((generator as any).id, maxAffordable);
-            purchased.push((generator as any).id);
-            remainingBudget -= (generator as any).currentCost * maxAffordable;
-          }
-        }
-
-        return purchased;
-      },
-
-      optimizeGeneratorPurchase: (availableCurrency: number) => {
-        const optimalOrder = this.resourceManager.getOptimalGeneratorOrder();
-        const purchased: string[] = [];
-
-        for (const generatorId of optimalOrder) {
-          if (availableCurrency <= 0) break;
-
-          const generator = this.idleSystem.getGenerator(generatorId);
-          if (!generator || !generator.unlocked) continue;
-
-          const affordable = Math.floor(availableCurrency / generator.currentCost);
-
-          if (affordable > 0) {
-            this.idleSystem.purchaseGenerator(generatorId, affordable);
-            purchased.push(generatorId);
-            availableCurrency -= generator.currentCost * affordable;
-          }
-        }
-
-        return purchased;
-      },
-
-      calculateOptimalGeneratorLevels: () => {
-        const optimalLevels = new Map<string, number>();
-        const generators = this.idleSystem.getGenerators();
-        const currencyResource = this.idleSystem.getResource('currency');
-
-        if (!currencyResource) return optimalLevels;
-
-        generators.forEach((generator: any, generatorId: string) => {
-          if (!generator.unlocked) return;
-
-          // Calculate optimal level based on efficiency and cost
-          const efficiency = this.generatorManager.getGeneratorEfficiency(generatorId);
-          const cost = generator.currentCost;
-          const availableCurrency = currencyResource.currentAmount;
-
-          if (cost > 0 && availableCurrency > cost) {
-            const optimalLevel = Math.floor(Math.log(availableCurrency / cost) / Math.log(generator.costMultiplier));
-            optimalLevels.set(generatorId, Math.max(0, optimalLevel));
-          }
-        });
-
-        return optimalLevels;
-      },
-
-      getGeneratorEfficiency: (generatorId: string) => {
-        const generator: any = this.idleSystem.getGenerator(generatorId);
-        if (!generator) return 0;
-
-        const production = (generator as any).baseProduction * (generator as any).owned;
-        const cost = (generator as any).currentCost;
-        const efficiency = production / cost;
-
-        return isNaN(efficiency) ? 0 : efficiency;
-      },
-
-      predictGeneratorROI: (generatorId: string, timeframe: number) => {
-        const generator: any = this.idleSystem.getGenerator(generatorId);
-        if (!generator) return 0;
-
-        const currentProduction = this.idleSystem.getTotalProduction();
-        const newProduction = currentProduction + ((generator as any).baseProduction * (generator as any).owned);
-        const productionIncrease = newProduction - currentProduction;
-
-        const cost = (generator as any).currentCost;
-        const roi = (productionIncrease * timeframe) / cost;
-
-        return isNaN(roi) ? 0 : roi;
-      }
-    };
-  }
-
-  /**
-   * Create upgrade manager
-   */
-  private createUpgradeManager(): UpgradeManager {
-    const calcUpgradeValue = (upgradeId: string, level: number) => {
-      const upgrade: any = this.idleSystem.getResource(upgradeId);
-      if (!upgrade) return 0;
-      const currentLevel = (upgrade as any).currentLevel ?? 0;
-      return currentLevel > 0 ? level / currentLevel : level;
-    };
-
-    return {
-      getOptimalUpgradeOrder: () => {
-        const upgradeList: Array<any> = Array.from(this.idleSystem.getResources().values());
-
-        return upgradeList
-          .filter((u: any) => (u as any).unlocked && (u as any).currentLevel < (u as any).maxLevel)
-          .sort((a: any, b: any) => {
-            const valueA = calcUpgradeValue((a as any).id, (a as any).currentLevel + 1);
-            const valueB = calcUpgradeValue((b as any).id, (b as any).currentLevel + 1);
-            return valueB - valueA;
-          })
-          .map((u: any) => (u as any).id);
-      },
-
-      calculateUpgradeValue: calcUpgradeValue,
-
-      getUpgradeRecommendations: (budget: number) => {
-        // Simplified recommendations
-        return ['click_power', 'auto_efficiency', 'farm_multiplier'];
-      },
-
-      predictUpgradeImpact: (upgradeId: string) => {
-        // Simplified impact prediction
-        return Math.random() * 2 + 1; // 1-3x impact
-      }
-    };
-  }
-
-  /**
-   * Create achievement manager
-   */
-  private createAchievementManager(): AchievementManager {
-    return {
-      trackProgress: (target: string, amount: number) => {
-        // Track progress for achievements
-        this.eventBus.emit('idle:achievement_progress', {
-          target: target,
-          amount: amount,
-          timestamp: Date.now()
-        });
-      },
-
-      getNextAchievements: () => {
-        const achievements = this.idleSystem.getAchievements();
-        return Array.from(achievements.values())
-          .filter((a: any) => !(a as any).unlocked && (a as any).progress < (a as any).maxProgress)
-          .sort((a: any, b: any) => (a as any).progress / (a as any).maxProgress - (b as any).progress / (b as any).maxProgress)
-          .slice(0, 3)
-          .map((a: any) => (a as any).id);
-      },
-
-      predictAchievementTime: (achievementId: string) => {
-        const achievement: any = this.idleSystem.getAchievements().get(achievementId);
-        if (!achievement || (achievement as any).unlocked) return 0;
-
-        const progressRate = (this as any).calculateProgressRate(achievement);
-        const remaining = (achievement as any).maxProgress - (achievement as any).progress;
-
-        return progressRate > 0 ? remaining / progressRate : Infinity;
-      },
-
-      getAchievementRewards: (achievementId: string) => {
-        const achievement: any = this.idleSystem.getAchievements().get(achievementId);
-        return achievement ? [((achievement as any).reward)] : [];
-      }
-    };
-  }
-
-  /**
-   * Create prestige manager
-   */
-  private createPrestigeManager(): PrestigeManager {
-    const canPrestigeFn = (tier: string) => {
-      const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
-      const config: any = prestigeConfigs.get(tier);
-      if (!config || !config.unlocked || config.completed) return false;
-      const currencyResource: any = this.idleSystem.getResource('currency');
-      return currencyResource ? currencyResource.currentAmount >= (config as any).requirement : false;
-    };
-
-    const calculatePrestigeValueFn = (tier: string) => {
-      const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
-      const config: any = prestigeConfigs.get(tier);
-      return config ? (config as any).multiplier : 1;
-    };
-
-    return {
-      canPrestige: canPrestigeFn,
-      calculatePrestigeValue: calculatePrestigeValueFn,
-      getOptimalPrestigeTiming: () => {
-        const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
-        for (const [tier, config] of prestigeConfigs) {
-          if (canPrestigeFn(tier) && !(config as any).completed) {
-            return tier;
-          }
-        }
-        return null;
-      },
-      predictPrestigeBenefits: (tier: string) => {
-        const value = calculatePrestigeValueFn(tier);
-        const totalProduction = this.idleSystem.getTotalProduction();
-        return totalProduction * (value - 1);
-      }
-    };
-  }
-
-  /**
-   * Initialize the manager
-   */
-  private async initialize(): Promise<void> {
-    try {
-      // Load saved state if available
-      this.idleSystem.loadGameData();
-
-      // Initialize analytics if enabled
-      if (this.config.enableAnalytics) {
-        this.startAnalytics();
-      }
-
-      this.isInitialized = true;
-
-      this.eventBus.emit('idle:manager_initialized', {
-        config: this.config,
-        timestamp: Date.now()
-      });
-
-    } catch (error) {
-      this.logger.error('IdleSystemManager', 'IdleManager initialization failed:', error);
-      throw new Error(`IdleManager initialization failed: ${error}`);
+  createManager(managerData: Partial<IdleSystemManager>): IdleSystemOutput {
+    if (!this.config.enableIdleManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Idle system management is disabled']
+      };
     }
+
+    const manager: IdleSystemManager = {
+      id: managerData.id || `idlesystem-${Date.now()}`,
+      name: managerData.name || 'Unnamed Idle System Manager',
+      type: managerData.type || 'desktop',
+      status: 'active',
+      sessions: [],
+      activities: [],
+      policies: [],
+      monitors: [],
+      powerSettings: {
+        powerMode: 'balanced',
+        idleTimeout: 300000, // 5 minutes
+        sleepTimeout: 1800000, // 30 minutes
+        hibernateTimeout: 3600000, // 1 hour
+        powerSaver: false,
+        cpuThrottling: false,
+        displayDimming: true,
+        networkStandby: true
+      },
+      performanceMetrics: {
+        totalSessions: 0,
+        activeSessions: 0,
+        totalActivities: 0,
+        totalPolicies: 0,
+        totalMonitors: 0,
+        averageIdleTime: 0,
+        averageSessionDuration: 0,
+        powerSavings: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalSessions: 0,
+        totalActivities: 0,
+        averageIdleTime: 0,
+        sessionTypeDistribution: [],
+        activityTypeDistribution: [],
+        idlePatternAnalysis: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeSessions: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Set up event listeners
+   * Get manager by ID
    */
-  private setupEventListeners(): void {
-    this.eventBus.subscribe('idle:resource_change', (data: any) => {
-      if (this.config.enableAnalytics) {
-        this.recordAnalytics('resource_change', data);
-      }
-    });
-
-    this.eventBus.subscribe('idle:generator_purchase', (data: any) => {
-      if (this.config.enableAnalytics) {
-        this.recordAnalytics('generator_purchase', data);
-      }
-    });
-
-    this.eventBus.subscribe('idle:upgrade_purchase', (data: any) => {
-      if (this.config.enableAnalytics) {
-        this.recordAnalytics('upgrade_purchase', data);
-      }
-    });
-  }
-
-  /**
-   * Start analytics tracking
-   */
-  private startAnalytics(): void {
-    setInterval(() => {
-      this.updateAnalytics();
-    }, 60000); // Update every minute
-  }
-
-  /**
-   * Record analytics data
-   */
-  private recordAnalytics(event: string, data: any): void {
-    this.analyticsData.push({
-      event: event,
-      data: data,
-      timestamp: Date.now()
-    });
-
-    // Keep only last 1000 entries
-    if (this.analyticsData.length > 1000) {
-      this.analyticsData = this.analyticsData.slice(-1000);
+  getManager(managerId: string): IdleSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Update analytics
+   * Get performance metrics
    */
-  private updateAnalytics(): void {
-    const stats = this.idleSystem.getStats();
+  getPerformanceMetrics(): IdleSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): IdleSystemAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): IdleSystemManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
     const now = Date.now();
+    let totalSessions = 0;
+    let activeSessions = 0;
+    let totalActivities = 0;
+    let totalPolicies = 0;
+    let totalMonitors = 0;
 
-    if (now - this.lastAnalyticsUpdate > 60000) {
-      this.eventBus.emit('idle:analytics_update', {
-        stats: stats,
-        timestamp: now;
-    });
-
-      this.lastAnalyticsUpdate = now;
+    for (const manager of this.managers.values()) {
+      totalSessions += manager.sessions.length;
+      activeSessions += manager.sessions.filter(s => s.status === 'active').length;
+      totalActivities += manager.activities.length;
+      totalPolicies += manager.policies.length;
+      totalMonitors += manager.monitors.length;
     }
-  }
 
-  // ============================================================================
-  // PUBLIC API METHODS
-  // ============================================================================
-
-  /**
-   * Get idle system instance
-   */
-  public getIdleSystem(): IdleSystemPure {
-    return this.idleSystem;
-  }
-
-  /**
-   * Set integrations
-   */
-  public setIntegrations(integrations: IdleIntegration): void {
-    this.integrations = { ...this.integrations, ...integrations };
-    this.idleSystem.setIntegrations(integrations);
-  }
-
-  /**
-   * Balance all resources
-   */
-  public balanceResources(): void {
-    this.resourceManager.balanceResources();
-  }
-
-  /**
-   * Optimize production
-   */
-  public optimizeProduction(): void {
-    this.resourceManager.optimizeProduction();
-  }
-
-  /**
-   * Auto-buy optimal generators
-   */
-  public autoBuyGenerators(budget?: number): string[] {
-    const currencyResource = this.idleSystem.getResource('currency');
-    const availableBudget = budget || (currencyResource?.currentAmount || 0);
-
-    return this.generatorManager.autoBuyGenerators(availableBudget, 'currency');
-  }
-
-  /**
-   * Get optimal upgrade order
-   */
-  public getOptimalUpgradeOrder(): string[] {
-    return this.upgradeManager.getOptimalUpgradeOrder();
-  }
-
-  /**
-   * Get next achievements
-   */
-  public getNextAchievements(): string[] {
-    return this.achievementManager.getNextAchievements();
-  }
-
-  /**
-   * Check if can prestige
-   */
-  public canPrestige(tier: string): boolean {
-    return this.prestigeManager.canPrestige(tier);
-  }
-
-  /**
-   * Get optimal prestige timing
-   */
-  public getOptimalPrestigeTiming(): string | null {
-    return this.prestigeManager.getOptimalPrestigeTiming();
-  }
-
-  /**
-   * Save game state
-   */
-  public saveGame(): void {
-    this.idleSystem.saveGameData();
-  }
-
-  /**
-   * Load game state
-   */
-  public loadGame(): void {
-    this.idleSystem.loadGameData();
-  }
-
-  /**
-   * Reset game
-   */
-  public resetGame(): void {
-    this.idleSystem.resetGame();
-  }
-
-  /**
-   * Get system statistics
-   */
-  public getStats(): {
-    isInitialized: boolean;
-    resources: number;
-    generators: number;
-    upgrades: number;
-    achievements: number;
-    prestigeCount: number;
-    totalPlayTime: number;
-    totalIdleTime: number;
-    currentProduction: number;
-    unlockedAchievements: number;
-    analyticsEnabled: boolean;
-  } {
-    const idleStats: any = this.idleSystem.getStats();
-
-    return {
-      ...idleStats,
-      isInitialized: this.isInitialized,
-      analyticsEnabled: this.config.enableAnalytics
-    };
-  }
-
-  /**
-   * Get game state for debugging
-   */
-  public getGameState(): any {
-    return this.idleSystem.getGameState();
-  }
-
-  /**
-   * Get analytics data
-   */
-  public getAnalyticsData(): any[] {
-    return [...this.analyticsData];
-  }
-
-  /**
-   * Set performance mode
-   */
-  public setPerformanceMode(mode: 'high' | 'medium' | 'low'): void {
-    this.config.performanceMode = mode;
-    this.idleSystem.setIntegrations({} as any); // Trigger update
-  }
-
-  /**
-   * Cleanup resources
-   */
-  public cleanup(): void {
-    this.analyticsData = [];
-    this.idleSystem.setPaused(true);
+    this.performanceMetrics.totalSessions = totalSessions;
+    this.performanceMetrics.activeSessions = activeSessions;
+    this.performanceMetrics.totalActivities = totalActivities;
+    this.performanceMetrics.totalPolicies = totalPolicies;
+    this.performanceMetrics.totalMonitors = totalMonitors;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// ============================================================================
-// HELPER METHODS
-// ============================================================================
-
-/**
- * Optimize resource distribution
- */
-function optimizeResourceDistribution(resources: Map<string, Resource>, generators: Map<string, Generator>): void {
-  // Balance resource generation based on consumption
-  generators.forEach((gen: any) => {
-    const consumesId = (gen as any).consumesResource as string | undefined;
-    const producesId = (gen as any).producesResource as string | undefined;
-    if (!consumesId || !producesId) return;
-
-    const consumedResource = resources.get(consumesId);
-    const producedResource = resources.get(producesId);
-
-    if (consumedResource && producedResource) {
-      const owned = (gen as any).owned ?? 0;
-      const baseProduction = (gen as any).baseProduction ?? 0;
-      // Adjust production based on consumption rates (simplified)
-      const consumptionRate = owned * 0.1;
-      const productionRate = baseProduction * owned;
-      if (consumptionRate > productionRate) {
-        // Hook for future optimization actions
-      }
-    }
-  });
-}
-
-/**
- * Optimize generator production
- */
-function optimizeGeneratorProduction(resources: Map<string, Resource>): void {
-  // Optimize based on resource availability
-  resources.forEach((res: any) => {
-    const maxAmount = (res as any).maxAmount ?? 0;
-    const current = (res as any).currentAmount ?? (res as Resource).amount ?? 0;
-    if (maxAmount && current >= maxAmount * 0.9) {
-      // Resource is nearly full; in a full impl we would scale down producers
-    }
-  });
-}
-
-/**
- * Calculate resource production
- */
-function calculateResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
-  let production = 0;
-  generators.forEach((gen: any) => {
-    const produces = (gen as any).producesResource;
-    const owned = (gen as any).owned ?? 0;
-    const baseProduction = (gen as any).baseProduction ?? 0;
-    if (produces === resourceId && owned > 0) {
-      production += baseProduction * owned;
-    }
-  });
-  return production;
-}
-
-/**
- * Calculate max resource production
- */
-function calculateMaxResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
-  let maxProduction = 0;
-  generators.forEach((gen: any) => {
-    const produces = (gen as any).producesResource;
-    const baseProduction = (gen as any).baseProduction ?? 0;
-    const maxOwned = (gen as any).maxOwned ?? 1000;
-    if (produces === resourceId) {
-      maxProduction += baseProduction * maxOwned;
-    }
-  });
-  return maxProduction;
-}
-
-/**
- * Calculate progress rate for achievement
- */
-function calculateProgressRate(achievement: Achievement): number {
-  // Simplified progress rate calculation
-  return 1; // 1 unit per second
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.logger.info('IdleSystemManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
-  }
-}
-
-// ============================================================================
-// TYPE EXPORTS
-// ============================================================================
-
-// Avoid duplicate re-exports; interfaces are declared above
-
-// ============================================================================
-// DEFAULT EXPORT
-// ============================================================================
-
-export default IdleManagerPure;
