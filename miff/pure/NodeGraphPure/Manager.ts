@@ -23,10 +23,7 @@ export class NodeGraphManager {
         textureGradient: (opts: any) => any,
         meshTree: (opts: any) => any,
         meshRock: (opts: any) => any
- 
-      
-      }
-	}): ExecutionResult {
+    }): ExecutionResult {
 		const results: Record<NodeId, any> = {};
 		const byId: Record<string, GraphNode> = Object.fromEntries(graph.nodes.map(n => [n.id, n]));
 		const order = graph.nodes.slice();
@@ -34,14 +31,7 @@ export class NodeGraphManager {
 			const resolvedInputs = { ...(node.inputs||{}) } as any;
 			if (node.sources) {
 				for (const [k, fromId] of Object.entries(node.sources)) {
-					resolvedInputs[k] = results[
-      f,
-      r,
-      o,
-      m,
-      I,
-      d
-    ];
+					resolvedInputs[k] = results[fromId];
 				}
 			}
 			let out: any;

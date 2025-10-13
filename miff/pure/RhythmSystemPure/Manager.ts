@@ -165,7 +165,7 @@ export class RhythmSystemPureManager {
         ...itemData,
         id,
         createdAt: now,
-        updatedAt: now;
+        updatedAt: now 
     };
 
       this.items.set(id, item);
@@ -204,7 +204,7 @@ export class RhythmSystemPureManager {
     try {
       const item = this.items.get(id);
       if (!item) {
-        this.logger.warn('Item not found for update', { itemId: id;
+        this.logger.warn('Item not found for update', { itemId: id 
     });
         return undefined;
       }
@@ -243,10 +243,10 @@ export class RhythmSystemPureManager {
       const deleted = this.items.delete(id);
       if (deleted) {
         this.updateAnalytics();
-        this.logger.info('Item deleted successfully', { itemId: id;
+        this.logger.info('Item deleted successfully', { itemId: id 
     });
       } else {
-        this.logger.warn('Item not found for deletion', { itemId: id;
+        this.logger.warn('Item not found for deletion', { itemId: id 
     });
       }
       return deleted;
@@ -255,7 +255,7 @@ export class RhythmSystemPureManager {
       this.errorHandler.handleError(error, {
         context: 'deleteItem',
         module: 'RhythmSystemPureManager',
-        itemId: id;
+        itemId: id 
     });
       throw error;
     }
