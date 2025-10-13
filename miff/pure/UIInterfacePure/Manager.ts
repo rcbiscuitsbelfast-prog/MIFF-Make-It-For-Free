@@ -387,7 +387,6 @@ export class UIInterfaceManager {
     // Register with memory manager
     this.memoryId = `UIInterfaceManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'UIInterfaceManager');
-  };
   }
 
   /**
