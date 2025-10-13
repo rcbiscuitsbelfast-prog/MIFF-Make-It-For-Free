@@ -1,592 +1,801 @@
 /**
- * PixelAnimPure Manager
- * 
- * Manages pixel animations, sprite sheets, and animation sequences with
- * comprehensive preset support and export capabilities.
+ * PixelAnimPure Manager - Advanced Pixel Animation Management System
+ *
+ * Comprehensive pixel animation management system with:
+ * - Pixel animation creation and management
+ * - Sprite sheet handling and optimization
+ * - Animation sequencing and timing
+ * - Pixel art tools and utilities
+ * - Performance optimization
+ * - Real-time animation monitoring
+ * - Animation analytics and reporting
  */
 
-import { Animation, AnimationFrame, SpriteSheet, PixelAnimPure } from './index';
-
-export interface AnimationSequence {
-  id: string;
-  name: string;
-  animations: Animation[];
-  transitions?: Record<string, string>; // from -> to animation mappings
-  metadata?: {
-    category?: string;
-    tags?: string[];
-    author?: string;
-    created?: string;
-  };
+export interface PixelAnimConfig {
+  enableAnimationManagement: boolean;
+  enableSpriteSheetHandling: boolean;
+  enableAnimationSequencing: boolean;
+  enablePixelArtTools: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableAnimationAnalytics: boolean;
+  enableAnimationReporting: boolean;
+  maxAnimations: number;
+  maxSprites: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface AnimationPreset {
+export interface PixelAnimManager {
+  id: string;
+  name: string;
+  type: PixelAnimManagerType;
+  status: PixelAnimManagerStatus;
+  animations: PixelAnimation[];
+  sprites: PixelSprite[];
+  spriteSheets: SpriteSheet[];
+  palettes: ColorPalette[];
+  performanceMetrics: PixelAnimPerformanceMetrics;
+  analytics: PixelAnimAnalytics;
+  reporting: PixelAnimReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type PixelAnimManagerType = 'game' | 'art' | 'animation' | 'custom';
+export type PixelAnimManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface PixelAnimation {
   id: string;
   name: string;
   description: string;
-  category: 'character' | 'environment' | 'effect' | 'ui' | 'custom';
-  frames: string[];
+  type: AnimationType;
+  frames: AnimationFrame[];
+  timing: AnimationTiming;
+  loop: LoopSettings;
+  interpolation: InterpolationSettings;
+  effects: AnimationEffect[];
+  status: AnimationStatus;
+  metadata: Record<string, any>;
+}
+
+export type AnimationType = 'idle' | 'walk' | 'run' | 'jump' | 'attack' | 'death' | 'custom';
+export type AnimationStatus = 'playing' | 'paused' | 'stopped' | 'completed' | 'error';
+
+export interface AnimationFrame {
+  id: string;
+  spriteId: string;
+  duration: number;
+  offset: Position;
+  scale: Scale;
+  rotation: number;
+  alpha: number;
+  effects: FrameEffect[];
+  metadata: Record<string, any>;
+}
+
+export interface Position {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Scale {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface FrameEffect {
+  type: EffectType;
+  value: any;
+  duration: number;
+  easing: EasingType;
+}
+
+export type EffectType = 'fade' | 'scale' | 'rotate' | 'move' | 'color' | 'custom';
+export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bounce' | 'elastic' | 'custom';
+
+export interface AnimationTiming {
+  duration: number;
   fps: number;
-  loop: boolean;
-  metadata?: {
-    frameWidth?: number;
-    frameHeight?: number;
-    style?: string;
-    tags?: string[];
-  };
-}
-
-export interface AnimationStats {
-  totalAnimations: number;
-  totalSequences: number;
+  frameRate: number;
+  startTime: number;
+  endTime: number;
   totalFrames: number;
-  averageFramesPerAnimation: number;
-  presetUsage: Record<string, number>;
-  categoryDistribution: Record<string, number>;
 }
 
-export class PixelAnimManager {
-  private animations: Map<string, Animation> = new Map();
-  private sequences: Map<string, AnimationSequence> = new Map();
-  private presets: Map<string, AnimationPreset> = new Map();
+export interface LoopSettings {
+  enabled: boolean;
+  count: number;
+  infinite: boolean;
+  reverse: boolean;
+  pingPong: boolean;
+}
 
-  constructor() {
-    this.initializeDefaultPresets();
-    this.createSampleAnimations();
-  }
+export interface InterpolationSettings {
+  enabled: boolean;
+  type: InterpolationType;
+  smoothness: number;
+  keyframes: Keyframe[];
+}
 
-  private initializeDefaultPresets() {
-    const defaultPresets: AnimationPreset[] = [
-      {
-        id: 'walk-basic',
-        name: 'Basic Walk Cycle',
-        description: 'Standard 4-frame walk animation',
-        category: 'character',
-        frames: ['walk1.png', 'walk2.png', 'walk3.png', 'walk4.png'],
-        fps: 8,
-        loop: true,
-        metadata: {
+export type InterpolationType = 'linear' | 'bezier' | 'cubic' | 'spline' | 'custom';
 
-          frameWidth: 32,
-          frameHeight: 32,
-          style: 'pixel',
-          tags: ['movement', 'character'] 
+export interface Keyframe {
+  time: number;
+  value: any;
+  easing: EasingType;
+  tangentIn: number;
+  tangentOut: number;
+}
 
-        
+export interface AnimationEffect {
+  id: string;
+  type: EffectType;
+  enabled: boolean;
+  parameters: EffectParameters;
+  timing: EffectTiming;
+  target: EffectTarget;
+}
 
+export interface EffectParameters {
+  intensity: number;
+  duration: number;
+  frequency: number;
+  amplitude: number;
+  phase: number;
+  custom: Record<string, any>;
+}
 
-        }
-        };
-      },
-      {
-        id: 'idle-basic',
-        name: 'Basic Idle',
-        description: 'Simple 2-frame idle animation',
-        category: 'character',
-        frames: ['idle1.png', 'idle2.png'],
-        fps: 4,
-        loop: true,
-        metadata: {
+export interface EffectTiming {
+  startTime: number;
+  endTime: number;
+  delay: number;
+  duration: number;
+  loop: boolean;
+}
 
-          frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['idle', 'character'] 
+export interface EffectTarget {
+  type: TargetType;
+  id: string;
+  property: string;
+  value: any;
+}
 
-        
+export type TargetType = 'frame' | 'sprite' | 'animation' | 'global' | 'custom';
 
+export interface PixelSprite {
+  id: string;
+  name: string;
+  description: string;
+  size: SpriteSize;
+  data: PixelData;
+  palette: string;
+  transparency: TransparencySettings;
+  metadata: Record<string, any>;
+}
 
-        }
-        };
-      },
-      {
-        id: 'attack-sword',
-        name: 'Sword Attack',
-        description: '3-frame sword attack animation',
-        category: 'character',
-        frames: ['attack1.png', 'attack2.png', 'attack3.png'],
-        fps: 12,
-        loop: false,
-        metadata: {
+export interface SpriteSize {
+  width: number;
+  height: number;
+  depth: number;
+}
 
-          frameWidth: 48, frameHeight: 48, style: 'pixel', tags: ['combat', 'weapon'] 
+export interface PixelData {
+  format: PixelFormat;
+  data: Uint8Array;
+  compression: CompressionType;
+  size: number;
+}
 
-        
+export type PixelFormat = 'rgba' | 'rgb' | 'palette' | 'grayscale' | 'custom';
+export type CompressionType = 'none' | 'rle' | 'lz4' | 'zlib' | 'custom';
 
+export interface TransparencySettings {
+  enabled: boolean;
+  color: Color;
+  threshold: number;
+  alpha: number;
+}
 
-        }
-        };
-      },
-      {
-        id: 'flame-flicker',
-        name: 'Flame Flicker',
-        description: 'Flickering flame effect',
-        category: 'effect',
-        frames: ['flame1.png', 'flame2.png', 'flame3.png', 'flame2.png'],
-        fps: 10,
-        loop: true,
-        metadata: {
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
 
-          frameWidth: 16, frameHeight: 24, style: 'pixel', tags: ['fire', 'environment'] 
+export interface SpriteSheet {
+  id: string;
+  name: string;
+  description: string;
+  sprites: string[];
+  layout: SpriteLayout;
+  atlas: AtlasSettings;
+  metadata: Record<string, any>;
+}
 
-        
+export interface SpriteLayout {
+  type: LayoutType;
+  rows: number;
+  columns: number;
+  spacing: Spacing;
+  padding: Padding;
+}
 
+export type LayoutType = 'grid' | 'packed' | 'custom';
 
-        }
-        };
-      },
-      {
-        id: 'water-flow',
-        name: 'Water Flow',
-        description: 'Flowing water animation',
-        category: 'environment',
-        frames: ['water1.png', 'water2.png', 'water3.png', 'water4.png'],
-        fps: 6,
-        loop: true,
-        metadata: {
+export interface Spacing {
+  horizontal: number;
+  vertical: number;
+}
 
-          frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['water', 'environment'] 
+export interface Padding {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
 
-        
+export interface AtlasSettings {
+  enabled: boolean;
+  maxSize: number;
+  padding: number;
+  border: number;
+  algorithm: PackingAlgorithm;
+}
 
+export type PackingAlgorithm = 'max_rects' | 'bin_packing' | 'skyline' | 'custom';
 
-        }
-        };
-      }
-    ];
+export interface ColorPalette {
+  id: string;
+  name: string;
+  description: string;
+  colors: PaletteColor[];
+  type: PaletteType;
+  metadata: Record<string, any>;
+}
 
-    defaultPresets.forEach(preset => {
-      this.presets.set(preset.id, preset);
-    });
-  }
+export interface PaletteColor {
+  id: string;
+  name: string;
+  color: Color;
+  index: number;
+  usage: number;
+}
 
-  private createSampleAnimations() {
-    // Create sample animations from presets
-    const sampleIds = ['walk-basic', 'idle-basic', 'flame-flicker'];
-    sampleIds.forEach(presetId => {
-      const preset = this.presets.get(presetId);
-      if (preset) {
-        const animation = this.createAnimationFromPreset(presetId);
-        if (animation.ok && animation.animation) {
-          this.animations.set(animation.animation.name, animation.animation);
-        }
-      }
-    });
+export type PaletteType = 'default' | 'custom' | 'imported' | 'generated';
 
-    // Create a sample sequence
-    const walkAnim = this.animations.get('Basic Walk Cycle');
-    const idleAnim = this.animations.get('Basic Idle');
-    if (walkAnim && idleAnim) {
-      this.createSequence('character-basic', 'Basic Character', [walkAnim, idleAnim], {
-        'Basic Idle': 'Basic Walk Cycle',
-        'Basic Walk Cycle': 'Basic Idle'
-      });
-    }
-  }
+export interface PixelAnimPerformanceMetrics {
+  totalAnimations: number;
+  activeAnimations: number;
+  totalSprites: number;
+  totalSpriteSheets: number;
+  averageFPS: number;
+  averageLatency: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
 
-  /**
-   * Create animation from preset
-   */
-  createAnimationFromPreset(presetId: string): { ok: boolean; animation?: Animation; errors?: string[] } {
-    try {
-      const preset = this.presets.get(presetId);
-      if (!preset) {
-        return { ok: false, errors: [`Preset ${presetId} not found`] };
-      }
+export interface PixelAnimAnalytics {
+  totalAnimations: number;
+  averageFPS: number;
+  animationTypeDistribution: AnimationTypeDistribution[];
+  spriteUsageDistribution: SpriteUsageDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
 
-      const animation = PixelAnimPure.createAnimation(preset.name, preset.frames, preset.fps, preset.loop);
-      return { ok: true, animation };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
+export interface AnimationTypeDistribution {
+  type: AnimationType;
+  count: number;
+  percentage: number;
+  averageFrames: number;
+}
 
-  /**
-   * Create custom animation
-   */
-  createAnimation(name: string, frames: string[], fps: number = 8, loop: boolean = true): { ok: boolean; animation?: Animation; errors?: string[] } {
-    try {
-      if (this.animations.has(name)) {
-        return { ok: false, errors: [`Animation ${name} already exists`] };
-      }
+export interface SpriteUsageDistribution {
+  spriteId: string;
+  name: string;
+  usage: number;
+  animations: number;
+  averageUsage: number;
+}
 
-      if (frames.length === 0) {
-        return { ok: false, errors: ['Animation must have at least one frame'] };
-      }
+export interface PerformanceTrend {
+  timestamp: number;
+  animations: number;
+  sprites: number;
+  fps: number;
+  latency: number;
+  memory: number;
+  cpu: number;
+}
 
-      if (fps <= 0 || fps > 60) {
-        return { ok: false, errors: ['FPS must be between 1 and 60'] };
-      }
+export interface PixelAnimReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeAnimations: boolean;
+  lastReport: number;
+}
 
-      const animation = PixelAnimPure.createAnimation(name, frames, fps, loop);
-      this.animations.set(name, animation);
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
 
-      return { ok: true, animation };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
 
-  /**
-   * Get animation by name
-   */
-  getAnimation(name: string): { ok: boolean; animation?: Animation; errors?: string[] } {
-    const animation = this.animations.get(name);
-    if (!animation) {
-      return { ok: false, errors: [`Animation ${name} not found`] };
-    }
-    return { ok: true, animation };
-  }
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
 
-  /**
-   * List all animations
-   */
-  listAnimations(filter?: { category?: string; loop?: boolean }): { ok: boolean; animations: Animation[]; total: number;
-    } {
-    let animations = Array.from(this.animations.values());
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
 
-    if (filter?.loop !== undefined) {
-      animations = animations.filter(a => a.loop === filter.loop);
-    }
+export interface PixelAnimOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
 
-    // Note: category filtering would require additional metadata in Animation interface
-    // For now, we'll return all animations
+export class PixelAnimPure {
+  private managers: Map<string, PixelAnimManager> = new Map();
+  private config: PixelAnimConfig;
+  private performanceMetrics: PixelAnimPerformanceMetrics;
+  private analytics: PixelAnimAnalytics;
 
-    return { ok: true, animations, total: animations.length };
-  }
-
-  /**
-   * Create animation sequence
-   */
-  createSequence(id: string, name: string, animations: Animation[], transitions?: Record<string, string>): { ok: boolean; sequence?: AnimationSequence; errors?: string[] } {
-    try {
-      if (this.sequences.has(id)) {
-        return { ok: false, errors: [`Sequence ${id} already exists`] };
-      }
-
-      if (animations.length === 0) {
-        return { ok: false, errors: ['Sequence must have at least one animation'] };
-      }
-
-      const sequence: AnimationSequence = {
-        id,
-        name,
-        animations,
-        transitions,
-        metadata: {
-
-          created: new Date().toISOString(),
-          category: 'custom'
-        
-
-        
-
-
-        }
-        };
-      };
-
-      this.sequences.set(id, sequence);
-      return { ok: true, sequence };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Get sequence by ID
-   */
-  getSequence(id: string): { ok: boolean; sequence?: AnimationSequence; errors?: string[] } {
-    const sequence = this.sequences.get(id);
-    if (!sequence) {
-      return { ok: false, errors: [`Sequence ${id} not found`] };
-    }
-    return { ok: true, sequence };
-  }
-
-  /**
-   * List all sequences
-   */
-  listSequences(): { ok: boolean; sequences: AnimationSequence[]; total: number;
-    } {
-    const sequences = Array.from(this.sequences.values());
-    return { ok: true, sequences, total: sequences.length };
-  }
-
-  /**
-   * Create sprite sheet from animations
-   */
-  createSpriteSheet(animationNames: string[], frameWidth: number, frameHeight: number): { ok: boolean; spriteSheet?: SpriteSheet; errors?: string[] } {
-    try {
-      const animations: Animation[] = [];
-      
-      for (const name of animationNames) {
-        const animation = this.animations.get(name);
-        if (!animation) {
-          return { ok: false, errors: [`Animation ${name} not found`] };
-        }
-        animations.push(animation);
-      }
-
-      const spriteSheet = PixelAnimPure.createSpriteSheet(animations, frameWidth, frameHeight);
-      return { ok: true, spriteSheet };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Add custom preset
-   */
-  addPreset(preset: AnimationPreset): { ok: boolean; errors?: string[] } {
-    try {
-      if (this.presets.has(preset.id)) {
-        return { ok: false, errors: [`Preset ${preset.id} already exists`] };
-      }
-
-      if (preset.frames.length === 0) {
-        return { ok: false, errors: ['Preset must have at least one frame'] };
-      }
-
-      this.presets.set(preset.id, preset);
-      return { ok: true;
+  constructor(config: Partial<PixelAnimConfig> = {}) {
+    this.config = {
+      enableAnimationManagement: true,
+      enableSpriteSheetHandling: true,
+      enableAnimationSequencing: true,
+      enablePixelArtTools: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableAnimationAnalytics: true,
+      enableAnimationReporting: true,
+      maxAnimations: 1000,
+      maxSprites: 10000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
+
+    this.performanceMetrics = {
+      totalAnimations: 0,
+      activeAnimations: 0,
+      totalSprites: 0,
+      totalSpriteSheets: 0,
+      averageFPS: 0,
+      averageLatency: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalAnimations: 0,
+      averageFPS: 0,
+      animationTypeDistribution: [],
+      spriteUsageDistribution: [],
+      performanceTrends: []
+    };
   }
 
   /**
-   * List all presets
+   * Create a new pixel animation manager
    */
-  listPresets(category?: string): { ok: boolean; presets: AnimationPreset[]; total: number;
-    } {
-    let presets = Array.from(this.presets.values());
-    
-    if (category) {
-      presets = presets.filter(p => p.category === category);
+  createManager(managerData: Partial<PixelAnimManager>): PixelAnimOutput {
+    if (!this.config.enableAnimationManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Animation management is disabled']
+      };
     }
 
-    return { ok: true, presets, total: presets.length };
+    const manager: PixelAnimManager = {
+      id: managerData.id || `pixelanim-${Date.now()}`,
+      name: managerData.name || 'Unnamed Pixel Animation Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      animations: [],
+      sprites: [],
+      spriteSheets: [],
+      palettes: [],
+      performanceMetrics: {
+        totalAnimations: 0,
+        activeAnimations: 0,
+        totalSprites: 0,
+        totalSpriteSheets: 0,
+        averageFPS: 0,
+        averageLatency: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalAnimations: 0,
+        averageFPS: 0,
+        animationTypeDistribution: [],
+        spriteUsageDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeAnimations: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Simulate animation playback
+   * Get manager by ID
    */
-  simulate(animationName: string, duration: number = 5000): { ok: boolean; simulation?: any; errors?: string[] } {
-    const animation = this.animations.get(animationName);
-    if (!animation) {
-      return { ok: false, errors: [`Animation ${animationName} not found`] };
-    }
-
-    const frameDuration = 1000 / animation.speed; // ms per frame
-    const totalFrames = animation.frames.length;
-    const animationDuration = totalFrames * frameDuration;
-    
-    const events: any[] = [];
-    let currentTime = 0;
-    let cycles = 0;
-
-    while (currentTime < duration) {
-      for (let i = 0; i < totalFrames && currentTime < duration; i++) {
-        events.push({
-          timestamp: currentTime,
-          frame: i,
-          layer: animation.frames[i].layer,
-          cycle: cycles,
-          progress: currentTime / duration
-        });
-        currentTime += frameDuration;
-      }
-      
-      cycles++;
-      
-      if (!animation.loop) {
-        break;
-      }
+  getManager(managerId: string): PixelAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
     return {
-      ok: true,
-      simulation: {
-
-        animationName,
-        duration,
-        totalCycles: cycles,
-        totalEvents: events.length,
-        frameDuration,
-        animationDuration,
-        events: events.slice(0, 50) // Limit events for output
-      
-
-      
-
-
-      }
-      };
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Get animation statistics
+   * Create pixel animation
    */
-  getStats(): AnimationStats {
-    const animations = Array.from(this.animations.values());
-    const sequences = Array.from(this.sequences.values());
-    
-    const totalAnimations = animations.length;
-    const totalSequences = sequences.length;
-    const totalFrames = animations.reduce((sum, anim) => sum + anim.frames.length, 0);
-    const averageFramesPerAnimation = totalAnimations > 0 ? totalFrames / totalAnimations : 0;
+  createAnimation(managerId: string, animation: Partial<PixelAnimation>): PixelAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
 
-    // Preset usage (simplified - would need tracking in real implementation)
-    const presetUsage: Record<string, number> = {};
-    this.presets.forEach((preset, id) => {
-      presetUsage[id] = animations.filter(a => a.name === preset.name).length;
-    });
+    if (manager.animations.length >= this.config.maxAnimations) {
+      return {
+        op: 'create-animation',
+        status: 'error',
+        issues: ['Maximum number of animations reached']
+      };
+    }
 
-    // Category distribution
-    const categoryDistribution: Record<string, number> = {};
-    this.presets.forEach(preset => {
-      categoryDistribution[preset.category] = (categoryDistribution[preset.category] || 0) + 1;
-    });
+    const newAnimation: PixelAnimation = {
+      id: animation.id || `animation-${Date.now()}`,
+      name: animation.name || 'Unnamed Animation',
+      description: animation.description || '',
+      type: animation.type || 'idle',
+      frames: animation.frames || [],
+      timing: animation.timing || {
+        duration: 1000,
+        fps: 30,
+        frameRate: 30,
+        startTime: 0,
+        endTime: 1000,
+        totalFrames: 30
+      },
+      loop: animation.loop || {
+        enabled: true,
+        count: 0,
+        infinite: true,
+        reverse: false,
+        pingPong: false
+      },
+      interpolation: animation.interpolation || {
+        enabled: false,
+        type: 'linear',
+        smoothness: 1,
+        keyframes: []
+      },
+      effects: animation.effects || [],
+      status: 'stopped',
+      metadata: {},
+      ...animation
+    };
+
+    manager.animations.push(newAnimation);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalAnimations++;
 
     return {
-      totalAnimations,
-      totalSequences,
-      totalFrames,
-      averageFramesPerAnimation,
-      presetUsage,
-      categoryDistribution
+      op: 'create-animation',
+      status: 'ok',
+      result: newAnimation
     };
   }
 
   /**
-   * Export animation in various formats
+   * Create pixel sprite
    */
-  exportAnimation(name: string, format: 'json' | 'manifest' | 'spritesheet' = 'json'): { ok: boolean; data?: any; errors?: string[] } {
-    const animation = this.animations.get(name);
+  createSprite(managerId: string, sprite: Partial<PixelSprite>): PixelAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-sprite',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.sprites.length >= this.config.maxSprites) {
+      return {
+        op: 'create-sprite',
+        status: 'error',
+        issues: ['Maximum number of sprites reached']
+      };
+    }
+
+    const newSprite: PixelSprite = {
+      id: sprite.id || `sprite-${Date.now()}`,
+      name: sprite.name || 'Unnamed Sprite',
+      description: sprite.description || '',
+      size: sprite.size || { width: 32, height: 32, depth: 1 },
+      data: sprite.data || {
+        format: 'rgba',
+        data: new Uint8Array(32 * 32 * 4),
+        compression: 'none',
+        size: 32 * 32 * 4
+      },
+      palette: sprite.palette || 'default',
+      transparency: sprite.transparency || {
+        enabled: true,
+        color: { r: 0, g: 0, b: 0, a: 0 },
+        threshold: 0.1,
+        alpha: 1
+      },
+      metadata: {},
+      ...sprite
+    };
+
+    manager.sprites.push(newSprite);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalSprites++;
+
+    return {
+      op: 'create-sprite',
+      status: 'ok',
+      result: newSprite
+    };
+  }
+
+  /**
+   * Create sprite sheet
+   */
+  createSpriteSheet(managerId: string, spriteSheet: Partial<SpriteSheet>): PixelAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-sprite-sheet',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newSpriteSheet: SpriteSheet = {
+      id: spriteSheet.id || `spritesheet-${Date.now()}`,
+      name: spriteSheet.name || 'Unnamed Sprite Sheet',
+      description: spriteSheet.description || '',
+      sprites: spriteSheet.sprites || [],
+      layout: spriteSheet.layout || {
+        type: 'grid',
+        rows: 1,
+        columns: 1,
+        spacing: { horizontal: 0, vertical: 0 },
+        padding: { top: 0, right: 0, bottom: 0, left: 0 }
+      },
+      atlas: spriteSheet.atlas || {
+        enabled: false,
+        maxSize: 1024,
+        padding: 0,
+        border: 0,
+        algorithm: 'max_rects'
+      },
+      metadata: {},
+      ...spriteSheet
+    };
+
+    manager.spriteSheets.push(newSpriteSheet);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalSpriteSheets++;
+
+    return {
+      op: 'create-sprite-sheet',
+      status: 'ok',
+      result: newSpriteSheet
+    };
+  }
+
+  /**
+   * Create color palette
+   */
+  createPalette(managerId: string, palette: Partial<ColorPalette>): PixelAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-palette',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newPalette: ColorPalette = {
+      id: palette.id || `palette-${Date.now()}`,
+      name: palette.name || 'Unnamed Palette',
+      description: palette.description || '',
+      colors: palette.colors || [],
+      type: palette.type || 'custom',
+      metadata: {},
+      ...palette
+    };
+
+    manager.palettes.push(newPalette);
+    manager.updatedAt = Date.now();
+
+    return {
+      op: 'create-palette',
+      status: 'ok',
+      result: newPalette
+    };
+  }
+
+  /**
+   * Play animation
+   */
+  playAnimation(managerId: string, animationId: string): PixelAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'play-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const animation = manager.animations.find(a => a.id === animationId);
     if (!animation) {
-      return { ok: false, errors: [`Animation ${name} not found`] };
+      return {
+        op: 'play-animation',
+        status: 'error',
+        issues: [`Animation ${animationId} not found`]
+      };
     }
 
-    switch (format) {
-      case 'json':
-        return { ok: true, data: animation;
-    };
-      
-      case 'manifest':
-        return {
-          ok: true,
-          data: {
+    animation.status = 'playing';
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.activeAnimations++;
 
-            schema: 'miff.pixel.animation.manifest.v1',
-            animation: PixelAnimPure.exportAnimation(animation),
-            metadata: {
-              exportedAt: new Date().toISOString(),
-              frameCount: animation.frames.length,
-              duration: (animation.frames.length * 1000) / animation.speed
-            
-
-          
-
-
-          }
-          };
-          }
-        };
-      
-      case 'spritesheet':
-        const spriteSheet = PixelAnimPure.createSpriteSheet([
-      anim,
-      a,
-      t,
-      i,
-      o,
-      n
-    ], 32, 32);
-        return {
-          ok: true,
-          data: {
-
-            spriteSheet: PixelAnimPure.exportSpriteSheet(spriteSheet),
-            animation: PixelAnimPure.exportAnimation(animation)
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      default:
-        return { ok: false, errors: [`Unknown export format: ${format}`] };
-    }
-  }
-
-  /**
-   * Delete animation
-   */
-  deleteAnimation(name: string): { ok: boolean; errors?: string[] } {
-    if (!this.animations.has(name)) {
-      return { ok: false, errors: [`Animation ${name} not found`] };
-    }
-
-    // Check if animation is used in any sequences
-    const usedInSequences = Array.from(this.sequences.values()).filter(seq =>
-      seq.animations.some(anim => anim.name === name)
-    );
-
-    if (usedInSequences.length > 0) {
-      const sequenceNames = usedInSequences.map(seq => seq.name).join(', ');
-      return { ok: false, errors: [`Animation ${name} is used in sequences: ${sequenceNames}`] };
-    }
-
-    this.animations.delete(name);
-    return { ok: true;
-    };
-  }
-
-  /**
-   * Delete sequence
-   */
-  deleteSequence(id: string): { ok: boolean; errors?: string[] } {
-    if (!this.sequences.has(id)) {
-      return { ok: false, errors: [`Sequence ${id} not found`] };
-    }
-
-    this.sequences.delete(id);
-    return { ok: true;
-    };
-  }
-
-  /**
-   * Validate animation
-   */
-  validateAnimation(animation: Animation): { valid: boolean; errors: string[] } {
-    const errors: string[] = [];
-
-    if (!animation.name || animation.name.trim() === '') {
-      errors.push('Animation name is required');
-    }
-
-    if (!animation.frames || animation.frames.length === 0) {
-      errors.push('Animation must have at least one frame');
-    }
-
-    if (animation.speed <= 0 || animation.speed > 60) {
-      errors.push('Animation speed must be between 1 and 60 FPS');
-    }
-
-    if (animation.frames && animation.frames.length > 0) {
-      animation.frames.forEach((frame, index) => {
-      if (!frame.layer || frame.layer.trim() === '') {
-        errors.push(`Frame ${index}: layer is required`);
+    return {
+      op: 'play-animation',
+      status: 'ok',
+      result: {
+        animationId,
+        status: animation.status,
+        timing: animation.timing
       }
-      if (frame.duration <= 0) {
-        errors.push(`Frame ${index}: duration must be positive`);
-      }
-      });
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): PixelAnimPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): PixelAnimAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): PixelAnimManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalAnimations = 0;
+    let activeAnimations = 0;
+    let totalSprites = 0;
+    let totalSpriteSheets = 0;
+
+    for (const manager of this.managers.values()) {
+      totalAnimations += manager.animations.length;
+      activeAnimations += manager.animations.filter(a => a.status === 'playing').length;
+      totalSprites += manager.sprites.length;
+      totalSpriteSheets += manager.spriteSheets.length;
     }
 
-    return { valid: errors.length === 0, errors };
+    this.performanceMetrics.totalAnimations = totalAnimations;
+    this.performanceMetrics.activeAnimations = activeAnimations;
+    this.performanceMetrics.totalSprites = totalSprites;
+    this.performanceMetrics.totalSpriteSheets = totalSpriteSheets;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

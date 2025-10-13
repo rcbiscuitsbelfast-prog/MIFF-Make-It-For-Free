@@ -1,695 +1,924 @@
-import { EntityID, StatBlock  } from '../shared/ConsolidatedSchema';
+/**
+ * NPCsPure Manager - Advanced NPC Management System
+ *
+ * Comprehensive NPC management system with:
+ * - NPC creation and management
+ * - AI behavior and decision making
+ * - Dialogue and interaction systems
+ * - Quest and task management
+ * - Performance optimization
+ * - Real-time NPC monitoring
+ * - NPC analytics and reporting
+ */
+
+export interface NPCsConfig {
+  enableNPCManagement: boolean;
+  enableAIBehavior: boolean;
+  enableDialogueSystem: boolean;
+  enableQuestSystem: boolean;
+  enableInteractionSystem: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableNPCAnalytics: boolean;
+  enableNPCReporting: boolean;
+  maxNPCs: number;
+  maxQuests: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
+
+export interface NPCsManager {
+  id: string;
+  name: string;
+  type: NPCsManagerType;
+  status: NPCsManagerStatus;
+  npcs: NPC[];
+  quests: Quest[];
+  dialogues: Dialogue[];
+  behaviors: Behavior[];
+  performanceMetrics: NPCsPerformanceMetrics;
+  analytics: NPCsAnalytics;
+  reporting: NPCsReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type NPCsManagerType = 'game' | 'simulation' | 'training' | 'custom';
+export type NPCsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface NPC {
-  id: EntityID;
+  id: string;
   name: string;
-  stats: StatBlock;
-  behavior: NPBehavior;
-  location: NPCLocation;
-  questIds: EntityID[];
-  movementPattern: MovementPattern;
-  dialogueTree?: DialogueNode;
-  inventory?: EntityID[];
-  faction?: string;
-  reputation?: number;
+  type: NPCType;
+  status: NPCStatus;
+  level: number;
+  experience: number;
+  stats: NPCStats;
+  skills: NPCSkill[];
+  inventory: NPCInventory;
+  behavior: BehaviorState;
+  dialogue: DialogueState;
+  quest: QuestState;
+  position: Position;
+  appearance: Appearance;
+  metadata: Record<string, any>;
 }
 
-export interface NPBehavior {
-  type: 'passive' | 'aggressive' | 'friendly' | 'merchant' | 'quest_giver';
-  aggression: number; // 0-100
-  curiosity: number; // 0-100
-  loyalty: number; // 0-100
-  schedule?: DailySchedule;
+export type NPCType = 'friendly' | 'neutral' | 'hostile' | 'merchant' | 'guard' | 'quest_giver' | 'custom';
+export type NPCStatus = 'active' | 'inactive' | 'dead' | 'unconscious' | 'busy';
+
+export interface NPCStats {
+  health: StatValue;
+  mana: StatValue;
+  stamina: StatValue;
+  strength: number;
+  dexterity: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
+  constitution: number;
 }
 
-export interface NPCLocation {
-  zoneId: EntityID;
+export interface StatValue {
+  current: number;
+  maximum: number;
+  regeneration: number;
+}
+
+export interface NPCSkill {
+  id: string;
+  name: string;
+  level: number;
+  experience: number;
+  category: SkillCategory;
+  description: string;
+}
+
+export type SkillCategory = 'combat' | 'social' | 'crafting' | 'magic' | 'stealth' | 'survival' | 'custom';
+
+export interface NPCInventory {
+  items: InventoryItem[];
+  currency: Currency;
+  capacity: number;
+  maxCapacity: number;
+}
+
+export interface InventoryItem {
+  id: string;
+  name: string;
+  type: ItemType;
+  quantity: number;
+  value: number;
+  description: string;
+  properties: ItemProperties;
+}
+
+export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'tool' | 'misc' | 'custom';
+
+export interface ItemProperties {
+  weight: number;
+  durability: number;
+  rarity: ItemRarity;
+  enchantments: Enchantment[];
+}
+
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
+
+export interface Enchantment {
+  id: string;
+  name: string;
+  level: number;
+  effect: EnchantmentEffect;
+}
+
+export interface EnchantmentEffect {
+  type: EffectType;
+  value: number;
+  duration: number;
+  target: EffectTarget;
+}
+
+export type EffectType = 'stat_bonus' | 'damage' | 'healing' | 'buff' | 'debuff' | 'custom';
+export type EffectTarget = 'self' | 'target' | 'area' | 'all' | 'custom';
+
+export interface Currency {
+  gold: number;
+  silver: number;
+  copper: number;
+  gems: number;
+  tokens: number;
+}
+
+export interface BehaviorState {
+  current: string;
+  previous: string;
+  next: string;
+  priority: number;
+  duration: number;
+  cooldown: number;
+  conditions: BehaviorCondition[];
+}
+
+export interface BehaviorCondition {
+  type: ConditionType;
+  value: any;
+  operator: ConditionOperator;
+  met: boolean;
+}
+
+export type ConditionType = 'health' | 'mana' | 'distance' | 'time' | 'item' | 'quest' | 'custom';
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'custom';
+
+export interface DialogueState {
+  current: string;
+  available: string[];
+  completed: string[];
+  locked: string[];
+  reputation: number;
+  relationship: RelationshipType;
+}
+
+export type RelationshipType = 'stranger' | 'acquaintance' | 'friend' | 'ally' | 'enemy' | 'rival' | 'custom';
+
+export interface QuestState {
+  active: string[];
+  completed: string[];
+  failed: string[];
+  available: string[];
+  reputation: number;
+  progress: QuestProgress[];
+}
+
+export interface QuestProgress {
+  questId: string;
+  step: number;
+  completed: boolean;
+  objectives: ObjectiveProgress[];
+}
+
+export interface ObjectiveProgress {
+  id: string;
+  description: string;
+  completed: boolean;
+  progress: number;
+  maxProgress: number;
+}
+
+export interface Position {
   x: number;
   y: number;
-  z?: number;
-  waypoints?: Array<{x: number, y: number, z?: number}>;
+  z: number;
+  rotation: number;
+  world: string;
+  region: string;
 }
 
-export interface MovementPattern {
-  type: 'idle' | 'patrol' | 'follow' | 'wander';
-  speed: number;
-  range?: number;
-  targetId?: EntityID; // for follow pattern
+export interface Appearance {
+  race: string;
+  gender: string;
+  age: number;
+  height: number;
+  weight: number;
+  hair: HairStyle;
+  eyes: EyeColor;
+  skin: SkinTone;
+  clothing: Clothing[];
+  accessories: Accessory[];
 }
 
-export interface DailySchedule {
-  activities: Array<{
-    time: string; // "HH:MM"
-    activity: string;
-    location?: NPCLocation;
-  }>;
+export interface HairStyle {
+  color: string;
+  style: string;
+  length: number;
 }
+
+export interface EyeColor {
+  color: string;
+  brightness: number;
+}
+
+export interface SkinTone {
+  color: string;
+  texture: string;
+}
+
+export interface Clothing {
+  id: string;
+  name: string;
+  type: ClothingType;
+  color: string;
+  material: string;
+  condition: number;
+}
+
+export type ClothingType = 'shirt' | 'pants' | 'shoes' | 'hat' | 'gloves' | 'coat' | 'custom';
+
+export interface Accessory {
+  id: string;
+  name: string;
+  type: AccessoryType;
+  color: string;
+  material: string;
+  condition: number;
+}
+
+export type AccessoryType = 'ring' | 'necklace' | 'bracelet' | 'earring' | 'piercing' | 'custom';
+
+export interface Quest {
+  id: string;
+  name: string;
+  description: string;
+  type: QuestType;
+  giver: string;
+  level: number;
+  objectives: QuestObjective[];
+  rewards: QuestReward;
+  requirements: QuestRequirement;
+  status: QuestStatus;
+  metadata: Record<string, any>;
+}
+
+export type QuestType = 'main' | 'side' | 'daily' | 'weekly' | 'event' | 'custom';
+export type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'expired';
+
+export interface QuestObjective {
+  id: string;
+  description: string;
+  type: ObjectiveType;
+  target: string;
+  quantity: number;
+  completed: boolean;
+  progress: number;
+}
+
+export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'talk' | 'explore' | 'craft' | 'custom';
+
+export interface QuestReward {
+  experience: number;
+  currency: Currency;
+  items: InventoryItem[];
+  reputation: number;
+  title: string;
+}
+
+export interface QuestRequirement {
+  level: number;
+  stats: StatRequirement[];
+  skills: SkillRequirement[];
+  quests: string[];
+  items: ItemRequirement[];
+}
+
+export interface StatRequirement {
+  stat: string;
+  value: number;
+  operator: RequirementOperator;
+}
+
+export interface SkillRequirement {
+  skill: string;
+  level: number;
+  operator: RequirementOperator;
+}
+
+export interface ItemRequirement {
+  itemId: string;
+  quantity: number;
+  consumed: boolean;
+}
+
+export type RequirementOperator = 'equals' | 'greater' | 'less' | 'greater_equal' | 'less_equal';
+
+export interface Dialogue {
+  id: string;
+  name: string;
+  npcId: string;
+  type: DialogueType;
+  nodes: DialogueNode[];
+  conditions: DialogueCondition[];
+  status: DialogueStatus;
+  metadata: Record<string, any>;
+}
+
+export type DialogueType = 'greeting' | 'quest' | 'trade' | 'information' | 'romance' | 'custom';
+export type DialogueStatus = 'available' | 'locked' | 'completed' | 'expired';
 
 export interface DialogueNode {
   id: string;
   text: string;
-  options?: Array<{
-    text: string;
-    nextNodeId: string;
-    condition?: DialogueCondition;
-    action?: DialogueAction;
-  }>;
+  speaker: string;
+  responses: DialogueResponse[];
+  actions: DialogueAction[];
+  conditions: DialogueCondition[];
 }
 
-export interface DialogueCondition {
-  type: 'quest_complete' | 'reputation' | 'item_owned' | 'stat_check';
-  target: string;
-  value: any;
+export interface DialogueResponse {
+  id: string;
+  text: string;
+  nextNode: string;
+  conditions: DialogueCondition[];
+  actions: DialogueAction[];
 }
 
 export interface DialogueAction {
-  type: 'give_quest' | 'give_item' | 'change_reputation' | 'teleport';
-  target: string;
+  type: ActionType;
   value: any;
+  target: string;
 }
 
-export interface NPCOperation {
-  op: 'create' | 'update' | 'delete' | 'get' | 'list' | 'simulate';
-  npcId?: EntityID;
-  npc?: NPC;
-  filter?: NPCFilter;
-  simulation?: NPCSimulation;
+export type ActionType = 'give_item' | 'take_item' | 'give_quest' | 'complete_quest' | 'change_reputation' | 'custom';
+
+export interface DialogueCondition {
+  type: ConditionType;
+  value: any;
+  operator: ConditionOperator;
+  met: boolean;
 }
 
-export interface NPCFilter {
-  zoneId?: EntityID;
-  behaviorType?: string;
-  faction?: string;
-  hasQuest?: boolean;
+export interface Behavior {
+  id: string;
+  name: string;
+  type: BehaviorType;
+  description: string;
+  actions: BehaviorAction[];
+  conditions: BehaviorCondition[];
+  priority: number;
+  cooldown: number;
+  duration: number;
+  enabled: boolean;
+  metadata: Record<string, any>;
 }
 
-export interface NPCSimulation {
-  duration: number; // seconds
-  events: string[];
-  interactions: NPCInteraction[];
+export type BehaviorType = 'idle' | 'patrol' | 'follow' | 'attack' | 'flee' | 'trade' | 'custom';
+
+export interface BehaviorAction {
+  type: ActionType;
+  value: any;
+  target: string;
+  duration: number;
+  cooldown: number;
 }
 
-export interface NPCInteraction {
-  type: 'dialogue' | 'combat' | 'trade' | 'quest';
-  targetId: EntityID;
-  result: 'success' | 'failure' | 'neutral';
+export interface NPCsPerformanceMetrics {
+  totalNPCs: number;
+  activeNPCs: number;
+  totalQuests: number;
+  activeQuests: number;
+  totalDialogues: number;
+  activeDialogues: number;
+  averageFPS: number;
+  averageLatency: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface NPCsAnalytics {
+  totalNPCs: number;
+  averageFPS: number;
+  npcTypeDistribution: NPCTypeDistribution[];
+  questTypeDistribution: QuestTypeDistribution[];
+  dialogueTypeDistribution: DialogueTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface NPCTypeDistribution {
+  type: NPCType;
+  count: number;
+  percentage: number;
+  averageLevel: number;
+}
+
+export interface QuestTypeDistribution {
+  type: QuestType;
+  count: number;
+  percentage: number;
+  averageLevel: number;
+}
+
+export interface DialogueTypeDistribution {
+  type: DialogueType;
+  count: number;
+  percentage: number;
+  averageLength: number;
+}
+
+export interface PerformanceTrend {
   timestamp: number;
+  npcs: number;
+  quests: number;
+  dialogues: number;
+  fps: number;
+  latency: number;
+  memory: number;
+  cpu: number;
 }
 
-export interface NPCOutput {
+export interface NPCsReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeNPCs: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface NPCsOutput {
   op: string;
   status: 'ok' | 'error';
   result?: any;
   issues?: string[];
-  [key: string]: unknown;
 }
 
-export class NPCsManager {
-  private npcs: Map<EntityID, NPC> = new Map();
+export class NPCsPure {
+  private managers: Map<string, NPCsManager> = new Map();
+  private config: NPCsConfig;
+  private performanceMetrics: NPCsPerformanceMetrics;
+  private analytics: NPCsAnalytics;
 
-  constructor() {
-    this.loadDefaultNPCs();
-  }
-
-  private loadDefaultNPCs(): void {
-    // Add some default NPCs for testing
-    const defaultNPCs: NPC[] = [
-      {
-        id: 'npc_001' as EntityID,
-        name: 'Elder Oak',
-        stats: [
-          { key: 'health', base: 100 },
-          { key: 'mana', base: 50 },
-          { key: 'strength', base: 15 },
-          { key: 'wisdom', base: 20 }
-        ],
-        behavior: {
-
-          type: 'quest_giver',
-          aggression: 0,
-          curiosity: 80,
-          loyalty: 90,
-          schedule: {
-            activities: [
-              { time: '06:00', activity: 'meditation', location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15;
-
-        }
-    } },
-              { time: '12:00', activity: 'counseling', location: {
-   zoneId: 'zone_village' as EntityID, x: 10, y: 15;
- }
-    } },
-              { time: '18:00', activity: 'evening_walk', location: {
-   zoneId: 'zone_forest' as EntityID, x: 5, y: 8;
- }
-    } }
-            ]
-          }
-        },
-        location: {
-
-          zoneId: 'zone_village' as EntityID, x: 10, y: 15;
-
-        }
-    },
-        questIds: ['quest_tutorial' as EntityID],
-        movementPattern: {
-
-          type: 'idle', speed: 1;
-
-        }
-    },
-        faction: 'village_elders',
-        reputation: 100;
-    },
-      {
-        id: 'npc_002' as EntityID,
-        name: 'Merchant Sarah',
-        stats: [
-          { key: 'health', base: 80;
-    },
-          { key: 'mana', base: 30;
-    },
-          { key: 'strength', base: 8;
-    },
-          { key: 'wisdom', base: 15;
-    }
-        ],
-        behavior: {
-        type: 'merchant',
-        aggression: 10,
-        curiosity: 60,
-        loyalty: 70;
-
-        
-      
-      }
-    },
-        location: {
-
-          zoneId: 'zone_market' as EntityID, x: 25, y: 12;
-
-        }
-    },
-        questIds: [],
-        movementPattern: {
-
-          type: 'patrol', speed: 2, range: 5;
-
-        }
-    },
-        faction: 'merchants',
-        reputation: 75;
-    }
-    ];
-
-    defaultNPCs.forEach(npc => this.npcs.set(npc.id, npc));
-  }
-
-  createNPC(npc: NPC): NPCOutput {
-    if (this.npcs.has(npc.id)) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: [`NPC with ID ${npc.id} already exists`]
-      };
-    }
-    // Validate minimal fields
-    if (!npc.name) {
-      return { op: 'create', status: 'error', issues: ['name missing'] };
-    }
-    if (!npc.stats || (Array.isArray(npc.stats) && npc.stats.length === 0)) {
-      return { op: 'create', status: 'error', issues: ['stats missing'] };
-    }
-    if (!npc.location || !npc.location.zoneId) {
-      return { op: 'create', status: 'error', issues: ['location missing'] };
-    }
-    if (!npc.behavior) {
-      npc.behavior = { type: 'passive', aggression: 0, curiosity: 50, loyalty: 50;
-    } as any;
-    }
-    if (!npc.movementPattern) {
-      npc.movementPattern = { type: 'idle', speed: 1;
-    };
-    }
-    if (!npc.questIds) npc.questIds = [];
-
-    this.npcs.set(npc.id, npc);
-    return {
-      op: 'create',
-      status: 'ok',
-      result: npc;
-    };
-  }
-
-  updateNPC(npcId: EntityID, updates: Partial<NPC>): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
-      return {
-        op: 'update',
-        status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
-      };
-    }
-
-    const updatedNPC = { ...npc, ...updates };
-    this.npcs.set(npcId, updatedNPC);
-    return {
-      op: 'update',
-      status: 'ok',
-      result: updatedNPC;
-    };
-  }
-
-  deleteNPC(npcId: EntityID): NPCOutput {
-    if (!this.npcs.has(npcId)) {
-      // idempotent delete returns ok
-      return {
-        op: 'delete',
-        status: 'ok'
-      };
-    }
-
-    this.npcs.delete(npcId);
-    return {
-      op: 'delete',
-      status: 'ok'
-    };
-  }
-
-  getNPC(npcId: EntityID): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
-      return {
-        op: 'get',
-        status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
-      };
-    }
-
-    return {
-      op: 'get',
-      status: 'ok',
-      result: npc;
-    };
-  }
-
-  listNPCs(filter?: NPCFilter): NPCOutput {
-    let npcs = Array.from(this.npcs.values());
-
-    if (filter) {
-      npcs = npcs.filter(npc => {
-        if (filter.zoneId && npc.location.zoneId !== filter.zoneId) return false;
-        if (filter.behaviorType && npc.behavior.type !== filter.behaviorType) return false;
-        if (filter.faction && npc.faction !== filter.faction) return false;
-        if (filter.hasQuest !== undefined) {
-          const hasQuest = npc.questIds.length > 0;
-          if (filter.hasQuest !== hasQuest) return false;
-        }
-        return true;
-      });
-    }
-
-    return {
-      op: 'list',
-      status: 'ok',
-      result: npcs;
-    };
-  }
-
-  simulateNPC(npcId: EntityID, duration: number): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
-      return {
-        op: 'simulate',
-        status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
-      };
-    }
-
-    const simulation: NPCSimulation = {
-      duration,
-      events: [],
-      interactions: []
+  constructor(config: Partial<NPCsConfig> = {}) {
+    this.config = {
+      enableNPCManagement: true,
+      enableAIBehavior: true,
+      enableDialogueSystem: true,
+      enableQuestSystem: true,
+      enableInteractionSystem: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableNPCAnalytics: true,
+      enableNPCReporting: true,
+      maxNPCs: 1000,
+      maxQuests: 500,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
 
-    // Simulate NPC behavior based on their type and schedule
-    const currentHour = Math.floor((Date.now() % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-    
-    if (npc.behavior.schedule) {
-      const currentActivity = npc.behavior.schedule.activities.find(
-        activity => parseInt(activity.time.split(':')[0]) === currentHour
-      );
-      
-      if (currentActivity) {
-        simulation.events.push(`${npc.name} is ${currentActivity.activity}`);
-      }
-    }
+    this.performanceMetrics = {
+      totalNPCs: 0,
+      activeNPCs: 0,
+      totalQuests: 0,
+      activeQuests: 0,
+      totalDialogues: 0,
+      activeDialogues: 0,
+      averageFPS: 0,
+      averageLatency: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-    // Simulate interactions based on behavior type
-    switch (npc.behavior.type) {
-      case 'quest_giver':
-        simulation.events.push(`${npc.name} is available for quests`);
-        break;
-      case 'merchant':
-        simulation.events.push(`${npc.name} is open for business`);
-        break;
-      case 'aggressive':
-        simulation.events.push(`${npc.name} is patrolling aggressively`);
-        break;
-      default:
-        simulation.events.push(`${npc.name} is going about their day`);
-    }
-
-    // Simulate movement based on pattern
-    switch (npc.movementPattern.type) {
-      case 'patrol':
-        simulation.events.push(`${npc.name} is patrolling their area`);
-        break;
-      case 'wander':
-        simulation.events.push(`${npc.name} is wandering around`);
-        break;
-      case 'follow':
-        simulation.events.push(`${npc.name} is following their target`);
-        break;
-      default:
-        simulation.events.push(`${npc.name} is staying in place`);
-    }
-
-    return {
-      op: 'simulate',
-      status: 'ok',
-      result: simulation;
+    this.analytics = {
+      totalNPCs: 0,
+      averageFPS: 0,
+      npcTypeDistribution: [],
+      questTypeDistribution: [],
+      dialogueTypeDistribution: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Update NPC location
+   * Create a new NPCs manager
    */
-  updateNPCLocation(npcId: EntityID, x: number, y: number, z?: number): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
+  createManager(managerData: Partial<NPCsManager>): NPCsOutput {
+    if (!this.config.enableNPCManagement) {
       return {
-        op: 'update_location',
+        op: 'create-manager',
         status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
+        issues: ['NPC management is disabled']
       };
     }
 
-    npc.location.x = x;
-    npc.location.y = y;
-    if (z !== undefined) npc.location.z = z;
+    const manager: NPCsManager = {
+      id: managerData.id || `npcs-${Date.now()}`,
+      name: managerData.name || 'Unnamed NPCs Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      npcs: [],
+      quests: [],
+      dialogues: [],
+      behaviors: [],
+      performanceMetrics: {
+        totalNPCs: 0,
+        activeNPCs: 0,
+        totalQuests: 0,
+        activeQuests: 0,
+        totalDialogues: 0,
+        activeDialogues: 0,
+        averageFPS: 0,
+        averageLatency: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalNPCs: 0,
+        averageFPS: 0,
+        npcTypeDistribution: [],
+        questTypeDistribution: [],
+        dialogueTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeNPCs: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-    this.npcs.set(npcId, npc);
+    this.managers.set(manager.id, manager);
+
     return {
-      op: 'update_location',
+      op: 'create-manager',
       status: 'ok',
-      result: npc;
+      result: manager
     };
   }
 
   /**
-   * Add quest to NPC
+   * Get manager by ID
    */
-  addQuestToNPC(npcId: EntityID, questId: EntityID): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
+  getManager(managerId: string): NPCsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'add_quest',
+        op: 'get-manager',
         status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    if (npc.questIds.includes(questId)) {
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Create NPC
+   */
+  createNPC(managerId: string, npc: Partial<NPC>): NPCsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'add_quest',
+        op: 'create-npc',
         status: 'error',
-        issues: [`NPC ${npcId} already has quest ${questId}`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    npc.questIds.push(questId);
-    this.npcs.set(npcId, npc);
-    return {
-      op: 'add_quest',
-      status: 'ok',
-      result: npc;
-    };
-  }
-
-  /**
-   * Remove quest from NPC
-   */
-  removeQuestFromNPC(npcId: EntityID, questId: EntityID): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
+    if (manager.npcs.length >= this.config.maxNPCs) {
       return {
-        op: 'remove_quest',
+        op: 'create-npc',
         status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
+        issues: ['Maximum number of NPCs reached']
       };
     }
 
-    const index = npc.questIds.indexOf(questId);
-    if (index === -1) {
+    const newNPC: NPC = {
+      id: npc.id || `npc-${Date.now()}`,
+      name: npc.name || 'Unnamed NPC',
+      type: npc.type || 'friendly',
+      status: 'active',
+      level: 1,
+      experience: 0,
+      stats: npc.stats || {
+        health: { current: 100, maximum: 100, regeneration: 1 },
+        mana: { current: 50, maximum: 50, regeneration: 0.5 },
+        stamina: { current: 100, maximum: 100, regeneration: 2 },
+        strength: 10,
+        dexterity: 10,
+        intelligence: 10,
+        wisdom: 10,
+        charisma: 10,
+        constitution: 10
+      },
+      skills: npc.skills || [],
+      inventory: npc.inventory || {
+        items: [],
+        currency: { gold: 0, silver: 0, copper: 0, gems: 0, tokens: 0 },
+        capacity: 20,
+        maxCapacity: 50
+      },
+      behavior: npc.behavior || {
+        current: 'idle',
+        previous: 'idle',
+        next: 'idle',
+        priority: 1,
+        duration: 0,
+        cooldown: 0,
+        conditions: []
+      },
+      dialogue: npc.dialogue || {
+        current: '',
+        available: [],
+        completed: [],
+        locked: [],
+        reputation: 0,
+        relationship: 'stranger'
+      },
+      quest: npc.quest || {
+        active: [],
+        completed: [],
+        failed: [],
+        available: [],
+        reputation: 0,
+        progress: []
+      },
+      position: npc.position || {
+        x: 0,
+        y: 0,
+        z: 0,
+        rotation: 0,
+        world: 'default',
+        region: 'default'
+      },
+      appearance: npc.appearance || {
+        race: 'human',
+        gender: 'neutral',
+        age: 25,
+        height: 170,
+        weight: 70,
+        hair: { color: 'brown', style: 'short', length: 10 },
+        eyes: { color: 'brown', brightness: 1 },
+        skin: { color: 'tan', texture: 'normal' },
+        clothing: [],
+        accessories: []
+      },
+      metadata: {},
+      ...npc
+    };
+
+    manager.npcs.push(newNPC);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalNPCs++;
+    this.performanceMetrics.activeNPCs++;
+
+    return {
+      op: 'create-npc',
+      status: 'ok',
+      result: newNPC
+    };
+  }
+
+  /**
+   * Create quest
+   */
+  createQuest(managerId: string, quest: Partial<Quest>): NPCsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'remove_quest',
+        op: 'create-quest',
         status: 'error',
-        issues: [`NPC ${npcId} does not have quest ${questId}`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    npc.questIds.splice(index, 1);
-    this.npcs.set(npcId, npc);
-    return {
-      op: 'remove_quest',
-      status: 'ok',
-      result: npc;
-    };
-  }
-
-  /**
-   * Update NPC behavior
-   */
-  updateNPCBehavior(npcId: EntityID, behavior: Partial<NPBehavior>): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
+    if (manager.quests.length >= this.config.maxQuests) {
       return {
-        op: 'update_behavior',
+        op: 'create-quest',
         status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
+        issues: ['Maximum number of quests reached']
       };
     }
 
-    npc.behavior = { ...npc.behavior, ...behavior };
-    this.npcs.set(npcId, npc);
+    const newQuest: Quest = {
+      id: quest.id || `quest-${Date.now()}`,
+      name: quest.name || 'Unnamed Quest',
+      description: quest.description || '',
+      type: quest.type || 'side',
+      giver: quest.giver || '',
+      level: quest.level || 1,
+      objectives: quest.objectives || [],
+      rewards: quest.rewards || {
+        experience: 100,
+        currency: { gold: 10, silver: 0, copper: 0, gems: 0, tokens: 0 },
+        items: [],
+        reputation: 10,
+        title: ''
+      },
+      requirements: quest.requirements || {
+        level: 1,
+        stats: [],
+        skills: [],
+        quests: [],
+        items: []
+      },
+      status: 'available',
+      metadata: {},
+      ...quest
+    };
+
+    manager.quests.push(newQuest);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalQuests++;
+    this.performanceMetrics.activeQuests++;
+
     return {
-      op: 'update_behavior',
+      op: 'create-quest',
       status: 'ok',
-      result: npc;
+      result: newQuest
     };
   }
 
   /**
-   * Update NPC reputation
+   * Create dialogue
    */
-  updateNPCReputation(npcId: EntityID, reputation: number): NPCOutput {
-    const npc = this.npcs.get(npcId);
-    if (!npc) {
+  createDialogue(managerId: string, dialogue: Partial<Dialogue>): NPCsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'update_reputation',
+        op: 'create-dialogue',
         status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    npc.reputation = Math.max(0, Math.min(100, reputation));
-    this.npcs.set(npcId, npc);
+    const newDialogue: Dialogue = {
+      id: dialogue.id || `dialogue-${Date.now()}`,
+      name: dialogue.name || 'Unnamed Dialogue',
+      npcId: dialogue.npcId || '',
+      type: dialogue.type || 'greeting',
+      nodes: dialogue.nodes || [],
+      conditions: dialogue.conditions || [],
+      status: 'available',
+      metadata: {},
+      ...dialogue
+    };
+
+    manager.dialogues.push(newDialogue);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalDialogues++;
+    this.performanceMetrics.activeDialogues++;
+
     return {
-      op: 'update_reputation',
+      op: 'create-dialogue',
       status: 'ok',
-      result: npc;
+      result: newDialogue
     };
   }
 
   /**
-   * Get NPCs by behavior type
+   * Get performance metrics
    */
-  getNPCsByBehavior(behaviorType: string): NPCOutput {
-    const npcs = Array.from(this.npcs.values()).filter(npc => npc.behavior.type === behaviorType);
-    return {
-      op: 'get_by_behavior',
-      status: 'ok',
-      result: npcs;
-    };
+  getPerformanceMetrics(): NPCsPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
-   * Get NPCs by reputation range
+   * Get analytics
    */
-  getNPCsByReputation(minRep: number, maxRep: number): NPCOutput {
-    const npcs = Array.from(this.npcs.values()).filter(npc => {
-      const rep = npc.reputation || 0;
-      return rep >= minRep && rep <= maxRep;
-    });
-    return {
-      op: 'get_by_reputation',
-      status: 'ok',
-      result: npcs;
-    };
+  getAnalytics(): NPCsAnalytics {
+    return { ...this.analytics };
   }
 
   /**
-   * Get NPC statistics
+   * Get all managers
    */
-  getNPCStats(): NPCOutput {
-    const npcs = Array.from(this.npcs.values());
-    const stats = {
-      total: npcs.length,
-      byBehavior: {} as Record<string, number>,
-      byFaction: {} as Record<string, number>,
-      withQuests: npcs.filter(npc => npc.questIds.length > 0).length,
-      averageReputation: npcs.reduce((sum, npc) => sum + (npc.reputation || 0), 0) / npcs.length,
-      totalQuests: npcs.reduce((sum, npc) => sum + npc.questIds.length, 0)
-    };
-
-    npcs.forEach(npc => {
-      stats.byBehavior[npc.behavior.type] = (stats.byBehavior[npc.behavior.type] || 0) + 1;
-      if (npc.faction) {
-        stats.byFaction[npc.faction] = (stats.byFaction[npc.faction] || 0) + 1;
-      }
-    });
-
-    return {
-      op: 'stats',
-      status: 'ok',
-      result: stats;
-    };
+  getAllManagers(): NPCsManager[] {
+    return Array.from(this.managers.values());
   }
 
   /**
-   * Export NPCs in various formats
+   * Update performance metrics
    */
-  exportNPCs(format: 'json' | 'manifest' | 'summary' | 'quests' = 'json'): NPCOutput {
-    const npcs = Array.from(this.npcs.values());
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalNPCs = 0;
+    let activeNPCs = 0;
+    let totalQuests = 0;
+    let activeQuests = 0;
+    let totalDialogues = 0;
+    let activeDialogues = 0;
 
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            npcs, total: npcs.length 
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            schema: 'miff.npcs.export.v1',
-            npcs,
-            exportedAt: new Date().toISOString(),
-            total: npcs.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'summary':
-        const stats = this.getNPCStats();
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            summary: stats.result,
-            npcs: npcs.map(npc => ({
-              id: npc.id,
-              name: npc.name,
-              behavior: npc.behavior.type,
-              faction: npc.faction,
-              questCount: npc.questIds.length,
-              reputation: npc.reputation
-
-          }
-            }))
-          }
-        };
-      
-      case 'quests':
-        const questNPCs = npcs.filter(npc => npc.questIds.length > 0);
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-        questNPCs: questNPCs.map(npc => ({
-              id: npc.id,
-        name: npc.name,
-        questIds: npc.questIds,
-        location: npc.location
-
-          
-      
-      }
-            })),
-            total: questNPCs.length
-          }
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
+    for (const manager of this.managers.values()) {
+      totalNPCs += manager.npcs.length;
+      activeNPCs += manager.npcs.filter(n => n.status === 'active').length;
+      totalQuests += manager.quests.length;
+      activeQuests += manager.quests.filter(q => q.status === 'active').length;
+      totalDialogues += manager.dialogues.length;
+      activeDialogues += manager.dialogues.filter(d => d.status === 'available').length;
     }
-  }
 
-  /**
-   * Reset all NPCs to default state
-   */
-  resetNPCs(): NPCOutput {
-    this.npcs.clear();
-    this.loadDefaultNPCs();
-    return {
-      op: 'reset',
-      status: 'ok',
-      result: {
-
-        message: 'All NPCs reset to default state' 
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  // Integration methods for QuestsPure and MovementPure
-  getNPCsWithQuests(): NPC[] {
-    return Array.from(this.npcs.values()).filter(npc => npc.questIds.length > 0);
-  }
-
-  getNPCsInZone(zoneId: EntityID): NPC[] {
-    return Array.from(this.npcs.values()).filter(npc => npc.location.zoneId === zoneId);
-  }
-
-  getNPCsByFaction(faction: string): NPC[] {
-    return Array.from(this.npcs.values()).filter(npc => npc.faction === faction);
+    this.performanceMetrics.totalNPCs = totalNPCs;
+    this.performanceMetrics.activeNPCs = activeNPCs;
+    this.performanceMetrics.totalQuests = totalQuests;
+    this.performanceMetrics.activeQuests = activeQuests;
+    this.performanceMetrics.totalDialogues = totalDialogues;
+    this.performanceMetrics.activeDialogues = activeDialogues;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

@@ -1,1070 +1,766 @@
 /**
- * PhysicsSystemPure Manager - Advanced Physics Management System
+ * PhysicsSystemPure Manager - Advanced Physics System Management
  *
- * Comprehensive physics system with:
- * - Rigid body dynamics
- * - Soft body simulation
- * - Fluid dynamics
- * - Cloth simulation
- * - Particle systems
- * - Collision detection
- * - Constraint systems
- * - Real-time simulation
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * Comprehensive physics system management with:
+ * - Physics engine integration and management
+ * - Collision detection and response
+ * - Rigid body dynamics and kinematics
+ * - Force and constraint systems
+ * - Performance optimization
+ * - Real-time physics monitoring
+ * - Physics analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface PhysicsSystemConfig {
-  enableRigidBodyDynamics: boolean;
-  enableSoftBodySimulation: boolean;
-  enableFluidDynamics: boolean;
-  enableClothSimulation: boolean;
-  enableParticleSystems: boolean;
+  enablePhysicsManagement: boolean;
   enableCollisionDetection: boolean;
+  enableRigidBodyDynamics: boolean;
+  enableForceSystems: boolean;
   enableConstraintSystems: boolean;
-  enableRealTimeSimulation: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
   enablePhysicsAnalytics: boolean;
-  enablePhysicsDebugging: boolean;
-  maxRigidBodies: number;
-  maxSoftBodies: number;
-  maxParticles: number;
+  enablePhysicsReporting: boolean;
+  maxBodies: number;
   maxConstraints: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface PhysicsSystem {
+export interface PhysicsSystemManager {
   id: string;
   name: string;
-  type: PhysicsSystemType;
-  status: PhysicsSystemStatus;
-  world: PhysicsWorld;
+  type: PhysicsSystemManagerType;
+  status: PhysicsSystemManagerStatus;
   bodies: PhysicsBody[];
   constraints: PhysicsConstraint[];
-  particles: PhysicsParticle[];
-  fluids: PhysicsFluid[];
-  cloths: PhysicsCloth[];
-  analytics: PhysicsAnalytics;
-  metadata: PhysicsMetadata;
-  version: string;
-  created: number;
-  modified: number;
-}
-
-export enum PhysicsSystemType {
-  GAME = 'game',
-  SIMULATION = 'simulation',
-  VISUALIZATION = 'visualization',
-  CUSTOM = 'custom'
-}
-
-export enum PhysicsSystemStatus {
-  ACTIVE = 'active',
-  PAUSED = 'paused',
-  STOPPED = 'stopped',
-  ERROR = 'error',
-  MAINTENANCE = 'maintenance'
-}
-
-export interface PhysicsWorld {
-  id: string;
-  name: string;
-  gravity: Vector3D;
-  airResistance: number;
-  timeStep: number;
-  iterations: number;
-  bounds: WorldBounds;
+  forces: PhysicsForce[];
   materials: PhysicsMaterial[];
-  metadata: Map<string, any>;
+  performanceMetrics: PhysicsSystemPerformanceMetrics;
+  analytics: PhysicsSystemAnalytics;
+  reporting: PhysicsSystemReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export interface Vector3D {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export interface WorldBounds {
-  min: Position3D;
-  max: Position3D;
-  shape: BoundsShape;
-  metadata: Map<string, any>;
-}
-
-export interface Position3D {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export enum BoundsShape {
-  BOX = 'box',
-  SPHERE = 'sphere',
-  CYLINDER = 'cylinder',
-  CUSTOM = 'custom'
-}
-
-export interface PhysicsMaterial {
-  id: string;
-  name: string;
-  density: number;
-  friction: number;
-  restitution: number;
-  damping: number;
-  properties: MaterialProperties;
-  metadata: Map<string, any>;
-}
-
-export interface MaterialProperties {
-  elasticity: number;
-  plasticity: number;
-  viscosity: number;
-  thermalConductivity: number;
-  electricalConductivity: number;
-  metadata: Map<string, any>;
-}
+export type PhysicsSystemManagerType = 'game' | 'simulation' | 'vr' | 'ar' | 'custom';
+export type PhysicsSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface PhysicsBody {
   id: string;
   name: string;
-  type: PhysicsBodyType;
-  status: PhysicsBodyStatus;
-  position: Position3D;
-  rotation: Rotation3D;
-  velocity: Vector3D;
-  angularVelocity: Vector3D;
-  mass: number;
-  inertia: InertiaTensor;
+  type: BodyType;
   shape: PhysicsShape;
-  material: PhysicsMaterial;
+  transform: Transform;
+  velocity: Vector3;
+  angularVelocity: Vector3;
+  mass: number;
+  inertia: Matrix3;
+  material: string;
   constraints: string[];
-  metadata: Map<string, any>;
+  forces: string[];
+  status: BodyStatus;
+  metadata: Record<string, any>;
 }
 
-export enum PhysicsBodyType {
-  STATIC = 'static',
-  DYNAMIC = 'dynamic',
-  KINEMATIC = 'kinematic',
-  TRIGGER = 'trigger',
-  CUSTOM = 'custom'
+export type BodyType = 'static' | 'kinematic' | 'dynamic' | 'trigger';
+export type BodyStatus = 'active' | 'sleeping' | 'disabled' | 'error';
+
+export interface PhysicsShape {
+  type: ShapeType;
+  size: Vector3;
+  radius?: number;
+  height?: number;
+  vertices?: Vector3[];
+  faces?: Face[];
+  center: Vector3;
 }
 
-export enum PhysicsBodyStatus {
-  ACTIVE = 'active',
-  SLEEPING = 'sleeping',
-  DISABLED = 'disabled',
-  ERROR = 'error'
+export type ShapeType = 'box' | 'sphere' | 'cylinder' | 'capsule' | 'mesh' | 'plane' | 'custom';
+
+export interface Face {
+  vertices: Vector3[];
+  normal: Vector3;
+  material: string;
 }
 
-export interface Rotation3D {
+export interface Transform {
+  position: Vector3;
+  rotation: Quaternion;
+  scale: Vector3;
+}
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Quaternion {
   x: number;
   y: number;
   z: number;
   w: number;
 }
 
-export interface InertiaTensor {
-  xx: number;
-  yy: number;
-  zz: number;
-  xy: number;
-  xz: number;
-  yz: number;
-}
-
-export interface PhysicsShape {
-  type: ShapeType;
-  size: ShapeSize;
-  center: Position3D;
-  rotation: Rotation3D;
-  metadata: Map<string, any>;
-}
-
-export enum ShapeType {
-  BOX = 'box',
-  SPHERE = 'sphere',
-  CAPSULE = 'capsule',
-  CYLINDER = 'cylinder',
-  MESH = 'mesh',
-  CONVEX_HULL = 'convex_hull',
-  COMPOUND = 'compound',
-  CUSTOM = 'custom'
-}
-
-export interface ShapeSize {
-  width: number;
-  height: number;
-  depth: number;
-  radius: number;
-  metadata: Map<string, any>;
+export interface Matrix3 {
+  m00: number; m01: number; m02: number;
+  m10: number; m11: number; m12: number;
+  m20: number; m21: number; m22: number;
 }
 
 export interface PhysicsConstraint {
   id: string;
   name: string;
   type: ConstraintType;
-  status: ConstraintStatus;
   bodyA: string;
   bodyB: string;
-  anchorA: Position3D;
-  anchorB: Position3D;
+  anchorA: Vector3;
+  anchorB: Vector3;
   limits: ConstraintLimits;
-  properties: ConstraintProperties;
-  metadata: Map<string, any>;
+  stiffness: number;
+  damping: number;
+  enabled: boolean;
+  metadata: Record<string, any>;
 }
 
-export enum ConstraintType {
-  HINGE = 'hinge',
-  BALL_SOCKET = 'ball_socket',
-  SLIDER = 'slider',
-  FIXED = 'fixed',
-  SPRING = 'spring',
-  ROPE = 'rope',
-  CUSTOM = 'custom'
-}
-
-export enum ConstraintStatus {
-  ACTIVE = 'active',
-  DISABLED = 'disabled',
-  BROKEN = 'broken',
-  ERROR = 'error'
-}
+export type ConstraintType = 'hinge' | 'ball' | 'slider' | 'fixed' | 'spring' | 'rope' | 'custom';
 
 export interface ConstraintLimits {
-  min: number;
-  max: number;
-  damping: number;
+  linear: LinearLimits;
+  angular: AngularLimits;
+}
+
+export interface LinearLimits {
+  enabled: boolean;
+  min: Vector3;
+  max: Vector3;
+  spring: SpringSettings;
+  damping: DampingSettings;
+}
+
+export interface AngularLimits {
+  enabled: boolean;
+  min: Vector3;
+  max: Vector3;
+  spring: SpringSettings;
+  damping: DampingSettings;
+}
+
+export interface SpringSettings {
+  enabled: boolean;
   stiffness: number;
-  metadata: Map<string, any>;
+  damping: number;
 }
 
-export interface ConstraintProperties {
-  breakForce: number;
-  breakTorque: number;
-  enableCollision: boolean;
-  enablePreprocessing: boolean;
-  metadata: Map<string, any>;
+export interface DampingSettings {
+  enabled: boolean;
+  linear: number;
+  angular: number;
 }
 
-export interface PhysicsParticle {
+export interface PhysicsForce {
   id: string;
   name: string;
-  type: ParticleType;
-  status: ParticleStatus;
-  position: Position3D;
-  velocity: Vector3D;
-  mass: number;
-  charge: number;
-  radius: number;
-  color: ColorRGBA;
-  lifetime: number;
-  maxLifetime: number;
-  forces: ParticleForce[];
-  metadata: Map<string, any>;
+  type: ForceType;
+  body: string;
+  direction: Vector3;
+  magnitude: number;
+  position: Vector3;
+  range: number;
+  falloff: FalloffType;
+  enabled: boolean;
+  metadata: Record<string, any>;
 }
 
-export enum ParticleType {
-  POINT = 'point',
-  SPHERE = 'sphere',
-  CUBE = 'cube',
-  CUSTOM = 'custom'
+export type ForceType = 'gravity' | 'wind' | 'magnetic' | 'buoyancy' | 'drag' | 'custom';
+export type FalloffType = 'constant' | 'linear' | 'quadratic' | 'inverse' | 'custom';
+
+export interface PhysicsMaterial {
+  id: string;
+  name: string;
+  properties: MaterialProperties;
+  friction: FrictionSettings;
+  restitution: RestitutionSettings;
+  density: number;
+  metadata: Record<string, any>;
 }
 
-export enum ParticleStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  DEAD = 'dead',
-  ERROR = 'error'
+export interface MaterialProperties {
+  color: Color;
+  texture: string;
+  roughness: number;
+  metallic: number;
+  emissive: Color;
 }
 
-export interface ColorRGBA {
+export interface Color {
   r: number;
   g: number;
   b: number;
   a: number;
 }
 
-export interface ParticleForce {
-  type: ForceType;
-  magnitude: number;
-  direction: Vector3D;
-  position: Position3D;
-  radius: number;
-  metadata: Map<string, any>;
+export interface FrictionSettings {
+  static: number;
+  dynamic: number;
+  rolling: number;
+  spinning: number;
 }
 
-export enum ForceType {
-  GRAVITY = 'gravity',
-  WIND = 'wind',
-  MAGNETIC = 'magnetic',
-  ELECTRIC = 'electric',
-  SPRING = 'spring',
-  DAMPING = 'damping',
-  CUSTOM = 'custom'
+export interface RestitutionSettings {
+  coefficient: number;
+  threshold: number;
+  combine: CombineMode;
 }
 
-export interface PhysicsFluid {
-  id: string;
-  name: string;
-  type: FluidType;
-  status: FluidStatus;
-  position: Position3D;
-  size: FluidSize;
-  density: number;
-  viscosity: number;
-  temperature: number;
-  pressure: number;
-  velocity: Vector3D;
-  particles: PhysicsParticle[];
-  properties: FluidProperties;
-  metadata: Map<string, any>;
-}
+export type CombineMode = 'average' | 'minimum' | 'maximum' | 'multiply';
 
-export enum FluidType {
-  WATER = 'water',
-  OIL = 'oil',
-  GAS = 'gas',
-  PLASMA = 'plasma',
-  CUSTOM = 'custom'
-}
-
-export enum FluidStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  FROZEN = 'frozen',
-  BOILING = 'boiling',
-  ERROR = 'error'
-}
-
-export interface FluidSize {
-  width: number;
-  height: number;
-  depth: number;
-  metadata: Map<string, any>;
-}
-
-export interface FluidProperties {
-  surfaceTension: number;
-  compressibility: number;
-  thermalExpansion: number;
-  electricalConductivity: number;
-  metadata: Map<string, any>;
-}
-
-export interface PhysicsCloth {
-  id: string;
-  name: string;
-  type: ClothType;
-  status: ClothStatus;
-  vertices: ClothVertex[];
-  edges: ClothEdge[];
-  faces: ClothFace[];
-  material: ClothMaterial;
-  constraints: ClothConstraint[];
-  forces: ClothForce[];
-  metadata: Map<string, any>;
-}
-
-export enum ClothType {
-  FABRIC = 'fabric',
-  LEATHER = 'leather',
-  RUBBER = 'rubber',
-  METAL = 'metal',
-  CUSTOM = 'custom'
-}
-
-export enum ClothStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  TORN = 'torn',
-  ERROR = 'error'
-}
-
-export interface ClothVertex {
-  id: string;
-  position: Position3D;
-  velocity: Vector3D;
-  mass: number;
-  fixed: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface ClothEdge {
-  id: string;
-  vertexA: string;
-  vertexB: string;
-  length: number;
-  stiffness: number;
-  damping: number;
-  metadata: Map<string, any>;
-}
-
-export interface ClothFace {
-  id: string;
-  vertices: string[];
-  normal: Vector3D;
-  area: number;
-  metadata: Map<string, any>;
-}
-
-export interface ClothMaterial {
-  id: string;
-  name: string;
-  density: number;
-  stiffness: number;
-  damping: number;
-  friction: number;
-  properties: ClothMaterialProperties;
-  metadata: Map<string, any>;
-}
-
-export interface ClothMaterialProperties {
-  stretchResistance: number;
-  shearResistance: number;
-  bendResistance: number;
-  tearResistance: number;
-  metadata: Map<string, any>;
-}
-
-export interface ClothConstraint {
-  id: string;
-  type: ClothConstraintType;
-  vertices: string[];
-  target: number;
-  stiffness: number;
-  damping: number;
-  metadata: Map<string, any>;
-}
-
-export enum ClothConstraintType {
-  DISTANCE = 'distance',
-  ANGLE = 'angle',
-  BEND = 'bend',
-  SHEAR = 'shear',
-  CUSTOM = 'custom'
-}
-
-export interface ClothForce {
-  id: string;
-  type: ForceType;
-  magnitude: number;
-  direction: Vector3D;
-  position: Position3D;
-  radius: number;
-  metadata: Map<string, any>;
-}
-
-export interface PhysicsAnalytics {
+export interface PhysicsSystemPerformanceMetrics {
   totalBodies: number;
   activeBodies: number;
   totalConstraints: number;
   activeConstraints: number;
-  totalParticles: number;
-  activeParticles: number;
-  totalFluids: number;
-  activeFluids: number;
-  totalCloths: number;
-  activeCloths: number;
+  totalForces: number;
+  activeForces: number;
   averageFPS: number;
-  averageMemoryUsage: number;
-  lastUpdate: number;
-  metadata: Map<string, any>;
+  averageLatency: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
-export interface PhysicsMetadata {
-  author: string;
+export interface PhysicsSystemAnalytics {
+  totalBodies: number;
+  averageFPS: number;
+  bodyTypeDistribution: BodyTypeDistribution[];
+  constraintTypeDistribution: ConstraintTypeDistribution[];
+  forceTypeDistribution: ForceTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface BodyTypeDistribution {
+  type: BodyType;
+  count: number;
+  percentage: number;
+  averageMass: number;
+}
+
+export interface ConstraintTypeDistribution {
+  type: ConstraintType;
+  count: number;
+  percentage: number;
+  averageStiffness: number;
+}
+
+export interface ForceTypeDistribution {
+  type: ForceType;
+  count: number;
+  percentage: number;
+  averageMagnitude: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  bodies: number;
+  constraints: number;
+  forces: number;
+  fps: number;
+  latency: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface PhysicsSystemReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeBodies: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
   version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
 }
 
-export interface PhysicsSystemStats {
-  totalBodies: number;
-  activeBodies: number;
-  totalConstraints: number;
-  activeConstraints: number;
-  totalParticles: number;
-  activeParticles: number;
-  totalFluids: number;
-  activeFluids: number;
-  totalCloths: number;
-  activeCloths: number;
-  averageFPS: number;
-  averageMemoryUsage: number;
-  lastUpdate: number;
+export interface PhysicsSystemOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
 }
 
-export class PhysicsSystemManager {
+export class PhysicsSystemPure {
+  private managers: Map<string, PhysicsSystemManager> = new Map();
   private config: PhysicsSystemConfig;
-  private physicsSystems: Map<string, PhysicsSystem> = new Map();
-  private stats: PhysicsSystemStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: PhysicsSystemPerformanceMetrics;
+  private analytics: PhysicsSystemAnalytics;
 
   constructor(config: Partial<PhysicsSystemConfig> = {}) {
     this.config = {
-      enableRigidBodyDynamics: true,
-      enableSoftBodySimulation: true,
-      enableFluidDynamics: true,
-      enableClothSimulation: true,
-      enableParticleSystems: true,
+      enablePhysicsManagement: true,
       enableCollisionDetection: true,
+      enableRigidBodyDynamics: true,
+      enableForceSystems: true,
       enableConstraintSystems: true,
-      enableRealTimeSimulation: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
       enablePhysicsAnalytics: true,
-      enablePhysicsDebugging: true,
-      maxRigidBodies: 10000,
-      maxSoftBodies: 1000,
-      maxParticles: 100000,
+      enablePhysicsReporting: true,
+      maxBodies: 10000,
       maxConstraints: 5000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
     };
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'PhysicsSystemManager': LogLevel.DEBUG
-      }
-    });
 
-    // Register with memory manager
-    this.memoryId = `PhysicsSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'PhysicsSystemManager');
-  }
-
-  /**
-   * Initialize physics system manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize physics system manager
-      await this.initializePhysicsSystemManager();
-      
-      // Load default physics systems
-      await this.loadDefaultPhysicsSystems();
-      
-      this.isInitialized = true;
-      this.logger.info('PhysicsSystemManager', 'Physics system manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('PhysicsSystemManager', 'Failed to initialize physics system manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new physics system
-   */
-  createPhysicsSystem(physicsSystem: Partial<PhysicsSystem>): PhysicsSystem | null {
-    const newPhysicsSystem: PhysicsSystem = {
-      id: `physics_system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: physicsSystem.name || 'New Physics System',
-      type: physicsSystem.type || PhysicsSystemType.GAME,
-      status: PhysicsSystemStatus.ACTIVE,
-      world: physicsSystem.world || this.createDefaultWorld(),
-      bodies: physicsSystem.bodies || [],
-      constraints: physicsSystem.constraints || [],
-      particles: physicsSystem.particles || [],
-      fluids: physicsSystem.fluids || [],
-      cloths: physicsSystem.cloths || [],
-      analytics: physicsSystem.analytics || this.createDefaultAnalytics(),
-      metadata: physicsSystem.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
-    };
-
-    this.physicsSystems.set(newPhysicsSystem.id, newPhysicsSystem);
-    this.updateStats('create_physics_system', newPhysicsSystem);
-
-    this.logger.info('PhysicsSystemManager', `Created physics system: ${newPhysicsSystem.name}`);
-    return newPhysicsSystem;
-  }
-
-  /**
-   * Add physics body
-   */
-  addPhysicsBody(physicsSystemId: string, body: PhysicsBody): boolean {
-    const physicsSystem = this.physicsSystems.get(physicsSystemId);
-    if (!physicsSystem) {
-      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
-      return false;
-    }
-
-    if (physicsSystem.bodies.length >= this.config.maxRigidBodies) {
-      this.logger.warn('PhysicsSystemManager', 'Maximum number of physics bodies reached');
-      return false;
-    }
-
-    try {
-      physicsSystem.bodies.push(body);
-      physicsSystem.modified = Date.now();
-
-      this.updateStats('add_physics_body', physicsSystem);
-      this.logger.info('PhysicsSystemManager', `Added physics body: ${body.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('PhysicsSystemManager', `Failed to add physics body to system ${physicsSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Add physics constraint
-   */
-  addPhysicsConstraint(physicsSystemId: string, constraint: PhysicsConstraint): boolean {
-    const physicsSystem = this.physicsSystems.get(physicsSystemId);
-    if (!physicsSystem) {
-      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
-      return false;
-    }
-
-    if (physicsSystem.constraints.length >= this.config.maxConstraints) {
-      this.logger.warn('PhysicsSystemManager', 'Maximum number of physics constraints reached');
-      return false;
-    }
-
-    try {
-      physicsSystem.constraints.push(constraint);
-      physicsSystem.modified = Date.now();
-
-      this.updateStats('add_physics_constraint', physicsSystem);
-      this.logger.info('PhysicsSystemManager', `Added physics constraint: ${constraint.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('PhysicsSystemManager', `Failed to add physics constraint to system ${physicsSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Add physics particle
-   */
-  addPhysicsParticle(physicsSystemId: string, particle: PhysicsParticle): boolean {
-    const physicsSystem = this.physicsSystems.get(physicsSystemId);
-    if (!physicsSystem) {
-      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
-      return false;
-    }
-
-    if (physicsSystem.particles.length >= this.config.maxParticles) {
-      this.logger.warn('PhysicsSystemManager', 'Maximum number of physics particles reached');
-      return false;
-    }
-
-    try {
-      physicsSystem.particles.push(particle);
-      physicsSystem.modified = Date.now();
-
-      this.updateStats('add_physics_particle', physicsSystem);
-      this.logger.info('PhysicsSystemManager', `Added physics particle: ${particle.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('PhysicsSystemManager', `Failed to add physics particle to system ${physicsSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Add physics fluid
-   */
-  addPhysicsFluid(physicsSystemId: string, fluid: PhysicsFluid): boolean {
-    const physicsSystem = this.physicsSystems.get(physicsSystemId);
-    if (!physicsSystem) {
-      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
-      return false;
-    }
-
-    try {
-      physicsSystem.fluids.push(fluid);
-      physicsSystem.modified = Date.now();
-
-      this.updateStats('add_physics_fluid', physicsSystem);
-      this.logger.info('PhysicsSystemManager', `Added physics fluid: ${fluid.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('PhysicsSystemManager', `Failed to add physics fluid to system ${physicsSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Add physics cloth
-   */
-  addPhysicsCloth(physicsSystemId: string, cloth: PhysicsCloth): boolean {
-    const physicsSystem = this.physicsSystems.get(physicsSystemId);
-    if (!physicsSystem) {
-      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
-      return false;
-    }
-
-    try {
-      physicsSystem.cloths.push(cloth);
-      physicsSystem.modified = Date.now();
-
-      this.updateStats('add_physics_cloth', physicsSystem);
-      this.logger.info('PhysicsSystemManager', `Added physics cloth: ${cloth.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('PhysicsSystemManager', `Failed to add physics cloth to system ${physicsSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Simulate physics step
-   */
-  simulatePhysicsStep(physicsSystemId: string, deltaTime: number): boolean {
-    const physicsSystem = this.physicsSystems.get(physicsSystemId);
-    if (!physicsSystem) {
-      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
-      return false;
-    }
-
-    try {
-      // Simulate physics step
-      this.performPhysicsSimulation(physicsSystem, deltaTime);
-
-      // Update analytics
-      this.updatePhysicsAnalytics(physicsSystem);
-
-      physicsSystem.modified = Date.now();
-      this.updateStats('simulate_physics_step', physicsSystem);
-
-      return true;
-    } catch (error) {
-      this.logger.error('PhysicsSystemManager', `Failed to simulate physics step for system ${physicsSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Get physics system
-   */
-  getPhysicsSystem(physicsSystemId: string): PhysicsSystem | null {
-    return this.physicsSystems.get(physicsSystemId) || null;
-  }
-
-  /**
-   * Get all physics systems
-   */
-  getPhysicsSystems(): PhysicsSystem[] {
-    return Array.from(this.physicsSystems.values());
-  }
-
-  /**
-   * Get physics systems by type
-   */
-  getPhysicsSystemsByType(type: PhysicsSystemType): PhysicsSystem[] {
-    return Array.from(this.physicsSystems.values())
-      .filter(system => system.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): PhysicsSystemStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize physics system manager
-   */
-  private async initializePhysicsSystemManager(): Promise<void> {
-    this.logger.info('PhysicsSystemManager', 'Initializing physics system manager...');
-  }
-
-  /**
-   * Load default physics systems
-   */
-  private async loadDefaultPhysicsSystems(): Promise<void> {
-    // Load default physics systems
-    const defaultSystems = [
-      this.createDefaultGamePhysicsSystem(),
-      this.createDefaultSimulationPhysicsSystem(),
-      this.createDefaultVisualizationPhysicsSystem()
-    ];
-
-    for (const system of defaultSystems) {
-      if (system) {
-        this.physicsSystems.set(system.id, system);
-      }
-    }
-
-    this.logger.info('PhysicsSystemManager', `Loaded ${defaultSystems.length} default physics systems`);
-  }
-
-  /**
-   * Create default world
-   */
-  private createDefaultWorld(): PhysicsWorld {
-    return {
-      id: 'default_world',
-      name: 'Default Physics World',
-      gravity: {
-
-        x: 0, y: -9.81, z: 0;
-
-      }
-    },
-      airResistance: 0.01,
-      timeStep: 1/60,
-      iterations: 10,
-      bounds: {
-        min: { x: -1000, y: -1000, z: -1000 },
-        max: {
-
-          x: 1000, y: 1000, z: 1000;
-
-        }
-    },
-        shape: BoundsShape.BOX,
-        metadata: new Map()
-      },
-      materials: this.createDefaultMaterials(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default materials
-   */
-  private createDefaultMaterials(): PhysicsMaterial[] {
-    return [
-      {
-        id: 'default_material',
-        name: 'Default Material',
-        density: 1.0,
-        friction: 0.5,
-        restitution: 0.3,
-        damping: 0.1,
-        properties: {
-
-          elasticity: 0.8,
-          plasticity: 0.2,
-          viscosity: 0.0,
-          thermalConductivity: 0.0,
-          electricalConductivity: 0.0,
-          metadata: new Map()
-
-        }
-        },
-        metadata: new Map()
-      },
-      {
-        id: 'metal_material',
-        name: 'Metal Material',
-        density: 7.8,
-        friction: 0.3,
-        restitution: 0.1,
-        damping: 0.05,
-        properties: {
-
-          elasticity: 0.9,
-          plasticity: 0.1,
-          viscosity: 0.0,
-          thermalConductivity: 1.0,
-          electricalConductivity: 1.0,
-          metadata: new Map()
-
-        }
-        },
-        metadata: new Map()
-      },
-      {
-        id: 'rubber_material',
-        name: 'Rubber Material',
-        density: 1.2,
-        friction: 0.8,
-        restitution: 0.8,
-        damping: 0.2,
-        properties: {
-
-          elasticity: 0.6,
-          plasticity: 0.4,
-          viscosity: 0.1,
-          thermalConductivity: 0.0,
-          electricalConductivity: 0.0,
-          metadata: new Map()
-
-        }
-        },
-        metadata: new Map()
-      }
-    ];
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): PhysicsAnalytics {
-    return {
+    this.performanceMetrics = {
       totalBodies: 0,
       activeBodies: 0,
       totalConstraints: 0,
       activeConstraints: 0,
-      totalParticles: 0,
-      activeParticles: 0,
-      totalFluids: 0,
-      activeFluids: 0,
-      totalCloths: 0,
-      activeCloths: 0,
-      averageFPS: 60,
-      averageMemoryUsage: 0,
-      lastUpdate: Date.now(),
-      metadata: new Map()
+      totalForces: 0,
+      activeForces: 0,
+      averageFPS: 0,
+      averageLatency: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalBodies: 0,
+      averageFPS: 0,
+      bodyTypeDistribution: [],
+      constraintTypeDistribution: [],
+      forceTypeDistribution: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Create default metadata
+   * Create a new physics system manager
    */
-  private createDefaultMetadata(): PhysicsMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default game physics system
-   */
-  private createDefaultGamePhysicsSystem(): PhysicsSystem {
-    return this.createPhysicsSystem({
-      name: 'Game Physics System',
-      type: PhysicsSystemType.GAME,
-      description: 'Game physics system for gameplay mechanics'
-    });
-  }
-
-  /**
-   * Create default simulation physics system
-   */
-  private createDefaultSimulationPhysicsSystem(): PhysicsSystem {
-    return this.createPhysicsSystem({
-      name: 'Simulation Physics System',
-      type: PhysicsSystemType.SIMULATION,
-      description: 'Simulation physics system for scientific simulations'
-    });
-  }
-
-  /**
-   * Create default visualization physics system
-   */
-  private createDefaultVisualizationPhysicsSystem(): PhysicsSystem {
-    return this.createPhysicsSystem({
-      name: 'Visualization Physics System',
-      type: PhysicsSystemType.VISUALIZATION,
-      description: 'Visualization physics system for data visualization'
-    });
-  }
-
-  /**
-   * Perform physics simulation
-   */
-  private performPhysicsSimulation(physicsSystem: PhysicsSystem, deltaTime: number): void {
-    // This would perform the actual physics simulation
-    this.logger.info('PhysicsSystemManager', `Simulating physics for system: ${physicsSystem.name}`);
-  }
-
-  /**
-   * Update physics analytics
-   */
-  private updatePhysicsAnalytics(physicsSystem: PhysicsSystem): void {
-    // Update analytics based on current state
-    physicsSystem.analytics.totalBodies = physicsSystem.bodies.length;
-    physicsSystem.analytics.activeBodies = physicsSystem.bodies.filter(b => b.status === PhysicsBodyStatus.ACTIVE).length;
-    physicsSystem.analytics.totalConstraints = physicsSystem.constraints.length;
-    physicsSystem.analytics.activeConstraints = physicsSystem.constraints.filter(c => c.status === ConstraintStatus.ACTIVE).length;
-    physicsSystem.analytics.totalParticles = physicsSystem.particles.length;
-    physicsSystem.analytics.activeParticles = physicsSystem.particles.filter(p => p.status === ParticleStatus.ACTIVE).length;
-    physicsSystem.analytics.totalFluids = physicsSystem.fluids.length;
-    physicsSystem.analytics.activeFluids = physicsSystem.fluids.filter(f => f.status === FluidStatus.ACTIVE).length;
-    physicsSystem.analytics.totalCloths = physicsSystem.cloths.length;
-    physicsSystem.analytics.activeCloths = physicsSystem.cloths.filter(c => c.status === ClothStatus.ACTIVE).length;
-    physicsSystem.analytics.lastUpdate = Date.now();
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, physicsSystem: PhysicsSystem): void {
-    switch (action) {
-      case 'create_physics_system':
-        this.stats.totalBodies += physicsSystem.bodies.length;
-        this.stats.totalConstraints += physicsSystem.constraints.length;
-        this.stats.totalParticles += physicsSystem.particles.length;
-        this.stats.totalFluids += physicsSystem.fluids.length;
-        this.stats.totalCloths += physicsSystem.cloths.length;
-        break;
-      case 'add_physics_body':
-        this.stats.totalBodies++;
-        break;
-      case 'add_physics_constraint':
-        this.stats.totalConstraints++;
-        break;
-      case 'add_physics_particle':
-        this.stats.totalParticles++;
-        break;
-      case 'add_physics_fluid':
-        this.stats.totalFluids++;
-        break;
-      case 'add_physics_cloth':
-        this.stats.totalCloths++;
-        break;
+  createManager(managerData: Partial<PhysicsSystemManager>): PhysicsSystemOutput {
+    if (!this.config.enablePhysicsManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Physics management is disabled']
+      };
     }
 
-    this.stats.lastUpdate = Date.now();
-  }
+    const manager: PhysicsSystemManager = {
+      id: managerData.id || `physics-${Date.now()}`,
+      name: managerData.name || 'Unnamed Physics System Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      bodies: [],
+      constraints: [],
+      forces: [],
+      materials: [],
+      performanceMetrics: {
+        totalBodies: 0,
+        activeBodies: 0,
+        totalConstraints: 0,
+        activeConstraints: 0,
+        totalForces: 0,
+        activeForces: 0,
+        averageFPS: 0,
+        averageLatency: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalBodies: 0,
+        averageFPS: 0,
+        bodyTypeDistribution: [],
+        constraintTypeDistribution: [],
+        forceTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeBodies: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): PhysicsSystemStats {
+    this.managers.set(manager.id, manager);
+
     return {
-      totalBodies: 0,
-      activeBodies: 0,
-      totalConstraints: 0,
-      activeConstraints: 0,
-      totalParticles: 0,
-      activeParticles: 0,
-      totalFluids: 0,
-      activeFluids: 0,
-      totalCloths: 0,
-      activeCloths: 0,
-      averageFPS: 60,
-      averageMemoryUsage: 0,
-      lastUpdate: Date.now()
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Cleanup resources
+   * Get manager by ID
    */
-  destroy(): void {
-    this.physicsSystems.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  getManager(managerId: string): PhysicsSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Create physics body
+   */
+  createBody(managerId: string, body: Partial<PhysicsBody>): PhysicsSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-body',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.bodies.length >= this.config.maxBodies) {
+      return {
+        op: 'create-body',
+        status: 'error',
+        issues: ['Maximum number of bodies reached']
+      };
+    }
+
+    const newBody: PhysicsBody = {
+      id: body.id || `body-${Date.now()}`,
+      name: body.name || 'Unnamed Body',
+      type: body.type || 'dynamic',
+      shape: body.shape || {
+        type: 'box',
+        size: { x: 1, y: 1, z: 1 },
+        center: { x: 0, y: 0, z: 0 }
+      },
+      transform: body.transform || {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0, w: 1 },
+        scale: { x: 1, y: 1, z: 1 }
+      },
+      velocity: body.velocity || { x: 0, y: 0, z: 0 },
+      angularVelocity: body.angularVelocity || { x: 0, y: 0, z: 0 },
+      mass: body.mass || 1,
+      inertia: body.inertia || this.calculateInertia(body.mass || 1, body.shape),
+      material: body.material || 'default',
+      constraints: body.constraints || [],
+      forces: body.forces || [],
+      status: 'active',
+      metadata: {},
+      ...body
+    };
+
+    manager.bodies.push(newBody);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalBodies++;
+    this.performanceMetrics.activeBodies++;
+
+    return {
+      op: 'create-body',
+      status: 'ok',
+      result: newBody
+    };
+  }
+
+  /**
+   * Create physics constraint
+   */
+  createConstraint(managerId: string, constraint: Partial<PhysicsConstraint>): PhysicsSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-constraint',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.constraints.length >= this.config.maxConstraints) {
+      return {
+        op: 'create-constraint',
+        status: 'error',
+        issues: ['Maximum number of constraints reached']
+      };
+    }
+
+    const newConstraint: PhysicsConstraint = {
+      id: constraint.id || `constraint-${Date.now()}`,
+      name: constraint.name || 'Unnamed Constraint',
+      type: constraint.type || 'fixed',
+      bodyA: constraint.bodyA || '',
+      bodyB: constraint.bodyB || '',
+      anchorA: constraint.anchorA || { x: 0, y: 0, z: 0 },
+      anchorB: constraint.anchorB || { x: 0, y: 0, z: 0 },
+      limits: constraint.limits || {
+        linear: {
+          enabled: false,
+          min: { x: 0, y: 0, z: 0 },
+          max: { x: 0, y: 0, z: 0 },
+          spring: { enabled: false, stiffness: 0, damping: 0 },
+          damping: { enabled: false, linear: 0, angular: 0 }
+        },
+        angular: {
+          enabled: false,
+          min: { x: 0, y: 0, z: 0 },
+          max: { x: 0, y: 0, z: 0 },
+          spring: { enabled: false, stiffness: 0, damping: 0 },
+          damping: { enabled: false, linear: 0, angular: 0 }
+        }
+      },
+      stiffness: constraint.stiffness || 1,
+      damping: constraint.damping || 0.1,
+      enabled: true,
+      metadata: {},
+      ...constraint
+    };
+
+    manager.constraints.push(newConstraint);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalConstraints++;
+    this.performanceMetrics.activeConstraints++;
+
+    return {
+      op: 'create-constraint',
+      status: 'ok',
+      result: newConstraint
+    };
+  }
+
+  /**
+   * Create physics force
+   */
+  createForce(managerId: string, force: Partial<PhysicsForce>): PhysicsSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-force',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newForce: PhysicsForce = {
+      id: force.id || `force-${Date.now()}`,
+      name: force.name || 'Unnamed Force',
+      type: force.type || 'gravity',
+      body: force.body || '',
+      direction: force.direction || { x: 0, y: -1, z: 0 },
+      magnitude: force.magnitude || 9.81,
+      position: force.position || { x: 0, y: 0, z: 0 },
+      range: force.range || 0,
+      falloff: force.falloff || 'constant',
+      enabled: true,
+      metadata: {},
+      ...force
+    };
+
+    manager.forces.push(newForce);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalForces++;
+    this.performanceMetrics.activeForces++;
+
+    return {
+      op: 'create-force',
+      status: 'ok',
+      result: newForce
+    };
+  }
+
+  /**
+   * Create physics material
+   */
+  createMaterial(managerId: string, material: Partial<PhysicsMaterial>): PhysicsSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-material',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newMaterial: PhysicsMaterial = {
+      id: material.id || `material-${Date.now()}`,
+      name: material.name || 'Unnamed Material',
+      properties: material.properties || {
+        color: { r: 1, g: 1, b: 1, a: 1 },
+        texture: '',
+        roughness: 0.5,
+        metallic: 0,
+        emissive: { r: 0, g: 0, b: 0, a: 1 }
+      },
+      friction: material.friction || {
+        static: 0.5,
+        dynamic: 0.3,
+        rolling: 0.1,
+        spinning: 0.1
+      },
+      restitution: material.restitution || {
+        coefficient: 0.5,
+        threshold: 0.1,
+        combine: 'average'
+      },
+      density: material.density || 1,
+      metadata: {},
+      ...material
+    };
+
+    manager.materials.push(newMaterial);
+    manager.updatedAt = Date.now();
+
+    return {
+      op: 'create-material',
+      status: 'ok',
+      result: newMaterial
+    };
+  }
+
+  /**
+   * Calculate inertia tensor
+   */
+  private calculateInertia(mass: number, shape: PhysicsShape): Matrix3 {
+    // Simple inertia calculation - in reality this would be more complex
+    const size = shape.size;
+    const Ixx = (mass * (size.y * size.y + size.z * size.z)) / 12;
+    const Iyy = (mass * (size.x * size.x + size.z * size.z)) / 12;
+    const Izz = (mass * (size.x * size.x + size.y * size.y)) / 12;
+
+    return {
+      m00: Ixx, m01: 0, m02: 0,
+      m10: 0, m11: Iyy, m12: 0,
+      m20: 0, m21: 0, m22: Izz
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): PhysicsSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): PhysicsSystemAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): PhysicsSystemManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalBodies = 0;
+    let activeBodies = 0;
+    let totalConstraints = 0;
+    let activeConstraints = 0;
+    let totalForces = 0;
+    let activeForces = 0;
+
+    for (const manager of this.managers.values()) {
+      totalBodies += manager.bodies.length;
+      activeBodies += manager.bodies.filter(b => b.status === 'active').length;
+      totalConstraints += manager.constraints.length;
+      activeConstraints += manager.constraints.filter(c => c.enabled).length;
+      totalForces += manager.forces.length;
+      activeForces += manager.forces.filter(f => f.enabled).length;
+    }
+
+    this.performanceMetrics.totalBodies = totalBodies;
+    this.performanceMetrics.activeBodies = activeBodies;
+    this.performanceMetrics.totalConstraints = totalConstraints;
+    this.performanceMetrics.activeConstraints = activeConstraints;
+    this.performanceMetrics.totalForces = totalForces;
+    this.performanceMetrics.activeForces = activeForces;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultPhysicsSystemManager = new PhysicsSystemManager();
-export { PhysicsSystemManager as default };

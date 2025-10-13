@@ -1,1361 +1,951 @@
 /**
- * SceneBuilderPure Manager - Advanced Scene Construction System
+ * SceneBuilderPure Manager - Advanced Scene Building Management System
  *
- * Comprehensive scene building with:
- * - Real-time scene editing
- * - Asset placement and management
- * - Lighting and environment setup
- * - Physics and collision configuration
+ * Comprehensive scene building management system with:
+ * - Scene creation and management
+ * - 3D object placement and manipulation
+ * - Lighting and material systems
+ * - Camera and viewport management
  * - Performance optimization
- * - Multi-user collaboration
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Real-time scene monitoring
+ * - Scene analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface SceneBuilderConfig {
-  enableRealTimeEditing: boolean;
-  enableMultiUser: boolean;
-  enablePhysics: boolean;
-  enableLighting: boolean;
-  enableWeather: boolean;
-  enableAudio: boolean;
-  enableParticles: boolean;
-  enableOptimization: boolean;
+  enableSceneManagement: boolean;
+  enable3DObjectPlacement: boolean;
+  enableLightingSystem: boolean;
+  enableMaterialSystem: boolean;
+  enableCameraManagement: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableSceneAnalytics: boolean;
+  enableSceneReporting: boolean;
+  maxScenes: number;
   maxObjects: number;
-  maxLights: number;
-  maxParticles: number;
-  enableUndoRedo: boolean;
-  enableSnapToGrid: boolean;
-  gridSize: number;
-  enableCollisionPreview: boolean;
-  enablePerformanceMonitoring: boolean;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
+
+export interface SceneBuilderManager {
+  id: string;
+  name: string;
+  type: SceneBuilderManagerType;
+  status: SceneBuilderManagerStatus;
+  scenes: Scene[];
+  objects: SceneObject[];
+  materials: Material[];
+  lights: Light[];
+  cameras: Camera[];
+  performanceMetrics: SceneBuilderPerformanceMetrics;
+  analytics: SceneBuilderAnalytics;
+  reporting: SceneBuilderReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type SceneBuilderManagerType = 'game' | 'architectural' | 'simulation' | 'custom';
+export type SceneBuilderManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Scene {
   id: string;
   name: string;
   description: string;
-  version: string;
-  author: string;
-  created: number;
-  modified: number;
-  objects: SceneObject[];
-  lights: SceneLight[];
-  cameras: SceneCamera[];
-  environment: SceneEnvironment;
-  physics: ScenePhysics;
-  audio: SceneAudio;
-  particles: ParticleSystem[];
-  metadata: SceneMetadata;
-  isDirty: boolean;
-  isLocked: boolean;
-  lockExpiry: number;
+  type: SceneType;
+  status: SceneStatus;
+  objects: string[];
+  lights: string[];
+  cameras: string[];
+  environment: Environment;
+  settings: SceneSettings;
+  metadata: Record<string, any>;
+}
+
+export type SceneType = 'indoor' | 'outdoor' | 'mixed' | 'procedural' | 'custom';
+export type SceneStatus = 'active' | 'inactive' | 'rendering' | 'error';
+
+export interface Environment {
+  skybox: Skybox;
+  fog: FogSettings;
+  wind: WindSettings;
+  gravity: GravitySettings;
+  physics: PhysicsSettings;
+}
+
+export interface Skybox {
+  type: SkyboxType;
+  texture: string;
+  color: Color;
+  rotation: number;
+  scale: number;
+}
+
+export type SkyboxType = 'texture' | 'color' | 'procedural' | 'custom';
+
+export interface FogSettings {
+  enabled: boolean;
+  color: Color;
+  density: number;
+  start: number;
+  end: number;
+  type: FogType;
+}
+
+export type FogType = 'linear' | 'exponential' | 'exponential_squared' | 'custom';
+
+export interface WindSettings {
+  enabled: boolean;
+  direction: Vector3;
+  strength: number;
+  turbulence: number;
+  frequency: number;
+}
+
+export interface GravitySettings {
+  enabled: boolean;
+  direction: Vector3;
+  strength: number;
+}
+
+export interface PhysicsSettings {
+  enabled: boolean;
+  gravity: Vector3;
+  airResistance: number;
+  friction: number;
+  restitution: number;
+}
+
+export interface SceneSettings {
+  renderDistance: number;
+  shadowQuality: ShadowQuality;
+  antiAliasing: AntiAliasingSettings;
+  postProcessing: PostProcessingSettings;
+  performance: PerformanceSettings;
+}
+
+export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+
+export interface AntiAliasingSettings {
+  enabled: boolean;
+  type: AntiAliasingType;
+  samples: number;
+  quality: number;
+}
+
+export type AntiAliasingType = 'msaa' | 'fxaa' | 'smaa' | 'taa' | 'custom';
+
+export interface PostProcessingSettings {
+  enabled: boolean;
+  effects: PostProcessingEffect[];
+  intensity: number;
+}
+
+export interface PostProcessingEffect {
+  type: EffectType;
+  enabled: boolean;
+  intensity: number;
+  parameters: Record<string, any>;
+}
+
+export type EffectType = 'bloom' | 'ssao' | 'motion_blur' | 'color_grading' | 'custom';
+
+export interface PerformanceSettings {
+  targetFPS: number;
+  maxDrawCalls: number;
+  maxTriangles: number;
+  cullingDistance: number;
+  lodBias: number;
 }
 
 export interface SceneObject {
   id: string;
   name: string;
   type: ObjectType;
-  position: Position3D;
-  rotation: Rotation3D;
-  scale: Scale3D;
-  visible: boolean;
-  locked: boolean;
-  parent: string | null;
-  children: string[];
-  components: Component[];
-  materials: Material[];
-  physics: ObjectPhysics;
-  audio: ObjectAudio;
-  particles: ObjectParticles;
-  metadata: Map<string, any>;
+  status: ObjectStatus;
+  transform: Transform;
+  geometry: Geometry;
+  material: string;
+  physics: PhysicsObject;
+  animation: AnimationObject;
+  metadata: Record<string, any>;
 }
 
-export enum ObjectType {
-  MESH = 'mesh',
-  LIGHT = 'light',
-  CAMERA = 'camera',
-  EMPTY = 'empty',
-  GROUP = 'group',
-  INSTANCE = 'instance',
-  PREFAB = 'prefab',
-  TERRAIN = 'terrain',
-  WATER = 'water',
-  SKYBOX = 'skybox',
-  PARTICLE_SYSTEM = 'particle_system',
-  AUDIO_SOURCE = 'audio_source',
-  TRIGGER = 'trigger',
-  SPAWN_POINT = 'spawn_point',
-  CUSTOM = 'custom'
+export type ObjectType = 'mesh' | 'light' | 'camera' | 'particle' | 'terrain' | 'custom';
+export type ObjectStatus = 'active' | 'inactive' | 'hidden' | 'error';
+
+export interface Transform {
+  position: Vector3;
+  rotation: Quaternion;
+  scale: Vector3;
+  matrix: Matrix4;
 }
 
-export interface Position3D {
+export interface Vector3 {
   x: number;
   y: number;
   z: number;
 }
 
-export interface Rotation3D {
+export interface Quaternion {
   x: number;
   y: number;
   z: number;
   w: number;
 }
 
-export interface Scale3D {
+export interface Matrix4 {
+  m00: number; m01: number; m02: number; m03: number;
+  m10: number; m11: number; m12: number; m13: number;
+  m20: number; m21: number; m22: number; m23: number;
+  m30: number; m31: number; m32: number; m33: number;
+}
+
+export interface Geometry {
+  type: GeometryType;
+  vertices: Vertex[];
+  indices: number[];
+  normals: Vector3[];
+  uvs: Vector2[];
+  colors: Color[];
+  tangents: Vector3[];
+  bitangents: Vector3[];
+}
+
+export type GeometryType = 'box' | 'sphere' | 'cylinder' | 'plane' | 'mesh' | 'custom';
+
+export interface Vertex {
+  position: Vector3;
+  normal: Vector3;
+  uv: Vector2;
+  color: Color;
+  tangent: Vector3;
+  bitangent: Vector3;
+}
+
+export interface Vector2 {
   x: number;
   y: number;
-  z: number;
 }
 
-export interface Component {
-  id: string;
-  type: ComponentType;
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+export interface PhysicsObject {
   enabled: boolean;
-  data: Map<string, any>;
-  metadata: Map<string, any>;
+  type: PhysicsType;
+  mass: number;
+  friction: number;
+  restitution: number;
+  collision: CollisionSettings;
 }
 
-export enum ComponentType {
-  TRANSFORM = 'transform',
-  MESH_RENDERER = 'mesh_renderer',
-  LIGHT = 'light',
-  CAMERA = 'camera',
-  RIGIDBODY = 'rigidbody',
-  COLLIDER = 'collider',
-  AUDIO_SOURCE = 'audio_source',
-  PARTICLE_SYSTEM = 'particle_system',
-  ANIMATOR = 'animator',
-  SCRIPT = 'script',
-  CUSTOM = 'custom'
+export type PhysicsType = 'static' | 'kinematic' | 'dynamic' | 'trigger';
+
+export interface CollisionSettings {
+  enabled: boolean;
+  shape: CollisionShape;
+  size: Vector3;
+  offset: Vector3;
+  isTrigger: boolean;
+}
+
+export type CollisionShape = 'box' | 'sphere' | 'cylinder' | 'mesh' | 'custom';
+
+export interface AnimationObject {
+  enabled: boolean;
+  clips: AnimationClip[];
+  current: string;
+  speed: number;
+  loop: boolean;
+}
+
+export interface AnimationClip {
+  id: string;
+  name: string;
+  duration: number;
+  tracks: AnimationTrack[];
+  events: AnimationEvent[];
+}
+
+export interface AnimationTrack {
+  property: string;
+  keyframes: Keyframe[];
+  interpolation: InterpolationType;
+}
+
+export type InterpolationType = 'linear' | 'step' | 'cubic' | 'bezier' | 'custom';
+
+export interface Keyframe {
+  time: number;
+  value: any;
+  inTangent: number;
+  outTangent: number;
+}
+
+export interface AnimationEvent {
+  time: number;
+  name: string;
+  parameters: Record<string, any>;
 }
 
 export interface Material {
   id: string;
   name: string;
   type: MaterialType;
-  shader: string;
-  properties: MaterialProperty[];
+  properties: MaterialProperties;
   textures: MaterialTexture[];
-  isTransparent: boolean;
-  isDoubleSided: boolean;
-  renderQueue: number;
-  metadata: Map<string, any>;
+  shaders: ShaderSettings;
+  metadata: Record<string, any>;
 }
 
-export enum MaterialType {
-  STANDARD = 'standard',
-  UNLIT = 'unlit',
-  TRANSPARENT = 'transparent',
-  EMISSIVE = 'emissive',
-  PBR = 'pbr',
-  CUSTOM = 'custom'
+export type MaterialType = 'standard' | 'pbr' | 'unlit' | 'custom';
+
+export interface MaterialProperties {
+  albedo: Color;
+  metallic: number;
+  roughness: number;
+  normal: number;
+  occlusion: number;
+  emission: Color;
+  alpha: number;
+  transparency: TransparencySettings;
 }
 
-export interface MaterialProperty {
-  name: string;
-  type: PropertyType;
-  value: any;
-  min?: number;
-  max?: number;
-  step?: number;
-  options?: string[];
+export interface TransparencySettings {
+  enabled: boolean;
+  mode: TransparencyMode;
+  cutoff: number;
+  blend: BlendMode;
 }
 
-export enum PropertyType {
-  FLOAT = 'float',
-  INT = 'int',
-  BOOLEAN = 'boolean',
-  COLOR = 'color',
-  VECTOR2 = 'vector2',
-  VECTOR3 = 'vector3',
-  VECTOR4 = 'vector4',
-  TEXTURE = 'texture',
-  ENUM = 'enum',
-  CUSTOM = 'custom'
-}
+export type TransparencyMode = 'opaque' | 'cutout' | 'transparent' | 'custom';
+export type BlendMode = 'alpha' | 'additive' | 'multiply' | 'custom';
 
 export interface MaterialTexture {
-  name: string;
   type: TextureType;
-  texture: string;
-  tiling: [number, number];
-  offset: [number, number];
+  path: string;
+  scale: Vector2;
+  offset: Vector2;
   rotation: number;
-  metadata: Map<string, any>;
+  wrap: WrapMode;
+  filter: FilterMode;
 }
 
-export enum TextureType {
-  DIFFUSE = 'diffuse',
-  NORMAL = 'normal',
-  SPECULAR = 'specular',
-  ROUGHNESS = 'roughness',
-  METALLIC = 'metallic',
-  EMISSIVE = 'emissive',
-  OCCLUSION = 'occlusion',
-  HEIGHT = 'height',
-  CUSTOM = 'custom'
+export type TextureType = 'albedo' | 'normal' | 'metallic' | 'roughness' | 'occlusion' | 'emission' | 'custom';
+export type WrapMode = 'repeat' | 'clamp' | 'mirror' | 'custom';
+export type FilterMode = 'point' | 'bilinear' | 'trilinear' | 'anisotropic' | 'custom';
+
+export interface ShaderSettings {
+  vertex: string;
+  fragment: string;
+  geometry: string;
+  compute: string;
+  uniforms: ShaderUniform[];
 }
 
-export interface ObjectPhysics {
-  enabled: boolean;
-  type: PhysicsType;
-  mass: number;
-  friction: number;
-  restitution: number;
-  isStatic: boolean;
-  isKinematic: boolean;
-  collisionType: CollisionType;
-  collisionShape: CollisionShape;
-  constraints: PhysicsConstraint[];
-  metadata: Map<string, any>;
-}
-
-export enum PhysicsType {
-  NONE = 'none',
-  STATIC = 'static',
-  DYNAMIC = 'dynamic',
-  KINEMATIC = 'kinematic',
-  TRIGGER = 'trigger'
-}
-
-export enum CollisionType {
-  NONE = 'none',
-  STATIC = 'static',
-  DYNAMIC = 'dynamic',
-  KINEMATIC = 'kinematic',
-  TRIGGER = 'trigger'
-}
-
-export enum CollisionShape {
-  BOX = 'box',
-  SPHERE = 'sphere',
-  CAPSULE = 'capsule',
-  MESH = 'mesh',
-  CONVEX_HULL = 'convex_hull',
-  COMPOUND = 'compound'
-}
-
-export interface PhysicsConstraint {
-  type: ConstraintType;
-  target: string;
-  limits: ConstraintLimits;
-  isActive: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum ConstraintType {
-  HINGE = 'hinge',
-  BALL_SOCKET = 'ball_socket',
-  SLIDER = 'slider',
-  FIXED = 'fixed',
-  SPRING = 'spring',
-  ROPE = 'rope'
-}
-
-export interface ConstraintLimits {
-  min: number;
-  max: number;
-  damping: number;
-  stiffness: number;
-}
-
-export interface ObjectAudio {
-  enabled: boolean;
-  sources: AudioSource[];
-  spatial: boolean;
-  volume: number;
-  pitch: number;
-  loop: boolean;
-  playOnAwake: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface AudioSource {
-  id: string;
-  clip: string;
-  volume: number;
-  pitch: number;
-  loop: boolean;
-  playOnAwake: boolean;
-  spatial: boolean;
-  minDistance: number;
-  maxDistance: number;
-  rolloffMode: RolloffMode;
-  metadata: Map<string, any>;
-}
-
-export enum RolloffMode {
-  LOGARITHMIC = 'logarithmic',
-  LINEAR = 'linear',
-  CUSTOM = 'custom'
-}
-
-export interface ObjectParticles {
-  enabled: boolean;
-  systems: ParticleSystem[];
-  metadata: Map<string, any>;
-}
-
-export interface ParticleSystem {
-  id: string;
+export interface ShaderUniform {
   name: string;
-  enabled: boolean;
-  emission: EmissionModule;
-  shape: ShapeModule;
-  velocity: VelocityModule;
-  color: ColorModule;
-  size: SizeModule;
-  rotation: RotationModule;
-  texture: TextureModule;
-  collision: CollisionModule;
-  force: ForceModule;
-  metadata: Map<string, any>;
+  type: UniformType;
+  value: any;
+  location: number;
 }
 
-export interface EmissionModule {
-  rate: number;
-  burst: Burst[];
-  enabled: boolean;
-}
+export type UniformType = 'float' | 'int' | 'bool' | 'vec2' | 'vec3' | 'vec4' | 'mat3' | 'mat4' | 'sampler2d' | 'custom';
 
-export interface Burst {
-  time: number;
-  count: number;
-  cycles: number;
-  interval: number;
-}
-
-export interface ShapeModule {
-  type: ShapeType;
-  radius: number;
-  angle: number;
-  length: number;
-  box: [number, number, number];
-  enabled: boolean;
-}
-
-export enum ShapeType {
-  SPHERE = 'sphere',
-  CONE = 'cone',
-  BOX = 'box',
-  CIRCLE = 'circle',
-  RECTANGLE = 'rectangle',
-  CUSTOM = 'custom'
-}
-
-export interface VelocityModule {
-  linear: [number, number, number];
-  angular: [number, number, number];
-  space: SpaceType;
-  enabled: boolean;
-}
-
-export enum SpaceType {
-  LOCAL = 'local',
-  WORLD = 'world',
-  CUSTOM = 'custom'
-}
-
-export interface ColorModule {
-  color: [number, number, number, number];
-  gradient: ColorGradient;
-  enabled: boolean;
-}
-
-export interface ColorGradient {
-  keys: ColorKey[];
-  mode: GradientMode;
-}
-
-export interface ColorKey {
-  time: number;
-  color: [number, number, number, number];
-}
-
-export enum GradientMode {
-  BLEND = 'blend',
-  FIXED = 'fixed'
-}
-
-export interface SizeModule {
-  size: number;
-  curve: AnimationCurve;
-  enabled: boolean;
-}
-
-export interface AnimationCurve {
-  keys: CurveKey[];
-  mode: CurveMode;
-}
-
-export interface CurveKey {
-  time: number;
-  value: number;
-  inTangent: number;
-  outTangent: number;
-}
-
-export enum CurveMode {
-  AUTO = 'auto',
-  FREE = 'free',
-  BROKEN = 'broken'
-}
-
-export interface RotationModule {
-  rotation: [number, number, number];
-  curve: AnimationCurve;
-  enabled: boolean;
-}
-
-export interface TextureModule {
-  texture: string;
-  frameCount: number;
-  frameRate: number;
-  enabled: boolean;
-}
-
-export interface CollisionModule {
-  type: CollisionType;
-  mode: CollisionMode;
-  enabled: boolean;
-}
-
-export enum CollisionMode {
-  NONE = 'none',
-  WORLD = 'world',
-  PLANES = 'planes',
-  CUSTOM = 'custom'
-}
-
-export interface ForceModule {
-  force: [number, number, number];
-  space: SpaceType;
-  enabled: boolean;
-}
-
-export interface SceneLight {
+export interface Light {
   id: string;
   name: string;
   type: LightType;
-  position: Position3D;
-  rotation: Rotation3D;
-  color: [number, number, number];
+  status: LightStatus;
+  transform: Transform;
+  color: Color;
   intensity: number;
   range: number;
-  angle: number;
-  innerAngle: number;
-  shadows: boolean;
-  shadowBias: number;
-  shadowNormalBias: number;
-  cullingMask: number;
+  shadows: ShadowSettings;
+  metadata: Record<string, any>;
+}
+
+export type LightType = 'directional' | 'point' | 'spot' | 'area' | 'custom';
+export type LightStatus = 'active' | 'inactive' | 'error';
+
+export interface ShadowSettings {
   enabled: boolean;
-  metadata: Map<string, any>;
+  resolution: number;
+  bias: number;
+  normalBias: number;
+  nearPlane: number;
+  farPlane: number;
+  type: ShadowType;
 }
 
-export enum LightType {
-  DIRECTIONAL = 'directional',
-  POINT = 'point',
-  SPOT = 'spot',
-  AREA = 'area',
-  AMBIENT = 'ambient'
-}
+export type ShadowType = 'hard' | 'soft' | 'pcf' | 'vsm' | 'custom';
 
-export interface SceneCamera {
+export interface Camera {
   id: string;
   name: string;
-  position: Position3D;
-  rotation: Rotation3D;
-  projection: ProjectionType;
+  type: CameraType;
+  status: CameraStatus;
+  transform: Transform;
+  projection: ProjectionSettings;
+  rendering: RenderingSettings;
+  metadata: Record<string, any>;
+}
+
+export type CameraType = 'perspective' | 'orthographic' | 'custom';
+export type CameraStatus = 'active' | 'inactive' | 'rendering' | 'error';
+
+export interface ProjectionSettings {
+  type: CameraType;
   fov: number;
+  aspect: number;
   near: number;
   far: number;
-  aspect: number;
-  orthoSize: number;
-  viewport: [number, number, number, number];
-  cullingMask: number;
-  clearFlags: ClearFlags;
-  clearColor: [number, number, number, number];
-  depth: number;
+  size: number;
+  offset: Vector2;
+}
+
+export interface RenderingSettings {
+  clearColor: Color;
+  clearDepth: number;
+  clearStencil: number;
+  culling: CullingSettings;
+  depth: DepthSettings;
+  stencil: StencilSettings;
+}
+
+export interface CullingSettings {
   enabled: boolean;
-  metadata: Map<string, any>;
+  mode: CullMode;
+  frontFace: FrontFace;
 }
 
-export enum ProjectionType {
-  PERSPECTIVE = 'perspective',
-  ORTHOGRAPHIC = 'orthographic'
-}
+export type CullMode = 'none' | 'front' | 'back' | 'both';
+export type FrontFace = 'ccw' | 'cw';
 
-export enum ClearFlags {
-  NONE = 'none',
-  COLOR = 'color',
-  DEPTH = 'depth',
-  STENCIL = 'stencil',
-  ALL = 'all'
-}
-
-export interface SceneEnvironment {
-  skybox: string;
-  ambientColor: [number, number, number];
-  ambientIntensity: number;
-  fog: FogSettings;
-  wind: WindSettings;
-  weather: WeatherSettings;
-  time: TimeSettings;
-  metadata: Map<string, any>;
-}
-
-export interface FogSettings {
+export interface DepthSettings {
   enabled: boolean;
-  color: [number, number, number];
-  density: number;
-  startDistance: number;
-  endDistance: number;
-  heightFalloff: number;
-  type: FogType;
+  write: boolean;
+  test: boolean;
+  func: DepthFunc;
 }
 
-export enum FogType {
-  LINEAR = 'linear',
-  EXPONENTIAL = 'exponential',
-  EXPONENTIAL_SQUARED = 'exponential_squared',
-  HEIGHT = 'height'
-}
+export type DepthFunc = 'never' | 'less' | 'equal' | 'lequal' | 'greater' | 'notequal' | 'gequal' | 'always';
 
-export interface WindSettings {
+export interface StencilSettings {
   enabled: boolean;
-  direction: [number, number, number];
-  speed: number;
-  turbulence: number;
-  gustiness: number;
-  metadata: Map<string, any>;
+  func: StencilFunc;
+  ref: number;
+  mask: number;
+  fail: StencilOp;
+  zfail: StencilOp;
+  zpass: StencilOp;
 }
 
-export interface WeatherSettings {
-  type: WeatherType;
-  intensity: number;
-  precipitation: number;
-  temperature: number;
-  humidity: number;
-  pressure: number;
-  visibility: number;
-  metadata: Map<string, any>;
-}
+export type StencilFunc = 'never' | 'less' | 'lequal' | 'greater' | 'gequal' | 'equal' | 'notequal' | 'always';
+export type StencilOp = 'keep' | 'zero' | 'replace' | 'incr' | 'incr_wrap' | 'decr' | 'decr_wrap' | 'invert';
 
-export enum WeatherType {
-  CLEAR = 'clear',
-  CLOUDY = 'cloudy',
-  RAINY = 'rainy',
-  SNOWY = 'snowy',
-  FOGGY = 'foggy',
-  STORMY = 'stormy',
-  CUSTOM = 'custom'
-}
-
-export interface TimeSettings {
-  currentTime: number;
-  day: number;
-  month: number;
-  year: number;
-  season: Season;
-  timeOfDay: TimeOfDay;
-  isPaused: boolean;
-  speed: number;
-}
-
-export enum Season {
-  SPRING = 'spring',
-  SUMMER = 'summer',
-  AUTUMN = 'autumn',
-  WINTER = 'winter'
-}
-
-export enum TimeOfDay {
-  DAWN = 'dawn',
-  MORNING = 'morning',
-  NOON = 'noon',
-  AFTERNOON = 'afternoon',
-  EVENING = 'evening',
-  NIGHT = 'night',
-  MIDNIGHT = 'midnight'
-}
-
-export interface ScenePhysics {
-  gravity: [number, number, number];
-  timeScale: number;
-  fixedTimeStep: number;
-  maxSubSteps: number;
-  solverIterations: number;
-  solverVelocityIterations: number;
-  enableSleeping: boolean;
-  enableCCD: boolean;
-  enableContinuousCollision: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface SceneAudio {
-  masterVolume: number;
-  musicVolume: number;
-  sfxVolume: number;
-  voiceVolume: number;
-  ambientVolume: number;
-  enable3D: boolean;
-  enableReverb: boolean;
-  enableOcclusion: boolean;
-  reverb: ReverbSettings;
-  metadata: Map<string, any>;
-}
-
-export interface ReverbSettings {
-  enabled: boolean;
-  preset: ReverbPreset;
-  room: number;
-  roomHF: number;
-  roomLF: number;
-  decayTime: number;
-  decayHFRatio: number;
-  reflections: number;
-  reflectionsDelay: number;
-  reverb: number;
-  reverbDelay: number;
-  HFReference: number;
-  LFReference: number;
-  diffusion: number;
-  density: number;
-}
-
-export enum ReverbPreset {
-  OFF = 'off',
-  GENERIC = 'generic',
-  PADDEDCELL = 'paddedcell',
-  ROOM = 'room',
-  BATHROOM = 'bathroom',
-  LIVINGROOM = 'livingroom',
-  STONEROOM = 'stoneroom',
-  AUDITORIUM = 'auditorium',
-  CONCERTHALL = 'concerthall',
-  CAVE = 'cave',
-  ARENA = 'arena',
-  HANGAR = 'hangar',
-  CARPETEDHALLWAY = 'carpetedhallway',
-  HALLWAY = 'hallway',
-  STONECORRIDOR = 'stonecorridor',
-  ALLEY = 'alley',
-  FOREST = 'forest',
-  CITY = 'city',
-  MOUNTAINS = 'mountains',
-  QUARRY = 'quarry',
-  PLAIN = 'plain',
-  PARKINGLOT = 'parkinglot',
-  SEWERPIPE = 'sewerpipe',
-  UNDERWATER = 'underwater',
-  CUSTOM = 'custom'
-}
-
-export interface SceneMetadata {
-  tags: string[];
-  category: string;
-  difficulty: DifficultyLevel;
-  rating: number;
-  downloads: number;
-  likes: number;
-  comments: number;
-  author: string;
-  contributors: string[];
-  license: string;
-  description: string;
-  thumbnail: string;
-  screenshots: string[];
-  videos: string[];
-  customMetadata: Map<string, any>;
-}
-
-export enum DifficultyLevel {
-  EASY = 'easy',
-  NORMAL = 'normal',
-  HARD = 'hard',
-  EXPERT = 'expert',
-  NIGHTMARE = 'nightmare',
-  CUSTOM = 'custom'
-}
-
-export interface SceneBuilderStats {
+export interface SceneBuilderPerformanceMetrics {
   totalScenes: number;
+  activeScenes: number;
   totalObjects: number;
   totalLights: number;
   totalCameras: number;
-  totalParticles: number;
+  averageFPS: number;
+  averageLatency: number;
   memoryUsage: number;
-  gpuMemoryUsage: number;
-  frameRate: number;
-  drawCalls: number;
-  triangles: number;
-  vertices: number;
-  textures: number;
-  materials: number;
-  shaders: number;
-  audioSources: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface SceneBuilderAnalytics {
+  totalScenes: number;
+  totalObjects: number;
+  averageFPS: number;
+  sceneTypeDistribution: SceneTypeDistribution[];
+  objectTypeDistribution: ObjectTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface SceneTypeDistribution {
+  type: SceneType;
+  count: number;
+  percentage: number;
+  averageObjects: number;
+}
+
+export interface ObjectTypeDistribution {
+  type: ObjectType;
+  count: number;
+  percentage: number;
+  averageComplexity: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  scenes: number;
+  objects: number;
+  fps: number;
+  latency: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface SceneBuilderReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeScenes: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
 }
 
-export class SceneBuilderManager {
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface SceneBuilderOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class SceneBuilderPure {
+  private managers: Map<string, SceneBuilderManager> = new Map();
   private config: SceneBuilderConfig;
-  private scenes: Map<string, Scene> = new Map();
-  private currentScene: string | null = null;
-  private undoStack: Scene[] = [];
-  private redoStack: Scene[] = [];
-  private stats: SceneBuilderStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: SceneBuilderPerformanceMetrics;
+  private analytics: SceneBuilderAnalytics;
 
   constructor(config: Partial<SceneBuilderConfig> = {}) {
     this.config = {
-      enableRealTimeEditing: true,
-      enableMultiUser: false,
-      enablePhysics: true,
-      enableLighting: true,
-      enableWeather: true,
-      enableAudio: true,
-      enableParticles: true,
-      enableOptimization: true,
+      enableSceneManagement: true,
+      enable3DObjectPlacement: true,
+      enableLightingSystem: true,
+      enableMaterialSystem: true,
+      enableCameraManagement: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableSceneAnalytics: true,
+      enableSceneReporting: true,
+      maxScenes: 1000,
       maxObjects: 10000,
-      maxLights: 100,
-      maxParticles: 1000,
-      enableUndoRedo: true,
-      enableSnapToGrid: true,
-      gridSize: 1.0,
-      enableCollisionPreview: true,
-      enablePerformanceMonitoring: true,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'SceneBuilderManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `SceneBuilderManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'SceneBuilderManager');
-  }
-
-  /**
-   * Initialize scene builder
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize scene builder
-      await this.initializeSceneBuilder();
-      
-      this.isInitialized = true;
-      this.logger.info('SceneBuilderManager', 'Scene builder initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('SceneBuilderManager', 'Failed to initialize scene builder:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new scene
-   */
-  createScene(name: string, description: string = ''): Scene {
-    const scene: Scene = {
-      id: `scene_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name,
-      description,
-      version: '1.0.0',
-      author: 'Unknown',
-      created: Date.now(),
-      modified: Date.now(),
-      objects: [],
-      lights: [],
-      cameras: [],
-      environment: this.createDefaultEnvironment(),
-      physics: this.createDefaultPhysics(),
-      audio: this.createDefaultAudio(),
-      particles: [],
-      metadata: this.createDefaultMetadata(),
-      isDirty: false,
-      isLocked: false,
-      lockExpiry: 0;
     };
 
-    this.scenes.set(scene.id, scene);
-    this.currentScene = scene.id;
-
-    this.logger.info('SceneBuilderManager', `Created scene: ${name}`);
-    return scene;
-  }
-
-  /**
-   * Load scene
-   */
-  loadScene(sceneId: string): boolean {
-    const scene = this.scenes.get(sceneId);
-    if (!scene) {
-      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
-      return false;
-    }
-
-    this.currentScene = sceneId;
-    this.logger.info('SceneBuilderManager', `Loaded scene: ${scene.name}`);
-    return true;
-  }
-
-  /**
-   * Save scene
-   */
-  saveScene(sceneId: string): boolean {
-    const scene = this.scenes.get(sceneId);
-    if (!scene) {
-      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
-      return false;
-    }
-
-    scene.modified = Date.now();
-    scene.isDirty = false;
-
-    this.logger.info('SceneBuilderManager', `Saved scene: ${scene.name}`);
-    return true;
-  }
-
-  /**
-   * Add object to scene
-   */
-  addObject(sceneId: string, object: Partial<SceneObject>): SceneObject | null {
-    const scene = this.scenes.get(sceneId);
-    if (!scene) {
-      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
-      return null;
-    }
-
-    if (scene.objects.length >= this.config.maxObjects) {
-      this.logger.warn('SceneBuilderManager', `Maximum objects reached for scene ${sceneId}`);
-      return null;
-    }
-
-    const newObject: SceneObject = {
-      id: `obj_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: object.name || 'New Object',
-      type: object.type || ObjectType.EMPTY,
-      position: object.position || { x: 0, y: 0, z: 0;
-    },
-      rotation: object.rotation || { x: 0, y: 0, z: 0, w: 1;
-    },
-      scale: object.scale || { x: 1, y: 1, z: 1;
-    },
-      visible: object.visible !== false,
-      locked: object.locked || false,
-      parent: object.parent || null,
-      children: object.children || [],
-      components: object.components || [],
-      materials: object.materials || [],
-      physics: object.physics || this.createDefaultObjectPhysics(),
-      audio: object.audio || this.createDefaultObjectAudio(),
-      particles: object.particles || this.createDefaultObjectParticles(),
-      metadata: object.metadata || new Map()
-    };
-
-    scene.objects.push(newObject);
-    scene.isDirty = true;
-
-    // Add to undo stack
-    if (this.config.enableUndoRedo) {
-      this.addToUndoStack(scene);
-    }
-
-    this.logger.info('SceneBuilderManager', `Added object to scene: ${newObject.name}`);
-    return newObject;
-  }
-
-  /**
-   * Remove object from scene
-   */
-  removeObject(sceneId: string, objectId: string): boolean {
-    const scene = this.scenes.get(sceneId);
-    if (!scene) {
-      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
-      return false;
-    }
-
-    const index = scene.objects.findIndex(obj => obj.id === objectId);
-    if (index === -1) {
-      this.logger.warn('SceneBuilderManager', `Object ${objectId} not found in scene ${sceneId}`);
-      return false;
-    }
-
-    scene.objects.splice(index, 1);
-    scene.isDirty = true;
-
-    // Add to undo stack
-    if (this.config.enableUndoRedo) {
-      this.addToUndoStack(scene);
-    }
-
-    this.logger.info('SceneBuilderManager', `Removed object from scene: ${objectId}`);
-    return true;
-  }
-
-  /**
-   * Update object in scene
-   */
-  updateObject(sceneId: string, objectId: string, updates: Partial<SceneObject>): boolean {
-    const scene = this.scenes.get(sceneId);
-    if (!scene) {
-      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
-      return false;
-    }
-
-    const object = scene.objects.find(obj => obj.id === objectId);
-    if (!object) {
-      this.logger.warn('SceneBuilderManager', `Object ${objectId} not found in scene ${sceneId}`);
-      return false;
-    }
-
-    Object.assign(object, updates);
-    scene.isDirty = true;
-
-    // Add to undo stack
-    if (this.config.enableUndoRedo) {
-      this.addToUndoStack(scene);
-    }
-
-    this.logger.info('SceneBuilderManager', `Updated object in scene: ${objectId}`);
-    return true;
-  }
-
-  /**
-   * Add light to scene
-   */
-  addLight(sceneId: string, light: Partial<SceneLight>): SceneLight | null {
-    const scene = this.scenes.get(sceneId);
-    if (!scene) {
-      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
-      return null;
-    }
-
-    if (scene.lights.length >= this.config.maxLights) {
-      this.logger.warn('SceneBuilderManager', `Maximum lights reached for scene ${sceneId}`);
-      return null;
-    }
-
-    const newLight: SceneLight = {
-      id: `light_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: light.name || 'New Light',
-      type: light.type || LightType.POINT,
-      position: light.position || { x: 0, y: 0, z: 0;
-    },
-      rotation: light.rotation || { x: 0, y: 0, z: 0, w: 1;
-    },
-      color: light.color || [1, 1, 1],
-      intensity: light.intensity || 1.0,
-      range: light.range || 10.0,
-      angle: light.angle || 30.0,
-      innerAngle: light.innerAngle || 21.0,
-      shadows: light.shadows || false,
-      shadowBias: light.shadowBias || 0.05,
-      shadowNormalBias: light.shadowNormalBias || 0.0,
-      cullingMask: light.cullingMask || -1,
-      enabled: light.enabled !== false,
-      metadata: light.metadata || new Map()
-    };
-
-    scene.lights.push(newLight);
-    scene.isDirty = true;
-
-    // Add to undo stack
-    if (this.config.enableUndoRedo) {
-      this.addToUndoStack(scene);
-    }
-
-    this.logger.info('SceneBuilderManager', `Added light to scene: ${newLight.name}`);
-    return newLight;
-  }
-
-  /**
-   * Add camera to scene
-   */
-  addCamera(sceneId: string, camera: Partial<SceneCamera>): SceneCamera | null {
-    const scene = this.scenes.get(sceneId);
-    if (!scene) {
-      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
-      return null;
-    }
-
-    const newCamera: SceneCamera = {
-      id: `camera_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: camera.name || 'New Camera',
-      position: camera.position || { x: 0, y: 0, z: 0;
-    },
-      rotation: camera.rotation || { x: 0, y: 0, z: 0, w: 1;
-    },
-      projection: camera.projection || ProjectionType.PERSPECTIVE,
-      fov: camera.fov || 60.0,
-      near: camera.near || 0.1,
-      far: camera.far || 1000.0,
-      aspect: camera.aspect || 16 / 9,
-      orthoSize: camera.orthoSize || 5.0,
-      viewport: camera.viewport || [0, 0, 1, 1],
-      cullingMask: camera.cullingMask || -1,
-      clearFlags: camera.clearFlags || ClearFlags.ALL,
-      clearColor: camera.clearColor || [0, 0, 0, 1],
-      depth: camera.depth || 0,
-      enabled: camera.enabled !== false,
-      metadata: camera.metadata || new Map()
-    };
-
-    scene.cameras.push(newCamera);
-    scene.isDirty = true;
-
-    // Add to undo stack
-    if (this.config.enableUndoRedo) {
-      this.addToUndoStack(scene);
-    }
-
-    this.logger.info('SceneBuilderManager', `Added camera to scene: ${newCamera.name}`);
-    return newCamera;
-  }
-
-  /**
-   * Undo last action
-   */
-  undo(): boolean {
-    if (!this.config.enableUndoRedo || this.undoStack.length === 0) {
-      return false;
-    }
-
-    const currentScene = this.getCurrentScene();
-    if (!currentScene) {
-      return false;
-    }
-
-    // Move current scene to redo stack
-    this.redoStack.push({ ...currentScene });
-
-    // Restore previous state
-    const previousScene = this.undoStack.pop();
-    if (previousScene) {
-      this.scenes.set(currentScene.id, previousScene);
-      this.logger.info('SceneBuilderManager', 'Undid last action');
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Redo last undone action
-   */
-  redo(): boolean {
-    if (!this.config.enableUndoRedo || this.redoStack.length === 0) {
-      return false;
-    }
-
-    const currentScene = this.getCurrentScene();
-    if (!currentScene) {
-      return false;
-    }
-
-    // Move current scene to undo stack
-    this.undoStack.push({ ...currentScene });
-
-    // Restore next state
-    const nextScene = this.redoStack.pop();
-    if (nextScene) {
-      this.scenes.set(currentScene.id, nextScene);
-      this.logger.info('SceneBuilderManager', 'Redid last undone action');
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Get current scene
-   */
-  getCurrentScene(): Scene | null {
-    if (!this.currentScene) {
-      return null;
-    }
-    return this.scenes.get(this.currentScene) || null;
-  }
-
-  /**
-   * Get all scenes
-   */
-  getScenes(): Scene[] {
-    return Array.from(this.scenes.values());
-  }
-
-  /**
-   * Get scene by ID
-   */
-  getScene(sceneId: string): Scene | null {
-    return this.scenes.get(sceneId) || null;
-  }
-
-  /**
-   * Get scene statistics
-   */
-  getStats(): SceneBuilderStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize scene builder
-   */
-  private async initializeSceneBuilder(): Promise<void> {
-    this.logger.info('SceneBuilderManager', 'Initializing scene builder...');
-  }
-
-  /**
-   * Create default environment
-   */
-  private createDefaultEnvironment(): SceneEnvironment {
-    return {
-      skybox: 'default_skybox',
-      ambientColor: [0.2, 0.2, 0.2],
-      ambientIntensity: 0.2,
-      fog: {
-
-        enabled: false,
-        color: [0.5, 0.5, 0.5],
-        density: 0.1,
-        startDistance: 100,
-        endDistance: 1000,
-        heightFalloff: 0.1,
-        type: FogType.LINEAR
-
-      }
-      },
-      wind: {
-
-        enabled: false,
-        direction: [1, 0, 0],
-        speed: 1.0,
-        turbulence: 0.1,
-        gustiness: 0.1,
-        metadata: new Map()
-
-      }
-      },
-      weather: {
-
-        type: WeatherType.CLEAR,
-        intensity: 1.0,
-        precipitation: 0.0,
-        temperature: 20.0,
-        humidity: 50.0,
-        pressure: 1013.25,
-        visibility: 10000.0,
-        metadata: new Map()
-
-      }
-      },
-      time: {
-
-        currentTime: 0,
-        day: 1,
-        month: 1,
-        year: 2024,
-        season: Season.SPRING,
-        timeOfDay: TimeOfDay.NOON,
-        isPaused: false,
-        speed: 1.0
-
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default physics
-   */
-  private createDefaultPhysics(): ScenePhysics {
-    return {
-      gravity: [0, -9.81, 0],
-      timeScale: 1.0,
-      fixedTimeStep: 1.0 / 60.0,
-      maxSubSteps: 3,
-      solverIterations: 8,
-      solverVelocityIterations: 1,
-      enableSleeping: true,
-      enableCCD: false,
-      enableContinuousCollision: false,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default audio
-   */
-  private createDefaultAudio(): SceneAudio {
-    return {
-      masterVolume: 1.0,
-      musicVolume: 0.8,
-      sfxVolume: 1.0,
-      voiceVolume: 1.0,
-      ambientVolume: 0.6,
-      enable3D: true,
-      enableReverb: true,
-      enableOcclusion: true,
-      reverb: {
-
-        enabled: false,
-        preset: ReverbPreset.OFF,
-        room: 0,
-        roomHF: 0,
-        roomLF: 0,
-        decayTime: 0,
-        decayHFRatio: 0,
-        reflections: 0,
-        reflectionsDelay: 0,
-        reverb: 0,
-        reverbDelay: 0,
-        HFReference: 0,
-        LFReference: 0,
-        diffusion: 0,
-        density: 0;
-
-      }
-    },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): SceneMetadata {
-    return {
-      tags: [],
-      category: 'General',
-      difficulty: DifficultyLevel.NORMAL,
-      rating: 0,
-      downloads: 0,
-      likes: 0,
-      comments: 0,
-      author: 'Unknown',
-      contributors: [],
-      license: 'MIT',
-      description: '',
-      thumbnail: '',
-      screenshots: [],
-      videos: [],
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default object physics
-   */
-  private createDefaultObjectPhysics(): ObjectPhysics {
-    return {
-      enabled: false,
-      type: PhysicsType.NONE,
-      mass: 1.0,
-      friction: 0.5,
-      restitution: 0.0,
-      isStatic: true,
-      isKinematic: false,
-      collisionType: CollisionType.NONE,
-      collisionShape: CollisionShape.BOX,
-      constraints: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default object audio
-   */
-  private createDefaultObjectAudio(): ObjectAudio {
-    return {
-      enabled: false,
-      sources: [],
-      spatial: true,
-      volume: 1.0,
-      pitch: 1.0,
-      loop: false,
-      playOnAwake: false,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default object particles
-   */
-  private createDefaultObjectParticles(): ObjectParticles {
-    return {
-      enabled: false,
-      systems: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Add to undo stack
-   */
-  private addToUndoStack(scene: Scene): void {
-    this.undoStack.push({ ...scene });
-    
-    // Limit undo stack size
-    if (this.undoStack.length > 50) {
-      this.undoStack.shift();
-    }
-    
-    // Clear redo stack
-    this.redoStack = [];
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): SceneBuilderStats {
-    return {
+    this.performanceMetrics = {
       totalScenes: 0,
+      activeScenes: 0,
       totalObjects: 0,
       totalLights: 0,
       totalCameras: 0,
-      totalParticles: 0,
+      averageFPS: 0,
+      averageLatency: 0,
       memoryUsage: 0,
-      gpuMemoryUsage: 0,
-      frameRate: 0,
-      drawCalls: 0,
-      triangles: 0,
-      vertices: 0,
-      textures: 0,
-      materials: 0,
-      shaders: 0,
-      audioSources: 0,
-      lastUpdate: Date.now()
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalScenes: 0,
+      totalObjects: 0,
+      averageFPS: 0,
+      sceneTypeDistribution: [],
+      objectTypeDistribution: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Cleanup resources
+   * Create a new scene builder manager
    */
-  destroy(): void {
-    this.scenes.clear();
-    this.undoStack = [];
-    this.redoStack = [];
-    this.currentScene = null;
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  createManager(managerData: Partial<SceneBuilderManager>): SceneBuilderOutput {
+    if (!this.config.enableSceneManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Scene management is disabled']
+      };
+    }
+
+    const manager: SceneBuilderManager = {
+      id: managerData.id || `scenebuilder-${Date.now()}`,
+      name: managerData.name || 'Unnamed Scene Builder Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      scenes: [],
+      objects: [],
+      materials: [],
+      lights: [],
+      cameras: [],
+      performanceMetrics: {
+        totalScenes: 0,
+        activeScenes: 0,
+        totalObjects: 0,
+        totalLights: 0,
+        totalCameras: 0,
+        averageFPS: 0,
+        averageLatency: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalScenes: 0,
+        totalObjects: 0,
+        averageFPS: 0,
+        sceneTypeDistribution: [],
+        objectTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeScenes: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): SceneBuilderOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Create scene
+   */
+  createScene(managerId: string, scene: Partial<Scene>): SceneBuilderOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-scene',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.scenes.length >= this.config.maxScenes) {
+      return {
+        op: 'create-scene',
+        status: 'error',
+        issues: ['Maximum number of scenes reached']
+      };
+    }
+
+    const newScene: Scene = {
+      id: scene.id || `scene-${Date.now()}`,
+      name: scene.name || 'Unnamed Scene',
+      description: scene.description || '',
+      type: scene.type || 'indoor',
+      status: 'active',
+      objects: [],
+      lights: [],
+      cameras: [],
+      environment: scene.environment || {
+        skybox: {
+          type: 'color',
+          texture: '',
+          color: { r: 0.5, g: 0.7, b: 1.0, a: 1.0 },
+          rotation: 0,
+          scale: 1
+        },
+        fog: {
+          enabled: false,
+          color: { r: 1, g: 1, b: 1, a: 1 },
+          density: 0.01,
+          start: 10,
+          end: 100,
+          type: 'linear'
+        },
+        wind: {
+          enabled: false,
+          direction: { x: 1, y: 0, z: 0 },
+          strength: 1,
+          turbulence: 0.1,
+          frequency: 1
+        },
+        gravity: {
+          enabled: true,
+          direction: { x: 0, y: -1, z: 0 },
+          strength: 9.81
+        },
+        physics: {
+          enabled: true,
+          gravity: { x: 0, y: -9.81, z: 0 },
+          airResistance: 0.1,
+          friction: 0.5,
+          restitution: 0.5
+        }
+      },
+      settings: scene.settings || {
+        renderDistance: 1000,
+        shadowQuality: 'medium',
+        antiAliasing: {
+          enabled: true,
+          type: 'msaa',
+          samples: 4,
+          quality: 1
+        },
+        postProcessing: {
+          enabled: false,
+          effects: [],
+          intensity: 1
+        },
+        performance: {
+          targetFPS: 60,
+          maxDrawCalls: 1000,
+          maxTriangles: 1000000,
+          cullingDistance: 1000,
+          lodBias: 1
+        }
+      },
+      metadata: {},
+      ...scene
+    };
+
+    manager.scenes.push(newScene);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalScenes++;
+    this.performanceMetrics.activeScenes++;
+
+    return {
+      op: 'create-scene',
+      status: 'ok',
+      result: newScene
+    };
+  }
+
+  /**
+   * Create scene object
+   */
+  createObject(managerId: string, object: Partial<SceneObject>): SceneBuilderOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-object',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.objects.length >= this.config.maxObjects) {
+      return {
+        op: 'create-object',
+        status: 'error',
+        issues: ['Maximum number of objects reached']
+      };
+    }
+
+    const newObject: SceneObject = {
+      id: object.id || `object-${Date.now()}`,
+      name: object.name || 'Unnamed Object',
+      type: object.type || 'mesh',
+      status: 'active',
+      transform: object.transform || {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0, w: 1 },
+        scale: { x: 1, y: 1, z: 1 },
+        matrix: this.createIdentityMatrix()
+      },
+      geometry: object.geometry || {
+        type: 'box',
+        vertices: [],
+        indices: [],
+        normals: [],
+        uvs: [],
+        colors: [],
+        tangents: [],
+        bitangents: []
+      },
+      material: object.material || '',
+      physics: object.physics || {
+        enabled: false,
+        type: 'static',
+        mass: 1,
+        friction: 0.5,
+        restitution: 0.5,
+        collision: {
+          enabled: true,
+          shape: 'box',
+          size: { x: 1, y: 1, z: 1 },
+          offset: { x: 0, y: 0, z: 0 },
+          isTrigger: false
+        }
+      },
+      animation: object.animation || {
+        enabled: false,
+        clips: [],
+        current: '',
+        speed: 1,
+        loop: false
+      },
+      metadata: {},
+      ...object
+    };
+
+    manager.objects.push(newObject);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalObjects++;
+
+    return {
+      op: 'create-object',
+      status: 'ok',
+      result: newObject
+    };
+  }
+
+  /**
+   * Create identity matrix
+   */
+  private createIdentityMatrix(): Matrix4 {
+    return {
+      m00: 1, m01: 0, m02: 0, m03: 0,
+      m10: 0, m11: 1, m12: 0, m13: 0,
+      m20: 0, m21: 0, m22: 1, m23: 0,
+      m30: 0, m31: 0, m32: 0, m33: 1
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): SceneBuilderPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): SceneBuilderAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): SceneBuilderManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalScenes = 0;
+    let activeScenes = 0;
+    let totalObjects = 0;
+    let totalLights = 0;
+    let totalCameras = 0;
+
+    for (const manager of this.managers.values()) {
+      totalScenes += manager.scenes.length;
+      activeScenes += manager.scenes.filter(s => s.status === 'active').length;
+      totalObjects += manager.objects.length;
+      totalLights += manager.lights.length;
+      totalCameras += manager.cameras.length;
+    }
+
+    this.performanceMetrics.totalScenes = totalScenes;
+    this.performanceMetrics.activeScenes = activeScenes;
+    this.performanceMetrics.totalObjects = totalObjects;
+    this.performanceMetrics.totalLights = totalLights;
+    this.performanceMetrics.totalCameras = totalCameras;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultSceneBuilderManager = new SceneBuilderManager();
-export { SceneBuilderManager as default };
