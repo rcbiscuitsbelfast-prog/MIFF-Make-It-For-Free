@@ -36,17 +36,17 @@ export class SkeletonAnimatorManager {
         selectedTool: 'select',
         viewport: {
           camera: {
-            position: { x: 0, y: 2, z: 5;
+            position: { x: 0, y: 2, z: 5 },
 
       }
     },
             target: {
 
-              x: 0, y: 0, z: 0;
+              x: 0, y: 0, z: 0
 
             }
     },
-            fov: 60;
+            fov: 60
     },
           grid: {
 
@@ -414,17 +414,17 @@ export class SkeletonAnimatorManager {
         selectedTool: 'select',
         viewport: {
           camera: {
-            position: { x: 0, y: 2, z: 5;
+            position: { x: 0, y: 2, z: 5 },
 
       }
     },
             target: {
 
-              x: 0, y: 0, z: 0;
+              x: 0, y: 0, z: 0
 
             }
     },
-            fov: 60;
+            fov: 60
     },
           grid: {
 

@@ -609,7 +609,6 @@ export class ComputerVisionManager {
     // Register with memory manager
     this.memoryId = `ComputerVisionManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'ComputerVisionManager');
-  };
   }
 
   /**

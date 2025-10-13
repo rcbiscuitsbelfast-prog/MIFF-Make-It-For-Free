@@ -461,7 +461,6 @@ export class RestaurantSimulationManager {
     // Register with memory manager
     this.memoryId = `RestaurantSimulationManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'RestaurantSimulationManager');
-  };
   }
 
   /**
