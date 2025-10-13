@@ -1315,7 +1315,8 @@ export class PlayerStateManager {
       enableOptimization: true,
       enableDebugging: false,
       ...config
-  
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,

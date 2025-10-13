@@ -776,17 +776,14 @@ export class ProfilerManager {
         current: memoryInfo.heap.current,
         limit: memoryInfo.heap.limit,
         fragmentation: memoryInfo.heap.fragmentation
-
       }
       },
       native: {
-
         total: memoryInfo.native.total,
         used: memoryInfo.native.used,
         free: memoryInfo.native.free,
         peak: memoryInfo.native.peak,
         current: memoryInfo.native.current
-
       }
       },
       gpu: {
