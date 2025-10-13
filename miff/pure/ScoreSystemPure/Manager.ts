@@ -1,694 +1,544 @@
 /**
- * ScoreSystemPure Manager
- * 
- * Advanced score management system including score tracking,
- * leaderboards, achievements, and comprehensive scoring workflows.
+ * ScoreSystemPure Manager - Advanced Score System Management
+ *
+ * Comprehensive score system management with:
+ * - Score calculation and tracking
+ * - Leaderboards and rankings
+ * - Score validation and verification
+ * - Multiplayer score synchronization
+ * - Performance optimization
+ * - Real-time score monitoring
+ * - Score analytics and reporting
  */
 
-export interface ScoreEvent {
-  id: string;
-  type: 'add' | 'multiply' | 'set' | 'bonus' | 'penalty';
-  value: number;
-  category: string;
-  source: string;
-  timestamp: number;
-  metadata?: Record<string, any>;
+export interface ScoreSystemConfig {
+  enableScoreManagement: boolean;
+  enableScoreCalculation: boolean;
+  enableLeaderboards: boolean;
+  enableScoreValidation: boolean;
+  enableMultiplayerSync: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableScoreAnalytics: boolean;
+  enableScoreReporting: boolean;
+  maxScores: number;
+  maxLeaderboards: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface ScoreState {
+export interface ScoreSystemManager {
   id: string;
-  score: number;
+  name: string;
+  type: ScoreSystemManagerType;
+  status: ScoreSystemManagerStatus;
+  scores: Score[];
+  leaderboards: Leaderboard[];
+  players: ScorePlayer[];
+  achievements: Achievement[];
+  events: ScoreEvent[];
+  performanceMetrics: ScoreSystemPerformanceMetrics;
+  analytics: ScoreSystemAnalytics;
+  reporting: ScoreSystemReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type ScoreSystemManagerType = 'game' | 'competition' | 'educational' | 'fitness' | 'custom';
+export type ScoreSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface Score {
+  id: string;
+  playerId: string;
+  gameId: string;
+  value: number;
+  type: ScoreType;
+  category: ScoreCategory;
+  subcategory: string;
+  multiplier: number;
+  bonus: number;
+  penalty: number;
+  final: number;
+  rank: number;
+  percentile: number;
+  timestamp: number;
+  metadata: Record<string, any>;
+}
+
+export type ScoreType = 'points' | 'time' | 'accuracy' | 'combo' | 'streak' | 'custom';
+export type ScoreCategory = 'gameplay' | 'achievement' | 'bonus' | 'penalty' | 'custom';
+
+export interface Leaderboard {
+  id: string;
+  name: string;
+  type: LeaderboardType;
+  scope: LeaderboardScope;
   category: string;
+  subcategory: string;
+  timeRange: TimeRange;
+  entries: LeaderboardEntry[];
+  rules: LeaderboardRule[];
+  refreshRate: number;
+  lastUpdated: number;
+  metadata: Record<string, any>;
+}
+
+export type LeaderboardType = 'global' | 'friends' | 'local' | 'regional' | 'custom';
+export type LeaderboardScope = 'all_time' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
+
+export interface TimeRange {
+  start: number;
+  end: number;
+  duration: number;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  playerId: string;
+  playerName: string;
+  score: number;
+  timestamp: number;
+  metadata: Record<string, any>;
+}
+
+export interface LeaderboardRule {
+  id: string;
+  name: string;
+  type: RuleType;
+  parameters: Record<string, any>;
+  enabled: boolean;
+}
+
+export type RuleType = 'minimum_score' | 'maximum_entries' | 'time_limit' | 'validation' | 'custom';
+
+export interface ScorePlayer {
+  id: string;
+  name: string;
+  type: PlayerType;
+  status: PlayerStatus;
+  profile: PlayerProfile;
+  statistics: PlayerStatistics;
+  preferences: PlayerPreferences;
+  metadata: Record<string, any>;
+}
+
+export type PlayerType = 'guest' | 'registered' | 'premium' | 'admin' | 'custom';
+export type PlayerStatus = 'active' | 'inactive' | 'banned' | 'suspended';
+
+export interface PlayerProfile {
+  avatar: string;
   level: number;
   experience: number;
-  achievements: string[];
-  bonuses: ScoreBonus[];
-  penalties: ScorePenalty[];
-  metadata?: Record<string, any>;
+  rank: string;
+  joinDate: number;
+  lastActive: number;
+  country: string;
+  timezone: string;
 }
 
-export interface ScoreBonus {
-  id: string;
-  name: string;
-  multiplier: number;
-  duration?: number;
-  expiresAt?: number;
-  source: string;
-  metadata?: Record<string, any>;
+export interface PlayerStatistics {
+  totalScores: number;
+  averageScore: number;
+  highestScore: number;
+  lowestScore: number;
+  totalPlayTime: number;
+  gamesPlayed: number;
+  winRate: number;
+  achievements: number;
 }
 
-export interface ScorePenalty {
-  id: string;
-  name: string;
-  reduction: number;
-  duration?: number;
-  expiresAt?: number;
-  source: string;
-  metadata?: Record<string, any>;
+export interface PlayerPreferences {
+  privacy: PrivacySettings;
+  notifications: NotificationSettings;
+  display: DisplaySettings;
+  language: string;
+  region: string;
+}
+
+export interface PrivacySettings {
+  showScores: boolean;
+  showProfile: boolean;
+  showActivity: boolean;
+  allowFriendRequests: boolean;
+}
+
+export interface NotificationSettings {
+  scoreUpdates: boolean;
+  achievements: boolean;
+  leaderboards: boolean;
+  friendActivity: boolean;
+}
+
+export interface DisplaySettings {
+  theme: string;
+  fontSize: number;
+  colorScheme: string;
+  animations: boolean;
 }
 
 export interface Achievement {
   id: string;
   name: string;
   description: string;
+  type: AchievementType;
   category: string;
+  rarity: Rarity;
+  points: number;
   requirements: AchievementRequirement[];
-  rewards: ScoreReward[];
+  rewards: AchievementReward[];
   unlocked: boolean;
-  unlockedAt?: number;
-  metadata?: Record<string, any>;
+  unlockedAt: number;
+  progress: number;
+  metadata: Record<string, any>;
 }
+
+export type AchievementType = 'score' | 'time' | 'combo' | 'streak' | 'collection' | 'custom';
+export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface AchievementRequirement {
-  type: 'score_threshold' | 'consecutive_wins' | 'total_events' | 'category_score' | 'time_based';
-  value: number;
-  category?: string;
-  timeframe?: number;
-  metadata?: Record<string, any>;
+  type: RequirementType;
+  target: number;
+  current: number;
+  operator: ComparisonOperator;
+  required: boolean;
 }
 
-export interface ScoreReward {
-  type: 'score_bonus' | 'multiplier' | 'achievement' | 'title';
+export type RequirementType = 'score' | 'time' | 'combo' | 'streak' | 'games' | 'custom';
+export type ComparisonOperator = 'equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal';
+
+export interface AchievementReward {
+  type: RewardType;
   value: number;
-  item?: string;
-  metadata?: Record<string, any>;
+  description: string;
+  claimed: boolean;
+  claimedAt: number;
 }
 
-export interface Leaderboard {
+export type RewardType = 'points' | 'experience' | 'unlock' | 'badge' | 'custom';
+
+export interface ScoreEvent {
   id: string;
-  name: string;
-  category: string;
-  entries: LeaderboardEntry[];
-  lastUpdated: number;
-  metadata?: Record<string, any>;
-}
-
-export interface LeaderboardEntry {
+  type: EventType;
   playerId: string;
-  playerName: string;
-  score: number;
-  rank: number;
-  category: string;
+  gameId: string;
+  scoreId: string;
+  data: EventData;
   timestamp: number;
-  metadata?: Record<string, any>;
+  metadata: Record<string, any>;
 }
 
-export interface ScoreStats {
+export type EventType = 'score_created' | 'score_updated' | 'score_deleted' | 'leaderboard_updated' | 'achievement_unlocked' | 'custom';
+
+export interface EventData {
+  oldValue: any;
+  newValue: any;
+  changes: Record<string, any>;
+  context: Record<string, any>;
+}
+
+export interface ScoreSystemPerformanceMetrics {
   totalScores: number;
-  scoresByCategory: Record<string, number>;
+  totalPlayers: number;
+  totalLeaderboards: number;
   totalAchievements: number;
-  unlockedAchievements: number;
+  totalEvents: number;
   averageScore: number;
-  highestScore: number;
-  totalBonuses: number;
-  totalPenalties: number;
+  averageResponseTime: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
-export interface ScoreFilter {
-  category?: string;
-  minScore?: number;
-  maxScore?: number;
-  hasAchievements?: boolean;
-  level?: number;
-  source?: string;
+export interface ScoreSystemAnalytics {
+  totalScores: number;
+  totalPlayers: number;
+  averageScore: number;
+  scoreTypeDistribution: ScoreTypeDistribution[];
+  playerTypeDistribution: PlayerTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
 }
 
-export interface ScoreOutput {
+export interface ScoreTypeDistribution {
+  type: ScoreType;
+  count: number;
+  percentage: number;
+  averageValue: number;
+}
+
+export interface PlayerTypeDistribution {
+  type: PlayerType;
+  count: number;
+  percentage: number;
+  averageScore: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  scores: number;
+  players: number;
+  leaderboards: number;
+  averageScore: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface ScoreSystemReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeScores: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface ScoreSystemOutput {
   op: string;
   status: 'ok' | 'error';
   result?: any;
   issues?: string[];
 }
 
-export class ScoreManager {
-  private scores = new Map<string, ScoreState>();
-  private achievements = new Map<string, Achievement>();
-  private leaderboards = new Map<string, Leaderboard>();
-  private stats: ScoreStats;
+export class ScoreSystemPure {
+  private managers: Map<string, ScoreSystemManager> = new Map();
+  private config: ScoreSystemConfig;
+  private performanceMetrics: ScoreSystemPerformanceMetrics;
+  private analytics: ScoreSystemAnalytics;
 
-  constructor() {
-    this.stats = {
+  constructor(config: Partial<ScoreSystemConfig> = {}) {
+    this.config = {
+      enableScoreManagement: true,
+      enableScoreCalculation: true,
+      enableLeaderboards: true,
+      enableScoreValidation: true,
+      enableMultiplayerSync: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableScoreAnalytics: true,
+      enableScoreReporting: true,
+      maxScores: 1000000,
+      maxLeaderboards: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
+
+    this.performanceMetrics = {
       totalScores: 0,
-      scoresByCategory: {},
+      totalPlayers: 0,
+      totalLeaderboards: 0,
       totalAchievements: 0,
-      unlockedAchievements: 0,
+      totalEvents: 0,
       averageScore: 0,
-      highestScore: 0,
-      totalBonuses: 0,
-      totalPenalties: 0;
+      averageResponseTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalScores: 0,
+      totalPlayers: 0,
+      averageScore: 0,
+      scoreTypeDistribution: [],
+      playerTypeDistribution: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Create a new score state
+   * Create a new score system manager
    */
-  createScore(id: string, category: string, initialScore: number = 0): ScoreOutput {
-    if (this.scores.has(id)) {
+  createManager(managerData: Partial<ScoreSystemManager>): ScoreSystemOutput {
+    if (!this.config.enableScoreManagement) {
       return {
-        op: 'create-score',
+        op: 'create-manager',
         status: 'error',
-        issues: [`Score with ID ${id} already exists`]
+        issues: ['Score management is disabled']
       };
     }
 
-    const scoreState: ScoreState = {
-      id,
-      score: initialScore,
-      category,
-      level: 1,
-      experience: 0,
+    const manager: ScoreSystemManager = {
+      id: managerData.id || `scoresystem-${Date.now()}`,
+      name: managerData.name || 'Unnamed Score System Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      scores: [],
+      leaderboards: [],
+      players: [],
       achievements: [],
-      bonuses: [],
-      penalties: [],
-      metadata: {}
+      events: [],
+      performanceMetrics: {
+        totalScores: 0,
+        totalPlayers: 0,
+        totalLeaderboards: 0,
+        totalAchievements: 0,
+        totalEvents: 0,
+        averageScore: 0,
+        averageResponseTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalScores: 0,
+        totalPlayers: 0,
+        averageScore: 0,
+        scoreTypeDistribution: [],
+        playerTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeScores: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
     };
 
-    this.scores.set(id, scoreState);
-    this.updateStats();
+    this.managers.set(manager.id, manager);
+
     return {
-      op: 'create-score',
+      op: 'create-manager',
       status: 'ok',
-      result: scoreState;
+      result: manager
     };
   }
 
   /**
-   * Get a score state
+   * Get manager by ID
    */
-  getScore(id: string): ScoreOutput {
-    const score = this.scores.get(id);
-    if (!score) {
+  getManager(managerId: string): ScoreSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'get-score',
+        op: 'get-manager',
         status: 'error',
-        issues: [`Score with ID ${id} not found`]
-      };
-    }
-    return {
-      op: 'get-score',
-      status: 'ok',
-      result: score;
-    };
-  }
-
-  /**
-   * Update a score state
-   */
-  updateScore(id: string, updates: Partial<ScoreState>): ScoreOutput {
-    const score = this.scores.get(id);
-    if (!score) {
-      return {
-        op: 'update-score',
-        status: 'error',
-        issues: [`Score with ID ${id} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    const updatedScore = { ...score, ...updates };
-    this.scores.set(id, updatedScore);
-    this.updateStats();
     return {
-      op: 'update-score',
+      op: 'get-manager',
       status: 'ok',
-      result: updatedScore;
+      result: manager
     };
   }
 
   /**
-   * Apply score events
+   * Get performance metrics
    */
-  applyEvents(id: string, events: ScoreEvent[]): ScoreOutput {
-    const score = this.scores.get(id);
-    if (!score) {
-      return {
-        op: 'apply-events',
-        status: 'error',
-        issues: [`Score with ID ${id} not found`]
-      };
-    }
-
-    let newScore = score.score;
-    const appliedEvents: ScoreEvent[] = [];
-
-    for (const event of events) {
-      switch (event.type) {
-        case 'add':
-          newScore += event.value;
-          break;
-        case 'multiply':
-          newScore = Math.round(newScore * event.value);
-          break;
-        case 'set':
-          newScore = event.value;
-          break;
-        case 'bonus':
-          newScore += event.value;
-          break;
-        case 'penalty':
-          newScore = Math.max(0, newScore - event.value);
-          break;
-      }
-      appliedEvents.push(event);
-    }
-
-    score.score = newScore;
-    score.experience += events.reduce((acc, e) => acc + Math.abs(e.value), 0);
-    
-    // Check for level up
-    const newLevel = Math.floor(score.experience / 1000) + 1;
-    if (newLevel > score.level) {
-      score.level = newLevel;
-    }
-
-    this.updateStats();
-    return {
-      op: 'apply-events',
-      status: 'ok',
-      result: score;
-    };
+  getPerformanceMetrics(): ScoreSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
-   * Add a score bonus
+   * Get analytics
    */
-  addBonus(id: string, bonus: ScoreBonus): ScoreOutput {
-    const score = this.scores.get(id);
-    if (!score) {
-      return {
-        op: 'add-bonus',
-        status: 'error',
-        issues: [`Score with ID ${id} not found`]
-      };
-    }
-
-    score.bonuses.push(bonus);
-    this.updateStats();
-    return {
-      op: 'add-bonus',
-      status: 'ok',
-      result: score;
-    };
+  getAnalytics(): ScoreSystemAnalytics {
+    return { ...this.analytics };
   }
 
   /**
-   * Add a score penalty
+   * Get all managers
    */
-  addPenalty(id: string, penalty: ScorePenalty): ScoreOutput {
-    const score = this.scores.get(id);
-    if (!score) {
-      return {
-        op: 'add-penalty',
-        status: 'error',
-        issues: [`Score with ID ${id} not found`]
-      };
-    }
-
-    score.penalties.push(penalty);
-    this.updateStats();
-    return {
-      op: 'add-penalty',
-      status: 'ok',
-      result: score;
-    };
+  getAllManagers(): ScoreSystemManager[] {
+    return Array.from(this.managers.values());
   }
 
   /**
-   * Register an achievement
+   * Update performance metrics
    */
-  registerAchievement(achievement: Achievement): ScoreOutput {
-    if (this.achievements.has(achievement.id)) {
-      return {
-        op: 'register-achievement',
-        status: 'error',
-        issues: [`Achievement with ID ${achievement.id} already exists`]
-      };
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalScores = 0;
+    let totalPlayers = 0;
+    let totalLeaderboards = 0;
+    let totalAchievements = 0;
+    let totalEvents = 0;
+
+    for (const manager of this.managers.values()) {
+      totalScores += manager.scores.length;
+      totalPlayers += manager.players.length;
+      totalLeaderboards += manager.leaderboards.length;
+      totalAchievements += manager.achievements.length;
+      totalEvents += manager.events.length;
     }
 
-    this.achievements.set(achievement.id, achievement);
-    this.updateStats();
-    return {
-      op: 'register-achievement',
-      status: 'ok',
-      result: achievement;
-    };
-  }
-
-  /**
-   * Check and unlock achievements
-   */
-  checkAchievements(id: string): ScoreOutput {
-    const score = this.scores.get(id);
-    if (!score) {
-      return {
-        op: 'check-achievements',
-        status: 'error',
-        issues: [`Score with ID ${id} not found`]
-      };
-    }
-
-    const unlockedAchievements: Achievement[] = [];
-
-    for (const achievement of this.achievements.values()) {
-      if (achievement.unlocked || score.achievements.includes(achievement.id)) continue;
-
-      let canUnlock = true;
-      for (const requirement of achievement.requirements) {
-        if (!this.checkRequirement(score, requirement)) {
-          canUnlock = false;
-          break;
-        }
-      }
-
-      if (canUnlock) {
-        achievement.unlocked = true;
-        achievement.unlockedAt = Date.now();
-        score.achievements.push(achievement.id);
-        unlockedAchievements.push(achievement);
-      }
-    }
-
-    this.updateStats();
-    return {
-      op: 'check-achievements',
-      status: 'ok',
-      result: {
-
-        unlocked: unlockedAchievements,
-        totalAchievements: score.achievements.length
-      
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Create or update leaderboard
-   */
-  updateLeaderboard(leaderboardId: string, playerId: string, playerName: string, score: number): ScoreOutput {
-    let leaderboard = this.leaderboards.get(leaderboardId);
-    if (!leaderboard) {
-      leaderboard = {
-        id: leaderboardId,
-        name: `Leaderboard ${leaderboardId}`,
-        category: 'general',
-        entries: [],
-        lastUpdated: Date.now(),
-        metadata: {}
-      };
-      this.leaderboards.set(leaderboardId, leaderboard);
-    }
-
-    // Update or add entry
-    const existingIndex = leaderboard.entries.findIndex(e => e.playerId === playerId);
-    if (existingIndex >= 0) {
-      leaderboard.entries[
-      existing,
-      I,
-      n,
-      d,
-      e,
-      x
-    ].score = score;
-      leaderboard.entries[
-      existing,
-      I,
-      n,
-      d,
-      e,
-      x
-    ].timestamp = Date.now();
-    } else {
-      leaderboard.entries.push({
-        playerId,
-        playerName,
-        score,
-        rank: 0,
-        category: leaderboard.category,
-        timestamp: Date.now(),
-        metadata: {}
-      });
-    }
-
-    // Sort by score and update ranks
-    leaderboard.entries.sort((a, b) => b.score - a.score);
-    leaderboard.entries.forEach((entry, index) => {
-      entry.rank = index + 1;
-    });
-
-    leaderboard.lastUpdated = Date.now();
-    return {
-      op: 'update-leaderboard',
-      status: 'ok',
-      result: leaderboard;
-    };
-  }
-
-  /**
-   * Get leaderboard
-   */
-  getLeaderboard(leaderboardId: string, limit?: number): ScoreOutput {
-    const leaderboard = this.leaderboards.get(leaderboardId);
-    if (!leaderboard) {
-      return {
-        op: 'get-leaderboard',
-        status: 'error',
-        issues: [`Leaderboard with ID ${leaderboardId} not found`]
-      };
-    }
-
-    const entries = limit ? leaderboard.entries.slice(0, limit) : leaderboard.entries;
-    return {
-      op: 'get-leaderboard',
-      status: 'ok',
-      result: {
-
-        ...leaderboard,
-        entries
-      
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * List scores with filter
-   */
-  listScores(filter?: ScoreFilter): ScoreOutput {
-    let scores = Array.from(this.scores.values());
-
-    if (filter) {
-      scores = scores.filter(score => {
-        if (filter.category && score.category !== filter.category) return false;
-        if (filter.minScore !== undefined && score.score < filter.minScore) return false;
-        if (filter.maxScore !== undefined && score.score > filter.maxScore) return false;
-        if (filter.hasAchievements !== undefined) {
-          if (filter.hasAchievements && score.achievements.length === 0) return false;
-          if (!filter.hasAchievements && score.achievements.length > 0) return false;
-        }
-        if (filter.level !== undefined && score.level !== filter.level) return false;
-        if (filter.source && !score.metadata?.source?.includes(filter.source)) return false;
-        return true;
-      });
-    }
-
-    return {
-      op: 'list-scores',
-      status: 'ok',
-      result: scores;
-    };
-  }
-
-  /**
-   * Get score statistics
-   */
-  getStats(): ScoreOutput {
-    return {
-      op: 'get-stats',
-      status: 'ok',
-      result: {
-
-        ...this.stats 
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Export score data
-   */
-  exportScores(format: 'json' | 'manifest' | 'summary' | 'leaderboards' = 'json'): ScoreOutput {
-    const scores = Array.from(this.scores.values());
-    const achievements = Array.from(this.achievements.values());
-    const leaderboards = Array.from(this.leaderboards.values());
-
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            scores,
-            achievements,
-            leaderboards,
-            stats: this.stats
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            schema: 'miff.scores.export.v1',
-            scores,
-            achievements,
-            leaderboards,
-            stats: this.stats,
-            exportedAt: new Date().toISOString()
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'summary':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-        summary: this.stats,
-        totalScores: scores.length,
-        totalAchievements: achievements.length,
-        totalLeaderboards: leaderboards.length
-          
-
-          
-
-
-          
-      
-      
-      }
-        };
-      
-      case 'leaderboards':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            leaderboards,
-            total: leaderboards.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
-    }
-  }
-
-  /**
-   * Reset score system
-   */
-  resetScores(): ScoreOutput {
-    this.scores.clear();
-    this.achievements.clear();
-    this.leaderboards.clear();
-    this.stats = {
-      totalScores: 0,
-      scoresByCategory: {},
-      totalAchievements: 0,
-      unlockedAchievements: 0,
-      averageScore: 0,
-      highestScore: 0,
-      totalBonuses: 0,
-      totalPenalties: 0;
-    };
-    return {
-      op: 'reset',
-      status: 'ok',
-      result: 'Score system reset'
-    };
-  }
-
-  /**
-   * Private helper methods
-   */
-  private checkRequirement(score: ScoreState, requirement: AchievementRequirement): boolean {
-    switch (requirement.type) {
-      case 'score_threshold':
-        return score.score >= requirement.value;
-      case 'consecutive_wins':
-        // This would need additional tracking in the score state
-        return false;
-      case 'total_events':
-        // This would need additional tracking in the score state
-        return false;
-      case 'category_score':
-        return score.category === requirement.category && score.score >= requirement.value;
-      case 'time_based':
-        // This would need additional tracking in the score state
-        return false;
-      default:
-        return false;
-    }
-  }
-
-  private updateStats(): void {
-    const scores = Array.from(this.scores.values());
-    this.stats.totalScores = scores.length;
-
-    // Reset category counts
-    this.stats.scoresByCategory = {};
-    scores.forEach(score => {
-      this.stats.scoresByCategory[score.category] = (this.stats.scoresByCategory[score.category] || 0) + 1;
-    });
-
-    // Calculate averages and totals
-    if (scores.length > 0) {
-      this.stats.averageScore = scores.reduce((acc, score) => acc + score.score, 0) / scores.length;
-      this.stats.highestScore = Math.max(...scores.map(s => s.score));
-    }
-
-    // Count achievements
-    this.stats.totalAchievements = this.achievements.size;
-    this.stats.unlockedAchievements = scores.reduce((acc, score) => acc + score.achievements.length, 0);
-
-    // Count bonuses and penalties
-    this.stats.totalBonuses = scores.reduce((acc, score) => acc + score.bonuses.length, 0);
-    this.stats.totalPenalties = scores.reduce((acc, score) => acc + score.penalties.length, 0);
+    this.performanceMetrics.totalScores = totalScores;
+    this.performanceMetrics.totalPlayers = totalPlayers;
+    this.performanceMetrics.totalLeaderboards = totalLeaderboards;
+    this.performanceMetrics.totalAchievements = totalAchievements;
+    this.performanceMetrics.totalEvents = totalEvents;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
