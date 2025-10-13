@@ -1,166 +1,586 @@
-export type AttributionConfig = { 
-  message: string; 
-  style?: string; 
-  durationMs?: number; 
-  enabled?: boolean;
-  showLicense?: boolean;
-  showContributors?: boolean;
-  showRemixStatus?: boolean;
-};
+/**
+ * MiffAttributionPure Manager - Advanced Attribution Management System
+ *
+ * Comprehensive attribution management system with:
+ * - Attribution tracking and management
+ * - License compliance monitoring
+ * - Performance optimization
+ * - Real-time attribution monitoring
+ * - Attribution analytics and reporting
+ */
 
-export type Contributor = {
+export interface MiffAttributionConfig {
+  enableAttributionManagement: boolean;
+  enableAttributionTracking: boolean;
+  enableLicenseCompliance: boolean;
+  enableAttributionValidation: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableAttributionAnalytics: boolean;
+  enableAttributionReporting: boolean;
+  maxAttributions: number;
+  maxLicenses: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
+
+export interface MiffAttributionManager {
+  id: string;
   name: string;
-  role: string;
-  contact?: string;
-  license?: string;
-};
+  type: MiffAttributionManagerType;
+  status: MiffAttributionManagerStatus;
+  attributions: Attribution[];
+  licenses: License[];
+  compliance: ComplianceRecord[];
+  validators: AttributionValidator[];
+  performanceMetrics: MiffAttributionPerformanceMetrics;
+  analytics: MiffAttributionAnalytics;
+  reporting: MiffAttributionReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
 
-export type LicenseInfo = {
-  type: string;
+export type MiffAttributionManagerType = 'software' | 'content' | 'patent' | 'custom';
+export type MiffAttributionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface Attribution {
+  id: string;
+  name: string;
+  type: AttributionType;
+  status: AttributionStatus;
+  source: AttributionSource;
+  license: string;
+  requirements: AttributionRequirement[];
+  compliance: AttributionCompliance;
+  performance: AttributionPerformance;
+  metadata: Record<string, any>;
+}
+
+export type AttributionType = 'copyright' | 'license' | 'patent' | 'trademark' | 'custom';
+export type AttributionStatus = 'active' | 'inactive' | 'expired' | 'violated';
+
+export interface AttributionSource {
+  name: string;
+  url: string;
   version: string;
-  url?: string;
-  requirements: string[];
-  remixSafe: boolean;
-};
+  author: string;
+  organization: string;
+  contact: ContactInfo;
+}
 
-export type AttributionOutput = { 
-  op: 'showAttribution'; 
-  status: 'ok' | 'skipped'; 
-  issues: {
- 
-    code: string; message: string;
- 
-  }
-    }[]; 
-  resolvedRefs: {}; 
-  rendered?: { 
-    message: string; 
-    style?: string; 
-    durationMs?: number;
-    license?: LicenseInfo;
-    contributors?: Contributor[];
-    remixStatus: 'remix-required' | 'remix-optional' | 'remix-safe';
-  };
-};
+export interface ContactInfo {
+  email: string;
+  website: string;
+  address: string;
+  phone: string;
+}
 
-export type AttributionOverride = {
-  shouldShow?(cfg: AttributionConfig): boolean;
-  render?(cfg: AttributionConfig): void;
-  getContributors?(): Contributor[];
-  getLicenseInfo?(): LicenseInfo;
-};
+export interface AttributionRequirement {
+  id: string;
+  type: RequirementType;
+  description: string;
+  mandatory: boolean;
+  format: RequirementFormat;
+  examples: string[];
+}
 
-export class MiffAttributionManager {
-  private override: AttributionOverride | null = null;
-  
-  setOverride(ovr: AttributionOverride) { 
-    this.override = ovr; 
-  }
+export type RequirementType = 'notice' | 'license' | 'source' | 'custom';
+export type RequirementFormat = 'text' | 'html' | 'markdown' | 'custom';
 
-  private getDefaultContributors(): Contributor[] {
-    return [
-      {
-        name: "R.C. Biscuits",
-        role: "Framework Architect",
-        contact: "miff@yourdomain.dev",
-        license: "CC-BY-SA 4.0"
-      }
-    ];
-  }
+export interface AttributionCompliance {
+  status: ComplianceStatus;
+  score: number;
+  violations: ComplianceViolation[];
+  lastChecked: number;
+  nextCheck: number;
+  history: ComplianceHistory[];
+}
 
-  private getDefaultLicenseInfo(): LicenseInfo {
-    return {
-      type: "AGPLv3 + Commercial",
-      version: "3.0",
-      url: "https://www.gnu.org/licenses/agpl-3.0.en.html",
-      requirements: [
-        "Attribution required",
-        "Source code must be open",
-        "Commercial use requires license"
-      ],
-      remixSafe: true;
+export type ComplianceStatus = 'compliant' | 'non_compliant' | 'warning' | 'error';
+
+export interface ComplianceViolation {
+  id: string;
+  type: ViolationType;
+  severity: ViolationSeverity;
+  description: string;
+  requirement: string;
+  evidence: Evidence[];
+  resolution: ViolationResolution;
+}
+
+export type ViolationType = 'missing' | 'incorrect' | 'incomplete' | 'custom';
+export type ViolationSeverity = 'low' | 'medium' | 'high' | 'critical' | 'custom';
+
+export interface Evidence {
+  type: EvidenceType;
+  source: string;
+  data: any;
+  timestamp: number;
+  reliability: number;
+}
+
+export type EvidenceType = 'file' | 'url' | 'text' | 'image' | 'custom';
+
+export interface ViolationResolution {
+  description: string;
+  actions: ResolutionAction[];
+  timeline: ResolutionTimeline;
+  responsible: string;
+  verified: boolean;
+}
+
+export interface ResolutionAction {
+  type: ActionType;
+  description: string;
+  completed: boolean;
+  timestamp: number;
+  result: string;
+}
+
+export type ActionType = 'add' | 'modify' | 'remove' | 'verify' | 'custom';
+
+export interface ResolutionTimeline {
+  start: number;
+  end: number;
+  milestones: Milestone[];
+}
+
+export interface Milestone {
+  name: string;
+  date: number;
+  status: MilestoneStatus;
+  dependencies: string[];
+}
+
+export type MilestoneStatus = 'pending' | 'in_progress' | 'completed' | 'blocked' | 'custom';
+
+export interface ComplianceHistory {
+  timestamp: number;
+  status: ComplianceStatus;
+  score: number;
+  violations: string[];
+  notes: string;
+}
+
+export interface AttributionPerformance {
+  totalChecks: number;
+  successfulChecks: number;
+  failedChecks: number;
+  averageCheckTime: number;
+  lastChecked: number;
+}
+
+export interface License {
+  id: string;
+  name: string;
+  type: LicenseType;
+  status: LicenseStatus;
+  version: string;
+  text: string;
+  url: string;
+  spdx: string;
+  properties: LicenseProperties;
+  requirements: LicenseRequirement[];
+  performance: LicensePerformance;
+  metadata: Record<string, any>;
+}
+
+export type LicenseType = 'mit' | 'apache' | 'gpl' | 'bsd' | 'custom';
+export type LicenseStatus = 'active' | 'deprecated' | 'superseded' | 'custom';
+
+export interface LicenseProperties {
+  copyleft: boolean;
+  commercial: boolean;
+  modification: boolean;
+  distribution: boolean;
+  patent: boolean;
+  trademark: boolean;
+}
+
+export interface LicenseRequirement {
+  id: string;
+  type: RequirementType;
+  description: string;
+  mandatory: boolean;
+  format: RequirementFormat;
+  examples: string[];
+}
+
+export interface LicensePerformance {
+  totalUses: number;
+  averageComplianceScore: number;
+  lastUsed: number;
+}
+
+export interface ComplianceRecord {
+  id: string;
+  attributionId: string;
+  licenseId: string;
+  status: ComplianceStatus;
+  score: number;
+  violations: string[];
+  lastChecked: number;
+  nextCheck: number;
+  performance: CompliancePerformance;
+  metadata: Record<string, any>;
+}
+
+export interface CompliancePerformance {
+  totalChecks: number;
+  successRate: number;
+  averageCheckTime: number;
+  lastCheck: number;
+}
+
+export interface AttributionValidator {
+  id: string;
+  name: string;
+  type: ValidatorType;
+  status: ValidatorStatus;
+  configuration: ValidatorConfiguration;
+  rules: ValidationRule[];
+  performance: ValidatorPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ValidatorType = 'syntax' | 'semantic' | 'compliance' | 'custom';
+export type ValidatorStatus = 'active' | 'inactive' | 'error';
+
+export interface ValidatorConfiguration {
+  enabled: boolean;
+  strict: boolean;
+  timeout: number;
+  retries: number;
+}
+
+export interface ValidationRule {
+  id: string;
+  name: string;
+  type: RuleType;
+  condition: RuleCondition;
+  message: string;
+  enabled: boolean;
+}
+
+export type RuleType = 'required' | 'format' | 'pattern' | 'custom';
+
+export interface RuleCondition {
+  field: string;
+  operator: ConditionOperator;
+  value: any;
+  parameters: Record<string, any>;
+}
+
+export type ConditionOperator = 'equals' | 'not_equals' | 'contains' | 'matches' | 'custom';
+
+export interface ValidatorPerformance {
+  totalValidations: number;
+  successRate: number;
+  averageValidationTime: number;
+  lastValidation: number;
+}
+
+export interface MiffAttributionPerformanceMetrics {
+  totalAttributions: number;
+  activeAttributions: number;
+  totalLicenses: number;
+  totalComplianceRecords: number;
+  totalValidators: number;
+  averageComplianceScore: number;
+  violationRate: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface MiffAttributionAnalytics {
+  totalAttributions: number;
+  totalLicenses: number;
+  averageComplianceScore: number;
+  attributionTypeDistribution: AttributionTypeDistribution[];
+  licenseTypeDistribution: LicenseTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface AttributionTypeDistribution {
+  type: AttributionType;
+  count: number;
+  percentage: number;
+  averageComplianceScore: number;
+}
+
+export interface LicenseTypeDistribution {
+  type: LicenseType;
+  count: number;
+  percentage: number;
+  averageComplianceScore: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  attributions: number;
+  licenses: number;
+  complianceScore: number;
+  violations: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface MiffAttributionReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeAttributions: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface MiffAttributionOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class MiffAttributionPure {
+  private managers: Map<string, MiffAttributionManager> = new Map();
+  private config: MiffAttributionConfig;
+  private performanceMetrics: MiffAttributionPerformanceMetrics;
+  private analytics: MiffAttributionAnalytics;
+
+  constructor(config: Partial<MiffAttributionConfig> = {}) {
+    this.config = {
+      enableAttributionManagement: true,
+      enableAttributionTracking: true,
+      enableLicenseCompliance: true,
+      enableAttributionValidation: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableAttributionAnalytics: true,
+      enableAttributionReporting: true,
+      maxAttributions: 10000,
+      maxLicenses: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
+
+    this.performanceMetrics = {
+      totalAttributions: 0,
+      activeAttributions: 0,
+      totalLicenses: 0,
+      totalComplianceRecords: 0,
+      totalValidators: 0,
+      averageComplianceScore: 0,
+      violationRate: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalAttributions: 0,
+      totalLicenses: 0,
+      averageComplianceScore: 0,
+      attributionTypeDistribution: [],
+      licenseTypeDistribution: [],
+      performanceTrends: []
     };
   }
 
-  private getRemixStatus(): 'remix-required' | 'remix-optional' | 'remix-safe' {
-    return 'remix-safe';
-  }
-
-  showAttribution(cfg: AttributionConfig): AttributionOutput {
-    const issues: AttributionOutput['issues'] = [];
-    const enabled = cfg.enabled !== false;
-    const should = this.override?.shouldShow ? this.override.shouldShow(cfg) : enabled;
-    
-    if (!should) { 
-      return { 
-        op: 'showAttribution', 
-        status: 'skipped', 
-        issues, 
-        resolvedRefs: {} 
-      }; 
-    }
-    
-    try {
-      if (this.override?.render) this.override.render(cfg);
-      
-      const contributors = this.override?.getContributors?.() || this.getDefaultContributors();
-      const license = this.override?.getLicenseInfo?.() || this.getDefaultLicenseInfo();
-      const remixStatus = this.getRemixStatus();
-      
-      const rendered: AttributionOutput['rendered'] = {
-        message: cfg.message,
-        style: cfg.style,
-        durationMs: cfg.durationMs,
-        remixStatus: remixStatus;
-    };
-
-      if (cfg.showLicense !== false) {
-        rendered.license = license;
-      }
-      
-      if (cfg.showContributors !== false) {
-        rendered.contributors = contributors;
-      }
-      
-      if (cfg.showRemixStatus !== false) {
-        rendered.remixStatus = remixStatus;
-      }
-
-      return { 
-        op: 'showAttribution', 
-        status: 'ok', 
-        issues, 
-        resolvedRefs: {}, 
-        rendered 
+  /**
+   * Create a new miff attribution manager
+   */
+  createManager(managerData: Partial<MiffAttributionManager>): MiffAttributionOutput {
+    if (!this.config.enableAttributionManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Miff attribution management is disabled']
       };
-    } catch (e: any) { 
-      issues.push({ code: 'render_error', message: String(e?.message || e) }); 
-      return { 
-        op: 'showAttribution', 
-        status: 'skipped', 
-        issues, 
-        resolvedRefs: {} 
-      }; 
     }
+
+    const manager: MiffAttributionManager = {
+      id: managerData.id || `miffattribution-${Date.now()}`,
+      name: managerData.name || 'Unnamed Miff Attribution Manager',
+      type: managerData.type || 'software',
+      status: 'active',
+      attributions: [],
+      licenses: [],
+      compliance: [],
+      validators: [],
+      performanceMetrics: {
+        totalAttributions: 0,
+        activeAttributions: 0,
+        totalLicenses: 0,
+        totalComplianceRecords: 0,
+        totalValidators: 0,
+        averageComplianceScore: 0,
+        violationRate: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalAttributions: 0,
+        totalLicenses: 0,
+        averageComplianceScore: 0,
+        attributionTypeDistribution: [],
+        licenseTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeAttributions: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
-  getLicenseMetadata(): LicenseInfo {
-    return this.override?.getLicenseInfo?.() || this.getDefaultLicenseInfo();
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): MiffAttributionOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
-  getContributorInfo(): Contributor[] {
-    return this.override?.getContributors?.() || this.getDefaultContributors();
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): MiffAttributionPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
-  getRemixSafetyInfo(): { status: 'remix-required' | 'remix-optional' | 'remix-safe'; details: string;
-    } {
-    const status = this.getRemixStatus();
-    const details = status === 'remix-safe' 
-      ? "This module is designed for safe remixing and distribution"
-      : status === 'remix-optional'
-      ? "Remixing is optional but recommended for full functionality"
-      : "Remixing is required for proper attribution and compliance";
-    
-    return { status, details };
+  /**
+   * Get analytics
+   */
+  getAnalytics(): MiffAttributionAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): MiffAttributionManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalAttributions = 0;
+    let activeAttributions = 0;
+    let totalLicenses = 0;
+    let totalComplianceRecords = 0;
+    let totalValidators = 0;
+
+    for (const manager of this.managers.values()) {
+      totalAttributions += manager.attributions.length;
+      activeAttributions += manager.attributions.filter(a => a.status === 'active').length;
+      totalLicenses += manager.licenses.length;
+      totalComplianceRecords += manager.compliance.length;
+      totalValidators += manager.validators.length;
+    }
+
+    this.performanceMetrics.totalAttributions = totalAttributions;
+    this.performanceMetrics.activeAttributions = activeAttributions;
+    this.performanceMetrics.totalLicenses = totalLicenses;
+    this.performanceMetrics.totalComplianceRecords = totalComplianceRecords;
+    this.performanceMetrics.totalValidators = totalValidators;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

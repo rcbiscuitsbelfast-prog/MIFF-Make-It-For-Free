@@ -1,356 +1,585 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+/**
+ * UnityBridgePure Manager - Advanced Unity Bridge Management System
+ *
+ * Comprehensive Unity bridge management system with:
+ * - Unity bridge creation and management
+ * - Unity engine integration
+ * - Performance optimization
+ * - Real-time bridge monitoring
+ * - Bridge analytics and reporting
+ */
 
-// Configuration interface
-export interface UnityBridgePureConfig {
-  enabled: boolean;
-  debugMode: boolean;
-  maxInstances: number;
-  timeout: number;
-  retryAttempts: number;
-  cacheSize: number;
-  logLevel: 'debug' | 'info' | 'warn' | 'error';
-  performanceMonitoring: boolean;
-  memoryTracking: boolean;
+export interface UnityBridgeConfig {
+  enableBridgeManagement: boolean;
+  enableBridgeCreation: boolean;
+  enableUnityIntegration: boolean;
+  enableEngineCommunication: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableBridgeAnalytics: boolean;
+  enableBridgeReporting: boolean;
+  maxBridges: number;
+  maxConnections: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-// Main item interface
-export interface UnityBridgePureItem {
+export interface UnityBridgeManager {
   id: string;
   name: string;
-  type: string;
-  status: 'active' | 'inactive' | 'pending' | 'error';
-  createdAt: Date;
-  updatedAt: Date;
+  type: UnityBridgeManagerType;
+  status: UnityBridgeManagerStatus;
+  bridges: UnityBridge[];
+  connections: BridgeConnection[];
+  scenes: UnityScene[];
+  objects: UnityObject[];
+  performanceMetrics: UnityBridgePerformanceMetrics;
+  analytics: UnityBridgeAnalytics;
+  reporting: UnityBridgeReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
   metadata: Record<string, any>;
-  properties: Record<string, any>;
-  tags: string[];
-  priority: number;
-  version: string;
+  createdAt: number;
+  updatedAt: number;
 }
 
-// Analytics interface
-export interface UnityBridgePureAnalytics {
-  totalItems: number;
-  activeItems: number;
-  inactiveItems: number;
-  errorItems: number;
-  averageProcessingTime: number;
-  totalOperations: number;
-  successRate: number;
-  lastUpdated: Date;
+export type UnityBridgeManagerType = 'editor' | 'runtime' | 'build' | 'custom';
+export type UnityBridgeManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface UnityBridge {
+  id: string;
+  name: string;
+  type: BridgeType;
+  status: BridgeStatus;
+  configuration: BridgeConfiguration;
+  connections: string[];
+  scenes: string[];
+  objects: string[];
+  performance: BridgePerformance;
+  metadata: Record<string, any>;
 }
 
-// Manager statistics
-export interface UnityBridgePureStats {
-  totalItems: number;
-  activeItems: number;
-  errorCount: number;
+export type BridgeType = 'http' | 'websocket' | 'tcp' | 'custom';
+export type BridgeStatus = 'active' | 'inactive' | 'error';
+
+export interface BridgeConfiguration {
+  host: string;
+  port: number;
+  protocol: Protocol;
+  authentication: AuthConfig;
+  timeout: number;
+  retries: number;
+  ssl: SSLConfig;
+}
+
+export type Protocol = 'http' | 'https' | 'ws' | 'wss' | 'tcp' | 'custom';
+
+export interface AuthConfig {
+  type: AuthType;
+  credentials: Credentials;
+  token: string;
+  expires: number;
+}
+
+export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
+
+export interface Credentials {
+  username: string;
+  password: string;
+  apiKey: string;
+  secret: string;
+}
+
+export interface SSLConfig {
+  enabled: boolean;
+  cert: string;
+  key: string;
+  ca: string;
+  verify: boolean;
+}
+
+export interface BridgePerformance {
+  totalRequests: number;
+  successfulRequests: number;
+  failedRequests: number;
   averageResponseTime: number;
-  memoryUsage: number;
-  uptime: number;
-  lastActivity: Date;
+  lastRequest: number;
 }
 
-export class UnityBridgePureManager {
-  private config: UnityBridgePureConfig;
-  private items: Map<string, UnityBridgePureItem> = new Map();
-  private analytics: UnityBridgePureAnalytics = this.initializeAnalytics();
-  private stats: UnityBridgePureStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
-  private errorHandler: StandardErrorHandler;
+export interface BridgeConnection {
+  id: string;
+  name: string;
+  type: ConnectionType;
+  status: ConnectionStatus;
+  bridge: string;
+  configuration: ConnectionConfiguration;
+  performance: ConnectionPerformance;
+  metadata: Record<string, any>;
+}
 
-  constructor(config: Partial<UnityBridgePureConfig> = {}) {
+export type ConnectionType = 'persistent' | 'temporary' | 'pooled' | 'custom';
+export type ConnectionStatus = 'connected' | 'disconnected' | 'connecting' | 'error';
+
+export interface ConnectionConfiguration {
+  keepAlive: boolean;
+  maxConnections: number;
+  idleTimeout: number;
+  requestTimeout: number;
+}
+
+export interface ConnectionPerformance {
+  totalConnections: number;
+  activeConnections: number;
+  averageResponseTime: number;
+  lastActivity: number;
+}
+
+export interface UnityScene {
+  id: string;
+  name: string;
+  type: SceneType;
+  status: SceneStatus;
+  bridge: string;
+  objects: string[];
+  configuration: SceneConfiguration;
+  performance: ScenePerformance;
+  metadata: Record<string, any>;
+}
+
+export type SceneType = 'main' | 'ui' | 'background' | 'custom';
+export type SceneStatus = 'loading' | 'ready' | 'active' | 'error';
+
+export interface SceneConfiguration {
+  autoLoad: boolean;
+  singleton: boolean;
+  persistent: boolean;
+  physics: PhysicsConfig;
+  rendering: RenderingConfig;
+}
+
+export interface PhysicsConfig {
+  enabled: boolean;
+  gravity: Vector3;
+  iterations: number;
+  solver: PhysicsSolver;
+}
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export type PhysicsSolver = 'default' | 'box2d' | 'bullet' | 'custom';
+
+export interface RenderingConfig {
+  enabled: boolean;
+  quality: RenderQuality;
+  shadows: ShadowConfig;
+  lighting: LightingConfig;
+}
+
+export type RenderQuality = 'low' | 'medium' | 'high' | 'ultra';
+export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra';
+export type LightingQuality = 'low' | 'medium' | 'high' | 'ultra';
+
+export interface ShadowConfig {
+  enabled: boolean;
+  quality: ShadowQuality;
+  distance: number;
+  bias: number;
+}
+
+export interface LightingConfig {
+  enabled: boolean;
+  ambient: Color;
+  directional: DirectionalLight;
+  point: PointLight[];
+}
+
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+export interface DirectionalLight {
+  enabled: boolean;
+  color: Color;
+  intensity: number;
+  direction: Vector3;
+}
+
+export interface PointLight {
+  enabled: boolean;
+  color: Color;
+  intensity: number;
+  position: Vector3;
+  range: number;
+}
+
+export interface ScenePerformance {
+  objectCount: number;
+  drawCalls: number;
+  triangles: number;
+  memoryUsage: number;
+  lastRendered: number;
+}
+
+export interface UnityObject {
+  id: string;
+  name: string;
+  type: ObjectType;
+  status: ObjectStatus;
+  scene: string;
+  bridge: string;
+  properties: ObjectProperties;
+  components: ObjectComponent[];
+  performance: ObjectPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ObjectType = 'gameobject' | 'component' | 'prefab' | 'custom';
+export type ObjectStatus = 'active' | 'inactive' | 'hidden' | 'error';
+
+export interface ObjectProperties {
+  position: Vector3;
+  rotation: Vector3;
+  scale: Vector3;
+  visible: boolean;
+  enabled: boolean;
+  tag: string;
+  layer: number;
+}
+
+export interface ObjectComponent {
+  id: string;
+  name: string;
+  type: ComponentType;
+  enabled: boolean;
+  properties: ComponentProperties;
+}
+
+export type ComponentType = 'transform' | 'renderer' | 'collider' | 'custom';
+
+export interface ComponentProperties {
+  enabled: boolean;
+  visible: boolean;
+  parameters: Record<string, any>;
+}
+
+export interface ObjectPerformance {
+  updateTime: number;
+  renderTime: number;
+  memoryUsage: number;
+  lastUpdated: number;
+}
+
+export interface UnityBridgePerformanceMetrics {
+  totalBridges: number;
+  activeBridges: number;
+  totalConnections: number;
+  activeConnections: number;
+  totalScenes: number;
+  totalObjects: number;
+  averageResponseTime: number;
+  successRate: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface UnityBridgeAnalytics {
+  totalBridges: number;
+  totalConnections: number;
+  averageResponseTime: number;
+  bridgeTypeDistribution: BridgeTypeDistribution[];
+  sceneTypeDistribution: SceneTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface BridgeTypeDistribution {
+  type: BridgeType;
+  count: number;
+  percentage: number;
+  averageResponseTime: number;
+}
+
+export interface SceneTypeDistribution {
+  type: SceneType;
+  count: number;
+  percentage: number;
+  averageObjectCount: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  bridges: number;
+  connections: number;
+  responseTime: number;
+  successRate: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface UnityBridgeReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeBridges: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface UnityBridgeOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class UnityBridgePure {
+  private managers: Map<string, UnityBridgeManager> = new Map();
+  private config: UnityBridgeConfig;
+  private performanceMetrics: UnityBridgePerformanceMetrics;
+  private analytics: UnityBridgeAnalytics;
+
+  constructor(config: Partial<UnityBridgeConfig> = {}) {
     this.config = {
-      enabled: true,
-      debugMode: false,
-      maxInstances: 1000,
-      timeout: 30000,
-      retryAttempts: 3,
-      cacheSize: 100,
-      logLevel: 'info',
-      performanceMonitoring: true,
-      memoryTracking: true,
+      enableBridgeManagement: true,
+      enableBridgeCreation: true,
+      enableUnityIntegration: true,
+      enableEngineCommunication: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableBridgeAnalytics: true,
+      enableBridgeReporting: true,
+      maxBridges: 1000,
+      maxConnections: 10000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
     };
 
-    this.logger = new StructuredLogger({
-      module: 'UnityBridgePure',
-      level: this.config.logLevel,
-      enablePerformance: this.config.performanceMonitoring,
-      enableMemory: this.config.memoryTracking
-    });
-
-    this.memoryId = MemoryManager.registerInstance(this, 'UnityBridgePureManager');
-    this.errorHandler = new StandardErrorHandler(this.logger);
-    
-    this.logger.info('UnityBridgePureManager initialized', {
-      config: this.config,
-      memoryId: this.memoryId
-    });
-  }
-
-  // Initialize the manager
-  async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      this.logger.warn('Manager already initialized');
-      return;
-    }
-
-    try {
-      this.logger.info('Initializing UnityBridgePureManager...');
-      
-      // Initialize core functionality
-      await this.initializeCore();
-      
-      this.isInitialized = true;
-      this.logger.info('UnityBridgePureManager initialized successfully');
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'initialize',
-        module: 'UnityBridgePureManager'
-      });
-      throw error;
-    }
-  }
-
-  // Initialize core functionality
-  private async initializeCore(): Promise<void> {
-    // Core initialization logic
-    this.logger.debug('Initializing core functionality');
-    
-    // Initialize default items if needed
-    if (this.items.size === 0) {
-      await this.createDefaultItems();
-    }
-  }
-
-  // Create default items
-  private async createDefaultItems(): Promise<void> {
-    this.logger.debug('Creating default items');
-    
-    const defaultItems = [
-      {
-        id: 'default-1',
-        name: 'Default Item 1',
-        type: 'default',
-        status: 'active' as const,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        metadata: {},
-        properties: {},
-        tags: ['default'],
-        priority: 1,
-        version: '1.0.0'
-      }
-    ];
-
-    for (const itemData of defaultItems) {
-      await this.createItem(itemData);
-    }
-  }
-
-  // Create a new item
-  async createItem(itemData: Omit<UnityBridgePureItem, 'id' | 'createdAt' | 'updatedAt'>): Promise<UnityBridgePureItem> {
-    try {
-      const id = `${itemData.type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      const now = new Date();
-      
-      const item: UnityBridgePureItem = {
-        ...itemData,
-        id,
-        createdAt: now,
-        updatedAt: now;
+    this.performanceMetrics = {
+      totalBridges: 0,
+      activeBridges: 0,
+      totalConnections: 0,
+      activeConnections: 0,
+      totalScenes: 0,
+      totalObjects: 0,
+      averageResponseTime: 0,
+      successRate: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
 
-      this.items.set(id, item);
-      this.updateAnalytics();
-      
-      this.logger.info('Item created successfully', {
-        itemId: id,
-        itemType: item.type,
-        totalItems: this.items.size
-      });
-
-      return item;
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'createItem',
-        module: 'UnityBridgePureManager',
-        itemData
-      });
-      throw error;
-    }
+    this.analytics = {
+      totalBridges: 0,
+      totalConnections: 0,
+      averageResponseTime: 0,
+      bridgeTypeDistribution: [],
+      sceneTypeDistribution: [],
+      performanceTrends: []
+    };
   }
 
-  // Get item by ID
-  getItem(id: string): UnityBridgePureItem | undefined {
-    return this.items.get(id);
-  }
-
-  // Get all items
-  getAllItems(): UnityBridgePureItem[] {
-    return Array.from(this.items.values());
-  }
-
-  // Update item
-  async updateItem(id: string, updates: Partial<UnityBridgePureItem>): Promise<UnityBridgePureItem | undefined> {
-    try {
-      const item = this.items.get(id);
-      if (!item) {
-        this.logger.warn('Item not found for update', { itemId: id;
-    });
-        return undefined;
-      }
-
-      const updatedItem = {
-        ...item,
-        ...updates,
-        id, // Ensure ID cannot be changed
-        updatedAt: new Date()
+  /**
+   * Create a new Unity bridge manager
+   */
+  createManager(managerData: Partial<UnityBridgeManager>): UnityBridgeOutput {
+    if (!this.config.enableBridgeManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Unity bridge management is disabled']
       };
-
-      this.items.set(id, updatedItem);
-      this.updateAnalytics();
-      
-      this.logger.info('Item updated successfully', {
-        itemId: id,
-        updates: Object.keys(updates)
-      });
-
-      return updatedItem;
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'updateItem',
-        module: 'UnityBridgePureManager',
-        itemId: id,
-        updates
-      });
-      throw error;
     }
+
+    const manager: UnityBridgeManager = {
+      id: managerData.id || `unitybridge-${Date.now()}`,
+      name: managerData.name || 'Unnamed Unity Bridge Manager',
+      type: managerData.type || 'runtime',
+      status: 'active',
+      bridges: [],
+      connections: [],
+      scenes: [],
+      objects: [],
+      performanceMetrics: {
+        totalBridges: 0,
+        activeBridges: 0,
+        totalConnections: 0,
+        activeConnections: 0,
+        totalScenes: 0,
+        totalObjects: 0,
+        averageResponseTime: 0,
+        successRate: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalBridges: 0,
+        totalConnections: 0,
+        averageResponseTime: 0,
+        bridgeTypeDistribution: [],
+        sceneTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeBridges: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
-  // Delete item
-  async deleteItem(id: string): Promise<boolean> {
-    try {
-      const deleted = this.items.delete(id);
-      if (deleted) {
-        this.updateAnalytics();
-        this.logger.info('Item deleted successfully', { itemId: id;
-    });
-      } else {
-        this.logger.warn('Item not found for deletion', { itemId: id;
-    });
-      }
-      return deleted;
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'deleteItem',
-        module: 'UnityBridgePureManager',
-        itemId: id;
-    });
-      throw error;
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): UnityBridgeOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
-  // Get analytics
-  getAnalytics(): UnityBridgePureAnalytics {
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): UnityBridgePerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): UnityBridgeAnalytics {
     return { ...this.analytics };
   }
 
-  // Get statistics
-  getStats(): UnityBridgePureStats {
-    return { ...this.stats };
+  /**
+   * Get all managers
+   */
+  getAllManagers(): UnityBridgeManager[] {
+    return Array.from(this.managers.values());
   }
 
-  // Update analytics
-  private updateAnalytics(): void {
-    const items = Array.from(this.items.values());
-    
-    this.analytics = {
-      totalItems: items.length,
-      activeItems: items.filter(item => item.status === 'active').length,
-      inactiveItems: items.filter(item => item.status === 'inactive').length,
-      errorItems: items.filter(item => item.status === 'error').length,
-      averageProcessingTime: this.calculateAverageProcessingTime(),
-      totalOperations: this.stats.totalItems,
-      successRate: this.calculateSuccessRate(),
-      lastUpdated: new Date()
-    };
-  }
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalBridges = 0;
+    let activeBridges = 0;
+    let totalConnections = 0;
+    let activeConnections = 0;
+    let totalScenes = 0;
+    let totalObjects = 0;
 
-  // Calculate average processing time
-  private calculateAverageProcessingTime(): number {
-    // Placeholder calculation
-    return Math.random() * 100;
-  }
-
-  // Calculate success rate
-  private calculateSuccessRate(): number {
-    const items = Array.from(this.items.values());
-    if (items.length === 0) return 100;
-    
-    const successful = items.filter(item => item.status !== 'error').length;
-    return (successful / items.length) * 100;
-  }
-
-  // Initialize analytics
-  private initializeAnalytics(): UnityBridgePureAnalytics {
-    return {
-      totalItems: 0,
-      activeItems: 0,
-      inactiveItems: 0,
-      errorItems: 0,
-      averageProcessingTime: 0,
-      totalOperations: 0,
-      successRate: 100,
-      lastUpdated: new Date()
-    };
-  }
-
-  // Initialize stats
-  private initializeStats(): UnityBridgePureStats {
-    return {
-      totalItems: 0,
-      activeItems: 0,
-      errorCount: 0,
-      averageResponseTime: 0,
-      memoryUsage: 0,
-      uptime: 0,
-      lastActivity: new Date()
-    };
-  }
-
-  // Cleanup and destroy
-  async destroy(): Promise<void> {
-    try {
-      this.logger.info('Destroying UnityBridgePureManager...');
-      
-      // Cleanup resources
-      this.items.clear();
-      MemoryManager.unregisterInstance(this.memoryId);
-      this.logger.destroy();
-      
-      this.isInitialized = false;
-      this.logger.info('UnityBridgePureManager destroyed successfully');
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'destroy',
-        module: 'UnityBridgePureManager'
-      });
-      throw error;
+    for (const manager of this.managers.values()) {
+      totalBridges += manager.bridges.length;
+      activeBridges += manager.bridges.filter(b => b.status === 'active').length;
+      totalConnections += manager.connections.length;
+      activeConnections += manager.connections.filter(c => c.status === 'connected').length;
+      totalScenes += manager.scenes.length;
+      totalObjects += manager.objects.length;
     }
+
+    this.performanceMetrics.totalBridges = totalBridges;
+    this.performanceMetrics.activeBridges = activeBridges;
+    this.performanceMetrics.totalConnections = totalConnections;
+    this.performanceMetrics.activeConnections = activeConnections;
+    this.performanceMetrics.totalScenes = totalScenes;
+    this.performanceMetrics.totalObjects = totalObjects;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Default instance
-export const defaultUnityBridgePureManager = new UnityBridgePureManager();

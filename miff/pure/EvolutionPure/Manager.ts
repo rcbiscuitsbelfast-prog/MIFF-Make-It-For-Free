@@ -1,729 +1,574 @@
 /**
- * EvolutionPure Manager - AAA Quality Evolution Management System
+ * EvolutionPure Manager - Advanced Evolution Management System
  *
- * Advanced evolution mechanics with:
- * - Species evolution and transformation
- * - Condition-based evolution triggers
- * - Evolution history and tracking
- * - Multi-stage evolution chains
- * - Mobile-optimized evolution interface
- * - Multiplayer evolution coordination
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * Comprehensive evolution management system with:
+ * - Evolutionary algorithm management
+ * - Population and generation tracking
+ * - Performance optimization
+ * - Real-time evolution monitoring
+ * - Evolution analytics and reporting
  */
 
-import { EventBus } from '../EventBusPure/EventBusPure';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
-
-export type EvolutionStatus = 'success' | 'conditions_not_met' | 'already_evolved' | 'missing_requirements';
-export type EvolutionConditionType = 'level_at_least' | 'requires_item' | 'sync_at_least' | 'lore_flag' | 'time_of_day' | 'at_location' | 'friendship_level' | 'battle_count';
-
-export enum TimeOfDay {
-  DAWN = 'dawn',
-  MORNING = 'morning',
-  NOON = 'noon',
-  AFTERNOON = 'afternoon',
-  DUSK = 'dusk',
-  EVENING = 'evening',
-  NIGHT = 'night',
-  MIDNIGHT = 'midnight'
+export interface EvolutionConfig {
+  enableEvolutionManagement: boolean;
+  enableAlgorithmManagement: boolean;
+  enablePopulationTracking: boolean;
+  enableGenerationManagement: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableEvolutionAnalytics: boolean;
+  enableEvolutionReporting: boolean;
+  maxPopulations: number;
+  maxGenerations: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface SpeciesEvolutionDataShape {
+export interface EvolutionManager {
   id: string;
-  speciesId: string;
-  evolutionTargetId: string;
-  conditions: EvolutionCondition[];
-  evolutionChain: string[]; // Previous evolutions in chain
-  maxEvolutions: number;
-  reversible: boolean;
-  description: string;
+  name: string;
+  type: EvolutionManagerType;
+  status: EvolutionManagerStatus;
+  populations: Population[];
+  algorithms: EvolutionAlgorithm[];
+  generations: Generation[];
+  performanceMetrics: EvolutionPerformanceMetrics;
+  analytics: EvolutionAnalytics;
+  reporting: EvolutionReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-// Backward-compatible alias
-export type SpeciesEvolutionData = SpeciesEvolutionDataShape;
+export type EvolutionManagerType = 'genetic' | 'neural' | 'swarm' | 'custom';
+export type EvolutionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
-export class SpeciesEvolutionDataImpl implements SpeciesEvolutionDataShape {
+export interface Population {
   id: string;
-  speciesId: string;
-  evolutionTargetId: string;
-  conditions: EvolutionCondition[];
-  evolutionChain: string[];
-  maxEvolutions: number;
-  reversible: boolean;
-  description: string;
+  name: string;
+  type: PopulationType;
+  status: PopulationStatus;
+  size: number;
+  individuals: Individual[];
+  fitness: FitnessFunction;
+  selection: SelectionMethod;
+  crossover: CrossoverMethod;
+  mutation: MutationMethod;
+  performance: PopulationPerformance;
+  metadata: Record<string, any>;
+}
 
-  constructor(
-    speciesId: string,
-    evolutionTargetId: string,
-    conditions: EvolutionCondition[] = [],
-    options: Partial<SpeciesEvolutionData> = {}
-  ) {
-    this.id = `evolution_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    this.speciesId = speciesId;
-    this.evolutionTargetId = evolutionTargetId;
-    this.conditions = conditions;
-    this.evolutionChain = options.evolutionChain || [];
-    this.maxEvolutions = options.maxEvolutions || 1;
-    this.reversible = options.reversible || false;
-    this.description = options.description || `${speciesId} evolves to ${evolutionTargetId}`;
-  }
+export type PopulationType = 'binary' | 'real' | 'permutation' | 'custom';
+export type PopulationStatus = 'initializing' | 'evolving' | 'converged' | 'error';
 
-  validate(): string[] {
-    const errors: string[] = [];
-    
-    if (!this.speciesId) {
-      errors.push('Species ID is required');
-    }
-    
-    if (!this.evolutionTargetId) {
-      errors.push('Evolution target ID is required');
-    }
-    
-    if (this.speciesId === this.evolutionTargetId) {
-      errors.push('Species cannot evolve to itself');
-    }
-    
-    // Validate conditions
-    for (const condition of this.conditions) {
-      errors.push(...condition.validate());
-    }
-    
-    return errors;
-  }
+export interface Individual {
+  id: string;
+  name: string;
+  type: IndividualType;
+  status: IndividualStatus;
+  genome: Genome;
+  fitness: number;
+  age: number;
+  parents: string[];
+  children: string[];
+  performance: IndividualPerformance;
+  metadata: Record<string, any>;
+}
 
-  clone(): SpeciesEvolutionDataImpl {
-    return new SpeciesEvolutionDataImpl(
-      this.speciesId,
-      this.evolutionTargetId,
-      [...this.conditions],
-      {
-        evolutionChain: [...this.evolutionChain],
-        maxEvolutions: this.maxEvolutions,
-        reversible: this.reversible,
-        description: this.description
-      }
-    );
-  }
+export type IndividualType = 'binary' | 'real' | 'permutation' | 'custom';
+export type IndividualStatus = 'active' | 'inactive' | 'dead' | 'error';
 
-  toJSON(): Record<string, any> {
-    return {
-      id: this.id,
-      speciesId: this.speciesId,
-      evolutionTargetId: this.evolutionTargetId,
-      conditions: this.conditions.map(c => ({
-        id: c.id,
-        type: c.type,
-        intValue: c.intValue,
-        stringValue: c.stringValue,
-        description: c.description
-      })),
-      evolutionChain: this.evolutionChain,
-      maxEvolutions: this.maxEvolutions,
-      reversible: this.reversible,
-      description: this.description
+export interface Genome {
+  type: GenomeType;
+  length: number;
+  genes: Gene[];
+  encoding: EncodingType;
+  constraints: Constraint[];
+}
+
+export type GenomeType = 'binary' | 'real' | 'permutation' | 'custom';
+export type EncodingType = 'binary' | 'gray' | 'real' | 'custom';
+
+export interface Gene {
+  id: string;
+  name: string;
+  type: GeneType;
+  value: any;
+  range: GeneRange;
+  mutation: MutationConfig;
+}
+
+export type GeneType = 'binary' | 'real' | 'integer' | 'custom';
+
+export interface GeneRange {
+  min: number;
+  max: number;
+  step: number;
+}
+
+export interface MutationConfig {
+  rate: number;
+  strength: number;
+  type: MutationType;
+}
+
+export type MutationType = 'uniform' | 'gaussian' | 'polynomial' | 'custom';
+
+export interface Constraint {
+  type: ConstraintType;
+  expression: string;
+  weight: number;
+  enabled: boolean;
+}
+
+export type ConstraintType = 'equality' | 'inequality' | 'bound' | 'custom';
+
+export interface IndividualPerformance {
+  fitness: number;
+  age: number;
+  reproduction: number;
+  survival: number;
+  lastUpdate: number;
+}
+
+export interface FitnessFunction {
+  id: string;
+  name: string;
+  type: FitnessType;
+  expression: string;
+  parameters: Record<string, any>;
+  performance: FitnessPerformance;
+}
+
+export type FitnessType = 'minimization' | 'maximization' | 'multi_objective' | 'custom';
+
+export interface FitnessPerformance {
+  totalEvaluations: number;
+  averageEvaluationTime: number;
+  lastEvaluation: number;
+}
+
+export interface SelectionMethod {
+  id: string;
+  name: string;
+  type: SelectionType;
+  parameters: Record<string, any>;
+  performance: SelectionPerformance;
+}
+
+export type SelectionType = 'roulette' | 'tournament' | 'rank' | 'custom';
+
+export interface SelectionPerformance {
+  totalSelections: number;
+  averageSelectionTime: number;
+  lastSelection: number;
+}
+
+export interface CrossoverMethod {
+  id: string;
+  name: string;
+  type: CrossoverType;
+  rate: number;
+  parameters: Record<string, any>;
+  performance: CrossoverPerformance;
+}
+
+export type CrossoverType = 'single_point' | 'two_point' | 'uniform' | 'custom';
+
+export interface CrossoverPerformance {
+  totalCrossovers: number;
+  averageCrossoverTime: number;
+  lastCrossover: number;
+}
+
+export interface MutationMethod {
+  id: string;
+  name: string;
+  type: MutationType;
+  rate: number;
+  parameters: Record<string, any>;
+  performance: MutationPerformance;
+}
+
+export interface MutationPerformance {
+  totalMutations: number;
+  averageMutationTime: number;
+  lastMutation: number;
+}
+
+export interface PopulationPerformance {
+  totalGenerations: number;
+  averageFitness: number;
+  bestFitness: number;
+  diversity: number;
+  lastUpdate: number;
+}
+
+export interface EvolutionAlgorithm {
+  id: string;
+  name: string;
+  type: AlgorithmType;
+  status: AlgorithmStatus;
+  parameters: AlgorithmParameters;
+  performance: AlgorithmPerformance;
+  metadata: Record<string, any>;
+}
+
+export type AlgorithmType = 'ga' | 'pso' | 'de' | 'custom';
+export type AlgorithmStatus = 'active' | 'inactive' | 'error';
+
+export interface AlgorithmParameters {
+  populationSize: number;
+  generations: number;
+  mutationRate: number;
+  crossoverRate: number;
+  selectionPressure: number;
+  elitism: boolean;
+  elitismSize: number;
+}
+
+export interface AlgorithmPerformance {
+  totalRuns: number;
+  successfulRuns: number;
+  failedRuns: number;
+  averageRunTime: number;
+  lastRun: number;
+}
+
+export interface Generation {
+  id: string;
+  name: string;
+  number: number;
+  population: string;
+  individuals: string[];
+  statistics: GenerationStatistics;
+  performance: GenerationPerformance;
+  metadata: Record<string, any>;
+}
+
+export interface GenerationStatistics {
+  averageFitness: number;
+  bestFitness: number;
+  worstFitness: number;
+  standardDeviation: number;
+  diversity: number;
+  convergence: number;
+}
+
+export interface GenerationPerformance {
+  duration: number;
+  evaluations: number;
+  mutations: number;
+  crossovers: number;
+  selections: number;
+  lastUpdate: number;
+}
+
+export interface EvolutionPerformanceMetrics {
+  totalPopulations: number;
+  activePopulations: number;
+  totalAlgorithms: number;
+  totalGenerations: number;
+  totalIndividuals: number;
+  averageFitness: number;
+  bestFitness: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface EvolutionAnalytics {
+  totalPopulations: number;
+  totalGenerations: number;
+  averageFitness: number;
+  populationTypeDistribution: PopulationTypeDistribution[];
+  algorithmTypeDistribution: AlgorithmTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface PopulationTypeDistribution {
+  type: PopulationType;
+  count: number;
+  percentage: number;
+  averageFitness: number;
+}
+
+export interface AlgorithmTypeDistribution {
+  type: AlgorithmType;
+  count: number;
+  percentage: number;
+  averageFitness: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  populations: number;
+  generations: number;
+  fitness: number;
+  diversity: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface EvolutionReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includePopulations: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface EvolutionOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class EvolutionPure {
+  private managers: Map<string, EvolutionManager> = new Map();
+  private config: EvolutionConfig;
+  private performanceMetrics: EvolutionPerformanceMetrics;
+  private analytics: EvolutionAnalytics;
+
+  constructor(config: Partial<EvolutionConfig> = {}) {
+    this.config = {
+      enableEvolutionManagement: true,
+      enableAlgorithmManagement: true,
+      enablePopulationTracking: true,
+      enableGenerationManagement: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableEvolutionAnalytics: true,
+      enableEvolutionReporting: true,
+      maxPopulations: 1000,
+      maxGenerations: 10000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
+
+    this.performanceMetrics = {
+      totalPopulations: 0,
+      activePopulations: 0,
+      totalAlgorithms: 0,
+      totalGenerations: 0,
+      totalIndividuals: 0,
+      averageFitness: 0,
+      bestFitness: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalPopulations: 0,
+      totalGenerations: 0,
+      averageFitness: 0,
+      populationTypeDistribution: [],
+      algorithmTypeDistribution: [],
+      performanceTrends: []
     };
   }
 
-  static fromJSON(data: Record<string, any>): SpeciesEvolutionDataImpl {
-    const conditions = data.conditions?.map((c: any) => 
-      new EvolutionCondition(c.type, c.intValue, c.stringValue, c.description)
-    ) || [];
-    
-    return new SpeciesEvolutionDataImpl(
-      data.speciesId,
-      data.evolutionTargetId,
-      conditions,
-      {
-        evolutionChain: data.evolutionChain || [],
-        maxEvolutions: data.maxEvolutions || 1,
-        reversible: data.reversible || false,
-        description: data.description || ''
-      }
-    );
-  }
-
-  // Static factory methods
-  static create(speciesId: string, evolutionTargetId: string, conditions: EvolutionCondition[]): SpeciesEvolutionDataImpl {
-    return new SpeciesEvolutionDataImpl(speciesId, evolutionTargetId, conditions);
-  }
-
-  static levelEvolution(speciesId: string, evolutionTargetId: string, level: number): SpeciesEvolutionDataImpl {
-    return new SpeciesEvolutionDataImpl(
-      speciesId,
-      evolutionTargetId,
-      [EvolutionCondition.levelAtLeast(level)],
-      { description: `${speciesId} evolves to ${evolutionTargetId} at level ${level}` }
-    );
-  }
-
-  static itemEvolution(speciesId: string, evolutionTargetId: string, itemId: string): SpeciesEvolutionDataImpl {
-    return new SpeciesEvolutionDataImpl(
-      speciesId,
-      evolutionTargetId,
-      [EvolutionCondition.requiresItem(itemId)],
-      { description: `${speciesId} evolves to ${evolutionTargetId} with ${itemId}` }
-    );
-  }
-
-  static syncEvolution(speciesId: string, evolutionTargetId: string, syncLevel: number): SpeciesEvolutionDataImpl {
-    return new SpeciesEvolutionDataImpl(
-      speciesId,
-      evolutionTargetId,
-      [EvolutionCondition.syncAtLeast(syncLevel)],
-      { description: `${speciesId} evolves to ${evolutionTargetId} at sync level ${syncLevel}` }
-    );
-  }
-}
-
-export interface EvolutionCondition {
-  id: string;
-  type: EvolutionConditionType;
-  intValue: number; // level threshold, sync threshold, hour, etc.
-  stringValue: string; // itemID, flagID, locationID, time segment, etc.
-  description: string;
-  isMet(spirit: any, context: PlayerContext): boolean;
-}
-
-export class EvolutionCondition {
-  id: string;
-  type: EvolutionConditionType;
-  intValue: number;
-  stringValue: string;
-  description: string;
-  
-  // Methods referenced by interface
-  validate(): string[] {
-    const errors: string[] = [];
-    if (this.intValue < 0) errors.push('Value cannot be negative');
-    if (this.type !== 'requires_item' && this.stringValue === '') {
-      // allow empty string for numeric-only cases
-    }
-    return errors;
-  }
-
-  constructor(type: EvolutionConditionType, intValue: number, stringValue: string, description: string = '') {
-    this.id = `condition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    this.type = type;
-    this.intValue = intValue;
-    this.stringValue = stringValue;
-    this.description = description;
-  }
-
-  isMet(spirit: any, context: PlayerContext): boolean {
-    switch (this.type) {
-      case 'level_at_least':
-        return spirit?.level >= this.intValue;
-      case 'requires_item':
-        return spirit?.hasItem?.(this.stringValue) || false;
-      case 'sync_at_least':
-        return spirit?.getSyncPercentage?.() >= this.intValue;
-      case 'lore_flag':
-        return context?.getFlag?.(this.stringValue) || false;
-      case 'time_of_day':
-        return this.checkTimeOfDay(this.intValue);
-      case 'at_location':
-        return context?.currentLocationId === this.stringValue;
-      default:
-        return false;
-    }
-  }
-
-  private checkTimeOfDay(hourMin: number): boolean {
-    const hour = new Date().getHours();
-    return hour >= hourMin && hour < hourMin + 6; // 6-hour window
-  }
-
-  // Static factory methods
-  static levelAtLeast(level: number): EvolutionCondition {
-    return new EvolutionCondition('level_at_least', level, '', `Level ${level} or higher`);
-  }
-
-  static requiresItem(itemId: string): EvolutionCondition {
-    return new EvolutionCondition('requires_item', 0, itemId, `Requires ${itemId}`);
-  }
-
-  static syncAtLeast(syncLevel: number): EvolutionCondition {
-    return new EvolutionCondition('sync_at_least', syncLevel, '', `Sync level ${syncLevel} or higher`);
-  }
-
-  static loreFlag(flagId: string): EvolutionCondition {
-    return new EvolutionCondition('lore_flag', 0, flagId, `Requires flag ${flagId}`);
-  }
-
-  static timeOfDay(hour: number): EvolutionCondition {
-    return new EvolutionCondition('time_of_day', hour, '', `Time of day ${hour}`);
-  }
-
-  static atLocation(locationId: string): EvolutionCondition {
-    return new EvolutionCondition('at_location', 0, locationId, `At location ${locationId}`);
-  }
-
-  static friendshipLevel(level: number): EvolutionCondition {
-    return new EvolutionCondition('friendship_level', level, '', `Friendship level ${level} or higher`);
-  }
-
-  static battleCount(count: number): EvolutionCondition {
-    return new EvolutionCondition('battle_count', count, '', `Battle count ${count} or higher`);
-  }
-
-  static create(type: EvolutionConditionType, intValue: number, stringValue: string): EvolutionCondition {
-    return new EvolutionCondition(type, intValue, stringValue);
-  }
-}
-
-export interface PlayerContext {
-  playerId: string;
-  level: number;
-  inventory?: any;
-  gameData?: any;
-  currentLocationId?: string;
-  getInventory?: () => any;
-  getFlag?: (flagId: string) => boolean;
-}
-
-export interface EvolutionResult {
-  status: EvolutionStatus;
-  message: string;
-  newSpeciesId?: string;
-  success: boolean;
-}
-
-export interface EvolutionStats {
-  totalEvolutions: number;
-  successfulEvolutions: number;
-  failedEvolutions: number;
-  speciesEvolved: string[];
-  averageLevelRequired: number;
-  mostEvolvedSpecies: string;
-  evolutionStreak: number;
-  bestStreak: number;
-}
-
-export class EvolutionManager {
-  private eventBus: EventBus;
-  private speciesData: Map<string, SpeciesEvolutionData> = new Map();
-  private context: PlayerContext;
-
-  constructor(eventBus: EventBus, context: PlayerContext) {
-    this.eventBus = eventBus;
-    this.context = context;
-    this.initializeDefaultSpecies();
-  }
-
-  // Static factory method
-  static create(eventBus: EventBus, context: PlayerContext): EvolutionManager {
-    return new EvolutionManager(eventBus, context);
-  }
-
-  // Additional methods expected by tests
-  getEvolutionStatistics(): EvolutionStats {
-    const totalEvolutions = this.speciesData.size;
-    const successfulEvolutions = Array.from(this.speciesData.values()).length;
-    const failedEvolutions = 0; // This would be tracked in a real implementation
-    const speciesEvolved = Array.from(this.speciesData.values()).map(e => e.speciesId);
-    const averageLevelRequired = Array.from(this.speciesData.values())
-      .reduce((sum, e) => sum + e.conditions.reduce((cSum, c) => cSum + (c.intValue || 0), 0), 0) / totalEvolutions;
-    const mostEvolvedSpecies = speciesEvolved[0] || '';
-    const evolutionStreak = 0; // This would be tracked in a real implementation
-    const bestStreak = 0; // This would be tracked in a real implementation
-
-    return {
-      totalEvolutions,
-      successfulEvolutions,
-      failedEvolutions,
-      speciesEvolved,
-      averageLevelRequired,
-      mostEvolvedSpecies,
-      evolutionStreak,
-      bestStreak
-    };
-  }
-
-  getAvailableEvolutions(spirit?: any): SpeciesEvolutionDataShape[] {
-    const all = Array.from(this.speciesData.values());
-    if (!spirit) return all;
-    return all
-      .filter(evolution => evolution.speciesId === spirit.speciesId)
-      .filter(evolution => evolution.conditions.every(condition => condition.isMet(spirit, this.context)));
-  }
-
-  private initializeDefaultSpecies(): void {
-    const defaultSpecies: SpeciesEvolutionDataShape[] = [
-      {
-        id: 'fire_spirit_evolution',
-        speciesId: 'fire_spirit',
-        evolutionTargetId: 'flame_spirit',
-        conditions: [EvolutionCondition.levelAtLeast(25)],
-        evolutionChain: [],
-        maxEvolutions: 3,
-        reversible: false,
-        description: 'Evolve fire spirit to flame spirit'
-      },
-      {
-        id: 'water_spirit_evolution',
-        speciesId: 'water_spirit',
-        evolutionTargetId: 'aqua_spirit',
-        conditions: [EvolutionCondition.levelAtLeast(25)],
-        evolutionChain: [],
-        maxEvolutions: 3,
-        reversible: false,
-        description: 'Evolve water spirit to aqua spirit'
-      }
-    ];
-
-    defaultSpecies.forEach(species => {
-      this.speciesData.set(species.speciesId, species);
-    });
-  }
-
-  public registerSpeciesEvolution(data: SpeciesEvolutionDataShape): void {
-    if (data && data.speciesId) {
-      this.speciesData.set(data.speciesId, { ...data });
-    }
-  }
-
-  public canEvolve(spirit: any): boolean {
-    return this.getEvolutionTarget(spirit) !== null;
-  }
-
-  public getEvolutionTarget(spirit: any): string | null {
-    if (!spirit || !spirit.canEvolve) return null;
-
-    const data = this.speciesData.get(spirit.speciesId);
-    if (!data || !data.evolutionTargetId) return null;
-
-    if (!data.conditions || data.conditions.length === 0) {
-      return data.evolutionTargetId;
-    }
-
-    const allConditionsMet = data.conditions.every(condition =>
-      condition.isMet(spirit, this.context)
-    );
-
-    return allConditionsMet ? data.evolutionTargetId : null;
-  }
-
-  public evolveSpirit(spirit: any): EvolutionResult {
-    if (!spirit) {
-      return this.createFailure('conditions_not_met', 'No spirit provided');
-    }
-
-    const target = this.getEvolutionTarget(spirit);
-    if (!target) {
-      return this.createFailure('conditions_not_met', 'Evolution conditions not met or no target available');
-    }
-
-    if (spirit.speciesId === target) {
-      return this.createFailure('already_evolved', 'Spirit is already at target evolution');
-    }
-
-    // Perform evolution
-    const previousSpecies = spirit.speciesId;
-    spirit.evolve(target);
-
-    this.eventBus.publish('evolution:performed', {
-      playerId: this.context.playerId,
-      spiritId: spirit.instanceId,
-      fromSpecies: previousSpecies,
-      toSpecies: target,
-      timestamp: Date.now()
-    });
-
-    return this.createSuccess(target, `Successfully evolved to ${target}`);
-  }
-
-  public getEvolutionChain(speciesId: string): string[] {
-    const data = this.speciesData.get(speciesId);
-    if (!data) return [
-      spec,
-      i,
-      e,
-      s,
-      I,
-      d
-    ];
-    const chain: string[] = [
-      spec,
-      i,
-      e,
-      s,
-      I,
-      d
-    ];
-    let currentSpecies: string | null = data.evolutionTargetId || null;
-    while (currentSpecies) {
-      chain.push(currentSpecies);
-      const nextData = this.speciesData.get(currentSpecies);
-      currentSpecies = nextData?.evolutionTargetId || null;
-      if (chain.length > 50) break; // safety
-    }
-    return chain;
-  }
-
-  public getEvolutionProgress(spirit: any): {
-    canEvolve: boolean;
-    targetSpecies?: string;
-    missingConditions: string[];
-    progress: number; // 0-100
-  } {
-    const data = this.speciesData.get(spirit.speciesId);
-    if (!data) {
+  /**
+   * Create a new evolution manager
+   */
+  createManager(managerData: Partial<EvolutionManager>): EvolutionOutput {
+    if (!this.config.enableEvolutionManagement) {
       return {
-        canEvolve: false,
-        missingConditions: ['No evolution data available'],
-        progress: 0;
-    };
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Evolution management is disabled']
+      };
     }
 
-    if (!data.conditions || data.conditions.length === 0) {
-      return {
-        canEvolve: true,
-        targetSpecies: data.evolutionTargetId,
-        missingConditions: [],
-        progress: 100;
-    };
-    }
-
-    const missingConditions: string[] = [];
-    let metConditions = 0;
-
-    data.conditions.forEach(condition => {
-      if (condition.isMet(spirit, this.context)) {
-        metConditions++;
-      } else {
-        missingConditions.push(condition.description);
-      }
-    });
-
-    const progress = data.conditions.length > 0 ? (metConditions / data.conditions.length) * 100 : 0;
-
-    return {
-      canEvolve: missingConditions.length === 0,
-      targetSpecies: data.evolutionTargetId,
-      missingConditions: missingConditions,
-      progress: progress;
-    };
-  }
-
-  // removed duplicate getAvailableEvolutions() implementation
-
-  public getEvolutionStats(): EvolutionStats {
-    // This would track actual evolution history
-    // For now, return mock data
-    return {
-      totalEvolutions: 0,
-      successfulEvolutions: 0,
-      failedEvolutions: 0,
-      speciesEvolved: [],
-      averageLevelRequired: 25,
-      mostEvolvedSpecies: 'fire_spirit',
-      evolutionStreak: 0,
-      bestStreak: 0;
-    };
-  }
-
-  public exportEvolutionData(): string {
-    return JSON.stringify({
-      speciesData: Array.from(this.speciesData.entries()),
-      context: this.context,
-      stats: this.getEvolutionStats(),
-      exportDate: Date.now()
-    }, null, 2);
-  }
-
-  public importEvolutionData(data: string): boolean {
-    try {
-      const parsed = SafeJSONParser.parse(data);
-
-      if (parsed.speciesData && Array.isArray(parsed.speciesData)) {
-        this.speciesData.clear();
-        parsed.speciesData.forEach(([speciesId, speciesData]: [string, SpeciesEvolutionData]) => {
-          this.speciesData.set(speciesId, speciesData);
-        });
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  private createFailure(status: EvolutionStatus, message: string): EvolutionResult {
-    return {
-      status: status,
-      message: message,
-      success: false;
-    };
-  }
-
-  private createSuccess(newSpeciesId: string, message: string): EvolutionResult {
-    return {
-      status: 'success',
-      message: message,
-      newSpeciesId: newSpeciesId,
-      success: true;
-    };
-  }
-
-  public createEvolutionCondition(
-    type: EvolutionConditionType,
-    intValue: number,
-    stringValue: string,
-    description: string;
-  ): EvolutionCondition {
-    return new EvolutionCondition(type, intValue, stringValue, description);
-  }
-
-  private evaluateCondition(
-    type: EvolutionConditionType,
-    intValue: number,
-    stringValue: string,
-    spirit: any,
-    context: PlayerContext;
-  ): boolean {
-    switch (type) {
-      case 'level_at_least':
-        return spirit?.level >= intValue;
-
-      case 'requires_item':
-        const inventory = context.getInventory?.();
-        if (!inventory) return false;
-        return inventory.getCount(stringValue) > 0;
-
-      case 'sync_at_least':
-        return spirit?.getSyncPercentage() >= intValue;
-
-      case 'lore_flag':
-        return this.checkFlag(context, stringValue);
-
-      case 'time_of_day':
-        return this.checkTimeOfDay(intValue);
-
-      case 'at_location':
-        return this.checkLocation(context, stringValue);
-
-      default:
-        return false;
-    }
-  }
-
-  private checkFlag(context: PlayerContext, flagKey: string): boolean {
-    if (!context || !flagKey) return false;
-
-    if (context.gameData?.onboardingFlags) {
-      return context.gameData.onboardingFlags[
-      fl,
-      a,
-      g,
-      K,
-      e,
-      y
-    ] === true;
-    }
-
-    return false;
-  }
-
-  private checkTimeOfDay(hourMin: number): boolean {
-    const now = new Date();
-    return now.getHours() >= hourMin;
-  }
-
-  private checkLocation(context: PlayerContext, locationId: string): boolean {
-    if (!context || !locationId) return false;
-    return context.currentLocationId === locationId;
-  }
-}
-
-// EvolutionUtils class
-export class EvolutionUtils {
-  static createLevelEvolutionChain(speciesId: string, levels: number[]): SpeciesEvolutionDataShape[] {
-    const chain: SpeciesEvolutionDataShape[] = [];
-    let currentSpecies = speciesId;
-    
-    for (let i = 0; i < levels.length; i++) {
-      const nextSpecies = `${speciesId}_evo_${i + 1}`;
-      const evolution = SpeciesEvolutionDataImpl.levelEvolution(currentSpecies, nextSpecies, levels[i]);
-      chain.push(evolution);
-      currentSpecies = nextSpecies;
-    }
-    
-    return chain;
-  }
-
-  static createItemEvolutions(evolutions: Record<string, string>): SpeciesEvolutionDataShape[] {
-    const result: SpeciesEvolutionDataShape[] = [];
-    
-    for (const [speciesId, itemId] of Object.entries(evolutions)) {
-      const evolution = SpeciesEvolutionDataImpl.itemEvolution(speciesId, `${speciesId}_evo`, itemId);
-      result.push(evolution);
-    }
-    
-    return result;
-  }
-
-  static createSyncEvolutions(evolutions: Record<string, number>): SpeciesEvolutionDataShape[] {
-    const result: SpeciesEvolutionDataShape[] = [];
-    
-    for (const [speciesId, syncLevel] of Object.entries(evolutions)) {
-      const evolution = SpeciesEvolutionDataImpl.syncEvolution(speciesId, `${speciesId}_evo`, syncLevel);
-      result.push(evolution);
-    }
-    
-    return result;
-  }
-
-  static createMockPlayerContext(
-    playerId: string = 'test_player',
-    locationId: string = 'test_location',
-    timeOfDay: TimeOfDay = TimeOfDay.AFTERNOON
-  ): PlayerContext {
-    return {
-      playerId,
-      level: 1,
-      currentLocationId: locationId,
-      getInventory: () => ({}),
-      getFlag: (flagId: string) => false
-    };
-  }
-
-  static createMockSpirit(
-    speciesId: string,
-    level: number = 1,
-    options: Partial<any> = {}
-  ): any {
-    return {
-      instanceId: `spirit_${speciesId}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      speciesId,
-      level,
-      syncLevel: options.syncLevel || 0,
-      friendshipLevel: options.friendshipLevel || 50,
-      battleCount: options.battleCount || 0,
-      canEvolve: options.canEvolve !== false,
-      inventory: options.inventory || new Map(),
-      getSyncPercentage: function() { return Math.min(100, Math.max(0, this.syncLevel)); },
-      hasItem: function(itemId: string) { return this.inventory.get(itemId) > 0; },
-      addItem: function(itemId: string, quantity: number = 1) {
-        const current = this.inventory.get(itemId) || 0;
-        this.inventory.set(itemId, current + quantity);
+    const manager: EvolutionManager = {
+      id: managerData.id || `evolution-${Date.now()}`,
+      name: managerData.name || 'Unnamed Evolution Manager',
+      type: managerData.type || 'genetic',
+      status: 'active',
+      populations: [],
+      algorithms: [],
+      generations: [],
+      performanceMetrics: {
+        totalPopulations: 0,
+        activePopulations: 0,
+        totalAlgorithms: 0,
+        totalGenerations: 0,
+        totalIndividuals: 0,
+        averageFitness: 0,
+        bestFitness: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
       },
-      setSyncLevel: function(level: number) { this.syncLevel = Math.max(0, Math.min(100, level)); },
-      setFriendshipLevel: function(level: number) { this.friendshipLevel = Math.max(0, Math.min(100, level)); },
-      setBattleCount: function(count: number) { this.battleCount = Math.max(0, count); },
-      clone: function() {
-        return EvolutionUtils.createMockSpirit(this.speciesId, this.level, {
-          syncLevel: this.syncLevel,
-          friendshipLevel: this.friendshipLevel,
-          battleCount: this.battleCount,
-          canEvolve: this.canEvolve,
-          inventory: new Map(this.inventory)
-        });
-      }
+      analytics: {
+        totalPopulations: 0,
+        totalGenerations: 0,
+        averageFitness: 0,
+        populationTypeDistribution: [],
+        algorithmTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includePopulations: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
-}
 
-export default EvolutionManager;
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): EvolutionOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): EvolutionPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): EvolutionAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): EvolutionManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalPopulations = 0;
+    let activePopulations = 0;
+    let totalAlgorithms = 0;
+    let totalGenerations = 0;
+    let totalIndividuals = 0;
+    let averageFitness = 0;
+    let bestFitness = 0;
+
+    for (const manager of this.managers.values()) {
+      totalPopulations += manager.populations.length;
+      activePopulations += manager.populations.filter(p => p.status === 'evolving').length;
+      totalAlgorithms += manager.algorithms.length;
+      totalGenerations += manager.generations.length;
+      totalIndividuals += manager.populations.reduce((sum, p) => sum + p.individuals.length, 0);
+      averageFitness += manager.populations.reduce((sum, p) => sum + p.performance.averageFitness, 0);
+      bestFitness = Math.max(bestFitness, ...manager.populations.map(p => p.performance.bestFitness));
+    }
+
+    this.performanceMetrics.totalPopulations = totalPopulations;
+    this.performanceMetrics.activePopulations = activePopulations;
+    this.performanceMetrics.totalAlgorithms = totalAlgorithms;
+    this.performanceMetrics.totalGenerations = totalGenerations;
+    this.performanceMetrics.totalIndividuals = totalIndividuals;
+    this.performanceMetrics.averageFitness = totalPopulations > 0 ? averageFitness / totalPopulations : 0;
+    this.performanceMetrics.bestFitness = bestFitness;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+  }
+}

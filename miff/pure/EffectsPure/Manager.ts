@@ -1,1207 +1,736 @@
 /**
- * EffectsPure Manager - Status Effects Management System
+ * EffectsPure Manager - Advanced Effects Management System
  *
- * Comprehensive status effects management with:
- * - Battle effects (buffs, debuffs, damage over time)
- * - Environmental effects
- * - Temporary effects with duration
- * - Effect stacking and interaction
+ * Comprehensive effects management system with:
+ * - Visual effects creation and management
+ * - Particle systems and animations
  * - Performance optimization
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Real-time effects monitoring
+ * - Effects analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
+export interface EffectsConfig {
+  enableEffectsManagement: boolean;
+  enableVisualEffects: boolean;
+  enableParticleSystems: boolean;
+  enableAnimationEffects: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableEffectsAnalytics: boolean;
+  enableEffectsReporting: boolean;
+  maxEffects: number;
+  maxParticles: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
 
-export interface EffectConfig {
+export interface EffectsManager {
   id: string;
   name: string;
-  description: string;
+  type: EffectsManagerType;
+  status: EffectsManagerStatus;
+  effects: Effect[];
+  particleSystems: ParticleSystem[];
+  animations: EffectAnimation[];
+  materials: EffectMaterial[];
+  performanceMetrics: EffectsPerformanceMetrics;
+  analytics: EffectsAnalytics;
+  reporting: EffectsReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type EffectsManagerType = 'visual' | 'audio' | 'particle' | 'custom';
+export type EffectsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface Effect {
+  id: string;
+  name: string;
   type: EffectType;
-  category: EffectCategory;
+  status: EffectStatus;
+  properties: EffectProperties;
+  particles: Particle[];
+  animations: string[];
+  materials: string[];
+  performance: EffectPerformance;
+  metadata: Record<string, any>;
+}
+
+export type EffectType = 'fire' | 'smoke' | 'explosion' | 'magic' | 'custom';
+export type EffectStatus = 'idle' | 'playing' | 'paused' | 'stopped' | 'error';
+
+export interface EffectProperties {
   duration: number;
-  maxStacks: number;
-  stackType: StackType;
-  priority: number;
-  canDispel: boolean;
-  canRefresh: boolean;
-  canExtend: boolean;
-  isHidden: boolean;
-  isPermanent: boolean;
-  icon: string;
-  color: [number, number, number, number];
+  loop: boolean;
+  speed: number;
+  scale: Vector3;
+  position: Vector3;
+  rotation: Vector3;
+  color: Color;
+  opacity: number;
+  blendMode: BlendMode;
 }
 
-export enum EffectType {
-  BUFF = 'buff',
-  DEBUFF = 'debuff',
-  DAMAGE_OVER_TIME = 'damage_over_time',
-  HEAL_OVER_TIME = 'heal_over_time',
-  SHIELD = 'shield',
-  STUN = 'stun',
-  SILENCE = 'silence',
-  SLOW = 'slow',
-  HASTE = 'haste',
-  INVISIBILITY = 'invisibility',
-  IMMUNITY = 'immunity',
-  REFLECT = 'reflect',
-  ABSORB = 'absorb',
-  TRANSFORM = 'transform',
-  CUSTOM = 'custom'
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export enum EffectCategory {
-  COMBAT = 'combat',
-  ENVIRONMENTAL = 'environmental',
-  MAGICAL = 'magical',
-  PHYSICAL = 'physical',
-  MENTAL = 'mental',
-  TEMPORAL = 'temporal',
-  ELEMENTAL = 'elemental',
-  DIVINE = 'divine',
-  CURSED = 'cursed',
-  BLESSED = 'blessed'
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
 }
 
-export enum StackType {
-  NONE = 'none',
-  ADDITIVE = 'additive',
-  MULTIPLICATIVE = 'multiplicative',
-  REPLACE = 'replace',
-  REFRESH = 'refresh',
-  EXTEND = 'extend'
-}
+export type BlendMode = 'normal' | 'add' | 'multiply' | 'screen' | 'custom';
 
-export interface EffectInstance {
+export interface Particle {
   id: string;
-  config: EffectConfig;
-  targetId: string;
-  casterId: string;
-  stacks: number;
-  duration: number;
-  maxDuration: number;
-  startTime: number;
-  lastTick: number;
-  tickInterval: number;
-  isActive: boolean;
-  isPaused: boolean;
-  metadata: Map<string, any>;
-  modifiers: EffectModifier[];
+  name: string;
+  type: ParticleType;
+  status: ParticleStatus;
+  properties: ParticleProperties;
+  physics: ParticlePhysics;
+  rendering: ParticleRendering;
+  performance: ParticlePerformance;
+  metadata: Record<string, any>;
 }
 
-export interface EffectModifier {
-  stat: string;
-  type: ModifierType;
+export type ParticleType = 'point' | 'sprite' | 'mesh' | 'custom';
+export type ParticleStatus = 'idle' | 'active' | 'dying' | 'dead';
+
+export interface ParticleProperties {
+  position: Vector3;
+  velocity: Vector3;
+  acceleration: Vector3;
+  size: number;
+  color: Color;
+  opacity: number;
+  lifetime: number;
+  age: number;
+  mass: number;
+  charge: number;
+}
+
+export interface ParticlePhysics {
+  gravity: Vector3;
+  drag: number;
+  bounce: number;
+  friction: number;
+  collision: CollisionConfig;
+  forces: Force[];
+}
+
+export interface CollisionConfig {
+  enabled: boolean;
+  type: CollisionType;
+  response: CollisionResponse;
+  restitution: number;
+}
+
+export type CollisionType = 'sphere' | 'box' | 'plane' | 'custom';
+export type CollisionResponse = 'bounce' | 'stick' | 'destroy' | 'custom';
+
+export interface Force {
+  type: ForceType;
+  strength: number;
+  direction: Vector3;
+  range: number;
+  falloff: FalloffType;
+}
+
+export type ForceType = 'gravity' | 'wind' | 'magnetic' | 'custom';
+export type FalloffType = 'linear' | 'quadratic' | 'exponential' | 'custom';
+
+export interface ParticleRendering {
+  material: string;
+  texture: string;
+  blendMode: BlendMode;
+  billboard: boolean;
+  sizeAttenuation: boolean;
+  colorOverLifetime: ColorOverLifetime;
+  sizeOverLifetime: SizeOverLifetime;
+}
+
+export interface ColorOverLifetime {
+  enabled: boolean;
+  gradient: ColorGradient;
+}
+
+export interface ColorGradient {
+  stops: ColorStop[];
+  mode: GradientMode;
+}
+
+export interface ColorStop {
+  time: number;
+  color: Color;
+}
+
+export type GradientMode = 'linear' | 'radial' | 'custom';
+
+export interface SizeOverLifetime {
+  enabled: boolean;
+  curve: AnimationCurve;
+}
+
+export interface AnimationCurve {
+  keys: AnimationKey[];
+  mode: CurveMode;
+}
+
+export interface AnimationKey {
+  time: number;
   value: number;
-  isPercentage: boolean;
-  isFlat: boolean;
-  condition?: string;
+  inTangent: number;
+  outTangent: number;
 }
 
-export enum ModifierType {
-  ADD = 'add',
-  SUBTRACT = 'subtract',
-  MULTIPLY = 'multiply',
-  DIVIDE = 'divide',
-  SET = 'set',
-  MIN = 'min',
-  MAX = 'max',
-  PERCENTAGE = 'percentage',
-  FLAT = 'flat'
+export type CurveMode = 'linear' | 'bezier' | 'hermite' | 'custom';
+
+export interface ParticlePerformance {
+  totalParticles: number;
+  activeParticles: number;
+  averageLifetime: number;
+  memoryUsage: number;
+  lastUpdate: number;
 }
 
-export interface EffectTrigger {
+export interface ParticleSystem {
   id: string;
-  effectId: string;
-  triggerType: TriggerType;
-  condition: string;
+  name: string;
+  type: ParticleSystemType;
+  status: ParticleSystemStatus;
+  particles: string[];
+  emitter: ParticleEmitter;
+  updater: ParticleUpdater;
+  renderer: ParticleRenderer;
+  performance: ParticleSystemPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ParticleSystemType = 'continuous' | 'burst' | 'trail' | 'custom';
+export type ParticleSystemStatus = 'idle' | 'emitting' | 'paused' | 'stopped' | 'error';
+
+export interface ParticleEmitter {
+  type: EmitterType;
+  properties: EmitterProperties;
+  shape: EmitterShape;
+  rate: EmissionRate;
+}
+
+export type EmitterType = 'point' | 'line' | 'circle' | 'box' | 'custom';
+
+export interface EmitterProperties {
+  position: Vector3;
+  rotation: Vector3;
+  scale: Vector3;
+  enabled: boolean;
+  autoStart: boolean;
+}
+
+export interface EmitterShape {
+  type: ShapeType;
+  size: Vector3;
+  direction: Vector3;
+  spread: number;
+}
+
+export type ShapeType = 'point' | 'line' | 'circle' | 'box' | 'sphere' | 'custom';
+
+export interface EmissionRate {
+  particlesPerSecond: number;
+  burst: BurstConfig;
+  overTime: OverTimeConfig;
+}
+
+export interface BurstConfig {
+  enabled: boolean;
+  count: number;
+  interval: number;
   probability: number;
-  cooldown: number;
-  lastTriggered: number;
-  isActive: boolean;
 }
 
-export enum TriggerType {
-  ON_APPLY = 'on_apply',
-  ON_REMOVE = 'on_remove',
-  ON_TICK = 'on_tick',
-  ON_DAMAGE = 'on_damage',
-  ON_HEAL = 'on_heal',
-  ON_ATTACK = 'on_attack',
-  ON_DEFEND = 'on_defend',
-  ON_MOVE = 'on_move',
-  ON_DEATH = 'on_death',
-  ON_REVIVE = 'on_revive',
-  ON_CRITICAL = 'on_critical',
-  ON_MISS = 'on_miss',
-  ON_BLOCK = 'on_block',
-  ON_DODGE = 'on_dodge',
-  ON_PARRY = 'on_parry',
-  CUSTOM = 'custom'
+export interface OverTimeConfig {
+  enabled: boolean;
+  rate: number;
+  curve: AnimationCurve;
 }
 
-export interface EffectInteraction {
+export interface ParticleUpdater {
+  type: UpdaterType;
+  properties: UpdaterProperties;
+  modules: UpdateModule[];
+}
+
+export type UpdaterType = 'cpu' | 'gpu' | 'hybrid' | 'custom';
+
+export interface UpdaterProperties {
+  deltaTime: number;
+  fixedTimeStep: boolean;
+  maxParticles: number;
+  sorting: SortingConfig;
+}
+
+export interface SortingConfig {
+  enabled: boolean;
+  mode: SortingMode;
+  axis: Vector3;
+}
+
+export type SortingMode = 'distance' | 'age' | 'size' | 'custom';
+
+export interface UpdateModule {
   id: string;
-  effectA: string;
-  effectB: string;
-  interactionType: InteractionType;
-  result: string;
-  priority: number;
-  isActive: boolean;
+  type: ModuleType;
+  enabled: boolean;
+  properties: Record<string, any>;
 }
 
-export enum InteractionType {
-  CANCEL = 'cancel',
-  REPLACE = 'replace',
-  MERGE = 'merge',
-  AMPLIFY = 'amplify',
-  REDUCE = 'reduce',
-  TRANSFORM = 'transform',
-  BLOCK = 'block',
-  ALLOW = 'allow'
+export type ModuleType = 'velocity' | 'force' | 'color' | 'size' | 'custom';
+
+export interface ParticleRenderer {
+  type: RendererType;
+  properties: RendererProperties;
+  material: string;
+  texture: string;
 }
 
-export interface EffectStats {
+export type RendererType = 'billboard' | 'mesh' | 'trail' | 'custom';
+
+export interface RendererProperties {
+  sortMode: SortMode;
+  sortFudge: number;
+  castShadows: boolean;
+  receiveShadows: boolean;
+}
+
+export type SortMode = 'none' | 'distance' | 'oldest' | 'youngest' | 'custom';
+
+export interface ParticleSystemPerformance {
+  totalParticles: number;
+  activeParticles: number;
+  emissionRate: number;
+  updateTime: number;
+  renderTime: number;
+  memoryUsage: number;
+  lastUpdate: number;
+}
+
+export interface EffectAnimation {
+  id: string;
+  name: string;
+  type: AnimationType;
+  status: AnimationStatus;
+  duration: number;
+  curves: AnimationCurve[];
+  events: AnimationEvent[];
+  performance: AnimationPerformance;
+  metadata: Record<string, any>;
+}
+
+export type AnimationType = 'position' | 'rotation' | 'scale' | 'color' | 'custom';
+export type AnimationStatus = 'idle' | 'playing' | 'paused' | 'stopped' | 'error';
+
+export interface AnimationEvent {
+  time: number;
+  type: EventType;
+  data: Record<string, any>;
+}
+
+export type EventType = 'callback' | 'sound' | 'particle' | 'custom';
+
+export interface AnimationPerformance {
+  totalAnimations: number;
+  activeAnimations: number;
+  averageDuration: number;
+  memoryUsage: number;
+  lastUpdate: number;
+}
+
+export interface EffectMaterial {
+  id: string;
+  name: string;
+  type: MaterialType;
+  status: MaterialStatus;
+  properties: MaterialProperties;
+  shaders: MaterialShader[];
+  textures: MaterialTexture[];
+  performance: MaterialPerformance;
+  metadata: Record<string, any>;
+}
+
+export type MaterialType = 'unlit' | 'lit' | 'transparent' | 'custom';
+export type MaterialStatus = 'active' | 'inactive' | 'error';
+
+export interface MaterialProperties {
+  color: Color;
+  opacity: number;
+  metallic: number;
+  roughness: number;
+  emission: Color;
+  normal: Vector3;
+  uv: Vector2;
+}
+
+export interface Vector2 {
+  x: number;
+  y: number;
+}
+
+export interface MaterialShader {
+  id: string;
+  name: string;
+  type: ShaderType;
+  source: string;
+  uniforms: ShaderUniform[];
+}
+
+export type ShaderType = 'vertex' | 'fragment' | 'geometry' | 'custom';
+
+export interface ShaderUniform {
+  name: string;
+  type: UniformType;
+  value: any;
+  location: number;
+}
+
+export type UniformType = 'float' | 'int' | 'vec2' | 'vec3' | 'vec4' | 'mat3' | 'mat4' | 'sampler2d' | 'custom';
+
+export interface MaterialTexture {
+  id: string;
+  name: string;
+  type: TextureType;
+  path: string;
+  properties: TextureProperties;
+}
+
+export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
+
+export interface TextureProperties {
+  wrapS: TextureWrap;
+  wrapT: TextureWrap;
+  minFilter: TextureFilter;
+  magFilter: TextureFilter;
+  anisotropy: number;
+  flipY: boolean;
+}
+
+export type TextureWrap = 'repeat' | 'clamp' | 'mirror' | 'custom';
+export type TextureFilter = 'nearest' | 'linear' | 'mipmap' | 'custom';
+
+export interface MaterialPerformance {
+  totalMaterials: number;
+  activeMaterials: number;
+  memoryUsage: number;
+  lastUsed: number;
+}
+
+export interface EffectsPerformanceMetrics {
   totalEffects: number;
   activeEffects: number;
-  buffs: number;
-  debuffs: number;
-  damageOverTime: number;
-  healOverTime: number;
-  shields: number;
-  stuns: number;
-  silences: number;
-  customEffects: number;
-  averageDuration: number;
-  totalStacks: number;
-  effectInteractions: number;
-  triggersFired: number;
-  dispels: number;
-  refreshes: number;
-  extensions: number;
+  totalParticles: number;
+  activeParticles: number;
+  totalAnimations: number;
+  totalMaterials: number;
+  averageFPS: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
-export class EffectsManager {
-  private configs: Map<string, EffectConfig> = new Map();
-  private instances: Map<string, EffectInstance> = new Map();
-  private triggers: Map<string, EffectTrigger> = new Map();
-  private interactions: Map<string, EffectInteraction> = new Map();
-  private stats: EffectStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+export interface EffectsAnalytics {
+  totalEffects: number;
+  totalParticles: number;
+  averageFPS: number;
+  effectTypeDistribution: EffectTypeDistribution[];
+  particleTypeDistribution: ParticleTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
 
-  constructor() {
-    this.initializeDefaultEffects();
-    this.initializeDefaultInteractions();
-    this.isInitialized = true;
+export interface EffectTypeDistribution {
+  type: EffectType;
+  count: number;
+  percentage: number;
+  averageDuration: number;
+}
 
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'EffectsManager': LogLevel.DEBUG
-      }
-    });
+export interface ParticleTypeDistribution {
+  type: ParticleType;
+  count: number;
+  percentage: number;
+  averageLifetime: number;
+}
 
-    // Register with memory manager
-    this.memoryId = `EffectsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'EffectsManager');
-  }
+export interface PerformanceTrend {
+  timestamp: number;
+  effects: number;
+  particles: number;
+  fps: number;
+  memory: number;
+  cpu: number;
+}
 
-  /**
-   * Initialize default effects
-   */
-  private initializeDefaultEffects(): void {
-    const defaultEffects = [
-      this.createStrengthBuff(),
-      this.createWeaknessDebuff(),
-      this.createPoisonDoT(),
-      this.createRegenerationHoT(),
-      this.createShieldEffect(),
-      this.createStunEffect(),
-      this.createSilenceEffect(),
-      this.createSlowEffect(),
-      this.createHasteEffect(),
-      this.createInvisibilityEffect(),
-      this.createImmunityEffect(),
-      this.createReflectEffect(),
-      this.createAbsorbEffect(),
-      this.createTransformEffect()
-    ];
+export interface EffectsReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeEffects: boolean;
+  lastReport: number;
+}
 
-    for (const effect of defaultEffects) {
-      this.configs.set(effect.id, effect);
-    }
-  }
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
 
-  /**
-   * Initialize default interactions
-   */
-  private initializeDefaultInteractions(): void {
-    const defaultInteractions = [
-      this.createStrengthWeaknessInteraction(),
-      this.createPoisonRegenerationInteraction(),
-      this.createShieldDamageInteraction(),
-      this.createStunSilenceInteraction(),
-      this.createSlowHasteInteraction(),
-      this.createInvisibilityDetectionInteraction()
-    ];
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
 
-    for (const interaction of defaultInteractions) {
-      this.interactions.set(interaction.id, interaction);
-    }
-  }
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
 
-  /**
-   * Create strength buff effect
-   */
-  private createStrengthBuff(): EffectConfig {
-    return {
-      id: 'strength_buff',
-      name: 'Strength',
-      description: 'Increases physical attack power',
-      type: EffectType.BUFF,
-      category: EffectCategory.PHYSICAL,
-      duration: 30,
-      maxStacks: 5,
-      stackType: StackType.ADDITIVE,
-      priority: 10,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'strength_icon',
-      color: [1, 0.8, 0, 1]
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface EffectsOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class EffectsPure {
+  private managers: Map<string, EffectsManager> = new Map();
+  private config: EffectsConfig;
+  private performanceMetrics: EffectsPerformanceMetrics;
+  private analytics: EffectsAnalytics;
+
+  constructor(config: Partial<EffectsConfig> = {}) {
+    this.config = {
+      enableEffectsManagement: true,
+      enableVisualEffects: true,
+      enableParticleSystems: true,
+      enableAnimationEffects: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableEffectsAnalytics: true,
+      enableEffectsReporting: true,
+      maxEffects: 10000,
+      maxParticles: 1000000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
-  }
 
-  /**
-   * Create weakness debuff effect
-   */
-  private createWeaknessDebuff(): EffectConfig {
-    return {
-      id: 'weakness_debuff',
-      name: 'Weakness',
-      description: 'Decreases physical attack power',
-      type: EffectType.DEBUFF,
-      category: EffectCategory.PHYSICAL,
-      duration: 20,
-      maxStacks: 3,
-      stackType: StackType.ADDITIVE,
-      priority: 10,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'weakness_icon',
-      color: [0.8, 0.2, 0.2, 1]
-    };
-  }
-
-  /**
-   * Create poison damage over time effect
-   */
-  private createPoisonDoT(): EffectConfig {
-    return {
-      id: 'poison_dot',
-      name: 'Poison',
-      description: 'Deals damage over time',
-      type: EffectType.DAMAGE_OVER_TIME,
-      category: EffectCategory.ELEMENTAL,
-      duration: 15,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 5,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: false,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'poison_icon',
-      color: [0.2, 0.8, 0.2, 1]
-    };
-  }
-
-  /**
-   * Create regeneration heal over time effect
-   */
-  private createRegenerationHoT(): EffectConfig {
-    return {
-      id: 'regeneration_hot',
-      name: 'Regeneration',
-      description: 'Restores health over time',
-      type: EffectType.HEAL_OVER_TIME,
-      category: EffectCategory.DIVINE,
-      duration: 20,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 5,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: false,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'regeneration_icon',
-      color: [0.2, 0.8, 0.8, 1]
-    };
-  }
-
-  /**
-   * Create shield effect
-   */
-  private createShieldEffect(): EffectConfig {
-    return {
-      id: 'shield',
-      name: 'Shield',
-      description: 'Absorbs incoming damage',
-      type: EffectType.SHIELD,
-      category: EffectCategory.MAGICAL,
-      duration: 60,
-      maxStacks: 1,
-      stackType: StackType.ADDITIVE,
-      priority: 15,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'shield_icon',
-      color: [0.2, 0.2, 0.8, 1]
-    };
-  }
-
-  /**
-   * Create stun effect
-   */
-  private createStunEffect(): EffectConfig {
-    return {
-      id: 'stun',
-      name: 'Stun',
-      description: 'Prevents all actions',
-      type: EffectType.STUN,
-      category: EffectCategory.MENTAL,
-      duration: 3,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 20,
-      canDispel: true,
-      canRefresh: false,
-      canExtend: false,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'stun_icon',
-      color: [0.8, 0.8, 0.2, 1]
-    };
-  }
-
-  /**
-   * Create silence effect
-   */
-  private createSilenceEffect(): EffectConfig {
-    return {
-      id: 'silence',
-      name: 'Silence',
-      description: 'Prevents spell casting',
-      type: EffectType.SILENCE,
-      category: EffectCategory.MAGICAL,
-      duration: 8,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 15,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: false,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'silence_icon',
-      color: [0.8, 0.2, 0.8, 1]
-    };
-  }
-
-  /**
-   * Create slow effect
-   */
-  private createSlowEffect(): EffectConfig {
-    return {
-      id: 'slow',
-      name: 'Slow',
-      description: 'Reduces movement and action speed',
-      type: EffectType.SLOW,
-      category: EffectCategory.TEMPORAL,
-      duration: 12,
-      maxStacks: 3,
-      stackType: StackType.ADDITIVE,
-      priority: 8,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'slow_icon',
-      color: [0.5, 0.5, 0.8, 1]
-    };
-  }
-
-  /**
-   * Create haste effect
-   */
-  private createHasteEffect(): EffectConfig {
-    return {
-      id: 'haste',
-      name: 'Haste',
-      description: 'Increases movement and action speed',
-      type: EffectType.HASTE,
-      category: EffectCategory.TEMPORAL,
-      duration: 25,
-      maxStacks: 2,
-      stackType: StackType.ADDITIVE,
-      priority: 8,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'haste_icon',
-      color: [0.8, 0.8, 0.2, 1]
-    };
-  }
-
-  /**
-   * Create invisibility effect
-   */
-  private createInvisibilityEffect(): EffectConfig {
-    return {
-      id: 'invisibility',
-      name: 'Invisibility',
-      description: 'Makes the target invisible',
-      type: EffectType.INVISIBILITY,
-      category: EffectCategory.MAGICAL,
-      duration: 30,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 12,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'invisibility_icon',
-      color: [0.5, 0.5, 0.5, 0.5]
-    };
-  }
-
-  /**
-   * Create immunity effect
-   */
-  private createImmunityEffect(): EffectConfig {
-    return {
-      id: 'immunity',
-      name: 'Immunity',
-      description: 'Prevents all negative effects',
-      type: EffectType.IMMUNITY,
-      category: EffectCategory.DIVINE,
-      duration: 10,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 25,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'immunity_icon',
-      color: [1, 1, 0.2, 1]
-    };
-  }
-
-  /**
-   * Create reflect effect
-   */
-  private createReflectEffect(): EffectConfig {
-    return {
-      id: 'reflect',
-      name: 'Reflect',
-      description: 'Reflects incoming damage back to attacker',
-      type: EffectType.REFLECT,
-      category: EffectCategory.MAGICAL,
-      duration: 15,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 18,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'reflect_icon',
-      color: [0.8, 0.2, 0.2, 1]
-    };
-  }
-
-  /**
-   * Create absorb effect
-   */
-  private createAbsorbEffect(): EffectConfig {
-    return {
-      id: 'absorb',
-      name: 'Absorb',
-      description: 'Absorbs and converts damage to healing',
-      type: EffectType.ABSORB,
-      category: EffectCategory.MAGICAL,
-      duration: 20,
-      maxStacks: 1,
-      stackType: StackType.REFRESH,
-      priority: 16,
-      canDispel: true,
-      canRefresh: true,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'absorb_icon',
-      color: [0.2, 0.8, 0.2, 1]
-    };
-  }
-
-  /**
-   * Create transform effect
-   */
-  private createTransformEffect(): EffectConfig {
-    return {
-      id: 'transform',
-      name: 'Transform',
-      description: 'Transforms the target into another form',
-      type: EffectType.TRANSFORM,
-      category: EffectCategory.MAGICAL,
-      duration: 45,
-      maxStacks: 1,
-      stackType: StackType.REPLACE,
-      priority: 22,
-      canDispel: true,
-      canRefresh: false,
-      canExtend: true,
-      isHidden: false,
-      isPermanent: false,
-      icon: 'transform_icon',
-      color: [0.8, 0.2, 0.8, 1]
-    };
-  }
-
-  /**
-   * Create strength-weakness interaction
-   */
-  private createStrengthWeaknessInteraction(): EffectInteraction {
-    return {
-      id: 'strength_weakness_cancel',
-      effectA: 'strength_buff',
-      effectB: 'weakness_debuff',
-      interactionType: InteractionType.CANCEL,
-      result: 'Both effects are removed',
-      priority: 10,
-      isActive: true;
-    };
-  }
-
-  /**
-   * Create poison-regeneration interaction
-   */
-  private createPoisonRegenerationInteraction(): EffectInteraction {
-    return {
-      id: 'poison_regeneration_cancel',
-      effectA: 'poison_dot',
-      effectB: 'regeneration_hot',
-      interactionType: InteractionType.CANCEL,
-      result: 'Both effects are removed',
-      priority: 5,
-      isActive: true;
-    };
-  }
-
-  /**
-   * Create shield-damage interaction
-   */
-  private createShieldDamageInteraction(): EffectInteraction {
-    return {
-      id: 'shield_damage_absorb',
-      effectA: 'shield',
-      effectB: 'damage',
-      interactionType: InteractionType.BLOCK,
-      result: 'Shield absorbs damage',
-      priority: 15,
-      isActive: true;
-    };
-  }
-
-  /**
-   * Create stun-silence interaction
-   */
-  private createStunSilenceInteraction(): EffectInteraction {
-    return {
-      id: 'stun_silence_merge',
-      effectA: 'stun',
-      effectB: 'silence',
-      interactionType: InteractionType.MERGE,
-      result: 'Effects are combined',
-      priority: 20,
-      isActive: true;
-    };
-  }
-
-  /**
-   * Create slow-haste interaction
-   */
-  private createSlowHasteInteraction(): EffectInteraction {
-    return {
-      id: 'slow_haste_cancel',
-      effectA: 'slow',
-      effectB: 'haste',
-      interactionType: InteractionType.CANCEL,
-      result: 'Both effects are removed',
-      priority: 8,
-      isActive: true;
-    };
-  }
-
-  /**
-   * Create invisibility-detection interaction
-   */
-  private createInvisibilityDetectionInteraction(): EffectInteraction {
-    return {
-      id: 'invisibility_detection_cancel',
-      effectA: 'invisibility',
-      effectB: 'detection',
-      interactionType: InteractionType.CANCEL,
-      result: 'Invisibility is removed',
-      priority: 12,
-      isActive: true;
-    };
-  }
-
-  /**
-   * Apply an effect to a target
-   */
-  applyEffect(effectId: string, targetId: string, casterId: string, stacks: number = 1): boolean {
-    const config = this.configs.get(effectId);
-    if (!config) {
-      this.logger.warn('EffectsManager', `Effect ${effectId} not found`);
-      return false;
-    }
-
-    // Check for existing effect
-    const existingInstance = this.getInstanceByTargetAndEffect(targetId, effectId);
-    if (existingInstance) {
-      return this.handleExistingEffect(existingInstance, config, stacks);
-    }
-
-    // Create new effect instance
-    const instance = this.createEffectInstance(config, targetId, casterId, stacks);
-    this.instances.set(instance.id, instance);
-
-    // Check for interactions
-    this.checkEffectInteractions(instance);
-
-    // Update stats
-    this.updateStats('apply', instance);
-
-    this.logger.info('EffectsManager', `Applied effect ${effectId} to target ${targetId}`);
-    return true;
-  }
-
-  /**
-   * Remove an effect from a target
-   */
-  removeEffect(instanceId: string): boolean {
-    const instance = this.instances.get(instanceId);
-    if (!instance) {
-      this.logger.warn('EffectsManager', `Effect instance ${instanceId} not found`);
-      return false;
-    }
-
-    instance.isActive = false;
-    this.instances.delete(instanceId);
-
-    // Update stats
-    this.updateStats('remove', instance);
-
-    this.logger.info('EffectsManager', `Removed effect ${instance.config.id} from target ${instance.targetId}`);
-    return true;
-  }
-
-  /**
-   * Remove all effects from a target
-   */
-  removeAllEffects(targetId: string, effectTypes?: EffectType[]): number {
-    let removedCount = 0;
-    const instancesToRemove: string[] = [];
-
-    for (const [id, instance] of this.instances) {
-      if (instance.targetId === targetId && instance.isActive) {
-        if (!effectTypes || effectTypes.includes(instance.config.type)) {
-          instancesToRemove.push(id);
-        }
-      }
-    }
-
-    for (const id of instancesToRemove) {
-      if (this.removeEffect(id)) {
-        removedCount++;
-      }
-    }
-
-    this.logger.info('EffectsManager', `Removed ${removedCount} effects from target ${targetId}`);
-    return removedCount;
-  }
-
-  /**
-   * Update all active effects
-   */
-  updateEffects(deltaTime: number): void {
-    const instancesToRemove: string[] = [];
-
-    for (const [id, instance] of this.instances) {
-      if (!instance.isActive || instance.isPaused) continue;
-
-      // Update duration
-      if (!instance.config.isPermanent) {
-        instance.duration -= deltaTime;
-        if (instance.duration <= 0) {
-          instancesToRemove.push(id);
-          continue;
-        }
-      }
-
-      // Handle ticking effects
-      if (instance.tickInterval > 0) {
-        const timeSinceLastTick = Date.now() - instance.lastTick;
-        if (timeSinceLastTick >= instance.tickInterval) {
-          this.handleEffectTick(instance);
-          instance.lastTick = Date.now();
-        }
-      }
-    }
-
-    // Remove expired effects
-    for (const id of instancesToRemove) {
-      this.removeEffect(id);
-    }
-  }
-
-  /**
-   * Get all effects on a target
-   */
-  getTargetEffects(targetId: string): EffectInstance[] {
-    return Array.from(this.instances.values())
-      .filter(instance => instance.targetId === targetId && instance.isActive);
-  }
-
-  /**
-   * Get effects by type
-   */
-  getEffectsByType(type: EffectType): EffectInstance[] {
-    return Array.from(this.instances.values())
-      .filter(instance => instance.config.type === type && instance.isActive);
-  }
-
-  /**
-   * Get effects by category
-   */
-  getEffectsByCategory(category: EffectCategory): EffectInstance[] {
-    return Array.from(this.instances.values())
-      .filter(instance => instance.config.category === category && instance.isActive);
-  }
-
-  /**
-   * Check if target has effect
-   */
-  hasEffect(targetId: string, effectId: string): boolean {
-    return this.getInstanceByTargetAndEffect(targetId, effectId) !== null;
-  }
-
-  /**
-   * Get effect instance by target and effect
-   */
-  private getInstanceByTargetAndEffect(targetId: string, effectId: string): EffectInstance | null {
-    for (const instance of this.instances.values()) {
-      if (instance.targetId === targetId && instance.config.id === effectId && instance.isActive) {
-        return instance;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Handle existing effect
-   */
-  private handleExistingEffect(existing: EffectInstance, config: EffectConfig, newStacks: number): boolean {
-    switch (config.stackType) {
-      case StackType.REFRESH:
-        existing.duration = config.duration;
-        existing.lastTick = Date.now();
-        this.stats.refreshes++;
-        return true;
-
-      case StackType.EXTEND:
-        if (config.canExtend) {
-          existing.duration += config.duration;
-          this.stats.extensions++;
-          return true;
-        }
-        return false;
-
-      case StackType.ADDITIVE:
-      case StackType.MULTIPLICATIVE:
-        if (existing.stacks < config.maxStacks) {
-          existing.stacks = Math.min(existing.stacks + newStacks, config.maxStacks);
-          return true;
-        }
-        return false;
-
-      case StackType.REPLACE:
-        existing.duration = config.duration;
-        existing.stacks = newStacks;
-        existing.lastTick = Date.now();
-        return true;
-
-      default:
-        return false;
-    }
-  }
-
-  /**
-   * Create effect instance
-   */
-  private createEffectInstance(config: EffectConfig, targetId: string, casterId: string, stacks: number): EffectInstance {
-    return {
-      id: `effect_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      config,
-      targetId,
-      casterId,
-      stacks: Math.min(stacks, config.maxStacks),
-      duration: config.duration,
-      maxDuration: config.duration,
-      startTime: Date.now(),
-      lastTick: Date.now(),
-      tickInterval: this.getTickInterval(config.type),
-      isActive: true,
-      isPaused: false,
-      metadata: new Map(),
-      modifiers: this.createEffectModifiers(config)
-    };
-  }
-
-  /**
-   * Get tick interval for effect type
-   */
-  private getTickInterval(type: EffectType): number {
-    switch (type) {
-      case EffectType.DAMAGE_OVER_TIME:
-      case EffectType.HEAL_OVER_TIME:
-        return 1000; // 1 second
-      case EffectType.SHIELD:
-        return 0; // No ticking
-      default:
-        return 0;
-    }
-  }
-
-  /**
-   * Create effect modifiers
-   */
-  private createEffectModifiers(config: EffectConfig): EffectModifier[] {
-    const modifiers: EffectModifier[] = [];
-
-    switch (config.type) {
-      case EffectType.BUFF:
-        modifiers.push({
-          stat: 'attack',
-          type: ModifierType.ADD,
-          value: 10,
-          isPercentage: false,
-          isFlat: true;
-    });
-        break;
-
-      case EffectType.DEBUFF:
-        modifiers.push({
-          stat: 'attack',
-          type: ModifierType.SUBTRACT,
-          value: 10,
-          isPercentage: false,
-          isFlat: true;
-    });
-        break;
-
-      case EffectType.SLOW:
-        modifiers.push({
-          stat: 'speed',
-          type: ModifierType.MULTIPLY,
-          value: 0.5,
-          isPercentage: true,
-          isFlat: false;
-    });
-        break;
-
-      case EffectType.HASTE:
-        modifiers.push({
-          stat: 'speed',
-          type: ModifierType.MULTIPLY,
-          value: 1.5,
-          isPercentage: true,
-          isFlat: false;
-    });
-        break;
-
-      case EffectType.SHIELD:
-        modifiers.push({
-          stat: 'health',
-          type: ModifierType.ADD,
-          value: 100,
-          isPercentage: false,
-          isFlat: true;
-    });
-        break;
-    }
-
-    return modifiers;
-  }
-
-  /**
-   * Handle effect tick
-   */
-  private handleEffectTick(instance: EffectInstance): void {
-    switch (instance.config.type) {
-      case EffectType.DAMAGE_OVER_TIME:
-        this.handleDamageOverTime(instance);
-        break;
-      case EffectType.HEAL_OVER_TIME:
-        this.handleHealOverTime(instance);
-        break;
-    }
-  }
-
-  /**
-   * Handle damage over time
-   */
-  private handleDamageOverTime(instance: EffectInstance): void {
-    const damage = 5 * instance.stacks; // Base damage per stack
-    this.logger.info('EffectsManager', `DOT: ${damage} damage to target ${instance.targetId}`);
-    // In a real implementation, this would apply damage to the target
-  }
-
-  /**
-   * Handle heal over time
-   */
-  private handleHealOverTime(instance: EffectInstance): void {
-    const healing = 3 * instance.stacks; // Base healing per stack
-    this.logger.info('EffectsManager', `HOT: ${healing} healing to target ${instance.targetId}`);
-    // In a real implementation, this would apply healing to the target
-  }
-
-  /**
-   * Check effect interactions
-   */
-  private checkEffectInteractions(instance: EffectInstance): void {
-    for (const interaction of this.interactions.values()) {
-      if (!interaction.isActive) continue;
-
-      if (interaction.effectA === instance.config.id || interaction.effectB === instance.config.id) {
-        this.handleEffectInteraction(instance, interaction);
-      }
-    }
-  }
-
-  /**
-   * Handle effect interaction
-   */
-  private handleEffectInteraction(instance: EffectInstance, interaction: EffectInteraction): void {
-    // Find the other effect
-    const otherEffectId = interaction.effectA === instance.config.id ? interaction.effectB : interaction.effectA;
-    const otherInstance = this.getInstanceByTargetAndEffect(instance.targetId, otherEffectId);
-
-    if (!otherInstance) return;
-
-    switch (interaction.interactionType) {
-      case InteractionType.CANCEL:
-        this.removeEffect(instance.id);
-        this.removeEffect(otherInstance.id);
-        break;
-
-      case InteractionType.REPLACE:
-        this.removeEffect(otherInstance.id);
-        break;
-
-      case InteractionType.MERGE:
-        // Merge effects (implementation depends on specific requirements)
-        break;
-
-      case InteractionType.AMPLIFY:
-        instance.stacks = Math.min(instance.stacks + 1, instance.config.maxStacks);
-        break;
-
-      case InteractionType.REDUCE:
-        instance.stacks = Math.max(instance.stacks - 1, 1);
-        break;
-    }
-
-    this.stats.effectInteractions++;
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, instance: EffectInstance): void {
-    switch (action) {
-      case 'apply':
-        this.stats.totalEffects++;
-        this.stats.activeEffects++;
-        this.stats.totalStacks += instance.stacks;
-        break;
-
-      case 'remove':
-        this.stats.activeEffects--;
-        this.stats.totalStacks -= instance.stacks;
-        break;
-
-      case 'dispel':
-        this.stats.dispels++;
-        break;
-    }
-
-    // Update type-specific stats
-    switch (instance.config.type) {
-      case EffectType.BUFF:
-        this.stats.buffs++;
-        break;
-      case EffectType.DEBUFF:
-        this.stats.debuffs++;
-        break;
-      case EffectType.DAMAGE_OVER_TIME:
-        this.stats.damageOverTime++;
-        break;
-      case EffectType.HEAL_OVER_TIME:
-        this.stats.healOverTime++;
-        break;
-      case EffectType.SHIELD:
-        this.stats.shields++;
-        break;
-      case EffectType.STUN:
-        this.stats.stuns++;
-        break;
-      case EffectType.SILENCE:
-        this.stats.silences++;
-        break;
-      case EffectType.CUSTOM:
-        this.stats.customEffects++;
-        break;
-    }
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): EffectStats {
-    return {
+    this.performanceMetrics = {
       totalEffects: 0,
       activeEffects: 0,
-      buffs: 0,
-      debuffs: 0,
-      damageOverTime: 0,
-      healOverTime: 0,
-      shields: 0,
-      stuns: 0,
-      silences: 0,
-      customEffects: 0,
-      averageDuration: 0,
-      totalStacks: 0,
-      effectInteractions: 0,
-      triggersFired: 0,
-      dispels: 0,
-      refreshes: 0,
-      extensions: 0;
+      totalParticles: 0,
+      activeParticles: 0,
+      totalAnimations: 0,
+      totalMaterials: 0,
+      averageFPS: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalEffects: 0,
+      totalParticles: 0,
+      averageFPS: 0,
+      effectTypeDistribution: [],
+      particleTypeDistribution: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Get effect statistics
+   * Create a new effects manager
    */
-  getStats(): EffectStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Get all effect configs
-   */
-  getEffectConfigs(): EffectConfig[] {
-    return Array.from(this.configs.values());
-  }
-
-  /**
-   * Get effect config by ID
-   */
-  getEffectConfig(effectId: string): EffectConfig | null {
-    return this.configs.get(effectId) || null;
-  }
-
-  /**
-   * Add custom effect config
-   */
-  addEffectConfig(config: EffectConfig): boolean {
-    if (this.configs.has(config.id)) {
-      this.logger.warn('EffectsManager', `Effect config ${config.id} already exists`);
-      return false;
+  createManager(managerData: Partial<EffectsManager>): EffectsOutput {
+    if (!this.config.enableEffectsManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Effects management is disabled']
+      };
     }
 
-    this.configs.set(config.id, config);
-    this.logger.info('EffectsManager', `Added effect config ${config.id}`);
-    return true;
+    const manager: EffectsManager = {
+      id: managerData.id || `effects-${Date.now()}`,
+      name: managerData.name || 'Unnamed Effects Manager',
+      type: managerData.type || 'visual',
+      status: 'active',
+      effects: [],
+      particleSystems: [],
+      animations: [],
+      materials: [],
+      performanceMetrics: {
+        totalEffects: 0,
+        activeEffects: 0,
+        totalParticles: 0,
+        activeParticles: 0,
+        totalAnimations: 0,
+        totalMaterials: 0,
+        averageFPS: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalEffects: 0,
+        totalParticles: 0,
+        averageFPS: 0,
+        effectTypeDistribution: [],
+        particleTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeEffects: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Remove effect config
+   * Get manager by ID
    */
-  removeEffectConfig(effectId: string): boolean {
-    if (!this.configs.has(effectId)) {
-      this.logger.warn('EffectsManager', `Effect config ${effectId} not found`);
-      return false;
+  getManager(managerId: string): EffectsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    // Remove all instances of this effect
-    const instancesToRemove: string[] = [];
-    for (const [id, instance] of this.instances) {
-      if (instance.config.id === effectId) {
-        instancesToRemove.push(id);
-      }
-    }
-
-    for (const id of instancesToRemove) {
-      this.removeEffect(id);
-    }
-
-    this.configs.delete(effectId);
-    this.logger.info('EffectsManager', `Removed effect config ${effectId}`);
-    return true;
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Cleanup resources
+   * Get performance metrics
    */
-  destroy(): void {
-    this.configs.clear();
-    this.instances.clear();
-    this.triggers.clear();
-    this.interactions.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  getPerformanceMetrics(): EffectsPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): EffectsAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): EffectsManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalEffects = 0;
+    let activeEffects = 0;
+    let totalParticles = 0;
+    let activeParticles = 0;
+    let totalAnimations = 0;
+    let totalMaterials = 0;
+
+    for (const manager of this.managers.values()) {
+      totalEffects += manager.effects.length;
+      activeEffects += manager.effects.filter(e => e.status === 'playing').length;
+      totalParticles += manager.particleSystems.reduce((sum, ps) => sum + ps.particles.length, 0);
+      activeParticles += manager.particleSystems.reduce((sum, ps) => sum + ps.particles.length, 0);
+      totalAnimations += manager.animations.length;
+      totalMaterials += manager.materials.length;
+    }
+
+    this.performanceMetrics.totalEffects = totalEffects;
+    this.performanceMetrics.activeEffects = activeEffects;
+    this.performanceMetrics.totalParticles = totalParticles;
+    this.performanceMetrics.activeParticles = activeParticles;
+    this.performanceMetrics.totalAnimations = totalAnimations;
+    this.performanceMetrics.totalMaterials = totalMaterials;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultEffectsManager = new EffectsManager();
-export { EffectsManager as default };

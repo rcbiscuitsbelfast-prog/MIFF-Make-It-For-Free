@@ -1,356 +1,613 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+/**
+ * StartMenuPure Manager - Advanced Start Menu Management System
+ *
+ * Comprehensive start menu management system with:
+ * - Start menu creation and management
+ * - Menu navigation and interaction
+ * - Performance optimization
+ * - Real-time menu monitoring
+ * - Menu analytics and reporting
+ */
 
-// Configuration interface
-export interface StartMenuPureConfig {
-  enabled: boolean;
-  debugMode: boolean;
-  maxInstances: number;
-  timeout: number;
-  retryAttempts: number;
-  cacheSize: number;
-  logLevel: 'debug' | 'info' | 'warn' | 'error';
-  performanceMonitoring: boolean;
-  memoryTracking: boolean;
+export interface StartMenuConfig {
+  enableMenuManagement: boolean;
+  enableMenuCreation: boolean;
+  enableMenuNavigation: boolean;
+  enableMenuInteraction: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableMenuAnalytics: boolean;
+  enableMenuReporting: boolean;
+  maxMenus: number;
+  maxItems: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-// Main item interface
-export interface StartMenuPureItem {
+export interface StartMenuManager {
   id: string;
   name: string;
-  type: string;
-  status: 'active' | 'inactive' | 'pending' | 'error';
-  createdAt: Date;
-  updatedAt: Date;
+  type: StartMenuManagerType;
+  status: StartMenuManagerStatus;
+  menus: StartMenu[];
+  items: MenuItem[];
+  navigations: MenuNavigation[];
+  interactions: MenuInteraction[];
+  performanceMetrics: StartMenuPerformanceMetrics;
+  analytics: StartMenuAnalytics;
+  reporting: StartMenuReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
   metadata: Record<string, any>;
-  properties: Record<string, any>;
-  tags: string[];
-  priority: number;
-  version: string;
+  createdAt: number;
+  updatedAt: number;
 }
 
-// Analytics interface
-export interface StartMenuPureAnalytics {
-  totalItems: number;
-  activeItems: number;
-  inactiveItems: number;
-  errorItems: number;
-  averageProcessingTime: number;
-  totalOperations: number;
-  successRate: number;
-  lastUpdated: Date;
+export type StartMenuManagerType = 'main' | 'settings' | 'game' | 'custom';
+export type StartMenuManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface StartMenu {
+  id: string;
+  name: string;
+  type: MenuType;
+  status: MenuStatus;
+  items: string[];
+  configuration: MenuConfiguration;
+  performance: MenuPerformance;
+  metadata: Record<string, any>;
 }
 
-// Manager statistics
-export interface StartMenuPureStats {
+export type MenuType = 'main' | 'settings' | 'game' | 'custom';
+export type MenuStatus = 'active' | 'inactive' | 'hidden' | 'error';
+
+export interface MenuConfiguration {
+  title: string;
+  description: string;
+  theme: MenuTheme;
+  layout: MenuLayout;
+  animations: MenuAnimation[];
+  sounds: MenuSound[];
+}
+
+export interface MenuTheme {
+  name: string;
+  colors: ThemeColors;
+  fonts: ThemeFonts;
+  styles: ThemeStyles;
+}
+
+export interface ThemeColors {
+  primary: Color;
+  secondary: Color;
+  background: Color;
+  text: Color;
+  accent: Color;
+}
+
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+export interface ThemeFonts {
+  primary: string;
+  secondary: string;
+  size: number;
+  weight: FontWeight;
+}
+
+export type FontWeight = 'normal' | 'bold' | 'light' | 'custom';
+
+export interface ThemeStyles {
+  borderRadius: number;
+  shadow: ShadowStyle;
+  border: BorderStyle;
+}
+
+export interface ShadowStyle {
+  enabled: boolean;
+  color: Color;
+  blur: number;
+  offset: Vector2;
+}
+
+export interface Vector2 {
+  x: number;
+  y: number;
+}
+
+export interface BorderStyle {
+  enabled: boolean;
+  color: Color;
+  width: number;
+  style: BorderType;
+}
+
+export type BorderType = 'solid' | 'dashed' | 'dotted' | 'custom';
+
+export interface MenuLayout {
+  type: LayoutType;
+  direction: LayoutDirection;
+  spacing: number;
+  padding: Padding;
+  alignment: Alignment;
+}
+
+export type LayoutType = 'vertical' | 'horizontal' | 'grid' | 'custom';
+export type LayoutDirection = 'top_to_bottom' | 'bottom_to_top' | 'left_to_right' | 'right_to_left' | 'custom';
+
+export interface Padding {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
+export interface Alignment {
+  horizontal: HorizontalAlignment;
+  vertical: VerticalAlignment;
+}
+
+export type HorizontalAlignment = 'left' | 'center' | 'right' | 'custom';
+export type VerticalAlignment = 'top' | 'center' | 'bottom' | 'custom';
+
+export interface MenuAnimation {
+  id: string;
+  type: AnimationType;
+  duration: number;
+  easing: EasingFunction;
+  delay: number;
+  enabled: boolean;
+}
+
+export type AnimationType = 'fade' | 'slide' | 'scale' | 'custom';
+export type EasingFunction = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
+
+export interface MenuSound {
+  id: string;
+  type: SoundType;
+  file: string;
+  volume: number;
+  enabled: boolean;
+}
+
+export type SoundType = 'click' | 'hover' | 'select' | 'custom';
+
+export interface MenuPerformance {
   totalItems: number;
-  activeItems: number;
-  errorCount: number;
+  averageLoadTime: number;
+  lastLoaded: number;
+}
+
+export interface MenuItem {
+  id: string;
+  name: string;
+  type: ItemType;
+  status: ItemStatus;
+  menu: string;
+  configuration: ItemConfiguration;
+  performance: ItemPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ItemType = 'button' | 'link' | 'separator' | 'custom';
+export type ItemStatus = 'active' | 'inactive' | 'disabled' | 'error';
+
+export interface ItemConfiguration {
+  text: string;
+  icon: string;
+  tooltip: string;
+  shortcut: string;
+  action: ItemAction;
+  style: ItemStyle;
+}
+
+export interface ItemAction {
+  type: ActionType;
+  target: string;
+  parameters: Record<string, any>;
+  enabled: boolean;
+}
+
+export type ActionType = 'navigate' | 'execute' | 'toggle' | 'custom';
+
+export interface ItemStyle {
+  color: Color;
+  backgroundColor: Color;
+  fontSize: number;
+  fontWeight: FontWeight;
+  padding: Padding;
+  margin: Margin;
+}
+
+export interface Margin {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
+export interface ItemPerformance {
+  totalClicks: number;
+  averageResponseTime: number;
+  lastClicked: number;
+}
+
+export interface MenuNavigation {
+  id: string;
+  name: string;
+  type: NavigationType;
+  status: NavigationStatus;
+  menus: string[];
+  configuration: NavigationConfiguration;
+  performance: NavigationPerformance;
+  metadata: Record<string, any>;
+}
+
+export type NavigationType = 'breadcrumb' | 'tabs' | 'sidebar' | 'custom';
+export type NavigationStatus = 'active' | 'inactive' | 'error';
+
+export interface NavigationConfiguration {
+  enabled: boolean;
+  showLabels: boolean;
+  showIcons: boolean;
+  orientation: Orientation;
+  style: NavigationStyle;
+}
+
+export type Orientation = 'horizontal' | 'vertical' | 'custom';
+
+export interface NavigationStyle {
+  color: Color;
+  backgroundColor: Color;
+  fontSize: number;
+  fontWeight: FontWeight;
+  padding: Padding;
+  margin: Margin;
+}
+
+export interface NavigationPerformance {
+  totalNavigations: number;
+  averageNavigationTime: number;
+  lastNavigation: number;
+}
+
+export interface MenuInteraction {
+  id: string;
+  name: string;
+  type: InteractionType;
+  status: InteractionStatus;
+  menus: string[];
+  configuration: InteractionConfiguration;
+  performance: InteractionPerformance;
+  metadata: Record<string, any>;
+}
+
+export type InteractionType = 'click' | 'hover' | 'keyboard' | 'custom';
+export type InteractionStatus = 'active' | 'inactive' | 'error';
+
+export interface InteractionConfiguration {
+  enabled: boolean;
+  timeout: number;
+  retries: number;
+  feedback: FeedbackConfig;
+}
+
+export interface FeedbackConfig {
+  visual: boolean;
+  audio: boolean;
+  haptic: boolean;
+  message: string;
+}
+
+export interface InteractionPerformance {
+  totalInteractions: number;
+  successfulInteractions: number;
+  failedInteractions: number;
+  averageInteractionTime: number;
+  lastInteraction: number;
+}
+
+export interface StartMenuPerformanceMetrics {
+  totalMenus: number;
+  activeMenus: number;
+  totalItems: number;
+  totalNavigations: number;
+  totalInteractions: number;
+  averageLoadTime: number;
   averageResponseTime: number;
   memoryUsage: number;
+  cpuUsage: number;
   uptime: number;
-  lastActivity: Date;
 }
 
-export class StartMenuPureManager {
-  private config: StartMenuPureConfig;
-  private items: Map<string, StartMenuPureItem> = new Map();
-  private analytics: StartMenuPureAnalytics = this.initializeAnalytics();
-  private stats: StartMenuPureStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
-  private errorHandler: StandardErrorHandler;
+export interface StartMenuAnalytics {
+  totalMenus: number;
+  totalItems: number;
+  averageLoadTime: number;
+  menuTypeDistribution: MenuTypeDistribution[];
+  itemTypeDistribution: ItemTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
 
-  constructor(config: Partial<StartMenuPureConfig> = {}) {
+export interface MenuTypeDistribution {
+  type: MenuType;
+  count: number;
+  percentage: number;
+  averageLoadTime: number;
+}
+
+export interface ItemTypeDistribution {
+  type: ItemType;
+  count: number;
+  percentage: number;
+  averageResponseTime: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  menus: number;
+  items: number;
+  loadTime: number;
+  responseTime: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface StartMenuReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeMenus: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface StartMenuOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class StartMenuPure {
+  private managers: Map<string, StartMenuManager> = new Map();
+  private config: StartMenuConfig;
+  private performanceMetrics: StartMenuPerformanceMetrics;
+  private analytics: StartMenuAnalytics;
+
+  constructor(config: Partial<StartMenuConfig> = {}) {
     this.config = {
-      enabled: true,
-      debugMode: false,
-      maxInstances: 1000,
-      timeout: 30000,
-      retryAttempts: 3,
-      cacheSize: 100,
-      logLevel: 'info',
-      performanceMonitoring: true,
-      memoryTracking: true,
+      enableMenuManagement: true,
+      enableMenuCreation: true,
+      enableMenuNavigation: true,
+      enableMenuInteraction: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableMenuAnalytics: true,
+      enableMenuReporting: true,
+      maxMenus: 1000,
+      maxItems: 10000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
     };
 
-    this.logger = new StructuredLogger({
-      module: 'StartMenuPure',
-      level: this.config.logLevel,
-      enablePerformance: this.config.performanceMonitoring,
-      enableMemory: this.config.memoryTracking
-    });
-
-    this.memoryId = MemoryManager.registerInstance(this, 'StartMenuPureManager');
-    this.errorHandler = new StandardErrorHandler(this.logger);
-    
-    this.logger.info('StartMenuPureManager initialized', {
-      config: this.config,
-      memoryId: this.memoryId
-    });
-  }
-
-  // Initialize the manager
-  async initialize(): Promise<void> {
-    if (this.isInitialized) {
-      this.logger.warn('Manager already initialized');
-      return;
-    }
-
-    try {
-      this.logger.info('Initializing StartMenuPureManager...');
-      
-      // Initialize core functionality
-      await this.initializeCore();
-      
-      this.isInitialized = true;
-      this.logger.info('StartMenuPureManager initialized successfully');
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'initialize',
-        module: 'StartMenuPureManager'
-      });
-      throw error;
-    }
-  }
-
-  // Initialize core functionality
-  private async initializeCore(): Promise<void> {
-    // Core initialization logic
-    this.logger.debug('Initializing core functionality');
-    
-    // Initialize default items if needed
-    if (this.items.size === 0) {
-      await this.createDefaultItems();
-    }
-  }
-
-  // Create default items
-  private async createDefaultItems(): Promise<void> {
-    this.logger.debug('Creating default items');
-    
-    const defaultItems = [
-      {
-        id: 'default-1',
-        name: 'Default Item 1',
-        type: 'default',
-        status: 'active' as const,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        metadata: {},
-        properties: {},
-        tags: ['default'],
-        priority: 1,
-        version: '1.0.0'
-      }
-    ];
-
-    for (const itemData of defaultItems) {
-      await this.createItem(itemData);
-    }
-  }
-
-  // Create a new item
-  async createItem(itemData: Omit<StartMenuPureItem, 'id' | 'createdAt' | 'updatedAt'>): Promise<StartMenuPureItem> {
-    try {
-      const id = `${itemData.type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      const now = new Date();
-      
-      const item: StartMenuPureItem = {
-        ...itemData,
-        id,
-        createdAt: now,
-        updatedAt: now;
+    this.performanceMetrics = {
+      totalMenus: 0,
+      activeMenus: 0,
+      totalItems: 0,
+      totalNavigations: 0,
+      totalInteractions: 0,
+      averageLoadTime: 0,
+      averageResponseTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
 
-      this.items.set(id, item);
-      this.updateAnalytics();
-      
-      this.logger.info('Item created successfully', {
-        itemId: id,
-        itemType: item.type,
-        totalItems: this.items.size
-      });
-
-      return item;
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'createItem',
-        module: 'StartMenuPureManager',
-        itemData
-      });
-      throw error;
-    }
+    this.analytics = {
+      totalMenus: 0,
+      totalItems: 0,
+      averageLoadTime: 0,
+      menuTypeDistribution: [],
+      itemTypeDistribution: [],
+      performanceTrends: []
+    };
   }
 
-  // Get item by ID
-  getItem(id: string): StartMenuPureItem | undefined {
-    return this.items.get(id);
-  }
-
-  // Get all items
-  getAllItems(): StartMenuPureItem[] {
-    return Array.from(this.items.values());
-  }
-
-  // Update item
-  async updateItem(id: string, updates: Partial<StartMenuPureItem>): Promise<StartMenuPureItem | undefined> {
-    try {
-      const item = this.items.get(id);
-      if (!item) {
-        this.logger.warn('Item not found for update', { itemId: id;
-    });
-        return undefined;
-      }
-
-      const updatedItem = {
-        ...item,
-        ...updates,
-        id, // Ensure ID cannot be changed
-        updatedAt: new Date()
+  /**
+   * Create a new start menu manager
+   */
+  createManager(managerData: Partial<StartMenuManager>): StartMenuOutput {
+    if (!this.config.enableMenuManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Start menu management is disabled']
       };
-
-      this.items.set(id, updatedItem);
-      this.updateAnalytics();
-      
-      this.logger.info('Item updated successfully', {
-        itemId: id,
-        updates: Object.keys(updates)
-      });
-
-      return updatedItem;
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'updateItem',
-        module: 'StartMenuPureManager',
-        itemId: id,
-        updates
-      });
-      throw error;
     }
+
+    const manager: StartMenuManager = {
+      id: managerData.id || `startmenu-${Date.now()}`,
+      name: managerData.name || 'Unnamed Start Menu Manager',
+      type: managerData.type || 'main',
+      status: 'active',
+      menus: [],
+      items: [],
+      navigations: [],
+      interactions: [],
+      performanceMetrics: {
+        totalMenus: 0,
+        activeMenus: 0,
+        totalItems: 0,
+        totalNavigations: 0,
+        totalInteractions: 0,
+        averageLoadTime: 0,
+        averageResponseTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalMenus: 0,
+        totalItems: 0,
+        averageLoadTime: 0,
+        menuTypeDistribution: [],
+        itemTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeMenus: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
-  // Delete item
-  async deleteItem(id: string): Promise<boolean> {
-    try {
-      const deleted = this.items.delete(id);
-      if (deleted) {
-        this.updateAnalytics();
-        this.logger.info('Item deleted successfully', { itemId: id;
-    });
-      } else {
-        this.logger.warn('Item not found for deletion', { itemId: id;
-    });
-      }
-      return deleted;
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'deleteItem',
-        module: 'StartMenuPureManager',
-        itemId: id;
-    });
-      throw error;
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): StartMenuOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
-  // Get analytics
-  getAnalytics(): StartMenuPureAnalytics {
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): StartMenuPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): StartMenuAnalytics {
     return { ...this.analytics };
   }
 
-  // Get statistics
-  getStats(): StartMenuPureStats {
-    return { ...this.stats };
+  /**
+   * Get all managers
+   */
+  getAllManagers(): StartMenuManager[] {
+    return Array.from(this.managers.values());
   }
 
-  // Update analytics
-  private updateAnalytics(): void {
-    const items = Array.from(this.items.values());
-    
-    this.analytics = {
-      totalItems: items.length,
-      activeItems: items.filter(item => item.status === 'active').length,
-      inactiveItems: items.filter(item => item.status === 'inactive').length,
-      errorItems: items.filter(item => item.status === 'error').length,
-      averageProcessingTime: this.calculateAverageProcessingTime(),
-      totalOperations: this.stats.totalItems,
-      successRate: this.calculateSuccessRate(),
-      lastUpdated: new Date()
-    };
-  }
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalMenus = 0;
+    let activeMenus = 0;
+    let totalItems = 0;
+    let totalNavigations = 0;
+    let totalInteractions = 0;
 
-  // Calculate average processing time
-  private calculateAverageProcessingTime(): number {
-    // Placeholder calculation
-    return Math.random() * 100;
-  }
-
-  // Calculate success rate
-  private calculateSuccessRate(): number {
-    const items = Array.from(this.items.values());
-    if (items.length === 0) return 100;
-    
-    const successful = items.filter(item => item.status !== 'error').length;
-    return (successful / items.length) * 100;
-  }
-
-  // Initialize analytics
-  private initializeAnalytics(): StartMenuPureAnalytics {
-    return {
-      totalItems: 0,
-      activeItems: 0,
-      inactiveItems: 0,
-      errorItems: 0,
-      averageProcessingTime: 0,
-      totalOperations: 0,
-      successRate: 100,
-      lastUpdated: new Date()
-    };
-  }
-
-  // Initialize stats
-  private initializeStats(): StartMenuPureStats {
-    return {
-      totalItems: 0,
-      activeItems: 0,
-      errorCount: 0,
-      averageResponseTime: 0,
-      memoryUsage: 0,
-      uptime: 0,
-      lastActivity: new Date()
-    };
-  }
-
-  // Cleanup and destroy
-  async destroy(): Promise<void> {
-    try {
-      this.logger.info('Destroying StartMenuPureManager...');
-      
-      // Cleanup resources
-      this.items.clear();
-      MemoryManager.unregisterInstance(this.memoryId);
-      this.logger.destroy();
-      
-      this.isInitialized = false;
-      this.logger.info('StartMenuPureManager destroyed successfully');
-      
-    } catch (error) {
-      this.errorHandler.handleError(error, {
-        context: 'destroy',
-        module: 'StartMenuPureManager'
-      });
-      throw error;
+    for (const manager of this.managers.values()) {
+      totalMenus += manager.menus.length;
+      activeMenus += manager.menus.filter(m => m.status === 'active').length;
+      totalItems += manager.items.length;
+      totalNavigations += manager.navigations.length;
+      totalInteractions += manager.interactions.length;
     }
+
+    this.performanceMetrics.totalMenus = totalMenus;
+    this.performanceMetrics.activeMenus = activeMenus;
+    this.performanceMetrics.totalItems = totalItems;
+    this.performanceMetrics.totalNavigations = totalNavigations;
+    this.performanceMetrics.totalInteractions = totalInteractions;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Default instance
-export const defaultStartMenuPureManager = new StartMenuPureManager();

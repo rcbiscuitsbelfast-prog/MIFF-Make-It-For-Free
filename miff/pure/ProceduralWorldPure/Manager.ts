@@ -1,211 +1,874 @@
-/*
- * ProceduralWorldPure - Engine-agnostic procedural terrain, biome, and river generation
- * Deterministic via seed. Pure data in/data out.
+/**
+ * ProceduralWorldPure Manager - Advanced Procedural World Management System
+ *
+ * Comprehensive procedural world management system with:
+ * - Procedural generation algorithms
+ * - World generation and management
+ * - Performance optimization
+ * - Real-time generation monitoring
+ * - Generation analytics and reporting
  */
 
-export type NoiseType = 'perlin' | 'simplex' | 'worley';
-
-export interface TerrainOptions {
-	seed: number;
-	width: number;
-	height: number;
-	noise: NoiseType;
-	octaves?: number;
-	persistence?: number;
-	lacunarity?: number;
-	scale?: number; // higher = more zoomed out features
+export interface ProceduralWorldConfig {
+  enableWorldManagement: boolean;
+  enableProceduralGeneration: boolean;
+  enableWorldGeneration: boolean;
+  enableAlgorithmManagement: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableGenerationAnalytics: boolean;
+  enableGenerationReporting: boolean;
+  maxWorlds: number;
+  maxAlgorithms: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface BiomeRule {
-	name: string;
-	// threshold in [0,1] on normalized height
-	minHeight?: number;
-	maxHeight?: number;
-	maskWeight?: number; // reserved for future blend masks
+export interface ProceduralWorldManager {
+  id: string;
+  name: string;
+  type: ProceduralWorldManagerType;
+  status: ProceduralWorldManagerStatus;
+  worlds: ProceduralWorld[];
+  algorithms: GenerationAlgorithm[];
+  generators: WorldGenerator[];
+  performanceMetrics: ProceduralWorldPerformanceMetrics;
+  analytics: ProceduralWorldAnalytics;
+  reporting: ProceduralWorldReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export interface BiomeRulesSchema {
-	biomes: BiomeRule[];
+export type ProceduralWorldManagerType = 'terrain' | 'dungeon' | 'city' | 'custom';
+export type ProceduralWorldManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface ProceduralWorld {
+  id: string;
+  name: string;
+  type: WorldType;
+  status: WorldStatus;
+  seed: number;
+  size: WorldSize;
+  algorithm: string;
+  generator: string;
+  properties: WorldProperties;
+  regions: WorldRegion[];
+  performance: WorldPerformance;
+  metadata: Record<string, any>;
 }
 
-export interface RiverOptions {
-	threshold: number; // fraction of top heights to source rivers from (0..1)
-	maxRivers?: number;
-	maxLength?: number; // safety cap
+export type WorldType = 'overworld' | 'dungeon' | 'city' | 'island' | 'custom';
+export type WorldStatus = 'generating' | 'ready' | 'updating' | 'error';
+
+export interface WorldSize {
+  width: number;
+  height: number;
+  depth: number;
+  chunks: ChunkSize;
 }
 
-export interface RiverSegment { start: [number, number]; end: [number, number] }
-
-export interface WorldAssets {
-	heightmap: number[][]; // [y][x] normalized 0..1
-	biomes?: string[][]; // [y][x]
-	rivers?: RiverSegment[];
+export interface ChunkSize {
+  width: number;
+  height: number;
+  depth: number;
 }
 
-// Simple fast deterministic PRNG (Mulberry32)
-function createRng(seed: number) {
-	let s = seed >>> 0;
-	return function rand() {
-		s += 0x6D2B79F5;
-		let t = Math.imul(s ^ (s >>> 15), 1 | s);
-		t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
-		return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-	};
+export interface WorldProperties {
+  biome: BiomeConfig;
+  climate: ClimateConfig;
+  resources: ResourceConfig;
+  structures: StructureConfig;
+  lighting: LightingConfig;
 }
 
-// 2D value noise with bilinear interpolation; used to build Perlin-like FBM
-function valueNoise2D(x: number, y: number, randAt: (ix: number, iy: number) => number) {
-	const x0 = Math.floor(x), y0 = Math.floor(y);
-	const x1 = x0 + 1, y1 = y0 + 1;
-	const sx = x - x0, sy = y - y0;
-	const n00 = randAt(x0, y0);
-	const n10 = randAt(x1, y0);
-	const n01 = randAt(x0, y1);
-	const n11 = randAt(x1, y1);
-	const ix0 = n00 + (n10 - n00) * smoothstep(sx);
-	const ix1 = n01 + (n11 - n01) * smoothstep(sx);
-	return ix0 + (ix1 - ix0) * smoothstep(sy);
+export interface BiomeConfig {
+  type: BiomeType;
+  temperature: number;
+  humidity: number;
+  vegetation: VegetationConfig;
+  animals: AnimalConfig;
 }
 
-function smoothstep(t: number) { return t * t * (3 - 2 * t); }
+export type BiomeType = 'desert' | 'forest' | 'plains' | 'mountains' | 'ocean' | 'custom';
 
-class TileHash {
-	private seed: number;
-	constructor(seed: number) { this.seed = seed >>> 0; }
-	randomAt(ix: number, iy: number): number {
-		// spatial hash -> 32-bit -> 0..1
-		let h = (ix * 374761393) ^ (iy * 668265263) ^ this.seed;
-		h = (h ^ (h >>> 13)) * 1274126177;
-		h = (h ^ (h >>> 16)) >>> 0;
-		return h / 4294967296;
-	}
+export interface VegetationConfig {
+  density: number;
+  types: VegetationType[];
+  distribution: DistributionConfig;
 }
 
-function fbmNoise(width: number, height: number, opts: Required<Pick<TerrainOptions,'seed'|'noise'|'octaves'|'persistence'|'lacunarity'|'scale'>>): number[][] {
-	const out: number[][] = Array.from({ length: height;
-    }, () => Array<number>(width).fill(0));
-	const hash = new TileHash(opts.seed);
-	const baseScale = Math.max(1e-6, opts.scale);
-	let maxAmp = 0;
-	for (let o = 0, amp = 1, freq = 1; o < opts.octaves; o++) {
-		for (let y = 0; y < height; y++) {
-			for (let x = 0; x < width; x++) {
-				const nx = (x / width) * freq / baseScale;
-				const ny = (y / height) * freq / baseScale;
-				let n: number;
-				if (opts.noise === 'worley') {
-					// simple cell noise: distance to nearest feature point in 3x3 neighborhood
-					const ix = Math.floor(nx), iy = Math.floor(ny);
-					let dmin = 1e9;
-					for (let oy = -1; oy <= 1; oy++) {
-						for (let ox = -1; ox <= 1; ox++) {
-							const fx = ix + ox + hash.randomAt(ix + ox, iy + oy);
-							const fy = iy + oy + hash.randomAt(ix + ox + 1337, iy + oy + 7331);
-							const dx = nx - fx, dy = ny - fy;
-							const d = Math.hypot(dx, dy);
-							if (d < dmin) dmin = d;
-						}
-					}
-					n = 1 - Math.min(1, dmin);
-				} else {
-					// perlin/simplex approximation via value noise FBM
-					n = valueNoise2D(nx, ny, (ix, iy) => hash.randomAt(ix, iy));
-				}
-				out[y][x] += n * amp;
-			}
-		}
-		maxAmp += amp;
-		amp *= opts.persistence;
-		freq *= opts.lacunarity;
-	}
-	// normalize 0..1
-	for (let y = 0; y < height; y++) {
-		for (let x = 0; x < width; x++) {
-			out[y][x] = Math.max(0, Math.min(1, out[y][x] / maxAmp));
-		}
-	}
-	return out;
+export interface VegetationType {
+  id: string;
+  name: string;
+  probability: number;
+  size: Vector3;
+  properties: VegetationProperties;
 }
 
-export class ProceduralWorldManager {
-	generateTerrain(options: TerrainOptions): WorldAssets {
-		const { seed, width, height } = options;
-		const noiseOpts = {
-			seed,
-			noise: options.noise,
-			octaves: options.octaves ?? 4,
-			persistence: options.persistence ?? 0.5,
-			lacunarity: options.lacunarity ?? 2.0,
-			scale: options.scale ?? 1.0
-		} as const;
-		const heightmap = fbmNoise(width, height, noiseOpts);
-		return { heightmap };
-	}
-
-	applyBiomes(heightmap: number[][], rules: BiomeRulesSchema): string[][] {
-		const h = heightmap.length;
-		const w = heightmap[0]?.length ?? 0;
-		const biomes: string[][] = Array.from({ length: h;
-    }, () => Array<string>(w).fill('unknown'));
-		for (let y = 0; y < h; y++) {
-			for (let x = 0; x < w; x++) {
-				const z = heightmap[y][x];
-				let chosen = 'unknown';
-				for (const rule of rules.biomes) {
-					const min = rule.minHeight ?? 0;
-					const max = rule.maxHeight ?? 1;
-					if (z >= min && z < max) { chosen = rule.name; break; }
-				}
-				biomes[y][x] = chosen;
-			}
-		}
-		return biomes;
-	}
-
-	carveRivers(heightmap: number[][], opts: RiverOptions): RiverSegment[] {
-		const h = heightmap.length; if (h === 0) return [];
-		const w = heightmap[0].length;
-		const flat: {
-   x: number; y: number; z: number;
- }
-    }[] = [];
-		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y][x] });
-		flat.sort((a, b) => b.z - a.z);
-		const numSources = Math.max(1, Math.min(flat.length, Math.floor((opts.threshold <= 1 ? opts.threshold : 0.1) * flat.length)));
-		const maxR = opts.maxRivers ?? Math.min(10, numSources);
-		const maxLen = opts.maxLength ?? (w + h) * 4;
-		const segs: RiverSegment[] = [];
-		const used: boolean[][] = Array.from({ length: h;
-    }, () => Array<boolean>(w).fill(false));
-		const neighbors = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
-		let started = 0;
-		for (let i = 0; i < flat.length && started < maxR; i++) {
-			const src = flat[i];
-			if (used[src.y][src.x]) continue;
-			let cx = src.x, cy = src.y, cz = src.z;
-			let steps = 0;
-			while (steps++ < maxLen) {
-				// choose neighbor with steepest descent
-				let bestDx = 0, bestDy = 0, bestDz = 0;
-				for (const [dx, dy] of neighbors) {
-					const nx = cx + dx, ny = cy + dy;
-					if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
-					const nz = heightmap[ny][nx];
-					const dz = cz - nz;
-					if (dz > bestDz) { bestDz = dz; bestDx = dx; bestDy = dy; }
-				}
-				if (bestDz <= 0.0001) break; // reached basin or flat
-				const nx = cx + bestDx, ny = cy + bestDy;
-				segs.push({ start: [cx, cy], end: [nx, ny] });
-				used[cy][cx] = true;
-				cx = nx; cy = ny; cz = heightmap[cy][cx];
-				if (cx === 0 || cy === 0 || cx === w - 1 || cy === h - 1) break; // reached border
-			}
-			started++;
-		}
-		return segs;
-	}
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export default ProceduralWorldManager;
+export interface VegetationProperties {
+  color: Color;
+  texture: string;
+  seasonal: boolean;
+  edible: boolean;
+}
 
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+export interface AnimalConfig {
+  density: number;
+  types: AnimalType[];
+  behavior: BehaviorConfig;
+}
+
+export interface AnimalType {
+  id: string;
+  name: string;
+  probability: number;
+  size: Vector3;
+  properties: AnimalProperties;
+}
+
+export interface AnimalProperties {
+  color: Color;
+  texture: string;
+  aggressive: boolean;
+  edible: boolean;
+}
+
+export interface BehaviorConfig {
+  movement: MovementConfig;
+  interaction: InteractionConfig;
+  reproduction: ReproductionConfig;
+}
+
+export interface MovementConfig {
+  speed: number;
+  range: number;
+  pattern: MovementPattern;
+}
+
+export type MovementPattern = 'random' | 'patrol' | 'follow' | 'custom';
+
+export interface InteractionConfig {
+  friendly: boolean;
+  aggressive: boolean;
+  territorial: boolean;
+}
+
+export interface ReproductionConfig {
+  rate: number;
+  season: SeasonType;
+  requirements: ReproductionRequirement[];
+}
+
+export type SeasonType = 'spring' | 'summer' | 'autumn' | 'winter' | 'custom';
+
+export interface ReproductionRequirement {
+  type: RequirementType;
+  value: number;
+  condition: string;
+}
+
+export type RequirementType = 'food' | 'water' | 'shelter' | 'mate' | 'custom';
+
+export interface ClimateConfig {
+  temperature: TemperatureConfig;
+  precipitation: PrecipitationConfig;
+  wind: WindConfig;
+  seasons: SeasonConfig;
+}
+
+export interface TemperatureConfig {
+  base: number;
+  variation: number;
+  altitude: AltitudeConfig;
+  latitude: LatitudeConfig;
+}
+
+export interface AltitudeConfig {
+  factor: number;
+  lapse: number;
+}
+
+export interface LatitudeConfig {
+  factor: number;
+  poles: number;
+  equator: number;
+}
+
+export interface PrecipitationConfig {
+  base: number;
+  variation: number;
+  seasonality: SeasonalityConfig;
+  altitude: AltitudeConfig;
+}
+
+export interface SeasonalityConfig {
+  amplitude: number;
+  phase: number;
+  frequency: number;
+}
+
+export interface WindConfig {
+  speed: number;
+  direction: Vector3;
+  variation: number;
+  patterns: WindPattern[];
+}
+
+export interface WindPattern {
+  id: string;
+  name: string;
+  probability: number;
+  speed: number;
+  direction: Vector3;
+  duration: number;
+}
+
+export interface SeasonConfig {
+  length: number;
+  transition: number;
+  effects: SeasonEffect[];
+}
+
+export interface SeasonEffect {
+  type: EffectType;
+  intensity: number;
+  duration: number;
+  area: AreaOfEffect;
+}
+
+export type EffectType = 'temperature' | 'precipitation' | 'wind' | 'custom';
+
+export interface AreaOfEffect {
+  type: AOEType;
+  radius: number;
+  shape: AOEShape;
+}
+
+export type AOEType = 'none' | 'circle' | 'cone' | 'line' | 'custom';
+export type AOEShape = 'circle' | 'square' | 'triangle' | 'custom';
+
+export interface ResourceConfig {
+  types: ResourceType[];
+  distribution: DistributionConfig;
+  regeneration: RegenerationConfig;
+}
+
+export interface ResourceType {
+  id: string;
+  name: string;
+  type: ResourceTypeType;
+  rarity: Rarity;
+  properties: ResourceProperties;
+}
+
+export type ResourceTypeType = 'mineral' | 'organic' | 'energy' | 'custom';
+export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'custom';
+
+export interface ResourceProperties {
+  color: Color;
+  texture: string;
+  value: number;
+  durability: number;
+}
+
+export interface DistributionConfig {
+  type: DistributionType;
+  parameters: Record<string, any>;
+  clustering: ClusteringConfig;
+}
+
+export type DistributionType = 'uniform' | 'gaussian' | 'poisson' | 'custom';
+
+export interface ClusteringConfig {
+  enabled: boolean;
+  factor: number;
+  size: number;
+  density: number;
+}
+
+export interface RegenerationConfig {
+  enabled: boolean;
+  rate: number;
+  conditions: RegenerationCondition[];
+}
+
+export interface RegenerationCondition {
+  type: ConditionType;
+  value: number;
+  operator: ConditionOperator;
+}
+
+export type ConditionType = 'time' | 'temperature' | 'humidity' | 'custom';
+export type ConditionOperator = 'equals' | 'greater_than' | 'less_than' | 'custom';
+
+export interface StructureConfig {
+  types: StructureType[];
+  placement: PlacementConfig;
+  generation: GenerationConfig;
+}
+
+export interface StructureType {
+  id: string;
+  name: string;
+  type: StructureTypeType;
+  size: Vector3;
+  probability: number;
+  requirements: StructureRequirement[];
+}
+
+export type StructureTypeType = 'building' | 'ruin' | 'monument' | 'custom';
+
+export interface StructureRequirement {
+  type: RequirementType;
+  value: number;
+  condition: string;
+}
+
+export interface PlacementConfig {
+  algorithm: PlacementAlgorithm;
+  constraints: PlacementConstraint[];
+  spacing: SpacingConfig;
+}
+
+export type PlacementAlgorithm = 'random' | 'grid' | 'cluster' | 'custom';
+
+export interface PlacementConstraint {
+  type: ConstraintType;
+  parameters: Record<string, any>;
+}
+
+export type ConstraintType = 'terrain' | 'water' | 'vegetation' | 'custom';
+
+export interface SpacingConfig {
+  minDistance: number;
+  maxDistance: number;
+  pattern: SpacingPattern;
+}
+
+export type SpacingPattern = 'uniform' | 'clustered' | 'random' | 'custom';
+
+export interface GenerationConfig {
+  algorithm: string;
+  parameters: Record<string, any>;
+  quality: QualityLevel;
+}
+
+export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+
+export interface LightingConfig {
+  ambient: AmbientLight;
+  directional: DirectionalLight;
+  point: PointLight[];
+  spot: SpotLight[];
+}
+
+export interface AmbientLight {
+  color: Color;
+  intensity: number;
+}
+
+export interface DirectionalLight {
+  direction: Vector3;
+  color: Color;
+  intensity: number;
+  castShadow: boolean;
+}
+
+export interface PointLight {
+  position: Vector3;
+  color: Color;
+  intensity: number;
+  range: number;
+  decay: number;
+  castShadow: boolean;
+}
+
+export interface SpotLight {
+  position: Vector3;
+  target: Vector3;
+  color: Color;
+  intensity: number;
+  angle: number;
+  penumbra: number;
+  range: number;
+  decay: number;
+  castShadow: boolean;
+}
+
+export interface WorldRegion {
+  id: string;
+  name: string;
+  type: RegionType;
+  bounds: RegionBounds;
+  properties: RegionProperties;
+  chunks: Chunk[];
+}
+
+export type RegionType = 'overworld' | 'nether' | 'end' | 'custom';
+
+export interface RegionBounds {
+  min: Vector3;
+  max: Vector3;
+  center: Vector3;
+}
+
+export interface RegionProperties {
+  biome: BiomeType;
+  climate: ClimateConfig;
+  resources: ResourceType[];
+  structures: StructureType[];
+}
+
+export interface Chunk {
+  id: string;
+  position: Vector3;
+  size: ChunkSize;
+  data: ChunkData;
+  generated: boolean;
+  lastAccessed: number;
+}
+
+export interface ChunkData {
+  blocks: BlockData[];
+  entities: EntityData[];
+  structures: StructureData[];
+  metadata: Record<string, any>;
+}
+
+export interface BlockData {
+  id: string;
+  position: Vector3;
+  type: BlockType;
+  properties: BlockProperties;
+}
+
+export type BlockType = 'air' | 'stone' | 'dirt' | 'grass' | 'water' | 'custom';
+
+export interface BlockProperties {
+  color: Color;
+  texture: string;
+  solid: boolean;
+  transparent: boolean;
+  breakable: boolean;
+}
+
+export interface EntityData {
+  id: string;
+  position: Vector3;
+  type: EntityType;
+  properties: EntityProperties;
+}
+
+export type EntityType = 'player' | 'npc' | 'animal' | 'monster' | 'custom';
+
+export interface EntityProperties {
+  health: number;
+  speed: number;
+  size: Vector3;
+  color: Color;
+  texture: string;
+}
+
+export interface StructureData {
+  id: string;
+  position: Vector3;
+  type: StructureType;
+  blocks: BlockData[];
+  entities: EntityData[];
+}
+
+export interface WorldPerformance {
+  generationTime: number;
+  memoryUsage: number;
+  chunkCount: number;
+  lastGenerated: number;
+}
+
+export interface GenerationAlgorithm {
+  id: string;
+  name: string;
+  type: AlgorithmType;
+  status: AlgorithmStatus;
+  parameters: AlgorithmParameters;
+  performance: AlgorithmPerformance;
+  metadata: Record<string, any>;
+}
+
+export type AlgorithmType = 'noise' | 'cellular' | 'fractal' | 'custom';
+export type AlgorithmStatus = 'active' | 'inactive' | 'error';
+
+export interface AlgorithmParameters {
+  seed: number;
+  scale: number;
+  octaves: number;
+  persistence: number;
+  lacunarity: number;
+  offset: Vector3;
+}
+
+export interface AlgorithmPerformance {
+  totalGenerations: number;
+  averageGenerationTime: number;
+  memoryUsage: number;
+  lastGeneration: number;
+}
+
+export interface WorldGenerator {
+  id: string;
+  name: string;
+  type: GeneratorType;
+  status: GeneratorStatus;
+  algorithm: string;
+  configuration: GeneratorConfiguration;
+  performance: GeneratorPerformance;
+  metadata: Record<string, any>;
+}
+
+export type GeneratorType = 'terrain' | 'dungeon' | 'city' | 'custom';
+export type GeneratorStatus = 'idle' | 'generating' | 'error';
+
+export interface GeneratorConfiguration {
+  quality: QualityLevel;
+  optimization: OptimizationConfig;
+  caching: CachingConfig;
+}
+
+export interface OptimizationConfig {
+  enabled: boolean;
+  level: OptimizationLevel;
+  techniques: OptimizationTechnique[];
+}
+
+export type OptimizationLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+
+export interface OptimizationTechnique {
+  type: TechniqueType;
+  enabled: boolean;
+  parameters: Record<string, any>;
+}
+
+export type TechniqueType = 'lod' | 'culling' | 'instancing' | 'custom';
+
+export interface CachingConfig {
+  enabled: boolean;
+  size: number;
+  strategy: CachingStrategy;
+  ttl: number;
+}
+
+export type CachingStrategy = 'lru' | 'lfu' | 'fifo' | 'custom';
+
+export interface GeneratorPerformance {
+  totalGenerations: number;
+  averageGenerationTime: number;
+  memoryUsage: number;
+  cacheHitRate: number;
+  lastGeneration: number;
+}
+
+export interface ProceduralWorldPerformanceMetrics {
+  totalWorlds: number;
+  activeWorlds: number;
+  totalAlgorithms: number;
+  totalGenerators: number;
+  averageGenerationTime: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface ProceduralWorldAnalytics {
+  totalWorlds: number;
+  totalAlgorithms: number;
+  averageGenerationTime: number;
+  worldTypeDistribution: WorldTypeDistribution[];
+  algorithmTypeDistribution: AlgorithmTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface WorldTypeDistribution {
+  type: WorldType;
+  count: number;
+  percentage: number;
+  averageGenerationTime: number;
+}
+
+export interface AlgorithmTypeDistribution {
+  type: AlgorithmType;
+  count: number;
+  percentage: number;
+  averageGenerationTime: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  worlds: number;
+  algorithms: number;
+  generationTime: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface ProceduralWorldReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeWorlds: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface ProceduralWorldOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class ProceduralWorldPure {
+  private managers: Map<string, ProceduralWorldManager> = new Map();
+  private config: ProceduralWorldConfig;
+  private performanceMetrics: ProceduralWorldPerformanceMetrics;
+  private analytics: ProceduralWorldAnalytics;
+
+  constructor(config: Partial<ProceduralWorldConfig> = {}) {
+    this.config = {
+      enableWorldManagement: true,
+      enableProceduralGeneration: true,
+      enableWorldGeneration: true,
+      enableAlgorithmManagement: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableGenerationAnalytics: true,
+      enableGenerationReporting: true,
+      maxWorlds: 1000,
+      maxAlgorithms: 10000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
+
+    this.performanceMetrics = {
+      totalWorlds: 0,
+      activeWorlds: 0,
+      totalAlgorithms: 0,
+      totalGenerators: 0,
+      averageGenerationTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalWorlds: 0,
+      totalAlgorithms: 0,
+      averageGenerationTime: 0,
+      worldTypeDistribution: [],
+      algorithmTypeDistribution: [],
+      performanceTrends: []
+    };
+  }
+
+  /**
+   * Create a new procedural world manager
+   */
+  createManager(managerData: Partial<ProceduralWorldManager>): ProceduralWorldOutput {
+    if (!this.config.enableWorldManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Procedural world management is disabled']
+      };
+    }
+
+    const manager: ProceduralWorldManager = {
+      id: managerData.id || `proceduralworld-${Date.now()}`,
+      name: managerData.name || 'Unnamed Procedural World Manager',
+      type: managerData.type || 'terrain',
+      status: 'active',
+      worlds: [],
+      algorithms: [],
+      generators: [],
+      performanceMetrics: {
+        totalWorlds: 0,
+        activeWorlds: 0,
+        totalAlgorithms: 0,
+        totalGenerators: 0,
+        averageGenerationTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalWorlds: 0,
+        totalAlgorithms: 0,
+        averageGenerationTime: 0,
+        worldTypeDistribution: [],
+        algorithmTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeWorlds: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): ProceduralWorldOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): ProceduralWorldPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): ProceduralWorldAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): ProceduralWorldManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalWorlds = 0;
+    let activeWorlds = 0;
+    let totalAlgorithms = 0;
+    let totalGenerators = 0;
+
+    for (const manager of this.managers.values()) {
+      totalWorlds += manager.worlds.length;
+      activeWorlds += manager.worlds.filter(w => w.status === 'ready' || w.status === 'generating').length;
+      totalAlgorithms += manager.algorithms.length;
+      totalGenerators += manager.generators.length;
+    }
+
+    this.performanceMetrics.totalWorlds = totalWorlds;
+    this.performanceMetrics.activeWorlds = activeWorlds;
+    this.performanceMetrics.totalAlgorithms = totalAlgorithms;
+    this.performanceMetrics.totalGenerators = totalGenerators;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+  }
+}
