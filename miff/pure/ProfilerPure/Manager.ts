@@ -51,7 +51,6 @@ export interface ProfilerStats {
   cpu: CPUStats;
   gpu: GPUStats;
   network: NetworkStats;
-  disk: DiskStats;
   custom: Map<string, CustomMetric>;
   timestamp: number;
 }
@@ -61,32 +60,22 @@ export interface FrameRateStats {
   average: number;
   min: number;
   max: number;
-  target: number;
   variance: number;
-  percentile95: number;
-  percentile99: number;
   droppedFrames: number;
   totalFrames: number;
-  frameTime: number;
-  averageFrameTime: number;
-  minFrameTime: number;
-  maxFrameTime: number;
 }
 
 export interface MemoryStats {
+  heap: MemoryHeapStats;
+  native: MemoryNativeStats;
+  gpu: MemoryGPUStats;
   total: number;
   used: number;
   free: number;
-  available: number;
-  heap: HeapStats;
-  native: NativeStats;
-  gpu: GPUMemoryStats;
-  leaks: MemoryLeak[];
-  allocations: AllocationStats;
-  garbageCollections: GCStats;
+  peak: number;
 }
 
-export interface HeapStats {
+export interface MemoryHeapStats {
   total: number;
   used: number;
   free: number;
@@ -96,7 +85,7 @@ export interface HeapStats {
   fragmentation: number;
 }
 
-export interface NativeStats {
+export interface MemoryNativeStats {
   total: number;
   used: number;
   free: number;
@@ -104,1767 +93,558 @@ export interface NativeStats {
   current: number;
 }
 
-export interface GPUMemoryStats {
+export interface MemoryGPUStats {
   total: number;
   used: number;
   free: number;
   peak: number;
   current: number;
-  textures: number;
-  buffers: number;
-  shaders: number;
-}
-
-export interface MemoryLeak {
-  id: string;
-  type: string;
-  size: number;
-  count: number;
-  firstSeen: number;
-  lastSeen: number;
-  stackTrace: string[];
-  metadata: Map<string, any>;
-}
-
-export interface AllocationStats {
-  total: number;
-  count: number;
-  average: number;
-  peak: number;
-  current: number;
-  rate: number;
-  byType: Map<string, number>;
-  bySize: Map<string, number>;
-}
-
-export interface GCStats {
-  count: number;
-  totalTime: number;
-  averageTime: number;
-  maxTime: number;
-  minTime: number;
-  lastGC: number;
-  frequency: number;
-  pressure: number;
 }
 
 export interface CPUStats {
   usage: number;
-  cores: CoreStats[];
+  cores: number;
+  frequency: number;
+  temperature: number;
+  load: number[];
   processes: ProcessStats[];
-  threads: ThreadStats[];
-  contextSwitches: number;
-  interrupts: number;
-  loadAverage: number[];
-  temperature: number;
-  frequency: number;
-  power: number;
-}
-
-export interface CoreStats {
-  id: number;
-  usage: number;
-  frequency: number;
-  temperature: number;
-  power: number;
-  cache: CacheStats;
-}
-
-export interface CacheStats {
-  l1d: number;
-  l1i: number;
-  l2: number;
-  l3: number;
-  hits: number;
-  misses: number;
-  hitRate: number;
 }
 
 export interface ProcessStats {
-  id: number;
+  pid: number;
   name: string;
-  usage: number;
-  memory: number;
-  threads: number;
+  cpuUsage: number;
+  memoryUsage: number;
   priority: number;
-  state: ProcessState;
-  startTime: number;
-  cpuTime: number;
-  userTime: number;
-  systemTime: number;
-}
-
-export enum ProcessState {
-  RUNNING = 'running',
-  SLEEPING = 'sleeping',
-  WAITING = 'waiting',
-  ZOMBIE = 'zombie',
-  STOPPED = 'stopped',
-  UNKNOWN = 'unknown'
-}
-
-export interface ThreadStats {
-  id: number;
-  name: string;
-  usage: number;
-  state: ThreadState;
-  priority: number;
-  affinity: number;
-  stackSize: number;
-  stackUsed: number;
-}
-
-export enum ThreadState {
-  RUNNING = 'running',
-  READY = 'ready',
-  BLOCKED = 'blocked',
-  WAITING = 'waiting',
-  TERMINATED = 'terminated',
-  UNKNOWN = 'unknown'
 }
 
 export interface GPUStats {
   usage: number;
-  memory: GPUMemoryStats;
+  memory: number;
   temperature: number;
   frequency: number;
-  power: number;
-  utilization: GPUUtilization;
-  drawCalls: number;
-  triangles: number;
-  vertices: number;
-  pixels: number;
-  shaders: ShaderStats;
-  textures: TextureStats;
-  buffers: BufferStats;
-}
-
-export interface GPUUtilization {
-  compute: number;
-  geometry: number;
-  rasterization: number;
-  pixel: number;
-  memory: number;
-  video: number;
-  overall: number;
-}
-
-export interface ShaderStats {
-  total: number;
-  compiled: number;
-  failed: number;
-  cacheHits: number;
-  cacheMisses: number;
-  compilationTime: number;
-  averageCompilationTime: number;
-  maxCompilationTime: number;
-  minCompilationTime: number;
-}
-
-export interface TextureStats {
-  total: number;
-  size: number;
-  formats: Map<string, number>;
-  dimensions: Map<string, number>;
-  mipmaps: number;
-  compressed: number;
-  uncompressed: number;
-  uploads: number;
-  downloads: number;
-  bindings: number;
-}
-
-export interface BufferStats {
-  total: number;
-  size: number;
-  types: Map<string, number>;
-  uploads: number;
-  downloads: number;
-  bindings: number;
-  updates: number;
-  copies: number;
+  vendor: string;
+  model: string;
+  driver: string;
 }
 
 export interface NetworkStats {
   latency: number;
   bandwidth: number;
-  packets: PacketStats;
-  connections: ConnectionStats[];
-  protocols: Map<string, ProtocolStats>;
-  errors: NetworkError[];
-  throughput: ThroughputStats;
-}
-
-export interface PacketStats {
-  sent: number;
-  received: number;
-  lost: number;
-  duplicated: number;
-  outOfOrder: number;
-  corrupted: number;
-  retransmitted: number;
-  totalBytes: number;
-  averageSize: number;
-  maxSize: number;
-  minSize: number;
-}
-
-export interface ConnectionStats {
-  id: string;
-  type: ConnectionType;
-  state: ConnectionState;
-  localAddress: string;
-  remoteAddress: string;
-  port: number;
-  protocol: string;
-  bytesSent: number;
-  bytesReceived: number;
   packetsSent: number;
   packetsReceived: number;
-  latency: number;
-  bandwidth: number;
-  startTime: number;
-  lastActivity: number;
+  bytesSent: number;
+  bytesReceived: number;
   errors: number;
-  retries: number;
-}
-
-export enum ConnectionType {
-  TCP = 'tcp',
-  UDP = 'udp',
-  HTTP = 'http',
-  HTTPS = 'https',
-  WebSocket = 'websocket',
-  WebRTC = 'webrtc',
-  CUSTOM = 'custom'
-}
-
-export enum ConnectionState {
-  CONNECTING = 'connecting',
-  CONNECTED = 'connected',
-  DISCONNECTING = 'disconnecting',
-  DISCONNECTED = 'disconnected',
-  ERROR = 'error',
-  TIMEOUT = 'timeout'
-}
-
-export interface ProtocolStats {
-  name: string;
-  packets: number;
-  bytes: number;
-  errors: number;
-  latency: number;
-  bandwidth: number;
-  efficiency: number;
-  compression: number;
-  encryption: number;
-}
-
-export interface NetworkError {
-  id: string;
-  type: NetworkErrorType;
-  message: string;
-  timestamp: number;
-  connectionId: string;
-  severity: ErrorSeverity;
-  count: number;
-  stackTrace: string[];
-  metadata: Map<string, any>;
-}
-
-export enum NetworkErrorType {
-  CONNECTION_FAILED = 'connection_failed',
-  TIMEOUT = 'timeout',
-  PACKET_LOST = 'packet_lost',
-  PACKET_CORRUPTED = 'packet_corrupted',
-  PROTOCOL_ERROR = 'protocol_error',
-  AUTHENTICATION_FAILED = 'authentication_failed',
-  AUTHORIZATION_FAILED = 'authorization_failed',
-  RATE_LIMITED = 'rate_limited',
-  SERVER_ERROR = 'server_error',
-  CLIENT_ERROR = 'client_error',
-  CUSTOM = 'custom'
-}
-
-export enum ErrorSeverity {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CRITICAL = 'critical'
-}
-
-export interface ThroughputStats {
-  upload: number;
-  download: number;
-  total: number;
-  peak: number;
-  average: number;
-  current: number;
-  efficiency: number;
-  utilization: number;
-}
-
-export interface DiskStats {
-  total: number;
-  used: number;
-  free: number;
-  available: number;
-  readSpeed: number;
-  writeSpeed: number;
-  readIOPS: number;
-  writeIOPS: number;
-  readLatency: number;
-  writeLatency: number;
-  queueDepth: number;
-  utilization: number;
-  temperature: number;
-  health: DiskHealth;
-  partitions: PartitionStats[];
-}
-
-export interface DiskHealth {
-  status: HealthStatus;
-  temperature: number;
-  powerOnHours: number;
-  powerCycleCount: number;
-  reallocatedSectors: number;
-  pendingSectors: number;
-  uncorrectableSectors: number;
-  smartStatus: string;
-  lastCheck: number;
-}
-
-export enum HealthStatus {
-  EXCELLENT = 'excellent',
-  GOOD = 'good',
-  WARNING = 'warning',
-  CRITICAL = 'critical',
-  FAILED = 'failed',
-  UNKNOWN = 'unknown'
-}
-
-export interface PartitionStats {
-  name: string;
-  mountPoint: string;
-  type: string;
-  size: number;
-  used: number;
-  free: number;
-  utilization: number;
-  readSpeed: number;
-  writeSpeed: number;
-  readIOPS: number;
-  writeIOPS: number;
+  connections: number;
 }
 
 export interface CustomMetric {
   name: string;
   value: number;
   unit: string;
-  type: MetricType;
-  category: string;
   timestamp: number;
-  metadata: Map<string, any>;
-}
-
-export enum MetricType {
-  COUNTER = 'counter',
-  GAUGE = 'gauge',
-  HISTOGRAM = 'histogram',
-  SUMMARY = 'summary',
-  CUSTOM = 'custom'
+  tags: Map<string, string>;
 }
 
 export interface ProfilerAlert {
   id: string;
-  name: string;
-  type: AlertType;
-  severity: AlertSeverity;
+  type: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
   threshold: number;
   currentValue: number;
   timestamp: number;
-  acknowledged: boolean;
   resolved: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum AlertType {
-  FRAME_RATE = 'frame_rate',
-  MEMORY_USAGE = 'memory_usage',
-  CPU_USAGE = 'cpu_usage',
-  GPU_USAGE = 'gpu_usage',
-  NETWORK_LATENCY = 'network_latency',
-  DISK_USAGE = 'disk_usage',
-  CUSTOM = 'custom'
-}
-
-export enum AlertSeverity {
-  INFO = 'info',
-  WARNING = 'warning',
-  ERROR = 'error',
-  CRITICAL = 'critical'
-}
-
-export interface OptimizationRecommendation {
-  id: string;
-  type: OptimizationType;
-  priority: Priority;
-  title: string;
-  description: string;
-  impact: Impact;
-  effort: Effort;
-  category: string;
-  metrics: string[];
-  suggestions: string[];
-  metadata: Map<string, any>;
-}
-
-export enum OptimizationType {
-  PERFORMANCE = 'performance',
-  MEMORY = 'memory',
-  CPU = 'cpu',
-  GPU = 'gpu',
-  NETWORK = 'network',
-  DISK = 'disk',
-  CUSTOM = 'custom'
-}
-
-export enum Priority {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CRITICAL = 'critical'
-}
-
-export enum Impact {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CRITICAL = 'critical'
-}
-
-export enum Effort {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  VERY_HIGH = 'very_high'
 }
 
 export interface ProfilerReport {
   id: string;
-  name: string;
-  type: ReportType;
+  title: string;
+  description: string;
   startTime: number;
   endTime: number;
   duration: number;
-  stats: ProfilerStats;
+  stats: ProfilerStats[];
   alerts: ProfilerAlert[];
-  recommendations: OptimizationRecommendation[];
-  summary: ReportSummary;
-  metadata: Map<string, any>;
-}
-
-export enum ReportType {
-  REAL_TIME = 'real_time',
-  HISTORICAL = 'historical',
-  COMPARATIVE = 'comparative',
-  CUSTOM = 'custom'
-}
-
-export interface ReportSummary {
-  overallHealth: HealthStatus;
-  performanceScore: number;
-  memoryScore: number;
-  cpuScore: number;
-  gpuScore: number;
-  networkScore: number;
-  diskScore: number;
-  totalAlerts: number;
-  criticalAlerts: number;
-  recommendations: number;
-  keyMetrics: string[];
-  trends: Trend[];
-}
-
-export interface Trend {
-  metric: string;
-  direction: TrendDirection;
-  magnitude: number;
-  confidence: number;
-  description: string;
-}
-
-export enum TrendDirection {
-  IMPROVING = 'improving',
-  DECLINING = 'declining',
-  STABLE = 'stable',
-  VOLATILE = 'volatile'
+  recommendations: string[];
+  generated: number;
 }
 
 export class ProfilerManager {
   private config: ProfilerConfig;
-  private stats: ProfilerStats = this.initializeStats();
-  private alerts: Map<string, ProfilerAlert> = new Map();
-  private recommendations: Map<string, OptimizationRecommendation> = new Map();
-  private reports: Map<string, ProfilerReport> = new Map();
-  private customMetrics: Map<string, CustomMetric> = new Map();
-  private monitoringTimer: NodeJS.Timeout | null = null;
-  private isInitialized: boolean = false;
   private logger: StructuredLogger;
   private memoryId: string;
+  private isRunning: boolean = false;
+  private stats: ProfilerStats[] = [];
+  private alerts: ProfilerAlert[] = [];
+  private customMetrics: Map<string, CustomMetric> = new Map();
+  private performanceOptimizer: PerformanceOptimizer;
+  private alertThresholds: AlertThresholds;
+  private samplingInterval: NodeJS.Timeout | null = null;
+  private reportInterval: NodeJS.Timeout | null = null;
 
-  constructor(config: Partial<ProfilerConfig> = {}) {
-    this.config = {
-      enableRealTimeMonitoring: true,
-      enableMemoryTracking: true,
-      enableCPUTracking: true,
-      enableGPUTracking: true,
-      enableNetworkTracking: true,
-      enableCustomMetrics: true,
-      enableAlerts: true,
-      enableOptimization: true,
-      samplingRate: 1000, // 1 second
-      maxSamples: 1000,
-      alertThresholds: {
+  constructor(config: ProfilerConfig = {
+    enableRealTimeMonitoring: true,
+    enableMemoryTracking: true,
+    enableCPUTracking: true,
+    enableGPUTracking: true,
+    enableNetworkTracking: true,
+    enableCustomMetrics: true,
+    enableAlerts: true,
+    enableOptimization: true,
+    samplingRate: 1000,
+    maxSamples: 10000,
+    alertThresholds: {
+      frameRate: 30,
+      memoryUsage: 80,
+      cpuUsage: 80,
+      gpuUsage: 80,
+      networkLatency: 100,
+      diskUsage: 90,
+      custom: new Map()
+    },
+    enableReporting: true,
+    enableExport: true,
+    enableHistoricalData: true,
+    retentionDays: 30
+  }) {
+    this.config = config;
+    this.alertThresholds = config.alertThresholds;
 
-        frameRate: 30,
-        memoryUsage: 80,
-        cpuUsage: 80,
-        gpuUsage: 80,
-        networkLatency: 100,
-        diskUsage: 80,
-        custom: new Map()
-      },
-      enableReporting: true,
-      enableExport: true,
-      enableHistoricalData: true,
-      retentionDays: 30,
-      ...config
-    };
-  }
-
-  /**
-   * Initialize profiler
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize profiler
-      await this.initializeProfiler();
-      
-      // Start monitoring
-      if (this.config.enableRealTimeMonitoring) {
-        this.startMonitoring();
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ProfilerManager': LogLevel.DEBUG
       }
-      
-      this.isInitialized = true;
-      this.logger.info('ProfilerManager', 'Profiler initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('ProfilerManager', 'Failed to initialize profiler:', error);
-      return false;
-    }
+    });
+
+    // Initialize performance optimizer
+    this.performanceOptimizer = new PerformanceOptimizer({
+      enableOptimization: config.enableOptimization,
+      enableMemoryOptimization: config.enableMemoryTracking,
+      enableCPUOptimization: config.enableCPUTracking,
+      enableGPUOptimization: config.enableGPUTracking,
+      enableNetworkOptimization: config.enableNetworkTracking
+    });
+
+    // Register with memory manager
+    this.memoryId = `ProfilerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ProfilerManager');
+
+    this.logger.info('ProfilerManager initialized', {
+      config: this.config,
+      memoryId: this.memoryId
+    });
   }
 
   /**
-   * Start monitoring
+   * Start profiling
    */
-  startMonitoring(): void {
-    if (this.monitoringTimer) {
-      clearInterval(this.monitoringTimer);
+  public start(): void {
+    if (this.isRunning) {
+      this.logger.warn('Profiler is already running');
+      return;
     }
 
-    this.monitoringTimer = setInterval(() => {
+    this.isRunning = true;
+    this.logger.info('Starting profiler');
+
+    // Start sampling
+    if (this.config.enableRealTimeMonitoring) {
+      this.startSampling();
+    }
+
+    // Start reporting
+    if (this.config.enableReporting) {
+      this.startReporting();
+    }
+
+    this.logger.info('Profiler started successfully');
+  }
+
+  /**
+   * Stop profiling
+   */
+  public stop(): void {
+    if (!this.isRunning) {
+      this.logger.warn('Profiler is not running');
+      return;
+    }
+
+    this.isRunning = false;
+    this.logger.info('Stopping profiler');
+
+    // Stop sampling
+    if (this.samplingInterval) {
+      clearInterval(this.samplingInterval);
+      this.samplingInterval = null;
+    }
+
+    // Stop reporting
+    if (this.reportInterval) {
+      clearInterval(this.reportInterval);
+      this.reportInterval = null;
+    }
+
+    this.logger.info('Profiler stopped successfully');
+  }
+
+  /**
+   * Start sampling performance data
+   */
+  private startSampling(): void {
+    this.samplingInterval = setInterval(() => {
       this.collectStats();
-      this.checkAlerts();
-      this.generateRecommendations();
     }, this.config.samplingRate);
   }
 
   /**
-   * Stop monitoring
+   * Start reporting
    */
-  stopMonitoring(): void {
-    if (this.monitoringTimer) {
-      clearInterval(this.monitoringTimer);
-      this.monitoringTimer = null;
-    }
+  private startReporting(): void {
+    this.reportInterval = setInterval(() => {
+      this.generateReport();
+    }, 60000); // Generate report every minute
   }
 
   /**
    * Collect performance statistics
    */
-  collectStats(): void {
-    const now = Date.now();
-    
-    // Collect frame rate stats
-    if (this.config.enableRealTimeMonitoring) {
-      this.collectFrameRateStats();
+  private collectStats(): void {
+    try {
+      const stats: ProfilerStats = {
+        frameRate: this.collectFrameRateStats(),
+        memory: this.collectMemoryStats(),
+        cpu: this.collectCPUStats(),
+        gpu: this.collectGPUStats(),
+        network: this.collectNetworkStats(),
+        custom: new Map(this.customMetrics),
+        timestamp: Date.now()
+      };
+
+      this.stats.push(stats);
+
+      // Limit stats array size
+      if (this.stats.length > this.config.maxSamples) {
+        this.stats = this.stats.slice(-this.config.maxSamples);
+      }
+
+      // Check for alerts
+      if (this.config.enableAlerts) {
+        this.checkAlerts(stats);
+      }
+
+    } catch (error) {
+      this.logger.error('Error collecting stats', { error: error.message });
     }
-    
-    // Collect memory stats
-    if (this.config.enableMemoryTracking) {
-      this.collectMemoryStats();
-    }
-    
-    // Collect CPU stats
-    if (this.config.enableCPUTracking) {
-      this.collectCPUStats();
-    }
-    
-    // Collect GPU stats
-    if (this.config.enableGPUTracking) {
-      this.collectGPUStats();
-    }
-    
-    // Collect network stats
-    if (this.config.enableNetworkTracking) {
-      this.collectNetworkStats();
-    }
-    
-    // Collect disk stats
-    this.collectDiskStats();
-    
-    // Update timestamp
-    this.stats.timestamp = now;
   }
 
   /**
    * Collect frame rate statistics
    */
-  private collectFrameRateStats(): void {
-    // This would collect actual frame rate data
-    const currentFPS = this.getCurrentFrameRate();
-    const frameTime = 1000 / currentFPS;
-    
-    this.stats.frameRate = {
-      current: currentFPS,
-      average: this.calculateAverage(this.stats.frameRate?.average || 0, currentFPS),
-      min: Math.min(this.stats.frameRate?.min || currentFPS, currentFPS),
-      max: Math.max(this.stats.frameRate?.max || currentFPS, currentFPS),
-      target: 60,
-      variance: this.calculateVariance(this.stats.frameRate?.variance || 0, currentFPS),
-      percentile95: this.calculatePercentile(95, currentFPS),
-      percentile99: this.calculatePercentile(99, currentFPS),
-      droppedFrames: this.getDroppedFrames(),
-      totalFrames: this.getTotalFrames(),
-      frameTime,
-      averageFrameTime: this.calculateAverage(this.stats.frameRate?.averageFrameTime || 0, frameTime),
-      minFrameTime: Math.min(this.stats.frameRate?.minFrameTime || frameTime, frameTime),
-      maxFrameTime: Math.max(this.stats.frameRate?.maxFrameTime || frameTime, frameTime)
+  private collectFrameRateStats(): FrameRateStats {
+    // This would integrate with actual frame rate monitoring
+    return {
+      current: 60,
+      average: 58.5,
+      min: 45,
+      max: 60,
+      variance: 2.1,
+      droppedFrames: 0,
+      totalFrames: 1000
     };
   }
 
   /**
    * Collect memory statistics
    */
-  private collectMemoryStats(): void {
-    // This would collect actual memory data
-    const memoryInfo = this.getMemoryInfo();
+  private collectMemoryStats(): MemoryStats {
+    const memoryInfo = process.memoryUsage();
     
-    this.stats.memory = {
-      total: memoryInfo.total,
-      used: memoryInfo.used,
-      free: memoryInfo.free,
-      available: memoryInfo.available,
+    return {
       heap: {
-
-        total: memoryInfo.heap.total,
-        used: memoryInfo.heap.used,
-        free: memoryInfo.heap.free,
-        peak: memoryInfo.heap.peak,
-        current: memoryInfo.heap.current,
-        limit: memoryInfo.heap.limit,
-        fragmentation: memoryInfo.heap.fragmentation
-      }
+        total: memoryInfo.heapTotal,
+        used: memoryInfo.heapUsed,
+        free: memoryInfo.heapTotal - memoryInfo.heapUsed,
+        peak: memoryInfo.heapUsed,
+        current: memoryInfo.heapUsed,
+        limit: memoryInfo.heapTotal,
+        fragmentation: 0
       },
       native: {
-        total: memoryInfo.native.total,
-        used: memoryInfo.native.used,
-        free: memoryInfo.native.free,
-        peak: memoryInfo.native.peak,
-        current: memoryInfo.native.current
-      }
+        total: memoryInfo.rss,
+        used: memoryInfo.rss,
+        free: 0,
+        peak: memoryInfo.rss,
+        current: memoryInfo.rss
       },
       gpu: {
-
-        total: memoryInfo.gpu.total,
-        used: memoryInfo.gpu.used,
-        free: memoryInfo.gpu.free,
-        peak: memoryInfo.gpu.peak,
-        current: memoryInfo.gpu.current,
-        textures: memoryInfo.gpu.textures,
-        buffers: memoryInfo.gpu.buffers,
-        shaders: memoryInfo.gpu.shaders
-
-      }
+        total: 0,
+        used: 0,
+        free: 0,
+        peak: 0,
+        current: 0
       },
-      leaks: this.detectMemoryLeaks(),
-      allocations: this.getAllocationStats(),
-      garbageCollections: this.getGCStats()
+      total: memoryInfo.rss,
+      used: memoryInfo.heapUsed,
+      free: memoryInfo.heapTotal - memoryInfo.heapUsed,
+      peak: memoryInfo.heapUsed
     };
   }
 
   /**
    * Collect CPU statistics
    */
-  private collectCPUStats(): void {
-    // This would collect actual CPU data
-    const cpuInfo = this.getCPUInfo();
-    
-    this.stats.cpu = {
-      usage: cpuInfo.usage,
-      cores: cpuInfo.cores,
-      processes: cpuInfo.processes,
-      threads: cpuInfo.threads,
-      contextSwitches: cpuInfo.contextSwitches,
-      interrupts: cpuInfo.interrupts,
-      loadAverage: cpuInfo.loadAverage,
-      temperature: cpuInfo.temperature,
-      frequency: cpuInfo.frequency,
-      power: cpuInfo.power
+  private collectCPUStats(): CPUStats {
+    // This would integrate with actual CPU monitoring
+    return {
+      usage: 25.5,
+      cores: require('os').cpus().length,
+      frequency: 2400,
+      temperature: 45,
+      load: [0.25, 0.30, 0.20, 0.35],
+      processes: []
     };
   }
 
   /**
    * Collect GPU statistics
    */
-  private collectGPUStats(): void {
-    // This would collect actual GPU data
-    const gpuInfo = this.getGPUInfo();
-    
-    this.stats.gpu = {
-      usage: gpuInfo.usage,
-      memory: gpuInfo.memory,
-      temperature: gpuInfo.temperature,
-      frequency: gpuInfo.frequency,
-      power: gpuInfo.power,
-      utilization: gpuInfo.utilization,
-      drawCalls: gpuInfo.drawCalls,
-      triangles: gpuInfo.triangles,
-      vertices: gpuInfo.vertices,
-      pixels: gpuInfo.pixels,
-      shaders: gpuInfo.shaders,
-      textures: gpuInfo.textures,
-      buffers: gpuInfo.buffers
+  private collectGPUStats(): GPUStats {
+    // This would integrate with actual GPU monitoring
+    return {
+      usage: 15.2,
+      memory: 1024,
+      temperature: 55,
+      frequency: 1500,
+      vendor: 'NVIDIA',
+      model: 'RTX 3080',
+      driver: '470.63.01'
     };
   }
 
   /**
    * Collect network statistics
    */
-  private collectNetworkStats(): void {
-    // This would collect actual network data
-    const networkInfo = this.getNetworkInfo();
-    
-    this.stats.network = {
-      latency: networkInfo.latency,
-      bandwidth: networkInfo.bandwidth,
-      packets: networkInfo.packets,
-      connections: networkInfo.connections,
-      protocols: networkInfo.protocols,
-      errors: networkInfo.errors,
-      throughput: networkInfo.throughput
+  private collectNetworkStats(): NetworkStats {
+    // This would integrate with actual network monitoring
+    return {
+      latency: 25,
+      bandwidth: 1000,
+      packetsSent: 10000,
+      packetsReceived: 9500,
+      bytesSent: 5000000,
+      bytesReceived: 4800000,
+      errors: 0,
+      connections: 5
     };
   }
 
   /**
-   * Collect disk statistics
+   * Check for performance alerts
    */
-  private collectDiskStats(): void {
-    // This would collect actual disk data
-    const diskInfo = this.getDiskInfo();
-    
-    this.stats.disk = {
-      total: diskInfo.total,
-      used: diskInfo.used,
-      free: diskInfo.free,
-      available: diskInfo.available,
-      readSpeed: diskInfo.readSpeed,
-      writeSpeed: diskInfo.writeSpeed,
-      readIOPS: diskInfo.readIOPS,
-      writeIOPS: diskInfo.writeIOPS,
-      readLatency: diskInfo.readLatency,
-      writeLatency: diskInfo.writeLatency,
-      queueDepth: diskInfo.queueDepth,
-      utilization: diskInfo.utilization,
-      temperature: diskInfo.temperature,
-      health: diskInfo.health,
-      partitions: diskInfo.partitions
-    };
-  }
-
-  /**
-   * Check for alerts
-   */
-  checkAlerts(): void {
-    if (!this.config.enableAlerts) return;
-
-    // Check frame rate alert
-    if (this.stats.frameRate.current < this.config.alertThresholds.frameRate) {
-      this.createAlert('frame_rate', 'Low frame rate detected', this.stats.frameRate.current, AlertSeverity.WARNING);
+  private checkAlerts(stats: ProfilerStats): void {
+    // Check frame rate
+    if (stats.frameRate.current < this.alertThresholds.frameRate) {
+      this.createAlert('frameRate', 'low', 
+        `Frame rate is below threshold: ${stats.frameRate.current} < ${this.alertThresholds.frameRate}`,
+        this.alertThresholds.frameRate, stats.frameRate.current);
     }
 
-    // Check memory usage alert
-    const memoryUsagePercent = (this.stats.memory.used / this.stats.memory.total) * 100;
-    if (memoryUsagePercent > this.config.alertThresholds.memoryUsage) {
-      this.createAlert('memory_usage', 'High memory usage detected', memoryUsagePercent, AlertSeverity.WARNING);
+    // Check memory usage
+    const memoryUsagePercent = (stats.memory.used / stats.memory.total) * 100;
+    if (memoryUsagePercent > this.alertThresholds.memoryUsage) {
+      this.createAlert('memory', 'high',
+        `Memory usage is above threshold: ${memoryUsagePercent.toFixed(2)}% > ${this.alertThresholds.memoryUsage}%`,
+        this.alertThresholds.memoryUsage, memoryUsagePercent);
     }
 
-    // Check CPU usage alert
-    if (this.stats.cpu.usage > this.config.alertThresholds.cpuUsage) {
-      this.createAlert('cpu_usage', 'High CPU usage detected', this.stats.cpu.usage, AlertSeverity.WARNING);
+    // Check CPU usage
+    if (stats.cpu.usage > this.alertThresholds.cpuUsage) {
+      this.createAlert('cpu', 'high',
+        `CPU usage is above threshold: ${stats.cpu.usage}% > ${this.alertThresholds.cpuUsage}%`,
+        this.alertThresholds.cpuUsage, stats.cpu.usage);
     }
 
-    // Check GPU usage alert
-    if (this.stats.gpu.usage > this.config.alertThresholds.gpuUsage) {
-      this.createAlert('gpu_usage', 'High GPU usage detected', this.stats.gpu.usage, AlertSeverity.WARNING);
+    // Check GPU usage
+    if (stats.gpu.usage > this.alertThresholds.gpuUsage) {
+      this.createAlert('gpu', 'high',
+        `GPU usage is above threshold: ${stats.gpu.usage}% > ${this.alertThresholds.gpuUsage}%`,
+        this.alertThresholds.gpuUsage, stats.gpu.usage);
     }
 
-    // Check network latency alert
-    if (this.stats.network.latency > this.config.alertThresholds.networkLatency) {
-      this.createAlert('network_latency', 'High network latency detected', this.stats.network.latency, AlertSeverity.WARNING);
-    }
-
-    // Check disk usage alert
-    const diskUsagePercent = (this.stats.disk.used / this.stats.disk.total) * 100;
-    if (diskUsagePercent > this.config.alertThresholds.diskUsage) {
-      this.createAlert('disk_usage', 'High disk usage detected', diskUsagePercent, AlertSeverity.WARNING);
+    // Check network latency
+    if (stats.network.latency > this.alertThresholds.networkLatency) {
+      this.createAlert('network', 'medium',
+        `Network latency is above threshold: ${stats.network.latency}ms > ${this.alertThresholds.networkLatency}ms`,
+        this.alertThresholds.networkLatency, stats.network.latency);
     }
   }
 
   /**
-   * Create alert
+   * Create a performance alert
    */
-  private createAlert(type: AlertType, message: string, currentValue: number, severity: AlertSeverity): void {
-    const alertId = `alert_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+  private createAlert(type: string, severity: 'low' | 'medium' | 'high' | 'critical', 
+                     message: string, threshold: number, currentValue: number): void {
     const alert: ProfilerAlert = {
-      id: alertId,
-      name: `${type}_alert`,
+      id: `alert_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       type,
       severity,
       message,
-      threshold: this.getThreshold(type),
+      threshold,
       currentValue,
       timestamp: Date.now(),
-      acknowledged: false,
-      resolved: false,
-      metadata: new Map()
+      resolved: false
     };
 
-    this.alerts.set(alertId, alert);
-    this.logger.warn('ProfilerManager', `Alert: ${message} (${currentValue})`);
-  }
-
-  /**
-   * Get threshold for alert type
-   */
-  private getThreshold(type: AlertType): number {
-    switch (type) {
-      case AlertType.FRAME_RATE:
-        return this.config.alertThresholds.frameRate;
-      case AlertType.MEMORY_USAGE:
-        return this.config.alertThresholds.memoryUsage;
-      case AlertType.CPU_USAGE:
-        return this.config.alertThresholds.cpuUsage;
-      case AlertType.GPU_USAGE:
-        return this.config.alertThresholds.gpuUsage;
-      case AlertType.NETWORK_LATENCY:
-        return this.config.alertThresholds.networkLatency;
-      case AlertType.DISK_USAGE:
-        return this.config.alertThresholds.diskUsage;
-      default:
-        return 0;
-    }
-  }
-
-  /**
-   * Generate optimization recommendations
-   */
-  generateRecommendations(): void {
-    if (!this.config.enableOptimization) return;
-
-    // Generate frame rate recommendations
-    if (this.stats.frameRate.current < this.config.alertThresholds.frameRate) {
-      this.addRecommendation('frame_rate_optimization', 'Optimize frame rate', 'Consider reducing graphics quality or optimizing rendering pipeline', Priority.HIGH);
-    }
-
-    // Generate memory recommendations
-    const memoryUsagePercent = (this.stats.memory.used / this.stats.memory.total) * 100;
-    if (memoryUsagePercent > this.config.alertThresholds.memoryUsage) {
-      this.addRecommendation('memory_optimization', 'Optimize memory usage', 'Consider reducing texture quality or implementing object pooling', Priority.HIGH);
-    }
-
-    // Generate CPU recommendations
-    if (this.stats.cpu.usage > this.config.alertThresholds.cpuUsage) {
-      this.addRecommendation('cpu_optimization', 'Optimize CPU usage', 'Consider reducing update frequency or optimizing algorithms', Priority.MEDIUM);
-    }
-
-    // Generate GPU recommendations
-    if (this.stats.gpu.usage > this.config.alertThresholds.gpuUsage) {
-      this.addRecommendation('gpu_optimization', 'Optimize GPU usage', 'Consider reducing shader complexity or implementing LOD system', Priority.MEDIUM);
-    }
-  }
-
-  /**
-   * Add recommendation
-   */
-  private addRecommendation(id: string, title: string, description: string, priority: Priority): void {
-    if (this.recommendations.has(id)) return;
-
-    const recommendation: OptimizationRecommendation = {
-      id,
-      type: OptimizationType.PERFORMANCE,
-      priority,
-      title,
-      description,
-      impact: Impact.MEDIUM,
-      effort: Effort.MEDIUM,
-      category: 'Performance',
-      metrics: ['frame_rate', 'memory_usage'],
-      suggestions: [
-      descri,
-      p,
-      t,
-      i,
-      o,
-      n
-    ],
-      metadata: new Map()
-    };
-
-    this.recommendations.set(id, recommendation);
+    this.alerts.push(alert);
+    this.logger.warn('Performance alert created', { alert });
   }
 
   /**
    * Add custom metric
    */
-  addCustomMetric(name: string, value: number, unit: string, type: MetricType = MetricType.GAUGE, category: string = 'Custom'): void {
-    if (!this.config.enableCustomMetrics) return;
-
+  public addCustomMetric(name: string, value: number, unit: string, tags: Map<string, string> = new Map()): void {
     const metric: CustomMetric = {
       name,
       value,
       unit,
-      type,
-      category,
       timestamp: Date.now(),
-      metadata: new Map()
+      tags
     };
 
     this.customMetrics.set(name, metric);
-    this.stats.custom.set(name, metric);
+    this.logger.debug('Custom metric added', { metric });
   }
 
   /**
    * Get current statistics
    */
-  getStats(): ProfilerStats {
-    return { ...this.stats };
+  public getCurrentStats(): ProfilerStats | null {
+    return this.stats.length > 0 ? this.stats[this.stats.length - 1] : null;
   }
 
   /**
-   * Get all alerts
+   * Get all statistics
    */
-  getAlerts(): ProfilerAlert[] {
-    return Array.from(this.alerts.values());
+  public getAllStats(): ProfilerStats[] {
+    return [...this.stats];
   }
 
   /**
-   * Get all recommendations
+   * Get active alerts
    */
-  getRecommendations(): OptimizationRecommendation[] {
-    return Array.from(this.recommendations.values());
+  public getActiveAlerts(): ProfilerAlert[] {
+    return this.alerts.filter(alert => !alert.resolved);
   }
 
   /**
-   * Get all custom metrics
+   * Resolve alert
    */
-  getCustomMetrics(): CustomMetric[] {
-    return Array.from(this.customMetrics.values());
+  public resolveAlert(alertId: string): boolean {
+    const alert = this.alerts.find(a => a.id === alertId);
+    if (alert) {
+      alert.resolved = true;
+      this.logger.info('Alert resolved', { alertId });
+      return true;
+    }
+    return false;
   }
 
   /**
-   * Generate report
+   * Generate performance report
    */
-  generateReport(name: string, type: ReportType = ReportType.REAL_TIME): ProfilerReport {
+  private generateReport(): void {
+    if (this.stats.length === 0) return;
+
     const report: ProfilerReport = {
       id: `report_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name,
-      type,
-      startTime: Date.now() - 60000, // Last minute
-      endTime: Date.now(),
-      duration: 60000,
-      stats: { ...this.stats },
-      alerts: Array.from(this.alerts.values()),
-      recommendations: Array.from(this.recommendations.values()),
-      summary: this.generateReportSummary(),
-      metadata: new Map()
+      title: 'Performance Report',
+      description: 'Automated performance analysis report',
+      startTime: this.stats[0].timestamp,
+      endTime: this.stats[this.stats.length - 1].timestamp,
+      duration: this.stats[this.stats.length - 1].timestamp - this.stats[0].timestamp,
+      stats: [...this.stats],
+      alerts: [...this.alerts],
+      recommendations: this.generateRecommendations(),
+      generated: Date.now()
     };
 
-    this.reports.set(report.id, report);
-    return report;
+    this.logger.info('Performance report generated', { 
+      reportId: report.id,
+      duration: report.duration,
+      statsCount: report.stats.length,
+      alertsCount: report.alerts.length
+    });
+
+    // Export report if enabled
+    if (this.config.enableExport) {
+      this.exportReport(report);
+    }
   }
 
   /**
-   * Generate report summary
+   * Generate performance recommendations
    */
-  private generateReportSummary(): ReportSummary {
-    const criticalAlerts = Array.from(this.alerts.values()).filter(alert => alert.severity === AlertSeverity.CRITICAL);
-    const highPriorityRecommendations = Array.from(this.recommendations.values()).filter(rec => rec.priority === Priority.HIGH);
-
-    return {
-      overallHealth: this.calculateOverallHealth(),
-      performanceScore: this.calculatePerformanceScore(),
-      memoryScore: this.calculateMemoryScore(),
-      cpuScore: this.calculateCPUScore(),
-      gpuScore: this.calculateGPUScore(),
-      networkScore: this.calculateNetworkScore(),
-      diskScore: this.calculateDiskScore(),
-      totalAlerts: this.alerts.size,
-      criticalAlerts: criticalAlerts.length,
-      recommendations: this.recommendations.size,
-      keyMetrics: this.getKeyMetrics(),
-      trends: this.analyzeTrends()
-    };
-  }
-
-  /**
-   * Calculate overall health
-   */
-  private calculateOverallHealth(): HealthStatus {
-    const scores = [
-      this.calculatePerformanceScore(),
-      this.calculateMemoryScore(),
-      this.calculateCPUScore(),
-      this.calculateGPUScore(),
-      this.calculateNetworkScore(),
-      this.calculateDiskScore()
-    ];
-
-    const averageScore = scores.reduce((sum, score) => sum + score, 0) / scores.length;
-
-    if (averageScore >= 90) return HealthStatus.EXCELLENT;
-    if (averageScore >= 80) return HealthStatus.GOOD;
-    if (averageScore >= 60) return HealthStatus.WARNING;
-    if (averageScore >= 40) return HealthStatus.CRITICAL;
-    return HealthStatus.FAILED;
-  }
-
-  /**
-   * Calculate performance score
-   */
-  private calculatePerformanceScore(): number {
-    const frameRate = this.stats.frameRate.current;
-    const target = this.stats.frameRate.target;
-    return Math.min(100, (frameRate / target) * 100);
-  }
-
-  /**
-   * Calculate memory score
-   */
-  private calculateMemoryScore(): number {
-    const usage = (this.stats.memory.used / this.stats.memory.total) * 100;
-    return Math.max(0, 100 - usage);
-  }
-
-  /**
-   * Calculate CPU score
-   */
-  private calculateCPUScore(): number {
-    return Math.max(0, 100 - this.stats.cpu.usage);
-  }
-
-  /**
-   * Calculate GPU score
-   */
-  private calculateGPUScore(): number {
-    return Math.max(0, 100 - this.stats.gpu.usage);
-  }
-
-  /**
-   * Calculate network score
-   */
-  private calculateNetworkScore(): number {
-    const latency = this.stats.network.latency;
-    const targetLatency = 50; // 50ms target
-    return Math.max(0, 100 - (latency / targetLatency) * 100);
-  }
-
-  /**
-   * Calculate disk score
-   */
-  private calculateDiskScore(): number {
-    const usage = (this.stats.disk.used / this.stats.disk.total) * 100;
-    return Math.max(0, 100 - usage);
-  }
-
-  /**
-   * Get key metrics
-   */
-  private getKeyMetrics(): string[] {
-    return [
-      'frame_rate',
-      'memory_usage',
-      'cpu_usage',
-      'gpu_usage',
-      'network_latency',
-      'disk_usage'
-    ];
-  }
-
-  /**
-   * Analyze trends
-   */
-  private analyzeTrends(): Trend[] {
-    // This would analyze historical data to identify trends
-    return [];
-  }
-
-  /**
-   * Initialize profiler
-   */
-  private async initializeProfiler(): Promise<void> {
-    this.logger.info('ProfilerManager', 'Initializing profiler...');
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): ProfilerStats {
-    return {
-      frameRate: {
-
-        current: 0,
-        average: 0,
-        min: 0,
-        max: 0,
-        target: 60,
-        variance: 0,
-        percentile95: 0,
-        percentile99: 0,
-        droppedFrames: 0,
-        totalFrames: 0,
-        frameTime: 0,
-        averageFrameTime: 0,
-        minFrameTime: 0,
-        maxFrameTime: 0;
-
-      }
-    },
-      memory: {
-
-        total: 0,
-        used: 0,
-        free: 0,
-        available: 0,
-        heap: {
-
-          total: 0,
-
-          used: 0,
-
-          free: 0,
-
-          peak: 0,
-
-          current: 0,
-
-          limit: 0,
-
-          fragmentation: 0;
-
-      }
-    },
-        native: {
-
-          total: 0,
-
-          used: 0,
-
-          free: 0,
-
-          peak: 0,
-
-          current: 0;
-
-        }
-    },
-        gpu: {
-
-          total: 0,
-          used: 0,
-          free: 0,
-          peak: 0,
-          current: 0,
-          textures: 0,
-          buffers: 0,
-          shaders: 0;
-
-        }
-    },
-        leaks: [],
-        allocations: {
-
-          total: 0,
-          count: 0,
-          average: 0,
-          peak: 0,
-          current: 0,
-          rate: 0,
-          byType: new Map(),
-          bySize: new Map()
-
-        }
-        },
-        garbageCollections: {
-
-          count: 0,
-          totalTime: 0,
-          averageTime: 0,
-          maxTime: 0,
-          minTime: 0,
-          lastGC: 0,
-          frequency: 0,
-          pressure: 0;
+  private generateRecommendations(): string[] {
+    const recommendations: string[] = [];
+    const currentStats = this.getCurrentStats();
     
+    if (!currentStats) return recommendations;
 
-        
+    // Memory recommendations
+    const memoryUsagePercent = (currentStats.memory.used / currentStats.memory.total) * 100;
+    if (memoryUsagePercent > 70) {
+      recommendations.push('Consider optimizing memory usage - current usage is above 70%');
+    }
 
+    // CPU recommendations
+    if (currentStats.cpu.usage > 70) {
+      recommendations.push('Consider optimizing CPU usage - current usage is above 70%');
+    }
 
-        }
-        };
-      },
-      cpu: {
+    // Frame rate recommendations
+    if (currentStats.frameRate.current < 30) {
+      recommendations.push('Consider optimizing rendering performance - frame rate is below 30 FPS');
+    }
 
-        usage: 0,
-        cores: [],
-        processes: [],
-        threads: [],
-        contextSwitches: 0,
-        interrupts: 0,
-        loadAverage: [0, 0, 0],
-        temperature: 0,
-        frequency: 0,
-        power: 0;
-
-      }
-    },
-      gpu: {
-
-        usage: 0,
-        memory: {
-          total: 0,
-          used: 0,
-          free: 0,
-          peak: 0,
-          current: 0,
-          textures: 0,
-          buffers: 0,
-          shaders: 0;
-
-      }
-    },
-        temperature: 0,
-        frequency: 0,
-        power: 0,
-        utilization: {
-
-          compute: 0,
-
-          geometry: 0,
-
-          rasterization: 0,
-
-          pixel: 0,
-
-          memory: 0,
-
-          video: 0,
-
-          overall: 0;
-
-        }
-    },
-        drawCalls: 0,
-        triangles: 0,
-        vertices: 0,
-        pixels: 0,
-        shaders: {
-
-          total: 0,
-          compiled: 0,
-          failed: 0,
-          cacheHits: 0,
-          cacheMisses: 0,
-          compilationTime: 0,
-          averageCompilationTime: 0,
-          maxCompilationTime: 0,
-          minCompilationTime: 0;
-
-        }
-    },
-        textures: {
-
-          total: 0,
-          size: 0,
-          formats: new Map(),
-          dimensions: new Map(),
-          mipmaps: 0,
-          compressed: 0,
-          uncompressed: 0,
-          uploads: 0,
-          downloads: 0,
-          bindings: 0;
-
-        }
-    },
-        buffers: {
-
-          total: 0,
-          size: 0,
-          types: new Map(),
-          uploads: 0,
-          downloads: 0,
-          bindings: 0,
-          updates: 0,
-          copies: 0;
-    
-
-        
-
-
-        }
-        };
-      },
-      network: {
-
-        latency: 0,
-        bandwidth: 0,
-        packets: {
-          sent: 0,
-          received: 0,
-          lost: 0,
-          duplicated: 0,
-          outOfOrder: 0,
-          corrupted: 0,
-          retransmitted: 0,
-          totalBytes: 0,
-          averageSize: 0,
-          maxSize: 0,
-          minSize: 0;
-
-      }
-    },
-        connections: [],
-        protocols: new Map(),
-        errors: [],
-        throughput: {
-
-          upload: 0,
-          download: 0,
-          total: 0,
-          peak: 0,
-          average: 0,
-          current: 0,
-          efficiency: 0,
-          utilization: 0;
-    
-
-        
-
-
-        }
-        };
-      },
-      disk: {
-
-        total: 0,
-        used: 0,
-        free: 0,
-        available: 0,
-        readSpeed: 0,
-        writeSpeed: 0,
-        readIOPS: 0,
-        writeIOPS: 0,
-        readLatency: 0,
-        writeLatency: 0,
-        queueDepth: 0,
-        utilization: 0,
-        temperature: 0,
-        health: {
-          status: HealthStatus.UNKNOWN,
-          temperature: 0,
-          powerOnHours: 0,
-          powerCycleCount: 0,
-          reallocatedSectors: 0,
-          pendingSectors: 0,
-          uncorrectableSectors: 0,
-          smartStatus: '',
-          lastCheck: 0;
-
-      }
-    },
-        partitions: []
-      },
-      custom: new Map(),
-      timestamp: Date.now()
-    };
+    return recommendations;
   }
 
   /**
-   * Get current frame rate (placeholder)
+   * Export performance report
    */
-  private getCurrentFrameRate(): number {
-    // This would get actual frame rate from the rendering system
-    return 60;
+  private exportReport(report: ProfilerReport): void {
+    // This would implement actual export functionality
+    this.logger.info('Exporting performance report', { reportId: report.id });
   }
 
   /**
-   * Get dropped frames (placeholder)
+   * Get profiler configuration
    */
-  private getDroppedFrames(): number {
-    // This would get actual dropped frame count
-    return 0;
+  public getConfig(): ProfilerConfig {
+    return { ...this.config };
   }
 
   /**
-   * Get total frames (placeholder)
+   * Update profiler configuration
    */
-  private getTotalFrames(): number {
-    // This would get actual total frame count
-    return 0;
-  }
-
-  /**
-   * Get memory info (placeholder)
-   */
-  private getMemoryInfo(): any {
-    // This would get actual memory information
-    return {
-      total: 8 * 1024 * 1024 * 1024, // 8GB
-      used: 4 * 1024 * 1024 * 1024,  // 4GB
-      free: 4 * 1024 * 1024 * 1024,  // 4GB
-      available: 4 * 1024 * 1024 * 1024, // 4GB
-      heap: {
-
-        total: 2 * 1024 * 1024 * 1024, // 2GB
-        used: 1 * 1024 * 1024 * 1024,  // 1GB
-        free: 1 * 1024 * 1024 * 1024,  // 1GB
-        peak: 1.5 * 1024 * 1024 * 1024, // 1.5GB
-        current: 1 * 1024 * 1024 * 1024, // 1GB
-        limit: 2 * 1024 * 1024 * 1024, // 2GB
-        fragmentation: 0.1
-
-      }
-      },
-      native: {
-
-        total: 6 * 1024 * 1024 * 1024, // 6GB
-        used: 3 * 1024 * 1024 * 1024,  // 3GB
-        free: 3 * 1024 * 1024 * 1024,  // 3GB
-        peak: 3.5 * 1024 * 1024 * 1024, // 3.5GB
-        current: 3 * 1024 * 1024 * 1024 // 3GB
-
-      }
-      },
-      gpu: {
-
-        total: 8 * 1024 * 1024 * 1024, // 8GB
-        used: 2 * 1024 * 1024 * 1024,  // 2GB
-        free: 6 * 1024 * 1024 * 1024,  // 6GB
-        peak: 3 * 1024 * 1024 * 1024,  // 3GB
-        current: 2 * 1024 * 1024 * 1024, // 2GB
-        textures: 1 * 1024 * 1024 * 1024, // 1GB
-        buffers: 0.5 * 1024 * 1024 * 1024, // 0.5GB
-        shaders: 0.5 * 1024 * 1024 * 1024 // 0.5GB
-      
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Detect memory leaks (placeholder)
-   */
-  private detectMemoryLeaks(): MemoryLeak[] {
-    // This would detect actual memory leaks
-    return [];
-  }
-
-  /**
-   * Get allocation stats (placeholder)
-   */
-  private getAllocationStats(): AllocationStats {
-    // This would get actual allocation statistics
-    return {
-      total: 0,
-      count: 0,
-      average: 0,
-      peak: 0,
-      current: 0,
-      rate: 0,
-      byType: new Map(),
-      bySize: new Map()
-    };
-  }
-
-  /**
-   * Get GC stats (placeholder)
-   */
-  private getGCStats(): GCStats {
-    // This would get actual garbage collection statistics
-    return {
-      count: 0,
-      totalTime: 0,
-      averageTime: 0,
-      maxTime: 0,
-      minTime: 0,
-      lastGC: 0,
-      frequency: 0,
-      pressure: 0;
-    };
-  }
-
-  /**
-   * Get CPU info (placeholder)
-   */
-  private getCPUInfo(): any {
-    // This would get actual CPU information
-    return {
-      usage: 0,
-      cores: [],
-      processes: [],
-      threads: [],
-      contextSwitches: 0,
-      interrupts: 0,
-      loadAverage: [0, 0, 0],
-      temperature: 0,
-      frequency: 0,
-      power: 0;
-    };
-  }
-
-  /**
-   * Get GPU info (placeholder)
-   */
-  private getGPUInfo(): any {
-    // This would get actual GPU information
-    return {
-      usage: 0,
-      memory: {
-
-        total: 0,
-        used: 0,
-        free: 0,
-        peak: 0,
-        current: 0,
-        textures: 0,
-        buffers: 0,
-        shaders: 0;
-
-      }
-    },
-      temperature: 0,
-      frequency: 0,
-      power: 0,
-      utilization: {
-
-        compute: 0,
-
-        geometry: 0,
-
-        rasterization: 0,
-
-        pixel: 0,
-
-        memory: 0,
-
-        video: 0,
-
-        overall: 0;
-
-      }
-    },
-      drawCalls: 0,
-      triangles: 0,
-      vertices: 0,
-      pixels: 0,
-      shaders: {
-
-        total: 0,
-        compiled: 0,
-        failed: 0,
-        cacheHits: 0,
-        cacheMisses: 0,
-        compilationTime: 0,
-        averageCompilationTime: 0,
-        maxCompilationTime: 0,
-        minCompilationTime: 0;
-
-      }
-    },
-      textures: {
-
-        total: 0,
-        size: 0,
-        formats: new Map(),
-        dimensions: new Map(),
-        mipmaps: 0,
-        compressed: 0,
-        uncompressed: 0,
-        uploads: 0,
-        downloads: 0,
-        bindings: 0;
-
-      }
-    },
-      buffers: {
-
-        total: 0,
-        size: 0,
-        types: new Map(),
-        uploads: 0,
-        downloads: 0,
-        bindings: 0,
-        updates: 0,
-        copies: 0;
-    
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Get network info (placeholder)
-   */
-  private getNetworkInfo(): any {
-    // This would get actual network information
-    return {
-      latency: 0,
-      bandwidth: 0,
-      packets: {
-
-        sent: 0,
-        received: 0,
-        lost: 0,
-        duplicated: 0,
-        outOfOrder: 0,
-        corrupted: 0,
-        retransmitted: 0,
-        totalBytes: 0,
-        averageSize: 0,
-        maxSize: 0,
-        minSize: 0;
-
-      }
-    },
-      connections: [],
-      protocols: new Map(),
-      errors: [],
-      throughput: {
-
-        upload: 0,
-        download: 0,
-        total: 0,
-        peak: 0,
-        average: 0,
-        current: 0,
-        efficiency: 0,
-        utilization: 0;
-    
-
-      
-
-
-      }
-      };
-    };
-  }
-
-  /**
-   * Get disk info (placeholder)
-   */
-  private getDiskInfo(): any {
-    // This would get actual disk information
-    return {
-      total: 0,
-      used: 0,
-      free: 0,
-      available: 0,
-      readSpeed: 0,
-      writeSpeed: 0,
-      readIOPS: 0,
-      writeIOPS: 0,
-      readLatency: 0,
-      writeLatency: 0,
-      queueDepth: 0,
-      utilization: 0,
-      temperature: 0,
-      health: {
-
-        status: HealthStatus.UNKNOWN,
-        temperature: 0,
-        powerOnHours: 0,
-        powerCycleCount: 0,
-        reallocatedSectors: 0,
-        pendingSectors: 0,
-        uncorrectableSectors: 0,
-        smartStatus: '',
-        lastCheck: 0;
-
-      }
-    },
-      partitions: []
-    };
-  }
-
-  /**
-   * Calculate average
-   */
-  private calculateAverage(current: number, newValue: number): number {
-    return (current + newValue) / 2;
-  }
-
-  /**
-   * Calculate variance
-   */
-  private calculateVariance(current: number, newValue: number): number {
-    // Simplified variance calculation
-    return Math.abs(current - newValue);
-  }
-
-  /**
-   * Calculate percentile
-   */
-  private calculatePercentile(percentile: number, value: number): number {
-    // Simplified percentile calculation
-    return value * (percentile / 100);
+  public updateConfig(newConfig: Partial<ProfilerConfig>): void {
+    this.config = { ...this.config, ...newConfig };
+    this.alertThresholds = this.config.alertThresholds;
+    this.logger.info('Profiler configuration updated', { config: this.config });
   }
 
   /**
    * Cleanup resources
    */
-  destroy(): void {
-    this.stopMonitoring();
-    this.stats = this.initializeStats();
-    this.alerts.clear();
-    this.recommendations.clear();
-    this.reports.clear();
-    this.customMetrics.clear();
-    this.isInitialized = false;
+  public destroy(): void {
+    this.stop();
+    MemoryManager.unregisterObject(this.memoryId);
+    this.logger.info('ProfilerManager destroyed');
   }
 }
-
-// Export default instance
-export const defaultProfilerManager = new ProfilerManager();
-export { ProfilerManager as default };
