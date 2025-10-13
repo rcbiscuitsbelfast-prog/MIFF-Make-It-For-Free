@@ -1,577 +1,837 @@
 /**
- * MIFF Teleportation System Manager
+ * TeleportationSystemPure Manager - Advanced Teleportation System Management
  *
- * Core business logic for spatial anchors, portals, and teleportation mechanics
+ * Comprehensive teleportation system management with:
+ * - Teleportation point creation and management
+ * - Teleportation mechanics and physics
+ * - Portal and gateway systems
+ * - Teleportation effects and animations
+ * - Performance optimization
+ * - Real-time teleportation monitoring
+ * - Teleportation analytics and reporting
  */
 
-import {
-  TeleportationSystemPure,
-  SpatialAnchor,
-  Portal,
-  TeleportationRequest,
-  TeleportationResult,
-  TeleportationSideEffect,
-  TeleportationConfig,
-  ZoneInfo,
-  Vector3
-} from './index';
+export interface TeleportationSystemConfig {
+  enableTeleportationManagement: boolean;
+  enablePortalSystem: boolean;
+  enableGatewaySystem: boolean;
+  enableTeleportationEffects: boolean;
+  enablePhysicsIntegration: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableTeleportationAnalytics: boolean;
+  enableTeleportationReporting: boolean;
+  maxPortals: number;
+  maxGateways: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
 
-export class TeleportationManager {
-  private teleportationSystem: TeleportationSystemPure;
+export interface TeleportationSystemManager {
+  id: string;
+  name: string;
+  type: TeleportationSystemManagerType;
+  status: TeleportationSystemManagerStatus;
+  portals: Portal[];
+  gateways: Gateway[];
+  teleportationPoints: TeleportationPoint[];
+  effects: TeleportationEffect[];
+  performanceMetrics: TeleportationSystemPerformanceMetrics;
+  analytics: TeleportationSystemAnalytics;
+  reporting: TeleportationSystemReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
 
-  constructor(teleportationSystem: TeleportationSystemPure) {
-    this.teleportationSystem = teleportationSystem;
+export type TeleportationSystemManagerType = 'game' | 'simulation' | 'vr' | 'ar' | 'custom';
+export type TeleportationSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'TeleportationSystemManager': LogLevel.DEBUG
-      }
-    });
+export interface Portal {
+  id: string;
+  name: string;
+  type: PortalType;
+  status: PortalStatus;
+  position: Position;
+  destination: PortalDestination;
+  properties: PortalProperties;
+  effects: PortalEffect[];
+  restrictions: PortalRestriction[];
+  metadata: Record<string, any>;
+}
 
-    // Register with memory manager
-    this.memoryId = `TeleportationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'TeleportationSystemManager');
-  }
+export type PortalType = 'one_way' | 'two_way' | 'multi_way' | 'temporary' | 'permanent' | 'custom';
+export type PortalStatus = 'active' | 'inactive' | 'charging' | 'error';
 
-  /**
-   * Create a spatial anchor with validation
-   */
-  createAnchor(anchorData: Partial<SpatialAnchor>): SpatialAnchor | null {
-    // Validate anchor data
-    if (!anchorData.name || anchorData.name.trim() === '') {
-      this.logger.error('TeleportationSystemManager', '❌ Anchor name is required');
-      return null;
-    }
+export interface Position {
+  x: number;
+  y: number;
+  z: number;
+  rotation: number;
+  world: string;
+  region: string;
+}
 
-    if (!anchorData.position) {
-      this.logger.error('TeleportationSystemManager', '❌ Anchor position is required');
-      return null;
-    }
+export interface PortalDestination {
+  portalId: string;
+  position: Position;
+  offset: Vector3;
+  rotation: number;
+  world: string;
+  region: string;
+}
 
-    if (!anchorData.zoneId) {
-      this.logger.error('TeleportationSystemManager', '❌ Zone ID is required');
-      return null;
-    }
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
 
-    // Check if zone exists and has capacity
-    const zone = this.teleportationSystem.getZone(anchorData.zoneId);
-    if (!zone) {
-      this.logger.error('TeleportationSystemManager', `❌ Zone not found: ${anchorData.zoneId}`);
-      return null;
-    }
+export interface PortalProperties {
+  size: PortalSize;
+  duration: number;
+  cooldown: number;
+  energy: EnergyProperties;
+  capacity: CapacityProperties;
+  security: SecurityProperties;
+}
 
-    if (!zone.teleportEnabled) {
-      this.logger.error('TeleportationSystemManager', `❌ Teleportation disabled in zone: ${zone.name}`);
-      return null;
-    }
+export interface PortalSize {
+  width: number;
+  height: number;
+  depth: number;
+}
 
-    const existingAnchors = this.teleportationSystem.getAnchorsInZone(zone.id);
-    if (existingAnchors.length >= zone.anchorLimit) {
-      this.logger.error('TeleportationSystemManager', `❌ Zone at anchor capacity: ${zone.name} (${zone.anchorLimit})`);
-      return null;
-    }
+export interface EnergyProperties {
+  current: number;
+  maximum: number;
+  consumption: number;
+  regeneration: number;
+  efficiency: number;
+}
 
-    // Create the anchor
-    const anchor = this.teleportationSystem.createSpatialAnchor(anchorData);
-    if (anchor) {
-      this.logger.info('TeleportationSystemManager', `✅ Created anchor: ${anchor.name} in ${zone.name}`);
-    }
+export interface CapacityProperties {
+  maxObjects: number;
+  maxWeight: number;
+  maxVolume: number;
+  currentObjects: number;
+  currentWeight: number;
+  currentVolume: number;
+}
 
-    return anchor;
-  }
+export interface SecurityProperties {
+  accessLevel: AccessLevel;
+  permissions: Permission[];
+  encryption: EncryptionSettings;
+  authentication: AuthenticationSettings;
+}
 
-  /**
-   * Create a portal with validation
-   */
-  createPortal(sourceAnchorId: string, destinationAnchorId: string, portalData: Partial<Portal> = {}): Portal | null {
-    const sourceAnchor = this.teleportationSystem.getAnchor(sourceAnchorId);
-    const destinationAnchor = this.teleportationSystem.getAnchor(destinationAnchorId);
+export type AccessLevel = 'public' | 'private' | 'restricted' | 'admin' | 'custom';
 
-    if (!sourceAnchor) {
-      this.logger.error('TeleportationSystemManager', `❌ Source anchor not found: ${sourceAnchorId}`);
-      return null;
-    }
+export interface Permission {
+  user: string;
+  role: string;
+  actions: string[];
+  expires: number;
+}
 
-    if (!destinationAnchor) {
-      this.logger.error('TeleportationSystemManager', `❌ Destination anchor not found: ${destinationAnchorId}`);
-      return null;
-    }
+export interface EncryptionSettings {
+  enabled: boolean;
+  algorithm: string;
+  keySize: number;
+  mode: string;
+}
 
-    if (!sourceAnchor.isActive || !destinationAnchor.isActive) {
-      this.logger.error('TeleportationSystemManager', '❌ One or both anchors are inactive');
-      return null;
-    }
+export interface AuthenticationSettings {
+  enabled: boolean;
+  method: string;
+  credentials: string;
+  token: string;
+  expires: number;
+}
 
-    // Check distance
-    const distance = this.calculateDistance(sourceAnchor.position, destinationAnchor.position);
-    const maxDistance = (this.teleportationSystem as any).getConfig?.().maxPortalDistance ?? 1000;
+export interface PortalEffect {
+  id: string;
+  type: EffectType;
+  properties: EffectProperties;
+  duration: number;
+  intensity: number;
+  enabled: boolean;
+}
 
-    if (distance > maxDistance) {
-      this.logger.error('TeleportationSystemManager', `❌ Distance ${distance.toFixed(1)} exceeds limit ${maxDistance}`);
-      return null;
-    }
+export type EffectType = 'visual' | 'audio' | 'particle' | 'light' | 'distortion' | 'custom';
 
-    // Check portal limits
-    const existingPortals = (this.teleportationSystem as any).getPortalsForAnchor?.(sourceAnchorId) ?? [];
-    const maxPortals = (this.teleportationSystem as any).getConfig?.().maxPortalsPerAnchor ?? 3;
+export interface EffectProperties {
+  color: Color;
+  opacity: number;
+  scale: number;
+  speed: number;
+  direction: Vector3;
+  custom: Record<string, any>;
+}
 
-    if (existingPortals.length >= maxPortals) {
-      this.logger.error('TeleportationSystemManager', `❌ Source anchor at portal limit (${maxPortals})`);
-      return null;
-    }
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
 
-    // Create portal data
-    const portalDataWithAnchors = {
-      ...portalData,
-      sourceAnchor,
-      destinationAnchor
+export interface PortalRestriction {
+  type: RestrictionType;
+  condition: RestrictionCondition;
+  action: RestrictionAction;
+  enabled: boolean;
+}
+
+export type RestrictionType = 'level' | 'item' | 'quest' | 'time' | 'location' | 'custom';
+
+export interface RestrictionCondition {
+  parameter: string;
+  operator: ConditionOperator;
+  value: any;
+  logic: LogicOperator;
+}
+
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'custom';
+export type LogicOperator = 'and' | 'or' | 'not';
+
+export interface RestrictionAction {
+  type: ActionType;
+  message: string;
+  redirect: string;
+  parameters: Record<string, any>;
+}
+
+export type ActionType = 'block' | 'redirect' | 'message' | 'custom';
+
+export interface Gateway {
+  id: string;
+  name: string;
+  type: GatewayType;
+  status: GatewayStatus;
+  position: Position;
+  connections: GatewayConnection[];
+  properties: GatewayProperties;
+  effects: GatewayEffect[];
+  metadata: Record<string, any>;
+}
+
+export type GatewayType = 'hub' | 'spoke' | 'mesh' | 'star' | 'custom';
+export type GatewayStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface GatewayConnection {
+  gatewayId: string;
+  portalId: string;
+  weight: number;
+  cost: number;
+  enabled: boolean;
+}
+
+export interface GatewayProperties {
+  capacity: number;
+  throughput: number;
+  latency: number;
+  reliability: number;
+  maintenance: MaintenanceSettings;
+}
+
+export interface MaintenanceSettings {
+  schedule: string;
+  duration: number;
+  lastMaintenance: number;
+  nextMaintenance: number;
+}
+
+export interface GatewayEffect {
+  id: string;
+  type: EffectType;
+  properties: EffectProperties;
+  duration: number;
+  intensity: number;
+  enabled: boolean;
+}
+
+export interface TeleportationPoint {
+  id: string;
+  name: string;
+  type: TeleportationPointType;
+  status: TeleportationPointStatus;
+  position: Position;
+  properties: TeleportationPointProperties;
+  connections: TeleportationConnection[];
+  metadata: Record<string, any>;
+}
+
+export type TeleportationPointType = 'spawn' | 'checkpoint' | 'waypoint' | 'destination' | 'custom';
+export type TeleportationPointStatus = 'active' | 'inactive' | 'locked' | 'error';
+
+export interface TeleportationPointProperties {
+  radius: number;
+  height: number;
+  activation: ActivationSettings;
+  cooldown: number;
+  energy: EnergyProperties;
+  restrictions: PortalRestriction[];
+}
+
+export interface ActivationSettings {
+  method: ActivationMethod;
+  requirements: ActivationRequirement[];
+  conditions: ActivationCondition[];
+}
+
+export type ActivationMethod = 'touch' | 'proximity' | 'interaction' | 'command' | 'custom';
+
+export interface ActivationRequirement {
+  type: RequirementType;
+  value: any;
+  operator: ConditionOperator;
+}
+
+export type RequirementType = 'level' | 'item' | 'quest' | 'energy' | 'custom';
+
+export interface ActivationCondition {
+  type: ConditionType;
+  parameter: string;
+  operator: ConditionOperator;
+  value: any;
+}
+
+export type ConditionType = 'time' | 'weather' | 'event' | 'custom';
+
+export interface TeleportationConnection {
+  pointId: string;
+  cost: number;
+  duration: number;
+  requirements: TeleportationRequirement[];
+  enabled: boolean;
+}
+
+export interface TeleportationRequirement {
+  type: RequirementType;
+  value: any;
+  operator: ConditionOperator;
+  message: string;
+}
+
+export interface TeleportationEffect {
+  id: string;
+  name: string;
+  type: TeleportationEffectType;
+  properties: TeleportationEffectProperties;
+  duration: number;
+  intensity: number;
+  enabled: boolean;
+  metadata: Record<string, any>;
+}
+
+export type TeleportationEffectType = 'fade' | 'flash' | 'particle' | 'sound' | 'screen' | 'custom';
+
+export interface TeleportationEffectProperties {
+  color: Color;
+  opacity: number;
+  scale: number;
+  speed: number;
+  direction: Vector3;
+  sound: SoundProperties;
+  particle: ParticleProperties;
+  custom: Record<string, any>;
+}
+
+export interface SoundProperties {
+  file: string;
+  volume: number;
+  pitch: number;
+  loop: boolean;
+  fadeIn: number;
+  fadeOut: number;
+}
+
+export interface ParticleProperties {
+  count: number;
+  size: number;
+  speed: number;
+  lifetime: number;
+  gravity: number;
+  color: Color;
+}
+
+export interface TeleportationSystemPerformanceMetrics {
+  totalPortals: number;
+  activePortals: number;
+  totalGateways: number;
+  activeGateways: number;
+  totalTeleportationPoints: number;
+  totalTeleportations: number;
+  averageTeleportationTime: number;
+  averageEnergyUsage: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface TeleportationSystemAnalytics {
+  totalTeleportations: number;
+  averageTeleportationTime: number;
+  portalUsageDistribution: PortalUsageDistribution[];
+  gatewayUsageDistribution: GatewayUsageDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface PortalUsageDistribution {
+  portalId: string;
+  name: string;
+  usage: number;
+  averageTime: number;
+  energyConsumption: number;
+}
+
+export interface GatewayUsageDistribution {
+  gatewayId: string;
+  name: string;
+  usage: number;
+  averageLatency: number;
+  throughput: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  portals: number;
+  gateways: number;
+  teleportations: number;
+  energyUsage: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface TeleportationSystemReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeTeleportations: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface TeleportationSystemOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class TeleportationSystemPure {
+  private managers: Map<string, TeleportationSystemManager> = new Map();
+  private config: TeleportationSystemConfig;
+  private performanceMetrics: TeleportationSystemPerformanceMetrics;
+  private analytics: TeleportationSystemAnalytics;
+
+  constructor(config: Partial<TeleportationSystemConfig> = {}) {
+    this.config = {
+      enableTeleportationManagement: true,
+      enablePortalSystem: true,
+      enableGatewaySystem: true,
+      enableTeleportationEffects: true,
+      enablePhysicsIntegration: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableTeleportationAnalytics: true,
+      enableTeleportationReporting: true,
+      maxPortals: 1000,
+      maxGateways: 100,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
 
-    const portal = this.teleportationSystem.createPortal(portalDataWithAnchors);
-    if (portal) {
-      this.logger.info('TeleportationSystemManager', `✅ Created portal: ${portal.name} (${distance.toFixed(1)} units)`);
-    }
+    this.performanceMetrics = {
+      totalPortals: 0,
+      activePortals: 0,
+      totalGateways: 0,
+      activeGateways: 0,
+      totalTeleportationPoints: 0,
+      totalTeleportations: 0,
+      averageTeleportationTime: 0,
+      averageEnergyUsage: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-    return portal;
+    this.analytics = {
+      totalTeleportations: 0,
+      averageTeleportationTime: 0,
+      portalUsageDistribution: [],
+      gatewayUsageDistribution: [],
+      performanceTrends: []
+    };
   }
 
   /**
-   * Request teleportation with enhanced error handling
+   * Create a new teleportation system manager
    */
-  requestTeleportationEnhanced(request: TeleportationRequest): TeleportationResult {
-    try {
-      // Validate request
-      if (!request.entityId || request.entityId.trim() === '') {
-        throw new Error('Entity ID is required');
-      }
-
-      if (!request.destinationId || request.destinationId.trim() === '') {
-        throw new Error('Destination ID is required');
-      }
-
-      // Perform teleportation
-      const result = this.teleportationSystem.requestTeleportation(request);
-
-      // Log result
-      if (result.success) {
-        this.logger.info('TeleportationSystemManager', `✅ Teleportation successful: ${request.entityId} → ${request.destinationId}`);
-      } else {
-        this.logger.warn('TeleportationSystemManager', `⚠️ Teleportation failed: ${request.entityId} - ${result.failureReason}`);
-      }
-
-      // Apply side effects if any
-      if (result.sideEffects && result.sideEffects.length > 0) {
-        this.applySideEffects(request.entityId, result.sideEffects);
-      }
-
-      return result;
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
-      this.logger.error('TeleportationSystemManager', `❌ Teleportation error: ${message}`);
+  createManager(managerData: Partial<TeleportationSystemManager>): TeleportationSystemOutput {
+    if (!this.config.enableTeleportationManagement) {
       return {
-        success: false,
-        entityId: request.entityId,
-        fromPosition: {
-
-          x: 0, y: 0, z: 0;
-
-        }
-    },
-        toPosition: {
-
-          x: 0, y: 0, z: 0;
-
-        }
-    },
-        energySpent: 0,
-        cooldownApplied: 0,
-        failureReason: message;
-    };
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Teleportation management is disabled']
+      };
     }
-  }
 
-  /**
-   * Get teleportation statistics
-   */
-  getTeleportationStats(): {
-    totalTeleports: number;
-    successRate: number;
-    averageEnergyCost: number;
-    mostActiveZone: string;
-    mostUsedPortal: string;
-    recentFailures: string[];
-  } {
-    const stats = this.teleportationSystem.getStats();
+    const manager: TeleportationSystemManager = {
+      id: managerData.id || `teleportation-${Date.now()}`,
+      name: managerData.name || 'Unnamed Teleportation System Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      portals: [],
+      gateways: [],
+      teleportationPoints: [],
+      effects: [],
+      performanceMetrics: {
+        totalPortals: 0,
+        activePortals: 0,
+        totalGateways: 0,
+        activeGateways: 0,
+        totalTeleportationPoints: 0,
+        totalTeleportations: 0,
+        averageTeleportationTime: 0,
+        averageEnergyUsage: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalTeleportations: 0,
+        averageTeleportationTime: 0,
+        portalUsageDistribution: [],
+        gatewayUsageDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeTeleportations: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-    const successRate = stats.totalTeleports > 0 ?
-      (stats.successfulTeleports / stats.totalTeleports) * 100 : 0;
-
-    const averageEnergyCost = stats.totalTeleports > 0 ?
-      stats.totalEnergySpent / stats.successfulTeleports : 0;
-
-    // Find most active zone
-    const zones = this.teleportationSystem.getAllZones();
-    const mostActiveZone = zones.reduce((mostActive, zone) => {
-      const anchorsInZone = this.teleportationSystem.getAnchorsInZone(zone.id);
-      const portalsInZone = this.getPortalsInZone(zone.id);
-
-      const totalInZone = anchorsInZone.length + portalsInZone.length;
-      const totalInMostActive = this.teleportationSystem.getAnchorsInZone(mostActive.id).length +
-                               this.getPortalsInZone(mostActive.id).length;
-
-      return totalInZone > totalInMostActive ? zone : mostActive;
-    }, zones[0] || { id: 'none', name: 'None' });
-
-    // Find most used portal
-    const portals = (this.teleportationSystem as any).getAllPortals?.() ?? [];
-    const mostUsedPortal = (portals as Portal[]).reduce((mostUsed: Portal | null, portal: Portal) => {
-      // This would normally come from usage statistics
-      // For now, just return the first portal
-      return mostUsed || portal;
-    }, null as Portal | null);
-
-    // Get recent failure reasons
-    const recentFailures = Array.from(stats.failureReasons.entries())
-      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([
-      r,
-      e,
-      a,
-      s,
-      o,
-      n
-    ]) => reason);
+    this.managers.set(manager.id, manager);
 
     return {
-      totalTeleports: stats.totalTeleports,
-      successRate: Math.round(successRate * 100) / 100,
-      averageEnergyCost: Math.round(averageEnergyCost * 100) / 100,
-      mostActiveZone: mostActiveZone.name,
-      mostUsedPortal: mostUsedPortal?.name || 'None',
-      recentFailures
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Get portals in a zone
+   * Get manager by ID
    */
-  private getPortalsInZone(zoneId: string): Portal[] {
-    const anchorsInZone = this.teleportationSystem.getAnchorsInZone(zoneId);
-    const anchorIds = anchorsInZone.map(anchor => anchor.id);
-
-    return ((this.teleportationSystem as any).getAllPortals?.() ?? []).filter((portal: Portal) =>
-      anchorIds.includes(portal.sourceAnchor.id) || anchorIds.includes(portal.destinationAnchor.id)
-    );
-  }
-
-  /**
-   * Get available teleportation destinations for an entity
-   */
-  getAvailableDestinations(entityId: string): Array<{
-    id: string;
-    name: string;
-    type: 'anchor' | 'portal';
-    position: Vector3;
-    energyCost: number;
-    description: string;
-    distance: number;
-  }> {
-    const destinations: Array<{
-      id: string;
-      name: string;
-      type: 'anchor' | 'portal';
-      position: Vector3;
-      energyCost: number;
-      description: string;
-      distance: number;
-    }> = [];
-
-    const currentPosition = { x: 0, y: 0, z: 0;
-    }; // Would get from entity system
-
-    // Add accessible anchors
-    const allAnchors = (this.teleportationSystem as any).getAllAnchors?.() ?? [];
-    for (const anchor of allAnchors) {
-      if (this.canAccessDestination(entityId, anchor.id, 'anchor')) {
-        const distance = this.calculateDistance(currentPosition, anchor.position);
-        destinations.push({
-          id: anchor.id,
-          name: anchor.name,
-          type: 'anchor',
-          position: anchor.position,
-          energyCost: anchor.energyCost,
-          description: anchor.description,
-          distance
-        });
-      }
+  getManager(managerId: string): TeleportationSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    // Add accessible portals
-    const allPortals = (this.teleportationSystem as any).getAllPortals?.() ?? [];
-    for (const portal of allPortals) {
-      if (portal.isActive && this.canAccessDestination(entityId, portal.id, 'portal')) {
-        destinations.push({
-          id: portal.id,
-          name: portal.name,
-          type: 'portal',
-          position: portal.destinationAnchor.position,
-          energyCost: portal.energyCost,
-          description: `Portal to ${portal.destinationAnchor.name}`,
-          distance: this.calculateDistance(currentPosition, portal.destinationAnchor.position)
-        });
-      }
-    }
-
-    // Sort by distance
-    return destinations.sort((a, b) => a.distance - b.distance);
-  }
-
-  /**
-   * Check if entity can access a destination
-   */
-  private canAccessDestination(entityId: string, destinationId: string, type: 'anchor' | 'portal'): boolean {
-    if (type === 'anchor') {
-      const anchor = this.teleportationSystem.getAnchor(destinationId);
-      return anchor ? this.checkAnchorAccess(entityId, anchor) : false;
-    } else {
-      const portal = this.teleportationSystem.getPortal(destinationId);
-      return portal ? this.checkPortalAccess(entityId, portal) : false;
-    }
-  }
-
-  /**
-   * Check anchor access
-   */
-  private checkAnchorAccess(entityId: string, anchor: SpatialAnchor): boolean {
-    // Check if anchor is active
-    if (!anchor.isActive) return false;
-
-    // Check restrictions (simplified)
-    for (const restriction of anchor.restrictions) {
-      if (!this.evaluateRestriction(entityId, restriction)) {
-        return false;
-      }
-    }
-
-    // Check permissions (simplified)
-    for (const permission of anchor.requiredPermissions) {
-      if (!this.evaluatePermission(entityId, permission)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  /**
-   * Check portal access
-   */
-  private checkPortalAccess(entityId: string, portal: Portal): boolean {
-    // Check if portal is active
-    if (!portal.isActive) return false;
-
-    // Check charges
-    if (portal.charges === 0) return false;
-
-    // Check restrictions (simplified)
-    for (const restriction of portal.restrictions) {
-      if (!this.evaluateRestriction(entityId, restriction)) {
-        return false;
-      }
-    }
-
-    // Check permissions (simplified)
-    for (const permission of portal.requiredPermissions) {
-      if (!this.evaluatePermission(entityId, permission)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  /**
-   * Evaluate restriction
-   */
-  private evaluateRestriction(entityId: string, restriction: string): boolean {
-    // This would integrate with quest, inventory, or achievement systems
-    // For now, simple checks
-    if (restriction === 'none') return true;
-    if (restriction === 'requires-dungeon-key') return false; // Would check inventory
-    if (restriction === 'requires-magic-permission') return true; // Assume basic access
-
-    return false;
-  }
-
-  /**
-   * Evaluate permission
-   */
-  private evaluatePermission(entityId: string, permission: string): boolean {
-    // This would integrate with permission or role systems
-    // For now, simple checks
-    if (permission === 'basic' || permission === 'none') return true;
-    if (permission === 'admin') return false; // Would check user role
-
-    return false;
-  }
-
-  /**
-   * Apply side effects
-   */
-  private applySideEffects(entityId: string, sideEffects: TeleportationSideEffect[]): void {
-    for (const effect of sideEffects) {
-      this.logger.info('TeleportationSystemManager', `✨ Applying side effect: ${effect.description}`);
-
-      // This would integrate with health, status effect, or other systems
-      switch (effect.type) {
-        case 'buff':
-          this.logger.info('TeleportationSystemManager', `  💪 ${entityId} gains buff: +${effect.magnitude} for ${effect.duration}s`);
-          break;
-        case 'debuff':
-          this.logger.info('TeleportationSystemManager', `  😵 ${entityId} gains debuff: -${effect.magnitude} for ${effect.duration}s`);
-          break;
-        case 'damage':
-          this.logger.info('TeleportationSystemManager', `  💔 ${entityId} takes ${effect.magnitude} teleportation damage`);
-          break;
-        case 'heal':
-          this.logger.info('TeleportationSystemManager', `  💚 ${entityId} heals ${effect.magnitude} from teleportation`);
-          break;
-        case 'environmental':
-          this.logger.info('TeleportationSystemManager', `  🌍 Environmental effect: ${effect.description}`);
-          break;
-      }
-    }
-  }
-
-  /**
-   * Get teleportation configuration
-   */
-  getConfig(): TeleportationConfig {
-    return ((this.teleportationSystem as any).getConfig?.() ?? {}) as TeleportationConfig;
-  }
-
-  /**
-   * Update teleportation configuration
-   */
-  updateConfig(newConfig: Partial<TeleportationConfig>): void {
-    this.teleportationSystem.updateConfig(newConfig);
-    this.logger.info('TeleportationSystemManager', 'Teleportation configuration updated');
-  }
-
-  /**
-   * Get zone information
-   */
-  getZoneInfo(zoneId: string): ZoneInfo | null {
-    return this.teleportationSystem.getZone(zoneId);
-  }
-
-  /**
-   * Get all zones
-   */
-  getAllZones(): ZoneInfo[] {
-    return this.teleportationSystem.getAllZones();
-  }
-
-  /**
-   * Add a zone
-   */
-  addZone(zone: ZoneInfo): void {
-    this.teleportationSystem.addZone(zone);
-  }
-
-  /**
-   * Remove a zone
-   */
-  removeZone(zoneId: string): boolean {
-    return this.teleportationSystem.removeZone(zoneId);
-  }
-
-  /**
-   * Get anchor information
-   */
-  getAnchorInfo(anchorId: string): SpatialAnchor | null {
-    return this.teleportationSystem.getAnchor(anchorId);
-  }
-
-  /**
-   * Get portal information
-   */
-  getPortalInfo(portalId: string): Portal | null {
-    return this.teleportationSystem.getPortal(portalId);
-  }
-
-  /**
-   * Calculate distance between positions
-   */
-  private calculateDistance(pos1: Vector3, pos2: Vector3): number {
-    const dx = pos1.x - pos2.x;
-    const dy = pos1.y - pos2.y;
-    const dz = pos1.z - pos2.z;
-    return Math.sqrt(dx * dx + dy * dy + dz * dz);
-  }
-
-  /**
-   * Get all anchors
-   */
-  getAllAnchors(): SpatialAnchor[] {
-    return ((this.teleportationSystem as any).getAllAnchors?.() ?? []) as SpatialAnchor[];
-  }
-
-  /**
-   * Get all portals
-   */
-  getAllPortals(): Portal[] {
-    return ((this.teleportationSystem as any).getAllPortals?.() ?? []) as Portal[];
-  }
-
-  /**
-   * Export teleportation system data
-   */
-  exportData(): {
-    anchors: SpatialAnchor[];
-    portals: Portal[];
-    zones: ZoneInfo[];
-    stats: ReturnType<TeleportationSystemPure['getStats']>;
-    timestamp: number;
-  } {
     return {
-      anchors: ((this.teleportationSystem as any).getAllAnchors?.() ?? []) as SpatialAnchor[],
-      portals: ((this.teleportationSystem as any).getAllPortals?.() ?? []) as Portal[],
-      zones: ((this.teleportationSystem as any).getAllZones?.() ?? []) as ZoneInfo[],
-      stats: ((this.teleportationSystem as any).getStats?.() ?? {}) as any,
-      timestamp: Date.now()
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Import teleportation system data
+   * Create portal
    */
-  importData(data: ReturnType<typeof this.exportData>): void {
-    // Import logic would go here
-    this.logger.info('TeleportationSystemManager', 'Teleportation system data imported');
+  createPortal(managerId: string, portal: Partial<Portal>): TeleportationSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-portal',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.portals.length >= this.config.maxPortals) {
+      return {
+        op: 'create-portal',
+        status: 'error',
+        issues: ['Maximum number of portals reached']
+      };
+    }
+
+    const newPortal: Portal = {
+      id: portal.id || `portal-${Date.now()}`,
+      name: portal.name || 'Unnamed Portal',
+      type: portal.type || 'two_way',
+      status: 'active',
+      position: portal.position || {
+        x: 0,
+        y: 0,
+        z: 0,
+        rotation: 0,
+        world: 'default',
+        region: 'default'
+      },
+      destination: portal.destination || {
+        portalId: '',
+        position: {
+          x: 0,
+          y: 0,
+          z: 0,
+          rotation: 0,
+          world: 'default',
+          region: 'default'
+        },
+        offset: { x: 0, y: 0, z: 0 },
+        rotation: 0,
+        world: 'default',
+        region: 'default'
+      },
+      properties: portal.properties || {
+        size: {
+          width: 2,
+          height: 3,
+          depth: 0.1
+        },
+        duration: 0,
+        cooldown: 1000,
+        energy: {
+          current: 100,
+          maximum: 100,
+          consumption: 10,
+          regeneration: 1,
+          efficiency: 0.9
+        },
+        capacity: {
+          maxObjects: 10,
+          maxWeight: 1000,
+          maxVolume: 100,
+          currentObjects: 0,
+          currentWeight: 0,
+          currentVolume: 0
+        },
+        security: {
+          accessLevel: 'public',
+          permissions: [],
+          encryption: {
+            enabled: false,
+            algorithm: 'AES-256',
+            keySize: 256,
+            mode: 'CBC'
+          },
+          authentication: {
+            enabled: false,
+            method: 'none',
+            credentials: '',
+            token: '',
+            expires: 0
+          }
+        }
+      },
+      effects: portal.effects || [],
+      restrictions: portal.restrictions || [],
+      metadata: {},
+      ...portal
+    };
+
+    manager.portals.push(newPortal);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalPortals++;
+    this.performanceMetrics.activePortals++;
+
+    return {
+      op: 'create-portal',
+      status: 'ok',
+      result: newPortal
+    };
   }
 
   /**
-   * Cleanup resources
+   * Create gateway
    */
-  destroy(): void {
-    this.logger.info('TeleportationSystemManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+  createGateway(managerId: string, gateway: Partial<Gateway>): TeleportationSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-gateway',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.gateways.length >= this.config.maxGateways) {
+      return {
+        op: 'create-gateway',
+        status: 'error',
+        issues: ['Maximum number of gateways reached']
+      };
+    }
+
+    const newGateway: Gateway = {
+      id: gateway.id || `gateway-${Date.now()}`,
+      name: gateway.name || 'Unnamed Gateway',
+      type: gateway.type || 'hub',
+      status: 'active',
+      position: gateway.position || {
+        x: 0,
+        y: 0,
+        z: 0,
+        rotation: 0,
+        world: 'default',
+        region: 'default'
+      },
+      connections: gateway.connections || [],
+      properties: gateway.properties || {
+        capacity: 100,
+        throughput: 10,
+        latency: 100,
+        reliability: 0.99,
+        maintenance: {
+          schedule: 'weekly',
+          duration: 3600000, // 1 hour
+          lastMaintenance: 0,
+          nextMaintenance: 0
+        }
+      },
+      effects: gateway.effects || [],
+      metadata: {},
+      ...gateway
+    };
+
+    manager.gateways.push(newGateway);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalGateways++;
+    this.performanceMetrics.activeGateways++;
+
+    return {
+      op: 'create-gateway',
+      status: 'ok',
+      result: newGateway
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): TeleportationSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): TeleportationSystemAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): TeleportationSystemManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalPortals = 0;
+    let activePortals = 0;
+    let totalGateways = 0;
+    let activeGateways = 0;
+    let totalTeleportationPoints = 0;
+
+    for (const manager of this.managers.values()) {
+      totalPortals += manager.portals.length;
+      activePortals += manager.portals.filter(p => p.status === 'active').length;
+      totalGateways += manager.gateways.length;
+      activeGateways += manager.gateways.filter(g => g.status === 'active').length;
+      totalTeleportationPoints += manager.teleportationPoints.length;
+    }
+
+    this.performanceMetrics.totalPortals = totalPortals;
+    this.performanceMetrics.activePortals = activePortals;
+    this.performanceMetrics.totalGateways = totalGateways;
+    this.performanceMetrics.activeGateways = activeGateways;
+    this.performanceMetrics.totalTeleportationPoints = totalTeleportationPoints;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
