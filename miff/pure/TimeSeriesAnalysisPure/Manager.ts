@@ -1,963 +1,936 @@
 /**
- * TimeSeriesAnalysisPure Manager - Advanced Time Series Analysis Management System
+ * TimeSeriesAnalysisPure Manager - Advanced Time Series Analysis System
  *
- * Comprehensive time series analysis system with:
- * - Data preprocessing and cleaning
- * - Trend analysis and decomposition
- * - Seasonal pattern detection
- * - Forecasting and prediction
- * - Anomaly detection and outlier identification
- * - Statistical modeling and validation
- * - Real-time monitoring and alerting
+ * Comprehensive time series analysis management system with:
+ * - Time series data processing and analysis
+ * - Statistical analysis and forecasting
+ * - Pattern recognition and anomaly detection
+ * - Data visualization and reporting
  * - Performance optimization
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Real-time analysis monitoring
+ * - Analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface TimeSeriesAnalysisConfig {
-  enableDataPreprocessing: boolean;
-  enableDataCleaning: boolean;
-  enableTrendAnalysis: boolean;
-  enableDecomposition: boolean;
-  enableSeasonalDetection: boolean;
+  enableDataProcessing: boolean;
+  enableStatisticalAnalysis: boolean;
   enableForecasting: boolean;
-  enablePrediction: boolean;
+  enablePatternRecognition: boolean;
   enableAnomalyDetection: boolean;
-  enableOutlierIdentification: boolean;
-  enableStatisticalModeling: boolean;
-  enableValidation: boolean;
+  enableDataVisualization: boolean;
+  enablePerformanceOptimization: boolean;
   enableRealTimeMonitoring: boolean;
-  enableAlerting: boolean;
+  enableAnalysisAnalytics: boolean;
+  enableAnalysisReporting: boolean;
+  maxDataPoints: number;
   maxTimeSeries: number;
-  maxModels: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface TimeSeriesAnalysis {
+export interface TimeSeriesAnalysisManager {
   id: string;
   name: string;
-  type: AnalysisType;
-  status: AnalysisStatus;
+  type: TimeSeriesAnalysisManagerType;
+  status: TimeSeriesAnalysisManagerStatus;
   timeSeries: TimeSeries[];
-  models: TimeSeriesModel[];
+  analyses: Analysis[];
   forecasts: Forecast[];
   anomalies: Anomaly[];
-  analytics: TimeSeriesAnalytics;
-  metadata: TimeSeriesMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  performanceMetrics: TimeSeriesAnalysisPerformanceMetrics;
+  analytics: TimeSeriesAnalysisAnalytics;
+  reporting: TimeSeriesAnalysisReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum AnalysisType {
-  TREND_ANALYSIS = 'trend_analysis',
-  SEASONAL_ANALYSIS = 'seasonal_analysis',
-  FORECASTING = 'forecasting',
-  ANOMALY_DETECTION = 'anomaly_detection',
-  STATISTICAL_MODELING = 'statistical_modeling',
-  CUSTOM = 'custom'
-}
-
-export enum AnalysisStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
+export type TimeSeriesAnalysisManagerType = 'basic' | 'advanced' | 'enterprise' | 'custom';
+export type TimeSeriesAnalysisManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TimeSeries {
   id: string;
   name: string;
-  type: TimeSeriesType;
-  status: TimeSeriesStatus;
-  data: TimeSeriesData;
-  preprocessing: PreprocessingConfig;
-  features: TimeSeriesFeatures;
-  metadata: Map<string, any>;
-}
-
-export enum TimeSeriesType {
-  UNIVARIATE = 'univariate',
-  MULTIVARIATE = 'multivariate',
-  REGULAR = 'regular',
-  IRREGULAR = 'irregular',
-  CUSTOM = 'custom'
-}
-
-export enum TimeSeriesStatus {
-  UPLOADED = 'uploaded',
-  PROCESSING = 'processing',
-  PROCESSED = 'processed',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface TimeSeriesData {
-  timestamps: number[];
-  values: number[][];
+  description: string;
+  dataPoints: DataPoint[];
   frequency: Frequency;
-  length: number;
   startTime: number;
   endTime: number;
-  metadata: Map<string, any>;
+  metadata: Record<string, any>;
 }
 
-export interface Frequency {
-  type: FrequencyType;
+export interface DataPoint {
+  timestamp: number;
   value: number;
-  unit: FrequencyUnit;
-  metadata: Map<string, any>;
+  quality: DataQuality;
+  metadata: Record<string, any>;
 }
 
-export enum FrequencyType {
-  FIXED = 'fixed',
-  VARIABLE = 'variable',
-  CUSTOM = 'custom'
+export type DataQuality = 'good' | 'warning' | 'bad' | 'missing';
+export type Frequency = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
+
+export interface Analysis {
+  id: string;
+  timeSeriesId: string;
+  type: AnalysisType;
+  parameters: AnalysisParameters;
+  results: AnalysisResults;
+  status: AnalysisStatus;
+  createdAt: number;
+  completedAt?: number;
+  metadata: Record<string, any>;
 }
 
-export enum FrequencyUnit {
-  MILLISECOND = 'millisecond',
-  SECOND = 'second',
-  MINUTE = 'minute',
-  HOUR = 'hour',
-  DAY = 'day',
-  WEEK = 'week',
-  MONTH = 'month',
-  YEAR = 'year',
-  CUSTOM = 'custom'
+export type AnalysisType = 'trend' | 'seasonality' | 'autocorrelation' | 'stationarity' | 'cointegration' | 'custom';
+export type AnalysisStatus = 'pending' | 'running' | 'completed' | 'failed';
+
+export interface AnalysisParameters {
+  windowSize?: number;
+  confidenceLevel?: number;
+  significanceLevel?: number;
+  lag?: number;
+  custom: Record<string, any>;
 }
 
-export interface PreprocessingConfig {
-  missingValues: MissingValueConfig;
-  outliers: OutlierConfig;
-  smoothing: SmoothingConfig;
-  normalization: NormalizationConfig;
-  metadata: Map<string, any>;
+export interface AnalysisResults {
+  statistics: StatisticalResults;
+  patterns: PatternResults;
+  insights: string[];
+  confidence: number;
+  metadata: Record<string, any>;
 }
 
-export interface MissingValueConfig {
-  method: MissingValueMethod;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
+export interface StatisticalResults {
+  mean: number;
+  median: number;
+  mode: number;
+  standardDeviation: number;
+  variance: number;
+  skewness: number;
+  kurtosis: number;
+  min: number;
+  max: number;
+  range: number;
 }
 
-export enum MissingValueMethod {
-  INTERPOLATION = 'interpolation',
-  FORWARD_FILL = 'forward_fill',
-  BACKWARD_FILL = 'backward_fill',
-  MEAN = 'mean',
-  MEDIAN = 'median',
-  CUSTOM = 'custom'
+export interface PatternResults {
+  trend: TrendPattern;
+  seasonality: SeasonalityPattern;
+  cycles: CyclePattern[];
+  anomalies: AnomalyPattern[];
 }
 
-export interface OutlierConfig {
-  method: OutlierMethod;
-  threshold: number;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export enum OutlierMethod {
-  Z_SCORE = 'z_score',
-  IQR = 'iqr',
-  ISOLATION_FOREST = 'isolation_forest',
-  CUSTOM = 'custom'
-}
-
-export interface SmoothingConfig {
-  method: SmoothingMethod;
-  window: number;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export enum SmoothingMethod {
-  MOVING_AVERAGE = 'moving_average',
-  EXPONENTIAL = 'exponential',
-  SAVITZKY_GOLAY = 'savitzky_golay',
-  CUSTOM = 'custom'
-}
-
-export interface NormalizationConfig {
-  method: NormalizationMethod;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export enum NormalizationMethod {
-  MIN_MAX = 'min_max',
-  Z_SCORE = 'z_score',
-  ROBUST = 'robust',
-  CUSTOM = 'custom'
-}
-
-export interface TimeSeriesFeatures {
-  trend: TrendFeatures;
-  seasonality: SeasonalityFeatures;
-  stationarity: StationarityFeatures;
-  autocorrelation: AutocorrelationFeatures;
-  metadata: Map<string, any>;
-}
-
-export interface TrendFeatures {
-  direction: TrendDirection;
+export interface TrendPattern {
+  direction: 'increasing' | 'decreasing' | 'stable';
   strength: number;
   slope: number;
-  metadata: Map<string, any>;
+  rSquared: number;
 }
 
-export enum TrendDirection {
-  INCREASING = 'increasing',
-  DECREASING = 'decreasing',
-  STABLE = 'stable',
-  CUSTOM = 'custom'
-}
-
-export interface SeasonalityFeatures {
-  present: boolean;
+export interface SeasonalityPattern {
+  detected: boolean;
   period: number;
   strength: number;
-  pattern: SeasonalityPattern;
-  metadata: Map<string, any>;
+  components: SeasonalComponent[];
 }
 
-export enum SeasonalityPattern {
-  ADDITIVE = 'additive',
-  MULTIPLICATIVE = 'multiplicative',
-  CUSTOM = 'custom'
+export interface SeasonalComponent {
+  period: number;
+  amplitude: number;
+  phase: number;
 }
 
-export interface StationarityFeatures {
-  isStationary: boolean;
-  adfStatistic: number;
-  pValue: number;
-  criticalValues: Map<string, number>;
-  metadata: Map<string, any>;
+export interface CyclePattern {
+  period: number;
+  amplitude: number;
+  phase: number;
+  confidence: number;
 }
 
-export interface AutocorrelationFeatures {
-  acf: number[];
-  pacf: number[];
-  lags: number[];
-  metadata: Map<string, any>;
+export interface AnomalyPattern {
+  timestamp: number;
+  value: number;
+  expectedValue: number;
+  deviation: number;
+  severity: AnomalySeverity;
+  type: AnomalyType;
 }
 
-export interface TimeSeriesModel {
-  id: string;
-  name: string;
-  type: ModelType;
-  status: ModelStatus;
-  configuration: ModelConfiguration;
-  training: ModelTraining;
-  performance: ModelPerformance;
-  metadata: Map<string, any>;
-}
-
-export enum ModelType {
-  ARIMA = 'arima',
-  SARIMA = 'sarima',
-  EXPONENTIAL_SMOOTHING = 'exponential_smoothing',
-  LSTM = 'lstm',
-  GRU = 'gru',
-  TRANSFORMER = 'transformer',
-  CUSTOM = 'custom'
-}
-
-export enum ModelStatus {
-  TRAINING = 'training',
-  TRAINED = 'trained',
-  DEPLOYED = 'deployed',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface ModelConfiguration {
-  parameters: Map<string, any>;
-  hyperparameters: Map<string, any>;
-  constraints: ModelConstraint[];
-  metadata: Map<string, any>;
-}
-
-export interface ModelConstraint {
-  type: ConstraintType;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum ConstraintType {
-  MAX_LAG = 'max_lag',
-  MIN_OBSERVATIONS = 'min_observations',
-  SEASONAL_PERIOD = 'seasonal_period',
-  CUSTOM = 'custom'
-}
-
-export interface ModelTraining {
-  dataset: string;
-  epochs: number;
-  batchSize: number;
-  learningRate: number;
-  optimizer: string;
-  loss: string;
-  validationSplit: number;
-  metadata: Map<string, any>;
-}
-
-export interface ModelPerformance {
-  mse: number;
-  mae: number;
-  rmse: number;
-  mape: number;
-  r2: number;
-  aic: number;
-  bic: number;
-  metadata: Map<string, any>;
-}
+export type AnomalySeverity = 'low' | 'medium' | 'high' | 'critical';
+export type AnomalyType = 'spike' | 'drop' | 'shift' | 'outlier' | 'missing';
 
 export interface Forecast {
   id: string;
-  name: string;
-  type: ForecastType;
-  status: ForecastStatus;
-  model: string;
-  timeSeries: string;
+  timeSeriesId: string;
+  method: ForecastMethod;
   horizon: number;
-  predictions: Prediction[];
-  confidence: ConfidenceInterval;
-  metadata: Map<string, any>;
+  predictions: ForecastPoint[];
+  confidenceInterval: ConfidenceInterval;
+  accuracy: ForecastAccuracy;
+  status: ForecastStatus;
+  createdAt: number;
+  metadata: Record<string, any>;
 }
 
-export enum ForecastType {
-  POINT = 'point',
-  INTERVAL = 'interval',
-  PROBABILISTIC = 'probabilistic',
-  CUSTOM = 'custom'
-}
+export type ForecastMethod = 'arima' | 'exponential_smoothing' | 'linear_regression' | 'neural_network' | 'custom';
+export type ForecastStatus = 'pending' | 'running' | 'completed' | 'failed';
 
-export enum ForecastStatus {
-  PENDING = 'pending',
-  PROCESSING = 'processing',
-  COMPLETED = 'completed',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Prediction {
+export interface ForecastPoint {
   timestamp: number;
   value: number;
+  lowerBound: number;
+  upperBound: number;
   confidence: number;
-  metadata: Map<string, any>;
 }
 
 export interface ConfidenceInterval {
-  lower: number[];
-  upper: number[];
   level: number;
-  metadata: Map<string, any>;
+  lowerBound: number[];
+  upperBound: number[];
+}
+
+export interface ForecastAccuracy {
+  mae: number; // Mean Absolute Error
+  mse: number; // Mean Squared Error
+  rmse: number; // Root Mean Squared Error
+  mape: number; // Mean Absolute Percentage Error
+  rSquared: number;
 }
 
 export interface Anomaly {
   id: string;
-  name: string;
-  type: AnomalyType;
-  status: AnomalyStatus;
-  timeSeries: string;
+  timeSeriesId: string;
   timestamp: number;
   value: number;
-  score: number;
+  expectedValue: number;
+  deviation: number;
   severity: AnomalySeverity;
-  context: AnomalyContext;
-  metadata: Map<string, any>;
-}
-
-export enum AnomalyType {
-  POINT = 'point',
-  COLLECTIVE = 'collective',
-  CONTEXTUAL = 'contextual',
-  CUSTOM = 'custom'
-}
-
-export enum AnomalyStatus {
-  DETECTED = 'detected',
-  CONFIRMED = 'confirmed',
-  FALSE_POSITIVE = 'false_positive',
-  RESOLVED = 'resolved',
-  CUSTOM = 'custom'
-}
-
-export enum AnomalySeverity {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CRITICAL = 'critical',
-  CUSTOM = 'custom'
-}
-
-export interface AnomalyContext {
+  type: AnomalyType;
   description: string;
-  cause: string;
-  impact: string;
-  recommendations: string[];
-  metadata: Map<string, any>;
+  status: AnomalyStatus;
+  createdAt: number;
+  metadata: Record<string, any>;
 }
 
-export interface TimeSeriesAnalytics {
+export type AnomalyStatus = 'new' | 'investigating' | 'resolved' | 'ignored';
+
+export interface TimeSeriesAnalysisPerformanceMetrics {
   totalTimeSeries: number;
-  totalModels: number;
+  totalDataPoints: number;
+  totalAnalyses: number;
+  completedAnalyses: number;
   totalForecasts: number;
   totalAnomalies: number;
-  averageAccuracy: number;
-  averagePrecision: number;
-  averageRecall: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
+  averageProcessingTime: number;
   memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
+  cpuUsage: number;
+  uptime: number;
 }
 
-export interface TimeSeriesMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
+export interface TimeSeriesAnalysisAnalytics {
+  totalAnalyses: number;
+  averageProcessingTime: number;
+  analysisTypeDistribution: AnalysisTypeDistribution[];
+  forecastAccuracyDistribution: ForecastAccuracyDistribution[];
+  anomalySeverityDistribution: AnomalySeverityDistribution[];
+  performanceTrends: PerformanceTrend[];
 }
 
-export interface TimeSeriesStats {
-  totalTimeSeries: number;
-  totalModels: number;
-  totalForecasts: number;
-  totalAnomalies: number;
+export interface AnalysisTypeDistribution {
+  type: AnalysisType;
+  count: number;
+  percentage: number;
+}
+
+export interface ForecastAccuracyDistribution {
+  method: ForecastMethod;
   averageAccuracy: number;
-  averagePrecision: number;
-  averageRecall: number;
+  count: number;
+}
+
+export interface AnomalySeverityDistribution {
+  severity: AnomalySeverity;
+  count: number;
+  percentage: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  analyses: number;
+  processingTime: number;
+  accuracy: number;
+  anomalies: number;
+}
+
+export interface TimeSeriesAnalysisReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeAnalyses: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
 }
 
-export class TimeSeriesAnalysisManager {
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface TimeSeriesAnalysisOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class TimeSeriesAnalysisPure {
+  private managers: Map<string, TimeSeriesAnalysisManager> = new Map();
   private config: TimeSeriesAnalysisConfig;
-  private analyses: Map<string, TimeSeriesAnalysis> = new Map();
-  private stats: TimeSeriesStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: TimeSeriesAnalysisPerformanceMetrics;
+  private analytics: TimeSeriesAnalysisAnalytics;
 
   constructor(config: Partial<TimeSeriesAnalysisConfig> = {}) {
     this.config = {
-      enableDataPreprocessing: true,
-      enableDataCleaning: true,
-      enableTrendAnalysis: true,
-      enableDecomposition: true,
-      enableSeasonalDetection: true,
+      enableDataProcessing: true,
+      enableStatisticalAnalysis: true,
       enableForecasting: true,
-      enablePrediction: true,
+      enablePatternRecognition: true,
       enableAnomalyDetection: true,
-      enableOutlierIdentification: true,
-      enableStatisticalModeling: true,
-      enableValidation: true,
+      enableDataVisualization: true,
+      enablePerformanceOptimization: true,
       enableRealTimeMonitoring: true,
-      enableAlerting: true,
-      maxTimeSeries: 10000,
-      maxModels: 1000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      enableAnalysisAnalytics: true,
+      enableAnalysisReporting: true,
+      maxDataPoints: 1000000,
+      maxTimeSeries: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'TimeSeriesAnalysisManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `TimeSeriesAnalysisManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'TimeSeriesAnalysisManager');
-  };
-  }
-
-  /**
-   * Initialize time series analysis manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize time series analysis manager
-      await this.initializeTimeSeriesAnalysisManager();
-      
-      // Load default time series analyses
-      await this.loadDefaultTimeSeriesAnalyses();
-      
-      this.isInitialized = true;
-      this.logger.info('TimeSeriesAnalysisManager', 'Time series analysis manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('TimeSeriesAnalysisManager', 'Failed to initialize time series analysis manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new time series analysis
-   */
-  createTimeSeriesAnalysis(analysis: Partial<TimeSeriesAnalysis>): TimeSeriesAnalysis | null {
-    const newAnalysis: TimeSeriesAnalysis = {
-      id: `analysis_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: analysis.name || 'New Time Series Analysis',
-      type: analysis.type || AnalysisType.TREND_ANALYSIS,
-      status: AnalysisStatus.ACTIVE,
-      timeSeries: analysis.timeSeries || [],
-      models: analysis.models || [],
-      forecasts: analysis.forecasts || [],
-      anomalies: analysis.anomalies || [],
-      analytics: analysis.analytics || this.createDefaultAnalytics(),
-      metadata: analysis.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
 
-    this.analyses.set(newAnalysis.id, newAnalysis);
-    this.updateStats('create_analysis', newAnalysis);
+    this.performanceMetrics = {
+      totalTimeSeries: 0,
+      totalDataPoints: 0,
+      totalAnalyses: 0,
+      completedAnalyses: 0,
+      totalForecasts: 0,
+      totalAnomalies: 0,
+      averageProcessingTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-    this.logger.info('TimeSeriesAnalysisManager', `Created time series analysis: ${newAnalysis.name}`);
-    return newAnalysis;
+    this.analytics = {
+      totalAnalyses: 0,
+      averageProcessingTime: 0,
+      analysisTypeDistribution: [],
+      forecastAccuracyDistribution: [],
+      anomalySeverityDistribution: [],
+      performanceTrends: []
+    };
+  }
+
+  /**
+   * Create a new time series analysis manager
+   */
+  createManager(managerData: Partial<TimeSeriesAnalysisManager>): TimeSeriesAnalysisOutput {
+    if (!this.config.enableDataProcessing) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Data processing is disabled']
+      };
+    }
+
+    const manager: TimeSeriesAnalysisManager = {
+      id: managerData.id || `timeseries-${Date.now()}`,
+      name: managerData.name || 'Unnamed Time Series Analysis Manager',
+      type: managerData.type || 'basic',
+      status: 'active',
+      timeSeries: [],
+      analyses: [],
+      forecasts: [],
+      anomalies: [],
+      performanceMetrics: {
+        totalTimeSeries: 0,
+        totalDataPoints: 0,
+        totalAnalyses: 0,
+        completedAnalyses: 0,
+        totalForecasts: 0,
+        totalAnomalies: 0,
+        averageProcessingTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalAnalyses: 0,
+        averageProcessingTime: 0,
+        analysisTypeDistribution: [],
+        forecastAccuracyDistribution: [],
+        anomalySeverityDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeAnalyses: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): TimeSeriesAnalysisOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
    * Create time series
    */
-  createTimeSeries(analysisId: string, timeSeries: Partial<TimeSeries>): TimeSeries | null {
-    const analysis = this.analyses.get(analysisId);
-    if (!analysis) {
-      this.logger.warn('TimeSeriesAnalysisManager', `Time series analysis ${analysisId} not found`);
-      return null;
-    }
-
-    if (analysis.timeSeries.length >= this.config.maxTimeSeries) {
-      this.logger.warn('TimeSeriesAnalysisManager', 'Maximum number of time series reached');
-      return null;
-    }
-
-    try {
-      const newTimeSeries: TimeSeries = {
-        id: `timeseries_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: timeSeries.name || 'New Time Series',
-        type: timeSeries.type || TimeSeriesType.UNIVARIATE,
-        status: TimeSeriesStatus.UPLOADED,
-        data: timeSeries.data || this.createDefaultTimeSeriesData(),
-        preprocessing: timeSeries.preprocessing || this.createDefaultPreprocessingConfig(),
-        features: timeSeries.features || this.createDefaultTimeSeriesFeatures(),
-        metadata: timeSeries.metadata || new Map()
+  createTimeSeries(managerId: string, timeSeries: Partial<TimeSeries>): TimeSeriesAnalysisOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-time-series',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
       };
-
-      analysis.timeSeries.push(newTimeSeries);
-      analysis.modified = Date.now();
-
-      this.updateStats('create_timeseries', analysis);
-      this.logger.info('TimeSeriesAnalysisManager', `Created time series: ${newTimeSeries.name}`);
-      return newTimeSeries;
-    } catch (error) {
-      this.logger.error('TimeSeriesAnalysisManager', `Failed to create time series in analysis ${analysisId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Create time series model
-   */
-  createTimeSeriesModel(analysisId: string, model: Partial<TimeSeriesModel>): TimeSeriesModel | null {
-    const analysis = this.analyses.get(analysisId);
-    if (!analysis) {
-      this.logger.warn('TimeSeriesAnalysisManager', `Time series analysis ${analysisId} not found`);
-      return null;
     }
 
-    if (analysis.models.length >= this.config.maxModels) {
-      this.logger.warn('TimeSeriesAnalysisManager', 'Maximum number of models reached');
-      return null;
-    }
-
-    try {
-      const newModel: TimeSeriesModel = {
-        id: `model_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: model.name || 'New Model',
-        type: model.type || ModelType.ARIMA,
-        status: ModelStatus.TRAINING,
-        configuration: model.configuration || this.createDefaultModelConfiguration(),
-        training: model.training || this.createDefaultModelTraining(),
-        performance: model.performance || this.createDefaultModelPerformance(),
-        metadata: model.metadata || new Map()
+    if (manager.timeSeries.length >= this.config.maxTimeSeries) {
+      return {
+        op: 'create-time-series',
+        status: 'error',
+        issues: ['Maximum number of time series reached']
       };
-
-      analysis.models.push(newModel);
-      analysis.modified = Date.now();
-
-      this.updateStats('create_model', analysis);
-      this.logger.info('TimeSeriesAnalysisManager', `Created time series model: ${newModel.name}`);
-      return newModel;
-    } catch (error) {
-      this.logger.error('TimeSeriesAnalysisManager', `Failed to create time series model in analysis ${analysisId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Get time series analysis
-   */
-  getTimeSeriesAnalysis(analysisId: string): TimeSeriesAnalysis | null {
-    return this.analyses.get(analysisId) || null;
-  }
-
-  /**
-   * Get all time series analyses
-   */
-  getTimeSeriesAnalyses(): TimeSeriesAnalysis[] {
-    return Array.from(this.analyses.values());
-  }
-
-  /**
-   * Get time series analyses by type
-   */
-  getTimeSeriesAnalysesByType(type: AnalysisType): TimeSeriesAnalysis[] {
-    return Array.from(this.analyses.values())
-      .filter(analysis => analysis.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): TimeSeriesStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize time series analysis manager
-   */
-  private async initializeTimeSeriesAnalysisManager(): Promise<void> {
-    this.logger.info('TimeSeriesAnalysisManager', 'Initializing time series analysis manager...');
-  }
-
-  /**
-   * Load default time series analyses
-   */
-  private async loadDefaultTimeSeriesAnalyses(): Promise<void> {
-    // Load default time series analyses
-    const defaultAnalyses = [
-      this.createDefaultTrendAnalysis(),
-      this.createDefaultSeasonalAnalysis(),
-      this.createDefaultForecasting()
-    ];
-
-    for (const analysis of defaultAnalyses) {
-      if (analysis) {
-        this.analyses.set(analysis.id, analysis);
-      }
     }
 
-    this.logger.info('TimeSeriesAnalysisManager', `Loaded ${defaultAnalyses.length} default time series analyses`);
-  }
+    const newTimeSeries: TimeSeries = {
+      id: timeSeries.id || `ts-${Date.now()}`,
+      name: timeSeries.name || 'Unnamed Time Series',
+      description: timeSeries.description || '',
+      dataPoints: timeSeries.dataPoints || [],
+      frequency: timeSeries.frequency || 'hour',
+      startTime: timeSeries.startTime || Date.now(),
+      endTime: timeSeries.endTime || Date.now(),
+      metadata: {},
+      ...timeSeries
+    };
 
-  /**
-   * Create default time series data
-   */
-  private createDefaultTimeSeriesData(): TimeSeriesData {
+    manager.timeSeries.push(newTimeSeries);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalTimeSeries++;
+    this.performanceMetrics.totalDataPoints += newTimeSeries.dataPoints.length;
+
     return {
-      timestamps: [],
-      values: [],
-      frequency: {
-        type: FrequencyType.FIXED,
-        value: 1,
-        unit: FrequencyUnit.HOUR,
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      length: 0,
-      startTime: 0,
-      endTime: 0,
-      metadata: new Map()
+      op: 'create-time-series',
+      status: 'ok',
+      result: newTimeSeries
     };
   }
 
   /**
-   * Create default preprocessing config
+   * Add data points to time series
    */
-  private createDefaultPreprocessingConfig(): PreprocessingConfig {
-    return {
-      missingValues: {
-
-        method: MissingValueMethod.INTERPOLATION,
-        parameters: new Map(),
-        metadata: new Map()
-
-      }
-      },
-      outliers: {
-        method: OutlierMethod.Z_SCORE,
-        threshold: 3,
-        parameters: new Map(),
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      smoothing: {
-        method: SmoothingMethod.MOVING_AVERAGE,
-        window: 5,
-        parameters: new Map(),
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      normalization: {
-
-        method: NormalizationMethod.Z_SCORE,
-        parameters: new Map(),
-        metadata: new Map()
-
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default time series features
-   */
-  private createDefaultTimeSeriesFeatures(): TimeSeriesFeatures {
-    return {
-      trend: {
-        direction: TrendDirection.STABLE,
-        strength: 0,
-        slope: 0,
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      seasonality: {
-
-        present: false,
-        period: 0,
-        strength: 0,
-        pattern: SeasonalityPattern.ADDITIVE,
-        metadata: new Map()
-
-      }
-      },
-      stationarity: {
-
-        isStationary: false,
-        adfStatistic: 0,
-        pValue: 0,
-        criticalValues: new Map(),
-        metadata: new Map()
-
-      }
-      },
-      autocorrelation: {
-        acf: [],
-        pacf: [],
-        lags: [],
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default model configuration
-   */
-  private createDefaultModelConfiguration(): ModelConfiguration {
-    return {
-      parameters: new Map(),
-      hyperparameters: new Map(),
-      constraints: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default model training
-   */
-  private createDefaultModelTraining(): ModelTraining {
-    return {
-      dataset: '',
-      epochs: 10,
-      batchSize: 32,
-      learningRate: 0.001,
-      optimizer: 'adam',
-      loss: 'mse',
-      validationSplit: 0.2,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default model performance
-   */
-  private createDefaultModelPerformance(): ModelPerformance {
-    return {
-      mse: 0,
-      mae: 0,
-      rmse: 0,
-      mape: 0,
-      r2: 0,
-      aic: 0,
-      bic: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): TimeSeriesAnalytics {
-    return {
-      totalTimeSeries: 0,
-      totalModels: 0,
-      totalForecasts: 0,
-      totalAnomalies: 0,
-      averageAccuracy: 0,
-      averagePrecision: 0,
-      averageRecall: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): TimeSeriesMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default trend analysis
-   */
-  private createDefaultTrendAnalysis(): TimeSeriesAnalysis {
-    return this.createTimeSeriesAnalysis({
-      name: 'Trend Analysis',
-      type: AnalysisType.TREND_ANALYSIS,
-      description: 'Trend analysis platform'
-    });
-  }
-
-  /**
-   * Create default seasonal analysis
-   */
-  private createDefaultSeasonalAnalysis(): TimeSeriesAnalysis {
-    return this.createTimeSeriesAnalysis({
-      name: 'Seasonal Analysis',
-      type: AnalysisType.SEASONAL_ANALYSIS,
-      description: 'Seasonal analysis platform'
-    });
-  }
-
-  /**
-   * Create default forecasting
-   */
-  private createDefaultForecasting(): TimeSeriesAnalysis {
-    return this.createTimeSeriesAnalysis({
-      name: 'Forecasting',
-      type: AnalysisType.FORECASTING,
-      description: 'Forecasting platform'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, analysis: TimeSeriesAnalysis): void {
-    switch (action) {
-      case 'create_analysis':
-        this.stats.totalTimeSeries += analysis.timeSeries.length;
-        this.stats.totalModels += analysis.models.length;
-        this.stats.totalForecasts += analysis.forecasts.length;
-        this.stats.totalAnomalies += analysis.anomalies.length;
-        break;
-      case 'create_timeseries':
-        this.stats.totalTimeSeries++;
-        break;
-      case 'create_model':
-        this.stats.totalModels++;
-        break;
+  addDataPoints(managerId: string, timeSeriesId: string, dataPoints: DataPoint[]): TimeSeriesAnalysisOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'add-data-points',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    this.stats.lastUpdate = Date.now();
-  }
+    const timeSeries = manager.timeSeries.find(ts => ts.id === timeSeriesId);
+    if (!timeSeries) {
+      return {
+        op: 'add-data-points',
+        status: 'error',
+        issues: [`Time series ${timeSeriesId} not found`]
+      };
+    }
 
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): TimeSeriesStats {
+    if (timeSeries.dataPoints.length + dataPoints.length > this.config.maxDataPoints) {
+      return {
+        op: 'add-data-points',
+        status: 'error',
+        issues: ['Maximum number of data points reached']
+      };
+    }
+
+    timeSeries.dataPoints.push(...dataPoints);
+    timeSeries.dataPoints.sort((a, b) => a.timestamp - b.timestamp);
+    timeSeries.endTime = Math.max(timeSeries.endTime, ...dataPoints.map(dp => dp.timestamp));
+    
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalDataPoints += dataPoints.length;
+
     return {
-      totalTimeSeries: 0,
-      totalModels: 0,
-      totalForecasts: 0,
-      totalAnomalies: 0,
-      averageAccuracy: 0,
-      averagePrecision: 0,
-      averageRecall: 0,
-      lastUpdate: Date.now()
+      op: 'add-data-points',
+      status: 'ok',
+      result: { added: dataPoints.length, total: timeSeries.dataPoints.length }
     };
   }
 
   /**
-   * Cleanup resources
+   * Perform analysis
    */
-  destroy(): void {
-    this.analyses.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  performAnalysis(managerId: string, timeSeriesId: string, analysisType: AnalysisType, parameters?: AnalysisParameters): TimeSeriesAnalysisOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'perform-analysis',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const timeSeries = manager.timeSeries.find(ts => ts.id === timeSeriesId);
+    if (!timeSeries) {
+      return {
+        op: 'perform-analysis',
+        status: 'error',
+        issues: [`Time series ${timeSeriesId} not found`]
+      };
+    }
+
+    const analysis: Analysis = {
+      id: `analysis-${Date.now()}`,
+      timeSeriesId,
+      type: analysisType,
+      parameters: parameters || {},
+      results: {
+        statistics: this.calculateStatistics(timeSeries.dataPoints),
+        patterns: this.detectPatterns(timeSeries.dataPoints),
+        insights: [],
+        confidence: 0.95,
+        metadata: {}
+      },
+      status: 'running',
+      createdAt: Date.now(),
+      metadata: {}
+    };
+
+    manager.analyses.push(analysis);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalAnalyses++;
+
+    // Simulate analysis completion
+    setTimeout(() => {
+      analysis.status = 'completed';
+      analysis.completedAt = Date.now();
+      this.performanceMetrics.completedAnalyses++;
+    }, 1000);
+
+    return {
+      op: 'perform-analysis',
+      status: 'ok',
+      result: analysis
+    };
+  }
+
+  /**
+   * Create forecast
+   */
+  createForecast(managerId: string, timeSeriesId: string, method: ForecastMethod, horizon: number): TimeSeriesAnalysisOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-forecast',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const timeSeries = manager.timeSeries.find(ts => ts.id === timeSeriesId);
+    if (!timeSeries) {
+      return {
+        op: 'create-forecast',
+        status: 'error',
+        issues: [`Time series ${timeSeriesId} not found`]
+      };
+    }
+
+    const forecast: Forecast = {
+      id: `forecast-${Date.now()}`,
+      timeSeriesId,
+      method,
+      horizon,
+      predictions: this.generateForecast(timeSeries.dataPoints, method, horizon),
+      confidenceInterval: {
+        level: 0.95,
+        lowerBound: [],
+        upperBound: []
+      },
+      accuracy: {
+        mae: 0,
+        mse: 0,
+        rmse: 0,
+        mape: 0,
+        rSquared: 0
+      },
+      status: 'running',
+      createdAt: Date.now(),
+      metadata: {}
+    };
+
+    manager.forecasts.push(forecast);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalForecasts++;
+
+    // Simulate forecast completion
+    setTimeout(() => {
+      forecast.status = 'completed';
+    }, 2000);
+
+    return {
+      op: 'create-forecast',
+      status: 'ok',
+      result: forecast
+    };
+  }
+
+  /**
+   * Calculate statistics
+   */
+  private calculateStatistics(dataPoints: DataPoint[]): StatisticalResults {
+    const values = dataPoints.map(dp => dp.value);
+    const n = values.length;
+    
+    if (n === 0) {
+      return {
+        mean: 0, median: 0, mode: 0, standardDeviation: 0, variance: 0,
+        skewness: 0, kurtosis: 0, min: 0, max: 0, range: 0
+      };
+    }
+
+    const mean = values.reduce((sum, val) => sum + val, 0) / n;
+    const sortedValues = [...values].sort((a, b) => a - b);
+    const median = n % 2 === 0 
+      ? (sortedValues[n/2 - 1] + sortedValues[n/2]) / 2 
+      : sortedValues[Math.floor(n/2)];
+    
+    const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / n;
+    const standardDeviation = Math.sqrt(variance);
+    
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min;
+
+    return {
+      mean,
+      median,
+      mode: this.calculateMode(values),
+      standardDeviation,
+      variance,
+      skewness: this.calculateSkewness(values, mean, standardDeviation),
+      kurtosis: this.calculateKurtosis(values, mean, standardDeviation),
+      min,
+      max,
+      range
+    };
+  }
+
+  /**
+   * Calculate mode
+   */
+  private calculateMode(values: number[]): number {
+    const frequency: Record<number, number> = {};
+    values.forEach(val => {
+      frequency[val] = (frequency[val] || 0) + 1;
+    });
+    
+    let maxFreq = 0;
+    let mode = values[0];
+    for (const [val, freq] of Object.entries(frequency)) {
+      if (freq > maxFreq) {
+        maxFreq = freq;
+        mode = parseFloat(val);
+      }
+    }
+    
+    return mode;
+  }
+
+  /**
+   * Calculate skewness
+   */
+  private calculateSkewness(values: number[], mean: number, stdDev: number): number {
+    if (stdDev === 0) return 0;
+    const n = values.length;
+    const skewness = values.reduce((sum, val) => sum + Math.pow((val - mean) / stdDev, 3), 0) / n;
+    return skewness;
+  }
+
+  /**
+   * Calculate kurtosis
+   */
+  private calculateKurtosis(values: number[], mean: number, stdDev: number): number {
+    if (stdDev === 0) return 0;
+    const n = values.length;
+    const kurtosis = values.reduce((sum, val) => sum + Math.pow((val - mean) / stdDev, 4), 0) / n - 3;
+    return kurtosis;
+  }
+
+  /**
+   * Detect patterns
+   */
+  private detectPatterns(dataPoints: DataPoint[]): PatternResults {
+    const values = dataPoints.map(dp => dp.value);
+    
+    return {
+      trend: this.detectTrend(values),
+      seasonality: this.detectSeasonality(values),
+      cycles: this.detectCycles(values),
+      anomalies: this.detectAnomalies(dataPoints)
+    };
+  }
+
+  /**
+   * Detect trend
+   */
+  private detectTrend(values: number[]): TrendPattern {
+    if (values.length < 2) {
+      return { direction: 'stable', strength: 0, slope: 0, rSquared: 0 };
+    }
+
+    const n = values.length;
+    const x = Array.from({ length: n }, (_, i) => i);
+    const y = values;
+
+    const sumX = x.reduce((sum, val) => sum + val, 0);
+    const sumY = y.reduce((sum, val) => sum + val, 0);
+    const sumXY = x.reduce((sum, val, i) => sum + val * y[i], 0);
+    const sumXX = x.reduce((sum, val) => sum + val * val, 0);
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    const yMean = sumY / n;
+    const ssRes = y.reduce((sum, val, i) => sum + Math.pow(val - (slope * i + intercept), 2), 0);
+    const ssTot = y.reduce((sum, val) => sum + Math.pow(val - yMean, 2), 0);
+    const rSquared = 1 - (ssRes / ssTot);
+
+    return {
+      direction: slope > 0.1 ? 'increasing' : slope < -0.1 ? 'decreasing' : 'stable',
+      strength: Math.abs(slope),
+      slope,
+      rSquared
+    };
+  }
+
+  /**
+   * Detect seasonality
+   */
+  private detectSeasonality(values: number[]): SeasonalityPattern {
+    // Simple seasonality detection - in reality this would be more complex
+    return {
+      detected: false,
+      period: 0,
+      strength: 0,
+      components: []
+    };
+  }
+
+  /**
+   * Detect cycles
+   */
+  private detectCycles(values: number[]): CyclePattern[] {
+    // Simple cycle detection - in reality this would use FFT or similar
+    return [];
+  }
+
+  /**
+   * Detect anomalies
+   */
+  private detectAnomalies(dataPoints: DataPoint[]): AnomalyPattern[] {
+    const values = dataPoints.map(dp => dp.value);
+    const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
+    const stdDev = Math.sqrt(values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length);
+    
+    const anomalies: AnomalyPattern[] = [];
+    const threshold = 2 * stdDev; // 2-sigma rule
+
+    dataPoints.forEach((dp, index) => {
+      const deviation = Math.abs(dp.value - mean);
+      if (deviation > threshold) {
+        anomalies.push({
+          timestamp: dp.timestamp,
+          value: dp.value,
+          expectedValue: mean,
+          deviation,
+          severity: deviation > 3 * stdDev ? 'critical' : 'high',
+          type: dp.value > mean ? 'spike' : 'drop'
+        });
+      }
+    });
+
+    return anomalies;
+  }
+
+  /**
+   * Generate forecast
+   */
+  private generateForecast(dataPoints: DataPoint[], method: ForecastMethod, horizon: number): ForecastPoint[] {
+    const values = dataPoints.map(dp => dp.value);
+    const lastValue = values[values.length - 1] || 0;
+    const predictions: ForecastPoint[] = [];
+
+    for (let i = 1; i <= horizon; i++) {
+      // Simple linear trend forecast
+      const trend = this.detectTrend(values).slope;
+      const predictedValue = lastValue + (trend * i);
+      
+      predictions.push({
+        timestamp: Date.now() + (i * 3600000), // Assuming hourly data
+        value: predictedValue,
+        lowerBound: predictedValue * 0.9,
+        upperBound: predictedValue * 1.1,
+        confidence: Math.max(0.5, 1 - (i * 0.1))
+      });
+    }
+
+    return predictions;
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): TimeSeriesAnalysisPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): TimeSeriesAnalysisAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): TimeSeriesAnalysisManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalTimeSeries = 0;
+    let totalDataPoints = 0;
+    let totalAnalyses = 0;
+    let completedAnalyses = 0;
+    let totalForecasts = 0;
+    let totalAnomalies = 0;
+
+    for (const manager of this.managers.values()) {
+      totalTimeSeries += manager.timeSeries.length;
+      totalDataPoints += manager.timeSeries.reduce((sum, ts) => sum + ts.dataPoints.length, 0);
+      totalAnalyses += manager.analyses.length;
+      completedAnalyses += manager.analyses.filter(a => a.status === 'completed').length;
+      totalForecasts += manager.forecasts.length;
+      totalAnomalies += manager.anomalies.length;
+    }
+
+    this.performanceMetrics.totalTimeSeries = totalTimeSeries;
+    this.performanceMetrics.totalDataPoints = totalDataPoints;
+    this.performanceMetrics.totalAnalyses = totalAnalyses;
+    this.performanceMetrics.completedAnalyses = completedAnalyses;
+    this.performanceMetrics.totalForecasts = totalForecasts;
+    this.performanceMetrics.totalAnomalies = totalAnomalies;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultTimeSeriesAnalysisManager = new TimeSeriesAnalysisManager();
-export { TimeSeriesAnalysisManager as default };
