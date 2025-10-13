@@ -1,1290 +1,695 @@
 /**
  * InventoryPure Manager - Advanced Inventory Management System
  *
- * Comprehensive inventory management with:
- * - Item categorization and filtering
- * - Weight and capacity management
- * - Item durability and condition
- * - Enchantment and enhancement systems
- * - Trading and marketplace integration
- * - Auto-sorting and organization
+ * Comprehensive inventory management system with:
+ * - Item storage and organization
+ * - Stack management and limits
+ * - Item properties and metadata
  * - Search and filtering capabilities
- * - Item comparison and statistics
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Inventory operations (add, remove, transfer)
+ * - Item categories and tags
+ * - Weight and space management
+ * - Durability and condition tracking
+ * - Performance optimization
+ * - Real-time inventory monitoring
+ * - Inventory analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface InventoryConfig {
-  enableWeightManagement: boolean;
-  enableCapacityManagement: boolean;
-  enableDurabilitySystem: boolean;
-  enableEnchantmentSystem: boolean;
-  enableEnhancementSystem: boolean;
-  enableTradingSystem: boolean;
-  enableAutoSorting: boolean;
+  enableItemStorage: boolean;
+  enableStackManagement: boolean;
+  enableItemProperties: boolean;
   enableSearchFiltering: boolean;
-  enableItemComparison: boolean;
-  enableStatistics: boolean;
-  enableAnalytics: boolean;
-  maxWeight: number;
-  maxCapacity: number;
+  enableInventoryOperations: boolean;
+  enableItemCategories: boolean;
+  enableWeightManagement: boolean;
+  enableDurabilityTracking: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableInventoryAnalytics: boolean;
+  enableInventoryReporting: boolean;
+  maxItems: number;
   maxStacks: number;
-  enableQuickAccess: boolean;
-  enableHotbar: boolean;
-  enableBanking: boolean;
-  enableGuildStorage: boolean;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface Inventory {
+export interface InventoryManager {
   id: string;
   name: string;
-  type: InventoryType;
-  owner: string;
+  type: InventoryManagerType;
+  status: InventoryManagerStatus;
   items: InventoryItem[];
-  currency: CurrencyState;
-  weight: number;
-  maxWeight: number;
-  capacity: number;
-  maxCapacity: number;
-  slots: InventorySlot[];
-  filters: InventoryFilter[];
-  sorting: InventorySorting;
-  quickAccess: QuickAccessSlot[];
-  hotbar: HotbarSlot[];
-  metadata: InventoryMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  categories: ItemCategory[];
+  tags: ItemTag[];
+  operations: InventoryOperation[];
+  performanceMetrics: InventoryPerformanceMetrics;
+  analytics: InventoryAnalytics;
+  reporting: InventoryReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum InventoryType {
-  PLAYER = 'player',
-  CONTAINER = 'container',
-  BANK = 'bank',
-  GUILD = 'guild',
-  SHOP = 'shop',
-  VENDOR = 'vendor',
-  QUEST = 'quest',
-  TEMP = 'temp',
-  CUSTOM = 'custom'
-}
+export type InventoryManagerType = 'player' | 'chest' | 'shop' | 'warehouse' | 'bank' | 'guild';
+export type InventoryManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface InventoryItem {
   id: string;
   itemId: string;
   name: string;
-  type: ItemType;
-  category: ItemCategory;
   description: string;
+  category: string;
+  tags: string[];
   quantity: number;
-  maxQuantity: number;
+  maxStack: number;
   weight: number;
   value: number;
-  quality: ItemQuality;
   rarity: ItemRarity;
-  level: number;
-  durability: number;
-  maxDurability: number;
-  condition: ItemCondition;
-  enchantments: Enchantment[];
-  enhancements: Enhancement[];
-  requirements: ItemRequirements;
-  effects: ItemEffect[];
-  properties: ItemProperties;
-  position: ItemPosition;
-  isStackable: boolean;
-  isTradeable: boolean;
-  isDroppable: boolean;
-  isSellable: boolean;
-  isQuestItem: boolean;
-  isBound: boolean;
-  isLocked: boolean;
-  isFavorited: boolean;
-  metadata: Map<string, any>;
+  durability: DurabilityInfo;
+  properties: Record<string, any>;
+  metadata: Record<string, any>;
+  addedAt: number;
+  lastModified: number;
 }
 
-export enum ItemType {
-  WEAPON = 'weapon',
-  ARMOR = 'armor',
-  ACCESSORY = 'accessory',
-  CONSUMABLE = 'consumable',
-  MATERIAL = 'material',
-  TOOL = 'tool',
-  BOOK = 'book',
-  KEY = 'key',
-  CURRENCY = 'currency',
-  QUEST_ITEM = 'quest_item',
-  CUSTOM = 'custom'
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
+
+export interface DurabilityInfo {
+  current: number;
+  maximum: number;
+  broken: boolean;
+  repairCost: number;
 }
 
-export enum ItemCategory {
-  SWORD = 'sword',
-  AXE = 'axe',
-  MACE = 'mace',
-  DAGGER = 'dagger',
-  SPEAR = 'spear',
-  BOW = 'bow',
-  CROSSBOW = 'crossbow',
-  STAFF = 'staff',
-  WAND = 'wand',
-  SHIELD = 'shield',
-  HELMET = 'helmet',
-  CHEST = 'chest',
-  LEGS = 'legs',
-  GLOVES = 'gloves',
-  BOOTS = 'boots',
-  RING = 'ring',
-  AMULET = 'amulet',
-  POTION = 'potion',
-  FOOD = 'food',
-  SCROLL = 'scroll',
-  BOMB = 'bomb',
-  TRAP = 'trap',
-  ORE = 'ore',
-  WOOD = 'wood',
-  PLANT = 'plant',
-  GEM = 'gem',
-  CRYSTAL = 'crystal',
-  ESSENCE = 'essence',
-  CUSTOM = 'custom'
-}
-
-export enum ItemQuality {
-  POOR = 'poor',
-  FAIR = 'fair',
-  GOOD = 'good',
-  EXCELLENT = 'excellent',
-  PERFECT = 'perfect'
-}
-
-export enum ItemRarity {
-  COMMON = 'common',
-  UNCOMMON = 'uncommon',
-  RARE = 'rare',
-  EPIC = 'epic',
-  LEGENDARY = 'legendary',
-  MYTHIC = 'mythic'
-}
-
-export enum ItemCondition {
-  BROKEN = 'broken',
-  POOR = 'poor',
-  FAIR = 'fair',
-  GOOD = 'good',
-  EXCELLENT = 'excellent',
-  PERFECT = 'perfect'
-}
-
-export interface Enchantment {
+export interface ItemCategory {
   id: string;
   name: string;
-  type: EnchantmentType;
-  level: number;
-  effects: EnchantmentEffect[];
-  durability: number;
-  maxDurability: number;
-  cost: EnchantmentCost;
-  requirements: EnchantmentRequirements;
-  metadata: Map<string, any>;
+  description: string;
+  parent?: string;
+  children: string[];
+  properties: Record<string, any>;
+  metadata: Record<string, any>;
 }
 
-export enum EnchantmentType {
-  FIRE = 'fire',
-  ICE = 'ice',
-  LIGHTNING = 'lightning',
-  POISON = 'poison',
-  DARK = 'dark',
-  LIGHT = 'light',
-  SHARP = 'sharp',
-  DURABLE = 'durable',
-  LUCKY = 'lucky',
-  CURSED = 'cursed',
-  VAMPIRIC = 'vampiric',
-  REGENERATIVE = 'regenerative',
-  PROTECTIVE = 'protective',
-  OFFENSIVE = 'offensive',
-  UTILITY = 'utility',
-  CUSTOM = 'custom'
+export interface ItemTag {
+  id: string;
+  name: string;
+  color: string;
+  description: string;
+  metadata: Record<string, any>;
 }
 
-export interface EnchantmentEffect {
-  type: EffectType;
-  value: number;
-  duration: number;
-  target: EffectTarget;
-  isPercentage: boolean;
-  conditions: EffectCondition[];
-  metadata: Map<string, any>;
-}
-
-export enum EffectType {
-  DAMAGE = 'damage',
-  HEAL = 'heal',
-  BUFF = 'buff',
-  DEBUFF = 'debuff',
-  CURE = 'cure',
-  RESTORE = 'restore',
-  ENHANCE = 'enhance',
-  WEAKEN = 'weaken',
-  TRANSFORM = 'transform',
-  TELEPORT = 'teleport',
-  SUMMON = 'summon',
-  DISPEL = 'dispel',
-  PROTECT = 'protect',
-  SHIELD = 'shield',
-  REGENERATE = 'regenerate',
-  CUSTOM = 'custom'
-}
-
-export enum EffectTarget {
-  SELF = 'self',
-  ALLY = 'ally',
-  ENEMY = 'enemy',
-  ALL_ALLIES = 'all_allies',
-  ALL_ENEMIES = 'all_enemies',
-  ALL = 'all',
-  AREA = 'area',
-  RANDOM = 'random',
-  CUSTOM = 'custom'
-}
-
-export interface EffectCondition {
-  type: ConditionType;
-  value: any;
-  operator: ConditionOperator;
-  metadata: Map<string, any>;
-}
-
-export enum ConditionType {
-  HEALTH_PERCENTAGE = 'health_percentage',
-  MANA_PERCENTAGE = 'mana_percentage',
-  STAMINA_PERCENTAGE = 'stamina_percentage',
-  LEVEL = 'level',
-  STAT = 'stat',
-  STATUS_EFFECT = 'status_effect',
-  EQUIPMENT = 'equipment',
-  POSITION = 'position',
-  TIME = 'time',
-  WEATHER = 'weather',
-  SEASON = 'season',
-  CUSTOM = 'custom'
-}
-
-export enum ConditionOperator {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  GREATER_EQUAL = 'greater_equal',
-  LESS_EQUAL = 'less_equal',
-  CONTAINS = 'contains',
-  NOT_CONTAINS = 'not_contains',
-  STARTS_WITH = 'starts_with',
-  ENDS_WITH = 'ends_with',
-  CUSTOM = 'custom'
-}
-
-export interface EnchantmentCost {
-  materials: MaterialCost[];
-  currency: CurrencyCost;
-  experience: number;
-  time: number;
-  metadata: Map<string, any>;
-}
-
-export interface MaterialCost {
-  materialId: string;
-  quantity: number;
-  quality: ItemQuality;
-  rarity: ItemRarity;
-}
-
-export interface CurrencyCost {
-  gold: number;
-  silver: number;
-  copper: number;
-  gems: number;
-  tokens: number;
-  custom: Map<string, number>;
-}
-
-export interface EnchantmentRequirements {
-  level: number;
-  stats: Partial<PlayerStats>;
-  class: string[];
-  race: string[];
-  alignment: string[];
-  items: ItemRequirement[];
-  achievements: string[];
-  quests: string[];
-  custom: Map<string, any>;
-}
-
-export interface PlayerStats {
-  strength: number;
-  dexterity: number;
-  intelligence: number;
-  wisdom: number;
-  constitution: number;
-  charisma: number;
-  luck: number;
-  perception: number;
-  endurance: number;
-  agility: number;
-}
-
-export interface ItemRequirement {
+export interface InventoryOperation {
+  id: string;
+  type: OperationType;
   itemId: string;
   quantity: number;
-  quality: ItemQuality;
-  rarity: ItemRarity;
-  isConsumed: boolean;
+  fromSlot?: number;
+  toSlot?: number;
+  timestamp: number;
+  metadata: Record<string, any>;
 }
 
-export interface Enhancement {
-  id: string;
-  name: string;
-  type: EnhancementType;
-  level: number;
-  effects: EnhancementEffect[];
-  durability: number;
-  maxDurability: number;
-  cost: EnhancementCost;
-  requirements: EnhancementRequirements;
-  metadata: Map<string, any>;
-}
+export type OperationType = 'add' | 'remove' | 'move' | 'split' | 'merge' | 'use' | 'repair' | 'upgrade';
 
-export enum EnhancementType {
-  SHARPENING = 'sharpening',
-  REINFORCING = 'reinforcing',
-  POLISHING = 'polishing',
-  TEMPERING = 'tempering',
-  QUENCHING = 'quenching',
-  ANNEALING = 'annealing',
-  HARDENING = 'hardening',
-  SOFTENING = 'softening',
-  CUSTOM = 'custom'
-}
-
-export interface EnhancementEffect {
-  type: EffectType;
-  value: number;
-  duration: number;
-  target: EffectTarget;
-  isPercentage: boolean;
-  conditions: EffectCondition[];
-  metadata: Map<string, any>;
-}
-
-export interface EnhancementCost {
-  materials: MaterialCost[];
-  currency: CurrencyCost;
-  experience: number;
-  time: number;
-  metadata: Map<string, any>;
-}
-
-export interface EnhancementRequirements {
-  level: number;
-  stats: Partial<PlayerStats>;
-  class: string[];
-  race: string[];
-  alignment: string[];
-  items: ItemRequirement[];
-  achievements: string[];
-  quests: string[];
-  custom: Map<string, any>;
-}
-
-export interface ItemRequirements {
-  level: number;
-  stats: Partial<PlayerStats>;
-  class: string[];
-  race: string[];
-  alignment: string[];
-  items: ItemRequirement[];
-  achievements: string[];
-  quests: string[];
-  custom: Map<string, any>;
-}
-
-export interface ItemEffect {
-  type: EffectType;
-  value: number;
-  duration: number;
-  target: EffectTarget;
-  isPercentage: boolean;
-  conditions: EffectCondition[];
-  metadata: Map<string, any>;
-}
-
-export interface ItemProperties {
-  damage: DamageRange;
-  defense: number;
-  resistance: ResistanceStats;
-  speed: number;
-  range: number;
-  criticalChance: number;
-  criticalMultiplier: number;
-  accuracy: number;
-  dodge: number;
-  block: number;
-  parry: number;
-  metadata: Map<string, any>;
-}
-
-export interface DamageRange {
-  min: number;
-  max: number;
-  type: DamageType;
-}
-
-export enum DamageType {
-  PHYSICAL = 'physical',
-  MAGICAL = 'magical',
-  FIRE = 'fire',
-  ICE = 'ice',
-  LIGHTNING = 'lightning',
-  POISON = 'poison',
-  DARK = 'dark',
-  LIGHT = 'light',
-  TRUE = 'true'
-}
-
-export interface ResistanceStats {
-  physical: number;
-  magical: number;
-  fire: number;
-  ice: number;
-  lightning: number;
-  poison: number;
-  dark: number;
-  light: number;
-}
-
-export interface ItemPosition {
-  slot: number;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  rotation: number;
-  isLocked: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface CurrencyState {
-  gold: number;
-  silver: number;
-  copper: number;
-  gems: number;
-  tokens: number;
-  custom: Map<string, number>;
-}
-
-export interface InventorySlot {
-  id: string;
-  position: SlotPosition;
-  size: SlotSize;
-  type: SlotType;
-  isOccupied: boolean;
-  item: InventoryItem | null;
-  isLocked: boolean;
-  isReserved: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface SlotPosition {
-  x: number;
-  y: number;
-}
-
-export interface SlotSize {
-  width: number;
-  height: number;
-}
-
-export enum SlotType {
-  NORMAL = 'normal',
-  QUICK_ACCESS = 'quick_access',
-  HOTBAR = 'hotbar',
-  EQUIPMENT = 'equipment',
-  CRAFTING = 'crafting',
-  TRADING = 'trading',
-  CUSTOM = 'custom'
-}
-
-export interface InventoryFilter {
-  id: string;
-  name: string;
-  type: FilterType;
-  criteria: FilterCriteria[];
-  isActive: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum FilterType {
-  TYPE = 'type',
-  CATEGORY = 'category',
-  QUALITY = 'quality',
-  RARITY = 'rarity',
-  LEVEL = 'level',
-  VALUE = 'value',
-  WEIGHT = 'weight',
-  DURABILITY = 'durability',
-  ENCHANTMENT = 'enchantment',
-  ENHANCEMENT = 'enhancement',
-  CUSTOM = 'custom'
-}
-
-export interface FilterCriteria {
-  field: string;
-  operator: ConditionOperator;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export interface InventorySorting {
-  primary: SortCriteria;
-  secondary: SortCriteria;
-  tertiary: SortCriteria;
-  isAscending: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface SortCriteria {
-  field: string;
-  type: SortType;
-  metadata: Map<string, any>;
-}
-
-export enum SortType {
-  ALPHABETICAL = 'alphabetical',
-  NUMERICAL = 'numerical',
-  CHRONOLOGICAL = 'chronological',
-  CUSTOM = 'custom'
-}
-
-export interface QuickAccessSlot {
-  id: string;
-  position: number;
-  item: InventoryItem | null;
-  isLocked: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface HotbarSlot {
-  id: string;
-  position: number;
-  item: InventoryItem | null;
-  isLocked: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface InventoryMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  rating: number;
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface InventoryStats {
+export interface InventoryPerformanceMetrics {
   totalItems: number;
+  totalStacks: number;
   totalWeight: number;
   totalValue: number;
-  averageQuality: number;
-  averageRarity: number;
-  averageLevel: number;
-  totalEnchantments: number;
-  totalEnhancements: number;
+  averageItemWeight: number;
+  averageItemValue: number;
+  operationsPerSecond: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface InventoryAnalytics {
+  totalOperations: number;
+  mostUsedItems: ItemUsage[];
+  categoryDistribution: CategoryDistribution[];
+  rarityDistribution: RarityDistribution[];
+  averageOperationsPerMinute: number;
+  peakOperations: number;
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface ItemUsage {
+  itemId: string;
+  name: string;
+  usageCount: number;
+  lastUsed: number;
+}
+
+export interface CategoryDistribution {
+  category: string;
+  count: number;
+  percentage: number;
+}
+
+export interface RarityDistribution {
+  rarity: ItemRarity;
+  count: number;
+  percentage: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  operations: number;
+  items: number;
+  weight: number;
+  value: number;
+}
+
+export interface InventoryReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeOperations: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
 }
 
-export class InventoryManager {
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface InventoryOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class InventoryPure {
+  private managers: Map<string, InventoryManager> = new Map();
   private config: InventoryConfig;
-  private inventories: Map<string, Inventory> = new Map();
-  private stats: InventoryStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: InventoryPerformanceMetrics;
+  private analytics: InventoryAnalytics;
 
   constructor(config: Partial<InventoryConfig> = {}) {
     this.config = {
-      enableWeightManagement: true,
-      enableCapacityManagement: true,
-      enableDurabilitySystem: true,
-      enableEnchantmentSystem: true,
-      enableEnhancementSystem: true,
-      enableTradingSystem: true,
-      enableAutoSorting: true,
+      enableItemStorage: true,
+      enableStackManagement: true,
+      enableItemProperties: true,
       enableSearchFiltering: true,
-      enableItemComparison: true,
-      enableStatistics: true,
-      enableAnalytics: true,
-      maxWeight: 1000,
-      maxCapacity: 100,
+      enableInventoryOperations: true,
+      enableItemCategories: true,
+      enableWeightManagement: true,
+      enableDurabilityTracking: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableInventoryAnalytics: true,
+      enableInventoryReporting: true,
+      maxItems: 10000,
       maxStacks: 1000,
-      enableQuickAccess: true,
-      enableHotbar: true,
-      enableBanking: true,
-      enableGuildStorage: true,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'InventoryManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `InventoryManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'InventoryManager');
-  };
-  }
-
-  /**
-   * Initialize inventory manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize inventory manager
-      await this.initializeInventoryManager();
-      
-      this.isInitialized = true;
-      this.logger.info('InventoryManager', 'Inventory manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('InventoryManager', 'Failed to initialize inventory manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new inventory
-   */
-  createInventory(inventory: Partial<Inventory>): Inventory | null {
-    const newInventory: Inventory = {
-      id: `inventory_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: inventory.name || 'New Inventory',
-      type: inventory.type || InventoryType.PLAYER,
-      owner: inventory.owner || 'system',
-      items: inventory.items || [],
-      currency: inventory.currency || this.createDefaultCurrency(),
-      weight: 0,
-      maxWeight: inventory.maxWeight || this.config.maxWeight,
-      capacity: 0,
-      maxCapacity: inventory.maxCapacity || this.config.maxCapacity,
-      slots: inventory.slots || this.createDefaultSlots(),
-      filters: inventory.filters || [],
-      sorting: inventory.sorting || this.createDefaultSorting(),
-      quickAccess: inventory.quickAccess || this.createDefaultQuickAccess(),
-      hotbar: inventory.hotbar || this.createDefaultHotbar(),
-      metadata: inventory.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
 
-    this.inventories.set(newInventory.id, newInventory);
-    this.updateStats('create_inventory', newInventory);
+    this.performanceMetrics = {
+      totalItems: 0,
+      totalStacks: 0,
+      totalWeight: 0,
+      totalValue: 0,
+      averageItemWeight: 0,
+      averageItemValue: 0,
+      operationsPerSecond: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-    this.logger.info('InventoryManager', `Created inventory: ${newInventory.name}`);
-    return newInventory;
+    this.analytics = {
+      totalOperations: 0,
+      mostUsedItems: [],
+      categoryDistribution: [],
+      rarityDistribution: [],
+      averageOperationsPerMinute: 0,
+      peakOperations: 0,
+      performanceTrends: []
+    };
+  }
+
+  /**
+   * Create a new inventory manager
+   */
+  createManager(managerData: Partial<InventoryManager>): InventoryOutput {
+    if (!this.config.enableItemStorage) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Item storage is disabled']
+      };
+    }
+
+    const manager: InventoryManager = {
+      id: managerData.id || `inventory-${Date.now()}`,
+      name: managerData.name || 'Unnamed Inventory',
+      type: managerData.type || 'player',
+      status: 'active',
+      items: [],
+      categories: [],
+      tags: [],
+      operations: [],
+      performanceMetrics: {
+        totalItems: 0,
+        totalStacks: 0,
+        totalWeight: 0,
+        totalValue: 0,
+        averageItemWeight: 0,
+        averageItemValue: 0,
+        operationsPerSecond: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalOperations: 0,
+        mostUsedItems: [],
+        categoryDistribution: [],
+        rarityDistribution: [],
+        averageOperationsPerMinute: 0,
+        peakOperations: 0,
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeOperations: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): InventoryOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
    * Add item to inventory
    */
-  addItem(inventoryId: string, item: InventoryItem): boolean {
-    const inventory = this.inventories.get(inventoryId);
-    if (!inventory) {
-      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
-      return false;
+  addItem(managerId: string, item: Partial<InventoryItem>): InventoryOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'add-item',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    // Check weight limit
-    if (this.config.enableWeightManagement && 
-        inventory.weight + item.weight > inventory.maxWeight) {
-      this.logger.warn('InventoryManager', `Adding item would exceed weight limit`);
-      return false;
+    if (manager.items.length >= this.config.maxItems) {
+      return {
+        op: 'add-item',
+        status: 'error',
+        issues: ['Maximum number of items reached']
+      };
     }
 
-    // Check capacity limit
-    if (this.config.enableCapacityManagement && 
-        inventory.items.length >= inventory.maxCapacity) {
-      this.logger.warn('InventoryManager', `Adding item would exceed capacity limit`);
-      return false;
-    }
+    const newItem: InventoryItem = {
+      id: item.id || `item-${Date.now()}`,
+      itemId: item.itemId || 'unknown',
+      name: item.name || 'Unknown Item',
+      description: item.description || '',
+      category: item.category || 'misc',
+      tags: item.tags || [],
+      quantity: item.quantity || 1,
+      maxStack: item.maxStack || 1,
+      weight: item.weight || 0,
+      value: item.value || 0,
+      rarity: item.rarity || 'common',
+      durability: item.durability || {
+        current: 100,
+        maximum: 100,
+        broken: false,
+        repairCost: 0
+      },
+      properties: item.properties || {},
+      metadata: item.metadata || {},
+      addedAt: Date.now(),
+      lastModified: Date.now(),
+      ...item
+    };
 
-    // Check if item can be stacked
-    if (item.isStackable) {
-      const existingItem = inventory.items.find(i => 
-        i.itemId === item.itemId && 
-        i.quality === item.quality && 
-        i.rarity === item.rarity &&
-        i.level === item.level
-      );
+    manager.items.push(newItem);
+    manager.updatedAt = Date.now();
 
-      if (existingItem && existingItem.quantity + item.quantity <= existingItem.maxQuantity) {
-        existingItem.quantity += item.quantity;
-        inventory.weight += item.weight;
-        inventory.modified = Date.now();
-        this.updateStats('add_item', inventory);
-        this.logger.info('InventoryManager', `Stacked item: ${item.name}`);
-        return true;
-      }
-    }
+    // Add operation
+    this.addOperation(managerId, {
+      type: 'add',
+      itemId: newItem.id,
+      quantity: newItem.quantity,
+      timestamp: Date.now()
+    });
 
-    // Add new item
-    inventory.items.push(item);
-    inventory.weight += item.weight;
-    inventory.capacity = inventory.items.length;
-    inventory.modified = Date.now();
+    this.updatePerformanceMetrics(managerId);
 
-    // Auto-sort if enabled
-    if (this.config.enableAutoSorting) {
-      this.sortInventory(inventoryId);
-    }
-
-    this.updateStats('add_item', inventory);
-    this.logger.info('InventoryManager', `Added item: ${item.name}`);
-    return true;
+    return {
+      op: 'add-item',
+      status: 'ok',
+      result: newItem
+    };
   }
 
   /**
    * Remove item from inventory
    */
-  removeItem(inventoryId: string, itemId: string, quantity: number = 1): boolean {
-    const inventory = this.inventories.get(inventoryId);
-    if (!inventory) {
-      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
-      return false;
+  removeItem(managerId: string, itemId: string, quantity?: number): InventoryOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'remove-item',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    const itemIndex = inventory.items.findIndex(i => i.id === itemId);
+    const itemIndex = manager.items.findIndex(item => item.id === itemId);
     if (itemIndex === -1) {
-      this.logger.warn('InventoryManager', `Item ${itemId} not found in inventory`);
-      return false;
+      return {
+        op: 'remove-item',
+        status: 'error',
+        issues: [`Item ${itemId} not found`]
+      };
     }
 
-    const item = inventory.items[
-      item,
-      I,
-      n,
-      d,
-      e,
-      x
-    ];
-    
-    if (item.quantity < quantity) {
-      this.logger.warn('InventoryManager', `Not enough quantity of item ${itemId}`);
-      return false;
+    const item = manager.items[itemIndex];
+    const removeQuantity = quantity || item.quantity;
+
+    if (removeQuantity >= item.quantity) {
+      manager.items.splice(itemIndex, 1);
+    } else {
+      item.quantity -= removeQuantity;
+      item.lastModified = Date.now();
     }
 
-    // Update quantity
-    item.quantity -= quantity;
-    inventory.weight -= item.weight * quantity;
+    manager.updatedAt = Date.now();
 
-    // Remove item if quantity reaches 0
-    if (item.quantity <= 0) {
-      inventory.items.splice(itemIndex, 1);
-      inventory.capacity = inventory.items.length;
-    }
-
-    inventory.modified = Date.now();
-    this.updateStats('remove_item', inventory);
-    this.logger.info('InventoryManager', `Removed item: ${item.name}`);
-    return true;
-  }
-
-  /**
-   * Move item between inventories
-   */
-  moveItem(fromInventoryId: string, toInventoryId: string, itemId: string, quantity: number = 1): boolean {
-    const fromInventory = this.inventories.get(fromInventoryId);
-    const toInventory = this.inventories.get(toInventoryId);
-
-    if (!fromInventory || !toInventory) {
-      this.logger.warn('InventoryManager', 'Source or destination inventory not found');
-      return false;
-    }
-
-    const item = fromInventory.items.find(i => i.id === itemId);
-    if (!item) {
-      this.logger.warn('InventoryManager', `Item ${itemId} not found in source inventory`);
-      return false;
-    }
-
-    if (item.quantity < quantity) {
-      this.logger.warn('InventoryManager', `Not enough quantity of item ${itemId}`);
-      return false;
-    }
-
-    // Create item copy for destination
-    const itemCopy: InventoryItem = {
-      ...item,
-      id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      quantity: quantity;
-    };
-
-    // Add to destination inventory
-    if (!this.addItem(toInventoryId, itemCopy)) {
-      this.logger.warn('InventoryManager', 'Failed to add item to destination inventory');
-      return false;
-    }
-
-    // Remove from source inventory
-    this.removeItem(fromInventoryId, itemId, quantity);
-
-    this.logger.info('InventoryManager', `Moved item: ${item.name}`);
-    return true;
-  }
-
-  /**
-   * Sort inventory
-   */
-  sortInventory(inventoryId: string): boolean {
-    const inventory = this.inventories.get(inventoryId);
-    if (!inventory) {
-      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
-      return false;
-    }
-
-    try {
-      // Sort items based on sorting criteria
-      inventory.items.sort((a, b) => {
-        const primary = this.compareItems(a, b, inventory.sorting.primary);
-        if (primary !== 0) return primary;
-
-        const secondary = this.compareItems(a, b, inventory.sorting.secondary);
-        if (secondary !== 0) return secondary;
-
-        return this.compareItems(a, b, inventory.sorting.tertiary);
-      });
-
-      inventory.modified = Date.now();
-      this.logger.info('InventoryManager', `Sorted inventory: ${inventory.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('InventoryManager', `Failed to sort inventory ${inventoryId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Filter inventory items
-   */
-  filterItems(inventoryId: string, filter: InventoryFilter): InventoryItem[] {
-    const inventory = this.inventories.get(inventoryId);
-    if (!inventory) {
-      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
-      return [];
-    }
-
-    return inventory.items.filter(item => {
-      return filter.criteria.every(criteria => {
-        return this.evaluateCriteria(item, criteria);
-      });
+    // Add operation
+    this.addOperation(managerId, {
+      type: 'remove',
+      itemId: itemId,
+      quantity: removeQuantity,
+      timestamp: Date.now()
     });
+
+    this.updatePerformanceMetrics(managerId);
+
+    return {
+      op: 'remove-item',
+      status: 'ok',
+      result: { removed: removeQuantity, remaining: item.quantity - removeQuantity }
+    };
   }
 
   /**
-   * Search inventory items
+   * Move item between slots
    */
-  searchItems(inventoryId: string, query: string): InventoryItem[] {
-    const inventory = this.inventories.get(inventoryId);
-    if (!inventory) {
-      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
-      return [];
+  moveItem(managerId: string, fromSlot: number, toSlot: number): InventoryOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'move-item',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    const lowercaseQuery = query.toLowerCase();
-    return inventory.items.filter(item => 
-      item.name.toLowerCase().includes(lowercaseQuery) ||
-      item.description.toLowerCase().includes(lowercaseQuery) ||
-      item.type.toLowerCase().includes(lowercaseQuery) ||
-      item.category.toLowerCase().includes(lowercaseQuery)
+    if (fromSlot < 0 || fromSlot >= manager.items.length) {
+      return {
+        op: 'move-item',
+        status: 'error',
+        issues: ['Invalid from slot']
+      };
+    }
+
+    if (toSlot < 0 || toSlot >= manager.items.length) {
+      return {
+        op: 'move-item',
+        status: 'error',
+        issues: ['Invalid to slot']
+      };
+    }
+
+    const item = manager.items[fromSlot];
+    manager.items[fromSlot] = manager.items[toSlot];
+    manager.items[toSlot] = item;
+
+    manager.updatedAt = Date.now();
+
+    // Add operation
+    this.addOperation(managerId, {
+      type: 'move',
+      itemId: item.id,
+      fromSlot: fromSlot,
+      toSlot: toSlot,
+      timestamp: Date.now()
+    });
+
+    return {
+      op: 'move-item',
+      status: 'ok',
+      result: { fromSlot, toSlot }
+    };
+  }
+
+  /**
+   * Search items in inventory
+   */
+  searchItems(managerId: string, query: string, filters?: {
+    category?: string;
+    rarity?: ItemRarity;
+    minValue?: number;
+    maxValue?: number;
+    tags?: string[];
+  }): InventoryOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'search-items',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    let results = manager.items.filter(item => 
+      item.name.toLowerCase().includes(query.toLowerCase()) ||
+      item.description.toLowerCase().includes(query.toLowerCase())
     );
-  }
 
-  /**
-   * Get inventory
-   */
-  getInventory(inventoryId: string): Inventory | null {
-    return this.inventories.get(inventoryId) || null;
-  }
-
-  /**
-   * Get all inventories
-   */
-  getInventories(): Inventory[] {
-    return Array.from(this.inventories.values());
-  }
-
-  /**
-   * Get inventories by type
-   */
-  getInventoriesByType(type: InventoryType): Inventory[] {
-    return Array.from(this.inventories.values())
-      .filter(inventory => inventory.type === type);
-  }
-
-  /**
-   * Get inventory statistics
-   */
-  getInventoryStats(inventoryId: string): InventoryStats | null {
-    const inventory = this.inventories.get(inventoryId);
-    if (!inventory) {
-      return null;
-    }
-
-    return this.calculateInventoryStats(inventory);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): InventoryStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize inventory manager
-   */
-  private async initializeInventoryManager(): Promise<void> {
-    this.logger.info('InventoryManager', 'Initializing inventory manager...');
-  }
-
-  /**
-   * Compare items for sorting
-   */
-  private compareItems(a: InventoryItem, b: InventoryItem, criteria: SortCriteria): number {
-    const aValue = this.getItemFieldValue(a, criteria.field);
-    const bValue = this.getItemFieldValue(b, criteria.field);
-
-    if (criteria.type === SortType.NUMERICAL) {
-      return (aValue as number) - (bValue as number);
-    } else if (criteria.type === SortType.ALPHABETICAL) {
-      return (aValue as string).localeCompare(bValue as string);
-    } else if (criteria.type === SortType.CHRONOLOGICAL) {
-      return (aValue as number) - (bValue as number);
-    }
-
-    return 0;
-  }
-
-  /**
-   * Get item field value
-   */
-  private getItemFieldValue(item: InventoryItem, field: string): any {
-    const fieldMap: { [key: string]: any } = {
-      'name': item.name,
-      'type': item.type,
-      'category': item.category,
-      'quality': item.quality,
-      'rarity': item.rarity,
-      'level': item.level,
-      'value': item.value,
-      'weight': item.weight,
-      'durability': item.durability,
-      'quantity': item.quantity
-    };
-
-    return fieldMap[field] || '';
-  }
-
-  /**
-   * Evaluate filter criteria
-   */
-  private evaluateCriteria(item: InventoryItem, criteria: FilterCriteria): boolean {
-    const value = this.getItemFieldValue(item, criteria.field);
-    
-    switch (criteria.operator) {
-      case ConditionOperator.EQUALS:
-        return value === criteria.value;
-      case ConditionOperator.NOT_EQUALS:
-        return value !== criteria.value;
-      case ConditionOperator.GREATER_THAN:
-        return (value as number) > (criteria.value as number);
-      case ConditionOperator.LESS_THAN:
-        return (value as number) < (criteria.value as number);
-      case ConditionOperator.GREATER_EQUAL:
-        return (value as number) >= (criteria.value as number);
-      case ConditionOperator.LESS_EQUAL:
-        return (value as number) <= (criteria.value as number);
-      case ConditionOperator.CONTAINS:
-        return (value as string).includes(criteria.value as string);
-      case ConditionOperator.NOT_CONTAINS:
-        return !(value as string).includes(criteria.value as string);
-      case ConditionOperator.STARTS_WITH:
-        return (value as string).startsWith(criteria.value as string);
-      case ConditionOperator.ENDS_WITH:
-        return (value as string).endsWith(criteria.value as string);
-      default:
-        return false;
-    }
-  }
-
-  /**
-   * Calculate inventory statistics
-   */
-  private calculateInventoryStats(inventory: Inventory): InventoryStats {
-    const totalItems = inventory.items.length;
-    const totalWeight = inventory.weight;
-    const totalValue = inventory.items.reduce((sum, item) => sum + (item.value * item.quantity), 0);
-    const averageQuality = this.calculateAverageQuality(inventory.items);
-    const averageRarity = this.calculateAverageRarity(inventory.items);
-    const averageLevel = this.calculateAverageLevel(inventory.items);
-    const totalEnchantments = inventory.items.reduce((sum, item) => sum + item.enchantments.length, 0);
-    const totalEnhancements = inventory.items.reduce((sum, item) => sum + item.enhancements.length, 0);
-
-    return {
-      totalItems,
-      totalWeight,
-      totalValue,
-      averageQuality,
-      averageRarity,
-      averageLevel,
-      totalEnchantments,
-      totalEnhancements,
-      lastUpdate: Date.now()
-    };
-  }
-
-  /**
-   * Calculate average quality
-   */
-  private calculateAverageQuality(items: InventoryItem[]): number {
-    if (items.length === 0) return 0;
-    
-    const qualityMap = {
-      [ItemQuality.POOR]: 1,
-      [ItemQuality.FAIR]: 2,
-      [ItemQuality.GOOD]: 3,
-      [ItemQuality.EXCELLENT]: 4,
-      [ItemQuality.PERFECT]: 5
-    };
-
-    const total = items.reduce((sum, item) => sum + qualityMap[item.quality], 0);
-    return total / items.length;
-  }
-
-  /**
-   * Calculate average rarity
-   */
-  private calculateAverageRarity(items: InventoryItem[]): number {
-    if (items.length === 0) return 0;
-    
-    const rarityMap = {
-      [ItemRarity.COMMON]: 1,
-      [ItemRarity.UNCOMMON]: 2,
-      [ItemRarity.RARE]: 3,
-      [ItemRarity.EPIC]: 4,
-      [ItemRarity.LEGENDARY]: 5,
-      [ItemRarity.MYTHIC]: 6
-    };
-
-    const total = items.reduce((sum, item) => sum + rarityMap[item.rarity], 0);
-    return total / items.length;
-  }
-
-  /**
-   * Calculate average level
-   */
-  private calculateAverageLevel(items: InventoryItem[]): number {
-    if (items.length === 0) return 0;
-    
-    const total = items.reduce((sum, item) => sum + item.level, 0);
-    return total / items.length;
-  }
-
-  /**
-   * Create default currency
-   */
-  private createDefaultCurrency(): CurrencyState {
-    return {
-      gold: 0,
-      silver: 0,
-      copper: 0,
-      gems: 0,
-      tokens: 0,
-      custom: new Map()
-    };
-  }
-
-  /**
-   * Create default slots
-   */
-  private createDefaultSlots(): InventorySlot[] {
-    const slots: InventorySlot[] = [];
-    const rows = 10;
-    const cols = 10;
-
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        slots.push({
-          id: `slot_${row}_${col}`,
-          position: {
-
-            x: col,
-
-            y: row;
-
-          }
-    },
-          size: {
-
-            width: 1,
-
-            height: 1;
-
-          }
-    },
-          type: SlotType.NORMAL,
-          isOccupied: false,
-          item: null,
-          isLocked: false,
-          isReserved: false,
-          metadata: new Map()
-        });
+    if (filters) {
+      if (filters.category) {
+        results = results.filter(item => item.category === filters.category);
+      }
+      if (filters.rarity) {
+        results = results.filter(item => item.rarity === filters.rarity);
+      }
+      if (filters.minValue !== undefined) {
+        results = results.filter(item => item.value >= filters.minValue!);
+      }
+      if (filters.maxValue !== undefined) {
+        results = results.filter(item => item.value <= filters.maxValue!);
+      }
+      if (filters.tags && filters.tags.length > 0) {
+        results = results.filter(item => 
+          filters.tags!.some(tag => item.tags.includes(tag))
+        );
       }
     }
 
-    return slots;
-  }
-
-  /**
-   * Create default sorting
-   */
-  private createDefaultSorting(): InventorySorting {
     return {
-      primary: { field: 'name', type: SortType.ALPHABETICAL, metadata: new Map() },
-      secondary: { field: 'type', type: SortType.ALPHABETICAL, metadata: new Map() },
-      tertiary: { field: 'level', type: SortType.NUMERICAL, metadata: new Map() },
-      isAscending: true,
-      metadata: new Map()
+      op: 'search-items',
+      status: 'ok',
+      result: results
     };
   }
 
   /**
-   * Create default quick access
+   * Get item by ID
    */
-  private createDefaultQuickAccess(): QuickAccessSlot[] {
-    const slots: QuickAccessSlot[] = [];
-    const count = 8; // 8 quick access slots
-
-    for (let i = 0; i < count; i++) {
-      slots.push({
-        id: `quick_${i}`,
-        position: i,
-        item: null,
-        isLocked: false,
-        metadata: new Map()
-      });
+  getItem(managerId: string, itemId: string): InventoryOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-item',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    return slots;
-  }
-
-  /**
-   * Create default hotbar
-   */
-  private createDefaultHotbar(): HotbarSlot[] {
-    const slots: HotbarSlot[] = [];
-    const count = 10; // 10 hotbar slots
-
-    for (let i = 0; i < count; i++) {
-      slots.push({
-        id: `hotbar_${i}`,
-        position: i,
-        item: null,
-        isLocked: false,
-        metadata: new Map()
-      });
+    const item = manager.items.find(item => item.id === itemId);
+    if (!item) {
+      return {
+        op: 'get-item',
+        status: 'error',
+        issues: [`Item ${itemId} not found`]
+      };
     }
 
-    return slots;
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): InventoryMetadata {
     return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      rating: 0,
-      description: '',
-      customMetadata: new Map()
+      op: 'get-item',
+      status: 'ok',
+      result: item
     };
   }
 
   /**
-   * Update statistics
+   * Add operation to manager
    */
-  private updateStats(action: string, inventory: Inventory): void {
-    switch (action) {
-      case 'create_inventory':
-        this.stats.totalItems += inventory.items.length;
-        this.stats.totalWeight += inventory.weight;
-        this.stats.totalValue += inventory.items.reduce((sum, item) => sum + (item.value * item.quantity), 0);
-        break;
-      case 'add_item':
-        this.stats.totalItems++;
-        break;
-      case 'remove_item':
-        this.stats.totalItems--;
-        break;
-    }
+  private addOperation(managerId: string, operation: Partial<InventoryOperation>): void {
+    const manager = this.managers.get(managerId);
+    if (!manager) return;
 
-    this.stats.lastUpdate = Date.now();
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): InventoryStats {
-    return {
-      totalItems: 0,
-      totalWeight: 0,
-      totalValue: 0,
-      averageQuality: 0,
-      averageRarity: 0,
-      averageLevel: 0,
-      totalEnchantments: 0,
-      totalEnhancements: 0,
-      lastUpdate: Date.now()
+    const newOperation: InventoryOperation = {
+      id: `op-${Date.now()}`,
+      type: operation.type || 'add',
+      itemId: operation.itemId || '',
+      quantity: operation.quantity || 0,
+      fromSlot: operation.fromSlot,
+      toSlot: operation.toSlot,
+      timestamp: Date.now(),
+      metadata: {},
+      ...operation
     };
+
+    manager.operations.push(newOperation);
+    this.analytics.totalOperations++;
+
+    // Keep only recent operations
+    if (manager.operations.length > 1000) {
+      manager.operations = manager.operations.slice(-1000);
+    }
   }
 
   /**
-   * Cleanup resources
+   * Update performance metrics
    */
-  destroy(): void {
-    this.inventories.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  private updatePerformanceMetrics(managerId: string): void {
+    const manager = this.managers.get(managerId);
+    if (!manager) return;
+
+    const totalItems = manager.items.length;
+    const totalWeight = manager.items.reduce((sum, item) => sum + (item.weight * item.quantity), 0);
+    const totalValue = manager.items.reduce((sum, item) => sum + (item.value * item.quantity), 0);
+
+    manager.performanceMetrics.totalItems = totalItems;
+    manager.performanceMetrics.totalWeight = totalWeight;
+    manager.performanceMetrics.totalValue = totalValue;
+    manager.performanceMetrics.averageItemWeight = totalItems > 0 ? totalWeight / totalItems : 0;
+    manager.performanceMetrics.averageItemValue = totalItems > 0 ? totalValue / totalItems : 0;
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): InventoryPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): InventoryAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): InventoryManager[] {
+    return Array.from(this.managers.values());
   }
 }
-
-// Export default instance
-export const defaultInventoryManager = new InventoryManager();
-export { InventoryManager as default };

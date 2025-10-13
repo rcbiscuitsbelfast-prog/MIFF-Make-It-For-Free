@@ -10,14 +10,7 @@
  * - Performance optimization
  * - Real-time server monitoring
  * - WebSocket server analytics and reporting
- *
- * @version 1.0.0
- * @author MIFF Framework
  */
-
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface WebSocketServerConfig {
   enableServerCreation: boolean;
@@ -48,160 +41,67 @@ export interface WebSocketServer {
   servers: Server[];
   connections: WebSocketConnection[];
   clusters: ServerCluster[];
+  loadBalancers: LoadBalancer[];
+  performanceMetrics: WebSocketServerPerformanceMetrics;
   analytics: WebSocketServerAnalytics;
-  metadata: WebSocketServerMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  reporting: WebSocketServerReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum WebSocketServerType {
-  STANDALONE = 'standalone',
-  CLUSTERED = 'clustered',
-  LOAD_BALANCED = 'load_balanced',
-  MICROSERVICE = 'microservice',
-  CUSTOM = 'custom'
-}
-
-export enum WebSocketServerStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  STARTING = 'starting',
-  STOPPING = 'stopping',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
+export type WebSocketServerType = 'ws' | 'wss' | 'http' | 'https' | 'tcp' | 'udp';
+export type WebSocketServerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Server {
   id: string;
   name: string;
-  type: ServerType;
-  status: ServerStatus;
-  configuration: ServerConfiguration;
-  endpoints: ServerEndpoint[];
-  connections: WebSocketConnection[];
-  metadata: Map<string, any>;
-}
-
-export enum ServerType {
-  HTTP = 'http',
-  HTTPS = 'https',
-  WSS = 'wss',
-  CUSTOM = 'custom'
-}
-
-export enum ServerStatus {
-  RUNNING = 'running',
-  STOPPED = 'stopped',
-  STARTING = 'starting',
-  STOPPING = 'stopping',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface ServerConfiguration {
   host: string;
   port: number;
-  protocol: WebSocketProtocol;
-  ssl: SSLConfig;
-  limits: ServerLimits;
-  metadata: Map<string, any>;
-}
-
-export enum WebSocketProtocol {
-  WS = 'ws',
-  WSS = 'wss',
-  CUSTOM = 'custom'
-}
-
-export interface SSLConfig {
-  enabled: boolean;
-  cert: string;
-  key: string;
-  ca: string;
-  metadata: Map<string, any>;
-}
-
-export interface ServerLimits {
+  protocol: string;
+  status: 'running' | 'stopped' | 'error';
+  connections: number;
   maxConnections: number;
-  maxMessageSize: number;
-  connectionTimeout: number;
-  pingInterval: number;
-  metadata: Map<string, any>;
-}
-
-export interface ServerEndpoint {
-  path: string;
-  handler: string;
-  middleware: string[];
-  metadata: Map<string, any>;
+  uptime: number;
+  lastActivity: number;
+  metadata: Record<string, any>;
 }
 
 export interface WebSocketConnection {
   id: string;
   serverId: string;
   clientId: string;
-  status: ConnectionStatus;
-  endpoint: string;
+  status: 'connected' | 'disconnected' | 'connecting';
+  connectedAt: number;
   lastActivity: number;
   messageCount: number;
-  metadata: Map<string, any>;
-}
-
-export enum ConnectionStatus {
-  CONNECTING = 'connecting',
-  CONNECTED = 'connected',
-  DISCONNECTED = 'disconnected',
-  ERROR = 'error',
-  CUSTOM = 'custom'
+  bytesReceived: number;
+  bytesSent: number;
+  metadata: Record<string, any>;
 }
 
 export interface ServerCluster {
   id: string;
   name: string;
-  type: ClusterType;
-  status: ClusterStatus;
   servers: string[];
-  loadBalancer: LoadBalancerConfig;
-  metadata: Map<string, any>;
-}
-
-export enum ClusterType {
-  HORIZONTAL = 'horizontal',
-  VERTICAL = 'vertical',
-  HYBRID = 'hybrid',
-  CUSTOM = 'custom'
-}
-
-export enum ClusterStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  SCALING = 'scaling',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface LoadBalancerConfig {
-  type: LoadBalancerType;
-  algorithm: LoadBalancerAlgorithm;
+  loadBalancer: string;
   healthCheck: HealthCheckConfig;
-  metadata: Map<string, any>;
+  autoScaling: AutoScalingConfig;
+  status: 'active' | 'inactive' | 'error';
+  metadata: Record<string, any>;
 }
 
-export enum LoadBalancerType {
-  ROUND_ROBIN = 'round_robin',
-  LEAST_CONNECTIONS = 'least_connections',
-  RANDOM = 'random',
-  WEIGHTED = 'weighted',
-  CUSTOM = 'custom'
-}
-
-export enum LoadBalancerAlgorithm {
-  ROUND_ROBIN = 'round_robin',
-  LEAST_CONNECTIONS = 'least_connections',
-  RANDOM = 'random',
-  WEIGHTED = 'weighted',
-  CUSTOM = 'custom'
+export interface LoadBalancer {
+  id: string;
+  name: string;
+  algorithm: 'round-robin' | 'least-connections' | 'ip-hash' | 'weighted';
+  servers: string[];
+  healthCheck: HealthCheckConfig;
+  status: 'active' | 'inactive' | 'error';
+  metadata: Record<string, any>;
 }
 
 export interface HealthCheckConfig {
@@ -209,52 +109,108 @@ export interface HealthCheckConfig {
   interval: number;
   timeout: number;
   path: string;
-  metadata: Map<string, any>;
+  expectedStatus: number;
+}
+
+export interface AutoScalingConfig {
+  enabled: boolean;
+  minServers: number;
+  maxServers: number;
+  scaleUpThreshold: number;
+  scaleDownThreshold: number;
+  cooldownPeriod: number;
+}
+
+export interface WebSocketServerPerformanceMetrics {
+  totalConnections: number;
+  activeConnections: number;
+  totalMessages: number;
+  messagesPerSecond: number;
+  averageResponseTime: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  networkLatency: number;
+  errorRate: number;
+  uptime: number;
 }
 
 export interface WebSocketServerAnalytics {
   totalServers: number;
   totalConnections: number;
-  totalClusters: number;
-  averageLatency: number;
-  messageThroughput: number;
-  performance: PerformanceMetrics;
+  totalMessages: number;
+  averageConnectionsPerServer: number;
+  peakConnections: number;
+  averageMessageSize: number;
+  connectionDuration: number;
+  messageFrequency: number;
+  errorFrequency: number;
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  connections: number;
+  messages: number;
+  responseTime: number;
+  errorRate: number;
+}
+
+export interface WebSocketServerReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeErrors: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
-  metadata: Map<string, any>;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface WebSocketServerMetadata {
-  author: string;
+export interface Version {
   version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
 }
 
-export interface WebSocketServerStats {
-  totalServers: number;
-  totalConnections: number;
-  totalClusters: number;
-  averageLatency: number;
-  messageThroughput: number;
-  lastUpdate: number;
+export interface WebSocketServerOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
 }
 
-export class WebSocketServerManager {
-  private config: WebSocketServerConfig;
+export class WebSocketServerPure {
   private servers: Map<string, WebSocketServer> = new Map();
-  private stats: WebSocketServerStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private connections: Map<string, WebSocketConnection> = new Map();
+  private config: WebSocketServerConfig;
+  private performanceMetrics: WebSocketServerPerformanceMetrics;
+  private analytics: WebSocketServerAnalytics;
 
   constructor(config: Partial<WebSocketServerConfig> = {}) {
     this.config = {
@@ -271,354 +227,364 @@ export class WebSocketServerManager {
       enableRealTimeMonitoring: true,
       enableWebSocketServerAnalytics: true,
       enableWebSocketServerReporting: true,
-      maxServers: 1000,
-      maxConnections: 100000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      maxServers: 100,
+      maxConnections: 10000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'WebSocketServerManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `WebSocketServerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'WebSocketServerManager');
-  };
-  }
-
-  /**
-   * Initialize WebSocket server manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize WebSocket server manager
-      await this.initializeWebSocketServerManager();
-      
-      // Load default WebSocket servers
-      await this.loadDefaultWebSocketServers();
-      
-      this.isInitialized = true;
-      this.logger.info('WebSocketServerManager', 'WebSocket server manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('WebSocketServerManager', 'Failed to initialize WebSocket server manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new WebSocket server
-   */
-  createWebSocketServer(server: Partial<WebSocketServer>): WebSocketServer | null {
-    const newServer: WebSocketServer = {
-      id: `websocketserver_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: server.name || 'New WebSocket Server',
-      type: server.type || WebSocketServerType.STANDALONE,
-      status: WebSocketServerStatus.ACTIVE,
-      servers: server.servers || [],
-      connections: server.connections || [],
-      clusters: server.clusters || [],
-      analytics: server.analytics || this.createDefaultAnalytics(),
-      metadata: server.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
 
-    this.servers.set(newServer.id, newServer);
-    this.updateStats('create_server', newServer);
+    this.performanceMetrics = {
+      totalConnections: 0,
+      activeConnections: 0,
+      totalMessages: 0,
+      messagesPerSecond: 0,
+      averageResponseTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      networkLatency: 0,
+      errorRate: 0,
+      uptime: 0
+    };
 
-    this.logger.info('WebSocketServerManager', `Created WebSocket server: ${newServer.name}`);
-    return newServer;
+    this.analytics = {
+      totalServers: 0,
+      totalConnections: 0,
+      totalMessages: 0,
+      averageConnectionsPerServer: 0,
+      peakConnections: 0,
+      averageMessageSize: 0,
+      connectionDuration: 0,
+      messageFrequency: 0,
+      errorFrequency: 0,
+      performanceTrends: []
+    };
   }
 
   /**
-   * Create server
+   * Create a new WebSocket server
    */
-  createServer(webSocketServerId: string, server: Partial<Server>): Server | null {
-    const webSocketServer = this.servers.get(webSocketServerId);
-    if (!webSocketServer) {
-      this.logger.warn('WebSocketServerManager', `WebSocket server ${webSocketServerId} not found`);
-      return null;
-    }
-
-    if (webSocketServer.servers.length >= this.config.maxServers) {
-      this.logger.warn('WebSocketServerManager', 'Maximum number of servers reached');
-      return null;
-    }
-
-    try {
-      const newServer: Server = {
-        id: `server_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: server.name || 'New Server',
-        type: server.type || ServerType.HTTP,
-        status: ServerStatus.STOPPED,
-        configuration: server.configuration || this.createDefaultServerConfiguration(),
-        endpoints: server.endpoints || [],
-        connections: server.connections || [],
-        metadata: server.metadata || new Map()
+  createServer(serverData: Partial<WebSocketServer>): WebSocketServerOutput {
+    if (!this.config.enableServerCreation) {
+      return {
+        op: 'create-server',
+        status: 'error',
+        issues: ['Server creation is disabled']
       };
-
-      webSocketServer.servers.push(newServer);
-      webSocketServer.modified = Date.now();
-
-      this.updateStats('create_server', webSocketServer);
-      this.logger.info('WebSocketServerManager', `Created server: ${newServer.name}`);
-      return newServer;
-    } catch (error) {
-      this.logger.error('WebSocketServerManager', `Failed to create server in WebSocket server ${webSocketServerId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Create WebSocket connection
-   */
-  createWebSocketConnection(webSocketServerId: string, connection: Partial<WebSocketConnection>): WebSocketConnection | null {
-    const webSocketServer = this.servers.get(webSocketServerId);
-    if (!webSocketServer) {
-      this.logger.warn('WebSocketServerManager', `WebSocket server ${webSocketServerId} not found`);
-      return null;
     }
 
-    if (webSocketServer.connections.length >= this.config.maxConnections) {
-      this.logger.warn('WebSocketServerManager', 'Maximum number of connections reached');
-      return null;
-    }
-
-    try {
-      const newConnection: WebSocketConnection = {
-        id: `connection_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        serverId: connection.serverId || '',
-        clientId: connection.clientId || '',
-        status: ConnectionStatus.CONNECTING,
-        endpoint: connection.endpoint || '/',
-        lastActivity: Date.now(),
-        messageCount: 0,
-        metadata: connection.metadata || new Map()
+    if (this.servers.size >= this.config.maxServers) {
+      return {
+        op: 'create-server',
+        status: 'error',
+        issues: ['Maximum number of servers reached']
       };
-
-      webSocketServer.connections.push(newConnection);
-      webSocketServer.modified = Date.now();
-
-      this.updateStats('create_connection', webSocketServer);
-      this.logger.info('WebSocketServerManager', `Created WebSocket connection: ${newConnection.id}`);
-      return newConnection;
-    } catch (error) {
-      this.logger.error('WebSocketServerManager', `Failed to create WebSocket connection in WebSocket server ${webSocketServerId}:`, error);
-      return null;
     }
+
+    const server: WebSocketServer = {
+      id: serverData.id || `server-${Date.now()}`,
+      name: serverData.name || 'Unnamed Server',
+      type: serverData.type || 'ws',
+      status: 'active',
+      servers: [],
+      connections: [],
+      clusters: [],
+      loadBalancers: [],
+      performanceMetrics: {
+        totalConnections: 0,
+        activeConnections: 0,
+        totalMessages: 0,
+        messagesPerSecond: 0,
+        averageResponseTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        networkLatency: 0,
+        errorRate: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalServers: 0,
+        totalConnections: 0,
+        totalMessages: 0,
+        averageConnectionsPerServer: 0,
+        peakConnections: 0,
+        averageMessageSize: 0,
+        connectionDuration: 0,
+        messageFrequency: 0,
+        errorFrequency: 0,
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeErrors: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...serverData
+    };
+
+    this.servers.set(server.id, server);
+    this.analytics.totalServers++;
+
+    return {
+      op: 'create-server',
+      status: 'ok',
+      result: server
+    };
   }
 
   /**
-   * Get WebSocket server
+   * Get server by ID
    */
-  getWebSocketServer(serverId: string): WebSocketServer | null {
-    return this.servers.get(serverId) || null;
+  getServer(serverId: string): WebSocketServerOutput {
+    const server = this.servers.get(serverId);
+    if (!server) {
+      return {
+        op: 'get-server',
+        status: 'error',
+        issues: [`Server ${serverId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-server',
+      status: 'ok',
+      result: server
+    };
   }
 
   /**
-   * Get all WebSocket servers
+   * Update server
    */
-  getWebSocketServers(): WebSocketServer[] {
+  updateServer(serverId: string, updates: Partial<WebSocketServer>): WebSocketServerOutput {
+    const server = this.servers.get(serverId);
+    if (!server) {
+      return {
+        op: 'update-server',
+        status: 'error',
+        issues: [`Server ${serverId} not found`]
+      };
+    }
+
+    Object.assign(server, updates, { updatedAt: Date.now() });
+    this.servers.set(serverId, server);
+
+    return {
+      op: 'update-server',
+      status: 'ok',
+      result: server
+    };
+  }
+
+  /**
+   * Delete server
+   */
+  deleteServer(serverId: string): WebSocketServerOutput {
+    const server = this.servers.get(serverId);
+    if (!server) {
+      return {
+        op: 'delete-server',
+        status: 'error',
+        issues: [`Server ${serverId} not found`]
+      };
+    }
+
+    this.servers.delete(serverId);
+    this.analytics.totalServers--;
+
+    return {
+      op: 'delete-server',
+      status: 'ok',
+      result: { deleted: serverId }
+    };
+  }
+
+  /**
+   * Add connection to server
+   */
+  addConnection(serverId: string, connection: Partial<WebSocketConnection>): WebSocketServerOutput {
+    const server = this.servers.get(serverId);
+    if (!server) {
+      return {
+        op: 'add-connection',
+        status: 'error',
+        issues: [`Server ${serverId} not found`]
+      };
+    }
+
+    if (server.connections.length >= this.config.maxConnections) {
+      return {
+        op: 'add-connection',
+        status: 'error',
+        issues: ['Maximum connections reached for server']
+      };
+    }
+
+    const newConnection: WebSocketConnection = {
+      id: connection.id || `conn-${Date.now()}`,
+      serverId,
+      clientId: connection.clientId || 'unknown',
+      status: 'connected',
+      connectedAt: Date.now(),
+      lastActivity: Date.now(),
+      messageCount: 0,
+      bytesReceived: 0,
+      bytesSent: 0,
+      metadata: {},
+      ...connection
+    };
+
+    server.connections.push(newConnection);
+    this.connections.set(newConnection.id, newConnection);
+    this.performanceMetrics.activeConnections++;
+    this.analytics.totalConnections++;
+
+    return {
+      op: 'add-connection',
+      status: 'ok',
+      result: newConnection
+    };
+  }
+
+  /**
+   * Remove connection from server
+   */
+  removeConnection(connectionId: string): WebSocketServerOutput {
+    const connection = this.connections.get(connectionId);
+    if (!connection) {
+      return {
+        op: 'remove-connection',
+        status: 'error',
+        issues: [`Connection ${connectionId} not found`]
+      };
+    }
+
+    const server = this.servers.get(connection.serverId);
+    if (server) {
+      const index = server.connections.findIndex(c => c.id === connectionId);
+      if (index > -1) {
+        server.connections.splice(index, 1);
+      }
+    }
+
+    this.connections.delete(connectionId);
+    this.performanceMetrics.activeConnections--;
+
+    return {
+      op: 'remove-connection',
+      status: 'ok',
+      result: { removed: connectionId }
+    };
+  }
+
+  /**
+   * Broadcast message to all connections
+   */
+  broadcastMessage(serverId: string, message: any): WebSocketServerOutput {
+    const server = this.servers.get(serverId);
+    if (!server) {
+      return {
+        op: 'broadcast-message',
+        status: 'error',
+        issues: [`Server ${serverId} not found`]
+      };
+    }
+
+    let sentCount = 0;
+    for (const connection of server.connections) {
+      if (connection.status === 'connected') {
+        // Simulate message sending
+        connection.messageCount++;
+        connection.lastActivity = Date.now();
+        sentCount++;
+      }
+    }
+
+    this.performanceMetrics.totalMessages += sentCount;
+
+    return {
+      op: 'broadcast-message',
+      status: 'ok',
+      result: { sent: sentCount }
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): WebSocketServerPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): WebSocketServerAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all servers
+   */
+  getAllServers(): WebSocketServer[] {
     return Array.from(this.servers.values());
   }
 
   /**
-   * Get WebSocket servers by type
+   * Get all connections
    */
-  getWebSocketServersByType(type: WebSocketServerType): WebSocketServer[] {
-    return Array.from(this.servers.values())
-      .filter(server => server.type === type);
+  getAllConnections(): WebSocketConnection[] {
+    return Array.from(this.connections.values());
   }
 
   /**
-   * Get manager statistics
+   * Update performance metrics
    */
-  getManagerStats(): WebSocketServerStats {
-    return { ...this.stats };
-  }
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalConnections = 0;
+    let activeConnections = 0;
+    let totalMessages = 0;
 
-  /**
-   * Initialize WebSocket server manager
-   */
-  private async initializeWebSocketServerManager(): Promise<void> {
-    this.logger.info('WebSocketServerManager', 'Initializing WebSocket server manager...');
-  }
-
-  /**
-   * Load default WebSocket servers
-   */
-  private async loadDefaultWebSocketServers(): Promise<void> {
-    // Load default WebSocket servers
-    const defaultServers = [
-      this.createDefaultStandalone(),
-      this.createDefaultClustered(),
-      this.createDefaultLoadBalanced()
-    ];
-
-    for (const server of defaultServers) {
-      if (server) {
-        this.servers.set(server.id, server);
-      }
+    for (const server of this.servers.values()) {
+      totalConnections += server.connections.length;
+      activeConnections += server.connections.filter(c => c.status === 'connected').length;
+      totalMessages += server.performanceMetrics.totalMessages;
     }
 
-    this.logger.info('WebSocketServerManager', `Loaded ${defaultServers.length} default WebSocket servers`);
-  }
-
-  /**
-   * Create default server configuration
-   */
-  private createDefaultServerConfiguration(): ServerConfiguration {
-    return {
-      host: 'localhost',
-      port: 8080,
-      protocol: WebSocketProtocol.WS,
-      ssl: {
-
-        enabled: false,
-        cert: '',
-        key: '',
-        ca: '',
-        metadata: new Map()
-
-      }
-      },
-      limits: {
-
-        maxConnections: 1000,
-        maxMessageSize: 1024 * 1024, // 1MB
-        connectionTimeout: 30000,
-        pingInterval: 30000,
-        metadata: new Map()
-
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): WebSocketServerAnalytics {
-    return {
-      totalServers: 0,
-      totalConnections: 0,
-      totalClusters: 0,
-      averageLatency: 0,
-      messageThroughput: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): WebSocketServerMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default standalone
-   */
-  private createDefaultStandalone(): WebSocketServer {
-    return this.createWebSocketServer({
-      name: 'Standalone WebSocket Server',
-      type: WebSocketServerType.STANDALONE,
-      description: 'Standalone WebSocket server'
-    });
-  }
-
-  /**
-   * Create default clustered
-   */
-  private createDefaultClustered(): WebSocketServer {
-    return this.createWebSocketServer({
-      name: 'Clustered WebSocket Server',
-      type: WebSocketServerType.CLUSTERED,
-      description: 'Clustered WebSocket server'
-    });
-  }
-
-  /**
-   * Create default load balanced
-   */
-  private createDefaultLoadBalanced(): WebSocketServer {
-    return this.createWebSocketServer({
-      name: 'Load Balanced WebSocket Server',
-      type: WebSocketServerType.LOAD_BALANCED,
-      description: 'Load balanced WebSocket server'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, server: WebSocketServer): void {
-    switch (action) {
-      case 'create_server':
-        this.stats.totalServers += server.servers.length;
-        this.stats.totalConnections += server.connections.length;
-        this.stats.totalClusters += server.clusters.length;
-        break;
-      case 'create_connection':
-        this.stats.totalConnections++;
-        break;
-    }
-
-    this.stats.lastUpdate = Date.now();
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): WebSocketServerStats {
-    return {
-      totalServers: 0,
-      totalConnections: 0,
-      totalClusters: 0,
-      averageLatency: 0,
-      messageThroughput: 0,
-      lastUpdate: Date.now()
-    };
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.servers.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+    this.performanceMetrics.totalConnections = totalConnections;
+    this.performanceMetrics.activeConnections = activeConnections;
+    this.performanceMetrics.totalMessages = totalMessages;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultWebSocketServerManager = new WebSocketServerManager();
-export { WebSocketServerManager as default };

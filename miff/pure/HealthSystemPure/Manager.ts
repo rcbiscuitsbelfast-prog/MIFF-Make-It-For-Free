@@ -51,54 +51,39 @@ export interface HealthEvent {
   metadata?: Record<string, any>;
 }
 
-export interface HealthStats {
-  totalEntities: number;
-  aliveEntities: number;
-  deadEntities: number;
-  averageHp: number;
-  totalShields: number;
-  activeRegeneration: number;
-  damageDealt: number;
-  healingDone: number;
-  eventTypes: Record<string, number>;
-  damageTypes: Record<string, number>;
-}
-
-export interface HealthFilter {
-  minHp?: number;
-  maxHp?: number;
-  hasShields?: boolean;
-  hasRegeneration?: boolean;
-  isAlive?: boolean;
-  hasImmunity?: string;
-  hasResistance?: string;
-}
-
 export interface HealthOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: HealthEntity | HealthEntity[] | HealthEvent | HealthStats | string;
+  result?: any;
   issues?: string[];
 }
 
-export class HealthSystemManager {
+export interface DamageResult {
+  damageDealt: number;
+  damageAbsorbed: number;
+  damageBlocked: number;
+  criticalHit: boolean;
+  resisted: boolean;
+  immuned: boolean;
+}
+
+export class HealthSystemPure {
   private entities: Map<string, HealthEntity> = new Map();
   private events: HealthEvent[] = [];
-  private regenerationTicks: Map<string, number> = new Map();
+  private maxEvents: number = 1000;
 
   constructor() {
-    // Initialize with default entities
+    // Initialize the health system
   }
 
   /**
    * Create a new health entity
    */
   createEntity(id: string, maxHp: number, options: {
-   currentHp?: number;
+    currentHp?: number;
     shields?: Shield[];
     immunities?: string[];
     resistances?: Record<string, number>;
- }
   } = {}): HealthOutput {
     if (this.entities.has(id)) {
       return {
@@ -111,141 +96,153 @@ export class HealthSystemManager {
     const entity: HealthEntity = {
       id,
       maxHp,
-      currentHp: options.currentHp !== undefined ? options.currentHp : maxHp,
-      shields: options.shields || [],
+      currentHp: options.currentHp ?? maxHp,
+      shields: options.shields ?? [],
       regeneration: [],
-      immunities: options.immunities || [],
-      resistances: options.resistances || {},
-      lastUpdate: Date.now()
+      immunities: options.immunities ?? [],
+      resistances: options.resistances ?? {},
+      lastUpdate: Date.now(),
+      metadata: {}
     };
 
     this.entities.set(id, entity);
+
     return {
       op: 'create',
       status: 'ok',
-      result: entity;
+      result: entity
     };
   }
 
   /**
-   * Get health entity
+   * Get entity health information
    */
   getEntity(id: string): HealthOutput {
     const entity = this.entities.get(id);
     if (!entity) {
       return {
-        op: 'get',
+        op: 'get-entity',
         status: 'error',
         issues: [`Entity ${id} not found`]
       };
     }
 
     return {
-      op: 'get',
+      op: 'get-entity',
       status: 'ok',
-      result: entity;
+      result: entity
     };
   }
 
   /**
-   * Apply damage to entity
+   * Deal damage to an entity
    */
-  applyDamage(entityId: string, amount: number, options: {
-   damageType?: 'physical' | 'magical' | 'elemental' | 'pure';
-    element?: 'fire' | 'ice' | 'lightning' | 'poison' | 'holy' | 'dark';
-    source?: string;
-    bypassShields?: boolean;
- }
-  } = {}): HealthOutput {
-    const entity = this.entities.get(entityId);
+  dealDamage(targetId: string, amount: number, damageType: 'physical' | 'magical' | 'elemental' | 'pure' = 'physical', element?: string): HealthOutput {
+    const entity = this.entities.get(targetId);
     if (!entity) {
       return {
         op: 'damage',
         status: 'error',
-        issues: [`Entity ${entityId} not found`]
+        issues: [`Entity ${targetId} not found`]
       };
     }
 
-    // Check immunities
-    if (options.damageType && entity.immunities.includes(options.damageType)) {
-      const event: HealthEvent = {
-        id: `immunity_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    // Check immunity
+    if (entity.immunities.includes(damageType) || (element && entity.immunities.includes(element))) {
+      this.addEvent({
+        id: `immunity-${Date.now()}`,
         type: 'immunity',
         amount: 0,
-        source: options.source || 'system',
-        target: entityId,
-        damageType: options.damageType,
-        element: options.element,
+        source: 'system',
+        target: targetId,
+        damageType,
+        element,
         timestamp: Date.now()
-      };
-      this.events.push(event);
+      });
+
       return {
         op: 'damage',
         status: 'ok',
-        result: entity;
-    };
+        result: {
+          damageDealt: 0,
+          damageAbsorbed: 0,
+          damageBlocked: amount,
+          criticalHit: false,
+          resisted: false,
+          immuned: true
+        }
+      };
     }
 
     // Apply resistance
     let finalAmount = amount;
-    if (options.damageType && entity.resistances[options.damageType]) {
-      const resistance = entity.resistances[options.damageType];
-      finalAmount = amount * (1 - resistance / 100);
+    const resistance = entity.resistances[damageType] || 0;
+    if (resistance > 0) {
+      finalAmount = Math.max(0, amount * (1 - resistance / 100));
     }
 
-    // Apply shields if not bypassed
-    let damageToHp = finalAmount;
-    if (!options.bypassShields) {
-      for (const shield of entity.shields) {
-        if (shield.amount > 0 && this.isShieldEffective(shield, options.damageType, options.element)) {
-          const absorbed = Math.min(shield.amount, damageToHp * (shield.absorption / 100));
-          shield.amount -= absorbed;
-          damageToHp -= absorbed;
-          
-          if (shield.amount <= 0) {
-            entity.shields = entity.shields.filter(s => s.id !== shield.id);
-          }
+    // Apply shields
+    let damageDealt = finalAmount;
+    let damageAbsorbed = 0;
+    const remainingShields = [...entity.shields];
+
+    for (const shield of remainingShields) {
+      if (shield.amount <= 0) continue;
+      if (shield.type !== 'all' && shield.type !== damageType) continue;
+
+      const absorbed = Math.min(shield.amount, damageDealt * (shield.absorption / 100));
+      shield.amount -= absorbed;
+      damageDealt -= absorbed;
+      damageAbsorbed += absorbed;
+
+      if (shield.amount <= 0) {
+        const index = entity.shields.indexOf(shield);
+        if (index > -1) {
+          entity.shields.splice(index, 1);
         }
       }
     }
 
     // Apply damage to HP
-    entity.currentHp = Math.max(0, entity.currentHp - damageToHp);
+    entity.currentHp = Math.max(0, entity.currentHp - damageDealt);
     entity.lastUpdate = Date.now();
 
-    const event: HealthEvent = {
-      id: `damage_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    // Add event
+    this.addEvent({
+      id: `damage-${Date.now()}`,
       type: 'damage',
-      amount: finalAmount,
-      source: options.source || 'system',
-      target: entityId,
-      damageType: options.damageType,
-      element: options.element,
+      amount: damageDealt,
+      source: 'system',
+      target: targetId,
+      damageType,
+      element,
       timestamp: Date.now()
-    };
-    this.events.push(event);
+    });
 
     return {
       op: 'damage',
       status: 'ok',
-      result: entity;
+      result: {
+        damageDealt,
+        damageAbsorbed,
+        damageBlocked: finalAmount - damageDealt,
+        criticalHit: false,
+        resisted: resistance > 0,
+        immuned: false
+      }
     };
   }
 
   /**
-   * Apply healing to entity
+   * Heal an entity
    */
-  applyHealing(entityId: string, amount: number, options: {
-   source?: string;
-    overheal?: boolean;
- }
-  } = {}): HealthOutput {
-    const entity = this.entities.get(entityId);
+  heal(targetId: string, amount: number): HealthOutput {
+    const entity = this.entities.get(targetId);
     if (!entity) {
       return {
         op: 'heal',
         status: 'error',
-        issues: [`Entity ${entityId} not found`]
+        issues: [`Entity ${targetId} not found`]
       };
     }
 
@@ -253,312 +250,228 @@ export class HealthSystemManager {
     entity.currentHp = Math.min(entity.maxHp, entity.currentHp + amount);
     entity.lastUpdate = Date.now();
 
-    const event: HealthEvent = {
-      id: `heal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    const actualHealing = entity.currentHp - oldHp;
+
+    this.addEvent({
+      id: `heal-${Date.now()}`,
       type: 'heal',
-      amount: entity.currentHp - oldHp,
-      source: options.source || 'system',
-      target: entityId,
+      amount: actualHealing,
+      source: 'system',
+      target: targetId,
       timestamp: Date.now()
-    };
-    this.events.push(event);
+    });
 
     return {
       op: 'heal',
       status: 'ok',
-      result: entity;
+      result: {
+        healing: actualHealing,
+        currentHp: entity.currentHp,
+        maxHp: entity.maxHp
+      }
     };
   }
 
   /**
    * Add shield to entity
    */
-  addShield(entityId: string, shield: Shield): HealthOutput {
-    const entity = this.entities.get(entityId);
+  addShield(targetId: string, shield: Shield): HealthOutput {
+    const entity = this.entities.get(targetId);
     if (!entity) {
       return {
         op: 'add-shield',
         status: 'error',
-        issues: [`Entity ${entityId} not found`]
+        issues: [`Entity ${targetId} not found`]
       };
     }
 
-    entity.shields.push(shield);
+    const newShield = {
+      ...shield,
+      expiresAt: shield.duration && shield.duration > 0 ? Date.now() + shield.duration * 1000 : undefined
+    };
+
+    entity.shields.push(newShield);
     entity.lastUpdate = Date.now();
 
-    const event: HealthEvent = {
-      id: `shield_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    this.addEvent({
+      id: `shield-${Date.now()}`,
       type: 'shield',
       amount: shield.amount,
       source: 'system',
-      target: entityId,
+      target: targetId,
       timestamp: Date.now()
-    };
-    this.events.push(event);
+    });
 
     return {
       op: 'add-shield',
       status: 'ok',
-      result: entity;
+      result: newShield
     };
   }
 
   /**
    * Add regeneration effect
    */
-  addRegeneration(entityId: string, regeneration: RegenerationEffect): HealthOutput {
-    const entity = this.entities.get(entityId);
+  addRegeneration(targetId: string, regeneration: RegenerationEffect): HealthOutput {
+    const entity = this.entities.get(targetId);
     if (!entity) {
       return {
         op: 'add-regeneration',
         status: 'error',
-        issues: [`Entity ${entityId} not found`]
+        issues: [`Entity ${targetId} not found`]
       };
     }
 
-    entity.regeneration.push(regeneration);
-    entity.lastUpdate = Date.now();
-
-    const event: HealthEvent = {
-      id: `regeneration_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      type: 'regeneration',
-      amount: regeneration.amount,
-      source: 'system',
-      target: entityId,
-      timestamp: Date.now()
+    const newRegen = {
+      ...regeneration,
+      lastTick: Date.now(),
+      expiresAt: Date.now() + regeneration.duration * 1000
     };
-    this.events.push(event);
+
+    entity.regeneration.push(newRegen);
+    entity.lastUpdate = Date.now();
 
     return {
       op: 'add-regeneration',
       status: 'ok',
-      result: entity;
+      result: newRegen
     };
   }
 
   /**
-   * Simulate health system tick
+   * Update all entities (call this regularly)
    */
-  simulateTick(): HealthOutput {
+  update(): HealthOutput {
     const now = Date.now();
-    const updatedEntities: HealthEntity[] = [];
+    let updatedCount = 0;
 
     for (const entity of this.entities.values()) {
-      let updated = false;
+      const dt = (now - entity.lastUpdate) / 1000; // Convert to seconds
+      
+      // Update regeneration
+      for (let i = entity.regeneration.length - 1; i >= 0; i--) {
+        const regen = entity.regeneration[i];
+        
+        // Check if expired
+        if (now >= regen.expiresAt) {
+          entity.regeneration.splice(i, 1);
+          continue;
+        }
 
-      // Process regeneration
-      for (const regen of entity.regeneration) {
-        if (now - regen.lastTick >= regen.interval * 1000 && now < regen.expiresAt) {
+        // Check if it's time for a tick
+        if (now - regen.lastTick >= regen.interval * 1000) {
           if (regen.type === 'hp' || regen.type === 'both') {
-            entity.currentHp = Math.min(entity.maxHp, entity.currentHp + regen.amount);
+            this.heal(entity.id, regen.amount * regen.interval);
           }
+          
           if (regen.type === 'shield' || regen.type === 'both') {
             // Add shield regeneration
-            const shieldRegen = entity.shields.find(s => s.id === regen.id);
-            if (shieldRegen) {
-              shieldRegen.amount = Math.min(shieldRegen.maxAmount, shieldRegen.amount + regen.amount);
+            for (const shield of entity.shields) {
+              if (shield.amount < shield.maxAmount) {
+                shield.amount = Math.min(shield.maxAmount, shield.amount + regen.amount * regen.interval);
+              }
             }
           }
+
           regen.lastTick = now;
-          updated = true;
+          updatedCount++;
         }
       }
 
-      // Remove expired regeneration
-      entity.regeneration = entity.regeneration.filter(regen => now < regen.expiresAt);
-
-      // Remove expired shields
-      entity.shields = entity.shields.filter(shield => 
-        !shield.expiresAt || now < shield.expiresAt
-      );
-
-      if (updated) {
-        entity.lastUpdate = now;
-        updatedEntities.push(entity);
+      // Update shields
+      for (let i = entity.shields.length - 1; i >= 0; i--) {
+        const shield = entity.shields[i];
+        if (shield.expiresAt && now >= shield.expiresAt) {
+          entity.shields.splice(i, 1);
+        }
       }
+
+      entity.lastUpdate = now;
     }
 
     return {
-      op: 'simulate',
+      op: 'update',
       status: 'ok',
-      result: updatedEntities;
+      result: { updatedEntities: updatedCount }
     };
   }
 
   /**
-   * List health entities
+   * Get all events
    */
-  listEntities(filter?: HealthFilter): HealthOutput {
-    let entities = Array.from(this.entities.values());
-
-    if (filter) {
-      entities = entities.filter(entity => {
-        if (filter.minHp !== undefined && entity.currentHp < filter.minHp) return false;
-        if (filter.maxHp !== undefined && entity.currentHp > filter.maxHp) return false;
-        if (filter.hasShields !== undefined) {
-          const hasShields = entity.shields.length > 0;
-          if (filter.hasShields !== hasShields) return false;
-        }
-        if (filter.hasRegeneration !== undefined) {
-          const hasRegen = entity.regeneration.length > 0;
-          if (filter.hasRegeneration !== hasRegen) return false;
-        }
-        if (filter.isAlive !== undefined) {
-          const isAlive = entity.currentHp > 0;
-          if (filter.isAlive !== isAlive) return false;
-        }
-        if (filter.hasImmunity && !entity.immunities.includes(filter.hasImmunity)) return false;
-        if (filter.hasResistance && !entity.resistances[filter.hasResistance]) return false;
-        return true;
-      });
-    }
-
-    return {
-      op: 'list',
-      status: 'ok',
-      result: entities;
-    };
+  getEvents(limit?: number): HealthEvent[] {
+    const events = this.events.slice(-(limit || this.maxEvents));
+    return events.reverse();
   }
 
   /**
-   * Get health statistics
+   * Clear events
    */
-  getHealthStats(): HealthOutput {
-    const entities = Array.from(this.entities.values());
-    const aliveEntities = entities.filter(e => e.currentHp > 0);
-    const deadEntities = entities.filter(e => e.currentHp <= 0);
-    
-    const averageHp = entities.length > 0 
-      ? entities.reduce((sum, e) => sum + e.currentHp, 0) / entities.length 
-      : 0;
-    
-    const totalShields = entities.reduce((sum, e) => 
-      sum + e.shields.reduce((shieldSum, s) => shieldSum + s.amount, 0), 0
-    );
-    
-    const activeRegeneration = entities.reduce((sum, e) => sum + e.regeneration.length, 0);
-
-    const damageEvents = this.events.filter(e => e.type === 'damage');
-    const healEvents = this.events.filter(e => e.type === 'heal');
-    
-    const damageDealt = damageEvents.reduce((sum, e) => sum + e.amount, 0);
-    const healingDone = healEvents.reduce((sum, e) => sum + e.amount, 0);
-
-    const eventTypes: Record<string, number> = {};
-    const damageTypes: Record<string, number> = {};
-    
-    this.events.forEach(event => {
-      eventTypes[event.type] = (eventTypes[event.type] || 0) + 1;
-      if (event.damageType) {
-        damageTypes[event.damageType] = (damageTypes[event.damageType] || 0) + 1;
-      }
-    });
-
-    const stats: HealthStats = {
-      totalEntities: entities.length,
-      aliveEntities: aliveEntities.length,
-      deadEntities: deadEntities.length,
-      averageHp,
-      totalShields,
-      activeRegeneration,
-      damageDealt,
-      healingDone,
-      eventTypes,
-      damageTypes
-    };
-
-    return {
-      op: 'stats',
-      status: 'ok',
-      result: stats;
-    };
-  }
-
-  /**
-   * Export health data
-   */
-  exportHealth(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): HealthOutput {
-    const entities = Array.from(this.entities.values());
-
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: JSON.stringify({ entities, total: entities.length })
-        };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: JSON.stringify({
-            schema: 'miff.health.export.v1',
-            entities,
-            events: this.events.slice(-100),
-            exportedAt: new Date().toISOString(),
-            total: entities.length
-          })
-        };
-      
-      case 'summary':
-        const stats = this.getHealthStats();
-        return {
-          op: 'export',
-          status: 'ok',
-          result: JSON.stringify({
-            summary: stats.result,
-            entities: entities.map(entity => ({
-              id: entity.id,
-              currentHp: entity.currentHp,
-              maxHp: entity.maxHp,
-              shields: entity.shields.length,
-              regeneration: entity.regeneration.length,
-              isAlive: entity.currentHp > 0
-            }))
-          })
-        };
-      
-      case 'events':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: JSON.stringify({
-            events: this.events,
-            total: this.events.length
-          })
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
-    }
-  }
-
-  /**
-   * Reset health system
-   */
-  resetHealth(): HealthOutput {
-    this.entities.clear();
+  clearEvents(): HealthOutput {
+    const count = this.events.length;
     this.events = [];
-    this.regenerationTicks.clear();
+    
     return {
-      op: 'reset',
+      op: 'clear-events',
       status: 'ok',
-      result: 'All health data reset'
+      result: { cleared: count }
     };
   }
 
   /**
-   * Private helper methods
+   * Remove entity
    */
-  private isShieldEffective(shield: Shield, damageType?: string, element?: string): boolean {
-    if (shield.type === 'all') return true;
-    if (damageType && shield.type === damageType) return true;
-    if (element && shield.type === 'elemental') return true;
-    return false;
+  removeEntity(id: string): HealthOutput {
+    if (!this.entities.has(id)) {
+      return {
+        op: 'remove-entity',
+        status: 'error',
+        issues: [`Entity ${id} not found`]
+      };
+    }
+
+    this.entities.delete(id);
+    
+    return {
+      op: 'remove-entity',
+      status: 'ok',
+      result: { removed: id }
+    };
+  }
+
+  /**
+   * Get all entities
+   */
+  getAllEntities(): HealthEntity[] {
+    return Array.from(this.entities.values());
+  }
+
+  /**
+   * Check if entity is alive
+   */
+  isAlive(id: string): boolean {
+    const entity = this.entities.get(id);
+    return entity ? entity.currentHp > 0 : false;
+  }
+
+  /**
+   * Get entity health percentage
+   */
+  getHealthPercentage(id: string): number {
+    const entity = this.entities.get(id);
+    if (!entity) return 0;
+    return (entity.currentHp / entity.maxHp) * 100;
+  }
+
+  /**
+   * Add event to the event log
+   */
+  private addEvent(event: HealthEvent): void {
+    this.events.push(event);
+    
+    // Keep only the most recent events
+    if (this.events.length > this.maxEvents) {
+      this.events = this.events.slice(-this.maxEvents);
+    }
   }
 }

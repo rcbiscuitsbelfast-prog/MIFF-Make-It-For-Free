@@ -55,63 +55,26 @@ export interface TimeStats {
   totalUpdates: number;
 }
 
-export interface TimeFilter {
-  type?: 'timer' | 'cooldown' | 'scheduled' | 'scale';
-  category?: string;
-  minDuration?: number;
-  maxDuration?: number;
-  active?: boolean;
-}
-
 export interface TimeOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: Timer | Cooldown | ScheduledEvent | TimeScale | TimeStats | string;
+  result?: any;
   issues?: string[];
 }
 
-export interface TimeManagerConfig {
-  initialTime?: number;
-  updateInterval?: number;
-  enablePersistence?: boolean;
-  debugMode?: boolean;
-}
-
-export class TimeManager {
-  private time = 0; // seconds
-  private startTime = Date.now(); // Track when the manager was created
-  private timers = new Map<string, Timer>();
-  private cooldowns = new Map<string, Cooldown>();
-  private scheduled: ScheduledEvent[] = [];
-  private timeScales = new Map<string, TimeScale>();
-  private paused = false;
-  private timeScale = 1.0;
+export class TimeManagerPure {
+  private timers: Map<TimerId, Timer> = new Map();
+  private cooldowns: Map<string, Cooldown> = new Map();
+  private scheduledEvents: Map<string, ScheduledEvent> = new Map();
+  private timeScales: Map<string, TimeScale> = new Map();
+  private time: number = 0;
+  private paused: boolean = false;
+  private updateInterval: number = 16; // 60 FPS
   private stats: TimeStats;
-  private config: TimeManagerConfig;
-  private updateInterval: number;
 
-  constructor(config: TimeManagerConfig = {
-    initialTime: 0,
-    updateInterval: 1000,
-    enablePersistence: false,
-    debugMode: false
-  }) {
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'TimeSystemManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `TimeSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'TimeSystemManager');
-    this.config = config;
-    this.updateInterval = config.updateInterval || 1000;
-    this.time = config.initialTime || 0;
+  constructor(updateInterval: number = 16) {
+    this.updateInterval = updateInterval;
+    this.time = Date.now();
 
     this.stats = {
       totalTimers: 0,
@@ -122,7 +85,7 @@ export class TimeManager {
       timeScales: 0,
       averageTimerDuration: 0,
       averageCooldownDuration: 0,
-      totalUpdates: 0;
+      totalUpdates: 0
     };
 
     this.startUpdateLoop();
@@ -140,64 +103,13 @@ export class TimeManager {
   }
 
   /**
-   * Update the time system
-   */
-  private update(): void {
-    this.time = Date.now() - this.startTime;
-    this.stats.totalUpdates++;
-  }
-
-  /**
-   * Get current time
-   */
-  now(): number { 
-    return this.round(this.time); 
-  }
-
-  /**
-   * Set time scale
-   */
-  setTimeScale(scale: number): TimeOutput {
-    this.timeScale = Math.max(0, scale);
-    return {
-      op: 'set-scale',
-      status: 'ok',
-      result: `Time scale set to ${this.timeScale}`
-    };
-  }
-
-  /**
-   * Pause time
-   */
-  pause(): TimeOutput {
-    this.paused = true;
-    return {
-      op: 'pause',
-      status: 'ok',
-      result: 'Time paused'
-    };
-  }
-
-  /**
-   * Resume time
-   */
-  resume(): TimeOutput {
-    this.paused = false;
-    return {
-      op: 'resume',
-      status: 'ok',
-      result: 'Time resumed'
-    };
-  }
-
-  /**
    * Add timer
    */
   addTimer(timer: Timer): TimeOutput {
     const newTimer = {
       ...timer,
       remaining: timer.duration,
-      currentRepeats: 0;
+      currentRepeats: 0
     };
     
     this.timers.set(timer.id, newTimer);
@@ -207,51 +119,41 @@ export class TimeManager {
     return {
       op: 'add-timer',
       status: 'ok',
-      result: newTimer;
+      result: newTimer
     };
   }
 
   /**
    * Add cooldown
    */
-  addCooldown(id: string, duration: number, category?: string): TimeOutput {
-    const cooldown: Cooldown = {
-      id,
-      duration,
-      remaining: duration,
-      category
+  addCooldown(cooldown: Cooldown): TimeOutput {
+    const newCooldown = {
+      ...cooldown,
+      remaining: cooldown.duration
     };
     
-    this.cooldowns.set(id, cooldown);
+    this.cooldowns.set(cooldown.id, newCooldown);
     this.stats.totalCooldowns++;
     this.stats.activeCooldowns++;
     
     return {
       op: 'add-cooldown',
       status: 'ok',
-      result: cooldown;
+      result: cooldown
     };
   }
 
   /**
    * Schedule event
    */
-  schedule(id: string, at: number, payload?: any, callback?: () => void): TimeOutput {
-    const scheduled: ScheduledEvent = {
-      id,
-      at,
-      payload,
-      callback
-    };
-    
-    this.scheduled.push(scheduled);
-    this.scheduled.sort((a, b) => a.at - b.at);
+  scheduleEvent(event: ScheduledEvent): TimeOutput {
+    this.scheduledEvents.set(event.id, event);
     this.stats.scheduledEvents++;
     
     return {
-      op: 'schedule',
+      op: 'schedule-event',
       status: 'ok',
-      result: scheduled;
+      result: event
     };
   }
 
@@ -259,86 +161,18 @@ export class TimeManager {
    * Add time scale
    */
   addTimeScale(scale: TimeScale): TimeOutput {
-    this.timeScales.set(scale.id, scale);
+    const newScale = {
+      ...scale,
+      startTime: this.time
+    };
+    
+    this.timeScales.set(scale.id, newScale);
     this.stats.timeScales++;
     
     return {
-      op: 'add-scale',
+      op: 'add-time-scale',
       status: 'ok',
-      result: scale;
-    };
-  }
-
-  /**
-   * Cancel timer/cooldown/scheduled event
-   */
-  cancel(id: string): TimeOutput {
-    let cancelled = false;
-    
-    if (this.timers.has(id)) {
-      this.timers.delete(id);
-      this.stats.activeTimers--;
-      cancelled = true;
-    }
-    
-    if (this.cooldowns.has(id)) {
-      this.cooldowns.delete(id);
-      this.stats.activeCooldowns--;
-      cancelled = true;
-    }
-    
-    const scheduledIndex = this.scheduled.findIndex(s => s.id === id);
-    if (scheduledIndex !== -1) {
-      this.scheduled.splice(scheduledIndex, 1);
-      this.stats.scheduledEvents--;
-      cancelled = true;
-    }
-    
-    if (this.timeScales.has(id)) {
-      this.timeScales.delete(id);
-      this.stats.timeScales--;
-      cancelled = true;
-    }
-    
-    if (!cancelled) {
-      return {
-        op: 'cancel',
-        status: 'error',
-        issues: [`No timer, cooldown, or scheduled event found with ID ${id}`]
-      };
-    }
-    
-    return {
-      op: 'cancel',
-      status: 'ok',
-      result: `Cancelled ${id}`
-    };
-  }
-
-  /**
-   * Check if cooldown is ready
-   */
-  isCooldownReady(id: string): TimeOutput {
-    const cooldown = this.cooldowns.get(id);
-    if (!cooldown) {
-      return {
-        op: 'check-cooldown',
-        status: 'error',
-        issues: [`Cooldown with ID ${id} not found`]
-      };
-    }
-    
-    return {
-      op: 'check-cooldown',
-      status: 'ok',
-      result: {
-
-        id,
-        ready: cooldown.remaining <= 0,
-        remaining: cooldown.remaining
-
-      }
-      } as any
+      result: newScale
     };
   }
 
@@ -354,13 +188,10 @@ export class TimeManager {
         op: 'get-remaining',
         status: 'ok',
         result: {
-
           id,
           type: 'timer',
           remaining: timer.remaining
-
         }
-        } as any
       };
     }
     
@@ -369,13 +200,10 @@ export class TimeManager {
         op: 'get-remaining',
         status: 'ok',
         result: {
-
           id,
           type: 'cooldown',
           remaining: cooldown.remaining
-
         }
-        } as any
       };
     }
     
@@ -395,363 +223,244 @@ export class TimeManager {
         op: 'tick',
         status: 'ok',
         result: {
-        dt: 0,
-        time: this.time,
-        fired: [],
-        paused: true;
-
-        
-      
-      }
-    } as any
+          dt: 0,
+          time: this.time,
+          paused: true
+        }
       };
     }
 
-    // Apply time scale
-    const scaledDt = dt * this.timeScale;
-    this.time = Math.max(0, this.time + scaledDt);
-    const fired: string[] = [];
-
-    // Determine if scheduled events will fire this tick; used to gate lenient timer firing
-    const willFireScheduledThisTick = this.scheduled.length > 0 && this.scheduled[0].at <= this.time;
-    const allowLenientTimerFire = !willFireScheduledThisTick;
-
+    const timeScale = this.getCurrentTimeScale();
+    const scaledDt = dt * timeScale;
+    
+    this.time += scaledDt;
+    this.stats.totalUpdates++;
+    
     // Update timers
-    for (const timer of this.timers.values()) {
-      timer.remaining -= scaledDt;
-      // Simple timer firing - fire when remaining time reaches zero or below
-      if (timer.remaining <= 0) {
-        fired.push(`timer:${timer.id}`);
-        
-        if (timer.callback) {
-          try {
-            timer.callback();
-          } catch (error) {
-            this.logger.error('TimeSystemManager', `Error in timer callback ${timer.id}:`, error);
-          }
-        }
-        
-        if (timer.repeat) {
-          timer.currentRepeats = (timer.currentRepeats || 0) + 1;
-          if (timer.maxRepeats && timer.currentRepeats >= timer.maxRepeats) {
-            this.timers.delete(timer.id);
-            this.stats.activeTimers--;
-          } else {
-            timer.remaining = timer.duration;
-          }
-        } else {
-          this.timers.delete(timer.id);
-          this.stats.activeTimers--;
-        }
-      }
-    }
-
+    this.updateTimers(scaledDt);
+    
     // Update cooldowns
-    for (const cooldown of this.cooldowns.values()) {
-      cooldown.remaining = Math.max(0, cooldown.remaining - scaledDt);
-      if (cooldown.remaining === 0) {
-        fired.push(`cooldown:${cooldown.id}`);
-      }
-    }
-
-    // Fire scheduled events
-    while (this.scheduled.length && this.scheduled[0].at <= this.time) {
-      const scheduled = this.scheduled.shift()!;
-      fired.push(`scheduled:${scheduled.id}`);
-      
-      if (scheduled.callback) {
-        try {
-          scheduled.callback();
-        } catch (error) {
-          this.logger.error('TimeSystemManager', `Error in scheduled event callback ${scheduled.id}:`, error);
-        }
-      }
-      
-      this.stats.scheduledEvents--;
-    }
-
-    // Update time scales
-    for (const scale of this.timeScales.values()) {
-      if (scale.duration && this.time >= scale.startTime + scale.duration) {
-        this.timeScales.delete(scale.id);
-        this.stats.timeScales--;
-      }
-    }
-
+    this.updateCooldowns(scaledDt);
+    
+    // Check scheduled events
+    this.checkScheduledEvents();
+    
+    // Clean up expired time scales
+    this.cleanupTimeScales();
+    
     return {
       op: 'tick',
       status: 'ok',
       result: {
-
         dt: scaledDt,
-        time: this.round(this.time),
-        fired,
-        paused: false;
-
+        time: this.time,
+        paused: false
       }
-    } as any
     };
   }
 
   /**
-   * List all timers, cooldowns, and scheduled events
+   * Update all timers
    */
-  list(filter?: TimeFilter): TimeOutput {
-    let timers = Array.from(this.timers.values());
-    let cooldowns = Array.from(this.cooldowns.values());
-    let scheduled = [...this.scheduled];
-    let scales = Array.from(this.timeScales.values());
-
-    if (filter) {
-      if (filter.type === 'timer') {
-        cooldowns = [];
-        scheduled = [];
-        scales = [];
-      } else if (filter.type === 'cooldown') {
-        timers = [];
-        scheduled = [];
-        scales = [];
-      } else if (filter.type === 'scheduled') {
-        timers = [];
-        cooldowns = [];
-        scales = [];
-      } else if (filter.type === 'scale') {
-        timers = [];
-        cooldowns = [];
-        scheduled = [];
-      }
-
-      if (filter.category) {
-        timers = timers.filter(t => t.metadata?.category === filter.category);
-        cooldowns = cooldowns.filter(c => c.category === filter.category);
-      }
-
-      if (filter.minDuration !== undefined) {
-        timers = timers.filter(t => t.duration >= filter.minDuration!);
-        cooldowns = cooldowns.filter(c => c.duration >= filter.minDuration!);
-      }
-
-      if (filter.maxDuration !== undefined) {
-        timers = timers.filter(t => t.duration <= filter.maxDuration!);
-        cooldowns = cooldowns.filter(c => c.duration <= filter.maxDuration!);
-      }
-
-      if (filter.active !== undefined) {
-        if (filter.active) {
-          timers = timers.filter(t => t.remaining > 0);
-          cooldowns = cooldowns.filter(c => c.remaining > 0);
+  private updateTimers(dt: number): void {
+    for (const [id, timer] of this.timers) {
+      timer.remaining -= dt;
+      
+      if (timer.remaining <= 0) {
+        if (timer.callback) {
+          timer.callback();
+        }
+        
+        if (timer.repeat && (!timer.maxRepeats || timer.currentRepeats < timer.maxRepeats)) {
+          timer.currentRepeats = (timer.currentRepeats || 0) + 1;
+          timer.remaining = timer.duration;
         } else {
-          timers = timers.filter(t => t.remaining <= 0);
-          cooldowns = cooldowns.filter(c => c.remaining <= 0);
+          this.timers.delete(id);
+          this.stats.activeTimers--;
         }
       }
     }
-
-    return {
-      op: 'list',
-      status: 'ok',
-      result: {
-        timers: timers.map(t => ({ id: t.id, remaining: this.round(t.remaining), duration: t.duration })),
-        cooldowns: cooldowns.map(c => ({ id: c.id, remaining: this.round(c.remaining), duration: c.duration })),
-        scheduled: scheduled.map(s => ({ id: s.id, at: s.at })),
-        scales: scales.map(s => ({ id: s.id, factor: s.factor, startTime: s.startTime }))
-      } as any
-    };
   }
 
   /**
-   * Get time statistics
+   * Update all cooldowns
    */
-  getStats(): TimeOutput {
-    const totalTimerDuration = Array.from(this.timers.values()).reduce((sum, t) => sum + t.duration, 0);
-    const totalCooldownDuration = Array.from(this.cooldowns.values()).reduce((sum, c) => sum + c.duration, 0);
-
-    this.stats.averageTimerDuration = this.stats.totalTimers > 0 ? totalTimerDuration / this.stats.totalTimers : 0;
-    this.stats.averageCooldownDuration = this.stats.totalCooldowns > 0 ? totalCooldownDuration / this.stats.totalCooldowns : 0;
-
-    return {
-      op: 'stats',
-      status: 'ok',
-      result: {
-
-        ...this.stats 
-
+  private updateCooldowns(dt: number): void {
+    for (const [id, cooldown] of this.cooldowns) {
+      cooldown.remaining -= dt;
       
-
-
+      if (cooldown.remaining <= 0) {
+        this.cooldowns.delete(id);
+        this.stats.activeCooldowns--;
       }
-      };
-    };
-  }
-
-  /**
-   * Export time data
-   */
-  exportTime(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): TimeOutput {
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            time: this.time,
-            timers: Array.from(this.timers.values()),
-            cooldowns: Array.from(this.cooldowns.values()),
-            scheduled: this.scheduled,
-            scales: Array.from(this.timeScales.values()),
-            stats: this.stats
-
-          }
-          } as any
-        };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            schema: 'miff.time.export.v1',
-            time: this.time,
-            timers: Array.from(this.timers.values()),
-            cooldowns: Array.from(this.cooldowns.values()),
-            scheduled: this.scheduled,
-            scales: Array.from(this.timeScales.values()),
-            exportedAt: new Date().toISOString(),
-            stats: this.stats
-
-          }
-          } as any
-        };
-      
-      case 'summary':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            summary: this.stats,
-            currentTime: this.time,
-            paused: this.paused,
-            timeScale: this.timeScale,
-            activeCounts: {
-        timers: this.stats.activeTimers,
-        cooldowns: this.stats.activeCooldowns,
-        scheduled: this.stats.scheduledEvents,
-        scales: this.stats.timeScales
-            
-
-          
-
-
-          
-      
-      
-      }
-          } as any
-        };
-      
-      case 'events':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            scheduled: this.scheduled,
-            total: this.scheduled.length
-
-          }
-          } as any
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
     }
   }
 
   /**
-   * Reset time system
+   * Check for scheduled events
    */
-  resetTime(): TimeOutput {
-    this.time = 0;
-    this.timers.clear();
-    this.cooldowns.clear();
-    this.scheduled = [];
-    this.timeScales.clear();
-    this.paused = false;
-    this.timeScale = 1.0;
-    this.stats = {
-      totalTimers: 0,
-      activeTimers: 0,
-      totalCooldowns: 0,
-      activeCooldowns: 0,
-      scheduledEvents: 0,
-      timeScales: 0,
-      averageTimerDuration: 0,
-      averageCooldownDuration: 0,
-      totalUpdates: 0;
+  private checkScheduledEvents(): void {
+    for (const [id, event] of this.scheduledEvents) {
+      if (this.time >= event.at) {
+        if (event.callback) {
+          event.callback();
+        }
+        this.scheduledEvents.delete(id);
+        this.stats.scheduledEvents--;
+      }
+    }
+  }
+
+  /**
+   * Clean up expired time scales
+   */
+  private cleanupTimeScales(): void {
+    for (const [id, scale] of this.timeScales) {
+      if (scale.duration && this.time >= scale.startTime + scale.duration) {
+        this.timeScales.delete(id);
+        this.stats.timeScales--;
+      }
+    }
+  }
+
+  /**
+   * Get current time scale factor
+   */
+  private getCurrentTimeScale(): number {
+    let factor = 1.0;
+    
+    for (const scale of this.timeScales.values()) {
+      if (!scale.duration || this.time < scale.startTime + scale.duration) {
+        factor *= scale.factor;
+      }
+    }
+    
+    return factor;
+  }
+
+  /**
+   * Pause time
+   */
+  pause(): TimeOutput {
+    this.paused = true;
+    return {
+      op: 'pause',
+      status: 'ok',
+      result: { paused: true }
     };
+  }
+
+  /**
+   * Resume time
+   */
+  resume(): TimeOutput {
+    this.paused = false;
+    return {
+      op: 'resume',
+      status: 'ok',
+      result: { paused: false }
+    };
+  }
+
+  /**
+   * Get current time
+   */
+  getCurrentTime(): number {
+    return this.time;
+  }
+
+  /**
+   * Get statistics
+   */
+  getStats(): TimeStats {
+    return { ...this.stats };
+  }
+
+  /**
+   * Clear all timers
+   */
+  clearTimers(): TimeOutput {
+    const count = this.timers.size;
+    this.timers.clear();
+    this.stats.activeTimers = 0;
+    
+    return {
+      op: 'clear-timers',
+      status: 'ok',
+      result: { cleared: count }
+    };
+  }
+
+  /**
+   * Clear all cooldowns
+   */
+  clearCooldowns(): TimeOutput {
+    const count = this.cooldowns.size;
+    this.cooldowns.clear();
+    this.stats.activeCooldowns = 0;
+    
+    return {
+      op: 'clear-cooldowns',
+      status: 'ok',
+      result: { cleared: count }
+    };
+  }
+
+  /**
+   * Clear all scheduled events
+   */
+  clearScheduledEvents(): TimeOutput {
+    const count = this.scheduledEvents.size;
+    this.scheduledEvents.clear();
+    this.stats.scheduledEvents = 0;
+    
+    return {
+      op: 'clear-scheduled-events',
+      status: 'ok',
+      result: { cleared: count }
+    };
+  }
+
+  /**
+   * Clear all time scales
+   */
+  clearTimeScales(): TimeOutput {
+    const count = this.timeScales.size;
+    this.timeScales.clear();
+    this.stats.timeScales = 0;
+    
+    return {
+      op: 'clear-time-scales',
+      status: 'ok',
+      result: { cleared: count }
+    };
+  }
+
+  /**
+   * Reset all time systems
+   */
+  reset(): TimeOutput {
+    this.clearTimers();
+    this.clearCooldowns();
+    this.clearScheduledEvents();
+    this.clearTimeScales();
+    
+    this.time = Date.now();
+    this.paused = false;
     
     return {
       op: 'reset',
       status: 'ok',
-      result: 'Time system reset'
+      result: { reset: true }
     };
   }
 
   /**
-   * Dump current state
+   * Update method called by the update loop
    */
-  dump(): TimeOutput {
-    return {
-      op: 'dump',
-      status: 'ok',
-      result: {
-
-        time: this.round(this.time),
-        timers: Array.from(this.timers.values()).map(t => ({
-          ...t,
-          remaining: this.round(t.remaining)
-
-      }
-        })),
-        cooldowns: Array.from(this.cooldowns.values()).map(c => ({
-          ...c,
-          remaining: this.round(c.remaining)
-        })),
-        scheduled: this.scheduled.map(s => ({ ...s })),
-        scales: Array.from(this.timeScales.values()),
-        paused: this.paused,
-        timeScale: this.timeScale
-      } as any
-    };
-  }
-
-  private round(n: number): number { 
-    return Math.round(n * 100) / 100; 
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.logger.info('TimeSystemManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+  private update(): void {
+    const now = Date.now();
+    const dt = now - this.time;
+    this.tick(dt);
   }
 }

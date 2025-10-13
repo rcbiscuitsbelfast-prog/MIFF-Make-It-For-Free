@@ -1,756 +1,677 @@
 /**
- * CraftingPure Manager
- * 
- * Advanced crafting system including recipe management, material requirements,
- * skill-based crafting, quality systems, and comprehensive crafting workflows.
+ * CraftingPure Manager - Advanced Crafting System Management
+ *
+ * Comprehensive crafting system management with:
+ * - Recipe management and validation
+ * - Ingredient tracking and requirements
+ * - Crafting process and timing
+ * - Quality and success rates
+ * - Skill progression and experience
+ * - Crafting stations and tools
+ * - Performance optimization
+ * - Real-time crafting monitoring
+ * - Crafting analytics and reporting
  */
 
-import type { StatBlock } from '../SharedSchemaPure/Manager';
+export interface CraftingConfig {
+  enableRecipeManagement: boolean;
+  enableIngredientTracking: boolean;
+  enableCraftingProcess: boolean;
+  enableQualitySystem: boolean;
+  enableSkillProgression: boolean;
+  enableCraftingStations: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableCraftingAnalytics: boolean;
+  enableCraftingReporting: boolean;
+  maxRecipes: number;
+  maxIngredients: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
+
+export interface CraftingManager {
+  id: string;
+  name: string;
+  type: CraftingManagerType;
+  status: CraftingManagerStatus;
+  recipes: Recipe[];
+  ingredients: Ingredient[];
+  craftingStations: CraftingStation[];
+  activeCrafts: ActiveCraft[];
+  skills: CraftingSkill[];
+  performanceMetrics: CraftingPerformanceMetrics;
+  analytics: CraftingAnalytics;
+  reporting: CraftingReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type CraftingManagerType = 'basic' | 'advanced' | 'master' | 'custom';
+export type CraftingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Recipe {
   id: string;
   name: string;
   description: string;
-  category: 'weapon' | 'armor' | 'consumable' | 'material' | 'tool' | 'decoration';
-  inputs: Record<string, number>;
-  outputs: Record<string, number>;
-  statMods?: StatBlock;
-  skillRequired?: string;
-  skillLevel?: number;
-  craftingTime: number; // seconds
-  difficulty: 'easy' | 'medium' | 'hard' | 'expert' | 'master';
-  quality: 'poor' | 'normal' | 'good' | 'excellent' | 'perfect';
-  prerequisites?: string[]; // Recipe IDs that must be learned first
-  unlockLevel?: number;
-  metadata?: Record<string, any>;
+  category: RecipeCategory;
+  difficulty: DifficultyLevel;
+  requiredIngredients: IngredientRequirement[];
+  requiredTools: ToolRequirement[];
+  requiredStation: string;
+  requiredSkill: SkillRequirement;
+  craftingTime: number;
+  successRate: number;
+  qualityMultiplier: number;
+  output: CraftingOutput[];
+  experience: number;
+  metadata: Record<string, any>;
 }
 
-export interface Inventory {
-  [itemId: string]: number;
+export type RecipeCategory = 'weapon' | 'armor' | 'tool' | 'consumable' | 'material' | 'decoration';
+export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert' | 'master';
+
+export interface IngredientRequirement {
+  ingredientId: string;
+  quantity: number;
+  consumed: boolean;
+  optional: boolean;
 }
 
-export interface CraftingSession {
+export interface ToolRequirement {
+  toolId: string;
+  condition: number; // 0-100
+  required: boolean;
+}
+
+export interface SkillRequirement {
+  skillId: string;
+  level: number;
+  experience: number;
+}
+
+export interface CraftingOutput {
+  itemId: string;
+  quantity: number;
+  quality: QualityLevel;
+  chance: number;
+}
+
+export type QualityLevel = 'poor' | 'normal' | 'good' | 'excellent' | 'perfect';
+
+export interface Ingredient {
+  id: string;
+  name: string;
+  description: string;
+  category: IngredientCategory;
+  rarity: IngredientRarity;
+  value: number;
+  weight: number;
+  stackable: boolean;
+  maxStack: number;
+  metadata: Record<string, any>;
+}
+
+export type IngredientCategory = 'metal' | 'wood' | 'stone' | 'cloth' | 'leather' | 'gem' | 'herb' | 'chemical';
+export type IngredientRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+
+export interface CraftingStation {
+  id: string;
+  name: string;
+  type: StationType;
+  level: number;
+  efficiency: number;
+  durability: number;
+  maxDurability: number;
+  requiredTools: string[];
+  supportedRecipes: string[];
+  position: Vector3;
+  rotation: Quaternion;
+  metadata: Record<string, any>;
+}
+
+export type StationType = 'forge' | 'anvil' | 'workbench' | 'alchemy' | 'enchanting' | 'cooking';
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Quaternion {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+}
+
+export interface ActiveCraft {
   id: string;
   recipeId: string;
-  startTime: number;
-  endTime?: number;
-  status: 'active' | 'completed' | 'failed' | 'cancelled';
+  stationId: string;
   crafterId: string;
-  quality: number; // 0-100
-  materials: Record<string, number>;
-  outputs: Record<string, number>;
-  experience: number;
-  metadata?: Record<string, any>;
-}
-
-export interface CraftResult {
-  crafted: Record<string, number>;
-  remaining: Inventory;
-  statMods?: StatBlock;
+  startTime: number;
+  endTime: number;
+  progress: number;
   quality: number;
-  experience: number;
-  success: boolean;
-  sessionId: string;
-  craftingTime: number;
-  metadata?: Record<string, any>;
+  status: CraftStatus;
+  ingredients: IngredientRequirement[];
+  output: CraftingOutput[];
+  metadata: Record<string, any>;
 }
 
-export interface CraftingStats {
+export type CraftStatus = 'preparing' | 'crafting' | 'completed' | 'failed' | 'cancelled';
+
+export interface CraftingSkill {
+  id: string;
+  name: string;
+  level: number;
+  experience: number;
+  maxExperience: number;
+  specialization: string[];
+  bonuses: SkillBonus[];
+  metadata: Record<string, any>;
+}
+
+export interface SkillBonus {
+  type: BonusType;
+  value: number;
+  condition: string;
+}
+
+export type BonusType = 'speed' | 'quality' | 'success' | 'experience' | 'cost';
+
+export interface CraftingPerformanceMetrics {
   totalRecipes: number;
-  totalSessions: number;
-  completedSessions: number;
-  failedSessions: number;
+  totalCrafts: number;
+  successfulCrafts: number;
+  failedCrafts: number;
+  averageCraftTime: number;
   averageQuality: number;
   totalExperience: number;
-  recipesByCategory: Record<string, number>;
-  difficultyDistribution: Record<string, number>;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
-export interface CraftingFilter {
-  category?: string;
-  difficulty?: string;
-  skillRequired?: string;
-  minLevel?: number;
-  maxLevel?: number;
-  hasPrerequisites?: boolean;
+export interface CraftingAnalytics {
+  mostCraftedRecipes: RecipeUsage[];
+  skillDistribution: SkillDistribution[];
+  qualityDistribution: QualityDistribution[];
+  stationUtilization: StationUtilization[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface RecipeUsage {
+  recipeId: string;
+  name: string;
+  craftCount: number;
+  successRate: number;
+  averageQuality: number;
+}
+
+export interface SkillDistribution {
+  skillId: string;
+  name: string;
+  level: number;
+  experience: number;
+  percentage: number;
+}
+
+export interface QualityDistribution {
+  quality: QualityLevel;
+  count: number;
+  percentage: number;
+}
+
+export interface StationUtilization {
+  stationId: string;
+  name: string;
+  utilization: number;
+  totalCrafts: number;
+  efficiency: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  crafts: number;
+  successRate: number;
+  averageQuality: number;
+  experience: number;
+}
+
+export interface CraftingReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeCrafts: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
 }
 
 export interface CraftingOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: Recipe | Recipe[] | CraftResult | CraftingStats | CraftingSession;
+  result?: any;
   issues?: string[];
 }
 
-export class CraftingManager {
-  private recipes: Map<string, Recipe> = new Map();
-  private sessions: Map<string, CraftingSession> = new Map();
-  private craftingHistory: CraftResult[] = [];
+export class CraftingPure {
+  private managers: Map<string, CraftingManager> = new Map();
+  private config: CraftingConfig;
+  private performanceMetrics: CraftingPerformanceMetrics;
+  private analytics: CraftingAnalytics;
 
-  constructor() {
-    this.initializeDefaultRecipes();
-  }
-
-  private initializeDefaultRecipes() {
-    const defaultRecipes: Recipe[] = [
-      {
-        id: 'iron_sword',
-        name: 'Iron Sword',
-        description: 'A basic iron sword',
-        category: 'weapon',
-        inputs: { 'iron_ingot': 2, 'wood': 1 },
-        outputs: { 'iron_sword': 1 },
-        statMods: [
-          { key: 'damage', base: 15 },
-          { key: 'durability', base: 100 }
-        ],
-        skillRequired: 'smithing',
-        skillLevel: 1,
-        craftingTime: 30,
-        difficulty: 'easy',
-        quality: 'normal',
-        unlockLevel: 1
-    },
-      {
-        id: 'health_potion',
-        name: 'Health Potion',
-        description: 'A basic healing potion',
-        category: 'consumable',
-        inputs: { 'healing_herb': 3, 'water': 1, 'bottle': 1 },
-        outputs: { 'health_potion': 2 },
-        statMods: [
-          { key: 'healing', base: 50 }
-        ],
-        skillRequired: 'alchemy',
-        skillLevel: 1,
-        craftingTime: 15,
-        difficulty: 'easy',
-        quality: 'normal',
-        unlockLevel: 1
-    },
-      {
-        id: 'leather_armor',
-        name: 'Leather Armor',
-        description: 'Basic leather protection',
-        category: 'armor',
-        inputs: { 'leather': 4, 'thread': 2 },
-        outputs: { 'leather_armor': 1 },
-        statMods: [
-          { key: 'defense', base: 8;
-    },
-          { key: 'durability', base: 80;
-    }
-        ],
-        skillRequired: 'tailoring',
-        skillLevel: 1,
-        craftingTime: 45,
-        difficulty: 'easy',
-        quality: 'normal',
-        unlockLevel: 1
-    },
-      {
-        id: 'steel_sword',
-        name: 'Steel Sword',
-        description: 'A superior steel sword',
-        category: 'weapon',
-        inputs: { 'steel_ingot': 3, 'iron_ingot': 1, 'wood': 1 },
-        outputs: { 'steel_sword': 1 },
-        statMods: [
-          { key: 'damage', base: 25;
-    },
-          { key: 'durability', base: 150;
-    }
-        ],
-        skillRequired: 'smithing',
-        skillLevel: 3,
-        craftingTime: 60,
-        difficulty: 'medium',
-        quality: 'good',
-        prerequisites: ['iron_sword'],
-        unlockLevel: 5;
-    }
-    ];
-
-    defaultRecipes.forEach(recipe => this.recipes.set(recipe.id, recipe));
-  }
-
-  // Shims expected by cliHarnessWrapper
-  registerRecipe(recipe: any): void {
-    // Map minimal wrapper recipe to rich Recipe shape
-    const normalized: Recipe = {
-      id: recipe.id || recipe.name || `recipe_${Date.now()}`,
-      name: recipe.name || recipe.id || 'Custom Recipe',
-      description: recipe.description || '',
-      category: 'material',
-      inputs: recipe.inputs || recipe.materials || {},
-      outputs: recipe.outputs || { [recipe.id || 'crafted_item']: 1 },
-      craftingTime: recipe.craftTime || recipe.craftingTime || 10,
-      difficulty: 'easy',
-      quality: 'normal'
-    };
-    this.recipes.set(normalized.id, normalized);
-  }
-
-  simulate(recipeId: string, inventory: Inventory) {
-    const started = this.startCrafting(recipeId, 'cli', inventory);
-    if (started.status !== 'ok' || !started.result) {
-      return { success: false, issues: (started as any).issues };
-    }
-    const completed = this.completeCrafting((started.result as any).id, inventory);
-    return completed.result;
-  }
-
-  simulateCraft(recipeId: string, ingredients: any) {
-    // Convert ingredients to inventory format
-    const inventory: Inventory = {};
-    if (ingredients && typeof ingredients === 'object') {
-      Object.entries(ingredients).forEach(([key, value]) => {
-        inventory[key] = typeof value === 'number' ? value : 1;
-      });
-    }
-    return this.simulate(recipeId, inventory);
-  }
-
-  /**
-   * Create a new recipe
-   */
-  createRecipe(recipe: Recipe): CraftingOutput {
-    if (this.recipes.has(recipe.id)) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: [`Recipe ${recipe.id} already exists`]
-      };
-    }
-
-    // Validate recipe
-    const validation = this.validateRecipe(recipe);
-    if (!validation.valid) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: validation.errors
-      };
-    }
-
-    this.recipes.set(recipe.id, recipe);
-    return {
-      op: 'create',
-      status: 'ok',
-      result: recipe;
-    };
-  }
-
-  /**
-   * Update recipe
-   */
-  updateRecipe(recipeId: string, updates: Partial<Recipe>): CraftingOutput {
-    const recipe = this.recipes.get(recipeId);
-    if (!recipe) {
-      return {
-        op: 'update',
-        status: 'error',
-        issues: [`Recipe ${recipeId} not found`]
-      };
-    }
-
-    const updatedRecipe = { ...recipe, ...updates };
-    
-    // Validate updated recipe
-    const validation = this.validateRecipe(updatedRecipe);
-    if (!validation.valid) {
-      return {
-        op: 'update',
-        status: 'error',
-        issues: validation.errors
-      };
-    }
-
-    this.recipes.set(recipeId, updatedRecipe);
-    return {
-      op: 'update',
-      status: 'ok',
-      result: updatedRecipe;
-    };
-  }
-
-  /**
-   * Delete recipe
-   */
-  deleteRecipe(recipeId: string): CraftingOutput {
-    if (!this.recipes.has(recipeId)) {
-      return {
-        op: 'delete',
-        status: 'error',
-        issues: [`Recipe ${recipeId} not found`]
-      };
-    }
-
-    this.recipes.delete(recipeId);
-    return {
-      op: 'delete',
-      status: 'ok'
-    };
-  }
-
-  /**
-   * Get recipe by ID
-   */
-  getRecipe(recipeId: string): CraftingOutput {
-    const recipe = this.recipes.get(recipeId);
-    if (!recipe) {
-      return {
-        op: 'get',
-        status: 'error',
-        issues: [`Recipe ${recipeId} not found`]
-      };
-    }
-
-    return {
-      op: 'get',
-      status: 'ok',
-      result: recipe;
-    };
-  }
-
-  /**
-   * List all recipes
-   */
-  listRecipes(filter?: CraftingFilter): CraftingOutput {
-    let recipes = Array.from(this.recipes.values());
-
-    if (filter) {
-      recipes = recipes.filter(recipe => {
-        if (filter.category && recipe.category !== filter.category) return false;
-        if (filter.difficulty && recipe.difficulty !== filter.difficulty) return false;
-        if (filter.skillRequired && recipe.skillRequired !== filter.skillRequired) return false;
-        if (filter.minLevel !== undefined && (recipe.skillLevel || 0) < filter.minLevel) return false;
-        if (filter.maxLevel !== undefined && (recipe.skillLevel || 0) > filter.maxLevel) return false;
-        if (filter.hasPrerequisites !== undefined) {
-          const hasPrereqs = recipe.prerequisites && recipe.prerequisites.length > 0;
-          if (filter.hasPrerequisites !== hasPrereqs) return false;
-        }
-        return true;
-      });
-    }
-
-    return {
-      op: 'list',
-      status: 'ok',
-      result: recipes;
-    };
-  }
-
-  /**
-   * Start a crafting session
-   */
-  startCrafting(recipeId: string, crafterId: string, inventory: Inventory): CraftingOutput {
-    const recipe = this.recipes.get(recipeId);
-    if (!recipe) {
-      return {
-        op: 'start_crafting',
-        status: 'error',
-        issues: [`Recipe ${recipeId} not found`]
-      };
-    }
-
-    // Check if materials are available
-    for (const [material, required] of Object.entries(recipe.inputs)) {
-      if ((inventory[
-      mat,
-      e,
-      r,
-      i,
-      a,
-      l
-    ] || 0) < required) {
-        return {
-          op: 'start_crafting',
-          status: 'error',
-          issues: [`Insufficient ${material}: need ${required}, have ${inventory[
-      mat,
-      e,
-      r,
-      i,
-      a,
-      l
-    ] || 0}`]
-        };
-      }
-    }
-
-    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const session: CraftingSession = {
-      id: sessionId,
-      recipeId,
-      startTime: Date.now(),
-      status: 'active',
-      crafterId,
-      quality: this.calculateBaseQuality(recipe),
-      materials: { ...recipe.inputs },
-      outputs: { ...recipe.outputs },
-      experience: 0;
+  constructor(config: Partial<CraftingConfig> = {}) {
+    this.config = {
+      enableRecipeManagement: true,
+      enableIngredientTracking: true,
+      enableCraftingProcess: true,
+      enableQualitySystem: true,
+      enableSkillProgression: true,
+      enableCraftingStations: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableCraftingAnalytics: true,
+      enableCraftingReporting: true,
+      maxRecipes: 1000,
+      maxIngredients: 500,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
 
-    this.sessions.set(sessionId, session);
-    return {
-      op: 'start_crafting',
-      status: 'ok',
-      result: session;
-    };
-  }
-
-  /**
-   * Complete a crafting session
-   */
-  completeCrafting(sessionId: string, inventory: Inventory): CraftingOutput {
-    const session = this.sessions.get(sessionId);
-    if (!session) {
-      return {
-        op: 'complete_crafting',
-        status: 'error',
-        issues: [`Crafting session ${sessionId} not found`]
-      };
-    }
-
-    if (session.status !== 'active') {
-      return {
-        op: 'complete_crafting',
-        status: 'error',
-        issues: [`Crafting session ${sessionId} is not active`]
-      };
-    }
-
-    const recipe = this.recipes.get(session.recipeId);
-    if (!recipe) {
-      return {
-        op: 'complete_crafting',
-        status: 'error',
-        issues: [`Recipe ${session.recipeId} not found`]
-      };
-    }
-
-    // Calculate final quality and success
-    const finalQuality = this.calculateFinalQuality(session, recipe);
-    const success = this.calculateSuccess(session, recipe, finalQuality);
-    const experience = this.calculateExperience(session, recipe, success);
-
-    // Update inventory
-    const remaining: Inventory = { ...inventory };
-    const crafted: Record<string, number> = {};
-
-    if (success) {
-      // Remove materials
-      for (const [material, required] of Object.entries(recipe.inputs)) {
-        remaining[
-      mat,
-      e,
-      r,
-      i,
-      a,
-      l
-    ] = (remaining[
-      mat,
-      e,
-      r,
-      i,
-      a,
-      l
-    ] || 0) - required;
-      }
-
-      // Add outputs
-      for (const [item, quantity] of Object.entries(recipe.outputs)) {
-        crafted[item] = quantity;
-        remaining[item] = (remaining[item] || 0) + quantity;
-      }
-    }
-
-    // Create craft result
-    const result: CraftResult = {
-      crafted,
-      remaining,
-      statMods: recipe.statMods,
-      quality: finalQuality,
-      experience,
-      success,
-      sessionId,
-      craftingTime: Date.now() - session.startTime,
-      metadata: {
-
-        recipeId: session.recipeId,
-        crafterId: session.crafterId,
-        difficulty: recipe.difficulty
-      
-
-      
-
-
-      }
-      };
-    };
-
-    // Update session
-    session.status = success ? 'completed' : 'failed';
-    session.endTime = Date.now();
-    session.quality = finalQuality;
-    session.experience = experience;
-
-    // Record in history
-    this.craftingHistory.push(result);
-
-    return {
-      op: 'complete_crafting',
-      status: 'ok',
-      result
-    };
-  }
-
-  /**
-   * Cancel a crafting session
-   */
-  cancelCrafting(sessionId: string): CraftingOutput {
-    const session = this.sessions.get(sessionId);
-    if (!session) {
-      return {
-        op: 'cancel_crafting',
-        status: 'error',
-        issues: [`Crafting session ${sessionId} not found`]
-      };
-    }
-
-    session.status = 'cancelled';
-    session.endTime = Date.now();
-
-    return {
-      op: 'cancel_crafting',
-      status: 'ok',
-      result: session;
-    };
-  }
-
-  /**
-   * Get crafting session
-   */
-  getSession(sessionId: string): CraftingOutput {
-    const session = this.sessions.get(sessionId);
-    if (!session) {
-      return {
-        op: 'get_session',
-        status: 'error',
-        issues: [`Crafting session ${sessionId} not found`]
-      };
-    }
-
-    return {
-      op: 'get_session',
-      status: 'ok',
-      result: session;
-    };
-  }
-
-  /**
-   * Get crafting statistics
-   */
-  getCraftingStats(): CraftingOutput {
-    const recipes = Array.from(this.recipes.values());
-    const sessions = Array.from(this.sessions.values());
-    const completedSessions = sessions.filter(s => s.status === 'completed');
-    const failedSessions = sessions.filter(s => s.status === 'failed');
-
-    const stats: CraftingStats = {
-      totalRecipes: recipes.length,
-      totalSessions: sessions.length,
-      completedSessions: completedSessions.length,
-      failedSessions: failedSessions.length,
+    this.performanceMetrics = {
+      totalRecipes: 0,
+      totalCrafts: 0,
+      successfulCrafts: 0,
+      failedCrafts: 0,
+      averageCraftTime: 0,
       averageQuality: 0,
       totalExperience: 0,
-      recipesByCategory: {},
-      difficultyDistribution: {}
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
 
-    if (completedSessions.length > 0) {
-      stats.averageQuality = completedSessions.reduce((sum, s) => sum + s.quality, 0) / completedSessions.length;
-      stats.totalExperience = completedSessions.reduce((sum, s) => sum + s.experience, 0);
+    this.analytics = {
+      mostCraftedRecipes: [],
+      skillDistribution: [],
+      qualityDistribution: [],
+      stationUtilization: [],
+      performanceTrends: []
+    };
+  }
+
+  /**
+   * Create a new crafting manager
+   */
+  createManager(managerData: Partial<CraftingManager>): CraftingOutput {
+    if (!this.config.enableRecipeManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Recipe management is disabled']
+      };
     }
 
-    // Calculate category distribution
-    recipes.forEach(recipe => {
-      stats.recipesByCategory[recipe.category] = (stats.recipesByCategory[recipe.category] || 0) + 1;
-      stats.difficultyDistribution[recipe.difficulty] = (stats.difficultyDistribution[recipe.difficulty] || 0) + 1;
-    });
+    const manager: CraftingManager = {
+      id: managerData.id || `crafting-${Date.now()}`,
+      name: managerData.name || 'Unnamed Crafting Manager',
+      type: managerData.type || 'basic',
+      status: 'active',
+      recipes: [],
+      ingredients: [],
+      craftingStations: [],
+      activeCrafts: [],
+      skills: [],
+      performanceMetrics: {
+        totalRecipes: 0,
+        totalCrafts: 0,
+        successfulCrafts: 0,
+        failedCrafts: 0,
+        averageCraftTime: 0,
+        averageQuality: 0,
+        totalExperience: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        mostCraftedRecipes: [],
+        skillDistribution: [],
+        qualityDistribution: [],
+        stationUtilization: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeCrafts: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
 
     return {
-      op: 'stats',
+      op: 'create-manager',
       status: 'ok',
-      result: stats;
+      result: manager
     };
   }
 
   /**
-   * Export crafting data
+   * Get manager by ID
    */
-  exportCrafting(format: 'json' | 'manifest' | 'summary' | 'sessions' = 'json'): CraftingOutput {
-    const recipes = Array.from(this.recipes.values());
-    const sessions = Array.from(this.sessions.values());
-
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: recipes;
-    };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: recipes;
-    };
-      
-      case 'summary':
-        const stats = this.getCraftingStats();
-        return {
-          op: 'export',
-          status: 'ok',
-          result: stats.result
-        };
-      
-      case 'sessions':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: sessions[0] // Return first session or undefined
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
+  getManager(managerId: string): CraftingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
-  }
 
-  /**
-   * Reset all crafting data
-   */
-  resetCrafting(): CraftingOutput {
-    this.recipes.clear();
-    this.sessions.clear();
-    this.craftingHistory = [];
-    this.initializeDefaultRecipes();
     return {
-      op: 'reset',
+      op: 'get-manager',
       status: 'ok',
-      result: undefined;
+      result: manager
     };
   }
 
   /**
-   * Private helper methods
+   * Add recipe to manager
    */
-  private validateRecipe(recipe: Recipe): { valid: boolean; errors: string[] } {
-    const errors: string[] = [];
-
-    if (!recipe.id || recipe.id.trim() === '') {
-      errors.push('Recipe ID is required');
+  addRecipe(managerId: string, recipe: Partial<Recipe>): CraftingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'add-recipe',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    if (!recipe.name || recipe.name.trim() === '') {
-      errors.push('Recipe name is required');
+    if (manager.recipes.length >= this.config.maxRecipes) {
+      return {
+        op: 'add-recipe',
+        status: 'error',
+        issues: ['Maximum number of recipes reached']
+      };
     }
 
-    if (!recipe.inputs || Object.keys(recipe.inputs).length === 0) {
-      errors.push('Recipe must have at least one input material');
-    }
-
-    if (!recipe.outputs || Object.keys(recipe.outputs).length === 0) {
-      errors.push('Recipe must have at least one output item');
-    }
-
-    if (recipe.craftingTime <= 0) {
-      errors.push('Crafting time must be positive');
-    }
-
-    if (!['easy', 'medium', 'hard', 'expert', 'master'].includes(recipe.difficulty)) {
-      errors.push('Invalid difficulty level');
-    }
-
-    return { valid: errors.length === 0, errors };
-  }
-
-  private calculateBaseQuality(recipe: Recipe): number {
-    const qualityMap = {
-      'poor': 20,
-      'normal': 50,
-      'good': 70,
-      'excellent': 85,
-      'perfect': 100
+    const newRecipe: Recipe = {
+      id: recipe.id || `recipe-${Date.now()}`,
+      name: recipe.name || 'Unnamed Recipe',
+      description: recipe.description || '',
+      category: recipe.category || 'material',
+      difficulty: recipe.difficulty || 'beginner',
+      requiredIngredients: recipe.requiredIngredients || [],
+      requiredTools: recipe.requiredTools || [],
+      requiredStation: recipe.requiredStation || '',
+      requiredSkill: recipe.requiredSkill || {
+        skillId: 'crafting',
+        level: 1,
+        experience: 0
+      },
+      craftingTime: recipe.craftingTime || 1,
+      successRate: recipe.successRate || 1.0,
+      qualityMultiplier: recipe.qualityMultiplier || 1.0,
+      output: recipe.output || [],
+      experience: recipe.experience || 10,
+      metadata: {},
+      ...recipe
     };
-    return qualityMap[recipe.quality] || 50;
-  }
 
-  private calculateFinalQuality(session: CraftingSession, recipe: Recipe): number {
-    const baseQuality = session.quality;
-    const difficultyModifier = this.getDifficultyModifier(recipe.difficulty);
-    const randomFactor = Math.random() * 20 - 10; // -10 to +10
-    
-    return Math.max(0, Math.min(100, baseQuality + difficultyModifier + randomFactor));
-  }
+    manager.recipes.push(newRecipe);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalRecipes++;
 
-  private getDifficultyModifier(difficulty: string): number {
-    const modifiers = {
-      'easy': 10,
-      'medium': 0,
-      'hard': -10,
-      'expert': -20,
-      'master': -30
+    return {
+      op: 'add-recipe',
+      status: 'ok',
+      result: newRecipe
     };
-    return modifiers[
-      difficulty,
-      as,
-      keyof,
-      typeof,
-      modifier,
-      s
-    ] || 0;
   }
 
-  private calculateSuccess(session: CraftingSession, recipe: Recipe, quality: number): boolean {
-    const baseSuccessRate = 0.8;
-    const qualityBonus = (quality - 50) / 100;
-    const difficultyPenalty = this.getDifficultyModifier(recipe.difficulty) / 100;
-    
-    const successRate = Math.max(0.1, Math.min(0.95, baseSuccessRate + qualityBonus + difficultyPenalty));
-    return Math.random() < successRate;
-  }
+  /**
+   * Start crafting process
+   */
+  startCraft(managerId: string, recipeId: string, stationId: string, crafterId: string): CraftingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'start-craft',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
 
-  private calculateExperience(session: CraftingSession, recipe: Recipe, success: boolean): number {
-    const baseExp = 10;
-    const difficultyMultiplier = this.getDifficultyMultiplier(recipe.difficulty);
-    const qualityBonus = Math.floor((session.quality - 50) / 10);
-    const successBonus = success ? 1.5 : 0.5;
-    
-    return Math.floor((baseExp + qualityBonus) * difficultyMultiplier * successBonus);
-  }
+    const recipe = manager.recipes.find(r => r.id === recipeId);
+    if (!recipe) {
+      return {
+        op: 'start-craft',
+        status: 'error',
+        issues: [`Recipe ${recipeId} not found`]
+      };
+    }
 
-  private getDifficultyMultiplier(difficulty: string): number {
-    const multipliers = {
-      'easy': 1.0,
-      'medium': 1.5,
-      'hard': 2.0,
-      'expert': 2.5,
-      'master': 3.0
+    const station = manager.craftingStations.find(s => s.id === stationId);
+    if (!station) {
+      return {
+        op: 'start-craft',
+        status: 'error',
+        issues: [`Station ${stationId} not found`]
+      };
+    }
+
+    // Check if station supports this recipe
+    if (!station.supportedRecipes.includes(recipeId)) {
+      return {
+        op: 'start-craft',
+        status: 'error',
+        issues: ['Station does not support this recipe']
+      };
+    }
+
+    const activeCraft: ActiveCraft = {
+      id: `craft-${Date.now()}`,
+      recipeId,
+      stationId,
+      crafterId,
+      startTime: Date.now(),
+      endTime: Date.now() + (recipe.craftingTime * 1000),
+      progress: 0,
+      quality: 0,
+      status: 'preparing',
+      ingredients: [...recipe.requiredIngredients],
+      output: [...recipe.output],
+      metadata: {}
     };
-    return multipliers[
-      difficulty,
-      as,
-      keyof,
-      typeof,
-      multiplier,
-      s
-    ] || 1.0;
+
+    manager.activeCrafts.push(activeCraft);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalCrafts++;
+
+    // Simulate crafting process
+    setTimeout(() => {
+      this.completeCraft(managerId, activeCraft.id);
+    }, recipe.craftingTime * 1000);
+
+    return {
+      op: 'start-craft',
+      status: 'ok',
+      result: activeCraft
+    };
+  }
+
+  /**
+   * Complete crafting process
+   */
+  private completeCraft(managerId: string, craftId: string): void {
+    const manager = this.managers.get(managerId);
+    if (!manager) return;
+
+    const craft = manager.activeCrafts.find(c => c.id === craftId);
+    if (!craft) return;
+
+    const recipe = manager.recipes.find(r => r.id === craft.recipeId);
+    if (!recipe) return;
+
+    // Calculate success and quality
+    const successRoll = Math.random();
+    const qualityRoll = Math.random();
+
+    if (successRoll <= recipe.successRate) {
+      craft.status = 'completed';
+      craft.quality = qualityRoll * recipe.qualityMultiplier;
+      this.performanceMetrics.successfulCrafts++;
+    } else {
+      craft.status = 'failed';
+      this.performanceMetrics.failedCrafts++;
+    }
+
+    craft.progress = 100;
+    craft.endTime = Date.now();
+
+    // Update experience
+    this.performanceMetrics.totalExperience += recipe.experience;
+  }
+
+  /**
+   * Get active crafts
+   */
+  getActiveCrafts(managerId: string): CraftingOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-active-crafts',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-active-crafts',
+      status: 'ok',
+      result: manager.activeCrafts
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): CraftingPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): CraftingAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): CraftingManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalRecipes = 0;
+    let totalCrafts = 0;
+    let successfulCrafts = 0;
+    let failedCrafts = 0;
+
+    for (const manager of this.managers.values()) {
+      totalRecipes += manager.recipes.length;
+      totalCrafts += manager.activeCrafts.length;
+      successfulCrafts += manager.activeCrafts.filter(c => c.status === 'completed').length;
+      failedCrafts += manager.activeCrafts.filter(c => c.status === 'failed').length;
+    }
+
+    this.performanceMetrics.totalRecipes = totalRecipes;
+    this.performanceMetrics.totalCrafts = totalCrafts;
+    this.performanceMetrics.successfulCrafts = successfulCrafts;
+    this.performanceMetrics.failedCrafts = failedCrafts;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

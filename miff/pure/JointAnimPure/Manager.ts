@@ -2,665 +2,690 @@
  * JointAnimPure Manager - Advanced Joint Animation Management System
  *
  * Comprehensive joint animation management system with:
- * - Joint animation creation and management
- * - Skeletal animation and rigging
- * - Animation blending and transitions
- * - Animation compression and optimization
- * - Cross-platform joint animation support
+ * - Skeletal animation and bone management
+ * - Joint hierarchy and transformation
+ * - Animation blending and interpolation
+ * - Keyframe animation and timeline control
+ * - Animation state machines
  * - Performance optimization
  * - Real-time animation monitoring
- * - Joint animation analytics and reporting
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Animation analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface JointAnimConfig {
-  enableAnimationCreation: boolean;
-  enableAnimationManagement: boolean;
   enableSkeletalAnimation: boolean;
-  enableRigging: boolean;
+  enableJointHierarchy: boolean;
   enableAnimationBlending: boolean;
-  enableAnimationTransitions: boolean;
-  enableAnimationCompression: boolean;
-  enableAnimationOptimization: boolean;
-  enableCrossPlatformSupport: boolean;
+  enableKeyframeAnimation: boolean;
+  enableStateMachines: boolean;
   enablePerformanceOptimization: boolean;
   enableRealTimeMonitoring: boolean;
-  enableJointAnimAnalytics: boolean;
-  enableJointAnimReporting: boolean;
-  maxAnimations: number;
+  enableAnimationAnalytics: boolean;
+  enableAnimationReporting: boolean;
   maxJoints: number;
+  maxAnimations: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface JointAnim {
+export interface JointAnimManager {
   id: string;
   name: string;
-  type: JointAnimType;
-  status: JointAnimStatus;
+  type: JointAnimManagerType;
+  status: JointAnimManagerStatus;
+  skeletons: Skeleton[];
   animations: Animation[];
-  joints: Joint[];
-  rigs: Rig[];
+  stateMachines: AnimationStateMachine[];
+  performanceMetrics: JointAnimPerformanceMetrics;
   analytics: JointAnimAnalytics;
-  metadata: JointAnimMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  reporting: JointAnimReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum JointAnimType {
-  SKELETAL = 'skeletal',
-  FACIAL = 'facial',
-  HAND = 'hand',
-  BODY = 'body',
-  CUSTOM = 'custom'
-}
+export type JointAnimManagerType = '2d' | '3d' | 'hybrid' | 'custom';
+export type JointAnimManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
-export enum JointAnimStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Animation {
+export interface Skeleton {
   id: string;
   name: string;
-  type: AnimationType;
-  status: AnimationStatus;
-  duration: number;
-  frameRate: number;
-  keyframes: Keyframe[];
-  tracks: AnimationTrack[];
-  metadata: Map<string, any>;
-}
-
-export enum AnimationType {
-  IDLE = 'idle',
-  WALK = 'walk',
-  RUN = 'run',
-  JUMP = 'jump',
-  CUSTOM = 'custom'
-}
-
-export enum AnimationStatus {
-  PENDING = 'pending',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  STOPPED = 'stopped',
-  COMPLETED = 'completed',
-  CUSTOM = 'custom'
-}
-
-export interface Keyframe {
-  id: string;
-  time: number;
-  jointId: string;
-  position: Position;
-  rotation: Rotation;
-  scale: Scale;
-  metadata: Map<string, any>;
-}
-
-export interface Position {
-  x: number;
-  y: number;
-  z: number;
-  metadata: Map<string, any>;
-}
-
-export interface Rotation {
-  x: number;
-  y: number;
-  z: number;
-  w: number;
-  metadata: Map<string, any>;
-}
-
-export interface Scale {
-  x: number;
-  y: number;
-  z: number;
-  metadata: Map<string, any>;
-}
-
-export interface AnimationTrack {
-  id: string;
-  jointId: string;
-  type: TrackType;
-  keyframes: Keyframe[];
-  interpolation: InterpolationType;
-  metadata: Map<string, any>;
-}
-
-export enum TrackType {
-  POSITION = 'position',
-  ROTATION = 'rotation',
-  SCALE = 'scale',
-  CUSTOM = 'custom'
-}
-
-export enum InterpolationType {
-  LINEAR = 'linear',
-  BEZIER = 'bezier',
-  STEP = 'step',
-  CUSTOM = 'custom'
+  joints: Joint[];
+  rootJoint: string;
+  bindPose: Pose;
+  metadata: Record<string, any>;
 }
 
 export interface Joint {
   id: string;
   name: string;
-  type: JointType;
-  status: JointStatus;
-  parent: string;
+  parent?: string;
   children: string[];
   transform: Transform;
-  constraints: JointConstraint[];
-  metadata: Map<string, any>;
-}
-
-export enum JointType {
-  ROOT = 'root',
-  BONE = 'bone',
-  END_EFFECTOR = 'end_effector',
-  CUSTOM = 'custom'
-}
-
-export enum JointStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  LOCKED = 'locked',
-  CUSTOM = 'custom'
+  bindTransform: Transform;
+  isRoot: boolean;
+  metadata: Record<string, any>;
 }
 
 export interface Transform {
-  position: Position;
-  rotation: Rotation;
-  scale: Scale;
-  metadata: Map<string, any>;
+  position: Vector3;
+  rotation: Quaternion;
+  scale: Vector3;
 }
 
-export interface JointConstraint {
-  type: ConstraintType;
-  parameters: ConstraintParameters;
-  metadata: Map<string, any>;
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export enum ConstraintType {
-  LIMIT_ROTATION = 'limit_rotation',
-  LIMIT_POSITION = 'limit_position',
-  LIMIT_SCALE = 'limit_scale',
-  CUSTOM = 'custom'
+export interface Quaternion {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
 }
 
-export interface ConstraintParameters {
-  min: number;
-  max: number;
-  enabled: boolean;
-  metadata: Map<string, any>;
+export interface Pose {
+  joints: Record<string, Transform>;
+  timestamp: number;
 }
 
-export interface Rig {
+export interface Animation {
   id: string;
   name: string;
-  type: RigType;
-  status: RigStatus;
-  joints: string[];
-  bones: Bone[];
-  metadata: Map<string, any>;
+  duration: number;
+  tracks: AnimationTrack[];
+  events: AnimationEvent[];
+  looping: boolean;
+  speed: number;
+  metadata: Record<string, any>;
 }
 
-export enum RigType {
-  HUMAN = 'human',
-  QUADRUPED = 'quadruped',
-  BIRD = 'bird',
-  CUSTOM = 'custom'
-}
-
-export enum RigStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Bone {
+export interface AnimationTrack {
   id: string;
-  name: string;
   jointId: string;
-  length: number;
-  direction: Position;
-  metadata: Map<string, any>;
+  property: TrackProperty;
+  keyframes: Keyframe[];
+  interpolation: InterpolationType;
+}
+
+export type TrackProperty = 'position' | 'rotation' | 'scale' | 'visibility';
+
+export interface Keyframe {
+  time: number;
+  value: any;
+  inTangent?: number;
+  outTangent?: number;
+}
+
+export type InterpolationType = 'linear' | 'bezier' | 'step' | 'cubic';
+
+export interface AnimationEvent {
+  id: string;
+  time: number;
+  type: EventType;
+  data: any;
+  metadata: Record<string, any>;
+}
+
+export type EventType = 'sound' | 'effect' | 'callback' | 'custom';
+
+export interface AnimationStateMachine {
+  id: string;
+  name: string;
+  states: AnimationState[];
+  transitions: AnimationTransition[];
+  currentState: string;
+  parameters: AnimationParameter[];
+  metadata: Record<string, any>;
+}
+
+export interface AnimationState {
+  id: string;
+  name: string;
+  animationId: string;
+  speed: number;
+  looping: boolean;
+  transitions: string[];
+  metadata: Record<string, any>;
+}
+
+export interface AnimationTransition {
+  id: string;
+  fromState: string;
+  toState: string;
+  conditions: TransitionCondition[];
+  duration: number;
+  offset: number;
+  metadata: Record<string, any>;
+}
+
+export interface TransitionCondition {
+  parameter: string;
+  operator: ConditionOperator;
+  value: any;
+}
+
+export type ConditionOperator = 'equals' | 'not-equals' | 'greater' | 'less' | 'greater-equals' | 'less-equals';
+
+export interface AnimationParameter {
+  id: string;
+  name: string;
+  type: ParameterType;
+  value: any;
+  defaultValue: any;
+  metadata: Record<string, any>;
+}
+
+export type ParameterType = 'bool' | 'int' | 'float' | 'trigger';
+
+export interface JointAnimPerformanceMetrics {
+  totalJoints: number;
+  activeJoints: number;
+  totalAnimations: number;
+  playingAnimations: number;
+  totalKeyframes: number;
+  averageFrameTime: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
 export interface JointAnimAnalytics {
   totalAnimations: number;
-  totalJoints: number;
-  totalRigs: number;
-  averageAnimationLength: number;
-  compressionRatio: number;
-  performance: PerformanceMetrics;
+  averageAnimationDuration: number;
+  mostPlayedAnimations: AnimationUsage[];
+  jointUsageDistribution: JointUsageDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface AnimationUsage {
+  animationId: string;
+  name: string;
+  playCount: number;
+  totalDuration: number;
+  lastPlayed: number;
+}
+
+export interface JointUsageDistribution {
+  jointId: string;
+  name: string;
+  usageCount: number;
+  percentage: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  frameTime: number;
+  joints: number;
+  animations: number;
+  keyframes: number;
+}
+
+export interface JointAnimReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeAnimations: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
-  metadata: Map<string, any>;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface JointAnimMetadata {
-  author: string;
+export interface Version {
   version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
 }
 
-export interface JointAnimStats {
-  totalAnimations: number;
-  totalJoints: number;
-  totalRigs: number;
-  averageAnimationLength: number;
-  compressionRatio: number;
-  lastUpdate: number;
+export interface JointAnimOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
 }
 
-export class JointAnimManager {
+export class JointAnimPure {
+  private managers: Map<string, JointAnimManager> = new Map();
   private config: JointAnimConfig;
-  private jointAnims: Map<string, JointAnim> = new Map();
-  private stats: JointAnimStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: JointAnimPerformanceMetrics;
+  private analytics: JointAnimAnalytics;
 
   constructor(config: Partial<JointAnimConfig> = {}) {
     this.config = {
-      enableAnimationCreation: true,
-      enableAnimationManagement: true,
       enableSkeletalAnimation: true,
-      enableRigging: true,
+      enableJointHierarchy: true,
       enableAnimationBlending: true,
-      enableAnimationTransitions: true,
-      enableAnimationCompression: true,
-      enableAnimationOptimization: true,
-      enableCrossPlatformSupport: true,
+      enableKeyframeAnimation: true,
+      enableStateMachines: true,
       enablePerformanceOptimization: true,
       enableRealTimeMonitoring: true,
-      enableJointAnimAnalytics: true,
-      enableJointAnimReporting: true,
-      maxAnimations: 10000,
+      enableAnimationAnalytics: true,
+      enableAnimationReporting: true,
       maxJoints: 1000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      maxAnimations: 100,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'JointAnimManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `JointAnimManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'JointAnimManager');
-  };
-  }
-
-  /**
-   * Initialize joint animation manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize joint animation manager
-      await this.initializeJointAnimManager();
-      
-      // Load default joint animations
-      await this.loadDefaultJointAnims();
-      
-      this.isInitialized = true;
-      this.logger.info('JointAnimManager', 'Joint animation manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('JointAnimManager', 'Failed to initialize joint animation manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new joint animation
-   */
-  createJointAnim(jointAnim: Partial<JointAnim>): JointAnim | null {
-    const newJointAnim: JointAnim = {
-      id: `jointanim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: jointAnim.name || 'New Joint Animation',
-      type: jointAnim.type || JointAnimType.SKELETAL,
-      status: JointAnimStatus.ACTIVE,
-      animations: jointAnim.animations || [],
-      joints: jointAnim.joints || [],
-      rigs: jointAnim.rigs || [],
-      analytics: jointAnim.analytics || this.createDefaultAnalytics(),
-      metadata: jointAnim.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
 
-    this.jointAnims.set(newJointAnim.id, newJointAnim);
-    this.updateStats('create_jointanim', newJointAnim);
+    this.performanceMetrics = {
+      totalJoints: 0,
+      activeJoints: 0,
+      totalAnimations: 0,
+      playingAnimations: 0,
+      totalKeyframes: 0,
+      averageFrameTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-    this.logger.info('JointAnimManager', `Created joint animation: ${newJointAnim.name}`);
-    return newJointAnim;
+    this.analytics = {
+      totalAnimations: 0,
+      averageAnimationDuration: 0,
+      mostPlayedAnimations: [],
+      jointUsageDistribution: [],
+      performanceTrends: []
+    };
+  }
+
+  /**
+   * Create a new joint animation manager
+   */
+  createManager(managerData: Partial<JointAnimManager>): JointAnimOutput {
+    if (!this.config.enableSkeletalAnimation) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Skeletal animation is disabled']
+      };
+    }
+
+    const manager: JointAnimManager = {
+      id: managerData.id || `jointanim-${Date.now()}`,
+      name: managerData.name || 'Unnamed Joint Animation Manager',
+      type: managerData.type || '3d',
+      status: 'active',
+      skeletons: [],
+      animations: [],
+      stateMachines: [],
+      performanceMetrics: {
+        totalJoints: 0,
+        activeJoints: 0,
+        totalAnimations: 0,
+        playingAnimations: 0,
+        totalKeyframes: 0,
+        averageFrameTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalAnimations: 0,
+        averageAnimationDuration: 0,
+        mostPlayedAnimations: [],
+        jointUsageDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeAnimations: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
+
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): JointAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Create skeleton
+   */
+  createSkeleton(managerId: string, skeleton: Partial<Skeleton>): JointAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-skeleton',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newSkeleton: Skeleton = {
+      id: skeleton.id || `skeleton-${Date.now()}`,
+      name: skeleton.name || 'Unnamed Skeleton',
+      joints: skeleton.joints || [],
+      rootJoint: skeleton.rootJoint || '',
+      bindPose: skeleton.bindPose || {
+        joints: {},
+        timestamp: 0
+      },
+      metadata: {},
+      ...skeleton
+    };
+
+    manager.skeletons.push(newSkeleton);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalJoints += newSkeleton.joints.length;
+    this.performanceMetrics.activeJoints += newSkeleton.joints.length;
+
+    return {
+      op: 'create-skeleton',
+      status: 'ok',
+      result: newSkeleton
+    };
   }
 
   /**
    * Create animation
    */
-  createAnimation(jointAnimId: string, animation: Partial<Animation>): Animation | null {
-    const jointAnim = this.jointAnims.get(jointAnimId);
-    if (!jointAnim) {
-      this.logger.warn('JointAnimManager', `Joint animation ${jointAnimId} not found`);
-      return null;
-    }
-
-    if (jointAnim.animations.length >= this.config.maxAnimations) {
-      this.logger.warn('JointAnimManager', 'Maximum number of animations reached');
-      return null;
-    }
-
-    try {
-      const newAnimation: Animation = {
-        id: `animation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: animation.name || 'New Animation',
-        type: animation.type || AnimationType.IDLE,
-        status: AnimationStatus.PENDING,
-        duration: animation.duration || 0,
-        frameRate: animation.frameRate || 30,
-        keyframes: animation.keyframes || [],
-        tracks: animation.tracks || [],
-        metadata: animation.metadata || new Map()
+  createAnimation(managerId: string, animation: Partial<Animation>): JointAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
       };
-
-      jointAnim.animations.push(newAnimation);
-      jointAnim.modified = Date.now();
-
-      this.updateStats('create_animation', jointAnim);
-      this.logger.info('JointAnimManager', `Created animation: ${newAnimation.name}`);
-      return newAnimation;
-    } catch (error) {
-      this.logger.error('JointAnimManager', `Failed to create animation in joint animation ${jointAnimId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Create joint
-   */
-  createJoint(jointAnimId: string, joint: Partial<Joint>): Joint | null {
-    const jointAnim = this.jointAnims.get(jointAnimId);
-    if (!jointAnim) {
-      this.logger.warn('JointAnimManager', `Joint animation ${jointAnimId} not found`);
-      return null;
     }
 
-    if (jointAnim.joints.length >= this.config.maxJoints) {
-      this.logger.warn('JointAnimManager', 'Maximum number of joints reached');
-      return null;
-    }
-
-    try {
-      const newJoint: Joint = {
-        id: `joint_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: joint.name || 'New Joint',
-        type: joint.type || JointType.BONE,
-        status: JointStatus.ACTIVE,
-        parent: joint.parent || '',
-        children: joint.children || [],
-        transform: joint.transform || this.createDefaultTransform(),
-        constraints: joint.constraints || [],
-        metadata: joint.metadata || new Map()
+    if (manager.animations.length >= this.config.maxAnimations) {
+      return {
+        op: 'create-animation',
+        status: 'error',
+        issues: ['Maximum number of animations reached']
       };
-
-      jointAnim.joints.push(newJoint);
-      jointAnim.modified = Date.now();
-
-      this.updateStats('create_joint', jointAnim);
-      this.logger.info('JointAnimManager', `Created joint: ${newJoint.name}`);
-      return newJoint;
-    } catch (error) {
-      this.logger.error('JointAnimManager', `Failed to create joint in joint animation ${jointAnimId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Get joint animation
-   */
-  getJointAnim(jointAnimId: string): JointAnim | null {
-    return this.jointAnims.get(jointAnimId) || null;
-  }
-
-  /**
-   * Get all joint animations
-   */
-  getJointAnims(): JointAnim[] {
-    return Array.from(this.jointAnims.values());
-  }
-
-  /**
-   * Get joint animations by type
-   */
-  getJointAnimsByType(type: JointAnimType): JointAnim[] {
-    return Array.from(this.jointAnims.values())
-      .filter(jointAnim => jointAnim.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): JointAnimStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize joint animation manager
-   */
-  private async initializeJointAnimManager(): Promise<void> {
-    this.logger.info('JointAnimManager', 'Initializing joint animation manager...');
-  }
-
-  /**
-   * Load default joint animations
-   */
-  private async loadDefaultJointAnims(): Promise<void> {
-    // Load default joint animations
-    const defaultJointAnims = [
-      this.createDefaultSkeletal(),
-      this.createDefaultFacial(),
-      this.createDefaultHand()
-    ];
-
-    for (const jointAnim of defaultJointAnims) {
-      if (jointAnim) {
-        this.jointAnims.set(jointAnim.id, jointAnim);
-      }
     }
 
-    this.logger.info('JointAnimManager', `Loaded ${defaultJointAnims.length} default joint animations`);
-  }
+    const newAnimation: Animation = {
+      id: animation.id || `anim-${Date.now()}`,
+      name: animation.name || 'Unnamed Animation',
+      duration: animation.duration || 1.0,
+      tracks: animation.tracks || [],
+      events: animation.events || [],
+      looping: animation.looping || false,
+      speed: animation.speed || 1.0,
+      metadata: {},
+      ...animation
+    };
 
-  /**
-   * Create default transform
-   */
-  private createDefaultTransform(): Transform {
+    manager.animations.push(newAnimation);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalAnimations++;
+    this.performanceMetrics.totalKeyframes += newAnimation.tracks.reduce((sum, track) => sum + track.keyframes.length, 0);
+
     return {
-      position: {
-        x: 0,
-        y: 0,
-        z: 0,
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      rotation: {
-
-        x: 0,
-        y: 0,
-        z: 0,
-        w: 1,
-        metadata: new Map()
-
-      }
-      },
-      scale: {
-        x: 1,
-        y: 1,
-        z: 1,
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      metadata: new Map()
+      op: 'create-animation',
+      status: 'ok',
+      result: newAnimation
     };
   }
 
   /**
-   * Create default analytics
+   * Play animation
    */
-  private createDefaultAnalytics(): JointAnimAnalytics {
-    return {
-      totalAnimations: 0,
-      totalJoints: 0,
-      totalRigs: 0,
-      averageAnimationLength: 0,
-      compressionRatio: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): JointAnimMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default skeletal
-   */
-  private createDefaultSkeletal(): JointAnim {
-    return this.createJointAnim({
-      name: 'Skeletal Joint Animation',
-      type: JointAnimType.SKELETAL,
-      description: 'Skeletal joint animation'
-    });
-  }
-
-  /**
-   * Create default facial
-   */
-  private createDefaultFacial(): JointAnim {
-    return this.createJointAnim({
-      name: 'Facial Joint Animation',
-      type: JointAnimType.FACIAL,
-      description: 'Facial joint animation'
-    });
-  }
-
-  /**
-   * Create default hand
-   */
-  private createDefaultHand(): JointAnim {
-    return this.createJointAnim({
-      name: 'Hand Joint Animation',
-      type: JointAnimType.HAND,
-      description: 'Hand joint animation'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, jointAnim: JointAnim): void {
-    switch (action) {
-      case 'create_jointanim':
-        this.stats.totalAnimations += jointAnim.animations.length;
-        this.stats.totalJoints += jointAnim.joints.length;
-        this.stats.totalRigs += jointAnim.rigs.length;
-        break;
-      case 'create_animation':
-        this.stats.totalAnimations++;
-        break;
-      case 'create_joint':
-        this.stats.totalJoints++;
-        break;
+  playAnimation(managerId: string, animationId: string, options?: {
+    speed?: number;
+    looping?: boolean;
+    blendTime?: number;
+  }): JointAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'play-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    this.stats.lastUpdate = Date.now();
-  }
+    const animation = manager.animations.find(anim => anim.id === animationId);
+    if (!animation) {
+      return {
+        op: 'play-animation',
+        status: 'error',
+        issues: [`Animation ${animationId} not found`]
+      };
+    }
 
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): JointAnimStats {
+    // Update animation properties
+    if (options?.speed !== undefined) {
+      animation.speed = options.speed;
+    }
+    if (options?.looping !== undefined) {
+      animation.looping = options.looping;
+    }
+
+    this.performanceMetrics.playingAnimations++;
+
     return {
-      totalAnimations: 0,
-      totalJoints: 0,
-      totalRigs: 0,
-      averageAnimationLength: 0,
-      compressionRatio: 0,
-      lastUpdate: Date.now()
+      op: 'play-animation',
+      status: 'ok',
+      result: {
+        animationId,
+        duration: animation.duration,
+        speed: animation.speed,
+        looping: animation.looping
+      }
     };
   }
 
   /**
-   * Cleanup resources
+   * Stop animation
    */
-  destroy(): void {
-    this.jointAnims.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  stopAnimation(managerId: string, animationId: string): JointAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'stop-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const animation = manager.animations.find(anim => anim.id === animationId);
+    if (!animation) {
+      return {
+        op: 'stop-animation',
+        status: 'error',
+        issues: [`Animation ${animationId} not found`]
+      };
+    }
+
+    this.performanceMetrics.playingAnimations = Math.max(0, this.performanceMetrics.playingAnimations - 1);
+
+    return {
+      op: 'stop-animation',
+      status: 'ok',
+      result: { animationId }
+    };
+  }
+
+  /**
+   * Blend animations
+   */
+  blendAnimations(managerId: string, animationIds: string[], weights: number[], options?: {
+    duration?: number;
+    method?: 'linear' | 'cubic' | 'bezier';
+  }): JointAnimOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (animationIds.length !== weights.length) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: ['Animation IDs and weights arrays must have the same length']
+      };
+    }
+
+    const animations = animationIds.map(id => manager.animations.find(anim => anim.id === id));
+    const missingAnimations = animations.filter(anim => !anim);
+    if (missingAnimations.length > 0) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: ['One or more animations not found']
+      };
+    }
+
+    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+    if (Math.abs(totalWeight - 1.0) > 0.001) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: ['Weights must sum to 1.0']
+      };
+    }
+
+    return {
+      op: 'blend-animations',
+      status: 'ok',
+      result: {
+        animationIds,
+        weights,
+        duration: options?.duration || 0.5,
+        method: options?.method || 'linear'
+      }
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): JointAnimPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): JointAnimAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): JointAnimManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalJoints = 0;
+    let totalAnimations = 0;
+    let totalKeyframes = 0;
+
+    for (const manager of this.managers.values()) {
+      totalJoints += manager.skeletons.reduce((sum, skeleton) => sum + skeleton.joints.length, 0);
+      totalAnimations += manager.animations.length;
+      totalKeyframes += manager.animations.reduce((sum, anim) => 
+        sum + anim.tracks.reduce((trackSum, track) => trackSum + track.keyframes.length, 0), 0);
+    }
+
+    this.performanceMetrics.totalJoints = totalJoints;
+    this.performanceMetrics.activeJoints = totalJoints;
+    this.performanceMetrics.totalAnimations = totalAnimations;
+    this.performanceMetrics.totalKeyframes = totalKeyframes;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultJointAnimManager = new JointAnimManager();
-export { JointAnimManager as default };

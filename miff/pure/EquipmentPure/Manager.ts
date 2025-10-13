@@ -9,7 +9,6 @@ export interface EquipmentItem {
     attack?: number; defense?: number 
 
 
-  }
   };
   equipped?: boolean;
 }
@@ -19,7 +18,7 @@ export class EquipmentManager {
 
   equip(playerId: string, item: EquipmentItem): void {
     const slots = this.ensurePlayer(playerId);
-    slots.set(item.slot, { ...item, equipped: true;
+    slots.set(item.slot, { ...item, equipped: true
     });
   }
 
@@ -39,7 +38,7 @@ export class EquipmentManager {
       acc.attack += item.stats.attack || 0;
       acc.defense += item.stats.defense || 0;
       return acc;
-    }, { attack: 0, defense: 0;
+    }, { attack: 0, defense: 0
     });
   }
 
