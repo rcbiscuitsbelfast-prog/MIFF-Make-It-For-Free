@@ -108,6 +108,7 @@ export class ConvertToGodotManager {
       features: ['web'],
       customSettings: {},
       ...config
+    };
   
     // Initialize structured logging
     this.logger = new StructuredLogger({

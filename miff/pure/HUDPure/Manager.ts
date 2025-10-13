@@ -63,13 +63,8 @@ export interface HUDElement {
 
   };
   size: {
-
     width: number;
     height: number;
-    
-
-
-  }
   };
   zIndex: number;
   parentId?: string;

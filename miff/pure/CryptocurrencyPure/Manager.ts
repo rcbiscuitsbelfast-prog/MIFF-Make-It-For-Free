@@ -353,15 +353,8 @@ export class CryptocurrencyManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'CryptocurrencyManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
