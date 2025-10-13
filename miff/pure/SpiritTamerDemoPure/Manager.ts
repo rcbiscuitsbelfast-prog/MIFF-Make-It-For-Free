@@ -64,19 +64,11 @@ export interface PlayerState {
 
     x: number; y: number; zone: string;
     
-
-
-  }
-  };
   inventory: string[];
   tamedSpirits: string[];
   equipment: {
-
     instrument: string | null;
     accessory: string | null;
-  
-
-
   }
   };
   stats: {

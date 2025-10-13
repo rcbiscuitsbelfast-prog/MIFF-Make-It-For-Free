@@ -7,12 +7,9 @@ export interface SettingsConfig {
         resolution: string;
     fullscreen: boolean;
     vsync: boolean;
-    antiAliasin,
-        g: boolean;
-    shadow,
-        s: boolean;
-    textureQualit,
-        y: 'low' | 'medium' | 'high' | 'ultra';
+    antiAliasing: boolean;
+    shadows: boolean;
+    textureQuality: 'low' | 'medium' | 'high' | 'ultra';
   
 
 
