@@ -77,15 +77,8 @@ export class PerfManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'PerfManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

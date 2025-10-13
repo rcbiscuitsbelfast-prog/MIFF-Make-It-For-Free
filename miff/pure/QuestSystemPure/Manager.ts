@@ -77,15 +77,8 @@ export class QuestSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'QuestSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
