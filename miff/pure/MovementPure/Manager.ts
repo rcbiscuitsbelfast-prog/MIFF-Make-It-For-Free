@@ -139,21 +139,13 @@ export class MovementManager {
       id,
       position: { ...position },
       velocity: {
-
         x: 0,
-
-        y: 0;
-
-      }
-    },
+        y: 0
+      },
       acceleration: {
-
         x: 0,
-
-        y: 0;
-
-      }
-    },
+        y: 0
+      },
       rotation: 0,
       pattern: { ...pattern },
       state: {

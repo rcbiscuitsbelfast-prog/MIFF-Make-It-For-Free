@@ -173,7 +173,7 @@ export class HapticsManager {
       maxFrequency: 1000,
       maxDuration: 5000
     },
-      {
+    {
         id: 'default_mobile',
         type: HapticDeviceType.MOBILE,
         name: 'Mobile Device',

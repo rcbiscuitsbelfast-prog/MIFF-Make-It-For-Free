@@ -748,15 +748,8 @@ export class EdgeComputingManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'EdgeComputingManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
