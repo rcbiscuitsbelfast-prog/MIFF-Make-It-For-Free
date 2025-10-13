@@ -1,6 +1,6 @@
+#!/usr/bin/env npx tsx
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
-#!/usr/bin/env npx tsx
 
 /**
  * CombatPure CLI Harness

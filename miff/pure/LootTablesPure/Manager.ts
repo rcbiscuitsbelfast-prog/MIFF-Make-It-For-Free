@@ -1,640 +1,695 @@
 /**
- * LootTablesPure Manager
- * 
- * Advanced loot table management system including weighted drops, rarity tiers,
- * stat rolling, conditional drops, and loot table chaining.
+ * LootTablesPure Manager - Advanced Loot Table Management System
+ *
+ * Comprehensive loot table management system with:
+ * - Loot table creation and management
+ * - Drop rate calculation and probability
+ * - Item rarity and quality systems
+ * - Conditional loot drops
+ * - Performance optimization
+ * - Real-time loot monitoring
+ * - Loot analytics and reporting
  */
 
-export interface LootEntry {
-  id: string;
-  weight: number;
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  statRolls?: { key: string; min: number; max: number;
-    }[];
-  conditions?: LootCondition[];
-  metadata?: Record<string, any>;
+export interface LootTablesConfig {
+  enableLootTableManagement: boolean;
+  enableDropRateCalculation: boolean;
+  enableItemRaritySystem: boolean;
+  enableConditionalDrops: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableLootAnalytics: boolean;
+  enableLootReporting: boolean;
+  maxLootTables: number;
+  maxItems: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
+
+export interface LootTablesManager {
+  id: string;
+  name: string;
+  type: LootTablesManagerType;
+  status: LootTablesManagerStatus;
+  lootTables: LootTable[];
+  items: LootItem[];
+  drops: LootDrop[];
+  performanceMetrics: LootTablesPerformanceMetrics;
+  analytics: LootTablesAnalytics;
+  reporting: LootTablesReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type LootTablesManagerType = 'basic' | 'advanced' | 'master' | 'custom';
+export type LootTablesManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface LootTable {
   id: string;
   name: string;
-  entries: LootEntry[];
-  maxRolls?: number;
-  guaranteedDrops?: string[]; // Entry IDs that are guaranteed
-  rarityModifiers?: Record<string, number>; // Modifiers for rarity chances
-  metadata?: Record<string, any>;
+  description: string;
+  category: LootTableCategory;
+  items: LootTableItem[];
+  conditions: LootCondition[];
+  dropRates: DropRate[];
+  metadata: Record<string, any>;
 }
+
+export type LootTableCategory = 'monster' | 'chest' | 'quest' | 'event' | 'boss' | 'custom';
+
+export interface LootTableItem {
+  itemId: string;
+  weight: number;
+  minQuantity: number;
+  maxQuantity: number;
+  rarity: ItemRarity;
+  conditions: ItemCondition[];
+  metadata: Record<string, any>;
+}
+
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
+
+export interface ItemCondition {
+  type: ConditionType;
+  value: any;
+  operator: ConditionOperator;
+}
+
+export type ConditionType = 'level' | 'class' | 'faction' | 'time' | 'weather' | 'custom';
+export type ConditionOperator = 'equals' | 'not-equals' | 'greater' | 'less' | 'greater-equals' | 'less-equals' | 'contains';
 
 export interface LootCondition {
-  type: 'level' | 'class' | 'faction' | 'quest' | 'item' | 'stat';
-  target: string;
+  id: string;
+  type: ConditionType;
   value: any;
-  operator: 'equals' | 'greater' | 'less' | 'contains' | 'not_equals';
+  operator: ConditionOperator;
+  enabled: boolean;
+  metadata: Record<string, any>;
 }
 
-export interface LootResult {
-  drops: LootDrop[];
-  totalValue: number;
-  rarityDistribution: Record<string, number>;
-  rollCount: number;
-  seed?: number;
+export interface DropRate {
+  itemId: string;
+  baseRate: number;
+  modifiers: DropRateModifier[];
+  finalRate: number;
+}
+
+export interface DropRateModifier {
+  type: ModifierType;
+  value: number;
+  source: string;
+}
+
+export type ModifierType = 'additive' | 'multiplicative' | 'exponential';
+
+export interface LootItem {
+  id: string;
+  name: string;
+  description: string;
+  type: ItemType;
+  rarity: ItemRarity;
+  value: number;
+  weight: number;
+  stackable: boolean;
+  maxStack: number;
+  properties: ItemProperties;
+  metadata: Record<string, any>;
+}
+
+export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'currency' | 'misc';
+
+export interface ItemProperties {
+  level: number;
+  durability?: number;
+  enchantments?: Enchantment[];
+  stats?: ItemStats;
+}
+
+export interface Enchantment {
+  id: string;
+  name: string;
+  level: number;
+  effect: string;
+}
+
+export interface ItemStats {
+  attack?: number;
+  defense?: number;
+  health?: number;
+  mana?: number;
+  speed?: number;
 }
 
 export interface LootDrop {
   id: string;
-  rarity: string;
-  quantity: number;
-  rolledStats?: Record<string, number>;
-  value: number;
-  metadata?: Record<string, any>;
-}
-
-export interface LootStats {
-  totalTables: number;
-  totalEntries: number;
-  averageWeight: number;
-  rarityDistribution: Record<string, number>;
-  mostCommonItems: Array<{ id: string; frequency: number;
-    }>;
+  lootTableId: string;
+  playerId: string;
+  timestamp: number;
+  items: DroppedItem[];
   totalValue: number;
+  metadata: Record<string, any>;
 }
 
-export interface LootFilter {
-  rarity?: string;
-  minWeight?: number;
-  maxWeight?: number;
-  hasConditions?: boolean;
+export interface DroppedItem {
+  itemId: string;
+  quantity: number;
+  rarity: ItemRarity;
+  value: number;
+  metadata: Record<string, any>;
 }
 
-export interface LootOutput {
+export interface LootTablesPerformanceMetrics {
+  totalLootTables: number;
+  totalItems: number;
+  totalDrops: number;
+  averageDropValue: number;
+  dropRateAccuracy: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface LootTablesAnalytics {
+  mostDroppedItems: ItemDropStats[];
+  rarityDistribution: RarityDistribution[];
+  dropValueDistribution: ValueDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface ItemDropStats {
+  itemId: string;
+  name: string;
+  dropCount: number;
+  totalQuantity: number;
+  averageValue: number;
+}
+
+export interface RarityDistribution {
+  rarity: ItemRarity;
+  count: number;
+  percentage: number;
+}
+
+export interface ValueDistribution {
+  range: string;
+  count: number;
+  percentage: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  drops: number;
+  averageValue: number;
+  dropRate: number;
+}
+
+export interface LootTablesReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeDrops: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface LootTablesOutput {
   op: string;
   status: 'ok' | 'error';
   result?: any;
   issues?: string[];
-  [key: string]: unknown;
 }
 
-export class LootTablesManager {
-  private tables = new Map<string, LootTable>();
-  private rollHistory: Array<{ tableId: string; result: LootResult; timestamp: number;
-    }> = [];
+export class LootTablesPure {
+  private managers: Map<string, LootTablesManager> = new Map();
+  private config: LootTablesConfig;
+  private performanceMetrics: LootTablesPerformanceMetrics;
+  private analytics: LootTablesAnalytics;
 
-  constructor() {
-    this.initializeDefaultTables();
+  constructor(config: Partial<LootTablesConfig> = {}) {
+    this.config = {
+      enableLootTableManagement: true,
+      enableDropRateCalculation: true,
+      enableItemRaritySystem: true,
+      enableConditionalDrops: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableLootAnalytics: true,
+      enableLootReporting: true,
+      maxLootTables: 1000,
+      maxItems: 10000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
+
+    this.performanceMetrics = {
+      totalLootTables: 0,
+      totalItems: 0,
+      totalDrops: 0,
+      averageDropValue: 0,
+      dropRateAccuracy: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      mostDroppedItems: [],
+      rarityDistribution: [],
+      dropValueDistribution: [],
+      performanceTrends: []
+    };
   }
 
-  private initializeDefaultTables() {
-    const defaultTables: LootTable[] = [
-      {
-        id: 'basic_enemy_drops',
-        name: 'Basic Enemy Drops',
-        entries: [
-          {
-            id: 'gold_coin',
-            weight: 50,
-            rarity: 'common',
-            statRolls: [{ key: 'value', min: 1, max: 5 }]
-          },
-          {
-            id: 'health_potion',
-            weight: 20,
-            rarity: 'common'
-          },
-          {
-            id: 'iron_sword',
-            weight: 10,
-            rarity: 'uncommon',
-            statRolls: [
-              { key: 'damage', min: 5, max: 10 },
-              { key: 'durability', min: 50, max: 100 }
-            ]
-          },
-          {
-            id: 'magic_ring',
-            weight: 5,
-            rarity: 'rare',
-            statRolls: [
-              { key: 'magic_power', min: 10, max: 25 }
-            ]
-          }
-        ],
-        maxRolls: 3,
-        metadata: {
+  /**
+   * Create a new loot tables manager
+   */
+  createManager(managerData: Partial<LootTablesManager>): LootTablesOutput {
+    if (!this.config.enableLootTableManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Loot table management is disabled']
+      };
+    }
 
-          description: 'Basic loot from common enemies' 
-
-        
-
-
-        }
-        };
+    const manager: LootTablesManager = {
+      id: managerData.id || `loottables-${Date.now()}`,
+      name: managerData.name || 'Unnamed Loot Tables Manager',
+      type: managerData.type || 'basic',
+      status: 'active',
+      lootTables: [],
+      items: [],
+      drops: [],
+      performanceMetrics: {
+        totalLootTables: 0,
+        totalItems: 0,
+        totalDrops: 0,
+        averageDropValue: 0,
+        dropRateAccuracy: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
       },
-      {
-        id: 'boss_drops',
-        name: 'Boss Drops',
-        entries: [
-          {
-            id: 'boss_essence',
-            weight: 100,
-            rarity: 'epic',
-            statRolls: [
-              { key: 'power', min: 50, max: 100 }
-            ]
-          },
-          {
-            id: 'legendary_weapon',
-            weight: 30,
-            rarity: 'legendary',
-            statRolls: [
-              { key: 'damage', min: 25, max: 50;
-    },
-              { key: 'special_ability', min: 1, max: 3;
-    }
-            ]
-          },
-          {
-            id: 'boss_armor',
-            weight: 50,
-            rarity: 'epic',
-            statRolls: [
-              { key: 'defense', min: 15, max: 30;
-    },
-              { key: 'durability', min: 100, max: 200;
-    }
-            ]
-          }
-        ],
-        guaranteedDrops: ['boss_essence'],
-        metadata: {
+      analytics: {
+        mostDroppedItems: [],
+        rarityDistribution: [],
+        dropValueDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeDrops: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-          description: 'Loot from boss encounters' 
+    this.managers.set(manager.id, manager);
 
-        
-
-
-        }
-        };
-      }
-    ];
-
-    defaultTables.forEach(table => this.tables.set(table.id, table));
-  }
-
-  /**
-   * Create a new loot table
-   */
-  createTable(table: LootTable): LootOutput {
-    if (this.tables.has(table.id)) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: [`Loot table ${table.id} already exists`]
-      };
-    }
-
-    // Validate table
-    const validation = this.validateTable(table);
-    if (!validation.valid) {
-      return {
-        op: 'create',
-        status: 'error',
-        issues: validation.errors
-      };
-    }
-
-    this.tables.set(table.id, table);
     return {
-      op: 'create',
+      op: 'create-manager',
       status: 'ok',
-      result: table;
+      result: manager
     };
   }
 
   /**
-   * Update loot table
+   * Get manager by ID
    */
-  updateTable(tableId: string, updates: Partial<LootTable>): LootOutput {
-    const table = this.tables.get(tableId);
-    if (!table) {
+  getManager(managerId: string): LootTablesOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'update',
+        op: 'get-manager',
         status: 'error',
-        issues: [`Loot table ${tableId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    const updatedTable = { ...table, ...updates };
-    
-    // Validate updated table
-    const validation = this.validateTable(updatedTable);
-    if (!validation.valid) {
-      return {
-        op: 'update',
-        status: 'error',
-        issues: validation.errors
-      };
-    }
-
-    this.tables.set(tableId, updatedTable);
     return {
-      op: 'update',
+      op: 'get-manager',
       status: 'ok',
-      result: updatedTable;
+      result: manager
     };
   }
 
   /**
-   * Delete loot table
+   * Create loot table
    */
-  deleteTable(tableId: string): LootOutput {
-    if (!this.tables.has(tableId)) {
+  createLootTable(managerId: string, lootTable: Partial<LootTable>): LootTablesOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'delete',
+        op: 'create-loot-table',
         status: 'error',
-        issues: [`Loot table ${tableId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    this.tables.delete(tableId);
-    return {
-      op: 'delete',
-      status: 'ok'
+    if (manager.lootTables.length >= this.config.maxLootTables) {
+      return {
+        op: 'create-loot-table',
+        status: 'error',
+        issues: ['Maximum number of loot tables reached']
+      };
+    }
+
+    const newLootTable: LootTable = {
+      id: lootTable.id || `loottable-${Date.now()}`,
+      name: lootTable.name || 'Unnamed Loot Table',
+      description: lootTable.description || '',
+      category: lootTable.category || 'custom',
+      items: lootTable.items || [],
+      conditions: lootTable.conditions || [],
+      dropRates: lootTable.dropRates || [],
+      metadata: {},
+      ...lootTable
     };
-  }
 
-  /**
-   * Get loot table by ID
-   */
-  getTable(tableId: string): LootOutput {
-    const table = this.tables.get(tableId);
-    if (!table) {
-      return {
-        op: 'get',
-        status: 'error',
-        issues: [`Loot table ${tableId} not found`]
-      };
-    }
+    manager.lootTables.push(newLootTable);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalLootTables++;
 
     return {
-      op: 'get',
+      op: 'create-loot-table',
       status: 'ok',
-      result: table;
+      result: newLootTable
     };
   }
 
   /**
-   * List all loot tables
+   * Add item to loot table
    */
-  listTables(filter?: LootFilter): LootOutput {
-    let tables = Array.from(this.tables.values());
-
-    if (filter) {
-      tables = tables.filter(table => {
-        if (filter.rarity) {
-          const hasRarity = table.entries.some(entry => entry.rarity === filter.rarity);
-          if (!hasRarity) return false;
-        }
-        if (filter.minWeight !== undefined) {
-          const hasMinWeight = table.entries.some(entry => entry.weight >= filter.minWeight!);
-          if (!hasMinWeight) return false;
-        }
-        if (filter.maxWeight !== undefined) {
-          const hasMaxWeight = table.entries.some(entry => entry.weight <= filter.maxWeight!);
-          if (!hasMaxWeight) return false;
-        }
-        if (filter.hasConditions !== undefined) {
-          const hasConditions = table.entries.some(entry => entry.conditions && entry.conditions.length > 0);
-          if (filter.hasConditions !== hasConditions) return false;
-        }
-        return true;
-      });
-    }
-
-    return {
-      op: 'list',
-      status: 'ok',
-      result: tables;
-    };
-  }
-
-  /**
-   * Roll loot from a table
-   */
-  rollLoot(tableId: string, count: number = 1, seed?: number): LootOutput {
-    const table = this.tables.get(tableId);
-    if (!table) {
+  addItemToLootTable(managerId: string, lootTableId: string, item: Partial<LootTableItem>): LootTablesOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
       return {
-        op: 'roll',
+        op: 'add-item-to-loot-table',
         status: 'error',
-        issues: [`Loot table ${tableId} not found`]
+        issues: [`Manager ${managerId} not found`]
       };
     }
 
-    const maxRolls = table.maxRolls || table.entries.length;
-    const actualCount = Math.min(count, maxRolls);
-    
-    const drops: LootDrop[] = [];
-    const rarityDistribution: Record<string, number> = {};
+    const lootTable = manager.lootTables.find(lt => lt.id === lootTableId);
+    if (!lootTable) {
+      return {
+        op: 'add-item-to-loot-table',
+        status: 'error',
+        issues: [`Loot table ${lootTableId} not found`]
+      };
+    }
+
+    const newItem: LootTableItem = {
+      itemId: item.itemId || '',
+      weight: item.weight || 1,
+      minQuantity: item.minQuantity || 1,
+      maxQuantity: item.maxQuantity || 1,
+      rarity: item.rarity || 'common',
+      conditions: item.conditions || [],
+      metadata: {},
+      ...item
+    };
+
+    lootTable.items.push(newItem);
+    manager.updatedAt = Date.now();
+
+    return {
+      op: 'add-item-to-loot-table',
+      status: 'ok',
+      result: newItem
+    };
+  }
+
+  /**
+   * Roll loot from table
+   */
+  rollLoot(managerId: string, lootTableId: string, playerId: string, context?: Record<string, any>): LootTablesOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'roll-loot',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const lootTable = manager.lootTables.find(lt => lt.id === lootTableId);
+    if (!lootTable) {
+      return {
+        op: 'roll-loot',
+        status: 'error',
+        issues: [`Loot table ${lootTableId} not found`]
+      };
+    }
+
+    // Check conditions
+    const conditionsMet = this.checkConditions(lootTable.conditions, context || {});
+    if (!conditionsMet) {
+      return {
+        op: 'roll-loot',
+        status: 'ok',
+        result: { items: [], totalValue: 0 }
+      };
+    }
+
+    // Roll for items
+    const droppedItems: DroppedItem[] = [];
     let totalValue = 0;
 
-    // Add guaranteed drops first
-    if (table.guaranteedDrops) {
-      for (const entryId of table.guaranteedDrops) {
-        const entry = table.entries.find(e => e.id === entryId);
-        if (entry) {
-          const drop = this.createLootDrop(entry, seed);
-          drops.push(drop);
-          rarityDistribution[entry.rarity] = (rarityDistribution[entry.rarity] || 0) + 1;
-          totalValue += drop.value;
-        }
+    for (const item of lootTable.items) {
+      const dropChance = this.calculateDropChance(item, lootTable.dropRates);
+      if (Math.random() < dropChance) {
+        const quantity = this.calculateQuantity(item);
+        const itemData = manager.items.find(i => i.id === item.itemId);
+        const value = itemData ? itemData.value * quantity : 0;
+
+        droppedItems.push({
+          itemId: item.itemId,
+          quantity,
+          rarity: item.rarity,
+          value,
+          metadata: {}
+        });
+
+        totalValue += value;
       }
     }
 
-    // Roll remaining drops
-    const remainingCount = Math.max(0, actualCount - (table.guaranteedDrops?.length || 0));
-    for (let i = 0; i < remainingCount; i++) {
-      const entry = this.selectWeightedEntry(table.entries, seed);
-      if (entry) {
-        const drop = this.createLootDrop(entry, seed);
-        drops.push(drop);
-        rarityDistribution[entry.rarity] = (rarityDistribution[entry.rarity] || 0) + 1;
-        totalValue += drop.value;
-      }
-    }
-
-    const result: LootResult = {
-      drops,
+    // Create loot drop record
+    const lootDrop: LootDrop = {
+      id: `drop-${Date.now()}`,
+      lootTableId,
+      playerId,
+      timestamp: Date.now(),
+      items: droppedItems,
       totalValue,
-      rarityDistribution,
-      rollCount: drops.length,
-      seed
+      metadata: {}
     };
 
-    // Record roll history
-    this.rollHistory.push({
-      tableId,
-      result,
-      timestamp: Date.now()
-    });
+    manager.drops.push(lootDrop);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalDrops++;
+    this.performanceMetrics.averageDropValue = 
+      (this.performanceMetrics.averageDropValue * (this.performanceMetrics.totalDrops - 1) + totalValue) / 
+      this.performanceMetrics.totalDrops;
 
     return {
-      op: 'roll',
-      status: 'ok',
-      result
-    };
-  }
-
-  /**
-   * Get loot statistics
-   */
-  getLootStats(): LootOutput {
-    const tables = Array.from(this.tables.values());
-    const allEntries = tables.flatMap(table => table.entries);
-    
-    const stats: LootStats = {
-      totalTables: tables.length,
-      totalEntries: allEntries.length,
-      averageWeight: allEntries.reduce((sum, entry) => sum + entry.weight, 0) / allEntries.length,
-      rarityDistribution: {},
-      mostCommonItems: [],
-      totalValue: 0;
-    };
-
-    // Calculate rarity distribution
-    allEntries.forEach(entry => {
-      stats.rarityDistribution[entry.rarity] = (stats.rarityDistribution[entry.rarity] || 0) + 1;
-    });
-
-    // Calculate most common items
-    const itemFrequency: Record<string, number> = {};
-    allEntries.forEach(entry => {
-      itemFrequency[entry.id] = (itemFrequency[entry.id] || 0) + 1;
-    });
-
-    stats.mostCommonItems = Object.entries(itemFrequency)
-      .map(([id, frequency]) => ({ id, frequency }))
-      .sort((a, b) => b.frequency - a.frequency)
-      .slice(0, 10);
-
-    return {
-      op: 'stats',
-      status: 'ok',
-      result: stats;
-    };
-  }
-
-  /**
-   * Export loot tables in various formats
-   */
-  exportTables(format: 'json' | 'manifest' | 'summary' | 'rolls' = 'json'): LootOutput {
-    const tables = Array.from(this.tables.values());
-
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            tables, total: tables.length 
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            schema: 'miff.loot.export.v1',
-            tables,
-            rollHistory: this.rollHistory.slice(-100), // Last 100 rolls
-            exportedAt: new Date().toISOString(),
-            total: tables.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'summary':
-        const stats = this.getLootStats();
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            summary: stats.result,
-            tables: tables.map(table => ({
-              id: table.id,
-              name: table.name,
-              entryCount: table.entries.length,
-              maxRolls: table.maxRolls,
-              guaranteedDrops: table.guaranteedDrops?.length || 0
-
-          }
-            }))
-          }
-        };
-      
-      case 'rolls':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            rollHistory: this.rollHistory,
-            total: this.rollHistory.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
-    }
-  }
-
-  /**
-   * Reset all loot tables
-   */
-  resetTables(): LootOutput {
-    this.tables.clear();
-    this.rollHistory = [];
-    this.initializeDefaultTables();
-    return {
-      op: 'reset',
+      op: 'roll-loot',
       status: 'ok',
       result: {
-
-        message: 'All loot tables reset to default state' 
-
-      
-
-
+        items: droppedItems,
+        totalValue,
+        dropId: lootDrop.id
       }
-      };
     };
   }
 
   /**
-   * Private helper methods
+   * Check if conditions are met
    */
-  private validateTable(table: LootTable): { valid: boolean; errors: string[] } {
-    const errors: string[] = [];
+  private checkConditions(conditions: LootCondition[], context: Record<string, any>): boolean {
+    for (const condition of conditions) {
+      if (!condition.enabled) continue;
 
-    if (!table.id || table.id.trim() === '') {
-      errors.push('Table ID is required');
+      const contextValue = context[condition.type];
+      const conditionValue = condition.value;
+
+      let met = false;
+      switch (condition.operator) {
+        case 'equals':
+          met = contextValue === conditionValue;
+          break;
+        case 'not-equals':
+          met = contextValue !== conditionValue;
+          break;
+        case 'greater':
+          met = contextValue > conditionValue;
+          break;
+        case 'less':
+          met = contextValue < conditionValue;
+          break;
+        case 'greater-equals':
+          met = contextValue >= conditionValue;
+          break;
+        case 'less-equals':
+          met = contextValue <= conditionValue;
+          break;
+        case 'contains':
+          met = Array.isArray(contextValue) && contextValue.includes(conditionValue);
+          break;
+      }
+
+      if (!met) return false;
     }
 
-    if (!table.name || table.name.trim() === '') {
-      errors.push('Table name is required');
-    }
-
-    if (!table.entries || table.entries.length === 0) {
-      errors.push('Table must have at least one entry');
-    }
-
-    if (table.entries) {
-      table.entries.forEach((entry, index) => {
-        if (!entry.id || entry.id.trim() === '') {
-          errors.push(`Entry ${index} must have an ID`);
-        }
-        if (entry.weight <= 0) {
-          errors.push(`Entry ${entry.id} must have a positive weight`);
-        }
-        if (!['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(entry.rarity)) {
-          errors.push(`Entry ${entry.id} has invalid rarity: ${entry.rarity}`);
-        }
-      });
-    }
-
-    return { valid: errors.length === 0, errors };
+    return true;
   }
 
-  private selectWeightedEntry(entries: LootEntry[], seed?: number): LootEntry | null {
-    if (entries.length === 0) return null;
+  /**
+   * Calculate drop chance for item
+   */
+  private calculateDropChance(item: LootTableItem, dropRates: DropRate[]): number {
+    const dropRate = dropRates.find(dr => dr.itemId === item.itemId);
+    if (!dropRate) return item.weight / 100; // Default 1% per weight
 
-    const totalWeight = entries.reduce((sum, entry) => sum + entry.weight, 0);
-    if (totalWeight === 0) return entries[0]; // Fallback to first entry
-
-    // Use seed for deterministic results
-    const random = seed ? this.seededRandom(seed) : Math.random();
-    const target = random * totalWeight;
-
-    let currentWeight = 0;
-    for (const entry of entries) {
-      currentWeight += entry.weight;
-      if (currentWeight >= target) {
-        return entry;
+    let finalRate = dropRate.baseRate;
+    for (const modifier of dropRate.modifiers) {
+      switch (modifier.type) {
+        case 'additive':
+          finalRate += modifier.value;
+          break;
+        case 'multiplicative':
+          finalRate *= modifier.value;
+          break;
+        case 'exponential':
+          finalRate = Math.pow(finalRate, modifier.value);
+          break;
       }
     }
 
-    return entries[entries.length - 1]; // Fallback to last entry
+    return Math.min(1, Math.max(0, finalRate));
   }
 
-  private createLootDrop(entry: LootEntry, seed?: number): LootDrop {
-    const rolledStats: Record<string, number> = {};
-    
-    if (entry.statRolls) {
-      entry.statRolls.forEach(stat => {
-        const random = seed ? this.seededRandom(seed + stat.key.length) : Math.random();
-        const value = stat.min + (random * (stat.max - stat.min));
-        rolledStats[stat.key] = Math.round(value * 100) / 100;
-      });
+  /**
+   * Calculate quantity for item
+   */
+  private calculateQuantity(item: LootTableItem): number {
+    if (item.minQuantity === item.maxQuantity) {
+      return item.minQuantity;
+    }
+    return Math.floor(Math.random() * (item.maxQuantity - item.minQuantity + 1)) + item.minQuantity;
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): LootTablesPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): LootTablesAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): LootTablesManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalLootTables = 0;
+    let totalItems = 0;
+    let totalDrops = 0;
+
+    for (const manager of this.managers.values()) {
+      totalLootTables += manager.lootTables.length;
+      totalItems += manager.items.length;
+      totalDrops += manager.drops.length;
     }
 
-    // Calculate value based on rarity and stats
-    const baseValue = this.getRarityBaseValue(entry.rarity);
-    const statValue = Object.values(rolledStats).reduce((sum, val) => sum + val, 0);
-    const value = baseValue + statValue;
-
-    return {
-      id: entry.id,
-      rarity: entry.rarity,
-      quantity: 1,
-      rolledStats: Object.keys(rolledStats).length > 0 ? rolledStats : undefined,
-      value: Math.round(value * 100) / 100,
-      metadata: entry.metadata
-    };
-  }
-
-  private getRarityBaseValue(rarity: string): number {
-    const values = {
-      'common': 1,
-      'uncommon': 5,
-      'rare': 25,
-      'epic': 100,
-      'legendary': 500
-    };
-    return values[
-      rarity,
-      as,
-      keyof,
-      typeof,
-      value,
-      s
-    ] || 1;
-  }
-
-  private seededRandom(seed: number): number {
-    const x = Math.sin(seed) * 10000;
-    return x - Math.floor(x);
+    this.performanceMetrics.totalLootTables = totalLootTables;
+    this.performanceMetrics.totalItems = totalItems;
+    this.performanceMetrics.totalDrops = totalDrops;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

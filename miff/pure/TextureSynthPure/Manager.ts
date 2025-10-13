@@ -26,7 +26,7 @@ export class TextureSynthManager {
 				data.push(r,g,b,255);
 			}
 		}
-		return { width:w, height:h, pixels: data;
+		return { width:w, height:h, pixels: data 
     };
 	}
 
@@ -50,7 +50,7 @@ export class TextureSynthManager {
 				n/=maxA; const v=Math.round(n*255); data.push(v,v,v,255);
 			}
 		}
-		return { width:w, height:h, pixels: data;
+		return { width:w, height:h, pixels: data 
     };
 	}
 }

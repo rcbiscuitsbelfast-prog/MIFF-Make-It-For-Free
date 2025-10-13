@@ -27,7 +27,7 @@ export class PermissionsManager {
         return { name, state };
       }
     } catch {}
-    return { name, state: fallback;
+    return { name, state: fallback 
     };
   }
 
@@ -38,7 +38,7 @@ export class PermissionsManager {
   async request(name: PermissionName): Promise<PermissionQueryResult> {
     // Simulated request flow for tests; real impl would call getUserMedia, Notification.requestPermission, etc.
     const current = this.cache.get(name) ?? 'prompt';
-    if (current === 'granted' || current === 'denied') return { name, state: current;
+    if (current === 'granted' || current === 'denied') return { name, state: current 
     };
     // default happy-path
     this.cache.set(name, 'granted');

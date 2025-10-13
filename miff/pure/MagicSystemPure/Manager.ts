@@ -108,7 +108,7 @@ export class MagicManager {
         buffsApplied: [],
         debuffsApplied: [],
         success: false,
-        failureReason: message;
+        failureReason: message 
     };
     }
   }
@@ -145,7 +145,7 @@ export class MagicManager {
       unlockedSpells: spells.filter(s => s.isUnlocked).length,
       totalManaSpent,
       favoriteSpell,
-      elementalPreferences: elementalUsage;
+      elementalPreferences: elementalUsage 
     };
   }
 

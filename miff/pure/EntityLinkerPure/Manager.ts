@@ -44,7 +44,6 @@ export type ResolveOutput = {
 
   }
   };
-};
 
 export type DumpLinksOutput = {
   op: 'dumpLinks';
@@ -62,7 +61,6 @@ export type DumpLinksOutput = {
 
   }
   };
-};
 
 export type ValidationResult = {
   isValid: boolean;

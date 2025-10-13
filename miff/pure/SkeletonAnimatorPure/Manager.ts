@@ -1,492 +1,688 @@
 /**
- * SkeletonAnimatorManager - Main coordinator for all phases
- * 
- * Manages the complete skeleton animation system workflow
- * from rig building to export and integration
+ * SkeletonAnimatorPure Manager - Advanced Skeleton Animation Management System
+ *
+ * Comprehensive skeleton animation management system with:
+ * - Skeletal animation and bone management
+ * - Animation blending and interpolation
+ * - Keyframe animation and timeline control
+ * - Animation state machines
+ * - Performance optimization
+ * - Real-time animation monitoring
+ * - Animation analytics and reporting
  */
 
-import { RigBuilder } from './RigBuilder';
-import { LimbAttachment } from './LimbAttachment';
-import { SkinMeshGenerator } from './SkinMeshGenerator';
-import { FacialDetailBuilder } from './FacialDetailBuilder';
-import { AnimationSequencer } from './AnimationSequencer';
-import { ExportIntegration } from './ExportIntegration';
-import { UIBuilder } from './UIBuilder';
-import { SkeletonState, RigConfig, SkinConfig, FaceConfig, AnimationConfig } from './types';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+export interface SkeletonAnimatorConfig {
+  enableSkeletalAnimation: boolean;
+  enableAnimationBlending: boolean;
+  enableKeyframeAnimation: boolean;
+  enableStateMachines: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableAnimationAnalytics: boolean;
+  enableAnimationReporting: boolean;
+  maxBones: number;
+  maxAnimations: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
 
-export class SkeletonAnimatorManager {
-  private rigBuilder: RigBuilder;
-  private limbAttachment: LimbAttachment | null = null;
-  private skinMeshGenerator: SkinMeshGenerator | null = null;
-  private facialDetailBuilder: FacialDetailBuilder | null = null;
-  private animationSequencer: AnimationSequencer | null = null;
-  private exportIntegration: ExportIntegration | null = null;
-  private uiBuilder: UIBuilder | null = null;
-  private skeletonState: SkeletonState;
+export interface SkeletonAnimatorManager {
+  id: string;
+  name: string;
+  type: SkeletonAnimatorManagerType;
+  status: SkeletonAnimatorManagerStatus;
+  skeletons: Skeleton[];
+  animations: Animation[];
+  stateMachines: AnimationStateMachine[];
+  performanceMetrics: SkeletonAnimatorPerformanceMetrics;
+  analytics: SkeletonAnimatorAnalytics;
+  reporting: SkeletonAnimatorReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
 
-  constructor(initialRigConfig?: Partial<RigConfig>) {
-    this.rigBuilder = new RigBuilder(initialRigConfig);
-    this.skeletonState = {
-      rig: this.rigBuilder.getConfig(),
-      animations: {},
-      uiState: {
+export type SkeletonAnimatorManagerType = '2d' | '3d' | 'hybrid' | 'custom';
+export type SkeletonAnimatorManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
-        mode: 'rig',
-        selectedTool: 'select',
-        viewport: {
-          camera: {
-            position: { x: 0, y: 2, z: 5 },
+export interface Skeleton {
+  id: string;
+  name: string;
+  bones: Bone[];
+  rootBone: string;
+  bindPose: Pose;
+  metadata: Record<string, any>;
+}
 
-      }
-    },
-            target: {
+export interface Bone {
+  id: string;
+  name: string;
+  parent?: string;
+  children: string[];
+  transform: Transform;
+  bindTransform: Transform;
+  isRoot: boolean;
+  metadata: Record<string, any>;
+}
 
-              x: 0, y: 0, z: 0
+export interface Transform {
+  position: Vector3;
+  rotation: Quaternion;
+  scale: Vector3;
+}
 
-            }
-    },
-            fov: 60
-    },
-          grid: {
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
 
-            visible: true,
+export interface Quaternion {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+}
 
-            size: 1;
+export interface Pose {
+  bones: Record<string, Transform>;
+  timestamp: number;
+}
 
-          }
-    },
-          gizmos: {
+export interface Animation {
+  id: string;
+  name: string;
+  duration: number;
+  tracks: AnimationTrack[];
+  events: AnimationEvent[];
+  looping: boolean;
+  speed: number;
+  metadata: Record<string, any>;
+}
 
-            visible: true,
+export interface AnimationTrack {
+  id: string;
+  boneId: string;
+  property: TrackProperty;
+  keyframes: Keyframe[];
+  interpolation: InterpolationType;
+}
 
-            size: 1;
+export type TrackProperty = 'position' | 'rotation' | 'scale' | 'visibility';
 
-          }
-    },
-        },
-        panels: []
-      }
+export interface Keyframe {
+  time: number;
+  value: any;
+  inTangent?: number;
+  outTangent?: number;
+}
+
+export type InterpolationType = 'linear' | 'bezier' | 'step' | 'cubic';
+
+export interface AnimationEvent {
+  id: string;
+  time: number;
+  type: EventType;
+  data: any;
+  metadata: Record<string, any>;
+}
+
+export type EventType = 'sound' | 'effect' | 'callback' | 'custom';
+
+export interface AnimationStateMachine {
+  id: string;
+  name: string;
+  states: AnimationState[];
+  transitions: AnimationTransition[];
+  currentState: string;
+  parameters: AnimationParameter[];
+  metadata: Record<string, any>;
+}
+
+export interface AnimationState {
+  id: string;
+  name: string;
+  animationId: string;
+  speed: number;
+  looping: boolean;
+  transitions: string[];
+  metadata: Record<string, any>;
+}
+
+export interface AnimationTransition {
+  id: string;
+  fromState: string;
+  toState: string;
+  conditions: TransitionCondition[];
+  duration: number;
+  offset: number;
+  metadata: Record<string, any>;
+}
+
+export interface TransitionCondition {
+  parameter: string;
+  operator: ConditionOperator;
+  value: any;
+}
+
+export type ConditionOperator = 'equals' | 'not-equals' | 'greater' | 'less' | 'greater-equals' | 'less-equals';
+
+export interface AnimationParameter {
+  id: string;
+  name: string;
+  type: ParameterType;
+  value: any;
+  defaultValue: any;
+  metadata: Record<string, any>;
+}
+
+export type ParameterType = 'bool' | 'int' | 'float' | 'trigger';
+
+export interface SkeletonAnimatorPerformanceMetrics {
+  totalBones: number;
+  activeBones: number;
+  totalAnimations: number;
+  playingAnimations: number;
+  totalKeyframes: number;
+  averageFrameTime: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface SkeletonAnimatorAnalytics {
+  totalAnimations: number;
+  averageAnimationDuration: number;
+  mostPlayedAnimations: AnimationUsage[];
+  boneUsageDistribution: BoneUsageDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface AnimationUsage {
+  animationId: string;
+  name: string;
+  playCount: number;
+  totalDuration: number;
+  lastPlayed: number;
+}
+
+export interface BoneUsageDistribution {
+  boneId: string;
+  name: string;
+  usageCount: number;
+  percentage: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  frameTime: number;
+  bones: number;
+  animations: number;
+  keyframes: number;
+}
+
+export interface SkeletonAnimatorReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeAnimations: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface SkeletonAnimatorOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class SkeletonAnimatorPure {
+  private managers: Map<string, SkeletonAnimatorManager> = new Map();
+  private config: SkeletonAnimatorConfig;
+  private performanceMetrics: SkeletonAnimatorPerformanceMetrics;
+  private analytics: SkeletonAnimatorAnalytics;
+
+  constructor(config: Partial<SkeletonAnimatorConfig> = {}) {
+    this.config = {
+      enableSkeletalAnimation: true,
+      enableAnimationBlending: true,
+      enableKeyframeAnimation: true,
+      enableStateMachines: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableAnimationAnalytics: true,
+      enableAnimationReporting: true,
+      maxBones: 1000,
+      maxAnimations: 100,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
+
+    this.performanceMetrics = {
+      totalBones: 0,
+      activeBones: 0,
+      totalAnimations: 0,
+      playingAnimations: 0,
+      totalKeyframes: 0,
+      averageFrameTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalAnimations: 0,
+      averageAnimationDuration: 0,
+      mostPlayedAnimations: [],
+      boneUsageDistribution: [],
+      performanceTrends: []
     };
   }
 
   /**
-   * Phase 1: Initialize Rig Builder
+   * Create a new skeleton animator manager
    */
-  initializeRigBuilder(): SkeletonAnimatorManager {
-    this.rigBuilder = new RigBuilder();
-    this.skeletonState.rig = this.rigBuilder.getConfig();
-    return this;
-  }
-
-  /**
-   * Phase 2: Initialize Limb Attachment
-   */
-  initializeLimbAttachment(): SkeletonAnimatorManager {
-    this.limbAttachment = new LimbAttachment(this.skeletonState.rig);
-    return this;
-  }
-
-  /**
-   * Phase 3: Initialize Skin Mesh Generator
-   */
-  initializeSkinMeshGenerator(): SkeletonAnimatorManager {
-    this.skinMeshGenerator = new SkinMeshGenerator(this.skeletonState.rig);
-    this.skeletonState.skin = this.skinMeshGenerator.getSkinConfig();
-    return this;
-  }
-
-  /**
-   * Phase 4: Initialize Facial Detail Builder
-   */
-  initializeFacialDetailBuilder(): SkeletonAnimatorManager {
-    this.facialDetailBuilder = new FacialDetailBuilder(this.skeletonState.rig);
-    this.skeletonState.face = this.facialDetailBuilder.getFaceConfig();
-    return this;
-  }
-
-  /**
-   * Phase 5: Initialize Animation Sequencer
-   */
-  initializeAnimationSequencer(): SkeletonAnimatorManager {
-    this.animationSequencer = new AnimationSequencer(this.skeletonState.rig);
-    return this;
-  }
-
-  /**
-   * Phase 6: Initialize Export Integration
-   */
-  initializeExportIntegration(): SkeletonAnimatorManager {
-    this.exportIntegration = new ExportIntegration(this.skeletonState);
-    return this;
-  }
-
-  /**
-   * Initialize UI Builder
-   */
-  initializeUIBuilder(): SkeletonAnimatorManager {
-    this.uiBuilder = new UIBuilder(this.skeletonState);
-    return this;
-  }
-
-  /**
-   * Complete workflow: Create a full character
-   */
-  createFullCharacter(name: string, options: {
-   includeLimbs?: boolean;
-    includeSkin?: boolean;
-    includeFace?: boolean;
-    includeAnimations?: boolean;
-    characterType?: 'humanoid' | 'creature' | 'robot';
- }
-  } = {}): SkeletonAnimatorManager {
-    const {
-      includeLimbs = true,
-      includeSkin = true,
-      includeFace = true,
-      includeAnimations = true,
-      characterType = 'humanoid'
-    } = options;
-
-    // Phase 1: Create core body
-    this.rigBuilder.createCoreBody();
-
-    // Phase 2: Add limbs
-    if (includeLimbs) {
-      this.initializeLimbAttachment();
-      if (this.limbAttachment) {
-        if (characterType === 'humanoid') {
-          this.limbAttachment.addHumanoidArms().addHumanoidLegs();
-        } else if (characterType === 'creature') {
-          this.limbAttachment.addHumanoidArms().addHumanoidLegs().addTail('torso_neck');
-        } else if (characterType === 'robot') {
-          this.limbAttachment.addHumanoidArms().addHumanoidLegs();
-        }
-        this.skeletonState.rig = this.limbAttachment.getRigConfig();
-      }
+  createManager(managerData: Partial<SkeletonAnimatorManager>): SkeletonAnimatorOutput {
+    if (!this.config.enableSkeletalAnimation) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Skeletal animation is disabled']
+      };
     }
 
-    // Phase 3: Generate skin
-    if (includeSkin) {
-      this.initializeSkinMeshGenerator();
-      if (this.skinMeshGenerator) {
-        this.skinMeshGenerator.generateBaseMesh();
-        // Materials are created automatically in constructor
-        this.skeletonState.skin = this.skinMeshGenerator.getSkinConfig();
-      }
-    }
+    const manager: SkeletonAnimatorManager = {
+      id: managerData.id || `skeletonanim-${Date.now()}`,
+      name: managerData.name || 'Unnamed Skeleton Animator Manager',
+      type: managerData.type || '3d',
+      status: 'active',
+      skeletons: [],
+      animations: [],
+      stateMachines: [],
+      performanceMetrics: {
+        totalBones: 0,
+        activeBones: 0,
+        totalAnimations: 0,
+        playingAnimations: 0,
+        totalKeyframes: 0,
+        averageFrameTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalAnimations: 0,
+        averageAnimationDuration: 0,
+        mostPlayedAnimations: [],
+        boneUsageDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeAnimations: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-    // Phase 4: Add facial features
-    if (includeFace) {
-      this.initializeFacialDetailBuilder();
-      if (this.facialDetailBuilder) {
-        this.facialDetailBuilder
-          .addEyes()
-          .addNose()
-          .addMouth()
-          .addEars()
-          .addEyebrows()
-          .addCheeks();
-        this.skeletonState.face = this.facialDetailBuilder.getFaceConfig();
-      }
-    }
+    this.managers.set(manager.id, manager);
 
-    // Phase 5: Generate animations
-    if (includeAnimations) {
-      this.initializeAnimationSequencer();
-      if (this.animationSequencer) {
-        this.animationSequencer
-          .generateWalkAnimation()
-          .generateIdleAnimation()
-          .generateJumpAnimation()
-          .generateAttackAnimation('punch')
-          .generateAttackAnimation('kick')
-          .generateEmoteAnimation('wave')
-          .generateEmoteAnimation('nod');
-
-        // Add animations to skeleton state
-        this.animationSequencer.getAllAnimations().forEach(anim => {
-          this.skeletonState.animations[anim.id] = anim;
-        });
-      }
-    }
-
-    // Phase 6: Initialize export integration
-    this.initializeExportIntegration();
-
-    // Initialize UI
-    this.initializeUIBuilder();
-
-    return this;
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Get current skeleton state
+   * Get manager by ID
    */
-  getSkeletonState(): SkeletonState {
-    return { ...this.skeletonState };
-  }
-
-  /**
-   * Update skeleton state
-   */
-  updateSkeletonState(updates: Partial<SkeletonState>): SkeletonAnimatorManager {
-    this.skeletonState = { ...this.skeletonState, ...updates };
-    
-    // Update all components with new state
-    if (this.limbAttachment) {
-      this.limbAttachment = new LimbAttachment(this.skeletonState.rig);
-    }
-    if (this.skinMeshGenerator) {
-      this.skinMeshGenerator = new SkinMeshGenerator(this.skeletonState.rig, this.skeletonState.skin);
-    }
-    if (this.facialDetailBuilder) {
-      this.facialDetailBuilder = new FacialDetailBuilder(this.skeletonState.rig, this.skeletonState.face);
-    }
-    if (this.animationSequencer) {
-      this.animationSequencer = new AnimationSequencer(this.skeletonState.rig);
-    }
-    if (this.exportIntegration) {
-      this.exportIntegration = new ExportIntegration(this.skeletonState);
-    }
-    if (this.uiBuilder) {
-      this.uiBuilder = new UIBuilder(this.skeletonState);
-    }
-
-    return this;
-  }
-
-  /**
-   * Export complete character
-   */
-  exportCharacter(name: string, format: 'gbpg' | 'gltf' | 'fbx' | 'obj' = 'gbpg'): string {
-    if (!this.exportIntegration) {
-      this.initializeExportIntegration();
-    }
-
-    const exportConfig = this.exportIntegration!.createCreatureExport(name, format, {
-      includeAnimations: true,
-      includeMorphTargets: true,
-      compressionLevel: 6;
-    });
-
-    switch (format) {
-      case 'gbpg':
-        return this.exportIntegration!.exportAsGbpkg(exportConfig);
-      case 'gltf':
-        return this.exportIntegration!.exportAsGLTF(exportConfig);
-      default:
-        throw new Error(`Export format ${format} not yet implemented`);
-    }
-  }
-
-  /**
-   * Get rig builder
-   */
-  getRigBuilder(): RigBuilder {
-    return this.rigBuilder;
-  }
-
-  /**
-   * Get limb attachment
-   */
-  getLimbAttachment(): LimbAttachment | null {
-    return this.limbAttachment;
-  }
-
-  /**
-   * Get skin mesh generator
-   */
-  getSkinMeshGenerator(): SkinMeshGenerator | null {
-    return this.skinMeshGenerator;
-  }
-
-  /**
-   * Get facial detail builder
-   */
-  getFacialDetailBuilder(): FacialDetailBuilder | null {
-    return this.facialDetailBuilder;
-  }
-
-  /**
-   * Get animation sequencer
-   */
-  getAnimationSequencer(): AnimationSequencer | null {
-    return this.animationSequencer;
-  }
-
-  /**
-   * Get export integration
-   */
-  getExportIntegration(): ExportIntegration | null {
-    return this.exportIntegration;
-  }
-
-  /**
-   * Get UI builder
-   */
-  getUIBuilder(): UIBuilder | null {
-    return this.uiBuilder;
-  }
-
-  /**
-   * Validate complete system
-   */
-  validate(): { valid: boolean; errors: string[] } {
-    const errors: string[] = [];
-
-    // Validate rig
-    const rigValidation = this.rigBuilder.validate();
-    if (!rigValidation.valid) {
-      errors.push(...rigValidation.errors.map(e => `Rig: ${e}`));
-    }
-
-    // Validate skin
-    if (this.skinMeshGenerator) {
-      const skinValidation = this.skinMeshGenerator.validate();
-      if (!skinValidation.valid) {
-        errors.push(...skinValidation.errors.map(e => `Skin: ${e}`));
-      }
-    }
-
-    // Validate face
-    if (this.facialDetailBuilder) {
-      const faceValidation = this.facialDetailBuilder.validate();
-      if (!faceValidation.valid) {
-        errors.push(...faceValidation.errors.map(e => `Face: ${e}`));
-      }
-    }
-
-    // Validate animations
-    if (this.animationSequencer) {
-      const animValidation = this.animationSequencer.validate();
-      if (!animValidation.valid) {
-        errors.push(...animValidation.errors.map(e => `Animation: ${e}`));
-      }
+  getManager(managerId: string): SkeletonAnimatorOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
     return {
-      valid: errors.length === 0,
-      errors
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Get system status
+   * Create skeleton
    */
-  getStatus(): {
-    rigBuilder: boolean;
-    limbAttachment: boolean;
-    skinMeshGenerator: boolean;
-    facialDetailBuilder: boolean;
-    animationSequencer: boolean;
-    exportIntegration: boolean;
-    uiBuilder: boolean;
-  } {
+  createSkeleton(managerId: string, skeleton: Partial<Skeleton>): SkeletonAnimatorOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-skeleton',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newSkeleton: Skeleton = {
+      id: skeleton.id || `skeleton-${Date.now()}`,
+      name: skeleton.name || 'Unnamed Skeleton',
+      bones: skeleton.bones || [],
+      rootBone: skeleton.rootBone || '',
+      bindPose: skeleton.bindPose || {
+        bones: {},
+        timestamp: 0
+      },
+      metadata: {},
+      ...skeleton
+    };
+
+    manager.skeletons.push(newSkeleton);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalBones += newSkeleton.bones.length;
+    this.performanceMetrics.activeBones += newSkeleton.bones.length;
+
     return {
-      rigBuilder: !!this.rigBuilder,
-      limbAttachment: !!this.limbAttachment,
-      skinMeshGenerator: !!this.skinMeshGenerator,
-      facialDetailBuilder: !!this.facialDetailBuilder,
-      animationSequencer: !!this.animationSequencer,
-      exportIntegration: !!this.exportIntegration,
-      uiBuilder: !!this.uiBuilder
+      op: 'create-skeleton',
+      status: 'ok',
+      result: newSkeleton
     };
   }
 
   /**
-   * Reset system
+   * Create animation
    */
-  reset(): SkeletonAnimatorManager {
-    this.rigBuilder = new RigBuilder();
-    this.limbAttachment = null;
-    this.skinMeshGenerator = null;
-    this.facialDetailBuilder = null;
-    this.animationSequencer = null;
-    this.exportIntegration = null;
-    this.uiBuilder = null;
-    this.skeletonState = {
-      rig: this.rigBuilder.getConfig(),
-      animations: {},
-      uiState: {
+  createAnimation(managerId: string, animation: Partial<Animation>): SkeletonAnimatorOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
 
-        mode: 'rig',
-        selectedTool: 'select',
-        viewport: {
-          camera: {
-            position: { x: 0, y: 2, z: 5 },
+    if (manager.animations.length >= this.config.maxAnimations) {
+      return {
+        op: 'create-animation',
+        status: 'error',
+        issues: ['Maximum number of animations reached']
+      };
+    }
 
+    const newAnimation: Animation = {
+      id: animation.id || `anim-${Date.now()}`,
+      name: animation.name || 'Unnamed Animation',
+      duration: animation.duration || 1.0,
+      tracks: animation.tracks || [],
+      events: animation.events || [],
+      looping: animation.looping || false,
+      speed: animation.speed || 1.0,
+      metadata: {},
+      ...animation
+    };
+
+    manager.animations.push(newAnimation);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalAnimations++;
+    this.performanceMetrics.totalKeyframes += newAnimation.tracks.reduce((sum, track) => sum + track.keyframes.length, 0);
+
+    return {
+      op: 'create-animation',
+      status: 'ok',
+      result: newAnimation
+    };
+  }
+
+  /**
+   * Play animation
+   */
+  playAnimation(managerId: string, animationId: string, options?: {
+    speed?: number;
+    looping?: boolean;
+    blendTime?: number;
+  }): SkeletonAnimatorOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'play-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const animation = manager.animations.find(anim => anim.id === animationId);
+    if (!animation) {
+      return {
+        op: 'play-animation',
+        status: 'error',
+        issues: [`Animation ${animationId} not found`]
+      };
+    }
+
+    // Update animation properties
+    if (options?.speed !== undefined) {
+      animation.speed = options.speed;
+    }
+    if (options?.looping !== undefined) {
+      animation.looping = options.looping;
+    }
+
+    this.performanceMetrics.playingAnimations++;
+
+    return {
+      op: 'play-animation',
+      status: 'ok',
+      result: {
+        animationId,
+        duration: animation.duration,
+        speed: animation.speed,
+        looping: animation.looping
       }
-    },
-            target: {
+    };
+  }
 
-              x: 0, y: 0, z: 0
+  /**
+   * Stop animation
+   */
+  stopAnimation(managerId: string, animationId: string): SkeletonAnimatorOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'stop-animation',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
 
-            }
-    },
-            fov: 60
-    },
-          grid: {
+    const animation = manager.animations.find(anim => anim.id === animationId);
+    if (!animation) {
+      return {
+        op: 'stop-animation',
+        status: 'error',
+        issues: [`Animation ${animationId} not found`]
+      };
+    }
 
-            visible: true,
+    this.performanceMetrics.playingAnimations = Math.max(0, this.performanceMetrics.playingAnimations - 1);
 
-            size: 1;
+    return {
+      op: 'stop-animation',
+      status: 'ok',
+      result: { animationId }
+    };
+  }
 
-          }
-    },
-          gizmos: {
+  /**
+   * Blend animations
+   */
+  blendAnimations(managerId: string, animationIds: string[], weights: number[], options?: {
+    duration?: number;
+    method?: 'linear' | 'cubic' | 'bezier';
+  }): SkeletonAnimatorOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
 
-            visible: true,
+    if (animationIds.length !== weights.length) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: ['Animation IDs and weights arrays must have the same length']
+      };
+    }
 
-            size: 1;
+    const animations = animationIds.map(id => manager.animations.find(anim => anim.id === id));
+    const missingAnimations = animations.filter(anim => !anim);
+    if (missingAnimations.length > 0) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: ['One or more animations not found']
+      };
+    }
 
-          }
-    },
-        },
-        panels: []
+    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+    if (Math.abs(totalWeight - 1.0) > 0.001) {
+      return {
+        op: 'blend-animations',
+        status: 'error',
+        issues: ['Weights must sum to 1.0']
+      };
+    }
+
+    return {
+      op: 'blend-animations',
+      status: 'ok',
+      result: {
+        animationIds,
+        weights,
+        duration: options?.duration || 0.5,
+        method: options?.method || 'linear'
       }
     };
-    return this;
   }
 
   /**
-   * Export system state
+   * Get performance metrics
    */
-  exportState(): string {
-    const exportData = {
-      skeletonState: this.skeletonState,
-      status: this.getStatus(),
-      exportFormat: 'miff-skeleton-state-v1',
-      timestamp: new Date().toISOString()
-    };
-    return JSON.stringify(exportData, null, 2);
+  getPerformanceMetrics(): SkeletonAnimatorPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
-   * Import system state
+   * Get analytics
    */
-  importState(json: string): SkeletonAnimatorManager {
-    const importData = SafeJSONParser.parse(json);
-    this.skeletonState = importData.skeletonState;
-    
-    // Reinitialize components with imported state
-    this.rigBuilder = new RigBuilder(this.skeletonState.rig);
-    
-    if (this.skeletonState.skin) {
-      this.skinMeshGenerator = new SkinMeshGenerator(this.skeletonState.rig, this.skeletonState.skin);
+  getAnalytics(): SkeletonAnimatorAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): SkeletonAnimatorManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalBones = 0;
+    let totalAnimations = 0;
+    let totalKeyframes = 0;
+
+    for (const manager of this.managers.values()) {
+      totalBones += manager.skeletons.reduce((sum, skeleton) => sum + skeleton.bones.length, 0);
+      totalAnimations += manager.animations.length;
+      totalKeyframes += manager.animations.reduce((sum, anim) => 
+        sum + anim.tracks.reduce((trackSum, track) => trackSum + track.keyframes.length, 0), 0);
     }
-    
-    if (this.skeletonState.face) {
-      this.facialDetailBuilder = new FacialDetailBuilder(this.skeletonState.rig, this.skeletonState.face);
-    }
-    
-    if (Object.keys(this.skeletonState.animations).length > 0) {
-      this.animationSequencer = new AnimationSequencer(this.skeletonState.rig);
-    }
-    
-    this.exportIntegration = new ExportIntegration(this.skeletonState);
-    this.uiBuilder = new UIBuilder(this.skeletonState);
-    
-    return this;
+
+    this.performanceMetrics.totalBones = totalBones;
+    this.performanceMetrics.activeBones = totalBones;
+    this.performanceMetrics.totalAnimations = totalAnimations;
+    this.performanceMetrics.totalKeyframes = totalKeyframes;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

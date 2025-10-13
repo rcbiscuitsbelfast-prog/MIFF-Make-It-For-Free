@@ -1,5 +1,5 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
 #!/usr/bin/env node
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 /**
  * MIFF CLI - SplashScreen Commands

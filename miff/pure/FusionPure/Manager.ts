@@ -273,7 +273,7 @@ export class FusionManager {
     return {
       status: status,
       message: message,
-      success: false;
+      success: false 
     };
   }
 
@@ -283,7 +283,7 @@ export class FusionManager {
       message: message,
       newSpiritId: newSpiritId,
       inheritedTraits: inheritedTraits,
-      success: true;
+      success: true 
     };
   }
 
