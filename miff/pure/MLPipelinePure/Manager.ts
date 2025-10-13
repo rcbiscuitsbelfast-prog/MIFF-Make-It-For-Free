@@ -2,33 +2,21 @@
  * MLPipelinePure Manager - Advanced Machine Learning Pipeline Management System
  *
  * Comprehensive ML pipeline management system with:
- * - ML pipeline creation and execution
+ * - Pipeline creation and orchestration
+ * - Data preprocessing and feature engineering
  * - Model training and validation
  * - Model deployment and serving
- * - ML pipeline scheduling and automation
- * - Cross-platform ML pipeline support
  * - Performance optimization
- * - Real-time ML pipeline monitoring
+ * - Real-time pipeline monitoring
  * - ML pipeline analytics and reporting
- *
- * @version 1.0.0
- * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface MLPipelineConfig {
-  enablePipelineCreation: boolean;
-  enablePipelineExecution: boolean;
+  enablePipelineManagement: boolean;
+  enableDataPreprocessing: boolean;
   enableModelTraining: boolean;
-  enableModelValidation: boolean;
   enableModelDeployment: boolean;
   enableModelServing: boolean;
-  enablePipelineScheduling: boolean;
-  enablePipelineAutomation: boolean;
-  enableCrossPlatformSupport: boolean;
   enablePerformanceOptimization: boolean;
   enableRealTimeMonitoring: boolean;
   enableMLPipelineAnalytics: boolean;
@@ -40,183 +28,398 @@ export interface MLPipelineConfig {
   enableVersioning: boolean;
 }
 
-export interface MLPipeline {
+export interface MLPipelineManager {
   id: string;
   name: string;
-  type: MLPipelineType;
-  status: MLPipelineStatus;
-  pipelines: Pipeline[];
+  type: MLPipelineManagerType;
+  status: MLPipelineManagerStatus;
+  pipelines: MLPipeline[];
   models: MLModel[];
+  datasets: MLDataset[];
   experiments: MLExperiment[];
+  deployments: MLDeployment[];
+  performanceMetrics: MLPipelinePerformanceMetrics;
   analytics: MLPipelineAnalytics;
-  metadata: MLPipelineMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  reporting: MLPipelineReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum MLPipelineType {
-  TRAINING = 'training',
-  INFERENCE = 'inference',
-  EVALUATION = 'evaluation',
-  DEPLOYMENT = 'deployment',
-  CUSTOM = 'custom'
-}
+export type MLPipelineManagerType = 'research' | 'production' | 'hybrid' | 'edge' | 'custom';
+export type MLPipelineManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
-export enum MLPipelineStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  RUNNING = 'running',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Pipeline {
+export interface MLPipeline {
   id: string;
   name: string;
   type: PipelineType;
   status: PipelineStatus;
   stages: PipelineStage[];
   configuration: PipelineConfiguration;
-  metadata: Map<string, any>;
+  schedule: PipelineSchedule;
+  monitoring: PipelineMonitoring;
+  performance: PipelinePerformance;
+  metadata: Record<string, any>;
 }
 
-export enum PipelineType {
-  DATA_PREPROCESSING = 'data_preprocessing',
-  FEATURE_ENGINEERING = 'feature_engineering',
-  MODEL_TRAINING = 'model_training',
-  MODEL_EVALUATION = 'model_evaluation',
-  MODEL_DEPLOYMENT = 'model_deployment',
-  CUSTOM = 'custom'
-}
-
-export enum PipelineStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  RUNNING = 'running',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  CUSTOM = 'custom'
-}
+export type PipelineType = 'training' | 'inference' | 'preprocessing' | 'evaluation' | 'custom';
+export type PipelineStatus = 'draft' | 'active' | 'paused' | 'completed' | 'failed';
 
 export interface PipelineStage {
   id: string;
   name: string;
   type: StageType;
-  status: StageStatus;
   order: number;
   configuration: StageConfiguration;
   inputs: StageInput[];
   outputs: StageOutput[];
-  metadata: Map<string, any>;
+  dependencies: string[];
+  retry: RetrySettings;
+  timeout: TimeoutSettings;
 }
 
-export enum StageType {
-  DATA_LOADING = 'data_loading',
-  DATA_CLEANING = 'data_cleaning',
-  FEATURE_SELECTION = 'feature_selection',
-  MODEL_TRAINING = 'model_training',
-  MODEL_VALIDATION = 'model_validation',
-  MODEL_PREDICTION = 'model_prediction',
-  CUSTOM = 'custom'
-}
-
-export enum StageStatus {
-  PENDING = 'pending',
-  RUNNING = 'running',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  SKIPPED = 'skipped',
-  CUSTOM = 'custom'
-}
+export type StageType = 'data_ingestion' | 'preprocessing' | 'feature_engineering' | 'training' | 'validation' | 'deployment' | 'custom';
 
 export interface StageConfiguration {
-  algorithm: string;
-  parameters: Map<string, any>;
-  timeout: number;
-  retries: number;
-  resources: ResourceRequirements;
-  metadata: Map<string, any>;
+  processor: ProcessorSettings;
+  resources: ResourceSettings;
+  parameters: Record<string, any>;
+  environment: EnvironmentSettings;
 }
 
-export interface ResourceRequirements {
-  cpu: string;
-  memory: string;
-  gpu: string;
-  storage: string;
-  metadata: Map<string, any>;
+export interface ProcessorSettings {
+  type: ProcessorType;
+  version: string;
+  configuration: Record<string, any>;
+  dependencies: string[];
+}
+
+export type ProcessorType = 'spark' | 'pandas' | 'numpy' | 'scikit_learn' | 'tensorflow' | 'pytorch' | 'custom';
+
+export interface ResourceSettings {
+  cpu: number;
+  memory: number;
+  gpu: number;
+  disk: number;
+  network: number;
+}
+
+export interface EnvironmentSettings {
+  variables: Record<string, string>;
+  packages: string[];
+  python: string;
+  conda: string;
+  docker: DockerSettings;
+}
+
+export interface DockerSettings {
+  image: string;
+  tag: string;
+  registry: string;
+  credentials: string;
 }
 
 export interface StageInput {
+  id: string;
   name: string;
   type: InputType;
-  source: string;
-  format: DataFormat;
+  source: DataSource;
   schema: DataSchema;
-  metadata: Map<string, any>;
+  validation: ValidationSettings;
 }
 
-export enum InputType {
-  DATASET = 'dataset',
-  MODEL = 'model',
-  FEATURES = 'features',
-  PREDICTIONS = 'predictions',
-  CUSTOM = 'custom'
+export type InputType = 'dataset' | 'model' | 'feature' | 'parameter' | 'custom';
+
+export interface DataSource {
+  type: SourceType;
+  location: string;
+  format: string;
+  credentials: CredentialSettings;
+  options: Record<string, any>;
 }
 
-export enum DataFormat {
-  CSV = 'csv',
-  JSON = 'json',
-  PARQUET = 'parquet',
-  PICKLE = 'pickle',
-  HDF5 = 'hdf5',
-  CUSTOM = 'custom'
+export type SourceType = 'file' | 'database' | 'api' | 'stream' | 'custom';
+
+export interface CredentialSettings {
+  type: CredentialType;
+  value: string;
+  encrypted: boolean;
+  expires: number;
 }
+
+export type CredentialType = 'password' | 'token' | 'key' | 'certificate' | 'custom';
 
 export interface DataSchema {
-  features: FeatureSchema[];
-  target: string;
-  metadata: Map<string, any>;
+  version: string;
+  fields: SchemaField[];
+  constraints: SchemaConstraint[];
+  metadata: Record<string, any>;
 }
 
-export interface FeatureSchema {
+export interface SchemaField {
   name: string;
-  type: FeatureType;
+  type: FieldType;
   nullable: boolean;
-  metadata: Map<string, any>;
+  description: string;
+  constraints: FieldConstraint[];
 }
 
-export enum FeatureType {
-  NUMERICAL = 'numerical',
-  CATEGORICAL = 'categorical',
-  TEXT = 'text',
-  IMAGE = 'image',
-  CUSTOM = 'custom'
+export type FieldType = 'string' | 'integer' | 'float' | 'boolean' | 'date' | 'array' | 'object' | 'custom';
+
+export interface FieldConstraint {
+  type: ConstraintType;
+  parameters: Record<string, any>;
+  message: string;
 }
+
+export type ConstraintType = 'not_null' | 'unique' | 'range' | 'pattern' | 'custom';
+
+export interface SchemaConstraint {
+  name: string;
+  type: ConstraintType;
+  fields: string[];
+  condition: string;
+  enabled: boolean;
+}
+
+export interface ValidationSettings {
+  enabled: boolean;
+  rules: ValidationRule[];
+  strict: boolean;
+  sampling: SamplingSettings;
+}
+
+export interface ValidationRule {
+  id: string;
+  name: string;
+  type: RuleType;
+  parameters: Record<string, any>;
+  enabled: boolean;
+}
+
+export type RuleType = 'completeness' | 'accuracy' | 'consistency' | 'validity' | 'custom';
+
+export interface SamplingSettings {
+  enabled: boolean;
+  method: SamplingMethod;
+  size: number;
+  seed: number;
+}
+
+export type SamplingMethod = 'random' | 'stratified' | 'systematic' | 'custom';
 
 export interface StageOutput {
+  id: string;
   name: string;
   type: OutputType;
-  destination: string;
-  format: DataFormat;
+  destination: DataDestination;
   schema: DataSchema;
-  metadata: Map<string, any>;
+  format: OutputFormat;
 }
 
-export enum OutputType {
-  MODEL = 'model',
-  PREDICTIONS = 'predictions',
-  METRICS = 'metrics',
-  FEATURES = 'features',
-  CUSTOM = 'custom'
+export type OutputType = 'dataset' | 'model' | 'feature' | 'metric' | 'custom';
+
+export interface DataDestination {
+  type: DestinationType;
+  location: string;
+  format: string;
+  credentials: CredentialSettings;
+  options: Record<string, any>;
 }
+
+export type DestinationType = 'file' | 'database' | 'api' | 'stream' | 'custom';
+
+export interface OutputFormat {
+  type: FormatType;
+  compression: CompressionSettings;
+  encryption: EncryptionSettings;
+  partitioning: PartitioningSettings;
+}
+
+export type FormatType = 'parquet' | 'csv' | 'json' | 'avro' | 'custom';
+
+export interface CompressionSettings {
+  enabled: boolean;
+  algorithm: CompressionAlgorithm;
+  level: number;
+}
+
+export type CompressionAlgorithm = 'gzip' | 'snappy' | 'lz4' | 'zstd' | 'custom';
+
+export interface EncryptionSettings {
+  enabled: boolean;
+  algorithm: string;
+  key: string;
+  mode: string;
+}
+
+export interface PartitioningSettings {
+  enabled: boolean;
+  fields: string[];
+  strategy: PartitioningStrategy;
+}
+
+export type PartitioningStrategy = 'hash' | 'range' | 'list' | 'custom';
+
+export interface RetrySettings {
+  enabled: boolean;
+  maxAttempts: number;
+  delay: number;
+  backoff: BackoffStrategy;
+  jitter: boolean;
+}
+
+export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
+
+export interface TimeoutSettings {
+  enabled: boolean;
+  duration: number;
+  action: TimeoutAction;
+}
+
+export type TimeoutAction = 'fail' | 'retry' | 'skip' | 'custom';
 
 export interface PipelineConfiguration {
-  parallelism: number;
-  batchSize: number;
+  version: string;
+  description: string;
+  tags: string[];
+  owner: string;
+  environment: EnvironmentSettings;
+  resources: ResourceSettings;
+  parallelism: ParallelismSettings;
+  checkpointing: CheckpointSettings;
+}
+
+export interface ParallelismSettings {
+  enabled: boolean;
+  level: number;
+  strategy: ParallelismStrategy;
+  maxConcurrency: number;
+}
+
+export type ParallelismStrategy = 'fixed' | 'dynamic' | 'adaptive' | 'custom';
+
+export interface CheckpointSettings {
+  enabled: boolean;
+  interval: number;
   timeout: number;
-  retries: number;
-  metadata: Map<string, any>;
+  retention: number;
+  location: string;
+}
+
+export interface PipelineSchedule {
+  enabled: boolean;
+  pattern: string;
+  timezone: string;
+  startDate: number;
+  endDate: number;
+  retry: RetrySettings;
+  notifications: NotificationSettings;
+}
+
+export interface NotificationSettings {
+  enabled: boolean;
+  channels: NotificationChannel[];
+  events: NotificationEvent[];
+  recipients: string[];
+}
+
+export interface NotificationChannel {
+  type: ChannelType;
+  configuration: Record<string, any>;
+  enabled: boolean;
+}
+
+export type ChannelType = 'email' | 'sms' | 'slack' | 'webhook' | 'custom';
+
+export interface NotificationEvent {
+  type: EventType;
+  condition: string;
+  enabled: boolean;
+}
+
+export type EventType = 'start' | 'complete' | 'fail' | 'warning' | 'custom';
+
+export interface PipelineMonitoring {
+  enabled: boolean;
+  metrics: MonitoringMetric[];
+  alerts: AlertRule[];
+  logging: LoggingSettings;
+  tracing: TracingSettings;
+}
+
+export interface MonitoringMetric {
+  name: string;
+  type: MetricType;
+  description: string;
+  unit: string;
+  aggregation: AggregationType;
+}
+
+export type MetricType = 'counter' | 'gauge' | 'histogram' | 'summary' | 'custom';
+export type AggregationType = 'sum' | 'avg' | 'min' | 'max' | 'count' | 'custom';
+
+export interface AlertRule {
+  id: string;
+  name: string;
+  condition: string;
+  severity: AlertSeverity;
+  actions: AlertAction[];
+  enabled: boolean;
+}
+
+export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
+
+export interface AlertAction {
+  type: ActionType;
+  parameters: Record<string, any>;
+  enabled: boolean;
+}
+
+export type ActionType = 'email' | 'sms' | 'webhook' | 'custom';
+
+export interface LoggingSettings {
+  enabled: boolean;
+  level: LogLevel;
+  format: LogFormat;
+  destination: string;
+  retention: number;
+}
+
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+export type LogFormat = 'json' | 'text' | 'xml' | 'custom';
+
+export interface TracingSettings {
+  enabled: boolean;
+  provider: string;
+  sampling: SamplingSettings;
+  context: TraceContext;
+}
+
+export interface TraceContext {
+  enabled: boolean;
+  propagation: string[];
+  baggage: Record<string, string>;
+}
+
+export interface PipelinePerformance {
+  throughput: number;
+  latency: number;
+  successRate: number;
+  errorRate: number;
+  resourceUtilization: ResourceUtilization;
+  lastRun: number;
+}
+
+export interface ResourceUtilization {
+  cpu: number;
+  memory: number;
+  gpu: number;
+  disk: number;
+  network: number;
 }
 
 export interface MLModel {
@@ -224,51 +427,381 @@ export interface MLModel {
   name: string;
   type: ModelType;
   status: ModelStatus;
-  algorithm: string;
+  architecture: ModelArchitecture;
+  training: TrainingConfiguration;
+  evaluation: EvaluationConfiguration;
+  deployment: DeploymentConfiguration;
+  performance: ModelPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ModelType = 'classification' | 'regression' | 'clustering' | 'recommendation' | 'custom';
+export type ModelStatus = 'draft' | 'training' | 'trained' | 'deployed' | 'archived';
+
+export interface ModelArchitecture {
+  framework: MLFramework;
   version: string;
-  metrics: ModelMetrics;
-  configuration: ModelConfiguration;
-  metadata: Map<string, any>;
+  layers: ModelLayer[];
+  parameters: ModelParameters;
+  hyperparameters: HyperparameterSettings;
 }
 
-export enum ModelType {
-  CLASSIFICATION = 'classification',
-  REGRESSION = 'regression',
-  CLUSTERING = 'clustering',
-  DEEP_LEARNING = 'deep_learning',
-  CUSTOM = 'custom'
+export type MLFramework = 'tensorflow' | 'pytorch' | 'scikit_learn' | 'xgboost' | 'custom';
+
+export interface ModelLayer {
+  id: string;
+  type: LayerType;
+  parameters: LayerParameters;
+  activation: ActivationFunction;
+  dropout: number;
 }
 
-export enum ModelStatus {
-  TRAINING = 'training',
-  TRAINED = 'trained',
-  DEPLOYED = 'deployed',
-  FAILED = 'failed',
-  CUSTOM = 'custom'
+export type LayerType = 'dense' | 'conv2d' | 'lstm' | 'gru' | 'attention' | 'custom';
+
+export interface LayerParameters {
+  units: number;
+  kernelSize: number[];
+  strides: number[];
+  padding: string;
+  useBias: boolean;
 }
 
-export interface ModelMetrics {
+export interface ActivationFunction {
+  type: ActivationType;
+  parameters: Record<string, any>;
+}
+
+export type ActivationType = 'relu' | 'sigmoid' | 'tanh' | 'softmax' | 'custom';
+
+export interface ModelParameters {
+  total: number;
+  trainable: number;
+  nonTrainable: number;
+  memory: number;
+  flops: number;
+}
+
+export interface HyperparameterSettings {
+  optimizer: OptimizerSettings;
+  learningRate: LearningRateSettings;
+  batchSize: number;
+  epochs: number;
+  regularization: RegularizationSettings;
+}
+
+export interface OptimizerSettings {
+  type: OptimizerType;
+  parameters: Record<string, any>;
+}
+
+export type OptimizerType = 'adam' | 'sgd' | 'rmsprop' | 'adamw' | 'custom';
+
+export interface LearningRateSettings {
+  initial: number;
+  schedule: LearningRateSchedule;
+  decay: number;
+  warmup: number;
+}
+
+export interface LearningRateSchedule {
+  type: ScheduleType;
+  parameters: Record<string, any>;
+}
+
+export type ScheduleType = 'constant' | 'exponential' | 'cosine' | 'step' | 'custom';
+
+export interface RegularizationSettings {
+  l1: number;
+  l2: number;
+  dropout: number;
+  batchNormalization: boolean;
+  earlyStopping: EarlyStoppingSettings;
+}
+
+export interface EarlyStoppingSettings {
+  enabled: boolean;
+  patience: number;
+  minDelta: number;
+  monitor: string;
+  mode: string;
+}
+
+export interface TrainingConfiguration {
+  dataset: string;
+  validationSplit: number;
+  shuffle: boolean;
+  augmentation: AugmentationSettings;
+  callbacks: CallbackSettings[];
+  metrics: string[];
+  loss: LossFunction;
+}
+
+export interface AugmentationSettings {
+  enabled: boolean;
+  techniques: AugmentationTechnique[];
+  probability: number;
+  intensity: number;
+}
+
+export interface AugmentationTechnique {
+  type: AugmentationType;
+  parameters: Record<string, any>;
+  probability: number;
+}
+
+export type AugmentationType = 'rotation' | 'flip' | 'crop' | 'resize' | 'noise' | 'custom';
+
+export interface CallbackSettings {
+  type: CallbackType;
+  parameters: Record<string, any>;
+  enabled: boolean;
+}
+
+export type CallbackType = 'early_stopping' | 'model_checkpoint' | 'reduce_lr' | 'tensorboard' | 'custom';
+
+export interface LossFunction {
+  type: LossType;
+  parameters: Record<string, any>;
+  weight: number;
+}
+
+export type LossType = 'mse' | 'mae' | 'categorical_crossentropy' | 'binary_crossentropy' | 'custom';
+
+export interface EvaluationConfiguration {
+  dataset: string;
+  metrics: EvaluationMetric[];
+  crossValidation: CrossValidationSettings;
+  holdout: HoldoutSettings;
+}
+
+export interface EvaluationMetric {
+  name: string;
+  type: MetricType;
+  parameters: Record<string, any>;
+  threshold: number;
+}
+
+export interface CrossValidationSettings {
+  enabled: boolean;
+  folds: number;
+  shuffle: boolean;
+  stratify: boolean;
+}
+
+export interface HoldoutSettings {
+  enabled: boolean;
+  split: number;
+  shuffle: boolean;
+  stratify: boolean;
+}
+
+export interface DeploymentConfiguration {
+  target: DeploymentTarget;
+  resources: ResourceSettings;
+  scaling: ScalingSettings;
+  monitoring: MonitoringSettings;
+  security: SecuritySettings;
+}
+
+export type DeploymentTarget = 'cpu' | 'gpu' | 'tpu' | 'edge' | 'custom';
+
+export interface ScalingSettings {
+  enabled: boolean;
+  min: number;
+  max: number;
+  target: number;
+  metrics: ScalingMetric[];
+}
+
+export interface ScalingMetric {
+  type: MetricType;
+  threshold: number;
+  operator: ComparisonOperator;
+}
+
+export type ComparisonOperator = 'greater_than' | 'less_than' | 'equals' | 'custom';
+
+export interface SecuritySettings {
+  enabled: boolean;
+  authentication: AuthenticationSettings;
+  authorization: AuthorizationSettings;
+  encryption: EncryptionSettings;
+  network: NetworkSecuritySettings;
+}
+
+export interface AuthenticationSettings {
+  enabled: boolean;
+  type: AuthenticationType;
+  parameters: Record<string, any>;
+}
+
+export type AuthenticationType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
+
+export interface AuthorizationSettings {
+  enabled: boolean;
+  policies: AuthorizationPolicy[];
+  roles: AuthorizationRole[];
+}
+
+export interface AuthorizationPolicy {
+  id: string;
+  name: string;
+  resource: string;
+  actions: string[];
+  conditions: PolicyCondition[];
+  effect: PolicyEffect;
+}
+
+export interface PolicyCondition {
+  field: string;
+  operator: string;
+  value: any;
+}
+
+export type PolicyEffect = 'allow' | 'deny';
+
+export interface AuthorizationRole {
+  id: string;
+  name: string;
+  permissions: string[];
+  description: string;
+}
+
+export interface NetworkSecuritySettings {
+  enabled: boolean;
+  firewall: FirewallSettings;
+  vpn: VpnSettings;
+  proxy: ProxySettings;
+}
+
+export interface FirewallSettings {
+  enabled: boolean;
+  rules: FirewallRule[];
+  defaultAction: FirewallAction;
+}
+
+export type FirewallAction = 'allow' | 'deny';
+
+export interface FirewallRule {
+  id: string;
+  direction: RuleDirection;
+  protocol: string;
+  port: number;
+  source: string;
+  destination: string;
+  action: FirewallAction;
+}
+
+export type RuleDirection = 'inbound' | 'outbound';
+
+export interface VpnSettings {
+  enabled: boolean;
+  type: VpnType;
+  configuration: Record<string, any>;
+}
+
+export type VpnType = 'ipsec' | 'openvpn' | 'wireguard' | 'custom';
+
+export interface ProxySettings {
+  enabled: boolean;
+  type: ProxyType;
+  configuration: Record<string, any>;
+}
+
+export type ProxyType = 'http' | 'socks' | 'transparent' | 'custom';
+
+export interface ModelPerformance {
   accuracy: number;
   precision: number;
   recall: number;
   f1Score: number;
   auc: number;
-  metadata: Map<string, any>;
+  loss: number;
+  valAccuracy: number;
+  valLoss: number;
+  lastEvaluated: number;
 }
 
-export interface ModelConfiguration {
-  algorithm: string;
-  parameters: Map<string, any>;
-  preprocessing: PreprocessingConfig;
-  metadata: Map<string, any>;
+export interface MLDataset {
+  id: string;
+  name: string;
+  type: DatasetType;
+  status: DatasetStatus;
+  source: DataSource;
+  schema: DataSchema;
+  statistics: DatasetStatistics;
+  quality: DataQuality;
+  metadata: Record<string, any>;
 }
 
-export interface PreprocessingConfig {
-  scaling: string;
-  encoding: string;
-  imputation: string;
-  metadata: Map<string, any>;
+export type DatasetType = 'training' | 'validation' | 'test' | 'inference' | 'custom';
+export type DatasetStatus = 'raw' | 'processed' | 'ready' | 'archived';
+
+export interface DatasetStatistics {
+  samples: number;
+  features: number;
+  classes: number;
+  distribution: ClassDistribution[];
+  statistics: FeatureStatistics[];
 }
+
+export interface ClassDistribution {
+  class: string;
+  count: number;
+  percentage: number;
+}
+
+export interface FeatureStatistics {
+  feature: string;
+  mean: number;
+  std: number;
+  min: number;
+  max: number;
+  median: number;
+}
+
+export interface DataQuality {
+  score: number;
+  metrics: QualityMetric[];
+  rules: QualityRule[];
+  issues: QualityIssue[];
+  lastChecked: number;
+}
+
+export interface QualityMetric {
+  name: string;
+  value: number;
+  threshold: number;
+  status: MetricStatus;
+  description: string;
+}
+
+export type MetricStatus = 'pass' | 'fail' | 'warning' | 'unknown';
+
+export interface QualityRule {
+  id: string;
+  name: string;
+  type: RuleType;
+  parameters: Record<string, any>;
+  enabled: boolean;
+  severity: RuleSeverity;
+}
+
+export type RuleSeverity = 'low' | 'medium' | 'high' | 'critical';
+
+export interface QualityIssue {
+  id: string;
+  type: IssueType;
+  severity: IssueSeverity;
+  description: string;
+  field: string;
+  value: any;
+  expected: any;
+  timestamp: number;
+}
+
+export type IssueType = 'missing' | 'invalid' | 'duplicate' | 'outlier' | 'custom';
+export type IssueSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface MLExperiment {
   id: string;
@@ -277,470 +810,417 @@ export interface MLExperiment {
   status: ExperimentStatus;
   configuration: ExperimentConfiguration;
   results: ExperimentResults;
-  metadata: Map<string, any>;
+  metadata: Record<string, any>;
 }
 
-export enum ExperimentType {
-  HYPERPARAMETER_TUNING = 'hyperparameter_tuning',
-  FEATURE_SELECTION = 'feature_selection',
-  MODEL_COMPARISON = 'model_comparison',
-  CUSTOM = 'custom'
-}
-
-export enum ExperimentStatus {
-  PENDING = 'pending',
-  RUNNING = 'running',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  CUSTOM = 'custom'
-}
+export type ExperimentType = 'hyperparameter_tuning' | 'feature_selection' | 'model_comparison' | 'custom';
+export type ExperimentStatus = 'draft' | 'running' | 'completed' | 'failed';
 
 export interface ExperimentConfiguration {
-  parameters: Map<string, any>;
+  objective: string;
   metrics: string[];
-  crossValidation: CrossValidationConfig;
-  metadata: Map<string, any>;
+  parameters: HyperparameterSpace;
+  budget: number;
+  maxTrials: number;
 }
 
-export interface CrossValidationConfig {
-  folds: number;
-  strategy: string;
-  metadata: Map<string, any>;
+export interface HyperparameterSpace {
+  parameters: Hyperparameter[];
+  constraints: Constraint[];
+}
+
+export interface Hyperparameter {
+  name: string;
+  type: HyperparameterType;
+  range: ValueRange;
+  distribution: DistributionType;
+}
+
+export type HyperparameterType = 'int' | 'float' | 'categorical' | 'boolean' | 'custom';
+export type DistributionType = 'uniform' | 'normal' | 'log_uniform' | 'log_normal' | 'custom';
+
+export interface ValueRange {
+  min: number;
+  max: number;
+  step: number;
+}
+
+export interface Constraint {
+  type: ConstraintType;
+  parameters: string[];
+  condition: string;
 }
 
 export interface ExperimentResults {
-  bestModel: string;
+  bestTrial: Trial;
+  trials: Trial[];
+  statistics: ExperimentStatistics;
+}
+
+export interface Trial {
+  id: string;
+  parameters: Record<string, any>;
+  results: Record<string, number>;
+  status: TrialStatus;
+  duration: number;
+}
+
+export type TrialStatus = 'pending' | 'running' | 'completed' | 'failed' | 'pruned';
+
+export interface ExperimentStatistics {
+  totalTrials: number;
+  completedTrials: number;
   bestScore: number;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
+  averageScore: number;
+  standardDeviation: number;
+  duration: number;
+}
+
+export interface MLDeployment {
+  id: string;
+  name: string;
+  type: DeploymentType;
+  status: DeploymentStatus;
+  model: string;
+  configuration: DeploymentConfiguration;
+  endpoints: DeploymentEndpoint[];
+  performance: DeploymentPerformance;
+  metadata: Record<string, any>;
+}
+
+export type DeploymentType = 'batch' | 'real_time' | 'streaming' | 'edge' | 'custom';
+export type DeploymentStatus = 'draft' | 'deploying' | 'active' | 'inactive' | 'failed';
+
+export interface DeploymentEndpoint {
+  id: string;
+  name: string;
+  url: string;
+  protocol: string;
+  authentication: AuthenticationSettings;
+  rateLimit: RateLimitSettings;
+  monitoring: MonitoringSettings;
+}
+
+export interface RateLimitSettings {
+  enabled: boolean;
+  requests: number;
+  window: number;
+  burst: number;
+}
+
+export interface DeploymentPerformance {
+  throughput: number;
+  latency: number;
+  successRate: number;
+  errorRate: number;
+  lastUpdated: number;
+}
+
+export interface MLPipelinePerformanceMetrics {
+  totalPipelines: number;
+  activePipelines: number;
+  totalModels: number;
+  totalDatasets: number;
+  totalExperiments: number;
+  totalDeployments: number;
+  averageExecutionTime: number;
+  successRate: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
 export interface MLPipelineAnalytics {
   totalPipelines: number;
   totalModels: number;
-  totalExperiments: number;
-  averageTrainingTime: number;
-  modelAccuracy: number;
-  performance: PerformanceMetrics;
+  averageExecutionTime: number;
+  pipelineTypeDistribution: PipelineTypeDistribution[];
+  modelTypeDistribution: ModelTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface PipelineTypeDistribution {
+  type: PipelineType;
+  count: number;
+  percentage: number;
+  averageExecutionTime: number;
+}
+
+export interface ModelTypeDistribution {
+  type: ModelType;
+  count: number;
+  percentage: number;
+  averageAccuracy: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  pipelines: number;
+  models: number;
+  executions: number;
+  executionTime: number;
+  successRate: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface MLPipelineReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includePipelines: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
-  metadata: Map<string, any>;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface MLPipelineMetadata {
-  author: string;
+export interface Version {
   version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
 }
 
-export interface MLPipelineStats {
-  totalPipelines: number;
-  totalModels: number;
-  totalExperiments: number;
-  averageTrainingTime: number;
-  modelAccuracy: number;
-  lastUpdate: number;
+export interface MLPipelineOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
 }
 
-export class MLPipelineManager {
+export class MLPipelinePure {
+  private managers: Map<string, MLPipelineManager> = new Map();
   private config: MLPipelineConfig;
-  private mlPipelines: Map<string, MLPipeline> = new Map();
-  private stats: MLPipelineStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: MLPipelinePerformanceMetrics;
+  private analytics: MLPipelineAnalytics;
 
   constructor(config: Partial<MLPipelineConfig> = {}) {
     this.config = {
-      enablePipelineCreation: true,
-      enablePipelineExecution: true,
+      enablePipelineManagement: true,
+      enableDataPreprocessing: true,
       enableModelTraining: true,
-      enableModelValidation: true,
       enableModelDeployment: true,
       enableModelServing: true,
-      enablePipelineScheduling: true,
-      enablePipelineAutomation: true,
-      enableCrossPlatformSupport: true,
       enablePerformanceOptimization: true,
       enableRealTimeMonitoring: true,
       enableMLPipelineAnalytics: true,
       enableMLPipelineReporting: true,
-      maxPipelines: 10000,
+      maxPipelines: 1000,
       maxModels: 10000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'MLPipelineManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `MLPipelineManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'MLPipelineManager');
-  };
-  }
-
-  /**
-   * Initialize ML pipeline manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize ML pipeline manager
-      await this.initializeMLPipelineManager();
-      
-      // Load default ML pipelines
-      await this.loadDefaultMLPipelines();
-      
-      this.isInitialized = true;
-      this.logger.info('MLPipelineManager', 'ML pipeline manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('MLPipelineManager', 'Failed to initialize ML pipeline manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new ML pipeline
-   */
-  createMLPipeline(mlPipeline: Partial<MLPipeline>): MLPipeline | null {
-    const newMLPipeline: MLPipeline = {
-      id: `mlpipeline_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: mlPipeline.name || 'New ML Pipeline',
-      type: mlPipeline.type || MLPipelineType.TRAINING,
-      status: MLPipelineStatus.ACTIVE,
-      pipelines: mlPipeline.pipelines || [],
-      models: mlPipeline.models || [],
-      experiments: mlPipeline.experiments || [],
-      analytics: mlPipeline.analytics || this.createDefaultAnalytics(),
-      metadata: mlPipeline.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
 
-    this.mlPipelines.set(newMLPipeline.id, newMLPipeline);
-    this.updateStats('create_mlpipeline', newMLPipeline);
-
-    this.logger.info('MLPipelineManager', `Created ML pipeline: ${newMLPipeline.name}`);
-    return newMLPipeline;
-  }
-
-  /**
-   * Create pipeline
-   */
-  createPipeline(mlPipelineId: string, pipeline: Partial<Pipeline>): Pipeline | null {
-    const mlPipeline = this.mlPipelines.get(mlPipelineId);
-    if (!mlPipeline) {
-      this.logger.warn('MLPipelineManager', `ML pipeline ${mlPipelineId} not found`);
-      return null;
-    }
-
-    if (mlPipeline.pipelines.length >= this.config.maxPipelines) {
-      this.logger.warn('MLPipelineManager', 'Maximum number of pipelines reached');
-      return null;
-    }
-
-    try {
-      const newPipeline: Pipeline = {
-        id: `pipeline_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: pipeline.name || 'New Pipeline',
-        type: pipeline.type || PipelineType.DATA_PREPROCESSING,
-        status: PipelineStatus.ACTIVE,
-        stages: pipeline.stages || [],
-        configuration: pipeline.configuration || this.createDefaultPipelineConfiguration(),
-        metadata: pipeline.metadata || new Map()
-      };
-
-      mlPipeline.pipelines.push(newPipeline);
-      mlPipeline.modified = Date.now();
-
-      this.updateStats('create_pipeline', mlPipeline);
-      this.logger.info('MLPipelineManager', `Created pipeline: ${newPipeline.name}`);
-      return newPipeline;
-    } catch (error) {
-      this.logger.error('MLPipelineManager', `Failed to create pipeline in ML pipeline ${mlPipelineId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Create ML model
-   */
-  createMLModel(mlPipelineId: string, model: Partial<MLModel>): MLModel | null {
-    const mlPipeline = this.mlPipelines.get(mlPipelineId);
-    if (!mlPipeline) {
-      this.logger.warn('MLPipelineManager', `ML pipeline ${mlPipelineId} not found`);
-      return null;
-    }
-
-    if (mlPipeline.models.length >= this.config.maxModels) {
-      this.logger.warn('MLPipelineManager', 'Maximum number of models reached');
-      return null;
-    }
-
-    try {
-      const newModel: MLModel = {
-        id: `model_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: model.name || 'New Model',
-        type: model.type || ModelType.CLASSIFICATION,
-        status: ModelStatus.TRAINING,
-        algorithm: model.algorithm || '',
-        version: model.version || '1.0.0',
-        metrics: model.metrics || this.createDefaultModelMetrics(),
-        configuration: model.configuration || this.createDefaultModelConfiguration(),
-        metadata: model.metadata || new Map()
-      };
-
-      mlPipeline.models.push(newModel);
-      mlPipeline.modified = Date.now();
-
-      this.updateStats('create_model', mlPipeline);
-      this.logger.info('MLPipelineManager', `Created ML model: ${newModel.name}`);
-      return newModel;
-    } catch (error) {
-      this.logger.error('MLPipelineManager', `Failed to create ML model in ML pipeline ${mlPipelineId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Get ML pipeline
-   */
-  getMLPipeline(mlPipelineId: string): MLPipeline | null {
-    return this.mlPipelines.get(mlPipelineId) || null;
-  }
-
-  /**
-   * Get all ML pipelines
-   */
-  getMLPipelines(): MLPipeline[] {
-    return Array.from(this.mlPipelines.values());
-  }
-
-  /**
-   * Get ML pipelines by type
-   */
-  getMLPipelinesByType(type: MLPipelineType): MLPipeline[] {
-    return Array.from(this.mlPipelines.values())
-      .filter(mlPipeline => mlPipeline.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): MLPipelineStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize ML pipeline manager
-   */
-  private async initializeMLPipelineManager(): Promise<void> {
-    this.logger.info('MLPipelineManager', 'Initializing ML pipeline manager...');
-  }
-
-  /**
-   * Load default ML pipelines
-   */
-  private async loadDefaultMLPipelines(): Promise<void> {
-    // Load default ML pipelines
-    const defaultMLPipelines = [
-      this.createDefaultTraining(),
-      this.createDefaultInference(),
-      this.createDefaultEvaluation()
-    ];
-
-    for (const mlPipeline of defaultMLPipelines) {
-      if (mlPipeline) {
-        this.mlPipelines.set(mlPipeline.id, mlPipeline);
-      }
-    }
-
-    this.logger.info('MLPipelineManager', `Loaded ${defaultMLPipelines.length} default ML pipelines`);
-  }
-
-  /**
-   * Create default pipeline configuration
-   */
-  private createDefaultPipelineConfiguration(): PipelineConfiguration {
-    return {
-      parallelism: 1,
-      batchSize: 32,
-      timeout: 3600,
-      retries: 3,
-      metadata: new Map()
+    this.performanceMetrics = {
+      totalPipelines: 0,
+      activePipelines: 0,
+      totalModels: 0,
+      totalDatasets: 0,
+      totalExperiments: 0,
+      totalDeployments: 0,
+      averageExecutionTime: 0,
+      successRate: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
-  }
 
-  /**
-   * Create default model metrics
-   */
-  private createDefaultModelMetrics(): ModelMetrics {
-    return {
-      accuracy: 0,
-      precision: 0,
-      recall: 0,
-      f1Score: 0,
-      auc: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default model configuration
-   */
-  private createDefaultModelConfiguration(): ModelConfiguration {
-    return {
-      algorithm: '',
-      parameters: new Map(),
-      preprocessing: {
-        scaling: 'standard',
-        encoding: 'one_hot',
-        imputation: 'mean',
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): MLPipelineAnalytics {
-    return {
+    this.analytics = {
       totalPipelines: 0,
       totalModels: 0,
-      totalExperiments: 0,
-      averageTrainingTime: 0,
-      modelAccuracy: 0,
-      performance: {
+      averageExecutionTime: 0,
+      pipelineTypeDistribution: [],
+      modelTypeDistribution: [],
+      performanceTrends: []
+    };
+  }
 
-        cpuUsage: 0,
+  /**
+   * Create a new ML pipeline manager
+   */
+  createManager(managerData: Partial<MLPipelineManager>): MLPipelineOutput {
+    if (!this.config.enablePipelineManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['ML pipeline management is disabled']
+      };
+    }
+
+    const manager: MLPipelineManager = {
+      id: managerData.id || `mlpipeline-${Date.now()}`,
+      name: managerData.name || 'Unnamed ML Pipeline Manager',
+      type: managerData.type || 'research',
+      status: 'active',
+      pipelines: [],
+      models: [],
+      datasets: [],
+      experiments: [],
+      deployments: [],
+      performanceMetrics: {
+        totalPipelines: 0,
+        activePipelines: 0,
+        totalModels: 0,
+        totalDatasets: 0,
+        totalExperiments: 0,
+        totalDeployments: 0,
+        averageExecutionTime: 0,
+        successRate: 0,
         memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
+        cpuUsage: 0,
+        uptime: 0
       },
-      lastUpdate: Date.now(),
-      metadata: new Map()
+      analytics: {
+        totalPipelines: 0,
+        totalModels: 0,
+        averageExecutionTime: 0,
+        pipelineTypeDistribution: [],
+        modelTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includePipelines: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
     };
-  }
 
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): MLPipelineMetadata {
+    this.managers.set(manager.id, manager);
+
     return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Create default training
+   * Get manager by ID
    */
-  private createDefaultTraining(): MLPipeline {
-    return this.createMLPipeline({
-      name: 'Training ML Pipeline',
-      type: MLPipelineType.TRAINING,
-      description: 'Training ML pipeline'
-    });
-  }
-
-  /**
-   * Create default inference
-   */
-  private createDefaultInference(): MLPipeline {
-    return this.createMLPipeline({
-      name: 'Inference ML Pipeline',
-      type: MLPipelineType.INFERENCE,
-      description: 'Inference ML pipeline'
-    });
-  }
-
-  /**
-   * Create default evaluation
-   */
-  private createDefaultEvaluation(): MLPipeline {
-    return this.createMLPipeline({
-      name: 'Evaluation ML Pipeline',
-      type: MLPipelineType.EVALUATION,
-      description: 'Evaluation ML pipeline'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, mlPipeline: MLPipeline): void {
-    switch (action) {
-      case 'create_mlpipeline':
-        this.stats.totalPipelines += mlPipeline.pipelines.length;
-        this.stats.totalModels += mlPipeline.models.length;
-        this.stats.totalExperiments += mlPipeline.experiments.length;
-        break;
-      case 'create_pipeline':
-        this.stats.totalPipelines++;
-        break;
-      case 'create_model':
-        this.stats.totalModels++;
-        break;
+  getManager(managerId: string): MLPipelineOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    this.stats.lastUpdate = Date.now();
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): MLPipelineStats {
     return {
-      totalPipelines: 0,
-      totalModels: 0,
-      totalExperiments: 0,
-      averageTrainingTime: 0,
-      modelAccuracy: 0,
-      lastUpdate: Date.now()
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Cleanup resources
+   * Get performance metrics
    */
-  destroy(): void {
-    this.mlPipelines.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  getPerformanceMetrics(): MLPipelinePerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): MLPipelineAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): MLPipelineManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalPipelines = 0;
+    let activePipelines = 0;
+    let totalModels = 0;
+    let totalDatasets = 0;
+    let totalExperiments = 0;
+    let totalDeployments = 0;
+
+    for (const manager of this.managers.values()) {
+      totalPipelines += manager.pipelines.length;
+      activePipelines += manager.pipelines.filter(p => p.status === 'active').length;
+      totalModels += manager.models.length;
+      totalDatasets += manager.datasets.length;
+      totalExperiments += manager.experiments.length;
+      totalDeployments += manager.deployments.length;
+    }
+
+    this.performanceMetrics.totalPipelines = totalPipelines;
+    this.performanceMetrics.activePipelines = activePipelines;
+    this.performanceMetrics.totalModels = totalModels;
+    this.performanceMetrics.totalDatasets = totalDatasets;
+    this.performanceMetrics.totalExperiments = totalExperiments;
+    this.performanceMetrics.totalDeployments = totalDeployments;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultMLPipelineManager = new MLPipelineManager();
-export { MLPipelineManager as default };
