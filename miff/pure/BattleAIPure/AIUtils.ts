@@ -1,14 +1,14 @@
 import { AIDecisionProfile } from './AIDecisionProfile';
 import { AIDecisionStyle, IAIDecisionProfile } from './types';
 
-// export const BattleAIUtils = {
+/* export const BattleAIUtils = {
   createStandardProfiles(): IAIDecisionProfile[] {
     return [
       AIDecisionProfile.balanced('balanced'),
       AIDecisionProfile.aggressive('aggressive'),
       AIDecisionProfile.defensive('defensive'),
       AIDecisionProfile.trickster('trickster')
-    ];
+    ];*/
   },
 
   createAdaptiveProfile(spirit: any): IAIDecisionProfile {

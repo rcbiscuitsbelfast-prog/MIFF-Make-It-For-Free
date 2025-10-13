@@ -344,7 +344,8 @@ export class AdvancedAI {
    */
   private initializeDefaultBehaviorTrees(): void {
     // Combat behavior tree
-//     const combatTree = this.createBehaviorTree('combat', 'Combat AI', {
+    /*
+    const combatTree = this.createBehaviorTree('combat', 'Combat AI', {
       type: 'selector',
       name: 'Combat Root',
       children: [
@@ -375,6 +376,7 @@ export class AdvancedAI {
         }
       ]
     });
+    */
 
     // Add combat conditions
     this.addCondition('combat', 'low_health', (context) => {

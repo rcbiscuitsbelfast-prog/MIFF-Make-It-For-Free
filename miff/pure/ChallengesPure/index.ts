@@ -1308,7 +1308,7 @@ export class ChallengeManager implements IChallengeManager {
 /**
  * Utility functions for challenge operations
  */
-// export const ChallengeUtils = {
+/* export const ChallengeUtils = {
   /**
    * Create default player context for testing
    */
@@ -1322,7 +1322,7 @@ export class ChallengeManager implements IChallengeManager {
       getUnlockedLocations: () => [],
       getCapturedSpirits: () => [],
       hasVisitedLocation: (locationId: string) => false
-    };
+    };*/
   },
 
   /**

@@ -377,12 +377,12 @@ export class MovementManager {
   private updateEntityMovement(entity: MovementEntity, deltaTime: number, currentTime: number): MovementResult {
     const events: MovementEvent[] = [];
     const oldPosition = { ...entity.position };
-//     const oldVelocity = { ...entity.velocity };
+/*     const oldVelocity = { ...entity.velocity };
 
     // Update based on pattern type
     switch (entity.pattern.type) {
       case 'idle':
-        this.updateIdleMovement(entity, deltaTime);
+        this.updateIdleMovement(entity, deltaTime);*/
         break;
       case 'patrol':
         this.updatePatrolMovement(entity, deltaTime);

@@ -7,7 +7,7 @@
 
 import { mockBrowserAPIs } from './mockBrowserAPIs';
 
-// export const mockWindow = {
+/* export const mockWindow = {
   innerWidth: 1024,
   innerHeight: 768,
   devicePixelRatio: 1,
@@ -16,4 +16,4 @@ import { mockBrowserAPIs } from './mockBrowserAPIs';
   requestAnimationFrame: mockBrowserAPIs.requestAnimationFrame,
   cancelAnimationFrame: mockBrowserAPIs.cancelAnimationFrame,
   performance: mockBrowserAPIs.performance
-};
+};*/

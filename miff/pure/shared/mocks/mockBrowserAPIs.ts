@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-// export const mockBrowserAPIs = {
+/* export const mockBrowserAPIs = {
   requestAnimationFrame: jest.fn().mockReturnValue(1),
   cancelAnimationFrame: jest.fn(),
   ResizeObserver: jest.fn().mockImplementation(() => ({
@@ -37,4 +37,4 @@
     vertexAttribPointer: jest.fn(),
     drawArrays: jest.fn()
   }))
-};
+};*/

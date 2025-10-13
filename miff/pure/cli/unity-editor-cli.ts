@@ -740,13 +740,13 @@ public class MIFFBridge : EditorWindow
     console.info('📄 Generating Unity project files...');
 
     // Create project settings
-//     const projectSettings = {
+/*     const projectSettings = {
       CompanyName: 'MIFF Team',
       ProductName: 'MIFF Integration Project',
       Version: '1.0.0',
       UnityVersion: '2021.3.0f1',
       BuildTarget: 'StandaloneWindows64'
-    };
+    };*/
 
     // Create Package.json manifest
     const manifest = {

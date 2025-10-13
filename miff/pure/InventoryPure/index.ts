@@ -9,7 +9,7 @@ export * from './InventoryPure';
 export { InventoryManager as default } from './InventoryPure';
 
 // Module metadata
-// export const MODULE_INFO = {
+/* export const MODULE_INFO = {
   name: 'InventoryPure',
   version: '1.0.0',
   description: 'Inventory and resource management system',
@@ -25,4 +25,4 @@ export { InventoryManager as default } from './InventoryPure';
   cliCommands: [
     'add', 'remove', 'list', 'get', 'use', 'enchant', 'repair', 'help'
   ]
-};
+};*/

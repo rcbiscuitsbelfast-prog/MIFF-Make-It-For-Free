@@ -649,7 +649,7 @@ export function loadFixtureForScenario(scenarioName: string): any {
 /**
  * Validation checklist for scenario tests
  */
-// export const validationChecklist = {
+/* export const validationChecklist = {
   runCLIReturnsRunScenario: (result: any): boolean => {
     return result.op === "runScenario" && result.finalState && result.outputs;
   },
@@ -658,7 +658,7 @@ export function loadFixtureForScenario(scenarioName: string): any {
     return (result.op === "runScenario" && result.finalState && result.outputs) ||
            (result.op === "replay" && result.session && result.frames) ||
            (result.op === "scenario" && result.timeline) ||
-           (result.op === "demo" && result.status === "ok");
+           (result.op === "demo" && result.status === "ok");*/
   },
   
   visualReplayLogsHooks: (logs: string[]): boolean => {

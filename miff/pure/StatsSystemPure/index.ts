@@ -9,7 +9,7 @@ export * from './Manager';
 export { StatsManager as default } from './Manager';
 
 // Module metadata
-// export const MODULE_INFO = {
+/* export const MODULE_INFO = {
   name: 'StatsSystemPure',
   version: '1.0.0',
   description: 'Statistics and character stats management system',
@@ -25,4 +25,4 @@ export { StatsManager as default } from './Manager';
   cliCommands: [
     'get', 'set', 'modify', 'calculate', 'analyze', 'export', 'help'
   ]
-};
+};*/

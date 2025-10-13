@@ -7,8 +7,8 @@
 
 import { mockEventBus } from './mockEventBus';
 
-// export const mockAISystem = {
+/* export const mockAISystem = {
   emit: jest.fn(),
   subscribe: jest.fn().mockReturnValue(() => {}),
   eventBus: mockEventBus
-};
+};*/

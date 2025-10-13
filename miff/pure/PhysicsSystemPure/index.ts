@@ -24,7 +24,7 @@ export type {
 } from './Manager';
 
 // Module metadata
-// export const MODULE_INFO = {
+/* export const MODULE_INFO = {
   name: 'PhysicsSystemPure',
   version: '2.0.0',
   description: 'Advanced 2D physics simulation with forces, constraints, and collision integration',
@@ -44,4 +44,4 @@ export type {
     'list', 'create', 'step', 'dump', 'addForce', 'addConstraint', 
     'removeForce', 'removeConstraint', 'analytics', 'export', 'demo', 'help'
   ]
-};
+};*/

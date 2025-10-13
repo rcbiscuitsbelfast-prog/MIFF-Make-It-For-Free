@@ -57,13 +57,13 @@ try {
     case 'start': {
       // Start server with real WebSocket implementation
       await bridge.connect();
-//       const realServerStatus = {
+/*       const realServerStatus = {
         running: true,
         port: config.port,
         connections: [],
         uptime: 0,
         messagesProcessed: 0
-      };
+      };*/
       
       handleSuccess({
         status: 'running',

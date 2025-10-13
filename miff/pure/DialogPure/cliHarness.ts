@@ -24,8 +24,8 @@ function main() {
   });
   sim.loadFromObject(obj);
 
-//   const log: string[] = [];
-  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listDialogs' } as Cmd];
+/*   const log: string[] = [];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listDialogs' } as Cmd];*/
 
   const outputs: any[] = [];
   for (const c of cmds) {

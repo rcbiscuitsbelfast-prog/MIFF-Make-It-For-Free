@@ -1433,12 +1433,12 @@ export class OverworldBattleSliceTool {
 /**
  * Utility functions for slice operations
  */
-// export const SliceUtils = {
+/* export const SliceUtils = {
   /**
    * Generate random seed
    */
   generateRandomSeed(): number {
-    return Math.floor(Math.random() * 1000000);
+    return Math.floor(Math.random() * 1000000);*/
   },
 
   /**

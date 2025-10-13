@@ -30,7 +30,7 @@ export interface WorldManifest {
 	};
 }
 
-// export const WorldManifestPure = {
+/* export const WorldManifestPure = {
 	create(zoneId: string, zoneName: string, width: number, height: number): WorldManifest {
 		return {
 			schema: "miff.world.v1",
@@ -50,7 +50,7 @@ export interface WorldManifest {
 				title: zoneName,
 				created: new Date().toISOString()
 			}
-		};
+		};*/
 	},
 
 	addTile(world: WorldManifest, zoneId: string, x: number, y: number, assetId: string, layer: number = 1): void {

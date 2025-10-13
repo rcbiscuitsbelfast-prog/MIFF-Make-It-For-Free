@@ -1795,7 +1795,7 @@ export class TeamManager implements ITeamManager {
 /**
  * Utility functions for team operations
  */
-// export const TeamUtils = {
+/* export const TeamUtils = {
   /**
    * Generate unique team ID
    */
@@ -1845,7 +1845,7 @@ export class TeamManager implements ITeamManager {
    * Create team with balanced composition
    */
   createBalancedTeam(teamName: string): ITeam {
-    return Team.create(teamName, teamName, 'Balanced team composition', 6, TeamRules.balanced());
+    return Team.create(teamName, teamName, 'Balanced team composition', 6, TeamRules.balanced());*/
   },
 
   /**

@@ -266,13 +266,15 @@ function main() {
         playResults.push(demoAudio.playSound('sword_clash', 1.0, 1.0));
 
         // Play spatial sounds
-//         const spatialInstance1 = demoAudio.playSpatialSound('ambient_forest', {
+        /*
+        const spatialInstance1 = demoAudio.playSpatialSound('ambient_forest', {
           position: { x: 0, y: 0, z: 0 },
           velocity: { x: 0, y: 0, z: 0 },
           volume: 0.7,
           pitch: 1.0,
           dopplerEffect: false
         });
+        */
 
         const spatialInstance2 = demoAudio.playSpatialSound('footstep_grass', {
           position: { x: 5, y: 0, z: 2 },
