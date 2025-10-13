@@ -529,6 +529,7 @@ export class PhysicsSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
+    };
   
     // Initialize structured logging
     this.logger = new StructuredLogger({

@@ -1830,6 +1830,7 @@ export class SaveManager {
       enableSaveValidation: true,
       enableRecovery: true,
       ...config
+    };
   
     // Initialize structured logging
     this.logger = new StructuredLogger({

@@ -171,15 +171,10 @@ export interface TycoonIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
-
     onRevenueChange?: (revenue: number) => void;
     onExpenseChange?: (expense: number) => void;
     onMarketChange?: (marketData: MarketData) => void;
-  
-
-
   }
-  };
 }
 
 /**
