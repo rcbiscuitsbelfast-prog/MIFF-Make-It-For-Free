@@ -134,16 +134,9 @@ export class WorldManifestManager {
       height,
       tiles: [],
       metadata: {
-
         style: 'pixel-topdown',
-        generated: false;
-    
-
-      
-
-
+        generated: false
       }
-      };
     };
 
     world.zones.push(zone);

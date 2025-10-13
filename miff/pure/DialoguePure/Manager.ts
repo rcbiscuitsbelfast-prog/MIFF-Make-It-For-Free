@@ -157,8 +157,7 @@ export class DialogueParser {
         context.inventory.delete(action.target);
         break;
       case 'start_quest':
-        context.quests.set(action.target, { status: 'active', progress: 0;
-    });
+        context.quests.set(action.target, { status: 'active', progress: 0 });
         break;
       case 'complete_quest':
         const quest = context.quests.get(action.target);
@@ -229,15 +228,8 @@ export class DialogueEngine {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'DialogueManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

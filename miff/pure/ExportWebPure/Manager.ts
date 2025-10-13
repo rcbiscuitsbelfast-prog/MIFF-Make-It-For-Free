@@ -77,15 +77,8 @@ export class ExportWebManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'ExportWebManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
