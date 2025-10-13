@@ -58,7 +58,7 @@ class CombatCLI {
       
       // Test 3: Create moves
       const basicAttack = CombatUtils.createStandardMove('basic_attack', 'Basic Attack', MoveCategory.PHYSICAL, 40, 'normal');
-      const specialAttack = CombatUtils.createStandardMove('special_attack', 'Special Attack', MoveCategory.SPECIAL, 60, 'fire');
+//       const specialAttack = CombatUtils.createStandardMove('special_attack', 'Special Attack', MoveCategory.SPECIAL, 60, 'fire');
       
       console.info('✅ Created moves');
       

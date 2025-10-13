@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { normalizeManifest, validateManifest, remixAudit, AssetEntry, NormalizedManifest } from './index';
+import { normalizeManifest, validateManifest, remixAudit, AssetEntry } from './index';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 

@@ -7,7 +7,7 @@
  * across the MIFF framework.
  */
 
-import { MigrationManager, MigrationResult, VersionCompatibility } from './MigrationSystem.js';
+import { MigrationManager } from './MigrationSystem.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';

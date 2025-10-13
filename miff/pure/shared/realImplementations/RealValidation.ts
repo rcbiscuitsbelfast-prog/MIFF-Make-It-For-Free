@@ -592,7 +592,7 @@ export const globalValidation = new RealValidation();
 /**
  * Legacy compatibility object that matches the mock interface
  */
-export const realValidation = {
+// export const realValidation = {
   validateSchema: (data: any, schema: any, options?: SchemaValidationOptions) => 
     globalValidation.validateSchema(data, schema, options),
   validateEngineHints: (hints: EngineHints) => 

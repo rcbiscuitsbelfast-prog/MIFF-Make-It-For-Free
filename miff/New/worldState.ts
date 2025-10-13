@@ -1,5 +1,4 @@
 import { TileManager } from '../TileMapPure/tileManager';
-import { TileType } from '../TileMapPure/tileTypes';
 
 export interface WorldState {
   zone: string;

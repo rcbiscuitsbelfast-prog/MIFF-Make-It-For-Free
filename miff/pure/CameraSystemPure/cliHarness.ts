@@ -7,9 +7,7 @@
  * the CameraSystemPure module functionality.
  */
 
-import { CameraSystemPure, CameraDefinition, CameraInstance } from './index';
-import { EventBus } from '../../EventsPure/index';
-import { InputSystemPure } from '../../InputPure/index';
+import { CameraSystemPure, CameraInstance } from './index';
 import { RNGPure } from '../../RNGPure/index';
 import * as fs from 'fs';
 import * as path from 'path';

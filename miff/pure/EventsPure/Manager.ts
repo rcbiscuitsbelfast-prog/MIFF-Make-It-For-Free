@@ -344,5 +344,5 @@ export class EventsManager {
 }
 
 // Export default instance
-export const defaultEventsManager = new EventsManager();
+// export const defaultEventsManager = new EventsManager();
 export { EventsManager as default };

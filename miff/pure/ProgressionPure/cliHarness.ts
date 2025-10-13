@@ -15,7 +15,7 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
-import { XPManager, XPCurve, XPCurveType } from './index.js';
+import { XPManager, XPCurve } from './index.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {

@@ -344,5 +344,5 @@ export class WorldEnhancementsManager {
 }
 
 // Export default instance
-export const defaultWorldEnhancementsManager = new WorldEnhancementsManager();
+// export const defaultWorldEnhancementsManager = new WorldEnhancementsManager();
 export { WorldEnhancementsManager as default };

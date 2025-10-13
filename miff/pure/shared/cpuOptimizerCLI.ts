@@ -7,7 +7,7 @@
  * and resource management for the MIFF framework.
  */
 
-import { CPUOptimizer, OptimizationResult, CPUMetrics } from './CPUOptimizer.js';
+import { CPUOptimizer } from './CPUOptimizer.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

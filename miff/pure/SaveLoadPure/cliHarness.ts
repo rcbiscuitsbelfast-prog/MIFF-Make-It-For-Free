@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { SaveLoadManager, GameDataV11, SaveSlot, StorageAdapter } from './SaveLoadManager';
+import { SaveLoadManager, StorageAdapter } from './SaveLoadManager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class FileStorageAdapter implements StorageAdapter {

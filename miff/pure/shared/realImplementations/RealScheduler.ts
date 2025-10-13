@@ -468,4 +468,4 @@ export class RealScheduler {
 }
 
 // Export singleton instance
-export const realScheduler = new RealScheduler();
+// export const realScheduler = new RealScheduler();

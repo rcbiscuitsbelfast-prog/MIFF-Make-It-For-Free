@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { OverlayFXManager, OverlayEffectType, OverlayEffectConfig, overlayFXManager } from '../OverlayFXPure';
+import { OverlayFXManager, OverlayEffectType, overlayFXManager } from '../OverlayFXPure';
 
 export enum ScanTargetType {
   ITEM = 'item',
@@ -401,4 +401,4 @@ export class ScanFeedbackManager {
 }
 
 // Export default instance
-export const scanFeedbackManager = new ScanFeedbackManager(overlayFXManager);
+// export const scanFeedbackManager = new ScanFeedbackManager(overlayFXManager);

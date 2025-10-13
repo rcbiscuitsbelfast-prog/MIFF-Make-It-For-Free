@@ -9,9 +9,9 @@
  */
 
 import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType, UnityCommunicationProtocol } from '../UnityBridgePure';
-import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
-import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
-import { BattleAI, AIPolicy } from '../AIPure/Manager';
+import { SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
+import { Item, ItemType, ItemEffectType } from '../ItemsPure';
+import { AIPolicy } from '../AIPure/Manager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class UnityBridgeHarness {
@@ -67,7 +67,7 @@ export class UnityBridgeHarness {
         []
       );
 
-      const move = new MoveData(
+//       const move = new MoveData(
         'unity_slash',
         'Unity Slash',
         MoveCategory.PHYSICAL,

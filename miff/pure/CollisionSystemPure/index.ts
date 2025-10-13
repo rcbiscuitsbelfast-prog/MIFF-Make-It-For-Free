@@ -25,7 +25,7 @@ export type {
 } from './Manager';
 
 // Module metadata
-export const MODULE_INFO = {
+// export const MODULE_INFO = {
   name: 'CollisionSystemPure',
   version: '2.0.0',
   description: 'Advanced 2D collision detection with spatial partitioning, layer filtering, and shape support',

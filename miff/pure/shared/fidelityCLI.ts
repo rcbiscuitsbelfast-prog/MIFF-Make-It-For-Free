@@ -6,7 +6,7 @@
  * Command-line interface for improving runtime fidelity across the MIFF framework.
  */
 
-import { RuntimeFidelityManager, MockImplementation } from './RuntimeFidelityManager.js';
+import { RuntimeFidelityManager } from './RuntimeFidelityManager.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

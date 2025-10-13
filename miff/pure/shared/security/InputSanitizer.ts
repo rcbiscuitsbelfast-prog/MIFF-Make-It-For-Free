@@ -439,5 +439,5 @@ export class InputSanitizer {
 }
 
 // Export default instance
-export const inputSanitizer = new InputSanitizer();
+// export const inputSanitizer = new InputSanitizer();
 export { InputSanitizer as default };

@@ -344,5 +344,5 @@ export class RacingSystemManager {
 }
 
 // Export default instance
-export const defaultRacingSystemManager = new RacingSystemManager();
+// export const defaultRacingSystemManager = new RacingSystemManager();
 export { RacingSystemManager as default };

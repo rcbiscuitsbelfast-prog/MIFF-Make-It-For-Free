@@ -646,4 +646,4 @@ export class ButtonStyleManager {
 }
 
 // Export default instance
-export const buttonStyleManager = new ButtonStyleManager();
+// export const buttonStyleManager = new ButtonStyleManager();

@@ -796,4 +796,4 @@ export class RealPlatformBridge {
 }
 
 // Export singleton instance
-export const realPlatformBridge = new RealPlatformBridge();
+// export const realPlatformBridge = new RealPlatformBridge();

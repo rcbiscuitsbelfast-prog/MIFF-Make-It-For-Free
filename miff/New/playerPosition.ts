@@ -1,4 +1,3 @@
-import { TileType } from '../TileMapPure/tileTypes';
 import { TileManager } from '../TileMapPure/tileManager';
 import { isWalkable } from '../TileMapPure/tileUtils';
 

@@ -346,7 +346,7 @@ export class HealthSystemPure {
     let updatedCount = 0;
 
     for (const entity of this.entities.values()) {
-      const dt = (now - entity.lastUpdate) / 1000; // Convert to seconds
+//       const dt = (now - entity.lastUpdate) / 1000; // Convert to seconds
       
       // Update regeneration
       for (let i = entity.regeneration.length - 1; i >= 0; i--) {

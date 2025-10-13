@@ -344,5 +344,5 @@ export class SyncManagerManager {
 }
 
 // Export default instance
-export const defaultSyncManagerManager = new SyncManagerManager();
+// export const defaultSyncManagerManager = new SyncManagerManager();
 export { SyncManagerManager as default };

@@ -5,7 +5,7 @@
  */
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
-import { SurvivalSystemPure, SurvivalStats } from './index';
+import { SurvivalSystemPure } from './index';
 import { EventBus } from '../EventBusPure/index.js';
 
 const { mode, params } = parseKeyValueArgs(process.argv);

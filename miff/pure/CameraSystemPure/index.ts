@@ -1006,7 +1006,7 @@ export class CameraSystemPure {
    * Smoothly move camera to desired position
    */
   private smoothMoveCamera(camera: CameraInstance, desiredPosition: Vector3, deltaTime: number): void {
-    const smoothing = camera.currentSettings.smoothingFactor;
+//     const smoothing = camera.currentSettings.smoothingFactor;
     const moveSpeed = camera.currentSettings.movementSpeed;
 
     const lerpFactor = 1 - Math.exp(-moveSpeed * deltaTime);
@@ -1036,7 +1036,7 @@ export class CameraSystemPure {
     }
 
     // Create look-at rotation
-    const dot = camera.currentSettings.up.y; // Assuming up is (0,1,0)
+//     const dot = camera.currentSettings.up.y; // Assuming up is (0,1,0)
     const pitch = Math.asin(-direction.y);
     const yaw = Math.atan2(direction.x, direction.z);
 

@@ -37,7 +37,7 @@ class StatsSystemCLI extends BaseCLIHarness {
   }
 
   async executeOperation(args: CLIArgs): Promise<CLIResult> {
-    const startTime = Date.now();
+//     const startTime = Date.now();
 
     try {
       switch (args.operation) {

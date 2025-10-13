@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockTimers = {
+// export const mockTimers = {
   setTimeout: jest.fn().mockReturnValue(1),
   clearTimeout: jest.fn(),
   setInterval: jest.fn().mockReturnValue(1),

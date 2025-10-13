@@ -5,7 +5,7 @@
  * Provides discovery, validation, and reporting capabilities.
  */
 
-import { CapabilityManager, CapabilityRegistry } from './MIFFCapable.js';
+import { CapabilityManager } from './MIFFCapable.js';
 import { EventBus } from '../EventBusPure/index.js';
 import * as fs from 'fs';
 import * as path from 'path';

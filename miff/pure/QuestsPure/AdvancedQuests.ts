@@ -5,7 +5,7 @@
  * complex branching, and procedural quest creation.
  */
 
-import { Quest, QuestStep, QuestReward, QuestStats } from './index';
+import { Quest } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'expired';
 

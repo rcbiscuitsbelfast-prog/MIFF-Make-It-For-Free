@@ -511,7 +511,7 @@ export class BundleOptimizer {
   // Placeholder methods for module analysis
   private async readModuleFile(path: string): Promise<string> {
     // Simulate reading module file
-    return `// Module: ${path}\nexport const test = 'value';\n`;
+//     return `// Module: ${path}\nexport const test = 'value';\n`;
   }
 
   private parseAST(content: string): any {

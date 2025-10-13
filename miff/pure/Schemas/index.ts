@@ -262,7 +262,7 @@ export class SchemaValidator {
 /**
  * Utility functions for common schema operations
  */
-export const SchemaUtils = {
+// export const SchemaUtils = {
   /**
    * Create a string field definition
    */

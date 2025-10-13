@@ -410,5 +410,5 @@ export class StandardErrorHandler {
 }
 
 // Export default instance
-export const standardErrorHandler = new StandardErrorHandler();
+// export const standardErrorHandler = new StandardErrorHandler();
 export { StandardErrorHandler as default };

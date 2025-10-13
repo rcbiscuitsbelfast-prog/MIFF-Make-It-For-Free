@@ -10,7 +10,7 @@ import { RhythmChallengePure, RhythmNote, RhythmSequence } from './index';
 const { mode, params } = parseKeyValueArgs(process.argv);
 
 // In Node CI environments, ensure loadSequence is safe (no audio backends required)
-const isCI = process.env.CI === 'true' || (params && (params as any).ci === true);
+// const isCI = process.env.CI === 'true' || (params && (params as any).ci === true);
 
 const system = new RhythmChallengePure();
 

@@ -5,7 +5,7 @@
  */
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
-import { PixelAnimator, Animation, AnimationFrame } from './Animator';
+import { PixelAnimator, Animation } from './Animator';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const animator = new PixelAnimator();

@@ -1308,7 +1308,7 @@ export class ChallengeManager implements IChallengeManager {
 /**
  * Utility functions for challenge operations
  */
-export const ChallengeUtils = {
+// export const ChallengeUtils = {
   /**
    * Create default player context for testing
    */
@@ -1483,7 +1483,7 @@ export const ChallengeUtils = {
 /**
  * Default instances
  */
-export const defaultBattleChallenge = new BattleChallenge('default', 'Default Challenge', 'Default description');
-export const defaultChallengeManager = new ChallengeManager();
-export const defaultChallengeRuleset = new ChallengeRuleset();
-export const defaultChallengeResult = ChallengeResult.victory();
+// export const defaultBattleChallenge = new BattleChallenge('default', 'Default Challenge', 'Default description');
+// export const defaultChallengeManager = new ChallengeManager();
+// export const defaultChallengeRuleset = new ChallengeRuleset();
+// export const defaultChallengeResult = ChallengeResult.victory();

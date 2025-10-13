@@ -2,7 +2,7 @@
 // Purpose: Connects other modules (Toppler, Spirit Tamer) as a hub for transitions, overlays, and remix previews
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
 
-import { OverlinkThemes, ThemeId, ThemeConfig } from './OverlinkThemes';
+import { OverlinkThemes, ThemeId } from './OverlinkThemes';
 import { RemixLineageTracker, RemixOrigin, AssetLineage } from './RemixLineageTracker';
 import { AudioManager } from './AudioManager';
 // BadgeSystem and CreditsRenderer - minimal stub classes for typing/constructability

@@ -16,12 +16,7 @@
 import { Command } from 'commander';
 import * as readline from 'readline';
 import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '../UnityBridgePure';
-import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../GodotBridgePure';
 import { WebBridge, WebBridgeConfig } from '../WebBridgePure';
-import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure';
-import { CombatUtils } from '../CombatPure/engine';
-import { ItemUsageManager } from '../ItemsPure';
-import { BattleAI } from '../AIPure/Manager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const program = new Command();

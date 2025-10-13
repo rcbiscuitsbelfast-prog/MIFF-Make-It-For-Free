@@ -595,4 +595,4 @@ export class RealModdingSystem {
 }
 
 // Export singleton instance
-export const realModdingSystem = new RealModdingSystem();
+// export const realModdingSystem = new RealModdingSystem();

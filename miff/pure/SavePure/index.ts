@@ -1405,7 +1405,7 @@ export const SaveUtils = {
 /**
  * Default instances
  */
-export const defaultSaveSnapshot = new SaveSnapshot();
-export const defaultSaveValidator = new SaveValidator();
-export const defaultSaveMigrator = new SaveMigrator();
-export const defaultSaveManager = new SaveManager();
+// export const defaultSaveSnapshot = new SaveSnapshot();
+// export const defaultSaveValidator = new SaveValidator();
+// export const defaultSaveMigrator = new SaveMigrator();
+// export const defaultSaveManager = new SaveManager();

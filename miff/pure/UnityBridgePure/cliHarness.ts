@@ -68,7 +68,7 @@ function main() {
       customSettings: input.config || {}
     };
 
-    const bridge = new UnityBridgeManager(config);
+//     const bridge = new UnityBridgeManager(config);
 
     let result;
     switch (input.op) {

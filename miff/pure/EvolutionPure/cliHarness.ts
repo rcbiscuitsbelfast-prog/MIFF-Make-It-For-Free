@@ -10,7 +10,7 @@
  */
 
 import * as readline from 'readline';
-import { EvolutionManager, EvolutionCondition, SpeciesEvolutionData, EvolutionUtils, EvolutionStatus, EvolutionConditionType, TimeOfDay, IPlayerContext } from './index';
+import { EvolutionManager, EvolutionCondition, SpeciesEvolutionData, EvolutionUtils, EvolutionStatus, IPlayerContext } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 /**

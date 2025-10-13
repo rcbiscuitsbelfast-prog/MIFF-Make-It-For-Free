@@ -1529,7 +1529,7 @@ export class EffectManager implements IEffectManager {
 /**
  * Utility functions for effect operations
  */
-export const EffectUtils = {
+// export const EffectUtils = {
   /**
    * Create default entity context for testing
    */
@@ -1682,8 +1682,8 @@ export const EffectUtils = {
  */
 export const defaultBattleEffect = new BattleEffect('default', 'Default Effect', 'Default effect');
 export const defaultActiveEffect = ActiveEffect.create(defaultBattleEffect, 'default_entity');
-export const defaultStatModifierAggregator = new StatModifierAggregator();
-export const defaultEffectResolver = new EffectResolver();
-export const defaultEffectManager = new EffectManager();
-export const defaultEffectEvent = EffectEvent.applied('default', defaultBattleEffect, defaultActiveEffect, EffectPhase.PRE_TURN);
-export const defaultEffectResolution = EffectResolution.create();
+// export const defaultStatModifierAggregator = new StatModifierAggregator();
+// export const defaultEffectResolver = new EffectResolver();
+// export const defaultEffectManager = new EffectManager();
+// export const defaultEffectEvent = EffectEvent.applied('default', defaultBattleEffect, defaultActiveEffect, EffectPhase.PRE_TURN);
+// export const defaultEffectResolution = EffectResolution.create();

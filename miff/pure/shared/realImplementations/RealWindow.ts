@@ -386,4 +386,4 @@ export class RealWindow {
 }
 
 // Export singleton instance
-export const realWindow = new RealWindow();
+// export const realWindow = new RealWindow();

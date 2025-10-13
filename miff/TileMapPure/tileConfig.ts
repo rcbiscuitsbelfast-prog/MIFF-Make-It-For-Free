@@ -7,7 +7,7 @@ export interface TileConfig {
   label: string;
 }
 
-export const tileConfigMap: Record<TileType, TileConfig> = {
+// export const tileConfigMap: Record<TileType, TileConfig> = {
   [TileType.Grass]: {
     movementCost: 1,
     walkable: true,

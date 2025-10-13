@@ -2,7 +2,7 @@
 
 import { SessionManifestManager, SessionConfig } from './Manager';
 import { SessionPlayerRef, SessionManifestPure } from './index';
-import { exportDataToFormat, ExportFormat, addExportSupport } from '../shared/exportUtils';
+import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';

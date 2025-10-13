@@ -67,7 +67,7 @@ function main() {
       customSettings: input.config || {}
     };
 
-    const bridge = new GodotBridgeManager(config);
+//     const bridge = new GodotBridgeManager(config);
 
     let result;
     switch (input.op) {

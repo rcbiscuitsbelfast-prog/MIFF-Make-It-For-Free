@@ -161,4 +161,4 @@ export class RealTransport {
 }
 
 // Export singleton instance
-export const realTransport = new RealTransport();
+// export const realTransport = new RealTransport();

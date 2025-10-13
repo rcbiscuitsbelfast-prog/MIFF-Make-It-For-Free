@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import * as fs from 'fs';
 import * as path from 'path';
-import { ChainValidatorManager, type ChainNode, type ChainEdge } from './Manager';
+import { ChainValidatorManager } from './Manager';
 import { addExportSupport } from '../shared/exportUtils';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

@@ -1795,7 +1795,7 @@ export class TeamManager implements ITeamManager {
 /**
  * Utility functions for team operations
  */
-export const TeamUtils = {
+// export const TeamUtils = {
   /**
    * Generate unique team ID
    */
@@ -2851,8 +2851,8 @@ export class SyncManager implements ISyncManager {
 }
 
 // Export default instances
-export const defaultTeamManager = new TeamManager();
-export const defaultTeamRules = TeamRules.balanced();
-export const defaultTeam = new Team('default', 'Default Team');
-export const defaultTeamSlot = TeamSlot.front();
-export const defaultValidationResult = ValidationResult.ok();
+// export const defaultTeamManager = new TeamManager();
+// export const defaultTeamRules = TeamRules.balanced();
+// export const defaultTeam = new Team('default', 'Default Team');
+// export const defaultTeamSlot = TeamSlot.front();
+// export const defaultValidationResult = ValidationResult.ok();

@@ -1,10 +1,7 @@
 // UnrealEventSyncPure - MIFF to Unreal event synchronization system
 // Schema Version: v1.0
 
-import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealEvent, UnrealMessage } from './index';
-import { CombatUtils, SpiritInstance } from '../CombatPure/engine';
-import { ItemUsageManager, Item } from '../ItemsPure';
-import { BattleAI, AIPolicy } from '../AIPure/Manager';
+import { UnrealBridgeManager, UnrealEvent, UnrealMessage } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export enum EventSyncMode {

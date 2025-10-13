@@ -5,8 +5,6 @@
  * behavior trees, and advanced decision-making strategies.
  */
 
-import { AIDecisionStyle, AIActionType, AIPolicyType } from './Manager';
-import { ICombatant, MoveData, Stats } from '../CombatPure/engine';
 
 export interface AIBehaviorTree {
   id: string;
@@ -346,7 +344,7 @@ export class AdvancedAI {
    */
   private initializeDefaultBehaviorTrees(): void {
     // Combat behavior tree
-    const combatTree = this.createBehaviorTree('combat', 'Combat AI', {
+//     const combatTree = this.createBehaviorTree('combat', 'Combat AI', {
       type: 'selector',
       name: 'Combat Root',
       children: [

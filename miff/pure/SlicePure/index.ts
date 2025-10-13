@@ -1433,7 +1433,7 @@ export class OverworldBattleSliceTool {
 /**
  * Utility functions for slice operations
  */
-export const SliceUtils = {
+// export const SliceUtils = {
   /**
    * Generate random seed
    */
@@ -1521,8 +1521,8 @@ export const SliceUtils = {
 };
 
 // Export default instances for convenience
-export const defaultRNGProvider = new RNGProvider();
-export const defaultTypeEffectiveness = new TypeEffectiveness();
-export const defaultPlayerState = PlayerState.create();
-export const defaultEncounterTable = EncounterTable.create('demo');
-export const defaultEncounterTrigger = EncounterTrigger.tileType('demo', 'grass');
+// export const defaultRNGProvider = new RNGProvider();
+// export const defaultTypeEffectiveness = new TypeEffectiveness();
+// export const defaultPlayerState = PlayerState.create();
+// export const defaultEncounterTable = EncounterTable.create('demo');
+// export const defaultEncounterTrigger = EncounterTrigger.tileType('demo', 'grass');

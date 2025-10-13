@@ -646,12 +646,12 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
   }
 
   private createModelViewMatrix(): Float32Array {
-    const cX = Math.cos(this.camera.rotation.x);
-    const sX = Math.sin(this.camera.rotation.x);
-    const cY = Math.cos(this.camera.rotation.y);
-    const sY = Math.sin(this.camera.rotation.y);
-    const cZ = Math.cos(this.camera.rotation.z);
-    const sZ = Math.sin(this.camera.rotation.z);
+//     const cX = Math.cos(this.camera.rotation.x);
+//     const sX = Math.sin(this.camera.rotation.x);
+//     const cY = Math.cos(this.camera.rotation.y);
+//     const sY = Math.sin(this.camera.rotation.y);
+//     const cZ = Math.cos(this.camera.rotation.z);
+//     const sZ = Math.sin(this.camera.rotation.z);
 
     const matrix = new Float32Array(16);
 

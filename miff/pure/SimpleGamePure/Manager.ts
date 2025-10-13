@@ -344,5 +344,5 @@ export class SimpleGameManager {
 }
 
 // Export default instance
-export const defaultSimpleGameManager = new SimpleGameManager();
+// export const defaultSimpleGameManager = new SimpleGameManager();
 export { SimpleGameManager as default };

@@ -66,7 +66,7 @@ class BattleLoopPureCLI {
       output: process.stdout
     });
 
-    const rng = new MockRNGProvider();
+//     const rng = new MockRNGProvider();
     this.controller = new BattleLoopManager();
 
     this.initializeDemo();

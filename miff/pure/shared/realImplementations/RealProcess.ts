@@ -387,4 +387,4 @@ export class RealProcess {
 }
 
 // Export singleton instance
-export const realProcess = new RealProcess();
+// export const realProcess = new RealProcess();

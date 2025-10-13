@@ -8,7 +8,7 @@
  */
 
 import * as readline from 'readline';
-import { InputProfile, InputAction, InputMapper, InputUtils, InputCategories, InputTokens } from './index';
+import { InputProfile, InputAction, InputMapper, InputUtils, InputCategories } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLIState {

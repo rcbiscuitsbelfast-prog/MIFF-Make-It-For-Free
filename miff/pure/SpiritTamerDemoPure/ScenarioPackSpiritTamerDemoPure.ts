@@ -108,7 +108,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 		// Process any taps scheduled exactly at this tick
 		if (hasTrigger) {
 			const events = tapsByTime.get(t) || [];
-			for (const _ of events) {
+// 			for (const _ of events) {
 				// Find nearest beat
 				let nearest: Beat | undefined;
 				let nearestDelta = Number.POSITIVE_INFINITY;

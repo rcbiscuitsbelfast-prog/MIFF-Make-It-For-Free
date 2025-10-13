@@ -244,7 +244,7 @@ export const globalEventBus = new RealEventBus();
 /**
  * Legacy compatibility object that matches the mock interface
  */
-export const realEventBus = {
+// export const realEventBus = {
   emit: (event: string, ...args: any[]) => globalEventBus.emit(event, ...args),
   subscribe: (event: string, handler: (...args: any[]) => void) => 
     globalEventBus.subscribe(event, handler),

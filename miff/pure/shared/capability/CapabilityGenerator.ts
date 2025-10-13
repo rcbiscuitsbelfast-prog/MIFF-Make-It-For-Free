@@ -1,5 +1,5 @@
 import { StructuredLogger } from '../logging/StructuredLogger';
-import { Capability, CapabilityMethod, CapabilityParameter, CapabilityProperty, CapabilityEvent } from './CapabilitySystem';
+import { Capability, CapabilityMethod, CapabilityProperty, CapabilityEvent } from './CapabilitySystem';
 import * as fs from 'fs';
 import * as path from 'path';
 

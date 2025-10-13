@@ -13,10 +13,10 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AvatarAssetRegistryConfig {
   enableAssetCataloging: boolean;
@@ -611,7 +611,7 @@ export class AvatarAssetRegistryManager {
     const totalCategories = registries.reduce((sum, r) => sum + r.categories.length, 0);
     const totalTags = registries.reduce((sum, r) => sum + r.tags.length, 0);
     const totalSize = registries.reduce((sum, r) => sum + r.assets.reduce((s, a) => s + a.size, 0), 0);
-    const totalDependencies = registries.reduce((sum, r) => sum + r.dependencies.length, 0);
+//     const totalDependencies = registries.reduce((sum, r) => sum + r.dependencies.length, 0);
 
     for (const registry of registries) {
       registry.analytics = {

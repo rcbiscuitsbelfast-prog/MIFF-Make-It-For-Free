@@ -17,7 +17,7 @@
 
 import { EventBus } from '../EventBusPure/EventBusPure';
 import { SportsManager, SportsConfig } from './Manager.js';
-import { SportType, TeamPosition, GameState } from './index.js';
+import { SportType, TeamPosition } from './index.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {

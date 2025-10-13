@@ -8,7 +8,7 @@
  */
 
 import * as readline from 'readline';
-import { PartyManager, PartySlot, KOHandler, PartyUtils, IPartyMember } from './index';
+import { PartyManager, KOHandler, PartyUtils } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLIState {

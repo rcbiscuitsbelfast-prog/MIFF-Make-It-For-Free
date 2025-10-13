@@ -502,4 +502,4 @@ export class RealCanvas {
 }
 
 // Export singleton instance
-export const realCanvas = new RealCanvas();
+// export const realCanvas = new RealCanvas();

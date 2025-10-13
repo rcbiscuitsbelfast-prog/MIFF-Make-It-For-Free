@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { OverlayFXManager, OverlayEffectType, OverlayEffectConfig, overlayFXManager } from '../OverlayFXPure';
+import { OverlayFXManager, OverlayEffectType, overlayFXManager } from '../OverlayFXPure';
 
 export enum PerceptionMode {
   NORMAL = 'normal',
@@ -398,4 +398,4 @@ export class PerceptionFilterManager {
 }
 
 // Export default instance
-export const perceptionFilterManager = new PerceptionFilterManager(overlayFXManager);
+// export const perceptionFilterManager = new PerceptionFilterManager(overlayFXManager);

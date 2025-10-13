@@ -431,7 +431,7 @@ class RitualSystemCLI {
     console.info('\n🎁 Contributing to Ritual');
     console.info('=========================');
 
-    const participantId = await this.askQuestion('Participant ID: ');
+//     const participantId = await this.askQuestion('Participant ID: ');
     const contributionType = await this.askQuestion('Contribution type (mana/item/time): ');
 
     if (contributionType === 'mana') {

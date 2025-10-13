@@ -297,5 +297,5 @@ export class SafeObjectUtils {
 }
 
 // Export default instance
-export const safeObjectUtils = new SafeObjectUtils();
+// export const safeObjectUtils = new SafeObjectUtils();
 export { SafeObjectUtils as default };

@@ -5,9 +5,7 @@
  * shader support, and dynamic lighting.
  */
 
-import { RenderWorldPure } from './index';
 import type { RenderWorldGameState } from './index';
-import { RenderPayloadManager as RenderPayloadPure } from '../RenderPayloadPure';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface AdvancedRenderConfig {

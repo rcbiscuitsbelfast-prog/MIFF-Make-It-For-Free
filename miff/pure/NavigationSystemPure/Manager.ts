@@ -344,5 +344,5 @@ export class NavigationSystemManager {
 }
 
 // Export default instance
-export const defaultNavigationSystemManager = new NavigationSystemManager();
+// export const defaultNavigationSystemManager = new NavigationSystemManager();
 export { NavigationSystemManager as default };

@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockFileSystem = {
+// export const mockFileSystem = {
   readFileSync: jest.fn().mockImplementation((path: string) => {
     if (path.includes('npc.sample.json')) {
       return JSON.stringify({

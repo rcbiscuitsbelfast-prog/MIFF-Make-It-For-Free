@@ -5,7 +5,7 @@
  * cleanup, monitoring, and security features for production deployment.
  */
 
-import { AuthenticationSystem, Session, User } from './AuthenticationSystem.js';
+import { AuthenticationSystem, Session } from './AuthenticationSystem.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SessionConfig {

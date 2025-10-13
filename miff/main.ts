@@ -237,7 +237,7 @@ function updateUI() {
 function gameLoop(currentTime: number) {
   if (!gameState.isRunning) return;
   
-  const deltaTime = currentTime - gameState.lastTime;
+//   const deltaTime = currentTime - gameState.lastTime;
   gameState.lastTime = currentTime;
   
   // Draw current zone

@@ -846,7 +846,7 @@ export class SecurityManager {
     const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     
     const recentEvents = this.events.filter(event => event.timestamp > last24Hours);
-    const recentAlerts = this.alerts.filter(alert => alert.timestamp > last24Hours);
+//     const recentAlerts = this.alerts.filter(alert => alert.timestamp > last24Hours);
     
     const eventsByType = recentEvents.reduce((acc, event) => {
       acc[event.type] = (acc[event.type] || 0) + 1;
@@ -965,7 +965,7 @@ export class SecurityManager {
 /**
  * Default security manager instance
  */
-export const defaultSecurityManager = new SecurityManager({
+// export const defaultSecurityManager = new SecurityManager({
   enableAuthentication: true,
   enableAuthorization: true,
   enableEncryption: true,

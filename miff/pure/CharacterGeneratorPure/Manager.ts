@@ -1,7 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface CharacterGeneratorPureConfig {
@@ -350,4 +350,4 @@ export class CharacterGeneratorPureManager {
 }
 
 // Default instance
-export const defaultCharacterGeneratorPureManager = new CharacterGeneratorPureManager();
+// export const defaultCharacterGeneratorPureManager = new CharacterGeneratorPureManager();

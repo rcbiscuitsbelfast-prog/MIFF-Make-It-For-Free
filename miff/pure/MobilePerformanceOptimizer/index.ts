@@ -476,4 +476,4 @@ export class MobilePerformanceOptimizer {
 }
 
 // Export default instance
-export const mobilePerformanceOptimizer = new MobilePerformanceOptimizer();
+// export const mobilePerformanceOptimizer = new MobilePerformanceOptimizer();

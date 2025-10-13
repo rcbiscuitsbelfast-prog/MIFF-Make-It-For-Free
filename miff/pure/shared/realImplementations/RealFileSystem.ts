@@ -349,7 +349,7 @@ export const globalFileSystem = new RealFileSystem();
 /**
  * Legacy compatibility object that matches the mock interface
  */
-export const realFileSystem = {
+// export const realFileSystem = {
   readFileSync: (path: string, encoding?: BufferEncoding) => 
     globalFileSystem.readFileSync(path, encoding),
   writeFileSync: (path: string, content: string, encoding?: BufferEncoding) => 

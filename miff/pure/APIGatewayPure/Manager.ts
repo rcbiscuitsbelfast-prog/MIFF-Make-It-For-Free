@@ -15,10 +15,10 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface APIGatewayConfig {
   enableRouting: boolean;
@@ -495,7 +495,7 @@ export class APIGatewayManager {
     const activeGateways = gateways.filter(g => g.status === 'active');
     const totalRequests = gateways.reduce((sum, g) => sum + g.analytics.totalRequests, 0);
     const totalSuccessful = gateways.reduce((sum, g) => sum + g.analytics.successfulRequests, 0);
-    const totalFailed = gateways.reduce((sum, g) => sum + g.analytics.failedRequests, 0);
+//     const totalFailed = gateways.reduce((sum, g) => sum + g.analytics.failedRequests, 0);
     const totalResponseTime = gateways.reduce((sum, g) => sum + g.analytics.averageResponseTime, 0);
 
     for (const gateway of gateways) {

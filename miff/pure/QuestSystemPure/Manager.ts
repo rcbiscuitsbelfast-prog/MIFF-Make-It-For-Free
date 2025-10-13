@@ -344,5 +344,5 @@ export class QuestSystemManager {
 }
 
 // Export default instance
-export const defaultQuestSystemManager = new QuestSystemManager();
+// export const defaultQuestSystemManager = new QuestSystemManager();
 export { QuestSystemManager as default };

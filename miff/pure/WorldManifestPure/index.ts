@@ -30,7 +30,7 @@ export interface WorldManifest {
 	};
 }
 
-export const WorldManifestPure = {
+// export const WorldManifestPure = {
 	create(zoneId: string, zoneName: string, width: number, height: number): WorldManifest {
 		return {
 			schema: "miff.world.v1",

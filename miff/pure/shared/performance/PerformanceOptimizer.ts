@@ -429,5 +429,5 @@ export class PerformanceOptimizer {
 }
 
 // Export default instance
-export const performanceOptimizer = new PerformanceOptimizer();
+// export const performanceOptimizer = new PerformanceOptimizer();
 export { PerformanceOptimizer as default };

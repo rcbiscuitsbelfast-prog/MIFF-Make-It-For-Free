@@ -6,7 +6,7 @@
  * Stores animation presets in .anim.json
  */
 
-import { RigConfig, AnimationConfig, Keyframe, Transform, Vec3, Quaternion } from './types';
+import { RigConfig, AnimationConfig, Keyframe } from './types';
 
 export class AnimationSequencer {
   private rigConfig: RigConfig;

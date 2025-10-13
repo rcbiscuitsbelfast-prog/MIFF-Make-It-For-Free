@@ -8,9 +8,7 @@
  */
 
 import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../GodotBridgePure';
-import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
-import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
-import { BattleAI, AIPolicy } from '../AIPure/Manager';
+import { Item } from '../ItemsPure';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

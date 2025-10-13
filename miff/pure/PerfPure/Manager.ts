@@ -344,5 +344,5 @@ export class PerfManager {
 }
 
 // Export default instance
-export const defaultPerfManager = new PerfManager();
+// export const defaultPerfManager = new PerfManager();
 export { PerfManager as default };

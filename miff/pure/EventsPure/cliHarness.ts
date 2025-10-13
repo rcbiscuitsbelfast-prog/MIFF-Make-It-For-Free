@@ -7,7 +7,7 @@
  * Supports publishing events, subscribing to topics, and managing subscriptions.
  */
 
-import { EventBus, EventListener, EventUtils } from './index';
+import { EventBus, EventListener } from './index';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
@@ -59,9 +59,9 @@ function generateDemoEvents(eventBus: EventBus): void {
   console.info('🎮 Running EventsPure Demo...');
 
   // Demo subscriptions
-  const combatListener = eventBus.subscribe('combat', createSubscriptionListener('combat'));
-  const questListener = eventBus.subscribe('quest', createSubscriptionListener('quest'));
-  const itemListener = eventBus.subscribe('item', createSubscriptionListener('item'));
+//   const combatListener = eventBus.subscribe('combat', createSubscriptionListener('combat'));
+//   const questListener = eventBus.subscribe('quest', createSubscriptionListener('quest'));
+//   const itemListener = eventBus.subscribe('item', createSubscriptionListener('item'));
 
   console.info('✅ Created subscriptions for: combat, quest, item');
 

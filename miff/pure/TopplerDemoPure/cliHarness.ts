@@ -13,8 +13,8 @@ interface PhysicsState {
 
 function simulatePhysics(): PhysicsState[] {
   const timeline: PhysicsState[] = [];
-  const gravity = 9.81;
-  const groundY = 0;
+//   const gravity = 9.81;
+//   const groundY = 0;
   const initialY = -1.5;
   
   // Initial state

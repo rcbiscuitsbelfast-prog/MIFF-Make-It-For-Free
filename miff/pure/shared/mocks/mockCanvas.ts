@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockCanvas = {
+// export const mockCanvas = {
   getContext: jest.fn().mockReturnValue({
     fillRect: jest.fn(),
     clearRect: jest.fn(),

@@ -6,7 +6,6 @@
  */
 
 import { MIFFCapable, ModuleCapabilities, SchemaInfo, CLIInterface, LifecycleHooks, ModuleDependency, PerformanceProfile, TestingCapabilities } from '../shared/MIFFCapable.js';
-import { UnityBridgeType, UnityCommunicationProtocol, UnityLifecycleEvent, UnityDataType } from './index.js';
 
 export class UnityBridgeCapable implements MIFFCapable {
   readonly moduleId = 'UnityBridgePure';

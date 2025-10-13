@@ -395,4 +395,4 @@ export class RealQuestSystem {
 }
 
 // Export singleton instance
-export const realQuestSystem = new RealQuestSystem();
+// export const realQuestSystem = new RealQuestSystem();

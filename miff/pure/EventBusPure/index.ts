@@ -9,7 +9,7 @@ export * from './EventBusPure';
 export { EventBus as default } from './EventBusPure';
 
 // Module metadata
-export const MODULE_INFO = {
+// export const MODULE_INFO = {
   name: 'EventBusPure',
   version: '1.0.0',
   description: 'Event and messaging system with pub/sub capabilities',

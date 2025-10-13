@@ -1,5 +1,4 @@
 import { IAIDecisionProfile, IBattleAIController, ISpiritInstance, AIDecisionStyle, ThreatLevel } from './types';
-import { MoveCategory } from './Manager';
 import { AIDecisionProfile } from './AIDecisionProfile';
 
 export class BattleAIController implements IBattleAIController {

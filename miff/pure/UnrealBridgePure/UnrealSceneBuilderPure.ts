@@ -2,7 +2,7 @@
 // Schema Version: v1.0
 
 import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer, SceneOptimizationMode, SceneExportFormat } from '../SceneBuilderPure';
-import { UnrealBridgeManager, UnrealActorBridge, UnrealSceneBridge, UnrealLevelBridge, UnrealWorldBridge } from './index';
+import { UnrealBridgeManager, UnrealActorBridge, UnrealLevelBridge, UnrealWorldBridge } from './index';
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

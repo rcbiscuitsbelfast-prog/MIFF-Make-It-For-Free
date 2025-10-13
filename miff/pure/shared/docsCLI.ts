@@ -6,7 +6,7 @@
  * Command-line interface for generating and managing documentation across the MIFF framework.
  */
 
-import { DocumentationGenerator, APIDocumentation, ContributorGuide, Tutorial, CodeExample } from './DocumentationGenerator.js';
+import { DocumentationGenerator, ContributorGuide, Tutorial, CodeExample } from './DocumentationGenerator.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

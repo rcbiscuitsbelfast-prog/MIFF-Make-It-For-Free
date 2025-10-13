@@ -344,5 +344,5 @@ export class ClueSystemManager {
 }
 
 // Export default instance
-export const defaultClueSystemManager = new ClueSystemManager();
+// export const defaultClueSystemManager = new ClueSystemManager();
 export { ClueSystemManager as default };

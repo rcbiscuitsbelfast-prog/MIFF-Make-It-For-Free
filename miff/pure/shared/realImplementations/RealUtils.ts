@@ -564,4 +564,4 @@ export class RealUtils {
 }
 
 // Export singleton instance
-export const realUtils = new RealUtils();
+// export const realUtils = new RealUtils();

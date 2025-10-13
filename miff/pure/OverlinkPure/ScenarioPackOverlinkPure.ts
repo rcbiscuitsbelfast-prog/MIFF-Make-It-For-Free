@@ -2,7 +2,7 @@
 // Purpose: Demonstrates meta-zone capabilities with modular draw reducers, toggleable debug layers, and remix-safe asset bindings
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
 
-import { OverlinkZone, DrawReducer, AssetBinding, ModuleConnection } from './OverlinkZone';
+import { OverlinkZone, DrawReducer, AssetBinding } from './OverlinkZone';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export type ScenarioState = {
@@ -69,9 +69,9 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   overlink.registerZone('preview', 'Remix Preview', ['meta', 'preview']);
 
   // Step 2: Register modules with dependencies
-  const topplerModule = overlink.registerModule('toppler_demo', 'toppler', []);
-  const spiritTamerModule = overlink.registerModule('spirit_tamer_demo', 'spirit_tamer', []);
-  const previewModule = overlink.registerModule('remix_preview', 'preview', ['toppler_demo', 'spirit_tamer_demo']);
+//   const topplerModule = overlink.registerModule('toppler_demo', 'toppler', []);
+//   const spiritTamerModule = overlink.registerModule('spirit_tamer_demo', 'spirit_tamer', []);
+//   const previewModule = overlink.registerModule('remix_preview', 'preview', ['toppler_demo', 'spirit_tamer_demo']);
 
   // Step 3: Add draw reducers
   const spriteReducer: DrawReducer = {

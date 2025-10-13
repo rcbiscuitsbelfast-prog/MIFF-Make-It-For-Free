@@ -1,7 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface NetworkBridgePureConfig {
@@ -353,4 +353,4 @@ export class NetworkBridgePureManager {
 }
 
 // Default instance
-export const defaultNetworkBridgePureManager = new NetworkBridgePureManager();
+// export const defaultNetworkBridgePureManager = new NetworkBridgePureManager();

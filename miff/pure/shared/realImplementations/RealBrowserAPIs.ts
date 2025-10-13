@@ -588,4 +588,4 @@ export class RealBrowserAPIs {
 }
 
 // Export singleton instance
-export const realBrowserAPIs = new RealBrowserAPIs();
+// export const realBrowserAPIs = new RealBrowserAPIs();

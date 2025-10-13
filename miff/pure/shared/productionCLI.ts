@@ -7,7 +7,7 @@
  * environment configuration, and monitoring system management.
  */
 
-import { ProductionReadinessManager, ProductionReadinessReport, DeploymentEnvironment, DeploymentPipeline } from './ProductionReadinessManager.js';
+import { ProductionReadinessManager, ProductionReadinessReport } from './ProductionReadinessManager.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

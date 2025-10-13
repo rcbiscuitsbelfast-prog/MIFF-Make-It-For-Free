@@ -39,7 +39,7 @@ Examples:
 import * as readline from 'readline';
 import * as fs from 'fs';
 import * as path from 'path';
-import { AvatarSystemPure, AvatarRegistry, ResolveOptions, AssetRegistryRecord } from './index';
+import { AvatarSystemPure, AvatarRegistry, ResolveOptions } from './index';
 import { AvatarManifest, AvatarStyle } from './schema';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

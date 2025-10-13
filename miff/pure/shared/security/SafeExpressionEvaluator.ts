@@ -305,5 +305,5 @@ export class SafeExpressionEvaluator {
 }
 
 // Export default instance
-export const safeExpressionEvaluator = new SafeExpressionEvaluator();
+// export const safeExpressionEvaluator = new SafeExpressionEvaluator();
 export { SafeExpressionEvaluator as default };

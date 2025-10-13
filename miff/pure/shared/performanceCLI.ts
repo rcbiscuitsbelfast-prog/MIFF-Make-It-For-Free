@@ -6,7 +6,7 @@
  * Command-line interface for performance optimization across the MIFF framework.
  */
 
-import { PerformanceOptimizer, PerformanceReport, OptimizationTarget } from './PerformanceOptimizer.js';
+import { PerformanceOptimizer, PerformanceReport } from './PerformanceOptimizer.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

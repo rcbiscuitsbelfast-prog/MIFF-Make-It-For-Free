@@ -8,9 +8,7 @@
  */
 
 import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '../UnityBridgePure';
-import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
-import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
-import { BattleAI, AIPolicy } from '../AIPure/Manager';
+import { Item } from '../ItemsPure';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -742,7 +740,7 @@ public class MIFFBridge : EditorWindow
     console.info('📄 Generating Unity project files...');
 
     // Create project settings
-    const projectSettings = {
+//     const projectSettings = {
       CompanyName: 'MIFF Team',
       ProductName: 'MIFF Integration Project',
       Version: '1.0.0',

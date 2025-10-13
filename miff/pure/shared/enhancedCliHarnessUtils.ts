@@ -649,7 +649,7 @@ export function loadFixtureForScenario(scenarioName: string): any {
 /**
  * Validation checklist for scenario tests
  */
-export const validationChecklist = {
+// export const validationChecklist = {
   runCLIReturnsRunScenario: (result: any): boolean => {
     return result.op === "runScenario" && result.finalState && result.outputs;
   },

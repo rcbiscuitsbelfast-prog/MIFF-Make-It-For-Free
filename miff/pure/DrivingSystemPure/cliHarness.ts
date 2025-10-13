@@ -487,7 +487,7 @@ class DrivingSystemCLI {
     console.info('Press SPACE for boost, ENTER to exit');
 
     // Simple driving simulation
-    const startTime = Date.now();
+//     const startTime = Date.now();
     let distance = 0;
 
     while (this.isRunning) {

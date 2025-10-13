@@ -93,21 +93,21 @@ export class TeamsPureStrategicCLI {
    */
   private createDemoTeams(): void {
     // Create offensive team
-    const offensiveTeam = this.teamManager.createTeam('offensive_force');
+//     const offensiveTeam = this.teamManager.createTeam('offensive_force');
     const offensiveSpirits = this.mockSpirits.filter(s => ['Fire', 'Electric', 'Psychic'].includes(s.type));
     offensiveSpirits.forEach(spirit => {
       this.teamManager.addSpiritToTeam('offensive_force', spirit);
     });
 
     // Create defensive team
-    const defensiveTeam = this.teamManager.createTeam('defensive_wall');
+//     const defensiveTeam = this.teamManager.createTeam('defensive_wall');
     const defensiveSpirits = this.mockSpirits.filter(s => ['Water', 'Ground', 'Grass'].includes(s.type));
     defensiveSpirits.forEach(spirit => {
       this.teamManager.addSpiritToTeam('defensive_wall', spirit);
     });
 
     // Create balanced team
-    const balancedTeam = this.teamManager.createTeam('balanced_squad');
+//     const balancedTeam = this.teamManager.createTeam('balanced_squad');
     const balancedSpirits = this.mockSpirits.filter(s => ['Light', 'Dark', 'Ice', 'Flying'].includes(s.type));
     balancedSpirits.forEach(spirit => {
       this.teamManager.addSpiritToTeam('balanced_squad', spirit);

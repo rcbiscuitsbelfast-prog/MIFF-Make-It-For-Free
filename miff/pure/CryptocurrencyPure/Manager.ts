@@ -504,7 +504,7 @@ export class CryptocurrencyPure {
       transaction.confirmations = 6;
       this.performanceMetrics.pendingTransactions--;
       
-      // Update wallet balances
+//       // Update wallet balances
       sourceWallet.balance -= amount;
       const destWallet = manager.wallets.find(w => w.id === toWallet);
       if (destWallet) {

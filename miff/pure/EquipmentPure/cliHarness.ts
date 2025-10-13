@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { EquipmentManager, EquippedItem, StatModifier } from './EquipmentManager';
+import { EquipmentManager, EquippedItem } from './EquipmentManager';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 

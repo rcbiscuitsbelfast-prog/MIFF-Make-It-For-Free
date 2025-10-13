@@ -382,5 +382,5 @@ export class SafeJSONParser {
 }
 
 // Export default instance
-export const safeJSONParser = new SafeJSONParser();
+// export const safeJSONParser = new SafeJSONParser();
 export { SafeJSONParser as default };

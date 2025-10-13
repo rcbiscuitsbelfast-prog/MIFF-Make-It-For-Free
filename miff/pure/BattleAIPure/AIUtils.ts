@@ -1,7 +1,7 @@
 import { AIDecisionProfile } from './AIDecisionProfile';
 import { AIDecisionStyle, IAIDecisionProfile } from './types';
 
-export const BattleAIUtils = {
+// export const BattleAIUtils = {
   createStandardProfiles(): IAIDecisionProfile[] {
     return [
       AIDecisionProfile.balanced('balanced'),

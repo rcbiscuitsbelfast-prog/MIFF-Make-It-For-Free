@@ -5,7 +5,7 @@
  * with snap points for limbs and serializes to .rig.json
  */
 
-import { RigConfig, RigNode, SnapPoint, Constraint, Vec3, Quaternion, Transform } from './types';
+import { RigConfig, RigNode, SnapPoint, Constraint, Transform } from './types';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export class RigBuilder {

@@ -538,7 +538,7 @@ export class WeatherSystemCLI {
    * Test basic weather change functionality
    */
   private async testBasicWeatherChange(): Promise<void> {
-    const initialWeather = this.weatherSystem.getCurrentWeather();
+//     const initialWeather = this.weatherSystem.getCurrentWeather();
 
     // Test manual weather setting
     this.weatherSystem.setWeather('rain', 'moderate');

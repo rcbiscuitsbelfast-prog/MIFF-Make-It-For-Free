@@ -26,7 +26,7 @@ const mockHTMLElements = {
   querySelectorAll: jest.fn().mockReturnValue([mockCanvas])
 };
 
-export const mockDocument = {
+// export const mockDocument = {
   ...mockHTMLElements,
   body: {
     appendChild: jest.fn(),

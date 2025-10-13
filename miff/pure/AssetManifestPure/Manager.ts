@@ -14,10 +14,10 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AssetManifestConfig {
   enableAssetCataloging: boolean;
@@ -499,7 +499,7 @@ export class AssetManifestManager {
     const totalAssets = manifests.reduce((sum, m) => sum + m.assets.length, 0);
     const loadedAssets = manifests.reduce((sum, m) => sum + m.assets.filter(a => a.status === 'loaded').length, 0);
     const cachedAssets = manifests.reduce((sum, m) => sum + m.assets.filter(a => a.status === 'cached').length, 0);
-    const totalDependencies = manifests.reduce((sum, m) => sum + m.dependencies.length, 0);
+//     const totalDependencies = manifests.reduce((sum, m) => sum + m.dependencies.length, 0);
 
     for (const manifest of manifests) {
       manifest.analytics = {

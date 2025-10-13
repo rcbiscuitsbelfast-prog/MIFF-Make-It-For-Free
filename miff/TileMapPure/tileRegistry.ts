@@ -1,5 +1,4 @@
 import { TileType } from './tileTypes';
-import { tileConfigMap } from './tileConfig';
 
 const registry = new Map<string, TileType>();
 

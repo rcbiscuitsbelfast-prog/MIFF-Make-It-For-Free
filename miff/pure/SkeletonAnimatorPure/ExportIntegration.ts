@@ -463,19 +463,19 @@ export class ExportIntegration {
 
     let samplerIndex = 0;
     nodeKeyframes.forEach((keyframes: Keyframe[], nodeId: string) => {
-      const times = keyframes.map((kf: Keyframe) => Number(kf.time || 0) / 1000);
-      const positions = keyframes.map((kf: Keyframe) => [
+//       const times = keyframes.map((kf: Keyframe) => Number(kf.time || 0) / 1000);
+//       const positions = keyframes.map((kf: Keyframe) => [
         Number((kf.transform as any)?.position?.x) || 0,
         Number((kf.transform as any)?.position?.y) || 0,
         Number((kf.transform as any)?.position?.z) || 0
       ]);
-      const rotations = keyframes.map((kf: Keyframe) => [
+//       const rotations = keyframes.map((kf: Keyframe) => [
         Number((kf.transform as any)?.rotation?.x) || 0,
         Number((kf.transform as any)?.rotation?.y) || 0,
         Number((kf.transform as any)?.rotation?.z) || 0,
         Number((kf.transform as any)?.rotation?.w) || 1
       ]);
-      const scales = keyframes.map((kf: Keyframe) => [
+//       const scales = keyframes.map((kf: Keyframe) => [
         Number((kf.transform as any)?.scale?.x) || 1,
         Number((kf.transform as any)?.scale?.y) || 1,
         Number((kf.transform as any)?.scale?.z) || 1

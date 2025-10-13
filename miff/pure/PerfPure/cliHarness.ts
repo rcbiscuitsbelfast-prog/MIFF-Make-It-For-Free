@@ -8,7 +8,7 @@
  */
 
 import * as readline from 'readline';
-import { PerfTimer, HighResPerfTimer, PerfProfiler, PerfUtils, defaultProfiler } from './index';
+import { PerfTimer, HighResPerfTimer, PerfUtils, defaultProfiler } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLITest {
@@ -135,14 +135,14 @@ function createDemoTests(): CLITest[] {
         const mapped = filtered.map(x => x * x);
 
         // Reduce
-        const sum = mapped.reduce((acc, x) => acc + x, 0);
+//         const sum = mapped.reduce((acc, x) => acc + x, 0);
 
         // Reverse
         mapped.reverse();
 
         // Find operations
         const found = arr.find(x => x > 0.9);
-        const foundIndex = arr.findIndex(x => x > 0.9);
+//         const foundIndex = arr.findIndex(x => x > 0.9);
       }
     },
     {
@@ -229,7 +229,7 @@ function createDemoTests(): CLITest[] {
         const mid = Math.floor(size / 2);
         const left = arr3.slice(0, mid);
         const right = arr3.slice(mid);
-        const merged = merge(left, right);
+//         const merged = merge(left, right);
       }
     }
   ];

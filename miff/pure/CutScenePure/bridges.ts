@@ -438,28 +438,28 @@ public class CutScenePlayer : MonoBehaviour
     void CreateCameraTrack(CutSceneTrack track)
     {
         // Create Cinemachine track
-        var cameraTrack = cutSceneTimeline.CreateTrack<CinemachineTrack>(null, "Camera");
+//         var cameraTrack = cutSceneTimeline.CreateTrack<CinemachineTrack>(null, "Camera");
         // Configure camera movement
     }
 
     void CreateDialogueTrack(CutSceneTrack track)
     {
         // Create dialogue track
-        var dialogueTrack = cutSceneTimeline.CreateTrack<DialogueTrack>(null, "Dialogue");
+//         var dialogueTrack = cutSceneTimeline.CreateTrack<DialogueTrack>(null, "Dialogue");
         // Configure dialogue playback
     }
 
     void CreateAudioTrack(CutSceneTrack track)
     {
         // Create audio track
-        var audioTrack = cutSceneTimeline.CreateTrack<AudioTrack>(null, "Audio");
+//         var audioTrack = cutSceneTimeline.CreateTrack<AudioTrack>(null, "Audio");
         // Configure audio playback
     }
 
     void CreateAnimationTrack(CutSceneTrack track)
     {
         // Create animation track
-        var animationTrack = cutSceneTimeline.CreateTrack<AnimationTrack>(null, "Animation");
+//         var animationTrack = cutSceneTimeline.CreateTrack<AnimationTrack>(null, "Animation");
         // Configure character animations
     }
 

@@ -309,7 +309,7 @@ export class DocumentationGenerator {
    * Generate documentation report
    */
   generateDocumentationReport(): string {
-    const allTargets = Array.from(this.targets.values());
+//     const allTargets = Array.from(this.targets.values());
     const apiDocs = Array.from(this.apiDocs.values());
     const contributorGuides = Array.from(this.contributorGuides.values());
     const tutorials = Array.from(this.tutorials.values());
@@ -501,7 +501,7 @@ export class DocumentationGenerator {
           name: `${module}Event`,
           description: `Event type for ${module}`,
           definition: `type ${module}Event = 'init' | 'update' | 'destroy';`,
-          examples: [`const event: ${module}Event = 'init';`]
+//           examples: [`const event: ${module}Event = 'init';`]
         }
       ],
       examples: [

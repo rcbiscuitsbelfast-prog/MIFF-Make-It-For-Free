@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockQuestSystem = {
+// export const mockQuestSystem = {
   addQuest: jest.fn().mockReturnValue(true),
   completeQuest: jest.fn().mockReturnValue(true),
   getQuest: jest.fn().mockReturnValue({ id: 'test_quest', status: 'active' })

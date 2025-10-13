@@ -996,7 +996,7 @@ export class TestRunner {
 /**
  * Default test runner instance
  */
-export const defaultTestRunner = new TestRunner({
+// export const defaultTestRunner = new TestRunner({
   testDirectory: './miff/pure',
   outputDirectory: './test-output',
   coverageDirectory: './coverage',

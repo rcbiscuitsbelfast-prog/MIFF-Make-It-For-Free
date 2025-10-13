@@ -4,7 +4,7 @@
  * Intelligent lazy loading and preloading for MIFF modules
  */
 
-import { CacheManager, CacheEntry } from './CacheManager';
+import { CacheManager } from './CacheManager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ModuleInfo {

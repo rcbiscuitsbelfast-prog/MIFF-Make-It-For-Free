@@ -96,7 +96,7 @@ export class TimeSystemCLI {
 
   private showStatus(): void {
     const timeData = this.timeSystem.getCurrentTimeData();
-    const stats = this.timeSystem.getStats();
+//     const stats = this.timeSystem.getStats();
 
     console.info('\n=== TIME STATUS ===');
     console.info(`🕐 Time: ${Math.floor(timeData.hour)}:${Math.floor(timeData.minute)}:${Math.floor(timeData.second)}`);

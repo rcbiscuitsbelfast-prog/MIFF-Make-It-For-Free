@@ -1,5 +1,4 @@
 #!/usr/bin/env ts-node
-import { spawnSync } from 'child_process';
 import path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 

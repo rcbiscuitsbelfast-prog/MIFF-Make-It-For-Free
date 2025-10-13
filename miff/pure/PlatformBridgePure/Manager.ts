@@ -1,7 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface PlatformBridgePureConfig {
@@ -353,4 +353,4 @@ export class PlatformBridgePureManager {
 }
 
 // Default instance
-export const defaultPlatformBridgePureManager = new PlatformBridgePureManager();
+// export const defaultPlatformBridgePureManager = new PlatformBridgePureManager();

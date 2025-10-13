@@ -16,7 +16,6 @@
 
 import { EventBus } from '../EventBusPure/index.js';
 import { SocialDeductionManager, SocialDeductionConfig } from './Manager.js';
-import { GamePhase, GameRole } from './index.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {

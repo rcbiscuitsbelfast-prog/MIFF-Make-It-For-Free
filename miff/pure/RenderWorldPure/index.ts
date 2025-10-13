@@ -55,7 +55,6 @@ import { HUDManager } from '../HUDPure/Manager';
 import {
   SceneBuilderManager
 } from '../SceneBuilderPure';
-import { RenderPayloadManager as RenderPayloadPure } from '../RenderPayloadPure';
 
 import { EventBus } from '../EventBusPure/EventBusPure.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
@@ -405,7 +404,7 @@ export class RenderWorldPure {
   }
 
   private initializeEngines() {
-    const typeChart = new TypeEffectiveness();
+//     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
       inventory: {},

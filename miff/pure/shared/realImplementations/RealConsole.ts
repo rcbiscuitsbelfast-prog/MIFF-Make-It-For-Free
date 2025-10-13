@@ -377,4 +377,4 @@ export class RealConsole {
 }
 
 // Export singleton instance
-export const realConsole = new RealConsole();
+// export const realConsole = new RealConsole();

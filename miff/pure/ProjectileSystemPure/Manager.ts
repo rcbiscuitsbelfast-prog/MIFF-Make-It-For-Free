@@ -1,7 +1,7 @@
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface ProjectileSystemPureConfig {
@@ -353,4 +353,4 @@ export class ProjectileSystemPureManager {
 }
 
 // Default instance
-export const defaultProjectileSystemPureManager = new ProjectileSystemPureManager();
+// export const defaultProjectileSystemPureManager = new ProjectileSystemPureManager();

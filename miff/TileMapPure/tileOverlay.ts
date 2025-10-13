@@ -1,4 +1,3 @@
-import { TileType } from './tileTypes';
 
 export interface TileOverlay {
   x: number;

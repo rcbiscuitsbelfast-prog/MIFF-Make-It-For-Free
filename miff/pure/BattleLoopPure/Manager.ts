@@ -12,10 +12,10 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BattleLoopConfig {
   enableTurnBasedMode: boolean;
@@ -640,7 +640,7 @@ export class BattleLoopManager {
     const totalEvents = loops.reduce((sum, l) => sum + l.events.length, 0);
     const processedEvents = loops.reduce((sum, l) => sum + l.events.filter(e => e.processed).length, 0);
     const totalFrameTime = loops.reduce((sum, l) => sum + l.performance.frameTime, 0);
-    const totalEventProcessingTime = loops.reduce((sum, l) => sum + l.performance.eventProcessingTime, 0);
+//     const totalEventProcessingTime = loops.reduce((sum, l) => sum + l.performance.eventProcessingTime, 0);
 
     for (const loop of loops) {
       loop.analytics = {

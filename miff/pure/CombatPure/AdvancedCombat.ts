@@ -5,7 +5,7 @@
  * combo systems, environmental effects, and tactical positioning.
  */
 
-import { Combatant, MoveData, TypeEffectiveness, SpiritInstance, Stats, ActionSource } from './engine';
+import { Combatant, MoveData } from './engine';
 
 export interface ComboSystem {
   id: string;

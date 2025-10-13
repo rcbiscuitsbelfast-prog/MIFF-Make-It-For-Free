@@ -344,5 +344,5 @@ export class InputManager {
 }
 
 // Export default instance
-export const defaultInputManager = new InputManager();
+// export const defaultInputManager = new InputManager();
 export { InputManager as default };

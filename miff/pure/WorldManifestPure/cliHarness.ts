@@ -1,7 +1,6 @@
 #!/usr/bin/env tsx
 
-import { WorldManifestManager, AssetAnchor, WorldGenerationConfig } from './Manager';
-import { WorldManifest, WorldTile, WorldManifestPure } from './index';
+import { WorldManifestManager, WorldGenerationConfig } from './Manager';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';

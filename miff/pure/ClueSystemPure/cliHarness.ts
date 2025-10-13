@@ -11,7 +11,7 @@ const { mode, params } = parseKeyValueArgs(process.argv);
 
 // Node non-interactive guard: avoid any interval waits by short-circuiting async flows
 // The ClueSystemPure CLI is already synchronous; provide a fast flag to explicitly confirm
-const isCI = process.env.CI === 'true' || (params && (params as any).ci === true);
+// const isCI = process.env.CI === 'true' || (params && (params as any).ci === true);
 
 const system = new ClueSystemPure();
 

@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockPlatformBridge = {
+// export const mockPlatformBridge = {
   platform: 'web',
   capabilities: ['canvas2d', 'webgl'],
   createCanvas: jest.fn().mockReturnValue({

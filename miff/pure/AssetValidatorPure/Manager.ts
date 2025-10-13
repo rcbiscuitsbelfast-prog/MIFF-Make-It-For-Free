@@ -13,10 +13,10 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
+import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AssetValidatorConfig {
   enableIntegrityValidation: boolean;
@@ -518,7 +518,7 @@ export class AssetValidatorManager {
     const totalValidations = validators.reduce((sum, v) => sum + v.analytics.totalValidations, 0);
     const successfulValidations = validators.reduce((sum, v) => sum + v.analytics.successfulValidations, 0);
     const failedValidations = validators.reduce((sum, v) => sum + v.analytics.failedValidations, 0);
-    const totalRules = validators.reduce((sum, v) => sum + v.rules.length, 0);
+//     const totalRules = validators.reduce((sum, v) => sum + v.rules.length, 0);
 
     for (const validator of validators) {
       validator.analytics = {

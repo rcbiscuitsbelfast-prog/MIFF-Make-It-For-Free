@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockModdingSystem = {
+// export const mockModdingSystem = {
   getPlugin: jest.fn().mockImplementation((name: string) => {
     if (name === 'physics-extended') {
       return { name: 'physics-extended', version: '1.0.0' };

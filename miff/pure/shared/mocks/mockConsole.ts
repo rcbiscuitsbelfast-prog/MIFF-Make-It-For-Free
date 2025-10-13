@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockConsole = {
+// export const mockConsole = {
   log: jest.fn(),
   error: jest.fn(),
   warn: jest.fn()

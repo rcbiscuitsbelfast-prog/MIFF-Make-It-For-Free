@@ -641,7 +641,7 @@ export class MonitoringSystem {
 
   private async getDiskUsage(): Promise<{ total: number; used: number; free: number }> {
     try {
-      const stats = fs.statSync(process.cwd());
+//       const stats = fs.statSync(process.cwd());
       // Simplified disk usage calculation
       return {
         total: 100 * 1024 * 1024 * 1024, // 100GB

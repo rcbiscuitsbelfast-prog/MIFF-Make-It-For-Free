@@ -344,5 +344,5 @@ export class ThemeParkManager {
 }
 
 // Export default instance
-export const defaultThemeParkManager = new ThemeParkManager();
+// export const defaultThemeParkManager = new ThemeParkManager();
 export { ThemeParkManager as default };

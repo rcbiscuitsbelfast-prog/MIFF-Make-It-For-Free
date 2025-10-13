@@ -344,5 +344,5 @@ export class RNGManager {
 }
 
 // Export default instance
-export const defaultRNGManager = new RNGManager();
+// export const defaultRNGManager = new RNGManager();
 export { RNGManager as default };

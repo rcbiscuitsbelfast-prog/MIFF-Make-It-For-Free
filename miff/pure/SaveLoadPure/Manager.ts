@@ -344,5 +344,5 @@ export class SaveLoadManager {
 }
 
 // Export default instance
-export const defaultSaveLoadManager = new SaveLoadManager();
+// export const defaultSaveLoadManager = new SaveLoadManager();
 export { SaveLoadManager as default };

@@ -211,7 +211,7 @@ export class PathfindingManager {
     maxIterations?: number;
   } = {}): PathfindingResult {
     const requestId = `astar_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const startTime = Date.now();
+//     const startTime = Date.now();
     const maxIterations = options.maxIterations || 10000;
     const allowDiagonal = options.allowDiagonal || false;
     const heuristic = options.heuristic || 'manhattan';

@@ -655,4 +655,4 @@ export class RealDialogueEngine {
 }
 
 // Export singleton instance
-export const realDialogueEngine = new RealDialogueEngine();
+// export const realDialogueEngine = new RealDialogueEngine();

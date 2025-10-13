@@ -25,7 +25,7 @@ export class NodeGraphManager {
         meshRock: (opts: any) => any
     }): ExecutionResult {
 		const results: Record<NodeId, any> = {};
-		const byId: Record<string, GraphNode> = Object.fromEntries(graph.nodes.map(n => [n.id, n]));
+// 		const byId: Record<string, GraphNode> = Object.fromEntries(graph.nodes.map(n => [n.id, n]));
 		const order = graph.nodes.slice();
 		for (const node of order) {
 			const resolvedInputs = { ...(node.inputs||{}) } as any;

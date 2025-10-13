@@ -5,7 +5,7 @@
  * in MIFF tests.
  */
 
-export const mockProcess = {
+// export const mockProcess = {
   exit: jest.fn(),
   argv: ['node', 'test.js', 'demo']
 };

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
-import { RaidManager, RaidBoss, RaidParty, RaidEncounter, RaidEvent } from './Manager';
+import { RaidManager, RaidBoss, RaidParty, RaidEvent } from './Manager';
 import { addExportSupport } from '../shared/exportUtils';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

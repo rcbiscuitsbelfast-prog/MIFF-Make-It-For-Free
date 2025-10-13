@@ -344,5 +344,5 @@ export class SpiritsManager {
 }
 
 // Export default instance
-export const defaultSpiritsManager = new SpiritsManager();
+// export const defaultSpiritsManager = new SpiritsManager();
 export { SpiritsManager as default };

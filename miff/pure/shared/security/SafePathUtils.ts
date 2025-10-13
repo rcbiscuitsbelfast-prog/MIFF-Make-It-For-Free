@@ -284,5 +284,5 @@ export class SafePathUtils {
 }
 
 // Export default instance
-export const safePathUtils = new SafePathUtils();
+// export const safePathUtils = new SafePathUtils();
 export { SafePathUtils as default };

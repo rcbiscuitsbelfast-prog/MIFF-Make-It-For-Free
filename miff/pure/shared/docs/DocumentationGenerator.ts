@@ -1121,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Default documentation generator instance
  */
-export const defaultDocumentationGenerator = new DocumentationGenerator({
+// export const defaultDocumentationGenerator = new DocumentationGenerator({
   title: 'MIFF Framework',
   version: '1.0.0',
   description: 'A comprehensive game development framework',

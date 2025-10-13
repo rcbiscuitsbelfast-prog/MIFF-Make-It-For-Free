@@ -5,7 +5,7 @@
  * effect chains, and advanced mechanics.
  */
 
-import { StatusEffect, StatusEntity, EffectStackingRule, TickResult, StatusEvent } from './StatusEffectsManager';
+import { StatusEffect, StatusEntity, StatusEvent } from './StatusEffectsManager';
 
 export interface EffectChain {
   id: string;

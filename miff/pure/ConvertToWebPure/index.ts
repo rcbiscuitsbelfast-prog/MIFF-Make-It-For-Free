@@ -1172,18 +1172,18 @@ canvas {
     const files: string[] = [];
 
     // Generate HTML file
-    const htmlContent = this.generateHTML();
+//     const htmlContent = this.generateHTML();
     const htmlPath = `${outputDir}/index.html`;
     files.push(htmlPath);
 
     // Generate CSS file
-    const cssContent = this.generateCSS();
+//     const cssContent = this.generateCSS();
     const cssPath = `${outputDir}/styles.css`;
     files.push(cssPath);
 
     // Generate JavaScript files
     for (const script of this.project.scripts) {
-      const jsContent = await this.generateJavaScript(script);
+//       const jsContent = await this.generateJavaScript(script);
       const jsPath = `${outputDir}/${script.name.toLowerCase().replace(/\s+/g, '_')}.js`;
       files.push(jsPath);
     }
@@ -1196,14 +1196,14 @@ canvas {
 
     // Generate manifest (if PWA enabled)
     if (this.options.enablePWA) {
-      const manifestContent = this.generateManifest();
+//       const manifestContent = this.generateManifest();
       const manifestPath = `${outputDir}/manifest.json`;
       files.push(manifestPath);
     }
 
     // Generate service worker (if PWA enabled)
     if (this.options.enablePWA) {
-      const swContent = this.generateServiceWorker();
+//       const swContent = this.generateServiceWorker();
       const swPath = `${outputDir}/sw.js`;
       files.push(swPath);
     }

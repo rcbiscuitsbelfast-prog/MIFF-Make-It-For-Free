@@ -48,7 +48,7 @@ class SlicePureCLI {
    * Create demo encounter controller
    */
   private createDemoEncounterController(): IEncounterController {
-    const encounterTable = SliceUtils.createDemoEncounterTable();
+//     const encounterTable = SliceUtils.createDemoEncounterTable();
 
     return {
       registerTable: (table: EncounterTable) => {

@@ -561,4 +561,4 @@ export class RealAISystem {
 }
 
 // Export singleton instance
-export const realAISystem = new RealAISystem();
+// export const realAISystem = new RealAISystem();

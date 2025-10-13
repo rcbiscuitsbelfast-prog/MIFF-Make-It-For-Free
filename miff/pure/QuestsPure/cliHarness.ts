@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { QuestsManager, Quest, QuestStep, QuestReward } from './Manager';
+import { QuestsManager, Quest } from './Manager';
 import * as fs from 'fs';
 import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
@@ -253,7 +253,7 @@ try {
         try {
           const fixturePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
           const seed = parseInt(args[1]);
-          const content = SafeJSONParser.parse(fs.readFileSync(fixturePath, 'utf-8'));
+//           const content = SafeJSONParser.parse(fs.readFileSync(fixturePath, 'utf-8'));
           // Simulate deterministic quest based on seed
           const quests = [{ id: 'fetch_item', step: 1, status: 'Completed' }];
           const log = [

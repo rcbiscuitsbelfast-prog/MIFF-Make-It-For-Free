@@ -292,7 +292,7 @@ export class CapabilitySystem {
             returnType: 'Promise<AIResponse>',
             isAsync: true,
             isPublic: true,
-            examples: ['const response = await aiSystem.processAI(request);']
+//             examples: ['const response = await aiSystem.processAI(request);']
           }
         ],
         properties: [],

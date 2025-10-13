@@ -11,9 +11,6 @@ import { UnrealAssetManagerPure } from './UnrealAssetManagerPure';
 import { UnrealEventSyncPure } from './UnrealEventSyncPure';
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { SceneBuilderManager } from '../SceneBuilderPure';
-import { CombatUtils } from '../CombatPure/engine';
-import { ItemUsageManager } from '../ItemsPure';
-import { BattleAI } from '../AIPure/Manager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface UnrealEditorConfiguration {

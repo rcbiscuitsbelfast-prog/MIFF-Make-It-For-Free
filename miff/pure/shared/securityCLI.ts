@@ -7,7 +7,7 @@
  * for the MIFF framework.
  */
 
-import { SecurityHardening, SecurityAudit, SecurityEvent } from './SecurityHardening.js';
+import { SecurityHardening } from './SecurityHardening.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

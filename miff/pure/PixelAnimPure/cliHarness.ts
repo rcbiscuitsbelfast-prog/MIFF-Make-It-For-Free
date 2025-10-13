@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import { PixelAnimManager, AnimationPreset } from './Manager';
-import { Animation, PixelAnimPure } from './index';
+import { Animation } from './index';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';

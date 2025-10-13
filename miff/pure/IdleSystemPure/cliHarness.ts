@@ -257,7 +257,7 @@ export class IdleSystemCLI {
   private showStatus(): void {
     const resources = this.idleSystem.getResources();
     const generators = this.idleSystem.getGenerators();
-    const timeData = this.idleSystem.getCurrentTimeData();
+//     const timeData = this.idleSystem.getCurrentTimeData();
 
     this.log('\n=== IDLE GAME STATUS ===');
     this.log(`💰 Currency: ${this.gameState.currency.toFixed(2)}`);

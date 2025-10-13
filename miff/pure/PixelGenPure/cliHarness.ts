@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { PixelGenPure, PixelAsset, PixelGenPreset, RgbHex } from './index';
+import { PixelGenPure, PixelGenPreset, RgbHex } from './index';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';

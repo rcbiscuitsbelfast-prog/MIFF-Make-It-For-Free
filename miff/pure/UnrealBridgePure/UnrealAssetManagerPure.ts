@@ -1,7 +1,7 @@
 // UnrealAssetManagerPure - Asset loading, caching, and optimization for Unreal Engine
 // Schema Version: v1.0
 
-import { UnrealBridgeManager, UnrealAssetBridge, UnrealActorBridge, UnrealComponentBridge } from './index';
+import { UnrealBridgeManager, UnrealAssetBridge } from './index';
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 

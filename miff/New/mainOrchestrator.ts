@@ -15,36 +15,28 @@
 
 // Core System Imports
 import { getPlayerPosition, movePlayer, setPlayerPosition } from './playerPosition';
-import { getWorld, initWorld, setFlag, placeNPC } from './worldState';
-import { registerNPC, getNPC, getAllNPCs } from './npcRegistry';
+import { getWorld } from './worldState';
+import { getNPC } from './npcRegistry';
 import { registerNPCTrigger, runNPCTrigger } from './npcTriggers';
 import { loadZone } from './zoneLoader';
-import { transitionToZone } from './zoneTransitions';
 import { saveGame, SaveData } from './saveGame';
 import { loadGame } from './loadGame';
-import { setScenarioFlag, getScenarioFlag, clearScenarioFlags } from './scenarioFlags';
-import { registerDialogue, getNextLine, resetDialogue } from './dialogueEngine';
-import { on, emit, clearEvent } from './eventBus';
+import { setScenarioFlag } from './scenarioFlags';
+import { registerDialogue, getNextLine } from './dialogueEngine';
+import { on, emit } from './eventBus';
 import { registerInteraction, runInteraction } from './interactionHooks';
-import { addQuest, completeQuest, getQuestStatus, listQuests } from './questTracker';
-import { addItem, removeItem, listInventory } from './inventoryState';
+import { listQuests } from './questTracker';
+import { listInventory } from './inventoryState';
 
 // Tile System Imports
-import { TileManager } from '../TileMapPure/tileManager';
 import { TileType } from '../TileMapPure/tileTypes';
 import { isWalkable, getMovementCost, getTileColor, getTileLabel } from '../TileMapPure/tileUtils';
 import { registerTileEvent, triggerTileEvent } from '../TileMapPure/tileEvents';
-import { registerTileTrigger, runTileTrigger } from '../TileMapPure/tileTriggers';
-import { snapshotTileState, restoreTileState } from '../TileMapPure/tileState';
-import { applyScenarioTiles } from '../TileMapPure/tileOrchestrator';
+import { runTileTrigger } from '../TileMapPure/tileTriggers';
 
 // Advanced Tile Modules
-import { addFogTile, removeFogTile, isFogged } from '../TileMapPure/tileFog';
-import { spawnLoot, collectLoot, getLootAt } from '../TileMapPure/tileLoot';
-import { startCrafting, completeCrafting, getCraftingRecipe } from '../TileMapPure/tileCrafting';
-import { playTileAudio, stopTileAudio, setTileAmbient } from '../TileMapPure/tileAudio';
-import { applyStatusEffect, removeStatusEffect, getStatusEffects } from './statusEffects';
-import { setCombatFlag, getCombatFlag, clearCombatFlags } from './combatFlags';
+import { playTileAudio } from '../TileMapPure/tileAudio';
+import { applyStatusEffect } from './statusEffects';
 
 // Input System Types
 export interface InputEvent {
@@ -899,7 +891,7 @@ export class MainOrchestrator {
 }
 
 // Export singleton instance
-export const mainOrchestrator = new MainOrchestrator();
+// export const mainOrchestrator = new MainOrchestrator();
 
 // Export for module integration
 export default MainOrchestrator;

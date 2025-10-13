@@ -5,7 +5,7 @@
  * Supports multiple limbs per axis and non-humanoid forms
  */
 
-import { RigConfig, RigNode, LimbConfig, LimbSegment, Constraint, Vec3, Quaternion, Transform } from './types';
+import { RigConfig, RigNode, LimbConfig, LimbSegment, Constraint, Transform } from './types';
 
 export class LimbAttachment {
   private rigConfig: RigConfig;

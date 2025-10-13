@@ -9,7 +9,6 @@ import {
   EntityStats,
   StatsOutput
 } from './Manager';
-import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 

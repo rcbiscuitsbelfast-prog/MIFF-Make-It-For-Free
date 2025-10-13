@@ -717,7 +717,7 @@ export class GodotConverter {
 
   private generateProjectScripts(): void {
     // Generate main game script
-    const mainScript = this.generateMainGameScript();
+//     const mainScript = this.generateMainGameScript();
     const mainScene = this.createMainScene();
     this.currentProject.scenes.set('main', mainScene);
 

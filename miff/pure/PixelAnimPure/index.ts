@@ -19,7 +19,7 @@ export interface SpriteSheet {
 	layers: string[]; // filenames or data URLs
 }
 
-export const PixelAnimPure = {
+// export const PixelAnimPure = {
 	presets: {
 		walk: {
 			name: 'walk',

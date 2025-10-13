@@ -911,5 +911,5 @@ export class APIDocumentationGenerator {
 }
 
 // Export default instance
-export const apiDocumentationGenerator = new APIDocumentationGenerator();
+// export const apiDocumentationGenerator = new APIDocumentationGenerator();
 export { APIDocumentationGenerator as default };

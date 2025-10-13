@@ -377,7 +377,7 @@ export class MovementManager {
   private updateEntityMovement(entity: MovementEntity, deltaTime: number, currentTime: number): MovementResult {
     const events: MovementEvent[] = [];
     const oldPosition = { ...entity.position };
-    const oldVelocity = { ...entity.velocity };
+//     const oldVelocity = { ...entity.velocity };
 
     // Update based on pattern type
     switch (entity.pattern.type) {
