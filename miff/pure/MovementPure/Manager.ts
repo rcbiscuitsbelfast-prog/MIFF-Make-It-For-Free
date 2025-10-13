@@ -5,6 +5,10 @@
  * collision avoidance, and dynamic movement state management.
  */
 
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+
 export interface Vector2 {
   x: number;
   y: number;
@@ -92,8 +96,7 @@ export interface MovementFilter {
   state?: string;
   minSpeed?: number;
   maxSpeed?: number;
-  inRange?: { center: Vector2; radius: number;
-    };
+  inRange?: { center: Vector2; radius: number };
 }
 
 export interface MovementOutput {
@@ -103,20 +106,116 @@ export interface MovementOutput {
   issues?: string[];
 }
 
+export interface MovementConfig {
+  enableRealTimeUpdate: boolean;
+  enableCollisionDetection: boolean;
+  enablePathfinding: boolean;
+  enableBehaviorAI: boolean;
+  updateInterval: number;
+  maxEntities: number;
+  worldBounds: {
+    min: Vector2;
+    max: Vector2;
+  };
+  enableDebugging: boolean;
+  enableLogging: boolean;
+  logLevel: LogLevel;
+}
+
 export class MovementManager {
+  private config: MovementConfig;
+  private logger: StructuredLogger;
+  private memoryId: string;
   private entities: Map<string, MovementEntity> = new Map();
   private events: MovementEvent[] = [];
   private obstacles: Vector2[] = [];
-  private worldBounds: {
-    min: Vector2;
-    max: Vector2;
-  } = {
-    min: { x: -1000, y: -1000 },
-    max: { x: 1000, y: 1000 }
-  };
+  private performanceOptimizer: PerformanceOptimizer;
+  private updateInterval: NodeJS.Timeout | null = null;
 
-  constructor() {
+  constructor(config: MovementConfig = {
+    enableRealTimeUpdate: true,
+    enableCollisionDetection: true,
+    enablePathfinding: true,
+    enableBehaviorAI: true,
+    updateInterval: 16, // 60 FPS
+    maxEntities: 1000,
+    worldBounds: {
+      min: { x: -1000, y: -1000 },
+      max: { x: 1000, y: 1000 }
+    },
+    enableDebugging: false,
+    enableLogging: true,
+    logLevel: LogLevel.INFO
+  }) {
+    this.config = config;
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: config.logLevel,
+      enableConsole: config.enableLogging,
+      performanceMonitoring: true,
+      modules: {
+        'MovementManager': LogLevel.DEBUG
+      }
+    });
+
+    // Initialize performance optimizer
+    this.performanceOptimizer = new PerformanceOptimizer({
+      enableOptimization: true,
+      enableMemoryOptimization: true,
+      enableCPUOptimization: true,
+      enableGPUOptimization: false,
+      enableNetworkOptimization: false
+    });
+
+    // Register with memory manager
+    this.memoryId = `MovementManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'MovementManager');
+
     this.initializeDefaultPatterns();
+    this.logger.info('MovementManager initialized', {
+      config: this.config,
+      memoryId: this.memoryId
+    });
+  }
+
+  /**
+   * Start movement system
+   */
+  public start(): void {
+    if (this.updateInterval) {
+      this.logger.warn('Movement system is already running');
+      return;
+    }
+
+    this.logger.info('Starting movement system');
+
+    if (this.config.enableRealTimeUpdate) {
+      this.updateInterval = setInterval(() => {
+        this.simulateTick(16); // 60 FPS
+      }, this.config.updateInterval);
+    }
+
+    this.logger.info('Movement system started');
+  }
+
+  /**
+   * Stop movement system
+   */
+  public stop(): void {
+    if (!this.updateInterval) {
+      this.logger.warn('Movement system is not running');
+      return;
+    }
+
+    this.logger.info('Stopping movement system');
+
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+      this.updateInterval = null;
+    }
+
+    this.logger.info('Movement system stopped');
   }
 
   private initializeDefaultPatterns() {
@@ -135,37 +234,38 @@ export class MovementManager {
       };
     }
 
+    if (this.entities.size >= this.config.maxEntities) {
+      return {
+        op: 'create',
+        status: 'error',
+        issues: [`Maximum entities limit reached (${this.config.maxEntities})`]
+      };
+    }
+
     const entity: MovementEntity = {
       id,
       position: { ...position },
-      velocity: {
-        x: 0,
-        y: 0
-      },
-      acceleration: {
-        x: 0,
-        y: 0
-      },
+      velocity: { x: 0, y: 0 },
+      acceleration: { x: 0, y: 0 },
       rotation: 0,
       pattern: { ...pattern },
       state: {
-
         current: 'idle',
         pathIndex: 0,
         stuckTime: 0,
-
-      }
         lastPosition: { ...position },
-        collisionCount: 0;
-    },
+        collisionCount: 0
+      },
       lastUpdate: Date.now()
     };
 
     this.entities.set(id, entity);
+    this.logger.info('Movement entity created', { entityId: id, pattern: pattern.type });
+    
     return {
       op: 'create',
       status: 'ok',
-      result: entity;
+      result: entity
     };
   }
 
@@ -190,10 +290,12 @@ export class MovementManager {
     entity.state.pathIndex = 0;
     entity.state.stuckTime = 0;
 
+    this.logger.debug('Movement pattern updated', { entityId, pattern: pattern.type });
+    
     return {
       op: 'update_pattern',
       status: 'ok',
-      result: entity;
+      result: entity
     };
   }
 
@@ -214,10 +316,12 @@ export class MovementManager {
     entity.pattern.targetId = targetId;
     entity.lastUpdate = Date.now();
 
+    this.logger.debug('Follow target set', { entityId, targetId });
+    
     return {
       op: 'set_follow_target',
       status: 'ok',
-      result: entity;
+      result: entity
     };
   }
 
@@ -239,10 +343,12 @@ export class MovementManager {
     entity.state.pathIndex = 0;
     entity.lastUpdate = Date.now();
 
+    this.logger.debug('Waypoints set', { entityId, waypointCount: waypoints.length });
+    
     return {
       op: 'set_waypoints',
       status: 'ok',
-      result: entity;
+      result: entity
     };
   }
 
@@ -261,7 +367,7 @@ export class MovementManager {
     return {
       op: 'simulate_tick',
       status: 'ok',
-      result: results;
+      result: results
     };
   }
 
@@ -305,7 +411,9 @@ export class MovementManager {
     this.applyPhysics(entity, deltaTime);
 
     // Check for collisions
-    this.checkCollisions(entity, events);
+    if (this.config.enableCollisionDetection) {
+      this.checkCollisions(entity, events);
+    }
 
     // Update state
     this.updateMovementState(entity, oldPosition, events);
@@ -405,58 +513,37 @@ export class MovementManager {
     }
 
     // Move away from target
-    const direction = this.calculateDirection(target.position, entity.position);
-    entity.velocity.x = direction.x * entity.pattern.speed;
-    entity.velocity.y = direction.y * entity.pattern.speed;
+    const direction = this.calculateDirection(entity.position, target.position);
+    const fleeDirection = { x: -direction.x, y: -direction.y };
+    this.moveInDirection(entity, fleeDirection, entity.pattern.speed);
   }
 
   /**
    * Update wander movement
    */
   private updateWanderMovement(entity: MovementEntity, deltaTime: number): void {
-    // If entity is not moving, give it an initial random direction
-    const currentSpeed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
-    if (currentSpeed < 0.1) {
+    // Random direction change
+    if (Math.random() < 0.01) { // 1% chance per frame
       const angle = Math.random() * Math.PI * 2;
-      entity.velocity.x = Math.cos(angle) * entity.pattern.speed;
-      entity.velocity.y = Math.sin(angle) * entity.pattern.speed;
+      entity.rotation = angle;
     }
-    // Random direction changes
-    else if (Math.random() < 0.1) {
-      const angle = Math.random() * Math.PI * 2;
-      entity.velocity.x = Math.cos(angle) * entity.pattern.speed;
-      entity.velocity.y = Math.sin(angle) * entity.pattern.speed;
-    }
+
+    this.moveInDirection(entity, {
+      x: Math.cos(entity.rotation),
+      y: Math.sin(entity.rotation)
+    }, entity.pattern.speed);
   }
 
   /**
    * Update seek movement
    */
   private updateSeekMovement(entity: MovementEntity, deltaTime: number): void {
-    const targetVec: Vector2 | undefined = (entity.pattern as any).target;
-    if (!targetVec) {
+    if (!entity.state.target) {
       this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const distance = this.calculateDistance(entity.position, targetVec);
-    const arrivalThreshold = 0.1; // Stop when within 0.1 units of target
-
-    if (distance > arrivalThreshold) {
-      // Check if we would overshoot the target
-      const maxDistanceThisTick = entity.pattern.speed * deltaTime;
-      if (distance <= maxDistanceThisTick) {
-        // Move directly to target to avoid overshooting
-        entity.velocity.x = (targetVec.x - entity.position.x) / deltaTime;
-        entity.velocity.y = (targetVec.y - entity.position.y) / deltaTime;
-      } else {
-        this.moveTowards(entity, targetVec, entity.pattern.speed);
-      }
-    } else {
-      // Stop when reached target
-      entity.velocity.x = 0;
-      entity.velocity.y = 0;
-    }
+    this.moveTowards(entity, entity.state.target, entity.pattern.speed);
   }
 
   /**
@@ -475,7 +562,12 @@ export class MovementManager {
     }
 
     // Predict target position
-    const predictedPosition = this.predictPosition(target, deltaTime);
+    const predictionTime = this.calculateDistance(entity.position, target.position) / entity.pattern.speed;
+    const predictedPosition = {
+      x: target.position.x + target.velocity.x * predictionTime,
+      y: target.position.y + target.velocity.y * predictionTime
+    };
+
     this.moveTowards(entity, predictedPosition, entity.pattern.speed);
   }
 
@@ -494,85 +586,78 @@ export class MovementManager {
       return;
     }
 
-    // Predict where target will be and move away
-    const predictedPosition = this.predictPosition(target, deltaTime);
-    const direction = this.calculateDirection(predictedPosition, entity.position);
-    entity.velocity.x = direction.x * entity.pattern.speed;
-    entity.velocity.y = direction.y * entity.pattern.speed;
+    // Predict target position and move away
+    const predictionTime = this.calculateDistance(entity.position, target.position) / entity.pattern.speed;
+    const predictedPosition = {
+      x: target.position.x + target.velocity.x * predictionTime,
+      y: target.position.y + target.velocity.y * predictionTime
+    };
+
+    const direction = this.calculateDirection(entity.position, predictedPosition);
+    const evadeDirection = { x: -direction.x, y: -direction.y };
+    this.moveInDirection(entity, evadeDirection, entity.pattern.speed);
   }
 
   /**
    * Apply physics to entity
    */
   private applyPhysics(entity: MovementEntity, deltaTime: number): void {
-    // Update position
-    entity.position.x += entity.velocity.x * deltaTime;
-    entity.position.y += entity.velocity.y * deltaTime;
-
-    // Apply acceleration
+    // Update velocity based on acceleration
     entity.velocity.x += entity.acceleration.x * deltaTime;
     entity.velocity.y += entity.acceleration.y * deltaTime;
 
-    // Limit speed
-    const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
+    // Limit velocity to max speed
+    const speed = Math.sqrt(entity.velocity.x * entity.velocity.x + entity.velocity.y * entity.velocity.y);
     if (speed > entity.pattern.maxSpeed) {
-      entity.velocity.x = (entity.velocity.x / speed) * entity.pattern.maxSpeed;
-      entity.velocity.y = (entity.velocity.y / speed) * entity.pattern.maxSpeed;
+      const factor = entity.pattern.maxSpeed / speed;
+      entity.velocity.x *= factor;
+      entity.velocity.y *= factor;
     }
 
-    // Update rotation
+    // Update position based on velocity
+    entity.position.x += entity.velocity.x * deltaTime;
+    entity.position.y += entity.velocity.y * deltaTime;
+
+    // Keep within world bounds
+    entity.position.x = Math.max(this.config.worldBounds.min.x, Math.min(this.config.worldBounds.max.x, entity.position.x));
+    entity.position.y = Math.max(this.config.worldBounds.min.y, Math.min(this.config.worldBounds.max.y, entity.position.y));
+
+    // Update rotation based on velocity direction
     if (speed > 0.1) {
       entity.rotation = Math.atan2(entity.velocity.y, entity.velocity.x);
     }
-
-    // Keep within world bounds
-    entity.position.x = Math.max(this.worldBounds.min.x, Math.min(this.worldBounds.max.x, entity.position.x));
-    entity.position.y = Math.max(this.worldBounds.min.y, Math.min(this.worldBounds.max.y, entity.position.y));
   }
 
   /**
    * Check for collisions
    */
   private checkCollisions(entity: MovementEntity, events: MovementEvent[]): void {
-    // Check obstacle collisions
+    // Check collision with obstacles
     for (const obstacle of this.obstacles) {
       const distance = this.calculateDistance(entity.position, obstacle);
-      if (distance < 10) {
+      if (distance < 10) { // Collision threshold
         entity.state.collisionCount++;
         events.push({
           type: 'collided',
           entityId: entity.id,
           timestamp: Date.now(),
-          data: {
-
-            obstacle 
-
-          
-
-
-          }
-          };
+          data: { obstacle: obstacle }
         });
       }
     }
 
-    // Check entity collisions
-    for (const [otherId, other] of this.entities) {
+    // Check collision with other entities
+    for (const [otherId, otherEntity] of this.entities) {
       if (otherId === entity.id) continue;
 
-      const distance = this.calculateDistance(entity.position, other.position);
-      if (distance < 20) {
+      const distance = this.calculateDistance(entity.position, otherEntity.position);
+      if (distance < 5) { // Collision threshold
         entity.state.collisionCount++;
         events.push({
           type: 'collided',
           entityId: entity.id,
           timestamp: Date.now(),
-          data: {
-
-            otherEntity: otherId;
-
-          }
-    },
+          data: { otherEntity: otherId }
         });
       }
     }
@@ -582,13 +667,13 @@ export class MovementManager {
    * Update movement state
    */
   private updateMovementState(entity: MovementEntity, oldPosition: Vector2, events: MovementEvent[]): void {
-    const distance = this.calculateDistance(oldPosition, entity.position);
-    const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
+    const distanceMoved = this.calculateDistance(oldPosition, entity.position);
+    const speed = Math.sqrt(entity.velocity.x * entity.velocity.x + entity.velocity.y * entity.velocity.y);
 
     // Check if stuck
-    if (distance < 0.1) {
-      entity.state.stuckTime += 1;
-      if (entity.state.stuckTime > 60) { // 1 second at 60fps
+    if (distanceMoved < 0.1) {
+      entity.state.stuckTime += 16; // Assuming 60 FPS
+      if (entity.state.stuckTime > 1000) { // 1 second
         entity.state.current = 'stuck';
         events.push({
           type: 'stuck',
@@ -598,24 +683,25 @@ export class MovementManager {
       }
     } else {
       if (entity.state.stuckTime > 0) {
+        entity.state.stuckTime = 0;
         events.push({
           type: 'unstuck',
           entityId: entity.id,
           timestamp: Date.now()
         });
       }
-      entity.state.stuckTime = 0;
     }
 
-    // Update state based on movement
+    // Update current state
     if (speed > 0.1) {
       entity.state.current = 'moving';
-    } else {
+    } else if (entity.state.current === 'moving') {
+      entity.state.current = 'stopping';
+    } else if (entity.state.current === 'stopping') {
       entity.state.current = 'idle';
     }
 
     entity.state.lastPosition = { ...oldPosition };
-    entity.lastUpdate = Date.now();
   }
 
   /**
@@ -623,22 +709,33 @@ export class MovementManager {
    */
   private moveTowards(entity: MovementEntity, target: Vector2, speed: number): void {
     const direction = this.calculateDirection(entity.position, target);
-    entity.velocity.x = direction.x * speed;
-    entity.velocity.y = direction.y * speed;
+    this.moveInDirection(entity, direction, speed);
   }
 
   /**
-   * Calculate direction from one point to another
+   * Move entity in direction
+   */
+  private moveInDirection(entity: MovementEntity, direction: Vector2, speed: number): void {
+    // Normalize direction
+    const length = Math.sqrt(direction.x * direction.x + direction.y * direction.y);
+    if (length > 0) {
+      direction.x /= length;
+      direction.y /= length;
+    }
+
+    // Set acceleration
+    entity.acceleration.x = direction.x * entity.pattern.acceleration;
+    entity.acceleration.y = direction.y * entity.pattern.acceleration;
+  }
+
+  /**
+   * Calculate direction from position to target
    */
   private calculateDirection(from: Vector2, to: Vector2): Vector2 {
-    const dx = to.x - from.x;
-    const dy = to.y - from.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    if (distance === 0) return { x: 0, y: 0;
+    return {
+      x: to.x - from.x,
+      y: to.y - from.y
     };
-    
-    return { x: dx / distance, y: dy / distance };
   }
 
   /**
@@ -651,244 +748,148 @@ export class MovementManager {
   }
 
   /**
-   * Predict entity position
-   */
-  private predictPosition(entity: MovementEntity, deltaTime: number): Vector2 {
-    return {
-      x: entity.position.x + entity.velocity.x * deltaTime,
-      y: entity.position.y + entity.velocity.y * deltaTime
-    };
-  }
-
-  /**
    * Get entity by ID
    */
-  getEntity(entityId: string): MovementOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'get',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    return {
-      op: 'get',
-      status: 'ok',
-      result: entity;
-    };
+  public getEntity(entityId: string): MovementEntity | null {
+    return this.entities.get(entityId) || null;
   }
 
   /**
-   * List all entities
+   * Get all entities
    */
-  listEntities(filter?: MovementFilter): MovementOutput {
-    let entities = Array.from(this.entities.values());
-
-    if (filter) {
-      entities = entities.filter(entity => {
-        if (filter.patternType && entity.pattern.type !== filter.patternType) return false;
-        if (filter.state && entity.state.current !== filter.state) return false;
-        if (filter.minSpeed !== undefined) {
-          const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
-          if (speed < filter.minSpeed) return false;
-        }
-        if (filter.maxSpeed !== undefined) {
-          const speed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
-          if (speed > filter.maxSpeed) return false;
-        }
-        if (filter.inRange) {
-          const distance = this.calculateDistance(entity.position, filter.inRange.center);
-          if (distance > filter.inRange.radius) return false;
-        }
-        return true;
-      });
-    }
-
-    return {
-      op: 'list',
-      status: 'ok',
-      result: entities;
-    };
+  public getAllEntities(): MovementEntity[] {
+    return Array.from(this.entities.values());
   }
 
   /**
-   * Get movement statistics
+   * Get entities by filter
    */
-  getMovementStats(): MovementOutput {
-    const entities = Array.from(this.entities.values());
-    const stats: MovementStats = {
-      totalEntities: entities.length,
-      activeEntities: entities.filter(e => e.state.current === 'moving').length,
-      averageSpeed: 0,
-      totalDistance: 0,
-      collisionCount: entities.reduce((sum, e) => sum + e.state.collisionCount, 0),
-      stuckEntities: entities.filter(e => e.state.current === 'stuck').length,
-      patternDistribution: {}
-    };
-
-    if (entities.length > 0) {
-      const totalSpeed = entities.reduce((sum, e) => {
-        const speed = Math.sqrt(e.velocity.x ** 2 + e.velocity.y ** 2);
-        return sum + speed;
-      }, 0);
-      stats.averageSpeed = totalSpeed / entities.length;
-    }
-
-    // Calculate pattern distribution
-    entities.forEach(entity => {
-      const type = entity.pattern.type;
-      stats.patternDistribution[type] = (stats.patternDistribution[type] || 0) + 1;
+  public getEntitiesByFilter(filter: MovementFilter): MovementEntity[] {
+    return Array.from(this.entities.values()).filter(entity => {
+      if (filter.patternType && entity.pattern.type !== filter.patternType) return false;
+      if (filter.state && entity.state.current !== filter.state) return false;
+      
+      const speed = Math.sqrt(entity.velocity.x * entity.velocity.x + entity.velocity.y * entity.velocity.y);
+      if (filter.minSpeed && speed < filter.minSpeed) return false;
+      if (filter.maxSpeed && speed > filter.maxSpeed) return false;
+      
+      if (filter.inRange) {
+        const distance = this.calculateDistance(entity.position, filter.inRange.center);
+        if (distance > filter.inRange.radius) return false;
+      }
+      
+      return true;
     });
-
-    return {
-      op: 'stats',
-      status: 'ok',
-      result: stats;
-    };
-  }
-
-  /**
-   * Add obstacle
-   */
-  addObstacle(position: Vector2): MovementOutput {
-    this.obstacles.push({ ...position });
-    return {
-      op: 'add_obstacle',
-      status: 'ok',
-      result: position;
-    };
   }
 
   /**
    * Remove entity
    */
-  removeEntity(entityId: string): MovementOutput {
-    if (!this.entities.has(entityId)) {
-      return {
-        op: 'remove',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
+  public removeEntity(entityId: string): boolean {
+    const entity = this.entities.get(entityId);
+    if (!entity) {
+      this.logger.warn('Entity not found', { entityId });
+      return false;
     }
 
     this.entities.delete(entityId);
-    return {
-      op: 'remove',
-      status: 'ok'
-    };
+    this.logger.info('Movement entity removed', { entityId });
+    return true;
   }
 
   /**
-   * Export movement data
+   * Add obstacle
    */
-  exportMovement(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): MovementOutput {
+  public addObstacle(position: Vector2): void {
+    this.obstacles.push({ ...position });
+    this.logger.debug('Obstacle added', { position });
+  }
+
+  /**
+   * Remove obstacle
+   */
+  public removeObstacle(position: Vector2): boolean {
+    const index = this.obstacles.findIndex(obs => 
+      obs.x === position.x && obs.y === position.y
+    );
+    
+    if (index === -1) return false;
+    
+    this.obstacles.splice(index, 1);
+    this.logger.debug('Obstacle removed', { position });
+    return true;
+  }
+
+  /**
+   * Get movement statistics
+   */
+  public getMovementStats(): MovementStats {
     const entities = Array.from(this.entities.values());
+    const totalEntities = entities.length;
+    const activeEntities = entities.filter(e => e.state.current === 'moving').length;
+    
+    let totalDistance = 0;
+    let totalSpeed = 0;
+    let collisionCount = 0;
+    let stuckEntities = 0;
+    const patternDistribution: Record<string, number> = {};
 
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            entities, total: entities.length 
-
-          
-
-
-          }
-          };
-        };
+    for (const entity of entities) {
+      totalSpeed += Math.sqrt(entity.velocity.x * entity.velocity.x + entity.velocity.y * entity.velocity.y);
+      collisionCount += entity.state.collisionCount;
+      if (entity.state.current === 'stuck') stuckEntities++;
       
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            schema: 'miff.movement.export.v1',
-            entities,
-            events: this.events.slice(-100), // Last 100 events
-            obstacles: this.obstacles,
-            worldBounds: this.worldBounds,
-            exportedAt: new Date().toISOString(),
-            total: entities.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      case 'summary':
-        const stats = this.getMovementStats();
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            summary: stats.result,
-            entities: entities.map(entity => ({
-              id: entity.id,
-              position: entity.position,
-              pattern: entity.pattern.type,
-              state: entity.state.current,
-              speed: Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2)
-
-          }
-            }))
-          }
-        };
-      
-      case 'events':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-
-            events: this.events,
-            total: this.events.length
-          
-
-          
-
-
-          }
-          };
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
+      const pattern = entity.pattern.type;
+      patternDistribution[pattern] = (patternDistribution[pattern] || 0) + 1;
     }
+
+    return {
+      totalEntities,
+      activeEntities,
+      averageSpeed: totalEntities > 0 ? totalSpeed / totalEntities : 0,
+      totalDistance,
+      collisionCount,
+      stuckEntities,
+      patternDistribution
+    };
   }
 
   /**
-   * Reset all movement data
+   * Get recent events
    */
-  resetMovement(): MovementOutput {
-    this.entities.clear();
+  public getRecentEvents(count: number = 100): MovementEvent[] {
+    return this.events.slice(-count);
+  }
+
+  /**
+   * Clear events
+   */
+  public clearEvents(): void {
     this.events = [];
-    this.obstacles = [];
-    return {
-      op: 'reset',
-      status: 'ok',
-      result: {
+    this.logger.info('Movement events cleared');
+  }
 
-        message: 'All movement data reset' 
+  /**
+   * Get manager configuration
+   */
+  public getConfig(): MovementConfig {
+    return { ...this.config };
+  }
 
-      
+  /**
+   * Update manager configuration
+   */
+  public updateConfig(newConfig: Partial<MovementConfig>): void {
+    this.config = { ...this.config, ...newConfig };
+    this.logger.info('MovementManager configuration updated', { config: this.config });
+  }
 
-
-      }
-      };
-    };
+  /**
+   * Cleanup resources
+   */
+  public destroy(): void {
+    this.stop();
+    MemoryManager.unregisterObject(this.memoryId);
+    this.logger.info('MovementManager destroyed');
   }
 }
