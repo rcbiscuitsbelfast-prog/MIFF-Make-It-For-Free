@@ -331,7 +331,6 @@ export class PrefabBuilderManager {
     // Register with memory manager
     this.memoryId = `PrefabBuilderManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'PrefabBuilderManager');
-  };
   }
 
   /**

@@ -557,7 +557,6 @@ export class IndustryLeadershipManager {
     // Register with memory manager
     this.memoryId = `IndustryLeadershipManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'IndustryLeadershipManager');
-  };
   }
 
   /**

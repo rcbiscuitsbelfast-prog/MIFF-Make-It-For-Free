@@ -771,7 +771,6 @@ export class EcosystemExpansionManager {
     // Register with memory manager
     this.memoryId = `EcosystemExpansionManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'EcosystemExpansionManager');
-  };
   }
 
   /**
