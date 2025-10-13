@@ -135,9 +135,6 @@ export interface ItemRequirements {
   };
   items: {
     [key: string]: number;
-
-
-  }
   };
 }
 
