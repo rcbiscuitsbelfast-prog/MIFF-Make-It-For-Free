@@ -86,8 +86,8 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
 
   // Initial state capture
   const initialDump = physics.dump('block');
-  upsertBlockBox(initialDump.body!.position);
-  timeline.push({ t: 0, position: initialDump.body!.position, velocity: initialDump.body!.velocity, collided: false });
+  upsertBlockBox(initialDump.body?.position);
+  timeline.push({ t: 0, position: initialDump.body?.position, velocity: initialDump.body?.velocity, collided: false });
 
   // Sim loop
   let t = 0;
@@ -99,7 +99,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
 
     // Update collision box for block from physics position
     const blockDump = physics.dump('block');
-    const center = blockDump.body!.position;
+    const center = blockDump.body?.position;
     upsertBlockBox(center);
 
     // Check collision and resolve penetration; reflect into physics state (simple support)

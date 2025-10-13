@@ -181,7 +181,7 @@ export class WeatherSystemManager {
     this.memoryId = `WeatherSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'WeatherSystemManager');
 
-    this.logger.info('WeatherSystemManager initialized', {
+    console.info('WeatherSystemManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -192,12 +192,12 @@ export class WeatherSystemManager {
    */
   public start(): void {
     if (this.isRunning) {
-      this.logger.warn('Weather system is already running');
+      console.warn('WeatherSystemPure', 'Weather system is already running');
       return;
     }
 
     this.isRunning = true;
-    this.logger.info('Starting weather system');
+    console.info('WeatherSystemPure', 'Starting weather system');
 
     // Start update interval
     if (this.config.enableRealTimeWeather) {
@@ -213,7 +213,7 @@ export class WeatherSystemManager {
       }, 100); // Update transitions every 100ms
     }
 
-    this.logger.info('Weather system started');
+    console.info('WeatherSystemPure', 'Weather system started');
   }
 
   /**
@@ -221,12 +221,12 @@ export class WeatherSystemManager {
    */
   public stop(): void {
     if (!this.isRunning) {
-      this.logger.warn('Weather system is not running');
+      console.warn('WeatherSystemPure', 'Weather system is not running');
       return;
     }
 
     this.isRunning = false;
-    this.logger.info('Stopping weather system');
+    console.info('WeatherSystemPure', 'Stopping weather system');
 
     // Stop update interval
     if (this.updateInterval) {
@@ -240,7 +240,7 @@ export class WeatherSystemManager {
       this.transitionInterval = null;
     }
 
-    this.logger.info('Weather system stopped');
+    console.info('WeatherSystemPure', 'Weather system stopped');
   }
 
   /**
@@ -265,7 +265,7 @@ export class WeatherSystemManager {
     };
 
     this.zones.set(zoneId, zone);
-    this.logger.info('Weather zone created', { zoneId, name: zone.name });
+    console.info('Weather zone created', { zoneId, name: zone.name });
 
     return zone;
   }
@@ -283,14 +283,14 @@ export class WeatherSystemManager {
   public updateWeatherZone(zoneId: string, updates: Partial<WeatherZone>): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      this.logger.warn('Weather zone not found', { zoneId });
+      console.warn('Weather zone not found', { zoneId });
       return false;
     }
 
     Object.assign(zone, updates);
     zone.lastUpdate = Date.now();
 
-    this.logger.debug('Weather zone updated', { zoneId, updates });
+    console.debug('Weather zone updated', { zoneId, updates });
     return true;
   }
 
@@ -300,12 +300,12 @@ export class WeatherSystemManager {
   public deleteWeatherZone(zoneId: string): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      this.logger.warn('Weather zone not found', { zoneId });
+      console.warn('Weather zone not found', { zoneId });
       return false;
     }
 
     this.zones.delete(zoneId);
-    this.logger.info('Weather zone deleted', { zoneId, name: zone.name });
+    console.info('Weather zone deleted', { zoneId, name: zone.name });
     return true;
   }
 
@@ -331,7 +331,7 @@ export class WeatherSystemManager {
   public setWeatherForZone(zoneId: string, weather: WeatherData, transition: boolean = true): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      this.logger.warn('Weather zone not found', { zoneId });
+      console.warn('Weather zone not found', { zoneId });
       return false;
     }
 
@@ -342,7 +342,7 @@ export class WeatherSystemManager {
       zone.lastUpdate = Date.now();
     }
 
-    this.logger.info('Weather set for zone', { zoneId, weather: weather.temperature });
+    console.info('Weather set for zone', { zoneId, weather: weather.temperature });
     return true;
   }
 
@@ -366,7 +366,7 @@ export class WeatherSystemManager {
     };
 
     this.transitions.set(transitionId, transition);
-    this.logger.info('Weather transition created', { transitionId, zoneId });
+    console.info('Weather transition created', { transitionId, zoneId });
 
     return transitionId;
   }
@@ -377,14 +377,14 @@ export class WeatherSystemManager {
   public addWeatherEffect(zoneId: string, effect: WeatherEffect): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      this.logger.warn('Weather zone not found', { zoneId });
+      console.warn('Weather zone not found', { zoneId });
       return false;
     }
 
     zone.effects.push(effect);
     this.effects.set(effect.id, effect);
 
-    this.logger.info('Weather effect added', { zoneId, effectId: effect.id, type: effect.type });
+    console.info('Weather effect added', { zoneId, effectId: effect.id, type: effect.type });
     return true;
   }
 
@@ -394,20 +394,20 @@ export class WeatherSystemManager {
   public removeWeatherEffect(zoneId: string, effectId: string): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) {
-      this.logger.warn('Weather zone not found', { zoneId });
+      console.warn('Weather zone not found', { zoneId });
       return false;
     }
 
     const effectIndex = zone.effects.findIndex(effect => effect.id === effectId);
     if (effectIndex === -1) {
-      this.logger.warn('Weather effect not found', { zoneId, effectId });
+      console.warn('Weather effect not found', { zoneId, effectId });
       return false;
     }
 
     zone.effects.splice(effectIndex, 1);
     this.effects.delete(effectId);
 
-    this.logger.info('Weather effect removed', { zoneId, effectId });
+    console.info('Weather effect removed', { zoneId, effectId });
     return true;
   }
 
@@ -417,7 +417,7 @@ export class WeatherSystemManager {
   public getWeatherForecast(zoneId: string, hours: number = 24): WeatherForecast | null {
     const forecast = this.forecasts.get(zoneId);
     if (!forecast) {
-      this.logger.warn('Weather forecast not found', { zoneId });
+      console.warn('Weather forecast not found', { zoneId });
       return null;
     }
 
@@ -434,7 +434,7 @@ export class WeatherSystemManager {
    */
   public updateWeatherForecast(zoneId: string, forecast: WeatherForecast): void {
     this.forecasts.set(zoneId, forecast);
-    this.logger.info('Weather forecast updated', { zoneId, hours: forecast.forecasts.length });
+    console.info('Weather forecast updated', { zoneId, hours: forecast.forecasts.length });
   }
 
   /**
@@ -453,7 +453,7 @@ export class WeatherSystemManager {
       zone.lastUpdate = Date.now();
     }
 
-    this.logger.debug('Weather system updated', { zones: this.zones.size });
+    console.debug('Weather system updated', { zones: this.zones.size });
   }
 
   /**
@@ -493,7 +493,7 @@ export class WeatherSystemManager {
       if (effect.endTime > 0 && currentTime > effect.endTime) {
         zone.effects.splice(i, 1);
         this.effects.delete(effect.id);
-        this.logger.debug('Weather effect expired', { effectId: effect.id, type: effect.type });
+        console.debug('Weather effect expired', { effectId: effect.id, type: effect.type });
         continue;
       }
 
@@ -523,7 +523,7 @@ export class WeatherSystemManager {
 
       if (progress >= 1) {
         transition.completed = true;
-        this.logger.info('Weather transition completed', { transitionId: transition.id });
+        console.info('Weather transition completed', { transitionId: transition.id });
       }
     }
 
@@ -651,7 +651,7 @@ export class WeatherSystemManager {
    */
   public updateConfig(newConfig: Partial<WeatherSystemConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.logger.info('WeatherSystemManager configuration updated', { config: this.config });
+    console.info('WeatherSystemManager configuration updated', { config: this.config });
   }
 
   /**
@@ -660,6 +660,6 @@ export class WeatherSystemManager {
   public destroy(): void {
     this.stop();
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('WeatherSystemManager destroyed');
+    console.info('WeatherSystemPure', 'WeatherSystemManager destroyed');
   }
 }

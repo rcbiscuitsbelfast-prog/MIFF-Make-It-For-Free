@@ -94,12 +94,12 @@ export class CapabilitySystem {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Capability system already initialized');
+      console.warn('Capability system already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing capability system...');
+      console.info('Initializing capability system...');
       
       // Discover capabilities from all modules
       await this.discoverCapabilities();
@@ -108,10 +108,10 @@ export class CapabilitySystem {
       await this.buildRegistry();
       
       this.isInitialized = true;
-      this.logger.info('Capability system initialized successfully');
+      console.info('Capability system initialized successfully');
       
     } catch (error) {
-      this.logger.error('Failed to initialize capability system', { error: error.message });
+      console.error('Failed to initialize capability system', { error: error.message });
       throw error;
     }
   }
@@ -120,7 +120,7 @@ export class CapabilitySystem {
    * Discover capabilities from all modules
    */
   private async discoverCapabilities(): Promise<void> {
-    this.logger.info('Discovering capabilities from modules...');
+    console.info('Discovering capabilities from modules...');
     
     // This would typically scan the filesystem for capability files
     // For now, we'll create a basic discovery mechanism
@@ -141,28 +141,28 @@ export class CapabilitySystem {
       this.registry.capabilities.set(capability.id, capability);
     }
     
-    this.logger.info(`Discovered ${allCapabilities.length} capabilities`);
+    console.info(`Discovered ${allCapabilities.length} capabilities`);
   }
 
   /**
    * Build the capability registry
    */
   private async buildRegistry(): Promise<void> {
-    this.logger.info('Building capability registry...');
+    console.info('Building capability registry...');
     
     // Build categories
     for (const capability of this.registry.capabilities.values()) {
       if (!this.registry.categories.has(capability.category)) {
         this.registry.categories.set(capability.category, []);
       }
-      this.registry.categories.get(capability.category)!.push(capability.id);
+      this.registry.categories.get(capability.category)?.push(capability.id);
       
       // Build tags
       for (const tag of capability.tags) {
         if (!this.registry.tags.has(tag)) {
           this.registry.tags.set(tag, []);
         }
-        this.registry.tags.get(tag)!.push(capability.id);
+        this.registry.tags.get(tag)?.push(capability.id);
       }
       
       // Build dependencies
@@ -170,11 +170,11 @@ export class CapabilitySystem {
         if (!this.registry.dependencies.has(dependency)) {
           this.registry.dependencies.set(dependency, []);
         }
-        this.registry.dependencies.get(dependency)!.push(capability.id);
+        this.registry.dependencies.get(dependency)?.push(capability.id);
       }
     }
     
-    this.logger.info('Capability registry built successfully');
+    console.info('Capability registry built successfully');
   }
 
   /**
@@ -401,7 +401,7 @@ export class CapabilitySystem {
   /**
    * Get capability by ID
    */
-  getCapability(id: string): Capability | undefined {
+  getCapability(id: string): Capability! {
     return this.registry.capabilities.get(id);
   }
 
@@ -505,7 +505,7 @@ export class CapabilitySystem {
    * Destroy the capability system
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying capability system...');
+    console.info('Destroying capability system...');
     
     this.registry.capabilities.clear();
     this.registry.modules.clear();
@@ -514,7 +514,7 @@ export class CapabilitySystem {
     this.registry.dependencies.clear();
     
     this.isInitialized = false;
-    this.logger.info('Capability system destroyed');
+    console.info('Capability system destroyed');
   }
 }
 

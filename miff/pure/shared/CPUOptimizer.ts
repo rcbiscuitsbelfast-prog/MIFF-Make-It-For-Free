@@ -97,7 +97,7 @@ export class CPUOptimizer {
     const results: OptimizationResult[] = [];
 
     try {
-      this.logger.info('🚀 Starting CPU optimization...');
+      console.info('🚀 Starting CPU optimization...');
 
       // Get baseline metrics
       const baselineMetrics = await this.getCPUMetrics();
@@ -133,11 +133,11 @@ export class CPUOptimizer {
       }
 
       this.optimizationResults.push(...results);
-      this.logger.info(`✅ CPU optimization completed - ${results.length} optimizations applied`);
+      console.info(`✅ CPU optimization completed - ${results.length} optimizations applied`);
 
       return results;
     } catch (error) {
-      this.logger.error('❌ CPU optimization failed:', error);
+      console.error('❌ CPU optimization failed:', error);
       throw error;
     } finally {
       this.isOptimizing = false;

@@ -247,28 +247,28 @@ export class AvatarRendererWebManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Avatar Renderer Web Manager already initialized');
+      console.warn('AvatarRendererWebPure', 'Avatar Renderer Web Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Avatar Renderer Web Manager...');
+      console.info('AvatarRendererWebPure', 'Initializing Avatar Renderer Web Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Avatar Renderer Web Manager initialized successfully');
+      console.info('AvatarRendererWebPure', 'Avatar Renderer Web Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Avatar Renderer Web Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -303,11 +303,11 @@ export class AvatarRendererWebManager {
       this.renderers.set(renderer.id, renderer);
       this.updateAnalytics();
 
-      this.logger.info('Avatar renderer created', { rendererId: renderer.id, rendererName: renderer.name });
+      console.info('Avatar renderer created', { rendererId: renderer.id, rendererName: renderer.name });
       return renderer;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create avatar renderer');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -334,7 +334,7 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return null;
       }
 
@@ -348,11 +348,11 @@ export class AvatarRendererWebManager {
       this.renderers.set(rendererId, updatedRenderer);
       this.updateAnalytics();
 
-      this.logger.info('Avatar renderer updated', { rendererId, rendererName: updatedRenderer.name });
+      console.info('Avatar renderer updated', { rendererId, rendererName: updatedRenderer.name });
       return updatedRenderer;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update avatar renderer');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -368,18 +368,18 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return false;
       }
 
       this.renderers.delete(rendererId);
       this.updateAnalytics();
 
-      this.logger.info('Avatar renderer deleted', { rendererId, rendererName: renderer.name });
+      console.info('Avatar renderer deleted', { rendererId, rendererName: renderer.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete avatar renderer');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -428,7 +428,7 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return null;
       }
 
@@ -440,11 +440,11 @@ export class AvatarRendererWebManager {
       renderer.avatars.push(avatar);
       this.updateAnalytics();
 
-      this.logger.info('Avatar added to renderer', { rendererId, avatarId: avatar.id, avatarName: avatar.name });
+      console.info('Avatar added to renderer', { rendererId, avatarId: avatar.id, avatarName: avatar.name });
       return avatar;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add avatar to renderer');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -460,24 +460,24 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return false;
       }
 
       const avatarIndex = renderer.avatars.findIndex(avatar => avatar.id === avatarId);
       if (avatarIndex === -1) {
-        this.logger.warn('Avatar not found', { rendererId, avatarId });
+        console.warn('Avatar not found', { rendererId, avatarId });
         return false;
       }
 
       renderer.avatars.splice(avatarIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Avatar removed from renderer', { rendererId, avatarId });
+      console.info('Avatar removed from renderer', { rendererId, avatarId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove avatar from renderer');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -493,7 +493,7 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return null;
       }
 
@@ -505,11 +505,11 @@ export class AvatarRendererWebManager {
       renderer.materials.push(material);
       this.updateAnalytics();
 
-      this.logger.info('Material added to renderer', { rendererId, materialId: material.id, materialName: material.name });
+      console.info('Material added to renderer', { rendererId, materialId: material.id, materialName: material.name });
       return material;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add material to renderer');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -525,7 +525,7 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return null;
       }
 
@@ -537,11 +537,11 @@ export class AvatarRendererWebManager {
       renderer.shaders.push(shader);
       this.updateAnalytics();
 
-      this.logger.info('Shader added to renderer', { rendererId, shaderId: shader.id, shaderName: shader.name });
+      console.info('Shader added to renderer', { rendererId, shaderId: shader.id, shaderName: shader.name });
       return shader;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add shader to renderer');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -557,22 +557,22 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return false;
       }
 
       const avatar = renderer.avatars.find(a => a.id === avatarId);
       if (!avatar) {
-        this.logger.warn('Avatar not found', { rendererId, avatarId });
+        console.warn('Avatar not found', { rendererId, avatarId });
         return false;
       }
 
       avatar.transform = transform;
-      this.logger.debug('Avatar transform updated', { rendererId, avatarId });
+      console.debug('Avatar transform updated', { rendererId, avatarId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update avatar transform');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -588,20 +588,20 @@ export class AvatarRendererWebManager {
     try {
       const renderer = this.renderers.get(rendererId);
       if (!renderer) {
-        this.logger.warn('Renderer not found', { rendererId });
+        console.warn('Renderer not found', { rendererId });
         return false;
       }
 
       const avatar = renderer.avatars.find(a => a.id === avatarId);
       if (!avatar) {
-        this.logger.warn('Avatar not found', { rendererId, avatarId });
+        console.warn('Avatar not found', { rendererId, avatarId });
         return false;
       }
 
       // Find the LOD level
       const lod = avatar.lodLevels.find(l => l.level === lodLevel);
       if (!lod) {
-        this.logger.warn('LOD level not found', { rendererId, avatarId, lodLevel });
+        console.warn('LOD level not found', { rendererId, avatarId, lodLevel });
         return false;
       }
 
@@ -609,11 +609,11 @@ export class AvatarRendererWebManager {
       avatar.mesh.id = lod.mesh;
       avatar.materials = lod.materials;
 
-      this.logger.debug('Avatar LOD level set', { rendererId, avatarId, lodLevel });
+      console.debug('Avatar LOD level set', { rendererId, avatarId, lodLevel });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to set avatar LOD level');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -746,12 +746,12 @@ export class AvatarRendererWebManager {
    * Destroy the Avatar Renderer Web Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Avatar Renderer Web Manager...');
+    console.info('AvatarRendererWebPure', 'Destroying Avatar Renderer Web Manager...');
 
     this.renderers.clear();
     this.isInitialized = false;
 
-    this.logger.info('Avatar Renderer Web Manager destroyed');
+    console.info('AvatarRendererWebPure', 'Avatar Renderer Web Manager destroyed');
   }
 }
 

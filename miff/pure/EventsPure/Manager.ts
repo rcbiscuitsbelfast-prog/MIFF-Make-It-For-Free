@@ -93,28 +93,28 @@ export class EventsManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('EventsManager', 'initialize');
+    const timerId = console.startTimer('EventsManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('EventsManager', 'Manager initialized successfully', {
+      console.info('EventsManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('EventsManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('EventsManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('EventsManager', 'Failed to initialize manager', {
+      console.error('EventsManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class EventsManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class EventsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class EventsManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('EventsManager', 'Created item', {
+    console.info('EventsManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class EventsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class EventsManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('EventsManager', 'Updated item', {
+    console.info('EventsManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class EventsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('EventsManager', 'Deleted item', {
+    console.info('EventsManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class EventsManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('EventsManager', 'Initializing manager...');
+    console.debug('EventsManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class EventsManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('EventsManager', 'Loaded default items', {
+    console.info('EventsManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class EventsManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('EventsManager', 'Destroying manager', {
+    console.info('EventsManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class EventsManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

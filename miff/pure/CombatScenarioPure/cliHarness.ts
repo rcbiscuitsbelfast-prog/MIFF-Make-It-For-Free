@@ -32,10 +32,10 @@ function main(){
 	const cmd = process.argv[3] || 'run';
 	const s = SafeJSONParser.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;
 	if(cmd==='dump'){
-		this.logger.info(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:s }]},null,2));
+		console.info(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:s }]},null,2));
 		return;
 	}
 	const out = runScenario(s);
-	this.logger.info(JSON.stringify({ outputs:[out] }, null, 2));
+	console.info(JSON.stringify({ outputs:[out] }, null, 2));
 }
 if(import.meta.url === `file://${process.argv[1]}`) main();

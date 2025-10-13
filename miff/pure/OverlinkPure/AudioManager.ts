@@ -206,7 +206,7 @@ export class AudioManager {
         }
       };
     } catch (error) {
-      this.logger.error('Failed to load audio config:', error);
+      console.error('Failed to load audio config:', error);
       throw error;
     }
   }
@@ -214,14 +214,14 @@ export class AudioManager {
   // Theme Audio Management
   async playThemeAudio(themeId: string, options: AudioManagerOptions = {}): Promise<boolean> {
     if (!this.config) {
-      this.logger.warn('Audio config not loaded');
+      console.warn('Audio config not loaded');
       this.playbackState.errorCount++;
       return false;
     }
 
     const themeBindings = this.config.themeAudioBindings[themeId];
     if (!themeBindings) {
-      this.logger.warn(`No audio bindings found for theme: ${themeId}`);
+      console.warn(`No audio bindings found for theme: ${themeId}`);
       this.playbackState.errorCount++;
       return false;
     }
@@ -276,7 +276,7 @@ export class AudioManager {
       
       if (options.remix && !binding.remixSafe) {
         audioPath = binding.fallback;
-        this.logger.info(`Using fallback audio for remix mode: ${binding.fallback}`);
+        console.info(`Using fallback audio for remix mode: ${binding.fallback}`);
       }
 
       // Simulate audio playback (in real implementation, this would use Web Audio API)
@@ -299,11 +299,11 @@ export class AudioManager {
         startTime: Date.now()
       });
 
-      this.logger.info(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);
+      console.info(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);
       return true;
 
     } catch (error) {
-      this.logger.error(`Failed to play audio binding ${binding.id}:`, error);
+      console.error(`Failed to play audio binding ${binding.id}:`, error);
       this.playbackState.errorCount++;
       return false;
     }
@@ -344,7 +344,7 @@ export class AudioManager {
 
     for (const [audioId, audio] of this.currentAudio) {
       // In real implementation, this would pause the audio
-      this.logger.info(`Paused audio: ${audioId}`);
+      console.info(`Paused audio: ${audioId}`);
     }
 
     this.playbackState.isPlaying = false;
@@ -355,7 +355,7 @@ export class AudioManager {
 
     for (const [audioId, audio] of this.currentAudio) {
       // In real implementation, this would resume the audio
-      this.logger.info(`Resumed audio: ${audioId}`);
+      console.info(`Resumed audio: ${audioId}`);
     }
 
     this.playbackState.isPlaying = true;
@@ -373,7 +373,7 @@ export class AudioManager {
       }
     }
 
-    this.logger.info(`Master volume set to: ${clampedVolume}`);
+    console.info(`Master volume set to: ${clampedVolume}`);
   }
 
   setThemeVolume(themeId: string, volume: number): void {
@@ -400,7 +400,7 @@ export class AudioManager {
       }
     }
 
-    this.logger.info(`Theme ${themeId} volume set to: ${clampedVolume}`);
+    console.info(`Theme ${themeId} volume set to: ${clampedVolume}`);
   }
 
   // Fade Control

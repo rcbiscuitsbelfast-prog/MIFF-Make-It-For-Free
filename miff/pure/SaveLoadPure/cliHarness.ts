@@ -19,7 +19,7 @@ class FileStorageAdapter implements StorageAdapter {
       }
       return null;
     } catch (error) {
-      this.logger.error('Error reading save file:', error);
+      console.error('Error reading save file:', error);
       return null;
     }
   }
@@ -28,7 +28,7 @@ class FileStorageAdapter implements StorageAdapter {
     try {
       fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
     } catch (error) {
-      this.logger.error('Error writing save file:', error);
+      console.error('Error writing save file:', error);
       throw error;
     }
   }
@@ -75,7 +75,7 @@ async function main() {
           case 'dumpState': default: break;
         }
       }
-      this.logger.info(JSON.stringify({ data: mgr.data }, null, 2));
+      console.info(JSON.stringify({ data: mgr.data }, null, 2));
       return;
     }
     switch (command) {
@@ -238,7 +238,7 @@ async function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 async function runDemo(storage: StorageAdapter): Promise<any> {

@@ -110,12 +110,12 @@ export class RuntimeFidelityManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Runtime fidelity manager already initialized');
+      console.warn('Runtime fidelity manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing runtime fidelity manager...');
+      console.info('Initializing runtime fidelity manager...');
       
       // Start health check monitoring
       if (this.config.enabled) {
@@ -123,7 +123,7 @@ export class RuntimeFidelityManager {
       }
       
       this.isInitialized = true;
-      this.logger.info('Runtime fidelity manager initialized successfully');
+      console.info('Runtime fidelity manager initialized successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, 'Failed to initialize runtime fidelity manager');
@@ -168,7 +168,7 @@ export class RuntimeFidelityManager {
       this.bridges.set(bridgeId, runtimeInfo);
       this.standardizedInterfaces.set(bridgeId, bridgeInterface);
       
-      this.logger.info('Bridge registered for runtime fidelity monitoring', { 
+      console.info('Bridge registered for runtime fidelity monitoring', { 
         bridgeId, 
         bridgeType 
       });
@@ -192,7 +192,7 @@ export class RuntimeFidelityManager {
     this.bridges.delete(bridgeId);
     this.standardizedInterfaces.delete(bridgeId);
     
-    this.logger.info('Bridge unregistered from runtime fidelity monitoring', { bridgeId });
+    console.info('Bridge unregistered from runtime fidelity monitoring', { bridgeId });
     this.eventBus.emit('bridge:unregistered', { bridgeId });
   }
 
@@ -202,14 +202,14 @@ export class RuntimeFidelityManager {
   updateBridgeMetrics(bridgeId: string, metrics: Partial<BridgeRuntimeInfo['performance']>): void {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
-      this.logger.warn('Bridge not found for metrics update', { bridgeId });
+      console.warn('Bridge not found for metrics update', { bridgeId });
       return;
     }
 
     bridge.performance = { ...bridge.performance, ...metrics };
     bridge.lastHealthCheck = new Date();
     
-    this.logger.debug('Bridge metrics updated', { bridgeId, metrics });
+    console.debug('Bridge metrics updated', { bridgeId, metrics });
   }
 
   /**
@@ -228,7 +228,7 @@ export class RuntimeFidelityManager {
       bridge.successRate = Math.max(0, bridge.successRate - 1);
     }
     
-    this.logger.debug('Bridge operation recorded', { 
+    console.debug('Bridge operation recorded', { 
       bridgeId, 
       success, 
       successRate: bridge.successRate 
@@ -286,7 +286,7 @@ export class RuntimeFidelityManager {
     const bridgeInterface = this.standardizedInterfaces.get(bridgeId);
     
     if (!bridge || !bridgeInterface) {
-      this.logger.warn('Bridge not found for standardization', { bridgeId });
+      console.warn('Bridge not found for standardization', { bridgeId });
       return false;
     }
 
@@ -299,19 +299,19 @@ export class RuntimeFidelityManager {
 
       // Validate configuration
       if (!bridgeInterface.validateConfiguration()) {
-        this.logger.warn('Bridge configuration validation failed', { bridgeId });
+        console.warn('Bridge configuration validation failed', { bridgeId });
         return false;
       }
 
       // Perform health check
       const isHealthy = await bridgeInterface.healthCheck();
       if (!isHealthy) {
-        this.logger.warn('Bridge health check failed', { bridgeId });
+        console.warn('Bridge health check failed', { bridgeId });
         return false;
       }
 
       bridge.status = 'active';
-      this.logger.info('Bridge behavior standardized', { bridgeId });
+      console.info('Bridge behavior standardized', { bridgeId });
       
       return true;
       
@@ -375,7 +375,7 @@ export class RuntimeFidelityManager {
         }
         
       } catch (error) {
-        this.logger.warn('Health check failed for bridge', { bridgeId, error: error.message });
+        console.warn('Health check failed for bridge', { bridgeId, error: error.message });
         bridge.status = 'error';
         this.recordBridgeOperation(bridgeId, false);
       }
@@ -522,7 +522,7 @@ export class RuntimeFidelityManager {
    * Destroy the runtime fidelity manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying runtime fidelity manager...');
+    console.info('Destroying runtime fidelity manager...');
     
     if (this.healthCheckInterval) {
       clearInterval(this.healthCheckInterval);
@@ -533,7 +533,7 @@ export class RuntimeFidelityManager {
     this.standardizedInterfaces.clear();
     this.isInitialized = false;
     
-    this.logger.info('Runtime fidelity manager destroyed');
+    console.info('Runtime fidelity manager destroyed');
   }
 }
 

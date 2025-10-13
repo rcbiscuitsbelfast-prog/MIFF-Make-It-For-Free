@@ -8,5 +8,5 @@ const cfg = SafeJSONParser.parse(fs.readFileSync(configPath, 'utf8'));
 let state = createGameMenuState(cfg);
 state = reduceGameMenuAction(state, { type: 'INIT' });
 state = reduceGameMenuAction(state, { type: 'OPEN' });
-this.logger.info(JSON.stringify({ ok: true, state }, null, 2));
+console.info(JSON.stringify({ ok: true, state }, null, 2));
 

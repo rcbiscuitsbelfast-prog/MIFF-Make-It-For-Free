@@ -28,7 +28,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cli.ts <op> [args]');
+    console.error('Usage: tsx cli.ts <op> [args]');
     process.exit(1);
   }
 
@@ -109,7 +109,7 @@ async function main() {
         break;
     }
 
-    this.logger.info(JSON.stringify({
+    console.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result,
@@ -117,7 +117,7 @@ async function main() {
     }, null, 2));
 
   } catch (error) {
-    this.logger.error(JSON.stringify({
+    console.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

@@ -1043,13 +1043,13 @@ export class ChallengeManager implements IChallengeManager {
    */
   registerChallenge(challenge: IBattleChallenge): boolean {
     if (!challenge || !challenge.challengeId || challenge.challengeId.trim() === '') {
-      this.logger.warn('Invalid challenge registration: missing or empty challenge ID');
+      console.warn('Invalid challenge registration: missing or empty challenge ID');
       return false;
     }
 
     const errors = challenge.validate();
     if (errors.length > 0) {
-      this.logger.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
+      console.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
       return false;
     }
 

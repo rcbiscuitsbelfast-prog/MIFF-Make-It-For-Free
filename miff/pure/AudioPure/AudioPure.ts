@@ -102,7 +102,7 @@ export class AudioSystem {
     }
 
     if (this.isHeadless) {
-      this.logger.info('[AudioPure] Running in headless mode - audio events will be logged only');
+      console.info('[AudioPure] Running in headless mode - audio events will be logged only');
     }
   }
 
@@ -131,9 +131,9 @@ export class AudioSystem {
         await this.createReverbNode();
       }
 
-      this.logger.info('[AudioPure] Audio context initialized successfully');
+      console.info('[AudioPure] Audio context initialized successfully');
     } catch (error) {
-      this.logger.error('[AudioPure] Failed to initialize audio context:', error);
+      console.error('[AudioPure] Failed to initialize audio context:', error);
     }
   }
 
@@ -176,14 +176,14 @@ export class AudioSystem {
 
   private emitEvent(event: AudioEvent): void {
     if (this.isHeadless) {
-      this.logger.info(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
+      console.info(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
     }
 
     this.callbacks.forEach(callback => {
       try {
         callback(event);
       } catch (error) {
-        this.logger.error('[AudioPure] Callback error:', error);
+        console.error('[AudioPure] Callback error:', error);
       }
     });
   }
@@ -216,13 +216,13 @@ export class AudioSystem {
   playSound(soundId: string, volume: number = 1.0, pitch: number = 1.0): string | null {
     const sound = this.sounds.get(soundId);
     if (!sound) {
-      this.logger.warn(`[AudioPure] Sound not found: ${soundId}`);
+      console.warn(`[AudioPure] Sound not found: ${soundId}`);
       return null;
     }
 
     // Check if we've reached the maximum simultaneous sounds
     if (this.activeSounds.size >= this.config.maxSimultaneousSounds) {
-      this.logger.warn(`[AudioPure] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
+      console.warn(`[AudioPure] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
       return null;
     }
 
@@ -385,12 +385,12 @@ export class AudioSystem {
 
   public enableHRTF(enable: boolean): void {
     this.hrtfEnabled = enable;
-    this.logger.info(`[AudioPure] HRTF ${enable ? 'enabled' : 'disabled'}`);
+    console.info(`[AudioPure] HRTF ${enable ? 'enabled' : 'disabled'}`);
   }
 
   public enableReverb(enable: boolean): void {
     this.reverbEnabled = enable;
-    this.logger.info(`[AudioPure] Reverb ${enable ? 'enabled' : 'disabled'}`);
+    console.info(`[AudioPure] Reverb ${enable ? 'enabled' : 'disabled'}`);
   }
 
   public setReverbParameters(decay: number, damping: number): void {
@@ -642,7 +642,7 @@ export class AudioSystem {
     return Array.from(this.activeSounds.values());
   }
 
-  getSoundDefinition(soundId: string): SoundDefinition | undefined {
+  getSoundDefinition(soundId: string): SoundDefinition! {
     return this.sounds.get(soundId);
   }
 

@@ -207,7 +207,7 @@ export class ProductionReadinessManager {
    * Perform comprehensive production readiness assessment
    */
   async assessProductionReadiness(): Promise<ProductionReadinessReport> {
-    this.logger.info('🔍 Assessing production readiness...');
+    console.info('🔍 Assessing production readiness...');
     
     try {
       // Run all production readiness checks
@@ -228,11 +228,11 @@ export class ProductionReadinessManager {
       // Generate comprehensive report
       this.report = this.generateReport();
       
-      this.logger.info('✅ Production readiness assessment completed');
+      console.info('✅ Production readiness assessment completed');
       return this.report;
       
     } catch (error) {
-      this.logger.error('❌ Error assessing production readiness:', error);
+      console.error('❌ Error assessing production readiness:', error);
       throw error;
     }
   }
@@ -241,7 +241,7 @@ export class ProductionReadinessManager {
    * Setup deployment pipeline
    */
   async setupDeploymentPipeline(): Promise<void> {
-    this.logger.info('🚀 Setting up deployment pipeline...');
+    console.info('🚀 Setting up deployment pipeline...');
     
     try {
       // Create CI/CD pipeline configuration
@@ -256,10 +256,10 @@ export class ProductionReadinessManager {
       // Setup security configurations
       await this.setupSecurityConfigurations();
       
-      this.logger.info('✅ Deployment pipeline setup completed');
+      console.info('✅ Deployment pipeline setup completed');
       
     } catch (error) {
-      this.logger.error('❌ Error setting up deployment pipeline:', error);
+      console.error('❌ Error setting up deployment pipeline:', error);
       throw error;
     }
   }
@@ -268,7 +268,7 @@ export class ProductionReadinessManager {
    * Configure production environment
    */
   async configureProductionEnvironment(): Promise<void> {
-    this.logger.info('⚙️ Configuring production environment...');
+    console.info('⚙️ Configuring production environment...');
     
     try {
       // Setup production environment configuration
@@ -284,10 +284,10 @@ export class ProductionReadinessManager {
       // Setup backup and recovery
       await this.setupBackupAndRecovery();
       
-      this.logger.info('✅ Production environment configuration completed');
+      console.info('✅ Production environment configuration completed');
       
     } catch (error) {
-      this.logger.error('❌ Error configuring production environment:', error);
+      console.error('❌ Error configuring production environment:', error);
       throw error;
     }
   }
@@ -296,7 +296,7 @@ export class ProductionReadinessManager {
    * Setup monitoring and alerting
    */
   async setupMonitoringAndAlerting(): Promise<void> {
-    this.logger.info('📊 Setting up monitoring and alerting...');
+    console.info('📊 Setting up monitoring and alerting...');
     
     try {
       // Configure application monitoring
@@ -311,10 +311,10 @@ export class ProductionReadinessManager {
       // Setup dashboards
       await this.setupDashboards();
       
-      this.logger.info('✅ Monitoring and alerting setup completed');
+      console.info('✅ Monitoring and alerting setup completed');
       
     } catch (error) {
-      this.logger.error('❌ Error setting up monitoring and alerting:', error);
+      console.error('❌ Error setting up monitoring and alerting:', error);
       throw error;
     }
   }
@@ -323,7 +323,7 @@ export class ProductionReadinessManager {
    * Perform security audit
    */
   async performSecurityAudit(): Promise<void> {
-    this.logger.info('🔒 Performing security audit...');
+    console.info('🔒 Performing security audit...');
     
     try {
       // Run security vulnerability scan
@@ -338,10 +338,10 @@ export class ProductionReadinessManager {
       // Check encryption and data protection
       await this.checkEncryptionAndDataProtection();
       
-      this.logger.info('✅ Security audit completed');
+      console.info('✅ Security audit completed');
       
     } catch (error) {
-      this.logger.error('❌ Error performing security audit:', error);
+      console.error('❌ Error performing security audit:', error);
       throw error;
     }
   }
@@ -382,7 +382,7 @@ export class ProductionReadinessManager {
       try {
         await this.runCheck(check);
       } catch (error) {
-        this.logger.error(`❌ Error running check ${check.id}:`, error);
+        console.error(`❌ Error running check ${check.id}:`, error);
         check.status = 'fail';
         check.details = `Error: ${error instanceof Error ? error.message : error}`;
       }
@@ -571,17 +571,17 @@ export class ProductionReadinessManager {
 
   private async createCICDPipeline(): Promise<void> {
     // This would create actual CI/CD pipeline
-    this.logger.info('Creating CI/CD pipeline configuration...');
+    console.info('Creating CI/CD pipeline configuration...');
   }
 
   private async setupEnvironmentConfigurations(): Promise<void> {
     // This would setup actual environment configurations
-    this.logger.info('Setting up environment configurations...');
+    console.info('Setting up environment configurations...');
   }
 
   private async setupSecurityConfigurations(): Promise<void> {
     // This would setup actual security configurations
-    this.logger.info('Setting up security configurations...');
+    console.info('Setting up security configurations...');
   }
 
   private async createProductionEnvironment(): Promise<DeploymentEnvironment> {
@@ -635,47 +635,47 @@ export class ProductionReadinessManager {
   }
 
   private async configureProductionMonitoring(): Promise<void> {
-    this.logger.info('Configuring production monitoring...');
+    console.info('Configuring production monitoring...');
   }
 
   private async configureProductionSecurity(): Promise<void> {
-    this.logger.info('Configuring production security...');
+    console.info('Configuring production security...');
   }
 
   private async setupBackupAndRecovery(): Promise<void> {
-    this.logger.info('Setting up backup and recovery...');
+    console.info('Setting up backup and recovery...');
   }
 
   private async configureApplicationMonitoring(): Promise<void> {
-    this.logger.info('Configuring application monitoring...');
+    console.info('Configuring application monitoring...');
   }
 
   private async setupInfrastructureMonitoring(): Promise<void> {
-    this.logger.info('Setting up infrastructure monitoring...');
+    console.info('Setting up infrastructure monitoring...');
   }
 
   private async configureAlertingRules(): Promise<void> {
-    this.logger.info('Configuring alerting rules...');
+    console.info('Configuring alerting rules...');
   }
 
   private async setupDashboards(): Promise<void> {
-    this.logger.info('Setting up dashboards...');
+    console.info('Setting up dashboards...');
   }
 
   private async runVulnerabilityScan(): Promise<void> {
-    this.logger.info('Running vulnerability scan...');
+    console.info('Running vulnerability scan...');
   }
 
   private async checkSecurityConfigurations(): Promise<void> {
-    this.logger.info('Checking security configurations...');
+    console.info('Checking security configurations...');
   }
 
   private async validateAuthenticationAndAuthorization(): Promise<void> {
-    this.logger.info('Validating authentication and authorization...');
+    console.info('Validating authentication and authorization...');
   }
 
   private async checkEncryptionAndDataProtection(): Promise<void> {
-    this.logger.info('Checking encryption and data protection...');
+    console.info('Checking encryption and data protection...');
   }
 
   private initializeDefaultChecks(): void {

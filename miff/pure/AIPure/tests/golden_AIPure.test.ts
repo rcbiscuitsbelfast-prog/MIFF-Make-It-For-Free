@@ -334,7 +334,7 @@ describe('AIPure Golden Tests', () => {
     });
 
     test('should create standard policies', () => {
-      aiManager.createStandardPolicies();
+      aiManager.createPolicies();
       expect(aiManager.getPolicyCount()).toBe(5);
       expect(aiManager.getPolicy('balanced')).toBeDefined();
       expect(aiManager.getPolicy('aggressive')).toBeDefined();
@@ -458,7 +458,7 @@ describe('AIPure Golden Tests', () => {
 
   describe('AIUtils Basic Functionality', () => {
     test('should create standard policies', () => {
-      const policies = AIUtils.createStandardPolicies();
+      const policies = AIUtils.createPolicies();
 
       expect(policies).toHaveLength(5);
       expect(policies.some(p => p.policyId === 'balanced')).toBe(true);
@@ -534,7 +534,7 @@ describe('AIPure Golden Tests', () => {
       const aiManager = new AIManager();
 
       // Register multiple policies
-      aiManager.createStandardPolicies();
+      aiManager.createPolicies();
 
       // Create spirits with different characteristics - use neutral types to focus on AI logic
       const fireSpirit = new MockSpiritInstance('fire', 'Fire Spirit', 'neutral', 15, 100, 60, 35, 70, 40, 25, 30);
@@ -652,7 +652,7 @@ describe('AIPure Golden Tests', () => {
 
     test('should handle battle simulation', () => {
       const aiManager = new AIManager();
-      aiManager.createStandardPolicies();
+      aiManager.createPolicies();
 
       // Create simple mock spirits for AI decision testing
       const spirit1 = new MockSpiritInstance('1', 'Spirit 1', 'fire', 15, 100, 50, 40, 60, 45, 20);
@@ -715,7 +715,7 @@ describe('AIPure Golden Tests', () => {
 
     test('should handle rapid AI decisions efficiently', () => {
       const aiManager = new AIManager();
-      aiManager.createStandardPolicies();
+      aiManager.createPolicies();
 
       const spirit = new MockSpiritInstance('1', 'Test Spirit', 'fire', 15, 100, 50, 40, 60, 45, 20);
       const opponent = new MockSpiritInstance('2', 'Opponent', 'water', 15, 100, 40, 45, 55, 50, 20);

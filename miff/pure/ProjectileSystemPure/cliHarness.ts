@@ -135,12 +135,12 @@ function main(){
     const stepOutput = outputs.find(o => o.op === 'projectiles.step');
     if (stepOutput) {
       // For golden test compatibility, emit just the step result
-      this.logger.info(JSON.stringify(stepOutput, null, 2));
+      console.info(JSON.stringify(stepOutput, null, 2));
     } else {
-      this.logger.info(JSON.stringify({ outputs }, null, 2));
+      console.info(JSON.stringify({ outputs }, null, 2));
     }
   } catch (error) {
-    this.logger.info(JSON.stringify({ 
+    console.info(JSON.stringify({ 
       outputs: [{ 
         op: 'error', 
         status: 'error', 
@@ -242,7 +242,7 @@ function runDemo(mgr: ProjectileManager): any {
 }
 
 function showHelp() {
-  this.logger.info(`
+  console.info(`
 ProjectileSystemPure CLI - Advanced Projectile Simulation
 
 USAGE:

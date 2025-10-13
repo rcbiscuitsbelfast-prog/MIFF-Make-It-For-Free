@@ -48,7 +48,7 @@ class MockEntityContext implements IEntityContext {
     if (!this.entityStats.has(entityId)) {
       this.entityStats.set(entityId, new Map());
     }
-    this.entityStats.get(entityId)!.set(stat, Math.max(0, value));
+    this.entityStats.get(entityId)?.set(stat, Math.max(0, value));
   }
 
   hasImmunity(entityId: string, immunityTag: string): boolean {

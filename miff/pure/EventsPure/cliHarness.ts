@@ -25,7 +25,7 @@ function parseCommand(input: string): { command: string; args: string[] } {
 }
 
 function printHelp(): void {
-  this.logger.info(`
+  console.info(`
 EventsPure CLI - Interactive Event Bus Testing
 =============================================
 
@@ -51,19 +51,19 @@ Examples:
 function createSubscriptionListener(topic: string): (payload?: any) => void {
   return (payload?: any) => {
     const timestamp = new Date().toISOString();
-    this.logger.info(`[${timestamp}] Event on '${topic}':`, payload ? JSON.stringify(payload, null, 2) : 'no payload');
+    console.info(`[${timestamp}] Event on '${topic}':`, payload ? JSON.stringify(payload, null, 2) : 'no payload');
   };
 }
 
 function generateDemoEvents(eventBus: EventBus): void {
-  this.logger.info('🎮 Running EventsPure Demo...');
+  console.info('🎮 Running EventsPure Demo...');
 
   // Demo subscriptions
   const combatListener = eventBus.subscribe('combat', createSubscriptionListener('combat'));
   const questListener = eventBus.subscribe('quest', createSubscriptionListener('quest'));
   const itemListener = eventBus.subscribe('item', createSubscriptionListener('item'));
 
-  this.logger.info('✅ Created subscriptions for: combat, quest, item');
+  console.info('✅ Created subscriptions for: combat, quest, item');
 
   // Demo events
   setTimeout(() => {
@@ -83,18 +83,18 @@ function generateDemoEvents(eventBus: EventBus): void {
   }, 400);
 
   setTimeout(() => {
-    this.logger.info('🎯 Demo completed! All events published.');
+    console.info('🎯 Demo completed! All events published.');
     showStats(eventBus);
   }, 500);
 }
 
 function showStats(eventBus: EventBus): void {
-  this.logger.info('\n📊 Event Bus Statistics:');
-  this.logger.info(`Total Subscriptions: ${eventBus.getTotalSubscriptions()}`);
-  this.logger.info(`Active Topics: ${eventBus.getActiveTopics().join(', ') || 'none'}`);
+  console.info('\n📊 Event Bus Statistics:');
+  console.info(`Total Subscriptions: ${eventBus.getTotalSubscriptions()}`);
+  console.info(`Active Topics: ${eventBus.getActiveTopics().join(', ') || 'none'}`);
 
   eventBus.getActiveTopics().forEach(topic => {
-    this.logger.info(`  ${topic}: ${eventBus.getSubscriberCount(topic)} subscribers`);
+    console.info(`  ${topic}: ${eventBus.getSubscriberCount(topic)} subscribers`);
   });
 }
 
@@ -104,7 +104,7 @@ async function runCLI(): Promise<void> {
     subscriptions: new Map()
   };
 
-  this.logger.info('🎯 EventsPure CLI - Type "help" for commands or "demo" to see it in action\n');
+  console.info('🎯 EventsPure CLI - Type "help" for commands or "demo" to see it in action\n');
 
   const readline = require('readline');
   const rl = readline.createInterface({
@@ -127,54 +127,54 @@ async function runCLI(): Promise<void> {
       case 'publish':
       case 'pub':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: publish <topic> [data]');
+          console.info('❌ Usage: publish <topic> [data]');
         } else {
           const topic = args[0];
           const payload = args.slice(1).length > 0 ? SafeJSONParser.parse(args.slice(1).join(' ')) : undefined;
           state.eventBus.publish(topic, payload);
-          this.logger.info(`✅ Published event to '${topic}'`);
+          console.info(`✅ Published event to '${topic}'`);
         }
         break;
 
       case 'subscribe':
       case 'sub':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: subscribe <topic>');
+          console.info('❌ Usage: subscribe <topic>');
         } else {
           const topic = args[0];
           const listener = state.eventBus.subscribe(topic, createSubscriptionListener(topic));
           const subscriptionId = `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
           state.subscriptions.set(subscriptionId, listener);
-          this.logger.info(`✅ Subscribed to '${topic}' (ID: ${subscriptionId})`);
+          console.info(`✅ Subscribed to '${topic}' (ID: ${subscriptionId})`);
         }
         break;
 
       case 'unsubscribe':
       case 'unsub':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: unsubscribe <id>');
+          console.info('❌ Usage: unsubscribe <id>');
         } else {
           const subscriptionId = args[0];
           const listener = state.subscriptions.get(subscriptionId);
           if (listener) {
             listener.dispose();
             state.subscriptions.delete(subscriptionId);
-            this.logger.info(`✅ Unsubscribed from '${listener.topic}' (ID: ${subscriptionId})`);
+            console.info(`✅ Unsubscribed from '${listener.topic}' (ID: ${subscriptionId})`);
           } else {
-            this.logger.info(`❌ Subscription not found: ${subscriptionId}`);
+            console.info(`❌ Subscription not found: ${subscriptionId}`);
           }
         }
         break;
 
       case 'list':
       case 'ls':
-        this.logger.info('\n📋 Active Subscriptions:');
+        console.info('\n📋 Active Subscriptions:');
         if (state.subscriptions.size === 0) {
-          this.logger.info('  No active subscriptions');
+          console.info('  No active subscriptions');
         } else {
           let index = 1;
           for (const [id, listener] of state.subscriptions) {
-            this.logger.info(`  ${index++}. ${listener.topic} (ID: ${id})`);
+            console.info(`  ${index++}. ${listener.topic} (ID: ${id})`);
           }
         }
         showStats(state.eventBus);
@@ -187,7 +187,7 @@ async function runCLI(): Promise<void> {
       case 'clear':
         state.eventBus.clear();
         state.subscriptions.clear();
-        this.logger.info('✅ Cleared all subscriptions');
+        console.info('✅ Cleared all subscriptions');
         break;
 
       case 'demo':
@@ -197,13 +197,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        this.logger.info('👋 Goodbye!');
+        console.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -211,7 +211,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    this.logger.info('\n👋 Goodbye!');
+    console.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -220,7 +220,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    this.logger.error('❌ CLI Error:', error);
+    console.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

@@ -585,7 +585,7 @@ export class InventoryPure {
       }
       if (filters.tags && filters.tags.length > 0) {
         results = results.filter(item => 
-          filters.tags!.some(tag => item.tags.includes(tag))
+          filters.tags?.some(tag => item.tags.includes(tag))
         );
       }
     }

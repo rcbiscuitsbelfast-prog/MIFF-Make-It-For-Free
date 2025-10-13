@@ -7,14 +7,14 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 function main() {
   const argv = process.argv.slice(2);
   if (!argv.length) {
-    this.logger.error('Usage: tsx cliHarness.ts <events.json>');
+    console.error('Usage: tsx cliHarness.ts <events.json>');
     process.exit(1);
   }
   const events = SafeJSONParser.parse(fs.readFileSync(argv[0], 'utf-8')) as TouchEventLike[];
   const mgr = new TouchGestureManager();
   for (const e of events) mgr.feed(e);
   const gestures = mgr.analyze();
-  this.logger.info(JSON.stringify({ op: 'gestures:analyze', status: 'ok', result: gestures }, null, 2));
+  console.info(JSON.stringify({ op: 'gestures:analyze', status: 'ok', result: gestures }, null, 2));
 }
 
 main();

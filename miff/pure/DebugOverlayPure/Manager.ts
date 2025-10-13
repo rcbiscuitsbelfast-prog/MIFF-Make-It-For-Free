@@ -303,7 +303,7 @@ export class DebugOverlayManager {
     // Register default console commands
     this.registerDefaultCommands();
 
-    this.logger.info('DebugOverlayManager initialized', {
+    console.info('DebugOverlayManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -314,12 +314,12 @@ export class DebugOverlayManager {
    */
   public show(): void {
     if (!this.config.enableOverlay) {
-      this.logger.warn('Debug overlay is disabled');
+      console.warn('DebugOverlayPure', 'Debug overlay is disabled');
       return;
     }
 
     this.isVisible = true;
-    this.logger.info('Debug overlay shown');
+    console.info('DebugOverlayPure', 'Debug overlay shown');
 
     // Start performance monitoring
     if (this.config.enablePerformance) {
@@ -342,7 +342,7 @@ export class DebugOverlayManager {
    */
   public hide(): void {
     this.isVisible = false;
-    this.logger.info('Debug overlay hidden');
+    console.info('DebugOverlayPure', 'Debug overlay hidden');
 
     // Stop performance monitoring
     if (this.updateInterval) {
@@ -373,7 +373,7 @@ export class DebugOverlayManager {
    */
   public addPanel(panel: DebugPanel): void {
     this.panels.set(panel.id, panel);
-    this.logger.info('Debug panel added', { panelId: panel.id, type: panel.type });
+    console.info('Debug panel added', { panelId: panel.id, type: panel.type });
   }
 
   /**
@@ -382,7 +382,7 @@ export class DebugOverlayManager {
   public removePanel(panelId: string): boolean {
     const removed = this.panels.delete(panelId);
     if (removed) {
-      this.logger.info('Debug panel removed', { panelId });
+      console.info('Debug panel removed', { panelId });
     }
     return removed;
   }
@@ -400,13 +400,13 @@ export class DebugOverlayManager {
   public updatePanelData(panelId: string, data: any): boolean {
     const panel = this.panels.get(panelId);
     if (!panel) {
-      this.logger.warn('Panel not found', { panelId });
+      console.warn('Panel not found', { panelId });
       return false;
     }
 
     panel.data = data;
     panel.lastUpdate = Date.now();
-    this.logger.debug('Panel data updated', { panelId });
+    console.debug('Panel data updated', { panelId });
     return true;
   }
 
@@ -416,12 +416,12 @@ export class DebugOverlayManager {
   public showPanel(panelId: string): boolean {
     const panel = this.panels.get(panelId);
     if (!panel) {
-      this.logger.warn('Panel not found', { panelId });
+      console.warn('Panel not found', { panelId });
       return false;
     }
 
     panel.visible = true;
-    this.logger.info('Panel shown', { panelId });
+    console.info('Panel shown', { panelId });
     return true;
   }
 
@@ -431,12 +431,12 @@ export class DebugOverlayManager {
   public hidePanel(panelId: string): boolean {
     const panel = this.panels.get(panelId);
     if (!panel) {
-      this.logger.warn('Panel not found', { panelId });
+      console.warn('Panel not found', { panelId });
       return false;
     }
 
     panel.visible = false;
-    this.logger.info('Panel hidden', { panelId });
+    console.info('Panel hidden', { panelId });
     return true;
   }
 
@@ -445,7 +445,7 @@ export class DebugOverlayManager {
    */
   public addTool(tool: DebugTool): void {
     this.tools.set(tool.id, tool);
-    this.logger.info('Debug tool added', { toolId: tool.id, type: tool.type });
+    console.info('Debug tool added', { toolId: tool.id, type: tool.type });
   }
 
   /**
@@ -454,7 +454,7 @@ export class DebugOverlayManager {
   public removeTool(toolId: string): boolean {
     const removed = this.tools.delete(toolId);
     if (removed) {
-      this.logger.info('Debug tool removed', { toolId });
+      console.info('Debug tool removed', { toolId });
     }
     return removed;
   }
@@ -472,12 +472,12 @@ export class DebugOverlayManager {
   public enableTool(toolId: string): boolean {
     const tool = this.tools.get(toolId);
     if (!tool) {
-      this.logger.warn('Tool not found', { toolId });
+      console.warn('Tool not found', { toolId });
       return false;
     }
 
     tool.enabled = true;
-    this.logger.info('Tool enabled', { toolId });
+    console.info('Tool enabled', { toolId });
     return true;
   }
 
@@ -487,12 +487,12 @@ export class DebugOverlayManager {
   public disableTool(toolId: string): boolean {
     const tool = this.tools.get(toolId);
     if (!tool) {
-      this.logger.warn('Tool not found', { toolId });
+      console.warn('Tool not found', { toolId });
       return false;
     }
 
     tool.enabled = false;
-    this.logger.info('Tool disabled', { toolId });
+    console.info('Tool disabled', { toolId });
     return true;
   }
 
@@ -501,7 +501,7 @@ export class DebugOverlayManager {
    */
   public registerCommand(command: ConsoleCommand): void {
     this.console.commands.set(command.name, command);
-    this.logger.info('Console command registered', { command: command.name });
+    console.info('Console command registered', { command: command.name });
   }
 
   /**
@@ -514,7 +514,7 @@ export class DebugOverlayManager {
 
     const command = this.console.commands.get(commandName);
     if (!command) {
-      this.logger.warn('Command not found', { command: commandName });
+      console.warn('Command not found', { command: commandName });
       return null;
     }
 
@@ -548,7 +548,7 @@ export class DebugOverlayManager {
       this.console.history = this.console.history.slice(-this.console.maxHistory);
     }
 
-    this.logger.debug('Console entry added', { type, message });
+    console.debug('Console entry added', { type, message });
   }
 
   /**
@@ -563,7 +563,7 @@ export class DebugOverlayManager {
    */
   public clearConsoleHistory(): void {
     this.console.history = [];
-    this.logger.info('Console history cleared');
+    console.info('DebugOverlayPure', 'Console history cleared');
   }
 
   /**
@@ -869,7 +869,7 @@ export class DebugOverlayManager {
    */
   public updateConfig(newConfig: Partial<DebugOverlayConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.logger.info('DebugOverlayManager configuration updated', { config: this.config });
+    console.info('DebugOverlayManager configuration updated', { config: this.config });
   }
 
   /**
@@ -878,6 +878,6 @@ export class DebugOverlayManager {
   public destroy(): void {
     this.hide();
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('DebugOverlayManager destroyed');
+    console.info('DebugOverlayPure', 'DebugOverlayManager destroyed');
   }
 }

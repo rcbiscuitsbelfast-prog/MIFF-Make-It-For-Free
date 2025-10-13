@@ -126,7 +126,7 @@ export class RemixLineageTracker {
     this.logAudit(`Registered asset lineage: ${lineage.assetId} (${lineage.validationStatus})`);
   }
 
-  getAssetLineage(assetId: AssetId): AssetLineage | undefined {
+  getAssetLineage(assetId: AssetId): AssetLineage! {
     return this.state.assetRegistry.get(assetId);
   }
 
@@ -154,7 +154,7 @@ export class RemixLineageTracker {
     }
   }
 
-  getContributorRole(contributorId: ContributorId): string | undefined {
+  getContributorRole(contributorId: ContributorId): string! {
     return this.state.contributorRegistry.get(contributorId);
   }
 

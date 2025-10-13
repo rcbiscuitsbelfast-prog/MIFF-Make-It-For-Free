@@ -158,10 +158,10 @@ export class APIDocumentationGenerator {
    * Generate documentation for all modules
    */
   async generateDocumentation(): Promise<void> {
-    const timerId = this.logger.startTimer('APIDocumentationGenerator', 'generateDocumentation');
+    const timerId = console.startTimer('APIDocumentationGenerator', 'generateDocumentation');
     
     try {
-      this.logger.info('APIDocumentationGenerator', 'Starting API documentation generation');
+      console.info('APIDocumentationGenerator', 'Starting API documentation generation');
 
       // Discover all modules
       await this.discoverModules();
@@ -177,20 +177,20 @@ export class APIDocumentationGenerator {
       // Generate navigation
       await this.generateNavigation();
 
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('APIDocumentationGenerator', 'generateDocumentation', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('APIDocumentationGenerator', 'generateDocumentation', duration);
       
-      this.logger.info('APIDocumentationGenerator', 'API documentation generation completed', {
+      console.info('APIDocumentationGenerator', 'API documentation generation completed', {
         modulesProcessed: this.modules.size,
         outputDir: this.config.outputDir
       });
 
     } catch (error) {
-      this.logger.error('APIDocumentationGenerator', 'Failed to generate documentation', {
+      console.error('APIDocumentationGenerator', 'Failed to generate documentation', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       throw error;
     }
   }
@@ -223,7 +223,7 @@ export class APIDocumentationGenerator {
     // Write documentation file
     await fs.promises.writeFile(outputPath, content, 'utf8');
     
-    this.logger.debug('APIDocumentationGenerator', 'Generated module documentation', {
+    console.debug('APIDocumentationGenerator', 'Generated module documentation', {
       module: moduleInfo.name,
       outputPath
     });
@@ -246,7 +246,7 @@ export class APIDocumentationGenerator {
       }
     }
 
-    this.logger.info('APIDocumentationGenerator', 'Discovered modules', {
+    console.info('APIDocumentationGenerator', 'Discovered modules', {
       count: this.modules.size,
       modules: Array.from(this.modules.keys())
     });
@@ -296,7 +296,7 @@ export class APIDocumentationGenerator {
       return moduleInfo;
 
     } catch (error) {
-      this.logger.warn('APIDocumentationGenerator', 'Failed to analyze module', {
+      console.warn('APIDocumentationGenerator', 'Failed to analyze module', {
         module: name,
         error: error instanceof Error ? error.message : 'Unknown error'
       });
@@ -580,7 +580,7 @@ export class APIDocumentationGenerator {
   /**
    * Extract JSDoc comment from lines
    */
-  private extractJSDocComment(lines: string[], startIndex: number): string | undefined {
+  private extractJSDocComment(lines: string[], startIndex: number): string! {
     let i = startIndex - 1;
     let comment = '';
     
@@ -906,7 +906,7 @@ export class APIDocumentationGenerator {
    */
   private async generateNavigation(): Promise<void> {
     // Implementation for navigation generation
-    this.logger.debug('APIDocumentationGenerator', 'Navigation generation not implemented');
+    console.debug('APIDocumentationGenerator', 'Navigation generation not implemented');
   }
 }
 

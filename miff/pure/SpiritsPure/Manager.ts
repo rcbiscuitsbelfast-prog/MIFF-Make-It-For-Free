@@ -93,28 +93,28 @@ export class SpiritsManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('SpiritsManager', 'initialize');
+    const timerId = console.startTimer('SpiritsManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('SpiritsManager', 'Manager initialized successfully', {
+      console.info('SpiritsManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('SpiritsManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('SpiritsManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('SpiritsManager', 'Failed to initialize manager', {
+      console.error('SpiritsManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class SpiritsManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class SpiritsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class SpiritsManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('SpiritsManager', 'Created item', {
+    console.info('SpiritsManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class SpiritsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class SpiritsManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('SpiritsManager', 'Updated item', {
+    console.info('SpiritsManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class SpiritsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('SpiritsManager', 'Deleted item', {
+    console.info('SpiritsManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class SpiritsManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('SpiritsManager', 'Initializing manager...');
+    console.debug('SpiritsManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class SpiritsManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('SpiritsManager', 'Loaded default items', {
+    console.info('SpiritsManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class SpiritsManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('SpiritsManager', 'Destroying manager', {
+    console.info('SpiritsManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class SpiritsManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

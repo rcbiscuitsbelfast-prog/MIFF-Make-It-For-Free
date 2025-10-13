@@ -9,7 +9,7 @@
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  this.logger.info(`
+  console.info(`
 ThemeParkPure CLI Harness - Theme Park Management System
 
 Usage: npx tsx miff/pure/ThemeParkPure/cliHarness.ts [command] [options]
@@ -64,7 +64,7 @@ class ThemeParkCLI {
     });
 
     this.rl.on('close', () => {
-      this.logger.info('\n👋 Theme Park CLI closed');
+      console.info('\n👋 Theme Park CLI closed');
       process.exit(0);
     });
   }
@@ -114,24 +114,24 @@ class ThemeParkCLI {
         // Empty line, just show prompt
         break;
       default:
-        this.logger.info(`❌ Unknown command: ${command}`);
-        this.logger.info('Type "help" for available commands');
+        console.info(`❌ Unknown command: ${command}`);
+        console.info('Type "help" for available commands');
     }
 
     this.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
-    this.logger.info('🧪 Running Theme Park tests...\n');
+    console.info('🧪 Running Theme Park tests...\n');
 
     try {
       // Test 1: Park creation
-      this.logger.info('1. Testing park creation...');
+      console.info('1. Testing park creation...');
       const parkId = this.themePark.createPark('Test Park');
-      this.logger.info(`   ✅ Park created with ID: ${parkId}`);
+      console.info(`   ✅ Park created with ID: ${parkId}`);
 
       // Test 2: Ride addition
-      this.logger.info('2. Testing ride addition...');
+      console.info('2. Testing ride addition...');
       const ride: ThemeParkRide = {
         id: 'ride-1',
         name: 'Test Roller Coaster',
@@ -148,10 +148,10 @@ class ThemeParkCLI {
       };
       
       const addRideResult = this.themePark.addRide(parkId, ride);
-      this.logger.info(`   ${addRideResult ? '✅' : '❌'} Ride added: ${addRideResult ? 'Success' : 'Failed'}`);
+      console.info(`   ${addRideResult ? '✅' : '❌'} Ride added: ${addRideResult ? 'Success' : 'Failed'}`);
 
       // Test 3: Guest addition
-      this.logger.info('3. Testing guest addition...');
+      console.info('3. Testing guest addition...');
       const guest: ThemeParkGuest = {
         id: 'guest-1',
         name: 'Test Guest',
@@ -166,10 +166,10 @@ class ThemeParkCLI {
       };
       
       const addGuestResult = this.themePark.addGuest(parkId, guest);
-      this.logger.info(`   ${addGuestResult ? '✅' : '❌'} Guest added: ${addGuestResult ? 'Success' : 'Failed'}`);
+      console.info(`   ${addGuestResult ? '✅' : '❌'} Guest added: ${addGuestResult ? 'Success' : 'Failed'}`);
 
       // Test 4: Staff addition
-      this.logger.info('4. Testing staff addition...');
+      console.info('4. Testing staff addition...');
       const staff: ThemeParkStaff = {
         id: 'staff-1',
         name: 'Test Staff',
@@ -182,56 +182,56 @@ class ThemeParkCLI {
       };
       
       const addStaffResult = this.themePark.addStaff(parkId, staff);
-      this.logger.info(`   ${addStaffResult ? '✅' : '❌'} Staff added: ${addStaffResult ? 'Success' : 'Failed'}`);
+      console.info(`   ${addStaffResult ? '✅' : '❌'} Staff added: ${addStaffResult ? 'Success' : 'Failed'}`);
 
       // Test 5: Park status
-      this.logger.info('5. Testing park status...');
+      console.info('5. Testing park status...');
       const status = this.themePark.getParkStatus(parkId);
-      this.logger.info(`   ✅ Park status retrieved: ${status.isOpen ? 'Open' : 'Closed'}`);
-      this.logger.info(`      Rides: ${status.totalRides}, Guests: ${status.totalGuests}, Staff: ${status.totalStaff}`);
+      console.info(`   ✅ Park status retrieved: ${status.isOpen ? 'Open' : 'Closed'}`);
+      console.info(`      Rides: ${status.totalRides}, Guests: ${status.totalGuests}, Staff: ${status.totalStaff}`);
 
       // Test 6: Financial status
-      this.logger.info('6. Testing financial status...');
+      console.info('6. Testing financial status...');
       const finances = this.themePark.getFinances(parkId);
-      this.logger.info(`   ✅ Financial status: Revenue: $${finances.revenue}, Expenses: $${finances.expenses}, Profit: $${finances.profit}`);
+      console.info(`   ✅ Financial status: Revenue: $${finances.revenue}, Expenses: $${finances.expenses}, Profit: $${finances.profit}`);
 
       // Test 7: Guest satisfaction
-      this.logger.info('7. Testing guest satisfaction...');
+      console.info('7. Testing guest satisfaction...');
       const satisfaction = this.themePark.getGuestSatisfaction(parkId);
-      this.logger.info(`   ✅ Average guest satisfaction: ${satisfaction.averageSatisfaction}%`);
+      console.info(`   ✅ Average guest satisfaction: ${satisfaction.averageSatisfaction}%`);
 
-      this.logger.info('\n🎉 All tests passed!');
+      console.info('\n🎉 All tests passed!');
 
     } catch (error) {
-      this.logger.error('❌ Test failed:', error);
+      console.error('❌ Test failed:', error);
     }
   }
 
   private async createPark(name?: string): Promise<void> {
     if (!name) {
-      this.logger.info('❌ Usage: create-park <name>');
+      console.info('❌ Usage: create-park <name>');
       return;
     }
 
     try {
       const parkId = this.themePark.createPark(name);
       this.parkId = parkId;
-      this.logger.info(`✅ Theme park "${name}" created with ID: ${parkId}`);
-      this.logger.info('🎢 Welcome to your new theme park! Start adding rides and guests.');
+      console.info(`✅ Theme park "${name}" created with ID: ${parkId}`);
+      console.info('🎢 Welcome to your new theme park! Start adding rides and guests.');
     } catch (error) {
-      this.logger.error('❌ Park creation failed:', error);
+      console.error('❌ Park creation failed:', error);
     }
   }
 
   private async addRide(name?: string, type?: string): Promise<void> {
     if (!name || !type) {
-      this.logger.info('❌ Usage: add-ride <name> <type>');
-      this.logger.info('   Types: thrill, family, kids, water, dark, show');
+      console.info('❌ Usage: add-ride <name> <type>');
+      console.info('   Types: thrill, family, kids, water, dark, show');
       return;
     }
 
     if (!this.parkId) {
-      this.logger.info('❌ No active park. Create a park first.');
+      console.info('❌ No active park. Create a park first.');
       return;
     }
 
@@ -253,26 +253,26 @@ class ThemeParkCLI {
 
       const result = this.themePark.addRide(this.parkId, ride);
       if (result) {
-        this.logger.info(`✅ Added ${type} ride "${name}"`);
-        this.logger.info(`   Capacity: ${ride.capacity}, Duration: ${ride.duration}s, Thrill: ${ride.thrillLevel}/10`);
-        this.logger.info(`   Price: $${ride.ticketPrice}, Maintenance: $${ride.maintenanceCost}`);
+        console.info(`✅ Added ${type} ride "${name}"`);
+        console.info(`   Capacity: ${ride.capacity}, Duration: ${ride.duration}s, Thrill: ${ride.thrillLevel}/10`);
+        console.info(`   Price: $${ride.ticketPrice}, Maintenance: $${ride.maintenanceCost}`);
       } else {
-        this.logger.info('❌ Failed to add ride');
+        console.info('❌ Failed to add ride');
       }
     } catch (error) {
-      this.logger.error('❌ Ride addition failed:', error);
+      console.error('❌ Ride addition failed:', error);
     }
   }
 
   private async addGuest(type?: string): Promise<void> {
     if (!type) {
-      this.logger.info('❌ Usage: add-guest <type>');
-      this.logger.info('   Types: family, teen, child, adult, senior, group');
+      console.info('❌ Usage: add-guest <type>');
+      console.info('   Types: family, teen, child, adult, senior, group');
       return;
     }
 
     if (!this.parkId) {
-      this.logger.info('❌ No active park. Create a park first.');
+      console.info('❌ No active park. Create a park first.');
       return;
     }
 
@@ -292,26 +292,26 @@ class ThemeParkCLI {
 
       const result = this.themePark.addGuest(this.parkId, guest);
       if (result) {
-        this.logger.info(`✅ Added ${type} guest "${guest.name}"`);
-        this.logger.info(`   Age: ${guest.age}, Money: $${guest.money}, Energy: ${guest.energy}%`);
-        this.logger.info(`   Preferences: ${guest.preferences.join(', ')}`);
+        console.info(`✅ Added ${type} guest "${guest.name}"`);
+        console.info(`   Age: ${guest.age}, Money: $${guest.money}, Energy: ${guest.energy}%`);
+        console.info(`   Preferences: ${guest.preferences.join(', ')}`);
       } else {
-        this.logger.info('❌ Failed to add guest');
+        console.info('❌ Failed to add guest');
       }
     } catch (error) {
-      this.logger.error('❌ Guest addition failed:', error);
+      console.error('❌ Guest addition failed:', error);
     }
   }
 
   private async addStaff(role?: string): Promise<void> {
     if (!role) {
-      this.logger.info('❌ Usage: add-staff <role>');
-      this.logger.info('   Roles: ride_operator, maintenance, security, janitor, manager');
+      console.info('❌ Usage: add-staff <role>');
+      console.info('   Roles: ride_operator, maintenance, security, janitor, manager');
       return;
     }
 
     if (!this.parkId) {
-      this.logger.info('❌ No active park. Create a park first.');
+      console.info('❌ No active park. Create a park first.');
       return;
     }
 
@@ -329,103 +329,103 @@ class ThemeParkCLI {
 
       const result = this.themePark.addStaff(this.parkId, staff);
       if (result) {
-        this.logger.info(`✅ Added ${role} staff "${staff.name}"`);
-        this.logger.info(`   Salary: $${staff.salary}/hour, Experience: ${staff.experience} years`);
-        this.logger.info(`   Efficiency: ${staff.efficiency}%`);
+        console.info(`✅ Added ${role} staff "${staff.name}"`);
+        console.info(`   Salary: $${staff.salary}/hour, Experience: ${staff.experience} years`);
+        console.info(`   Efficiency: ${staff.efficiency}%`);
       } else {
-        this.logger.info('❌ Failed to add staff');
+        console.info('❌ Failed to add staff');
       }
     } catch (error) {
-      this.logger.error('❌ Staff addition failed:', error);
+      console.error('❌ Staff addition failed:', error);
     }
   }
 
   private getParkStatus(): void {
     if (!this.parkId) {
-      this.logger.info('❌ No active park. Create a park first.');
+      console.info('❌ No active park. Create a park first.');
       return;
     }
 
     try {
       const status = this.themePark.getParkStatus(this.parkId);
-      this.logger.info('🎢 Park Status:');
-      this.logger.info(`   Status: ${status.isOpen ? '🟢 Open' : '🔴 Closed'}`);
-      this.logger.info(`   Rides: ${status.totalRides} (${status.operationalRides} operational)`);
-      this.logger.info(`   Guests: ${status.totalGuests} (${status.guestsInRides} in rides)`);
-      this.logger.info(`   Staff: ${status.totalStaff} (${status.workingStaff} working)`);
-      this.logger.info(`   Average Wait Time: ${status.averageWaitTime} minutes`);
+      console.info('🎢 Park Status:');
+      console.info(`   Status: ${status.isOpen ? '🟢 Open' : '🔴 Closed'}`);
+      console.info(`   Rides: ${status.totalRides} (${status.operationalRides} operational)`);
+      console.info(`   Guests: ${status.totalGuests} (${status.guestsInRides} in rides)`);
+      console.info(`   Staff: ${status.totalStaff} (${status.workingStaff} working)`);
+      console.info(`   Average Wait Time: ${status.averageWaitTime} minutes`);
     } catch (error) {
-      this.logger.error('❌ Failed to get park status:', error);
+      console.error('❌ Failed to get park status:', error);
     }
   }
 
   private getFinances(): void {
     if (!this.parkId) {
-      this.logger.info('❌ No active park. Create a park first.');
+      console.info('❌ No active park. Create a park first.');
       return;
     }
 
     try {
       const finances = this.themePark.getFinances(this.parkId);
-      this.logger.info('💰 Financial Status:');
-      this.logger.info(`   Revenue: $${finances.revenue.toFixed(2)}`);
-      this.logger.info(`   Expenses: $${finances.expenses.toFixed(2)}`);
-      this.logger.info(`   Profit: $${finances.profit.toFixed(2)} ${finances.profit >= 0 ? '📈' : '📉'}`);
-      this.logger.info(`   Ticket Sales: ${finances.ticketSales}`);
-      this.logger.info(`   Maintenance Costs: $${finances.maintenanceCosts.toFixed(2)}`);
-      this.logger.info(`   Staff Costs: $${finances.staffCosts.toFixed(2)}`);
+      console.info('💰 Financial Status:');
+      console.info(`   Revenue: $${finances.revenue.toFixed(2)}`);
+      console.info(`   Expenses: $${finances.expenses.toFixed(2)}`);
+      console.info(`   Profit: $${finances.profit.toFixed(2)} ${finances.profit >= 0 ? '📈' : '📉'}`);
+      console.info(`   Ticket Sales: ${finances.ticketSales}`);
+      console.info(`   Maintenance Costs: $${finances.maintenanceCosts.toFixed(2)}`);
+      console.info(`   Staff Costs: $${finances.staffCosts.toFixed(2)}`);
     } catch (error) {
-      this.logger.error('❌ Failed to get finances:', error);
+      console.error('❌ Failed to get finances:', error);
     }
   }
 
   private getGuestSatisfaction(): void {
     if (!this.parkId) {
-      this.logger.info('❌ No active park. Create a park first.');
+      console.info('❌ No active park. Create a park first.');
       return;
     }
 
     try {
       const satisfaction = this.themePark.getGuestSatisfaction(this.parkId);
-      this.logger.info('😊 Guest Satisfaction:');
-      this.logger.info(`   Average: ${satisfaction.averageSatisfaction}% ${this.getSatisfactionEmoji(satisfaction.averageSatisfaction)}`);
-      this.logger.info(`   Happy Guests: ${satisfaction.happyGuests}`);
-      this.logger.info(`   Neutral Guests: ${satisfaction.neutralGuests}`);
-      this.logger.info(`   Unhappy Guests: ${satisfaction.unhappyGuests}`);
-      this.logger.info(`   Complaints: ${satisfaction.complaints}`);
+      console.info('😊 Guest Satisfaction:');
+      console.info(`   Average: ${satisfaction.averageSatisfaction}% ${this.getSatisfactionEmoji(satisfaction.averageSatisfaction)}`);
+      console.info(`   Happy Guests: ${satisfaction.happyGuests}`);
+      console.info(`   Neutral Guests: ${satisfaction.neutralGuests}`);
+      console.info(`   Unhappy Guests: ${satisfaction.unhappyGuests}`);
+      console.info(`   Complaints: ${satisfaction.complaints}`);
     } catch (error) {
-      this.logger.error('❌ Failed to get guest satisfaction:', error);
+      console.error('❌ Failed to get guest satisfaction:', error);
     }
   }
 
   private async simulateDay(): Promise<void> {
     if (!this.parkId) {
-      this.logger.info('❌ No active park. Create a park first.');
+      console.info('❌ No active park. Create a park first.');
       return;
     }
 
     try {
-      this.logger.info('🌅 Simulating theme park day...');
+      console.info('🌅 Simulating theme park day...');
       
       // Simulate park operations
       for (let hour = 9; hour <= 21; hour++) {
-        this.logger.info(`   ${hour}:00 - Park operations...`);
+        console.info(`   ${hour}:00 - Park operations...`);
         
         // Simulate some random events
         if (Math.random() < 0.3) {
-          this.logger.info(`      🎢 Ride maintenance completed`);
+          console.info(`      🎢 Ride maintenance completed`);
         }
         if (Math.random() < 0.2) {
-          this.logger.info(`      👥 New guests arrived`);
+          console.info(`      👥 New guests arrived`);
         }
         if (Math.random() < 0.1) {
-          this.logger.info(`      ⚠️  Ride temporarily closed for maintenance`);
+          console.info(`      ⚠️  Ride temporarily closed for maintenance`);
         }
         
         await new Promise(resolve => setTimeout(resolve, 100));
       }
       
-      this.logger.info('🌙 Day simulation completed!');
+      console.info('🌙 Day simulation completed!');
       
       // Show final stats
       this.getParkStatus();
@@ -433,22 +433,22 @@ class ThemeParkCLI {
       this.getGuestSatisfaction();
       
     } catch (error) {
-      this.logger.error('❌ Day simulation failed:', error);
+      console.error('❌ Day simulation failed:', error);
     }
   }
 
   private async simulate(): Promise<void> {
-    this.logger.info('🎭 Starting theme park simulation...');
+    console.info('🎭 Starting theme park simulation...');
     
     try {
       // Create a theme park
-      this.logger.info('1. Creating theme park...');
+      console.info('1. Creating theme park...');
       const parkId = this.themePark.createPark('Simulation Park');
       this.parkId = parkId;
-      this.logger.info(`   ✅ Park created: ${parkId}`);
+      console.info(`   ✅ Park created: ${parkId}`);
 
       // Add various rides
-      this.logger.info('2. Adding rides...');
+      console.info('2. Adding rides...');
       const rideTypes: RideType[] = ['thrill', 'family', 'kids', 'water', 'dark', 'show'];
       const rideNames = ['Thunder Coaster', 'Family Fun Ride', 'Kids Carousel', 'Water Splash', 'Haunted House', 'Magic Show'];
       
@@ -469,11 +469,11 @@ class ThemeParkCLI {
         };
 
         this.themePark.addRide(parkId, ride);
-        this.logger.info(`   ✅ Added ${rideTypes[i]} ride: ${rideNames[i]}`);
+        console.info(`   ✅ Added ${rideTypes[i]} ride: ${rideNames[i]}`);
       }
 
       // Add guests
-      this.logger.info('3. Adding guests...');
+      console.info('3. Adding guests...');
       const guestTypes: GuestType[] = ['family', 'teen', 'child', 'adult', 'senior', 'group'];
       
       for (let i = 0; i < 20; i++) {
@@ -492,10 +492,10 @@ class ThemeParkCLI {
 
         this.themePark.addGuest(parkId, guest);
       }
-      this.logger.info(`   ✅ Added 20 guests`);
+      console.info(`   ✅ Added 20 guests`);
 
       // Add staff
-      this.logger.info('4. Adding staff...');
+      console.info('4. Adding staff...');
       const staffRoles: StaffRole[] = ['ride_operator', 'maintenance', 'security', 'janitor', 'manager'];
       
       for (let i = 0; i < 10; i++) {
@@ -512,44 +512,44 @@ class ThemeParkCLI {
 
         this.themePark.addStaff(parkId, staff);
       }
-      this.logger.info(`   ✅ Added 10 staff members`);
+      console.info(`   ✅ Added 10 staff members`);
 
       // Simulate park operations
-      this.logger.info('5. Simulating park operations...');
+      console.info('5. Simulating park operations...');
       for (let hour = 9; hour <= 18; hour++) {
-        this.logger.info(`   ${hour}:00 - Park operations...`);
+        console.info(`   ${hour}:00 - Park operations...`);
         
         // Simulate random events
         if (Math.random() < 0.3) {
-          this.logger.info(`      🎢 Ride maintenance completed`);
+          console.info(`      🎢 Ride maintenance completed`);
         }
         if (Math.random() < 0.4) {
-          this.logger.info(`      👥 New guests arrived`);
+          console.info(`      👥 New guests arrived`);
         }
         if (Math.random() < 0.1) {
-          this.logger.info(`      ⚠️  Ride temporarily closed`);
+          console.info(`      ⚠️  Ride temporarily closed`);
         }
         
         await new Promise(resolve => setTimeout(resolve, 200));
       }
 
       // Final results
-      this.logger.info('6. Final results...');
+      console.info('6. Final results...');
       const status = this.themePark.getParkStatus(parkId);
       const finances = this.themePark.getFinances(parkId);
       const satisfaction = this.themePark.getGuestSatisfaction(parkId);
       
-      this.logger.info(`   🎢 Total Rides: ${status.totalRides}`);
-      this.logger.info(`   👥 Total Guests: ${status.totalGuests}`);
-      this.logger.info(`   👷 Total Staff: ${status.totalStaff}`);
-      this.logger.info(`   💰 Revenue: $${finances.revenue.toFixed(2)}`);
-      this.logger.info(`   📈 Profit: $${finances.profit.toFixed(2)}`);
-      this.logger.info(`   😊 Guest Satisfaction: ${satisfaction.averageSatisfaction}%`);
+      console.info(`   🎢 Total Rides: ${status.totalRides}`);
+      console.info(`   👥 Total Guests: ${status.totalGuests}`);
+      console.info(`   👷 Total Staff: ${status.totalStaff}`);
+      console.info(`   💰 Revenue: $${finances.revenue.toFixed(2)}`);
+      console.info(`   📈 Profit: $${finances.profit.toFixed(2)}`);
+      console.info(`   😊 Guest Satisfaction: ${satisfaction.averageSatisfaction}%`);
 
-      this.logger.info('✅ Theme park simulation completed successfully');
+      console.info('✅ Theme park simulation completed successfully');
 
     } catch (error) {
-      this.logger.error('❌ Simulation failed:', error);
+      console.error('❌ Simulation failed:', error);
     }
   }
 
@@ -568,7 +568,7 @@ class ThemeParkCLI {
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 Available commands:
   test                     - Run basic theme park tests
   create-park <name>       - Create new theme park
@@ -590,8 +590,8 @@ Staff Roles: ride_operator, maintenance, security, janitor, manager
   }
 
   public async start(): Promise<void> {
-    this.logger.info('🚀 Theme Park CLI Started');
-    this.logger.info('Type "help" for available commands or "test" to run tests\n');
+    console.info('🚀 Theme Park CLI Started');
+    console.info('Type "help" for available commands or "test" to run tests\n');
     
     this.rl.prompt();
   }

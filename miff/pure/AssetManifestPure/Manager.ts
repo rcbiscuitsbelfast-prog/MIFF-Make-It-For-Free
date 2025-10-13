@@ -149,28 +149,28 @@ export class AssetManifestManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Asset Manifest Manager already initialized');
+      console.warn('AssetManifestPure', 'Asset Manifest Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Asset Manifest Manager...');
+      console.info('AssetManifestPure', 'Initializing Asset Manifest Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Asset Manifest Manager initialized successfully');
+      console.info('AssetManifestPure', 'Asset Manifest Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Asset Manifest Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -203,11 +203,11 @@ export class AssetManifestManager {
       this.manifests.set(manifest.id, manifest);
       this.updateAnalytics();
 
-      this.logger.info('Asset manifest created', { manifestId: manifest.id, manifestName: manifest.name });
+      console.info('Asset manifest created', { manifestId: manifest.id, manifestName: manifest.name });
       return manifest;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create asset manifest');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -234,7 +234,7 @@ export class AssetManifestManager {
     try {
       const manifest = this.manifests.get(manifestId);
       if (!manifest) {
-        this.logger.warn('Manifest not found', { manifestId });
+        console.warn('Manifest not found', { manifestId });
         return null;
       }
 
@@ -248,11 +248,11 @@ export class AssetManifestManager {
       this.manifests.set(manifestId, updatedManifest);
       this.updateAnalytics();
 
-      this.logger.info('Asset manifest updated', { manifestId, manifestName: updatedManifest.name });
+      console.info('Asset manifest updated', { manifestId, manifestName: updatedManifest.name });
       return updatedManifest;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update asset manifest');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -268,18 +268,18 @@ export class AssetManifestManager {
     try {
       const manifest = this.manifests.get(manifestId);
       if (!manifest) {
-        this.logger.warn('Manifest not found', { manifestId });
+        console.warn('Manifest not found', { manifestId });
         return false;
       }
 
       this.manifests.delete(manifestId);
       this.updateAnalytics();
 
-      this.logger.info('Asset manifest deleted', { manifestId, manifestName: manifest.name });
+      console.info('Asset manifest deleted', { manifestId, manifestName: manifest.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete asset manifest');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -328,7 +328,7 @@ export class AssetManifestManager {
     try {
       const manifest = this.manifests.get(manifestId);
       if (!manifest) {
-        this.logger.warn('Manifest not found', { manifestId });
+        console.warn('Manifest not found', { manifestId });
         return null;
       }
 
@@ -341,11 +341,11 @@ export class AssetManifestManager {
       manifest.assets.push(asset);
       this.updateAnalytics();
 
-      this.logger.info('Asset added to manifest', { manifestId, assetId: asset.id, assetName: asset.name });
+      console.info('Asset added to manifest', { manifestId, assetId: asset.id, assetName: asset.name });
       return asset;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add asset to manifest');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -361,24 +361,24 @@ export class AssetManifestManager {
     try {
       const manifest = this.manifests.get(manifestId);
       if (!manifest) {
-        this.logger.warn('Manifest not found', { manifestId });
+        console.warn('Manifest not found', { manifestId });
         return false;
       }
 
       const assetIndex = manifest.assets.findIndex(asset => asset.id === assetId);
       if (assetIndex === -1) {
-        this.logger.warn('Asset not found', { manifestId, assetId });
+        console.warn('Asset not found', { manifestId, assetId });
         return false;
       }
 
       manifest.assets.splice(assetIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Asset removed from manifest', { manifestId, assetId });
+      console.info('Asset removed from manifest', { manifestId, assetId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove asset from manifest');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -394,13 +394,13 @@ export class AssetManifestManager {
     try {
       const manifest = this.manifests.get(manifestId);
       if (!manifest) {
-        this.logger.warn('Manifest not found', { manifestId });
+        console.warn('Manifest not found', { manifestId });
         return false;
       }
 
       const asset = manifest.assets.find(a => a.id === assetId);
       if (!asset) {
-        this.logger.warn('Asset not found', { manifestId, assetId });
+        console.warn('Asset not found', { manifestId, assetId });
         return false;
       }
 
@@ -421,11 +421,11 @@ export class AssetManifestManager {
 
       this.updateAnalytics();
 
-      this.logger.debug('Asset loaded', { manifestId, assetId, loadTime });
+      console.debug('Asset loaded', { manifestId, assetId, loadTime });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to load asset');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -441,29 +441,29 @@ export class AssetManifestManager {
     try {
       const manifest = this.manifests.get(manifestId);
       if (!manifest) {
-        this.logger.warn('Manifest not found', { manifestId });
+        console.warn('Manifest not found', { manifestId });
         return false;
       }
 
       const asset = manifest.assets.find(a => a.id === assetId);
       if (!asset) {
-        this.logger.warn('Asset not found', { manifestId, assetId });
+        console.warn('Asset not found', { manifestId, assetId });
         return false;
       }
 
       if (!manifest.caching.enabled) {
-        this.logger.warn('Caching not enabled', { manifestId });
+        console.warn('Caching not enabled', { manifestId });
         return false;
       }
 
       asset.status = 'cached';
       this.updateAnalytics();
 
-      this.logger.debug('Asset cached', { manifestId, assetId });
+      console.debug('Asset cached', { manifestId, assetId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to cache asset');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -576,12 +576,12 @@ export class AssetManifestManager {
    * Destroy the Asset Manifest Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Asset Manifest Manager...');
+    console.info('AssetManifestPure', 'Destroying Asset Manifest Manager...');
 
     this.manifests.clear();
     this.isInitialized = false;
 
-    this.logger.info('Asset Manifest Manager destroyed');
+    console.info('AssetManifestPure', 'Asset Manifest Manager destroyed');
   }
 }
 

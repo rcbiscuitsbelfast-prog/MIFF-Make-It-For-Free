@@ -236,7 +236,7 @@ export class UIBuilder {
    */
   private createRigNode(data: any): void {
     // This would integrate with RigBuilder
-    this.logger.info('Creating rig node:', data);
+    console.info('Creating rig node:', data);
   }
 
   /**
@@ -244,7 +244,7 @@ export class UIBuilder {
    */
   private createLimbNode(data: any): void {
     // This would integrate with LimbAttachment
-    this.logger.info('Creating limb node:', data);
+    console.info('Creating limb node:', data);
   }
 
   /**
@@ -252,7 +252,7 @@ export class UIBuilder {
    */
   private createFaceFeature(data: any): void {
     // This would integrate with FacialDetailBuilder
-    this.logger.info('Creating face feature:', data);
+    console.info('Creating face feature:', data);
   }
 
   /**
@@ -260,7 +260,7 @@ export class UIBuilder {
    */
   private createMorphTarget(data: any): void {
     // This would integrate with SkinMeshGenerator
-    this.logger.info('Creating morph target:', data);
+    console.info('Creating morph target:', data);
   }
 
   /**
@@ -268,7 +268,7 @@ export class UIBuilder {
    */
   private createKeyframe(data: any): void {
     // This would integrate with AnimationSequencer
-    this.logger.info('Creating keyframe:', data);
+    console.info('Creating keyframe:', data);
   }
 
   /**
@@ -291,7 +291,7 @@ export class UIBuilder {
    */
   private updateLimbNode(nodeId: string, data: any): void {
     // This would integrate with LimbAttachment
-    this.logger.info('Updating limb node:', nodeId, data);
+    console.info('Updating limb node:', nodeId, data);
   }
 
   /**
@@ -326,7 +326,7 @@ export class UIBuilder {
    */
   private updateKeyframe(keyframeId: string, data: any): void {
     // This would integrate with AnimationSequencer
-    this.logger.info('Updating keyframe:', keyframeId, data);
+    console.info('Updating keyframe:', keyframeId, data);
   }
 
   /**
@@ -344,7 +344,7 @@ export class UIBuilder {
    */
   private deleteLimbNode(nodeId: string): void {
     // This would integrate with LimbAttachment
-    this.logger.info('Deleting limb node:', nodeId);
+    console.info('Deleting limb node:', nodeId);
   }
 
   /**
@@ -370,7 +370,7 @@ export class UIBuilder {
    */
   private deleteKeyframe(keyframeId: string): void {
     // This would integrate with AnimationSequencer
-    this.logger.info('Deleting keyframe:', keyframeId);
+    console.info('Deleting keyframe:', keyframeId);
   }
 
   /**
@@ -533,7 +533,7 @@ export class UIBuilder {
    */
   private reverseAction(action: UIAction): void {
     // This would implement the reverse of each action
-    this.logger.info('Reversing action:', action);
+    console.info('Reversing action:', action);
   }
 
   /**

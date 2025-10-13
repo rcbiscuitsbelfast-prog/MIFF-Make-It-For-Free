@@ -81,12 +81,12 @@ export class HealthCheckSystem {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Health check system already initialized');
+      console.warn('Health check system already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing health check system...');
+      console.info('Initializing health check system...');
       
       // Register core health checks
       await this.registerCoreChecks();
@@ -98,10 +98,10 @@ export class HealthCheckSystem {
       await this.registerSystemChecks();
       
       this.isInitialized = true;
-      this.logger.info('Health check system initialized successfully');
+      console.info('Health check system initialized successfully');
       
     } catch (error) {
-      this.logger.error('Failed to initialize health check system', { error: error.message });
+      console.error('Failed to initialize health check system', { error: error.message });
       throw error;
     }
   }
@@ -233,7 +233,7 @@ export class HealthCheckSystem {
    * Run all health checks
    */
   async runHealthChecks(): Promise<HealthStatus> {
-    this.logger.info('Running comprehensive health checks...');
+    console.info('Running comprehensive health checks...');
     
     const checks: HealthCheck[] = [];
     const startTime = Date.now();
@@ -267,7 +267,7 @@ export class HealthCheckSystem {
         }
       };
       
-      this.logger.info('Health checks completed', { 
+      console.info('Health checks completed', { 
         status, 
         successRate: summary.successRate,
         executionTime: healthStatus.metadata.executionTime
@@ -276,7 +276,7 @@ export class HealthCheckSystem {
       return healthStatus;
       
     } catch (error) {
-      this.logger.error('Health check execution failed', { error: error.message });
+      console.error('Health check execution failed', { error: error.message });
       throw error;
     }
   }
@@ -958,7 +958,7 @@ export class HealthCheckSystem {
   /**
    * Get health check configuration
    */
-  getHealthCheckConfig(name: string): HealthCheckConfig | undefined {
+  getHealthCheckConfig(name: string): HealthCheckConfig! {
     return this.registry.checks.get(name);
   }
 
@@ -973,14 +973,14 @@ export class HealthCheckSystem {
    * Destroy the health check system
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying health check system...');
+    console.info('Destroying health check system...');
     
     this.registry.checks.clear();
     this.registry.dependencies.clear();
     this.registry.alerts.clear();
     
     this.isInitialized = false;
-    this.logger.info('Health check system destroyed');
+    console.info('Health check system destroyed');
   }
 }
 

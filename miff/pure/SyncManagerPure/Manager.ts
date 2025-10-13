@@ -93,28 +93,28 @@ export class SyncManagerManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('SyncManagerManager', 'initialize');
+    const timerId = console.startTimer('SyncManagerManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('SyncManagerManager', 'Manager initialized successfully', {
+      console.info('SyncManagerManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('SyncManagerManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('SyncManagerManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('SyncManagerManager', 'Failed to initialize manager', {
+      console.error('SyncManagerManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class SyncManagerManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class SyncManagerManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class SyncManagerManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('SyncManagerManager', 'Created item', {
+    console.info('SyncManagerManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class SyncManagerManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class SyncManagerManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('SyncManagerManager', 'Updated item', {
+    console.info('SyncManagerManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class SyncManagerManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('SyncManagerManager', 'Deleted item', {
+    console.info('SyncManagerManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class SyncManagerManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('SyncManagerManager', 'Initializing manager...');
+    console.debug('SyncManagerManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class SyncManagerManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('SyncManagerManager', 'Loaded default items', {
+    console.info('SyncManagerManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class SyncManagerManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('SyncManagerManager', 'Destroying manager', {
+    console.info('SyncManagerManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class SyncManagerManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

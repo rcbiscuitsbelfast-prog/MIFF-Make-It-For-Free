@@ -201,28 +201,28 @@ export class AudioSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Audio System Manager already initialized');
+      console.warn('AudioSystemPure', 'Audio System Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Audio System Manager...');
+      console.info('AudioSystemPure', 'Initializing Audio System Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Audio System Manager initialized successfully');
+      console.info('AudioSystemPure', 'Audio System Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Audio System Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -257,11 +257,11 @@ export class AudioSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Audio system created', { systemId: system.id, systemName: system.name });
+      console.info('Audio system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create audio system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -288,7 +288,7 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -302,11 +302,11 @@ export class AudioSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Audio system updated', { systemId, systemName: updatedSystem.name });
+      console.info('Audio system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update audio system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -322,18 +322,18 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Audio system deleted', { systemId, systemName: system.name });
+      console.info('Audio system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete audio system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -382,7 +382,7 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -394,11 +394,11 @@ export class AudioSystemManager {
       system.devices.push(device);
       this.updateAnalytics();
 
-      this.logger.info('Device added to system', { systemId, deviceId: device.id, deviceName: device.name });
+      console.info('Device added to system', { systemId, deviceId: device.id, deviceName: device.name });
       return device;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add device to system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -414,24 +414,24 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const deviceIndex = system.devices.findIndex(device => device.id === deviceId);
       if (deviceIndex === -1) {
-        this.logger.warn('Device not found', { systemId, deviceId });
+        console.warn('Device not found', { systemId, deviceId });
         return false;
       }
 
       system.devices.splice(deviceIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Device removed from system', { systemId, deviceId });
+      console.info('Device removed from system', { systemId, deviceId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove device from system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -447,7 +447,7 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -459,11 +459,11 @@ export class AudioSystemManager {
       system.contexts.push(context);
       this.updateAnalytics();
 
-      this.logger.info('Context added to system', { systemId, contextId: context.id, contextName: context.name });
+      console.info('Context added to system', { systemId, contextId: context.id, contextName: context.name });
       return context;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add context to system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -479,24 +479,24 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const contextIndex = system.contexts.findIndex(context => context.id === contextId);
       if (contextIndex === -1) {
-        this.logger.warn('Context not found', { systemId, contextId });
+        console.warn('Context not found', { systemId, contextId });
         return false;
       }
 
       system.contexts.splice(contextIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Context removed from system', { systemId, contextId });
+      console.info('Context removed from system', { systemId, contextId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove context from system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -512,7 +512,7 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -524,11 +524,11 @@ export class AudioSystemManager {
       system.pipeline.stages.push(stage);
       this.updateAnalytics();
 
-      this.logger.info('Processing stage added to system', { systemId, stageId: stage.id, stageName: stage.name });
+      console.info('Processing stage added to system', { systemId, stageId: stage.id, stageName: stage.name });
       return stage;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add processing stage to system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -544,24 +544,24 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const stageIndex = system.pipeline.stages.findIndex(stage => stage.id === stageId);
       if (stageIndex === -1) {
-        this.logger.warn('Processing stage not found', { systemId, stageId });
+        console.warn('Processing stage not found', { systemId, stageId });
         return false;
       }
 
       system.pipeline.stages.splice(stageIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Processing stage removed from system', { systemId, stageId });
+      console.info('Processing stage removed from system', { systemId, stageId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove processing stage from system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -577,18 +577,18 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       system.status = 'active';
       this.updateAnalytics();
 
-      this.logger.info('Audio system started', { systemId, systemName: system.name });
+      console.info('Audio system started', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to start audio system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -604,18 +604,18 @@ export class AudioSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       system.status = 'inactive';
       this.updateAnalytics();
 
-      this.logger.info('Audio system stopped', { systemId, systemName: system.name });
+      console.info('Audio system stopped', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to stop audio system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -748,12 +748,12 @@ export class AudioSystemManager {
    * Destroy the Audio System Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Audio System Manager...');
+    console.info('AudioSystemPure', 'Destroying Audio System Manager...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('Audio System Manager destroyed');
+    console.info('AudioSystemPure', 'Audio System Manager destroyed');
   }
 }
 

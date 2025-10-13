@@ -22,7 +22,7 @@ class MockEventBus {
     if (!this.events.has(event)) {
       this.events.set(event, []);
     }
-    this.events.get(event)!.push(handler);
+    this.events.get(event)?.push(handler);
   }
 }
 
@@ -756,7 +756,7 @@ describe('TeleportationSystemPure Golden Tests', () => {
       // First teleport (should succeed)
       let result = teleportationSystem.requestTeleportation({
         entityId: 'test-player',
-        destinationId: portal!.id,
+        destinationId: portal?.id,
         usePortal: true
       });
       expect(result.success).toBe(true);
@@ -764,7 +764,7 @@ describe('TeleportationSystemPure Golden Tests', () => {
       // Second teleport (should succeed)
       result = teleportationSystem.requestTeleportation({
         entityId: 'test-player',
-        destinationId: portal!.id,
+        destinationId: portal?.id,
         usePortal: true
       });
       expect(result.success).toBe(true);
@@ -772,7 +772,7 @@ describe('TeleportationSystemPure Golden Tests', () => {
       // Third teleport (should fail due to no charges)
       result = teleportationSystem.requestTeleportation({
         entityId: 'test-player',
-        destinationId: portal!.id,
+        destinationId: portal?.id,
         usePortal: true
       });
       expect(result.success).toBe(false);
@@ -795,13 +795,13 @@ describe('TeleportationSystemPure Golden Tests', () => {
       for (let i = 0; i < 5; i++) {
         teleportationSystem.requestTeleportation({
           entityId: 'test-player',
-          destinationId: portal!.id,
+          destinationId: portal?.id,
           usePortal: true
         });
       }
 
       // Portal should be deactivated
-      const updatedPortal = teleportationSystem.getPortal(portal!.id);
+      const updatedPortal = teleportationSystem.getPortal(portal?.id);
       expect(updatedPortal?.isActive).toBe(false);
     });
 

@@ -458,7 +458,7 @@ export class ExportIntegration {
       if (!nodeKeyframes.has(kf.nodeId)) {
         nodeKeyframes.set(kf.nodeId, []);
       }
-      nodeKeyframes.get(kf.nodeId)!.push(kf);
+      nodeKeyframes.get(kf.nodeId)?.push(kf);
     });
 
     let samplerIndex = 0;

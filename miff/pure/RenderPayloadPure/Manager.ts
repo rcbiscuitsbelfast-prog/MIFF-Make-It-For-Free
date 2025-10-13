@@ -172,7 +172,7 @@ export class RenderPayloadManager {
     this.initializeDefaultAssets();
     this.initializeDefaultAnimations();
 
-    this.logger.info('RenderPayloadManager initialized', {
+    console.info('RenderPayloadManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -211,10 +211,10 @@ export class RenderPayloadManager {
       this.renderStats.totalFrames++;
       this.updateEngineDistribution(engine);
 
-      this.logger.info('Render frame created', { frameId: id, name, engine });
+      console.info('Render frame created', { frameId: id, name, engine });
       return { ok: true, frame };
     } catch (error) {
-      this.logger.error('Failed to create render frame', { frameId: id, error: error.message });
+      console.error('Failed to create render frame', { frameId: id, error: error.message });
       return { ok: false, errors: [error.message] };
     }
   }
@@ -257,7 +257,7 @@ export class RenderPayloadManager {
 
       this.renderStats.performanceMetrics.buildTime = buildTime;
 
-      this.logger.info('Render frame built', { frameId: id, buildTime, dataSize, complexity });
+      console.info('Render frame built', { frameId: id, buildTime, dataSize, complexity });
 
       return {
         op: 'build',
@@ -271,7 +271,7 @@ export class RenderPayloadManager {
         }
       };
     } catch (error) {
-      this.logger.error('Failed to build render frame', { frameId: id, error: error.message });
+      console.error('Failed to build render frame', { frameId: id, error: error.message });
       return {
         op: 'build',
         status: 'error',
@@ -287,12 +287,12 @@ export class RenderPayloadManager {
   public addRenderData(frameId: string, renderData: RenderData): boolean {
     const frame = this.frames.get(frameId);
     if (!frame) {
-      this.logger.warn('Frame not found', { frameId });
+      console.warn('Frame not found', { frameId });
       return false;
     }
 
     frame.renderData.push(renderData);
-    this.logger.debug('Render data added', { frameId, dataId: renderData.id, type: renderData.type });
+    console.debug('Render data added', { frameId, dataId: renderData.id, type: renderData.type });
     return true;
   }
 
@@ -302,18 +302,18 @@ export class RenderPayloadManager {
   public removeRenderData(frameId: string, dataId: string): boolean {
     const frame = this.frames.get(frameId);
     if (!frame) {
-      this.logger.warn('Frame not found', { frameId });
+      console.warn('Frame not found', { frameId });
       return false;
     }
 
     const index = frame.renderData.findIndex(data => data.id === dataId);
     if (index === -1) {
-      this.logger.warn('Render data not found', { frameId, dataId });
+      console.warn('Render data not found', { frameId, dataId });
       return false;
     }
 
     frame.renderData.splice(index, 1);
-    this.logger.debug('Render data removed', { frameId, dataId });
+    console.debug('Render data removed', { frameId, dataId });
     return true;
   }
 
@@ -322,13 +322,13 @@ export class RenderPayloadManager {
    */
   public registerAsset(asset: AssetReference): boolean {
     if (this.assets.size >= this.config.maxAssets) {
-      this.logger.warn('Maximum assets limit reached', { maxAssets: this.config.maxAssets });
+      console.warn('Maximum assets limit reached', { maxAssets: this.config.maxAssets });
       return false;
     }
 
     this.assets.set(asset.id, asset);
     this.renderStats.totalAssets++;
-    this.logger.info('Asset registered', { assetId: asset.id, type: asset.type, path: asset.path });
+    console.info('Asset registered', { assetId: asset.id, type: asset.type, path: asset.path });
     return true;
   }
 
@@ -352,7 +352,7 @@ export class RenderPayloadManager {
   public registerAnimation(animation: AnimationSequence): boolean {
     this.animations.set(animation.id, animation);
     this.renderStats.totalAnimations++;
-    this.logger.info('Animation registered', { animationId: animation.id, name: animation.name, frames: animation.frames });
+    console.info('Animation registered', { animationId: animation.id, name: animation.name, frames: animation.frames });
     return true;
   }
 
@@ -390,13 +390,13 @@ export class RenderPayloadManager {
   public deleteFrame(frameId: string): boolean {
     const frame = this.frames.get(frameId);
     if (!frame) {
-      this.logger.warn('Frame not found', { frameId });
+      console.warn('Frame not found', { frameId });
       return false;
     }
 
     this.frames.delete(frameId);
     this.renderStats.totalFrames--;
-    this.logger.info('Frame deleted', { frameId });
+    console.info('Frame deleted', { frameId });
     return true;
   }
 
@@ -416,11 +416,11 @@ export class RenderPayloadManager {
       const exportTime = Date.now() - startTime;
       
       this.renderStats.performanceMetrics.exportTime = exportTime;
-      this.logger.info('Frame exported', { frameId, engine, exportTime });
+      console.info('Frame exported', { frameId, engine, exportTime });
 
       return { ok: true, data: exportData };
     } catch (error) {
-      this.logger.error('Failed to export frame', { frameId, engine, error: error.message });
+      console.error('Failed to export frame', { frameId, engine, error: error.message });
       return { ok: false, errors: [error.message] };
     }
   }
@@ -591,7 +591,7 @@ export class RenderPayloadManager {
    */
   public updateConfig(newConfig: Partial<RenderPayloadConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.logger.info('RenderPayloadManager configuration updated', { config: this.config });
+    console.info('RenderPayloadManager configuration updated', { config: this.config });
   }
 
   /**
@@ -599,6 +599,6 @@ export class RenderPayloadManager {
    */
   public destroy(): void {
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('RenderPayloadManager destroyed');
+    console.info('RenderPayloadPure', 'RenderPayloadManager destroyed');
   }
 }

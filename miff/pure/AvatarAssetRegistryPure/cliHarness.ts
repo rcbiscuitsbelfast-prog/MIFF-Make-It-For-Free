@@ -9,7 +9,7 @@
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  this.logger.info(`
+  console.info(`
 AvatarAssetRegistryPure CLI Harness - Avatar Asset Registry System
 
 Usage: npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts [command] [options]
@@ -61,7 +61,7 @@ class AvatarAssetRegistryCLI {
     });
 
     this.rl.on('close', () => {
-      this.logger.info('\n👋 Avatar Asset Registry CLI closed');
+      console.info('\n👋 Avatar Asset Registry CLI closed');
       process.exit(0);
     });
   }
@@ -102,24 +102,24 @@ class AvatarAssetRegistryCLI {
         // Empty line, just show prompt
         break;
       default:
-        this.logger.info(`❌ Unknown command: ${command}`);
-        this.logger.info('Type "help" for available commands');
+        console.info(`❌ Unknown command: ${command}`);
+        console.info('Type "help" for available commands');
     }
 
     this.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
-    this.logger.info('🧪 Running Avatar Asset Registry tests...\n');
+    console.info('🧪 Running Avatar Asset Registry tests...\n');
 
     try {
       // Test 1: Registry validation
-      this.logger.info('1. Testing registry validation...');
+      console.info('1. Testing registry validation...');
       const isValid = this.validateRegistryInternal();
-      this.logger.info(`   ${isValid ? '✅' : '❌'} Registry validation: ${isValid ? 'Valid' : 'Invalid'}`);
+      console.info(`   ${isValid ? '✅' : '❌'} Registry validation: ${isValid ? 'Valid' : 'Invalid'}`);
 
       // Test 2: Asset resolution
-      this.logger.info('2. Testing asset resolution...');
+      console.info('2. Testing asset resolution...');
       const testAssets = [
         { id: 'head-001', style: '3d' as AvatarStyle },
         { id: 'head-001', style: '2d-side' as AvatarStyle },
@@ -130,33 +130,33 @@ class AvatarAssetRegistryCLI {
 
       for (const test of testAssets) {
         const resolved = AvatarAssetRegistryPure.resolveVariant(test.id, test.style, this.registry);
-        this.logger.info(`   ${resolved ? '✅' : '❌'} ${test.id} (${test.style}): ${resolved || 'Not found'}`);
+        console.info(`   ${resolved ? '✅' : '❌'} ${test.id} (${test.style}): ${resolved || 'Not found'}`);
       }
 
       // Test 3: Registry statistics
-      this.logger.info('3. Testing registry statistics...');
-      this.logger.info(`   ✅ Total assets: ${this.registry.items.length}`);
-      this.logger.info(`   ✅ Registry version: ${this.registry.version}`);
+      console.info('3. Testing registry statistics...');
+      console.info(`   ✅ Total assets: ${this.registry.items.length}`);
+      console.info(`   ✅ Registry version: ${this.registry.version}`);
 
       // Test 4: Asset coverage
-      this.logger.info('4. Testing asset coverage...');
+      console.info('4. Testing asset coverage...');
       const styles: AvatarStyle[] = ['3d', '2d-side', 'overlay'];
       for (const style of styles) {
         const coverage = this.getStyleCoverage(style);
-        this.logger.info(`   ✅ ${style} coverage: ${coverage}%`);
+        console.info(`   ✅ ${style} coverage: ${coverage}%`);
       }
 
-      this.logger.info('\n🎉 All tests passed!');
+      console.info('\n🎉 All tests passed!');
 
     } catch (error) {
-      this.logger.error('❌ Test failed:', error);
+      console.error('❌ Test failed:', error);
     }
   }
 
   private async resolveAsset(id?: string, style?: string): Promise<void> {
     if (!id || !style) {
-      this.logger.info('❌ Usage: resolve <id> <style>');
-      this.logger.info('   Styles: 3d, 2d-side, overlay');
+      console.info('❌ Usage: resolve <id> <style>');
+      console.info('   Styles: 3d, 2d-side, overlay');
       return;
     }
 
@@ -164,43 +164,43 @@ class AvatarAssetRegistryCLI {
       const resolved = AvatarAssetRegistryPure.resolveVariant(id, style as AvatarStyle, this.registry);
       
       if (resolved) {
-        this.logger.info(`✅ Asset resolved: ${id} (${style}) -> ${resolved}`);
+        console.info(`✅ Asset resolved: ${id} (${style}) -> ${resolved}`);
       } else {
-        this.logger.info(`❌ Asset not found: ${id} (${style})`);
-        this.logger.info('   Available assets:');
+        console.info(`❌ Asset not found: ${id} (${style})`);
+        console.info('   Available assets:');
         this.registry.items.forEach(item => {
-          this.logger.info(`   - ${item.id}`);
+          console.info(`   - ${item.id}`);
         });
       }
     } catch (error) {
-      this.logger.error('❌ Asset resolution failed:', error);
+      console.error('❌ Asset resolution failed:', error);
     }
   }
 
   private listAssets(): void {
-    this.logger.info('📦 Available Assets:');
-    this.logger.info(`   Registry Version: ${this.registry.version}`);
-    this.logger.info(`   Total Assets: ${this.registry.items.length}\n`);
+    console.info('📦 Available Assets:');
+    console.info(`   Registry Version: ${this.registry.version}`);
+    console.info(`   Total Assets: ${this.registry.items.length}\n`);
 
     this.registry.items.forEach((item, index) => {
-      this.logger.info(`${index + 1}. ${item.id}`);
-      this.logger.info(`   Remix Safety: ${item.remixSafety}`);
-      this.logger.info(`   Variants:`);
+      console.info(`${index + 1}. ${item.id}`);
+      console.info(`   Remix Safety: ${item.remixSafety}`);
+      console.info(`   Variants:`);
       
       Object.entries(item.variants).forEach(([style, url]) => {
-        this.logger.info(`     ${style}: ${url}`);
+        console.info(`     ${style}: ${url}`);
       });
       
       if (item.generationHints) {
-        this.logger.info(`   Generation Hints: ${Object.keys(item.generationHints).join(', ')}`);
+        console.info(`   Generation Hints: ${Object.keys(item.generationHints).join(', ')}`);
       }
-      this.logger.info('');
+      console.info('');
     });
   }
 
   private async addAsset(id?: string): Promise<void> {
     if (!id) {
-      this.logger.info('❌ Usage: add-asset <id>');
+      console.info('❌ Usage: add-asset <id>');
       return;
     }
 
@@ -208,7 +208,7 @@ class AvatarAssetRegistryCLI {
       // Check if asset already exists
       const existingAsset = this.registry.items.find(item => item.id === id);
       if (existingAsset) {
-        this.logger.info(`❌ Asset "${id}" already exists`);
+        console.info(`❌ Asset "${id}" already exists`);
         return;
       }
 
@@ -228,22 +228,22 @@ class AvatarAssetRegistryCLI {
       };
 
       this.registry.items.push(newAsset);
-      this.logger.info(`✅ Asset "${id}" added to registry`);
-      this.logger.info(`   Variants: ${Object.keys(newAsset.variants).join(', ')}`);
-      this.logger.info(`   Remix Safety: ${newAsset.remixSafety}`);
+      console.info(`✅ Asset "${id}" added to registry`);
+      console.info(`   Variants: ${Object.keys(newAsset.variants).join(', ')}`);
+      console.info(`   Remix Safety: ${newAsset.remixSafety}`);
     } catch (error) {
-      this.logger.error('❌ Asset addition failed:', error);
+      console.error('❌ Asset addition failed:', error);
     }
   }
 
   private async createSampleRegistry(): Promise<void> {
     try {
       this.registry = this.createSampleRegistryInternal();
-      this.logger.info('✅ Sample registry created');
-      this.logger.info(`   Assets: ${this.registry.items.length}`);
-      this.logger.info(`   Version: ${this.registry.version}`);
+      console.info('✅ Sample registry created');
+      console.info(`   Assets: ${this.registry.items.length}`);
+      console.info(`   Version: ${this.registry.version}`);
     } catch (error) {
-      this.logger.error('❌ Sample registry creation failed:', error);
+      console.error('❌ Sample registry creation failed:', error);
     }
   }
 
@@ -251,26 +251,26 @@ class AvatarAssetRegistryCLI {
     const isValid = this.validateRegistryInternal();
     
     if (isValid) {
-      this.logger.info('✅ Registry is valid');
+      console.info('✅ Registry is valid');
     } else {
-      this.logger.info('❌ Registry validation failed');
-      this.logger.info('   Issues found:');
+      console.info('❌ Registry validation failed');
+      console.info('   Issues found:');
       
       if (!this.registry.version) {
-        this.logger.info('   - Missing version');
+        console.info('   - Missing version');
       }
       if (!this.registry.items || !Array.isArray(this.registry.items)) {
-        this.logger.info('   - Invalid items array');
+        console.info('   - Invalid items array');
       } else {
         this.registry.items.forEach((item, index) => {
           if (!item.id) {
-            this.logger.info(`   - Item ${index}: Missing ID`);
+            console.info(`   - Item ${index}: Missing ID`);
           }
           if (!item.variants || typeof item.variants !== 'object') {
-            this.logger.info(`   - Item ${index}: Invalid variants`);
+            console.info(`   - Item ${index}: Invalid variants`);
           }
           if (!item.remixSafety) {
-            this.logger.info(`   - Item ${index}: Missing remix safety`);
+            console.info(`   - Item ${index}: Missing remix safety`);
           }
         });
       }
@@ -301,16 +301,16 @@ class AvatarAssetRegistryCLI {
   }
 
   private async simulate(): Promise<void> {
-    this.logger.info('🎭 Starting asset registry simulation...');
+    console.info('🎭 Starting asset registry simulation...');
     
     try {
       // Show initial state
-      this.logger.info('1. Initial registry state...');
-      this.logger.info(`   Assets: ${this.registry.items.length}`);
-      this.logger.info(`   Version: ${this.registry.version}`);
+      console.info('1. Initial registry state...');
+      console.info(`   Assets: ${this.registry.items.length}`);
+      console.info(`   Version: ${this.registry.version}`);
 
       // Simulate asset resolution requests
-      this.logger.info('2. Simulating asset resolution requests...');
+      console.info('2. Simulating asset resolution requests...');
       const testCases = [
         { id: 'head-001', style: '3d' as AvatarStyle },
         { id: 'torso-001', style: '2d-side' as AvatarStyle },
@@ -321,11 +321,11 @@ class AvatarAssetRegistryCLI {
 
       for (const testCase of testCases) {
         const resolved = AvatarAssetRegistryPure.resolveVariant(testCase.id, testCase.style, this.registry);
-        this.logger.info(`   ${resolved ? '✅' : '❌'} ${testCase.id} (${testCase.style}): ${resolved || 'Not found'}`);
+        console.info(`   ${resolved ? '✅' : '❌'} ${testCase.id} (${testCase.style}): ${resolved || 'Not found'}`);
       }
 
       // Simulate adding new assets
-      this.logger.info('3. Simulating asset additions...');
+      console.info('3. Simulating asset additions...');
       const newAssets = ['hat-001', 'shoes-001', 'gloves-001'];
       
       for (const assetId of newAssets) {
@@ -344,32 +344,32 @@ class AvatarAssetRegistryCLI {
         };
 
         this.registry.items.push(newAsset);
-        this.logger.info(`   ✅ Added ${assetId}`);
+        console.info(`   ✅ Added ${assetId}`);
       }
 
       // Show final state
-      this.logger.info('4. Final registry state...');
-      this.logger.info(`   Assets: ${this.registry.items.length}`);
+      console.info('4. Final registry state...');
+      console.info(`   Assets: ${this.registry.items.length}`);
       
       const styleCoverage = ['3d', '2d-side', 'overlay'].map(style => 
         `${style}: ${this.getStyleCoverage(style as AvatarStyle)}%`
       ).join(', ');
-      this.logger.info(`   Style Coverage: ${styleCoverage}`);
+      console.info(`   Style Coverage: ${styleCoverage}`);
 
       // Test final resolution
-      this.logger.info('5. Testing final resolution...');
+      console.info('5. Testing final resolution...');
       const finalTest = AvatarAssetRegistryPure.resolveVariant('hat-001', '3d', this.registry);
-      this.logger.info(`   ✅ New asset resolution: ${finalTest || 'Failed'}`);
+      console.info(`   ✅ New asset resolution: ${finalTest || 'Failed'}`);
 
-      this.logger.info('✅ Asset registry simulation completed successfully');
+      console.info('✅ Asset registry simulation completed successfully');
 
     } catch (error) {
-      this.logger.error('❌ Simulation failed:', error);
+      console.error('❌ Simulation failed:', error);
     }
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 Available commands:
   test                     - Run basic asset registry tests
   resolve <id> <style>     - Resolve asset variant
@@ -447,8 +447,8 @@ Remix Safety: CC0, restricted, custom
   }
 
   public async start(): Promise<void> {
-    this.logger.info('🚀 Avatar Asset Registry CLI Started');
-    this.logger.info('Type "help" for available commands or "test" to run tests\n');
+    console.info('🚀 Avatar Asset Registry CLI Started');
+    console.info('Type "help" for available commands or "test" to run tests\n');
     
     this.rl.prompt();
   }

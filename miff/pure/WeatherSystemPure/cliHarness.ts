@@ -413,7 +413,7 @@ export class WeatherSystemCLI {
    */
   private log(message: string): void {
     const timestamp = new Date().toLocaleTimeString();
-    this.logger.info(`[${timestamp}] ${message}`);
+    console.info(`[${timestamp}] ${message}`);
   }
 
   /**
@@ -640,19 +640,19 @@ async function main(): Promise<void> {
         break;
       case '--help':
       case '-h':
-        this.logger.info('WeatherSystemPure CLI Harness');
-        this.logger.info('');
-        this.logger.info('Usage: tsx cliHarness.ts [options]');
-        this.logger.info('');
-        this.logger.info('Options:');
-        this.logger.info('  --mode, -m <mode>          Mode: interactive, simulate, test, benchmark, export');
-        this.logger.info('  --seed, -s <number>        Random seed for deterministic weather');
-        this.logger.info('  --duration, -d <seconds>   Simulation duration');
-        this.logger.info('  --output, -o <file>        Output file for export mode');
-        this.logger.info('  --verbose, -v              Enable verbose output');
-        this.logger.info('  --performance, -p <mode>   Performance mode: high, medium, low');
-        this.logger.info('  --help, -h                 Show this help');
-        this.logger.info('');
+        console.info('WeatherSystemPure CLI Harness');
+        console.info('');
+        console.info('Usage: tsx cliHarness.ts [options]');
+        console.info('');
+        console.info('Options:');
+        console.info('  --mode, -m <mode>          Mode: interactive, simulate, test, benchmark, export');
+        console.info('  --seed, -s <number>        Random seed for deterministic weather');
+        console.info('  --duration, -d <seconds>   Simulation duration');
+        console.info('  --output, -o <file>        Output file for export mode');
+        console.info('  --verbose, -v              Enable verbose output');
+        console.info('  --performance, -p <mode>   Performance mode: high, medium, low');
+        console.info('  --help, -h                 Show this help');
+        console.info('');
         process.exit(0);
     }
   }

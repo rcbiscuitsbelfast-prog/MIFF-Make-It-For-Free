@@ -88,7 +88,7 @@ export class QuestTimelinePureManager {
     this.memoryId = MemoryManager.registerInstance(this, 'QuestTimelinePureManager');
     this.errorHandler = new StandardErrorHandler(this.logger);
     
-    this.logger.info('QuestTimelinePureManager initialized', {
+    console.info('QuestTimelinePureManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -97,18 +97,18 @@ export class QuestTimelinePureManager {
   // Initialize the manager
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Manager already initialized');
+      console.warn('QuestTimelinePure', 'Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing QuestTimelinePureManager...');
+      console.info('QuestTimelinePure', 'Initializing QuestTimelinePureManager...');
       
       // Initialize core functionality
       await this.initializeCore();
       
       this.isInitialized = true;
-      this.logger.info('QuestTimelinePureManager initialized successfully');
+      console.info('QuestTimelinePure', 'QuestTimelinePureManager initialized successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, {
@@ -122,7 +122,7 @@ export class QuestTimelinePureManager {
   // Initialize core functionality
   private async initializeCore(): Promise<void> {
     // Core initialization logic
-    this.logger.debug('Initializing core functionality');
+    console.debug('QuestTimelinePure', 'Initializing core functionality');
     
     // Initialize default items if needed
     if (this.items.size === 0) {
@@ -132,7 +132,7 @@ export class QuestTimelinePureManager {
 
   // Create default items
   private async createDefaultItems(): Promise<void> {
-    this.logger.debug('Creating default items');
+    console.debug('QuestTimelinePure', 'Creating default items');
     
     const defaultItems = [
       {
@@ -171,7 +171,7 @@ export class QuestTimelinePureManager {
       this.items.set(id, item);
       this.updateAnalytics();
       
-      this.logger.info('Item created successfully', {
+      console.info('Item created successfully', {
         itemId: id,
         itemType: item.type,
         totalItems: this.items.size
@@ -190,7 +190,7 @@ export class QuestTimelinePureManager {
   }
 
   // Get item by ID
-  getItem(id: string): QuestTimelinePureItem | undefined {
+  getItem(id: string): QuestTimelinePureItem! {
     return this.items.get(id);
   }
 
@@ -200,11 +200,11 @@ export class QuestTimelinePureManager {
   }
 
   // Update item
-  async updateItem(id: string, updates: Partial<QuestTimelinePureItem>): Promise<QuestTimelinePureItem | undefined> {
+  async updateItem(id: string, updates: Partial<QuestTimelinePureItem>): Promise<QuestTimelinePureItem!> {
     try {
       const item = this.items.get(id);
       if (!item) {
-        this.logger.warn('Item not found for update', { itemId: id 
+        console.warn('Item not found for update', { itemId: id 
     });
         return undefined;
       }
@@ -219,7 +219,7 @@ export class QuestTimelinePureManager {
       this.items.set(id, updatedItem);
       this.updateAnalytics();
       
-      this.logger.info('Item updated successfully', {
+      console.info('Item updated successfully', {
         itemId: id,
         updates: Object.keys(updates)
       });
@@ -243,10 +243,10 @@ export class QuestTimelinePureManager {
       const deleted = this.items.delete(id);
       if (deleted) {
         this.updateAnalytics();
-        this.logger.info('Item deleted successfully', { itemId: id 
+        console.info('Item deleted successfully', { itemId: id 
     });
       } else {
-        this.logger.warn('Item not found for deletion', { itemId: id 
+        console.warn('Item not found for deletion', { itemId: id 
     });
       }
       return deleted;
@@ -332,15 +332,15 @@ export class QuestTimelinePureManager {
   // Cleanup and destroy
   async destroy(): Promise<void> {
     try {
-      this.logger.info('Destroying QuestTimelinePureManager...');
+      console.info('QuestTimelinePure', 'Destroying QuestTimelinePureManager...');
       
       // Cleanup resources
       this.items.clear();
       MemoryManager.unregisterInstance(this.memoryId);
-      this.logger.destroy();
+      console.destroy();
       
       this.isInitialized = false;
-      this.logger.info('QuestTimelinePureManager destroyed successfully');
+      console.info('QuestTimelinePure', 'QuestTimelinePureManager destroyed successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, {

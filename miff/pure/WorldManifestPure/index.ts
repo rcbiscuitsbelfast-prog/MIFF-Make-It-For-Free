@@ -75,7 +75,7 @@ export const WorldManifestPure = {
 		}
 	},
 
-	getTile(world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): WorldTile | undefined {
+	getTile(world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): WorldTile! {
 		const zone = world.zones.find(z => z.id === zoneId);
 		if (!zone) return undefined;
 		

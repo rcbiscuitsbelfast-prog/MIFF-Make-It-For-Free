@@ -44,8 +44,8 @@ class SportsCli {
     this.setupCommands();
     this.setupEventListeners();
 
-    this.logger.info('⚽ SportsSystemPure CLI - AAA Sports Management System');
-    this.logger.info('Type "help" for available commands or "quit" to exit.\n');
+    console.info('⚽ SportsSystemPure CLI - AAA Sports Management System');
+    console.info('Type "help" for available commands or "quit" to exit.\n');
   }
 
   private setupCommands(): void {
@@ -166,46 +166,46 @@ class SportsCli {
 
   private setupEventListeners(): void {
     this.eventBus.on('sports:game_created', (data) => {
-      this.logger.info(`🎮 Game created: ${data.game.sportType} - ${data.game.teams[0].name} vs ${data.game.teams[1].name}`);
+      console.info(`🎮 Game created: ${data.game.sportType} - ${data.game.teams[0].name} vs ${data.game.teams[1].name}`);
       this.currentGameId = data.game.id;
     });
 
     this.eventBus.on('sports:game_started', (data) => {
-      this.logger.info(`🏁 Game started!`);
+      console.info(`🏁 Game started!`);
     });
 
     this.eventBus.on('sports:game_paused', (data) => {
-      this.logger.info(`⏸️ Game paused`);
+      console.info(`⏸️ Game paused`);
     });
 
     this.eventBus.on('sports:goal_scored', (data) => {
-      this.logger.info(`⚽ GOAL! Scored by ${data.scorer || 'unknown player'}`);
+      console.info(`⚽ GOAL! Scored by ${data.scorer || 'unknown player'}`);
     });
 
     this.eventBus.on('sports:shot_taken', (data) => {
-      this.logger.info(`🥅 Shot taken by ${data.playerId}`);
+      console.info(`🥅 Shot taken by ${data.playerId}`);
     });
 
     this.eventBus.on('sports:pass_completed', (data) => {
-      this.logger.info(`🎯 Pass completed from ${data.fromPlayerId} to ${data.toPlayerId}`);
+      console.info(`🎯 Pass completed from ${data.fromPlayerId} to ${data.toPlayerId}`);
     });
 
     this.eventBus.on('sports:tackle_successful', (data) => {
-      this.logger.info(`💪 Tackle successful by ${data.tacklerId} on ${data.targetId}`);
+      console.info(`💪 Tackle successful by ${data.tacklerId} on ${data.targetId}`);
     });
 
     this.eventBus.on('sports:foul_committed', (data) => {
-      this.logger.info(`🟨 Foul committed by ${data.playerId}`);
+      console.info(`🟨 Foul committed by ${data.playerId}`);
     });
 
     this.eventBus.on('sports:match_found', (data) => {
-      this.logger.info(`🎉 Match found! Game: ${data.gameId}`);
+      console.info(`🎉 Match found! Game: ${data.gameId}`);
     });
   }
 
   private handleCreateTeam(args: string[]): void {
     if (args.length < 2) {
-      this.logger.info('Usage: create-team <name> <color>');
+      console.info('Usage: create-team <name> <color>');
       return;
     }
 
@@ -213,19 +213,19 @@ class SportsCli {
     const result = this.manager.createTeam(name, color, this.currentPlayerId || 'admin');
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
       if (result.data) {
-        this.logger.info(`   Team ID: ${result.data.team.id}`);
-        this.logger.info(`   Color: ${result.data.team.color}`);
+        console.info(`   Team ID: ${result.data.team.id}`);
+        console.info(`   Color: ${result.data.team.color}`);
       }
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleCreatePlayer(args: string[]): void {
     if (args.length < 3) {
-      this.logger.info('Usage: create-player <name> <teamId> <position>');
+      console.info('Usage: create-player <name> <teamId> <position>');
       return;
     }
 
@@ -233,16 +233,16 @@ class SportsCli {
     const result = this.manager.createPlayer(name, teamId, position as TeamPosition, this.currentPlayerId || 'admin');
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
       this.currentPlayerId = result.data.player.id;
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleCreateGame(args: string[]): void {
     if (args.length < 3) {
-      this.logger.info('Usage: create-game <sport> <team1Id> <team2Id>');
+      console.info('Usage: create-game <sport> <team1Id> <team2Id>');
       return;
     }
 
@@ -250,14 +250,14 @@ class SportsCli {
     const result = this.manager.createGame(sport as SportType, team1Id, team2Id, this.currentPlayerId || 'admin');
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
       if (result.data) {
         this.currentGameId = result.data.game.id;
-        this.logger.info(`   Game ID: ${this.currentGameId}`);
-        this.logger.info(`   Sport: ${result.data.game.sportType}`);
+        console.info(`   Game ID: ${this.currentGameId}`);
+        console.info(`   Sport: ${result.data.game.sportType}`);
       }
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
@@ -265,16 +265,16 @@ class SportsCli {
     const gameId = args[0] || this.currentGameId;
 
     if (!gameId) {
-      this.logger.info('❌ No game ID specified. Use create-game first or specify gameId.');
+      console.info('❌ No game ID specified. Use create-game first or specify gameId.');
       return;
     }
 
     const result = this.manager.startGame(gameId, this.currentPlayerId || 'admin');
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
@@ -282,20 +282,20 @@ class SportsCli {
     const result = this.manager.pauseGame(this.currentGameId, this.currentPlayerId || 'admin');
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleShoot(args: string[]): void {
     if (args.length < 3) {
-      this.logger.info('Usage: shoot <x> <y> <z>');
+      console.info('Usage: shoot <x> <y> <z>');
       return;
     }
 
     if (!this.currentGameId) {
-      this.logger.info('❌ No current game. Use create-game first.');
+      console.info('❌ No current game. Use create-game first.');
       return;
     }
 
@@ -303,20 +303,20 @@ class SportsCli {
     const result = this.manager.shootBall(this.currentGameId, this.currentPlayerId, { x, y, z });
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handlePass(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: pass <toPlayerId>');
+      console.info('Usage: pass <toPlayerId>');
       return;
     }
 
     if (!this.currentGameId) {
-      this.logger.info('❌ No current game. Use create-game first.');
+      console.info('❌ No current game. Use create-game first.');
       return;
     }
 
@@ -324,20 +324,20 @@ class SportsCli {
     const result = this.manager.passBall(this.currentGameId, this.currentPlayerId, toPlayerId);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleTackle(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: tackle <targetPlayerId>');
+      console.info('Usage: tackle <targetPlayerId>');
       return;
     }
 
     if (!this.currentGameId) {
-      this.logger.info('❌ No current game. Use create-game first.');
+      console.info('❌ No current game. Use create-game first.');
       return;
     }
 
@@ -345,9 +345,9 @@ class SportsCli {
     const result = this.manager.tackle(this.currentGameId, this.currentPlayerId, targetPlayerId);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
@@ -355,23 +355,23 @@ class SportsCli {
     const gameId = args[0] || this.currentGameId;
 
     if (!gameId) {
-      this.logger.info('❌ No game ID specified. Use create-game first or specify gameId.');
+      console.info('❌ No game ID specified. Use create-game first or specify gameId.');
       return;
     }
 
     const game = this.manager.getGameState(gameId);
 
     if (game) {
-      this.logger.info(`\n🏟️ Game State (${game.sportType.toUpperCase()}):`);
-      this.logger.info('─'.repeat(50));
-      this.logger.info(`ID: ${game.id}`);
-      this.logger.info(`State: ${game.state}`);
-      this.logger.info(`Teams: ${game.teams[0].name} (${game.teams[0].score}) vs ${game.teams[1].name} (${game.teams[1].score})`);
-      this.logger.info(`Ball: (${game.ball.position.x.toFixed(1)}, ${game.ball.position.y.toFixed(1)}, ${game.ball.position.z.toFixed(1)}) - ${game.ball.state}`);
-      this.logger.info(`Time: ${Math.floor(game.currentTime / 60)}:${(game.currentTime % 60).toString().padStart(2, '0')}`);
-      this.logger.info('─'.repeat(50));
+      console.info(`\n🏟️ Game State (${game.sportType.toUpperCase()}):`);
+      console.info('─'.repeat(50));
+      console.info(`ID: ${game.id}`);
+      console.info(`State: ${game.state}`);
+      console.info(`Teams: ${game.teams[0].name} (${game.teams[0].score}) vs ${game.teams[1].name} (${game.teams[1].score})`);
+      console.info(`Ball: (${game.ball.position.x.toFixed(1)}, ${game.ball.position.y.toFixed(1)}, ${game.ball.position.z.toFixed(1)}) - ${game.ball.state}`);
+      console.info(`Time: ${Math.floor(game.currentTime / 60)}:${(game.currentTime % 60).toString().padStart(2, '0')}`);
+      console.info('─'.repeat(50));
     } else {
-      this.logger.info('❌ Game not found');
+      console.info('❌ Game not found');
     }
   }
 
@@ -379,14 +379,14 @@ class SportsCli {
     const teams = Array.from(this.manager['sportsSystem']['teams'].values());
 
     if (teams.length === 0) {
-      this.logger.info('No teams found.');
+      console.info('No teams found.');
       return;
     }
 
-    this.logger.info(`\n🏆 Teams (${teams.length}):`);
-    this.logger.info('─'.repeat(60));
-    this.logger.info('Name                    | ID                          | Players | Score');
-    this.logger.info('─'.repeat(60));
+    console.info(`\n🏆 Teams (${teams.length}):`);
+    console.info('─'.repeat(60));
+    console.info('Name                    | ID                          | Players | Score');
+    console.info('─'.repeat(60));
 
     teams.forEach(team => {
       const name = team.name.padEnd(23);
@@ -394,26 +394,26 @@ class SportsCli {
       const players = team.players.length.toString().padStart(7);
       const score = team.score.toString().padStart(5);
 
-      this.logger.info(`${name} | ${id} | ${players} | ${score}`);
+      console.info(`${name} | ${id} | ${players} | ${score}`);
     });
-    this.logger.info('─'.repeat(60));
+    console.info('─'.repeat(60));
   }
 
   private handleShowPlayers(args: string[]): void {
     const teamId = args[0];
 
     if (!teamId) {
-      this.logger.info('Usage: show-players <teamId>');
+      console.info('Usage: show-players <teamId>');
       return;
     }
 
     const teamStats = this.manager.getTeamStats(teamId);
 
     if (teamStats) {
-      this.logger.info(`\n👥 Players in ${this.manager['sportsSystem']['teams'].get(teamId)?.name}:`);
-      this.logger.info('─'.repeat(70));
-      this.logger.info('Name                    | Position    | Goals | Assists | Energy');
-      this.logger.info('─'.repeat(70));
+      console.info(`\n👥 Players in ${this.manager['sportsSystem']['teams'].get(teamId)?.name}:`);
+      console.info('─'.repeat(70));
+      console.info('Name                    | Position    | Goals | Assists | Energy');
+      console.info('─'.repeat(70));
 
       teamStats.players.forEach(player => {
         const name = player.name.padEnd(23);
@@ -422,17 +422,17 @@ class SportsCli {
         const assists = player.stats.assists.toString().padStart(8);
         const energy = player.energy.toString().padStart(6);
 
-        this.logger.info(`${name} | ${position} | ${goals} | ${assists} | ${energy}%`);
+        console.info(`${name} | ${position} | ${goals} | ${assists} | ${energy}%`);
       });
-      this.logger.info('─'.repeat(70));
+      console.info('─'.repeat(70));
     } else {
-      this.logger.info('❌ Team not found');
+      console.info('❌ Team not found');
     }
   }
 
   private handleMatchmaking(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: matchmaking <sport>');
+      console.info('Usage: matchmaking <sport>');
       return;
     }
 
@@ -440,15 +440,15 @@ class SportsCli {
     const result = this.manager.joinMatchmaking(this.currentPlayerId, { sportType: sport as SportType });
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private async handleDemo(args: string[]): Promise<void> {
     if (args.length < 2) {
-      this.logger.info('Usage: demo <sport> <duration>');
+      console.info('Usage: demo <sport> <duration>');
       return;
     }
 
@@ -456,14 +456,14 @@ class SportsCli {
     const duration = parseInt(durationStr) || 60;
     this.demoMode = true;
 
-    this.logger.info(`🎮 Starting ${sport} demo for ${duration} seconds...`);
+    console.info(`🎮 Starting ${sport} demo for ${duration} seconds...`);
 
     // Create teams and players
     const team1Result = this.manager.createTeam('Demo Team 1', '#FF0000', 'demo');
     const team2Result = this.manager.createTeam('Demo Team 2', '#0000FF', 'demo');
 
     if (!team1Result.success || !team2Result.success) {
-      this.logger.info('❌ Failed to create demo teams');
+      console.info('❌ Failed to create demo teams');
       return;
     }
 
@@ -479,7 +479,7 @@ class SportsCli {
     // Create game
     const gameResult = this.manager.createGame(sport as SportType, team1Id, team2Id, 'demo');
     if (!gameResult.success) {
-      this.logger.info('❌ Failed to create demo game');
+      console.info('❌ Failed to create demo game');
       return;
     }
 
@@ -512,8 +512,8 @@ class SportsCli {
       await this.sleep(1000 + Math.random() * 2000); // 1-3 seconds between actions
     }
 
-    this.logger.info(`\n🏁 Demo completed!`);
-    this.logger.info(`Total shots: ${shots}`);
+    console.info(`\n🏁 Demo completed!`);
+    console.info(`Total shots: ${shots}`);
     this.showGame([]);
 
     this.demoMode = false;
@@ -521,10 +521,10 @@ class SportsCli {
 
   private async handleSimulate(args: string[]): Promise<void> {
     const games = parseInt(args[0]) || 5;
-    this.logger.info(`🧪 Running simulation for ${games} games...`);
+    console.info(`🧪 Running simulation for ${games} games...`);
 
     for (let i = 0; i < games; i++) {
-      this.logger.info(`\n--- Game ${i + 1} ---`);
+      console.info(`\n--- Game ${i + 1} ---`);
 
       // Create teams
       const team1Result = this.manager.createTeam(`Sim Team ${i}_1`, '#FF0000', 'sim');
@@ -561,16 +561,16 @@ class SportsCli {
         await this.sleep(5000 + Math.random() * 5000);
       }
 
-      this.logger.info(`Shots: ${shots}`);
+      console.info(`Shots: ${shots}`);
       await this.sleep(1000);
     }
 
-    this.logger.info('\n✅ Simulation completed!');
+    console.info('\n✅ Simulation completed!');
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
     const operations = parseInt(args[0]) || 1000;
-    this.logger.info(`🔬 Running benchmark with ${operations} operations...`);
+    console.info(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
 
@@ -589,45 +589,45 @@ class SportsCli {
     const duration = endTime - startTime;
     const opsPerSecond = (operations / duration) * 1000;
 
-    this.logger.info(`\n📈 Benchmark Results:`);
-    this.logger.info(`   Total Operations: ${operations}`);
-    this.logger.info(`   Duration: ${duration.toFixed(2)}ms`);
-    this.logger.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
+    console.info(`\n📈 Benchmark Results:`);
+    console.info(`   Total Operations: ${operations}`);
+    console.info(`   Duration: ${duration.toFixed(2)}ms`);
+    console.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
 
     // Cleanup would happen here in a real implementation
   }
 
   private handleSports(args: string[]): void {
     const sports = this.manager.getAvailableSports();
-    this.logger.info('\n⚽ Available Sports:');
-    this.logger.info('─'.repeat(30));
+    console.info('\n⚽ Available Sports:');
+    console.info('─'.repeat(30));
     sports.forEach((sport, index) => {
-      this.logger.info(`${(index + 1).toString().padStart(2)}. ${sport.charAt(0).toUpperCase() + sport.slice(1)}`);
+      console.info(`${(index + 1).toString().padStart(2)}. ${sport.charAt(0).toUpperCase() + sport.slice(1)}`);
     });
-    this.logger.info('─'.repeat(30));
+    console.info('─'.repeat(30));
   }
 
   private handlePositions(args: string[]): void {
     const positions = this.manager.getTeamPositions();
-    this.logger.info('\n🏃 Available Positions:');
-    this.logger.info('─'.repeat(30));
+    console.info('\n🏃 Available Positions:');
+    console.info('─'.repeat(30));
     positions.forEach((position, index) => {
-      this.logger.info(`${(index + 1).toString().padStart(2)}. ${position.charAt(0).toUpperCase() + position.slice(1)}`);
+      console.info(`${(index + 1).toString().padStart(2)}. ${position.charAt(0).toUpperCase() + position.slice(1)}`);
     });
-    this.logger.info('─'.repeat(30));
+    console.info('─'.repeat(30));
   }
 
   private handleHelp(args: string[]): void {
-    this.logger.info('\n🛠️ Available Commands:');
-    this.logger.info('─'.repeat(60));
+    console.info('\n🛠️ Available Commands:');
+    console.info('─'.repeat(60));
     this.commands.forEach((cmd, key) => {
-      this.logger.info(`  ${cmd.command.padEnd(50)} | ${cmd.description}`);
+      console.info(`  ${cmd.command.padEnd(50)} | ${cmd.description}`);
     });
-    this.logger.info('─'.repeat(60));
+    console.info('─'.repeat(60));
   }
 
   private handleQuit(args: string[]): void {
-    this.logger.info('👋 Goodbye!');
+    console.info('👋 Goodbye!');
     this.isRunning = false;
   }
 
@@ -662,13 +662,13 @@ class SportsCli {
 
       if (parsedMode === 'simulate') {
         const games = parseInt(kv('games') || '3');
-        this.logger.info(`[CI] simulate ${games} game(s)${ci ? ' (fast-path)' : ''}`);
+        console.info(`[CI] simulate ${games} game(s)${ci ? ' (fast-path)' : ''}`);
         await this.handleSimulate([String(games)]);
         process.exit(0);
       }
       if (parsedMode === 'initMatch') {
         // Fast init in CI: avoid heavy permission checks; report success
-        this.logger.info('[CI] initMatch complete');
+        console.info('[CI] initMatch complete');
         process.exit(0);
       }
       if (parsedMode === 'runMatch') {
@@ -678,18 +678,18 @@ class SportsCli {
         while (Date.now() < end) {
           await this.sleep(ci ? 0 : 100);
         }
-        this.logger.info(`[CI] runMatch completed in ${seconds}s`);
+        console.info(`[CI] runMatch completed in ${seconds}s`);
         process.exit(0);
       }
       if (parsedMode === 'demo') {
         const sport = kv('sport') || 'soccer';
         const duration = parseInt(kv('duration') || '10');
-        this.logger.info(`[CI] demo ${sport} for ${duration}s${ci ? ' (fast-path)' : ''}`);
+        console.info(`[CI] demo ${sport} for ${duration}s${ci ? ' (fast-path)' : ''}`);
         await this.handleDemo([sport, String(duration)]);
         process.exit(0);
       }
       // Fallback: print help and exit non-zero for unknown mode
-      this.logger.error(`Unknown --mode=${parsedMode}. Supported: simulate, demo`);
+      console.error(`Unknown --mode=${parsedMode}. Supported: simulate, demo`);
       process.exit(2);
     }
 
@@ -711,7 +711,7 @@ class SportsCli {
         if (cmd) {
           cmd.handler(args);
         } else {
-          this.logger.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
         }
       }
 
@@ -723,7 +723,7 @@ class SportsCli {
     });
 
     rl.on('close', () => {
-      this.logger.info('CLI session ended.');
+      console.info('CLI session ended.');
       process.exit(0);
     });
   }
@@ -747,12 +747,12 @@ async function main() {
 
 // Handle process termination
 process.on('SIGINT', () => {
-  this.logger.info('\n👋 Received SIGINT. Exiting...');
+  console.info('\n👋 Received SIGINT. Exiting...');
   process.exit(0);
 });
 
 process.on('SIGTERM', () => {
-  this.logger.info('\n👋 Received SIGTERM. Exiting...');
+  console.info('\n👋 Received SIGTERM. Exiting...');
   process.exit(0);
 });
 

@@ -154,7 +154,7 @@ export class WebSocketServerPure extends EventEmitter {
     if (!this.channels.has(channel)) {
       this.channels.set(channel, new Set());
     }
-    this.channels.get(channel)!.add(clientId);
+    this.channels.get(channel)?.add(clientId);
 
     this.emit('channelJoined', { clientId, channel });
     return true;

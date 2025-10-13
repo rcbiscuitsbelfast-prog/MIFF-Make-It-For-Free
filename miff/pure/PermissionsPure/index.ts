@@ -511,7 +511,7 @@ export class PermissionsManager {
     return userPermissions;
   }
 
-  getUserPermissions(userId: string): UserPermissions | undefined {
+  getUserPermissions(userId: string): UserPermissions! {
     return this.userPermissions.get(userId);
   }
 
@@ -536,7 +536,7 @@ export class PermissionsManager {
     this.roles.set(roleDefinition.id, roleDefinition);
   }
 
-  getRole(roleId: string): RoleDefinition | undefined {
+  getRole(roleId: string): RoleDefinition! {
     return this.roles.get(roleId);
   }
 
@@ -561,7 +561,7 @@ export class PermissionsManager {
     this.permissions.set(rule.id, rule);
   }
 
-  getPermissionRule(ruleId: string): PermissionRule | undefined {
+  getPermissionRule(ruleId: string): PermissionRule! {
     return this.permissions.get(ruleId);
   }
 

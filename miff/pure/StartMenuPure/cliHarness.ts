@@ -8,5 +8,5 @@ const configPath = process.argv[2] || 'presets/ui/startMenuConfig.json';
 const cfg = SafeJSONParser.parse(fs.readFileSync(configPath, 'utf8'));
 let state = createStartMenuState(cfg);
 state = reduceStartMenuAction(state, { type: 'INIT' });
-this.logger.info(JSON.stringify({ ok: true, state }, null, 2));
+console.info(JSON.stringify({ ok: true, state }, null, 2));
 

@@ -25,7 +25,7 @@ test('golden stats flow', () => {
 	// Test get operation
 	const getResult = manager.get('hero');
 	expect(getResult).toBeDefined();
-	expect(getResult!.stats).toHaveLength(2); // hp and atk
+	expect(getResult?.stats).toHaveLength(2); // hp and atk
 	
 	// Verify the final state
 	const finalList = manager.list();

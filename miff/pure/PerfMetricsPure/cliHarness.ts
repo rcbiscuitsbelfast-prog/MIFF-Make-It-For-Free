@@ -21,7 +21,7 @@ function main() {
     try {
       config = SafeJSONParser.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
     } catch (error) {
-      this.logger.error('Error loading config:', error);
+      console.error('Error loading config:', error);
       process.exit(1);
     }
   }
@@ -122,7 +122,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(perf: PerfMetricsPure): any {

@@ -46,7 +46,7 @@ function main() {
     else if (c.op === 'linkQuest') { mgr.linkQuest(c.npcId, c.questId); outputs.push({ op: 'linkQuest', npcId: c.npcId, questId: c.questId }); }
   }
 
-  this.logger.info(JSON.stringify({ log, outputs }, null, 2));
+  console.info(JSON.stringify({ log, outputs }, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

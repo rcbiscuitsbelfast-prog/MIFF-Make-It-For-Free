@@ -190,7 +190,7 @@ export class MobilePerformanceOptimizer {
   /**
    * Get battery level (0-1)
    */
-  private getBatteryLevel(): number | undefined {
+  private getBatteryLevel(): number! {
     if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
       return undefined; // Would need async call
     }
@@ -200,7 +200,7 @@ export class MobilePerformanceOptimizer {
   /**
    * Check if device is charging
    */
-  private isCharging(): boolean | undefined {
+  private isCharging(): boolean! {
     if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
       return undefined; // Would need async call
     }

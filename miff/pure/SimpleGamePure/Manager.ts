@@ -93,28 +93,28 @@ export class SimpleGameManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('SimpleGameManager', 'initialize');
+    const timerId = console.startTimer('SimpleGameManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('SimpleGameManager', 'Manager initialized successfully', {
+      console.info('SimpleGameManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('SimpleGameManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('SimpleGameManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('SimpleGameManager', 'Failed to initialize manager', {
+      console.error('SimpleGameManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class SimpleGameManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class SimpleGameManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class SimpleGameManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('SimpleGameManager', 'Created item', {
+    console.info('SimpleGameManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class SimpleGameManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class SimpleGameManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('SimpleGameManager', 'Updated item', {
+    console.info('SimpleGameManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class SimpleGameManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('SimpleGameManager', 'Deleted item', {
+    console.info('SimpleGameManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class SimpleGameManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('SimpleGameManager', 'Initializing manager...');
+    console.debug('SimpleGameManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class SimpleGameManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('SimpleGameManager', 'Loaded default items', {
+    console.info('SimpleGameManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class SimpleGameManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('SimpleGameManager', 'Destroying manager', {
+    console.info('SimpleGameManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class SimpleGameManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

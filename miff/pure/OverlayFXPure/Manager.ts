@@ -88,7 +88,7 @@ export class OverlayFXPureManager {
     this.memoryId = MemoryManager.registerInstance(this, 'OverlayFXPureManager');
     this.errorHandler = new StandardErrorHandler(this.logger);
     
-    this.logger.info('OverlayFXPureManager initialized', {
+    console.info('OverlayFXPureManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -97,18 +97,18 @@ export class OverlayFXPureManager {
   // Initialize the manager
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Manager already initialized');
+      console.warn('OverlayFXPure', 'Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing OverlayFXPureManager...');
+      console.info('OverlayFXPure', 'Initializing OverlayFXPureManager...');
       
       // Initialize core functionality
       await this.initializeCore();
       
       this.isInitialized = true;
-      this.logger.info('OverlayFXPureManager initialized successfully');
+      console.info('OverlayFXPure', 'OverlayFXPureManager initialized successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, {
@@ -122,7 +122,7 @@ export class OverlayFXPureManager {
   // Initialize core functionality
   private async initializeCore(): Promise<void> {
     // Core initialization logic
-    this.logger.debug('Initializing core functionality');
+    console.debug('OverlayFXPure', 'Initializing core functionality');
     
     // Initialize default items if needed
     if (this.items.size === 0) {
@@ -132,7 +132,7 @@ export class OverlayFXPureManager {
 
   // Create default items
   private async createDefaultItems(): Promise<void> {
-    this.logger.debug('Creating default items');
+    console.debug('OverlayFXPure', 'Creating default items');
     
     const defaultItems = [
       {
@@ -171,7 +171,7 @@ export class OverlayFXPureManager {
       this.items.set(id, item);
       this.updateAnalytics();
       
-      this.logger.info('Item created successfully', {
+      console.info('Item created successfully', {
         itemId: id,
         itemType: item.type,
         totalItems: this.items.size
@@ -190,7 +190,7 @@ export class OverlayFXPureManager {
   }
 
   // Get item by ID
-  getItem(id: string): OverlayFXPureItem | undefined {
+  getItem(id: string): OverlayFXPureItem! {
     return this.items.get(id);
   }
 
@@ -200,11 +200,11 @@ export class OverlayFXPureManager {
   }
 
   // Update item
-  async updateItem(id: string, updates: Partial<OverlayFXPureItem>): Promise<OverlayFXPureItem | undefined> {
+  async updateItem(id: string, updates: Partial<OverlayFXPureItem>): Promise<OverlayFXPureItem!> {
     try {
       const item = this.items.get(id);
       if (!item) {
-        this.logger.warn('Item not found for update', { itemId: id 
+        console.warn('Item not found for update', { itemId: id 
     });
         return undefined;
       }
@@ -219,7 +219,7 @@ export class OverlayFXPureManager {
       this.items.set(id, updatedItem);
       this.updateAnalytics();
       
-      this.logger.info('Item updated successfully', {
+      console.info('Item updated successfully', {
         itemId: id,
         updates: Object.keys(updates)
       });
@@ -243,10 +243,10 @@ export class OverlayFXPureManager {
       const deleted = this.items.delete(id);
       if (deleted) {
         this.updateAnalytics();
-        this.logger.info('Item deleted successfully', { itemId: id 
+        console.info('Item deleted successfully', { itemId: id 
     });
       } else {
-        this.logger.warn('Item not found for deletion', { itemId: id 
+        console.warn('Item not found for deletion', { itemId: id 
     });
       }
       return deleted;
@@ -332,15 +332,15 @@ export class OverlayFXPureManager {
   // Cleanup and destroy
   async destroy(): Promise<void> {
     try {
-      this.logger.info('Destroying OverlayFXPureManager...');
+      console.info('OverlayFXPure', 'Destroying OverlayFXPureManager...');
       
       // Cleanup resources
       this.items.clear();
       MemoryManager.unregisterInstance(this.memoryId);
-      this.logger.destroy();
+      console.destroy();
       
       this.isInitialized = false;
-      this.logger.info('OverlayFXPureManager destroyed successfully');
+      console.info('OverlayFXPure', 'OverlayFXPureManager destroyed successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, {

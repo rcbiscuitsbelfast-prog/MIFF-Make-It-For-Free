@@ -188,7 +188,7 @@ export class QuestModuleManager {
     this.memoryId = `QuestModuleManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'QuestModuleManager');
 
-    this.logger.info('QuestModuleManager initialized', {
+    console.info('QuestModuleManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -232,7 +232,7 @@ export class QuestModuleManager {
     };
 
     this.quests.set(questId, quest);
-    this.logger.info('Quest created', { questId, title: quest.title, type: quest.type });
+    console.info('Quest created', { questId, title: quest.title, type: quest.type });
 
     return quest;
   }
@@ -300,20 +300,20 @@ export class QuestModuleManager {
   public startQuest(questId: string, playerId: string): QuestInstance | null {
     const quest = this.quests.get(questId);
     if (!quest) {
-      this.logger.warn('Quest not found', { questId });
+      console.warn('Quest not found', { questId });
       return null;
     }
 
     // Check if quest is available
     if (quest.status !== 'available') {
-      this.logger.warn('Quest is not available', { questId, status: quest.status });
+      console.warn('Quest is not available', { questId, status: quest.status });
       return null;
     }
 
     // Check if player has too many active quests
     const activeQuests = this.getActiveQuests(playerId);
     if (activeQuests.length >= this.config.maxActiveQuests) {
-      this.logger.warn('Player has too many active quests', { playerId, activeCount: activeQuests.length });
+      console.warn('Player has too many active quests', { playerId, activeCount: activeQuests.length });
       return null;
     }
 
@@ -367,7 +367,7 @@ export class QuestModuleManager {
     quest.status = 'active';
     quest.metadata.playCount++;
 
-    this.logger.info('Quest started', { questId, playerId, instanceId });
+    console.info('Quest started', { questId, playerId, instanceId });
     return questInstance;
   }
 
@@ -377,13 +377,13 @@ export class QuestModuleManager {
   public updateQuestProgress(instanceId: string, objectiveId: string, progress: number): boolean {
     const instance = this.questInstances.get(instanceId);
     if (!instance) {
-      this.logger.warn('Quest instance not found', { instanceId });
+      console.warn('Quest instance not found', { instanceId });
       return false;
     }
 
     const objective = instance.progress.objectives.find(obj => obj.objectiveId === objectiveId);
     if (!objective) {
-      this.logger.warn('Objective not found', { instanceId, objectiveId });
+      console.warn('Objective not found', { instanceId, objectiveId });
       return false;
     }
 
@@ -405,7 +405,7 @@ export class QuestModuleManager {
       this.completeQuest(instanceId);
     }
 
-    this.logger.debug('Quest progress updated', { instanceId, objectiveId, progress, completed: objective.completed });
+    console.debug('Quest progress updated', { instanceId, objectiveId, progress, completed: objective.completed });
     return true;
   }
 
@@ -415,13 +415,13 @@ export class QuestModuleManager {
   public completeQuest(instanceId: string): boolean {
     const instance = this.questInstances.get(instanceId);
     if (!instance) {
-      this.logger.warn('Quest instance not found', { instanceId });
+      console.warn('Quest instance not found', { instanceId });
       return false;
     }
 
     const quest = this.quests.get(instance.questId);
     if (!quest) {
-      this.logger.warn('Quest not found', { questId: instance.questId });
+      console.warn('Quest not found', { questId: instance.questId });
       return false;
     }
 
@@ -447,7 +447,7 @@ export class QuestModuleManager {
     // Update success rate
     quest.metadata.successRate = (quest.metadata.playCount - quest.currentCompletions) / quest.metadata.playCount;
 
-    this.logger.info('Quest completed', { 
+    console.info('Quest completed', { 
       questId: instance.questId, 
       playerId: instance.playerId, 
       timeSpent: instance.progress.timeSpent 
@@ -462,7 +462,7 @@ export class QuestModuleManager {
   public failQuest(instanceId: string, reason: string = 'Unknown'): boolean {
     const instance = this.questInstances.get(instanceId);
     if (!instance) {
-      this.logger.warn('Quest instance not found', { instanceId });
+      console.warn('Quest instance not found', { instanceId });
       return false;
     }
 
@@ -472,7 +472,7 @@ export class QuestModuleManager {
     instance.progress.completedAt = Date.now();
     instance.progress.timeSpent = instance.progress.completedAt - instance.progress.startedAt;
 
-    this.logger.info('Quest failed', { 
+    console.info('Quest failed', { 
       questId: instance.questId, 
       playerId: instance.playerId, 
       reason,
@@ -488,7 +488,7 @@ export class QuestModuleManager {
   public cancelQuest(instanceId: string): boolean {
     const instance = this.questInstances.get(instanceId);
     if (!instance) {
-      this.logger.warn('Quest instance not found', { instanceId });
+      console.warn('Quest instance not found', { instanceId });
       return false;
     }
 
@@ -498,7 +498,7 @@ export class QuestModuleManager {
     instance.progress.completedAt = Date.now();
     instance.progress.timeSpent = instance.progress.completedAt - instance.progress.startedAt;
 
-    this.logger.info('Quest cancelled', { 
+    console.info('Quest cancelled', { 
       questId: instance.questId, 
       playerId: instance.playerId 
     });
@@ -559,7 +559,7 @@ export class QuestModuleManager {
       }
     }
 
-    this.logger.info('Rewards distributed', { 
+    console.info('Rewards distributed', { 
       instanceId: instance.id, 
       rewardCount: instance.progress.rewards.length 
     });
@@ -601,7 +601,7 @@ export class QuestModuleManager {
    */
   public updateConfig(newConfig: Partial<QuestModuleConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.logger.info('QuestModuleManager configuration updated', { config: this.config });
+    console.info('QuestModuleManager configuration updated', { config: this.config });
   }
 
   /**
@@ -609,6 +609,6 @@ export class QuestModuleManager {
    */
   public destroy(): void {
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('QuestModuleManager destroyed');
+    console.info('QuestModulePure', 'QuestModuleManager destroyed');
   }
 }

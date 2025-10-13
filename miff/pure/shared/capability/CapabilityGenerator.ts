@@ -32,7 +32,7 @@ export class CapabilityGenerator {
    * Generate capability files for all modules
    */
   async generateAllCapabilities(): Promise<void> {
-    this.logger.info('Generating capability files for all modules...');
+    console.info('Generating capability files for all modules...');
     
     try {
       // Discover all modules
@@ -43,10 +43,10 @@ export class CapabilityGenerator {
         await this.generateCapabilityFile(moduleName, moduleInfo);
       }
       
-      this.logger.info(`Generated capability files for ${this.modules.size} modules`);
+      console.info(`Generated capability files for ${this.modules.size} modules`);
       
     } catch (error) {
-      this.logger.error('Failed to generate capabilities', { error: error.message });
+      console.error('Failed to generate capabilities', { error: error.message });
       throw error;
     }
   }
@@ -55,7 +55,7 @@ export class CapabilityGenerator {
    * Discover all modules
    */
   private async discoverModules(): Promise<void> {
-    this.logger.info('Discovering modules...');
+    console.info('Discovering modules...');
     
     const pureDir = './miff/pure';
     const entries = fs.readdirSync(pureDir);
@@ -70,7 +70,7 @@ export class CapabilityGenerator {
       }
     }
     
-    this.logger.info(`Discovered ${this.modules.size} modules`);
+    console.info(`Discovered ${this.modules.size} modules`);
   }
 
   /**
@@ -113,7 +113,7 @@ export class CapabilityGenerator {
       }
 
     } catch (error) {
-      this.logger.warn(`Failed to analyze module ${name}`, { error: error.message });
+      console.warn(`Failed to analyze module ${name}`, { error: error.message });
     }
 
     return moduleInfo;
@@ -171,10 +171,10 @@ export class CapabilityGenerator {
       const capabilityContent = this.generateCapabilityContent(capability);
       
       fs.writeFileSync(capabilityPath, capabilityContent);
-      this.logger.info(`Generated capability file for ${moduleName}`);
+      console.info(`Generated capability file for ${moduleName}`);
       
     } catch (error) {
-      this.logger.error(`Failed to generate capability for ${moduleName}`, { error: error.message });
+      console.error(`Failed to generate capability for ${moduleName}`, { error: error.message });
     }
   }
 

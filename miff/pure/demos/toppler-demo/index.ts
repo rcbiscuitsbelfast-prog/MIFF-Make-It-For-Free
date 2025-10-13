@@ -313,7 +313,7 @@ class TopplerGame {
         return data.highScore || 0;
       }
     } catch (error) {
-      this.logger.warn('Could not load save file:', error);
+      console.warn('Could not load save file:', error);
     }
     return 0;
   }
@@ -324,7 +324,7 @@ class TopplerGame {
       const data = { highScore: score, timestamp: Date.now() };
       fs.writeFileSync(savePath, JSON.stringify(data, null, 2));
     } catch (error) {
-      this.logger.warn('Could not save high score:', error);
+      console.warn('Could not save high score:', error);
     }
   }
 
@@ -880,14 +880,14 @@ class TopplerGame {
 
 // Demo Entry Point
 function main() {
-  this.logger.info('🎮 Toppler Demo - MIFF Framework');
-  this.logger.info('================================');
-  this.logger.info('A physics-based puzzle platformer featuring:');
-  this.logger.info('• Real-time physics simulation');
-  this.logger.info('• Progressive difficulty levels');
-  this.logger.info('• Score and time tracking');
-  this.logger.info('• Procedural level generation');
-  this.logger.info('• Debug and profiling tools\n');
+  console.info('🎮 Toppler Demo - MIFF Framework');
+  console.info('================================');
+  console.info('A physics-based puzzle platformer featuring:');
+  console.info('• Real-time physics simulation');
+  console.info('• Progressive difficulty levels');
+  console.info('• Score and time tracking');
+  console.info('• Procedural level generation');
+  console.info('• Debug and profiling tools\n');
 
   // Create canvas
   const canvas = document.createElement('canvas');
@@ -923,9 +923,9 @@ function main() {
     game.destroy();
   });
 
-  this.logger.info('✅ Toppler demo started!');
-  this.logger.info('🎮 Use arrow keys/WASD to move, space to jump');
-  this.logger.info('🎯 Collect yellow items, avoid red spikes, reach green goal');
+  console.info('✅ Toppler demo started!');
+  console.info('🎮 Use arrow keys/WASD to move, space to jump');
+  console.info('🎯 Collect yellow items, avoid red spikes, reach green goal');
 }
 
 // Export for use in other modules

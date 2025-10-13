@@ -115,9 +115,9 @@ function main(){
       }
     }
     
-    this.logger.info(JSON.stringify({ outputs }, null, 2));
+    console.info(JSON.stringify({ outputs }, null, 2));
   } catch (error) {
-    this.logger.info(JSON.stringify({ 
+    console.info(JSON.stringify({ 
       outputs: [{ 
         op: 'error', 
         status: 'error', 
@@ -194,7 +194,7 @@ function runDemo(mgr: PhysicsManager): any {
 }
 
 function showHelp() {
-  this.logger.info(`
+  console.info(`
 PhysicsSystemPure CLI - Advanced 2D Physics Simulation
 
 USAGE:

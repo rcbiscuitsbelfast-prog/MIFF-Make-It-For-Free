@@ -20,8 +20,8 @@ function main(): void {
   const { command, args, options } = parseComplexCLIArgs(process.argv);
 
   if (!command || command === 'help' || command === '--help' || command === '-h') {
-    this.logger.info('BridgeInspectorPure CLI - Bridge compatibility inspector');
-    this.logger.info('Usage: BridgeInspectorPure/cliHarness.ts demo');
+    console.info('BridgeInspectorPure CLI - Bridge compatibility inspector');
+    console.info('Usage: BridgeInspectorPure/cliHarness.ts demo');
     return;
   }
 

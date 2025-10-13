@@ -235,7 +235,7 @@ export class ProfilerManager {
     this.memoryId = `ProfilerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'ProfilerManager');
 
-    this.logger.info('ProfilerManager initialized', {
+    console.info('ProfilerManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -246,12 +246,12 @@ export class ProfilerManager {
    */
   public start(): void {
     if (this.isRunning) {
-      this.logger.warn('Profiler is already running');
+      console.warn('ProfilerPure', 'Profiler is already running');
       return;
     }
 
     this.isRunning = true;
-    this.logger.info('Starting profiler');
+    console.info('ProfilerPure', 'Starting profiler');
 
     // Start sampling
     if (this.config.enableRealTimeMonitoring) {
@@ -263,7 +263,7 @@ export class ProfilerManager {
       this.startReporting();
     }
 
-    this.logger.info('Profiler started successfully');
+    console.info('ProfilerPure', 'Profiler started successfully');
   }
 
   /**
@@ -271,12 +271,12 @@ export class ProfilerManager {
    */
   public stop(): void {
     if (!this.isRunning) {
-      this.logger.warn('Profiler is not running');
+      console.warn('ProfilerPure', 'Profiler is not running');
       return;
     }
 
     this.isRunning = false;
-    this.logger.info('Stopping profiler');
+    console.info('ProfilerPure', 'Stopping profiler');
 
     // Stop sampling
     if (this.samplingInterval) {
@@ -290,7 +290,7 @@ export class ProfilerManager {
       this.reportInterval = null;
     }
 
-    this.logger.info('Profiler stopped successfully');
+    console.info('ProfilerPure', 'Profiler stopped successfully');
   }
 
   /**
@@ -339,7 +339,7 @@ export class ProfilerManager {
       }
 
     } catch (error) {
-      this.logger.error('Error collecting stats', { error: error.message });
+      console.error('Error collecting stats', { error: error.message });
     }
   }
 
@@ -502,7 +502,7 @@ export class ProfilerManager {
     };
 
     this.alerts.push(alert);
-    this.logger.warn('Performance alert created', { alert });
+    console.warn('Performance alert created', { alert });
   }
 
   /**
@@ -518,7 +518,7 @@ export class ProfilerManager {
     };
 
     this.customMetrics.set(name, metric);
-    this.logger.debug('Custom metric added', { metric });
+    console.debug('Custom metric added', { metric });
   }
 
   /**
@@ -549,7 +549,7 @@ export class ProfilerManager {
     const alert = this.alerts.find(a => a.id === alertId);
     if (alert) {
       alert.resolved = true;
-      this.logger.info('Alert resolved', { alertId });
+      console.info('Alert resolved', { alertId });
       return true;
     }
     return false;
@@ -574,7 +574,7 @@ export class ProfilerManager {
       generated: Date.now()
     };
 
-    this.logger.info('Performance report generated', { 
+    console.info('Performance report generated', { 
       reportId: report.id,
       duration: report.duration,
       statsCount: report.stats.length,
@@ -620,7 +620,7 @@ export class ProfilerManager {
    */
   private exportReport(report: ProfilerReport): void {
     // This would implement actual export functionality
-    this.logger.info('Exporting performance report', { reportId: report.id });
+    console.info('Exporting performance report', { reportId: report.id });
   }
 
   /**
@@ -636,7 +636,7 @@ export class ProfilerManager {
   public updateConfig(newConfig: Partial<ProfilerConfig>): void {
     this.config = { ...this.config, ...newConfig };
     this.alertThresholds = this.config.alertThresholds;
-    this.logger.info('Profiler configuration updated', { config: this.config });
+    console.info('Profiler configuration updated', { config: this.config });
   }
 
   /**
@@ -645,6 +645,6 @@ export class ProfilerManager {
   public destroy(): void {
     this.stop();
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('ProfilerManager destroyed');
+    console.info('ProfilerPure', 'ProfilerManager destroyed');
   }
 }

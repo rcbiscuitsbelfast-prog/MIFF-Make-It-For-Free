@@ -234,28 +234,28 @@ export class ButtonStyleManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Button Style Manager already initialized');
+      console.warn('ButtonStylePure', 'Button Style Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Button Style Manager...');
+      console.info('ButtonStylePure', 'Initializing Button Style Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Button Style Manager initialized successfully');
+      console.info('ButtonStylePure', 'Button Style Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Button Style Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -288,11 +288,11 @@ export class ButtonStyleManager {
       this.styles.set(style.id, style);
       this.updateAnalytics();
 
-      this.logger.info('Button style created', { styleId: style.id, styleName: style.name, styleType: style.type });
+      console.info('Button style created', { styleId: style.id, styleName: style.name, styleType: style.type });
       return style;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create button style');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -319,7 +319,7 @@ export class ButtonStyleManager {
     try {
       const style = this.styles.get(styleId);
       if (!style) {
-        this.logger.warn('Style not found', { styleId });
+        console.warn('Style not found', { styleId });
         return null;
       }
 
@@ -333,11 +333,11 @@ export class ButtonStyleManager {
       this.styles.set(styleId, updatedStyle);
       this.updateAnalytics();
 
-      this.logger.info('Button style updated', { styleId, styleName: updatedStyle.name });
+      console.info('Button style updated', { styleId, styleName: updatedStyle.name });
       return updatedStyle;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update button style');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -353,18 +353,18 @@ export class ButtonStyleManager {
     try {
       const style = this.styles.get(styleId);
       if (!style) {
-        this.logger.warn('Style not found', { styleId });
+        console.warn('Style not found', { styleId });
         return false;
       }
 
       this.styles.delete(styleId);
       this.updateAnalytics();
 
-      this.logger.info('Button style deleted', { styleId, styleName: style.name });
+      console.info('Button style deleted', { styleId, styleName: style.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete button style');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -413,7 +413,7 @@ export class ButtonStyleManager {
     try {
       const style = this.styles.get(styleId);
       if (!style) {
-        this.logger.warn('Style not found', { styleId });
+        console.warn('Style not found', { styleId });
         return false;
       }
 
@@ -425,11 +425,11 @@ export class ButtonStyleManager {
       style.performance.renderTime = renderTime;
       this.updateAnalytics();
 
-      this.logger.debug('Style applied to button', { styleId, renderTime });
+      console.debug('Style applied to button', { styleId, renderTime });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to apply style to button');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -471,11 +471,11 @@ export class ButtonStyleManager {
         name: this.generateThemeName()
       };
 
-      this.logger.info('Style theme created', { themeName: theme.name });
+      console.info('Style theme created', { themeName: theme.name });
       return theme;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create style theme');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -491,18 +491,18 @@ export class ButtonStyleManager {
     try {
       const style = this.styles.get(styleId);
       if (!style) {
-        this.logger.warn('Style not found', { styleId });
+        console.warn('Style not found', { styleId });
         return false;
       }
 
       style.theme = theme;
       this.updateAnalytics();
 
-      this.logger.info('Theme applied to style', { styleId, themeName: theme.name });
+      console.info('Theme applied to style', { styleId, themeName: theme.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to apply theme to style');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -611,12 +611,12 @@ export class ButtonStyleManager {
    * Destroy the Button Style Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Button Style Manager...');
+    console.info('ButtonStylePure', 'Destroying Button Style Manager...');
 
     this.styles.clear();
     this.isInitialized = false;
 
-    this.logger.info('Button Style Manager destroyed');
+    console.info('ButtonStylePure', 'Button Style Manager destroyed');
   }
 }
 

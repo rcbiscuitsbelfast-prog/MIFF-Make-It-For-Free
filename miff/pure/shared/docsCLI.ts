@@ -53,7 +53,7 @@ class DocsCLI {
           break;
       }
     } catch (error) {
-      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -62,7 +62,7 @@ class DocsCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputDir = args[1] || 'docs';
 
-    this.logger.info(`📚 Generating comprehensive documentation for ${rootPath}...`);
+    console.info(`📚 Generating comprehensive documentation for ${rootPath}...`);
     
     await this.generator.generateDocumentation(rootPath);
     
@@ -74,15 +74,15 @@ class DocsCLI {
     // Save all documentation
     await this.saveAllDocumentation(outputDir);
     
-    this.logger.info('✅ Documentation generation completed');
-    this.logger.info(`📄 Documentation saved to ${outputDir}`);
+    console.info('✅ Documentation generation completed');
+    console.info(`📄 Documentation saved to ${outputDir}`);
   }
 
   private async generateAPI(args: string[]): Promise<void> {
     const rootPath = args[0] || 'miff/pure';
     const outputDir = args[1] || 'docs/api';
 
-    this.logger.info(`📖 Generating API documentation for ${rootPath}...`);
+    console.info(`📖 Generating API documentation for ${rootPath}...`);
     
     await this.generator.generateAPIDocumentation(rootPath);
     
@@ -97,14 +97,14 @@ class DocsCLI {
       fs.writeFileSync(path.join(outputDir, 'api-docs.json'), JSON.stringify(apiDocs, null, 2));
     }
     
-    this.logger.info('✅ API documentation generation completed');
-    this.logger.info(`📄 API documentation saved to ${outputDir}`);
+    console.info('✅ API documentation generation completed');
+    console.info(`📄 API documentation saved to ${outputDir}`);
   }
 
   private async generateGuides(args: string[]): Promise<void> {
     const outputDir = args[0] || 'docs/guides';
 
-    this.logger.info('👥 Generating contributor guides...');
+    console.info('👥 Generating contributor guides...');
     
     await this.generator.generateContributorGuides();
     
@@ -120,14 +120,14 @@ class DocsCLI {
       fs.writeFileSync(path.join(outputDir, `${guide.id}.md`), guideContent);
     }
     
-    this.logger.info(`✅ Generated ${guides.length} contributor guides`);
-    this.logger.info(`📄 Guides saved to ${outputDir}`);
+    console.info(`✅ Generated ${guides.length} contributor guides`);
+    console.info(`📄 Guides saved to ${outputDir}`);
   }
 
   private async generateTutorials(args: string[]): Promise<void> {
     const outputDir = args[0] || 'docs/tutorials';
 
-    this.logger.info('🎓 Generating tutorials...');
+    console.info('🎓 Generating tutorials...');
     
     await this.generator.generateTutorials();
     
@@ -143,14 +143,14 @@ class DocsCLI {
       fs.writeFileSync(path.join(outputDir, `${tutorial.id}.md`), tutorialContent);
     }
     
-    this.logger.info(`✅ Generated ${tutorials.length} tutorials`);
-    this.logger.info(`📄 Tutorials saved to ${outputDir}`);
+    console.info(`✅ Generated ${tutorials.length} tutorials`);
+    console.info(`📄 Tutorials saved to ${outputDir}`);
   }
 
   private async generateExamples(args: string[]): Promise<void> {
     const outputDir = args[0] || 'docs/examples';
 
-    this.logger.info('💻 Generating code examples...');
+    console.info('💻 Generating code examples...');
     
     await this.generator.generateCodeExamples();
     
@@ -166,14 +166,14 @@ class DocsCLI {
       fs.writeFileSync(path.join(outputDir, `${example.id}.md`), exampleContent);
     }
     
-    this.logger.info(`✅ Generated ${examples.length} code examples`);
-    this.logger.info(`📄 Examples saved to ${outputDir}`);
+    console.info(`✅ Generated ${examples.length} code examples`);
+    console.info(`📄 Examples saved to ${outputDir}`);
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'docs/documentation-report.html';
 
-    this.logger.info('📊 Generating documentation report...');
+    console.info('📊 Generating documentation report...');
     
     const report = this.generator.generateDocumentationReport();
     const html = this.generateHTMLReport(report);
@@ -181,32 +181,32 @@ class DocsCLI {
     // Save report to file
     fs.writeFileSync(outputFile, html);
     
-    this.logger.info('✅ Documentation report generated');
-    this.logger.info(`📄 Report saved to ${outputFile}`);
+    console.info('✅ Documentation report generated');
+    console.info(`📄 Report saved to ${outputFile}`);
 
     // Display summary
     const stats = this.generator.getStats();
-    this.logger.info('\n📊 Documentation Summary:');
-    this.logger.info(`Total Modules: ${stats.totalModules}`);
-    this.logger.info(`Documented Modules: ${stats.documentedModules}`);
-    this.logger.info(`API Documentation: ${stats.apiDocumentation}`);
-    this.logger.info(`Contributor Guides: ${stats.contributorGuides}`);
-    this.logger.info(`Tutorials: ${stats.tutorials}`);
-    this.logger.info(`Code Examples: ${stats.codeExamples}`);
-    this.logger.info(`Coverage: ${stats.coveragePercentage.toFixed(1)}%`);
+    console.info('\n📊 Documentation Summary:');
+    console.info(`Total Modules: ${stats.totalModules}`);
+    console.info(`Documented Modules: ${stats.documentedModules}`);
+    console.info(`API Documentation: ${stats.apiDocumentation}`);
+    console.info(`Contributor Guides: ${stats.contributorGuides}`);
+    console.info(`Tutorials: ${stats.tutorials}`);
+    console.info(`Code Examples: ${stats.codeExamples}`);
+    console.info(`Coverage: ${stats.coveragePercentage.toFixed(1)}%`);
   }
 
   private async serveDocumentation(args: string[]): Promise<void> {
     const port = parseInt(args[0]) || 3000;
     const rootDir = args[1] || 'docs';
 
-    this.logger.info(`🌐 Starting documentation server on port ${port}...`);
-    this.logger.info(`📁 Serving from ${rootDir}`);
+    console.info(`🌐 Starting documentation server on port ${port}...`);
+    console.info(`📁 Serving from ${rootDir}`);
     
     // This would start a local server
     // For now, just log the command
-    this.logger.info(`Run: npx serve ${rootDir} -p ${port}`);
-    this.logger.info(`Or: python -m http.server ${port} -d ${rootDir}`);
+    console.info(`Run: npx serve ${rootDir} -p ${port}`);
+    console.info(`Or: python -m http.server ${port} -d ${rootDir}`);
   }
 
   private async saveAllDocumentation(outputDir: string): Promise<void> {
@@ -400,7 +400,7 @@ See our [Contributor Guide](guides/contributing.md) for information on how to co
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 📚 MIFF Documentation CLI
 
 Usage: tsx docsCLI.ts <command> [options]

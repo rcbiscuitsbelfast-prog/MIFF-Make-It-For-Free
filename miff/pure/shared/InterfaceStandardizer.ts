@@ -109,14 +109,14 @@ export class InterfaceStandardizer {
    * Standardize interfaces across all modules
    */
   async standardizeAllInterfaces(rootPath: string): Promise<StandardizationResult[]> {
-    this.logger.info('🔧 Standardizing interfaces across all modules...');
+    console.info('🔧 Standardizing interfaces across all modules...');
     
     const results: StandardizationResult[] = [];
     
     try {
       // Find all modules
       const modules = await this.findModules(rootPath);
-      this.logger.info(`📁 Found ${modules.length} modules to standardize`);
+      console.info(`📁 Found ${modules.length} modules to standardize`);
       
       // Standardize each module
       for (const module of modules) {
@@ -126,12 +126,12 @@ export class InterfaceStandardizer {
       }
       
       this.updateStats(results);
-      this.logger.info(`✅ Standardized interfaces for ${results.length} modules`);
+      console.info(`✅ Standardized interfaces for ${results.length} modules`);
       
       return results;
       
     } catch (error) {
-      this.logger.error('❌ Error standardizing interfaces:', error);
+      console.error('❌ Error standardizing interfaces:', error);
       return [];
     }
   }
@@ -140,7 +140,7 @@ export class InterfaceStandardizer {
    * Standardize a specific module interface
    */
   async standardizeModuleInterface(module: { name: string; path: string; interface: string }): Promise<StandardizationResult> {
-    this.logger.info(`🔧 Standardizing ${module.name} interface...`);
+    console.info(`🔧 Standardizing ${module.name} interface...`);
     
     const standard = this.standards.get(module.interface);
     if (!standard) {

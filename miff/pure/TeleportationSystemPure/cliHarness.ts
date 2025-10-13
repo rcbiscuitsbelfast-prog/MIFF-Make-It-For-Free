@@ -21,7 +21,7 @@ import {
 class RealEventBus {
   private logger: StructuredLogger;
   emit(event: string, data: any) {
-    this.logger.info(`📡 Event: ${event}`, data);
+    console.info(`📡 Event: ${event}`, data);
   }
 
   on(event: string, handler: Function) {
@@ -59,7 +59,7 @@ class TeleportationSystemCLI {
    * Setup default data for demonstration
    */
   private setupDefaultData(): void {
-    this.logger.info('🔮 Setting up teleportation demo data...');
+    console.info('🔮 Setting up teleportation demo data...');
 
     // Create some zones
     const zones: ZoneInfo[] = [
@@ -187,7 +187,7 @@ class TeleportationSystemCLI {
       restrictions: ['requires-both-keys']
     });
 
-    this.logger.info('✅ Demo data setup complete!');
+    console.info('✅ Demo data setup complete!');
   }
 
   /**
@@ -195,22 +195,22 @@ class TeleportationSystemCLI {
    */
   start(): void {
     this.isRunning = true;
-    this.logger.info('🚀 Welcome to MIFF TeleportationSystemPure CLI!');
-    this.logger.info('===============================================');
-    this.logger.info('Available commands:');
-    this.logger.info('  anchors        - List all spatial anchors');
-    this.logger.info('  portals        - List all portals');
-    this.logger.info('  zones          - List all zones');
-    this.logger.info('  teleport <dest> - Teleport to a destination');
-    this.logger.info('  destinations   - Show available destinations');
-    this.logger.info('  create-anchor  - Create a new spatial anchor');
-    this.logger.info('  create-portal  - Create a new portal');
-    this.logger.info('  stats          - Show teleportation statistics');
-    this.logger.info('  config         - Show current configuration');
-    this.logger.info('  demo           - Run automated demo');
-    this.logger.info('  help           - Show this help');
-    this.logger.info('  exit           - Exit the CLI');
-    this.logger.info('');
+    console.info('🚀 Welcome to MIFF TeleportationSystemPure CLI!');
+    console.info('===============================================');
+    console.info('Available commands:');
+    console.info('  anchors        - List all spatial anchors');
+    console.info('  portals        - List all portals');
+    console.info('  zones          - List all zones');
+    console.info('  teleport <dest> - Teleport to a destination');
+    console.info('  destinations   - Show available destinations');
+    console.info('  create-anchor  - Create a new spatial anchor');
+    console.info('  create-portal  - Create a new portal');
+    console.info('  stats          - Show teleportation statistics');
+    console.info('  config         - Show current configuration');
+    console.info('  demo           - Run automated demo');
+    console.info('  help           - Show this help');
+    console.info('  exit           - Exit the CLI');
+    console.info('');
 
     this.showPrompt();
   }
@@ -250,7 +250,7 @@ class TeleportationSystemCLI {
 
         case 'teleport':
           if (args.length === 0) {
-            this.logger.info('❌ Usage: teleport <destination-id>');
+            console.info('❌ Usage: teleport <destination-id>');
           } else {
             await this.teleport(args[0]);
           }
@@ -289,12 +289,12 @@ class TeleportationSystemCLI {
           return;
 
         default:
-          this.logger.info(`❓ Unknown command: ${command}`);
-          this.logger.info('Type "help" for available commands.');
+          console.info(`❓ Unknown command: ${command}`);
+          console.info('Type "help" for available commands.');
           break;
       }
     } catch (error) {
-      this.logger.error(`❌ Error: ${error.message}`);
+      console.error(`❌ Error: ${error.message}`);
     }
 
     if (this.isRunning) {
@@ -309,11 +309,11 @@ class TeleportationSystemCLI {
     const allAnchors = this.teleportationSystem.getAllAnchors();
     const zones = this.teleportationSystem.getAllZones();
 
-    this.logger.info('\n🗺️ Spatial Anchors:');
-    this.logger.info('===================');
+    console.info('\n🗺️ Spatial Anchors:');
+    console.info('===================');
 
     if (allAnchors.length === 0) {
-      this.logger.info('No anchors found. Create some with "create-anchor"');
+      console.info('No anchors found. Create some with "create-anchor"');
       return;
     }
 
@@ -321,14 +321,14 @@ class TeleportationSystemCLI {
       const zone = zones.find(z => z.id === anchor.zoneId);
       const zoneName = zone ? zone.name : 'Unknown Zone';
 
-      this.logger.info(`${anchor.name} (${anchor.id})`);
-      this.logger.info(`  Zone: ${zoneName}`);
-      this.logger.info(`  Position: (${anchor.position.x}, ${anchor.position.y}, ${anchor.position.z})`);
-      this.logger.info(`  Energy Cost: ${anchor.energyCost}`);
-      this.logger.info(`  Status: ${anchor.isActive ? '✅ Active' : '❌ Inactive'}`);
-      this.logger.info(`  Access: ${anchor.isPublic ? '🌍 Public' : '🔒 Restricted'}`);
-      this.logger.info(`  Tags: ${anchor.tags.join(', ')}`);
-      this.logger.info('');
+      console.info(`${anchor.name} (${anchor.id})`);
+      console.info(`  Zone: ${zoneName}`);
+      console.info(`  Position: (${anchor.position.x}, ${anchor.position.y}, ${anchor.position.z})`);
+      console.info(`  Energy Cost: ${anchor.energyCost}`);
+      console.info(`  Status: ${anchor.isActive ? '✅ Active' : '❌ Inactive'}`);
+      console.info(`  Access: ${anchor.isPublic ? '🌍 Public' : '🔒 Restricted'}`);
+      console.info(`  Tags: ${anchor.tags.join(', ')}`);
+      console.info('');
     });
   }
 
@@ -339,11 +339,11 @@ class TeleportationSystemCLI {
     const allPortals = this.teleportationSystem.getAllPortals();
     const allAnchors = this.teleportationSystem.getAllAnchors();
 
-    this.logger.info('\n🚪 Portals:');
-    this.logger.info('===========');
+    console.info('\n🚪 Portals:');
+    console.info('===========');
 
     if (allPortals.length === 0) {
-      this.logger.info('No portals found. Create some with "create-portal"');
+      console.info('No portals found. Create some with "create-portal"');
       return;
     }
 
@@ -351,14 +351,14 @@ class TeleportationSystemCLI {
       const sourceAnchor = allAnchors.find(a => a.id === portal.sourceAnchor.id);
       const destAnchor = allAnchors.find(a => a.id === portal.destinationAnchor.id);
 
-      this.logger.info(`${portal.name} (${portal.id})`);
-      this.logger.info(`  From: ${sourceAnchor?.name || 'Unknown'} → To: ${destAnchor?.name || 'Unknown'}`);
-      this.logger.info(`  Energy Cost: ${portal.energyCost}`);
-      this.logger.info(`  Status: ${portal.isActive ? '✅ Active' : '❌ Inactive'}`);
-      this.logger.info(`  Bidirectional: ${portal.isBidirectional ? '↔️ Yes' : '➡️ No'}`);
-      this.logger.info(`  Stability: ${(portal.stability * 100).toFixed(0)}%`);
-      this.logger.info(`  Charges: ${portal.charges === -1 ? '∞' : `${portal.charges}/${portal.maxCharges}`}`);
-      this.logger.info('');
+      console.info(`${portal.name} (${portal.id})`);
+      console.info(`  From: ${sourceAnchor?.name || 'Unknown'} → To: ${destAnchor?.name || 'Unknown'}`);
+      console.info(`  Energy Cost: ${portal.energyCost}`);
+      console.info(`  Status: ${portal.isActive ? '✅ Active' : '❌ Inactive'}`);
+      console.info(`  Bidirectional: ${portal.isBidirectional ? '↔️ Yes' : '➡️ No'}`);
+      console.info(`  Stability: ${(portal.stability * 100).toFixed(0)}%`);
+      console.info(`  Charges: ${portal.charges === -1 ? '∞' : `${portal.charges}/${portal.maxCharges}`}`);
+      console.info('');
     });
   }
 
@@ -368,19 +368,19 @@ class TeleportationSystemCLI {
   private showZones(): void {
     const zones = this.teleportationSystem.getAllZones();
 
-    this.logger.info('\n🏛️ Zones:');
-    this.logger.info('=========');
+    console.info('\n🏛️ Zones:');
+    console.info('=========');
 
     zones.forEach(zone => {
       const anchors = this.teleportationSystem.getAnchorsInZone(zone.id);
 
-      this.logger.info(`${zone.name} (${zone.id})`);
-      this.logger.info(`  Bounds: (${zone.bounds.min.x},${zone.bounds.min.z}) to (${zone.bounds.max.x},${zone.bounds.max.z})`);
-      this.logger.info(`  Teleport Enabled: ${zone.teleportEnabled ? '✅ Yes' : '❌ No'}`);
-      this.logger.info(`  Anchor Limit: ${zone.anchorLimit}`);
-      this.logger.info(`  Anchors: ${anchors.length}`);
-      this.logger.info(`  Restrictions: ${zone.restrictions.join(', ') || 'None'}`);
-      this.logger.info('');
+      console.info(`${zone.name} (${zone.id})`);
+      console.info(`  Bounds: (${zone.bounds.min.x},${zone.bounds.min.z}) to (${zone.bounds.max.x},${zone.bounds.max.z})`);
+      console.info(`  Teleport Enabled: ${zone.teleportEnabled ? '✅ Yes' : '❌ No'}`);
+      console.info(`  Anchor Limit: ${zone.anchorLimit}`);
+      console.info(`  Anchors: ${anchors.length}`);
+      console.info(`  Restrictions: ${zone.restrictions.join(', ') || 'None'}`);
+      console.info('');
     });
   }
 
@@ -388,7 +388,7 @@ class TeleportationSystemCLI {
    * Teleport to a destination
    */
   private async teleport(destinationId: string): Promise<void> {
-    this.logger.info(`🎯 Attempting teleportation to: ${destinationId}`);
+    console.info(`🎯 Attempting teleportation to: ${destinationId}`);
 
     const result = this.teleportationSystem.requestTeleportation({
       entityId: 'player',
@@ -398,20 +398,20 @@ class TeleportationSystemCLI {
     });
 
     if (result.success) {
-      this.logger.info(`✅ Teleportation successful!`);
-      this.logger.info(`  From: (${result.fromPosition.x}, ${result.fromPosition.y}, ${result.fromPosition.z})`);
-      this.logger.info(`  To: (${result.toPosition.x}, ${result.toPosition.y}, ${result.toPosition.z})`);
-      this.logger.info(`  Energy spent: ${result.energySpent}`);
-      this.logger.info(`  Cooldown: ${result.cooldownApplied}ms`);
+      console.info(`✅ Teleportation successful!`);
+      console.info(`  From: (${result.fromPosition.x}, ${result.fromPosition.y}, ${result.fromPosition.z})`);
+      console.info(`  To: (${result.toPosition.x}, ${result.toPosition.y}, ${result.toPosition.z})`);
+      console.info(`  Energy spent: ${result.energySpent}`);
+      console.info(`  Cooldown: ${result.cooldownApplied}ms`);
 
       if (result.sideEffects && result.sideEffects.length > 0) {
-        this.logger.info('  Side effects:');
+        console.info('  Side effects:');
         result.sideEffects.forEach(effect => {
-          this.logger.info(`    - ${effect.description} (${effect.magnitude})`);
+          console.info(`    - ${effect.description} (${effect.magnitude})`);
         });
       }
     } else {
-      this.logger.info(`❌ Teleportation failed: ${result.failureReason}`);
+      console.info(`❌ Teleportation failed: ${result.failureReason}`);
     }
   }
 
@@ -421,21 +421,21 @@ class TeleportationSystemCLI {
   private showDestinations(): void {
     const destinations = this.getAvailableDestinations();
 
-    this.logger.info('\n🎯 Available Destinations:');
-    this.logger.info('===========================');
+    console.info('\n🎯 Available Destinations:');
+    console.info('===========================');
 
     if (destinations.length === 0) {
-      this.logger.info('No destinations available.');
+      console.info('No destinations available.');
       return;
     }
 
     destinations.forEach(dest => {
-      this.logger.info(`${dest.name} (${dest.type})`);
-      this.logger.info(`  Position: (${dest.position.x}, ${dest.position.y}, ${dest.position.z})`);
-      this.logger.info(`  Energy Cost: ${dest.energyCost}`);
-      this.logger.info(`  Distance: ${dest.distance.toFixed(1)} units`);
-      this.logger.info(`  Description: ${dest.description}`);
-      this.logger.info('');
+      console.info(`${dest.name} (${dest.type})`);
+      console.info(`  Position: (${dest.position.x}, ${dest.position.y}, ${dest.position.z})`);
+      console.info(`  Energy Cost: ${dest.energyCost}`);
+      console.info(`  Distance: ${dest.distance.toFixed(1)} units`);
+      console.info(`  Description: ${dest.description}`);
+      console.info('');
     });
   }
 
@@ -503,8 +503,8 @@ class TeleportationSystemCLI {
    * Create anchor interactively
    */
   private async createAnchorInteractive(): Promise<void> {
-    this.logger.info('\n🆕 Creating New Spatial Anchor');
-    this.logger.info('=============================');
+    console.info('\n🆕 Creating New Spatial Anchor');
+    console.info('=============================');
 
     const name = await this.askQuestion('Anchor name: ');
     const zoneId = await this.askQuestion('Zone ID (town-square, mystical-tower, dark-cave): ');
@@ -528,9 +528,9 @@ class TeleportationSystemCLI {
 
     const anchor = this.teleportationSystem.createSpatialAnchor(anchorData);
     if (anchor) {
-      this.logger.info(`✅ Created anchor: ${anchor.name} (${anchor.id})`);
+      console.info(`✅ Created anchor: ${anchor.name} (${anchor.id})`);
     } else {
-      this.logger.info('❌ Failed to create anchor');
+      console.info('❌ Failed to create anchor');
     }
   }
 
@@ -538,8 +538,8 @@ class TeleportationSystemCLI {
    * Create portal interactively
    */
   private async createPortalInteractive(): Promise<void> {
-    this.logger.info('\n🆕 Creating New Portal');
-    this.logger.info('======================');
+    console.info('\n🆕 Creating New Portal');
+    console.info('======================');
 
     const name = await this.askQuestion('Portal name: ');
     const sourceId = await this.askQuestion('Source anchor ID: ');
@@ -555,9 +555,9 @@ class TeleportationSystemCLI {
     });
 
     if (portal) {
-      this.logger.info(`✅ Created portal: ${portal.name} (${portal.id})`);
+      console.info(`✅ Created portal: ${portal.name} (${portal.id})`);
     } else {
-      this.logger.info('❌ Failed to create portal');
+      console.info('❌ Failed to create portal');
     }
   }
 
@@ -567,21 +567,21 @@ class TeleportationSystemCLI {
   private showStats(): void {
     const stats = this.teleportationSystem.getStats();
 
-    this.logger.info('\n📊 Teleportation Statistics:');
-    this.logger.info('============================');
+    console.info('\n📊 Teleportation Statistics:');
+    console.info('============================');
 
-    this.logger.info(`Total Teleports: ${stats.totalTeleports}`);
-    this.logger.info(`Successful: ${stats.successfulTeleports}`);
-    this.logger.info(`Failed: ${stats.failedTeleports}`);
-    this.logger.info(`Success Rate: ${stats.totalTeleports > 0 ? ((stats.successfulTeleports / stats.totalTeleports) * 100).toFixed(1) : 0}%`);
-    this.logger.info(`Total Energy Spent: ${stats.totalEnergySpent}`);
-    this.logger.info(`Portals Created: ${stats.portalsCreated}`);
-    this.logger.info(`Anchors Created: ${stats.anchorsCreated}`);
-    this.logger.info(`Average Distance: ${stats.averageTeleportDistance.toFixed(1)} units`);
+    console.info(`Total Teleports: ${stats.totalTeleports}`);
+    console.info(`Successful: ${stats.successfulTeleports}`);
+    console.info(`Failed: ${stats.failedTeleports}`);
+    console.info(`Success Rate: ${stats.totalTeleports > 0 ? ((stats.successfulTeleports / stats.totalTeleports) * 100).toFixed(1) : 0}%`);
+    console.info(`Total Energy Spent: ${stats.totalEnergySpent}`);
+    console.info(`Portals Created: ${stats.portalsCreated}`);
+    console.info(`Anchors Created: ${stats.anchorsCreated}`);
+    console.info(`Average Distance: ${stats.averageTeleportDistance.toFixed(1)} units`);
 
-    this.logger.info('\nFailure Reasons:');
+    console.info('\nFailure Reasons:');
     Array.from(stats.failureReasons.entries()).forEach(([reason, count]) => {
-      this.logger.info(`  ${reason}: ${count}`);
+      console.info(`  ${reason}: ${count}`);
     });
   }
 
@@ -591,32 +591,32 @@ class TeleportationSystemCLI {
   private showConfig(): void {
     const config = this.teleportationSystem.getConfig();
 
-    this.logger.info('\n⚙️ Teleportation Configuration:');
-    this.logger.info('==============================');
+    console.info('\n⚙️ Teleportation Configuration:');
+    console.info('==============================');
 
-    this.logger.info(`Default Energy Cost: ${config.defaultEnergyCost}`);
-    this.logger.info(`Max Portal Distance: ${config.maxPortalDistance}`);
-    this.logger.info(`Portal Stability Decay: ${config.portalStabilityDecay}`);
-    this.logger.info(`Anchor Creation Cost: ${config.anchorCreationCost}`);
-    this.logger.info(`Max Anchors Per Zone: ${config.maxAnchorsPerZone}`);
-    this.logger.info(`Max Portals Per Anchor: ${config.maxPortalsPerAnchor}`);
-    this.logger.info(`Global Cooldown: ${config.globalCooldown}ms`);
-    this.logger.info(`Teleportation Range: ${config.teleportationRange}`);
-    this.logger.info(`Allow Inter-Zone Teleport: ${config.allowInterZoneTeleport}`);
-    this.logger.info(`Require Line of Sight: ${config.requireLineOfSight}`);
-    this.logger.info(`Enable Side Effects: ${config.enableSideEffects}`);
-    this.logger.info(`Enable Portal Charges: ${config.enablePortalCharges}`);
+    console.info(`Default Energy Cost: ${config.defaultEnergyCost}`);
+    console.info(`Max Portal Distance: ${config.maxPortalDistance}`);
+    console.info(`Portal Stability Decay: ${config.portalStabilityDecay}`);
+    console.info(`Anchor Creation Cost: ${config.anchorCreationCost}`);
+    console.info(`Max Anchors Per Zone: ${config.maxAnchorsPerZone}`);
+    console.info(`Max Portals Per Anchor: ${config.maxPortalsPerAnchor}`);
+    console.info(`Global Cooldown: ${config.globalCooldown}ms`);
+    console.info(`Teleportation Range: ${config.teleportationRange}`);
+    console.info(`Allow Inter-Zone Teleport: ${config.allowInterZoneTeleport}`);
+    console.info(`Require Line of Sight: ${config.requireLineOfSight}`);
+    console.info(`Enable Side Effects: ${config.enableSideEffects}`);
+    console.info(`Enable Portal Charges: ${config.enablePortalCharges}`);
   }
 
   /**
    * Run demo sequence
    */
   private async runDemo(): Promise<void> {
-    this.logger.info('\n🎬 Running Teleportation Demo...');
-    this.logger.info('=================================');
+    console.info('\n🎬 Running Teleportation Demo...');
+    console.info('=================================');
 
     // Show available destinations
-    this.logger.info('\n📍 Available destinations:');
+    console.info('\n📍 Available destinations:');
     this.showDestinations();
 
     // Perform some teleports
@@ -625,56 +625,56 @@ class TeleportationSystemCLI {
     if (destinations.length >= 3) {
       for (let i = 0; i < 3; i++) {
         const dest = destinations[i];
-        this.logger.info(`\n🚀 Demo teleport ${i + 1}: ${dest.name}`);
+        console.info(`\n🚀 Demo teleport ${i + 1}: ${dest.name}`);
         await this.teleport(dest.id);
       }
     }
 
     // Show final statistics
-    this.logger.info('\n📊 Demo Results:');
+    console.info('\n📊 Demo Results:');
     this.showStats();
 
-    this.logger.info('\n✅ Demo complete!');
+    console.info('\n✅ Demo complete!');
   }
 
   /**
    * Show help information
    */
   private showHelp(): void {
-    this.logger.info('\n🚀 MIFF TeleportationSystemPure CLI Help');
-    this.logger.info('=====================================');
-    this.logger.info('');
-    this.logger.info('COMMANDS:');
-    this.logger.info('  anchors        - List all spatial anchors');
-    this.logger.info('  portals        - List all portals');
-    this.logger.info('  zones          - List all zones');
-    this.logger.info('  teleport <dest> - Teleport to a destination');
-    this.logger.info('  destinations   - Show available destinations');
-    this.logger.info('  create-anchor  - Create a new spatial anchor');
-    this.logger.info('  create-portal  - Create a new portal');
-    this.logger.info('  stats          - Show teleportation statistics');
-    this.logger.info('  config         - Show current configuration');
-    this.logger.info('  demo           - Run automated demo sequence');
-    this.logger.info('  help           - Show this help information');
-    this.logger.info('  exit           - Exit the CLI');
-    this.logger.info('');
-    this.logger.info('EXAMPLES:');
-    this.logger.info('  teleport town-center      # Teleport to town center');
-    this.logger.info('  teleport tower-entrance   # Use portal to tower');
-    this.logger.info('  destinations              # See where you can go');
-    this.logger.info('');
-    this.logger.info('NOTES:');
-    this.logger.info('- Some destinations require special permissions');
-    this.logger.info('- Portals may have charges that deplete over time');
-    this.logger.info('- Teleportation costs energy and has cooldowns');
-    this.logger.info('- Side effects may occur during teleportation');
+    console.info('\n🚀 MIFF TeleportationSystemPure CLI Help');
+    console.info('=====================================');
+    console.info('');
+    console.info('COMMANDS:');
+    console.info('  anchors        - List all spatial anchors');
+    console.info('  portals        - List all portals');
+    console.info('  zones          - List all zones');
+    console.info('  teleport <dest> - Teleport to a destination');
+    console.info('  destinations   - Show available destinations');
+    console.info('  create-anchor  - Create a new spatial anchor');
+    console.info('  create-portal  - Create a new portal');
+    console.info('  stats          - Show teleportation statistics');
+    console.info('  config         - Show current configuration');
+    console.info('  demo           - Run automated demo sequence');
+    console.info('  help           - Show this help information');
+    console.info('  exit           - Exit the CLI');
+    console.info('');
+    console.info('EXAMPLES:');
+    console.info('  teleport town-center      # Teleport to town center');
+    console.info('  teleport tower-entrance   # Use portal to tower');
+    console.info('  destinations              # See where you can go');
+    console.info('');
+    console.info('NOTES:');
+    console.info('- Some destinations require special permissions');
+    console.info('- Portals may have charges that deplete over time');
+    console.info('- Teleportation costs energy and has cooldowns');
+    console.info('- Side effects may occur during teleportation');
   }
 
   /**
    * Exit the CLI
    */
   private exit(): void {
-    this.logger.info('\n👋 Thank you for using MIFF TeleportationSystemPure CLI!');
+    console.info('\n👋 Thank you for using MIFF TeleportationSystemPure CLI!');
     this.isRunning = false;
     this.rl.close();
     process.exit(0);

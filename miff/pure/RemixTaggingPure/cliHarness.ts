@@ -23,7 +23,7 @@ function readJSON(file: string): any {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html]');
     process.exit(1);
   }
   try {
@@ -139,15 +139,15 @@ function main() {
       'Module tagging results'
     );
 
-    this.logger.info(JSON.stringify({
+    console.info(JSON.stringify({
       op: op.op,
       status: 'ok',
       result: finalResult,
       timestamp: Date.now()
     }, null, 2));
-    if (exportData) this.logger.error('\n' + exportData);
+    if (exportData) console.error('\n' + exportData);
   } catch (error) {
-    this.logger.error(JSON.stringify({
+    console.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

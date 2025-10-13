@@ -590,7 +590,7 @@ export class EnhancedStatsManager {
       if (!statGroups.has(stat.key)) {
         statGroups.set(stat.key, []);
       }
-      statGroups.get(stat.key)!.push(stat.current || stat.base);
+      statGroups.get(stat.key)?.push(stat.current || stat.base);
     }
 
     for (const [statKey, values] of statGroups) {
@@ -610,7 +610,7 @@ export class EnhancedStatsManager {
       if (!modifierGroups.has(modifier.source)) {
         modifierGroups.set(modifier.source, []);
       }
-      modifierGroups.get(modifier.source)!.push(Math.abs(modifier.value));
+      modifierGroups.get(modifier.source)?.push(Math.abs(modifier.value));
     }
 
     for (const [source, effects] of modifierGroups) {
@@ -641,7 +641,7 @@ export class EnhancedStatsManager {
       if (!categoryGroups.has(stat.category)) {
         categoryGroups.set(stat.category, []);
       }
-      categoryGroups.get(stat.category)!.push(stat.current || stat.base);
+      categoryGroups.get(stat.category)?.push(stat.current || stat.base);
     }
 
     for (const [category, values] of categoryGroups) {
@@ -912,11 +912,11 @@ export class EnhancedStatsManager {
       if (result.success) {
         return result.result;
       } else {
-        this.logger.warn(`Formula evaluation failed: ${formula}`, result.error);
+        console.warn(`Formula evaluation failed: ${formula}`, result.error);
         return 0;
       }
     } catch (error) {
-      this.logger.warn(`Formula evaluation failed: ${formula}`, error);
+      console.warn(`Formula evaluation failed: ${formula}`, error);
       return 0;
     }
   }

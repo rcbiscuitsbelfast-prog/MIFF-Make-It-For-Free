@@ -63,8 +63,8 @@ class ProgressionCli {
     this.setupEventListeners();
     this.createDefaultSpirits();
 
-    this.logger.info('🆙 ProgressionPure CLI - AAA XP and Leveling System');
-    this.logger.info('Type "help" for available commands or "quit" to exit.\n');
+    console.info('🆙 ProgressionPure CLI - AAA XP and Leveling System');
+    console.info('Type "help" for available commands or "quit" to exit.\n');
   }
 
   private setupCommands(): void {
@@ -143,19 +143,19 @@ class ProgressionCli {
 
   private setupEventListeners(): void {
     this.eventBus.on('xp:gained', (data) => {
-      this.logger.info(`⚡ ${data.spiritId} gained ${data.amount} XP (Total: ${data.totalXP})`);
+      console.info(`⚡ ${data.spiritId} gained ${data.amount} XP (Total: ${data.totalXP})`);
     });
 
     this.eventBus.on('spirit:level_up', (data) => {
       const spirit = this.spirits.get(data.spiritId);
       if (spirit) {
-        this.logger.info(`🎉 ${spirit.speciesId} reached level ${data.newLevel}!`);
-        this.logger.info(`   HP: ${spirit.maxHP}, Attack: ${spirit.attack}, Special Attack: ${spirit.specialAttack}`);
+        console.info(`🎉 ${spirit.speciesId} reached level ${data.newLevel}!`);
+        console.info(`   HP: ${spirit.maxHP}, Attack: ${spirit.attack}, Special Attack: ${spirit.specialAttack}`);
       }
     });
 
     this.eventBus.on('progression:level_up', (data) => {
-      this.logger.info(`📈 Progression: ${data.spiritId} leveled up to ${data.newLevel}`);
+      console.info(`📈 Progression: ${data.spiritId} leveled up to ${data.newLevel}`);
     });
   }
 
@@ -185,7 +185,7 @@ class ProgressionCli {
 
   private handleCreateSpirit(args: string[]): void {
     if (args.length < 2) {
-      this.logger.info('Usage: create-spirit <species> <level> [xp]');
+      console.info('Usage: create-spirit <species> <level> [xp]');
       return;
     }
 
@@ -196,18 +196,18 @@ class ProgressionCli {
     const spirit = this.createSpirit(species, level, experience);
     this.spirits.set(spirit.instanceId, spirit);
 
-    this.logger.info(`✅ Spirit created: ${spirit.speciesId}`);
-    this.logger.info(`   ID: ${spirit.instanceId}`);
-    this.logger.info(`   Level: ${spirit.level}`);
-    this.logger.info(`   XP: ${spirit.experience}`);
-    this.logger.info(`   HP: ${spirit.maxHP}/${spirit.currentHP}`);
+    console.info(`✅ Spirit created: ${spirit.speciesId}`);
+    console.info(`   ID: ${spirit.instanceId}`);
+    console.info(`   Level: ${spirit.level}`);
+    console.info(`   XP: ${spirit.experience}`);
+    console.info(`   HP: ${spirit.maxHP}/${spirit.currentHP}`);
   }
 
   private handleListSpirits(args: string[]): void {
-    this.logger.info('\n🧬 Spirits:');
-    this.logger.info('─'.repeat(60));
-    this.logger.info('ID              | Species       | Level | XP      | HP    | Attack | Sp.Att');
-    this.logger.info('─'.repeat(60));
+    console.info('\n🧬 Spirits:');
+    console.info('─'.repeat(60));
+    console.info('ID              | Species       | Level | XP      | HP    | Attack | Sp.Att');
+    console.info('─'.repeat(60));
 
     this.spirits.forEach(spirit => {
       const id = spirit.instanceId.substring(0, 15).padEnd(15);
@@ -218,18 +218,18 @@ class ProgressionCli {
       const attack = spirit.attack.toString().padEnd(6);
       const spAttack = spirit.specialAttack.toString().padEnd(6);
 
-      this.logger.info(`${id} | ${species} | ${level} | ${xp} | ${hp} | ${attack} | ${spAttack}`);
+      console.info(`${id} | ${species} | ${level} | ${xp} | ${hp} | ${attack} | ${spAttack}`);
     });
-    this.logger.info('─'.repeat(60));
+    console.info('─'.repeat(60));
   }
 
   private handleShowCurve(args: string[]): void {
     const levels = parseInt(args[0]) || 10;
 
-    this.logger.info(`\n📈 XP Curve (Levels 1-${levels}):`);
-    this.logger.info('─'.repeat(40));
-    this.logger.info('Level | XP Required | Cumulative XP');
-    this.logger.info('─'.repeat(40));
+    console.info(`\n📈 XP Curve (Levels 1-${levels}):`);
+    console.info('─'.repeat(40));
+    console.info('Level | XP Required | Cumulative XP');
+    console.info('─'.repeat(40));
 
     let cumulativeXP = 0;
     for (let level = 1; level <= levels; level++) {
@@ -240,14 +240,14 @@ class ProgressionCli {
       const xpStr = xpForLevel.toString().padEnd(11);
       const cumStr = cumulativeXP.toString().padEnd(13);
 
-      this.logger.info(`${levelStr} | ${xpStr} | ${cumStr}`);
+      console.info(`${levelStr} | ${xpStr} | ${cumStr}`);
     }
-    this.logger.info('─'.repeat(40));
+    console.info('─'.repeat(40));
   }
 
   private handleAddXP(args: string[]): void {
     if (args.length < 2) {
-      this.logger.info('Usage: add-xp <spiritId> <amount>');
+      console.info('Usage: add-xp <spiritId> <amount>');
       return;
     }
 
@@ -255,23 +255,23 @@ class ProgressionCli {
     const amount = parseInt(amountStr);
 
     if (amount <= 0) {
-      this.logger.info('❌ XP amount must be positive');
+      console.info('❌ XP amount must be positive');
       return;
     }
 
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      this.logger.info('❌ Spirit not found');
+      console.info('❌ Spirit not found');
       return;
     }
 
     this.manager.addXP(spirit, amount);
-    this.logger.info(`✅ Added ${amount} XP to ${spirit.speciesId}`);
+    console.info(`✅ Added ${amount} XP to ${spirit.speciesId}`);
   }
 
   private handleSetXP(args: string[]): void {
     if (args.length < 2) {
-      this.logger.info('Usage: set-xp <spiritId> <amount>');
+      console.info('Usage: set-xp <spiritId> <amount>');
       return;
     }
 
@@ -280,17 +280,17 @@ class ProgressionCli {
 
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      this.logger.info('❌ Spirit not found');
+      console.info('❌ Spirit not found');
       return;
     }
 
     this.manager.setXP(spirit, amount);
-    this.logger.info(`✅ Set XP to ${amount} for ${spirit.speciesId}`);
+    console.info(`✅ Set XP to ${amount} for ${spirit.speciesId}`);
   }
 
   private handleShowProgress(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: show-progress <spiritId>');
+      console.info('Usage: show-progress <spiritId>');
       return;
     }
 
@@ -298,28 +298,28 @@ class ProgressionCli {
     const spirit = this.spirits.get(spiritId);
 
     if (!spirit) {
-      this.logger.info('❌ Spirit not found');
+      console.info('❌ Spirit not found');
       return;
     }
 
     const progress = this.manager.getLevelProgress(spirit);
     const stats = this.manager.getProgressionStats(spirit);
 
-    this.logger.info(`\n📊 Progression for ${spirit.speciesId}:`);
-    this.logger.info('─'.repeat(40));
-    this.logger.info(`Current Level: ${spirit.level}`);
-    this.logger.info(`Current XP: ${spirit.experience || 0}`);
-    this.logger.info(`XP to Next: ${progress.xpToNextLevel}`);
-    this.logger.info(`Progress: ${progress.progress.toFixed(1)}%`);
-    this.logger.info(`Can Level Up: ${progress.canLevelUp ? '✅ Yes' : '❌ No'}`);
-    this.logger.info(`Total Level Ups: ${stats.totalLevelUps}`);
-    this.logger.info(`Average XP/Level: ${stats.averageXPPerLevel.toFixed(0)}`);
-    this.logger.info('─'.repeat(40));
+    console.info(`\n📊 Progression for ${spirit.speciesId}:`);
+    console.info('─'.repeat(40));
+    console.info(`Current Level: ${spirit.level}`);
+    console.info(`Current XP: ${spirit.experience || 0}`);
+    console.info(`XP to Next: ${progress.xpToNextLevel}`);
+    console.info(`Progress: ${progress.progress.toFixed(1)}%`);
+    console.info(`Can Level Up: ${progress.canLevelUp ? '✅ Yes' : '❌ No'}`);
+    console.info(`Total Level Ups: ${stats.totalLevelUps}`);
+    console.info(`Average XP/Level: ${stats.averageXPPerLevel.toFixed(0)}`);
+    console.info('─'.repeat(40));
   }
 
   private handleLevelUp(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: level-up <spiritId>');
+      console.info('Usage: level-up <spiritId>');
       return;
     }
 
@@ -327,23 +327,23 @@ class ProgressionCli {
     const spirit = this.spirits.get(spiritId);
 
     if (!spirit) {
-      this.logger.info('❌ Spirit not found');
+      console.info('❌ Spirit not found');
       return;
     }
 
     const leveledUp = this.manager.checkLevelUp(spirit);
 
     if (leveledUp) {
-      this.logger.info(`🎉 ${spirit.speciesId} leveled up to ${spirit.level}!`);
+      console.info(`🎉 ${spirit.speciesId} leveled up to ${spirit.level}!`);
     } else {
       const progress = this.manager.getLevelProgress(spirit);
-      this.logger.info(`❌ Not enough XP. Need ${progress.xpToNextLevel - (spirit.experience || 0)} more XP`);
+      console.info(`❌ Not enough XP. Need ${progress.xpToNextLevel - (spirit.experience || 0)} more XP`);
     }
   }
 
   private async handleSimulate(args: string[]): Promise<void> {
     if (args.length < 2) {
-      this.logger.info('Usage: simulate <spiritId> <battles>');
+      console.info('Usage: simulate <spiritId> <battles>');
       return;
     }
 
@@ -352,11 +352,11 @@ class ProgressionCli {
 
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      this.logger.info('❌ Spirit not found');
+      console.info('❌ Spirit not found');
       return;
     }
 
-    this.logger.info(`🧪 Simulating ${battles} battles for ${spirit.speciesId}...`);
+    console.info(`🧪 Simulating ${battles} battles for ${spirit.speciesId}...`);
 
     const initialLevel = spirit.level;
     const initialXP = spirit.experience || 0;
@@ -375,17 +375,17 @@ class ProgressionCli {
     const totalXPGained = finalXP - initialXP;
     const levelsGained = finalLevel - initialLevel;
 
-    this.logger.info('\n✅ Simulation completed!');
-    this.logger.info(`   Initial Level: ${initialLevel} (${initialXP} XP)`);
-    this.logger.info(`   Final Level: ${finalLevel} (${finalXP} XP)`);
-    this.logger.info(`   Levels Gained: ${levelsGained}`);
-    this.logger.info(`   Total XP Gained: ${totalXPGained}`);
-    this.logger.info(`   Average XP/Battle: ${(totalXPGained / battles).toFixed(1)}`);
+    console.info('\n✅ Simulation completed!');
+    console.info(`   Initial Level: ${initialLevel} (${initialXP} XP)`);
+    console.info(`   Final Level: ${finalLevel} (${finalXP} XP)`);
+    console.info(`   Levels Gained: ${levelsGained}`);
+    console.info(`   Total XP Gained: ${totalXPGained}`);
+    console.info(`   Average XP/Battle: ${(totalXPGained / battles).toFixed(1)}`);
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
     const operations = parseInt(args[0]) || 1000;
-    this.logger.info(`🔬 Running benchmark with ${operations} operations...`);
+    console.info(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
 
@@ -403,16 +403,16 @@ class ProgressionCli {
     const duration = endTime - startTime;
     const opsPerSecond = (operations / duration) * 1000;
 
-    this.logger.info(`\n📈 Benchmark Results:`);
-    this.logger.info(`   Total Operations: ${operations}`);
-    this.logger.info(`   Duration: ${duration.toFixed(2)}ms`);
-    this.logger.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
-    this.logger.info(`   Average Time/Operation: ${(duration / operations).toFixed(4)}ms`);
+    console.info(`\n📈 Benchmark Results:`);
+    console.info(`   Total Operations: ${operations}`);
+    console.info(`   Duration: ${duration.toFixed(2)}ms`);
+    console.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
+    console.info(`   Average Time/Operation: ${(duration / operations).toFixed(4)}ms`);
   }
 
   private handleStats(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: stats <spiritId>');
+      console.info('Usage: stats <spiritId>');
       return;
     }
 
@@ -420,46 +420,46 @@ class ProgressionCli {
     const spirit = this.spirits.get(spiritId);
 
     if (!spirit) {
-      this.logger.info('❌ Spirit not found');
+      console.info('❌ Spirit not found');
       return;
     }
 
     const progress = this.manager.getLevelProgress(spirit);
     const stats = this.manager.getProgressionStats(spirit);
 
-    this.logger.info(`\n📊 ${spirit.speciesId} Stats:`);
-    this.logger.info('─'.repeat(50));
-    this.logger.info(`Level: ${spirit.level}`);
-    this.logger.info(`Experience: ${spirit.experience || 0}`);
-    this.logger.info(`Progress to Next: ${progress.progress.toFixed(1)}%`);
-    this.logger.info(`XP to Next Level: ${progress.xpToNextLevel}`);
+    console.info(`\n📊 ${spirit.speciesId} Stats:`);
+    console.info('─'.repeat(50));
+    console.info(`Level: ${spirit.level}`);
+    console.info(`Experience: ${spirit.experience || 0}`);
+    console.info(`Progress to Next: ${progress.progress.toFixed(1)}%`);
+    console.info(`XP to Next Level: ${progress.xpToNextLevel}`);
 
-    this.logger.info('\n⚔️ Combat Stats:');
-    this.logger.info(`   HP: ${spirit.currentHP}/${spirit.maxHP}`);
-    this.logger.info(`   Attack: ${spirit.attack}`);
-    this.logger.info(`   Defense: ${spirit.defense}`);
-    this.logger.info(`   Speed: ${spirit.speed}`);
-    this.logger.info(`   Special Attack: ${spirit.specialAttack}`);
-    this.logger.info(`   Special Defense: ${spirit.specialDefense}`);
+    console.info('\n⚔️ Combat Stats:');
+    console.info(`   HP: ${spirit.currentHP}/${spirit.maxHP}`);
+    console.info(`   Attack: ${spirit.attack}`);
+    console.info(`   Defense: ${spirit.defense}`);
+    console.info(`   Speed: ${spirit.speed}`);
+    console.info(`   Special Attack: ${spirit.specialAttack}`);
+    console.info(`   Special Defense: ${spirit.specialDefense}`);
 
-    this.logger.info('\n📈 Progression Stats:');
-    this.logger.info(`   Total Level Ups: ${stats.totalLevelUps}`);
-    this.logger.info(`   Total XP: ${stats.totalXP}`);
-    this.logger.info(`   Average XP/Level: ${stats.averageXPPerLevel.toFixed(0)}`);
-    this.logger.info('─'.repeat(50));
+    console.info('\n📈 Progression Stats:');
+    console.info(`   Total Level Ups: ${stats.totalLevelUps}`);
+    console.info(`   Total XP: ${stats.totalXP}`);
+    console.info(`   Average XP/Level: ${stats.averageXPPerLevel.toFixed(0)}`);
+    console.info('─'.repeat(50));
   }
 
   private handleHelp(args: string[]): void {
-    this.logger.info('\n🛠️ Available Commands:');
-    this.logger.info('─'.repeat(50));
+    console.info('\n🛠️ Available Commands:');
+    console.info('─'.repeat(50));
     this.commands.forEach((cmd, key) => {
-      this.logger.info(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
+      console.info(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
     });
-    this.logger.info('─'.repeat(50));
+    console.info('─'.repeat(50));
   }
 
   private handleQuit(args: string[]): void {
-    this.logger.info('👋 Goodbye!');
+    console.info('👋 Goodbye!');
     this.isRunning = false;
   }
 
@@ -486,7 +486,7 @@ class ProgressionCli {
         if (cmd) {
           cmd.handler(args);
         } else {
-          this.logger.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
         }
       }
 
@@ -498,7 +498,7 @@ class ProgressionCli {
     });
 
     rl.on('close', () => {
-      this.logger.info('CLI session ended.');
+      console.info('CLI session ended.');
       process.exit(0);
     });
   }
@@ -512,12 +512,12 @@ async function main() {
 
 // Handle process termination
 process.on('SIGINT', () => {
-  this.logger.info('\n👋 Received SIGINT. Exiting...');
+  console.info('\n👋 Received SIGINT. Exiting...');
   process.exit(0);
 });
 
 process.on('SIGTERM', () => {
-  this.logger.info('\n👋 Received SIGTERM. Exiting...');
+  console.info('\n👋 Received SIGTERM. Exiting...');
   process.exit(0);
 });
 

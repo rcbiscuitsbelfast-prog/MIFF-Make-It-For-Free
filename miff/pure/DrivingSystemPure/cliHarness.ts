@@ -21,7 +21,7 @@ import {
 class RealEventBus {
   private logger: StructuredLogger;
   emit(event: string, data: any) {
-    this.logger.info(`📡 Event: ${event}`, data);
+    console.info(`📡 Event: ${event}`, data);
   }
 
   on(event: string, handler: Function) {
@@ -67,11 +67,11 @@ class DrivingSystemCLI {
    * Setup demo data for demonstration
    */
   private setupDemoData(): void {
-    this.logger.info('🚗 Setting up driving demo data...');
+    console.info('🚗 Setting up driving demo data...');
 
     // Demo vehicles and tracks are already created in the system
-    this.logger.info('✅ Demo data setup complete!');
-    this.logger.info('✅ Driving system ready for testing!');
+    console.info('✅ Demo data setup complete!');
+    console.info('✅ Driving system ready for testing!');
   }
 
   /**
@@ -79,22 +79,22 @@ class DrivingSystemCLI {
    */
   start(): void {
     this.isRunning = true;
-    this.logger.info('🚗 Welcome to MIFF DrivingSystemPure CLI!');
-    this.logger.info('=========================================');
-    this.logger.info('Available commands:');
-    this.logger.info('  vehicles       - List all available vehicles');
-    this.logger.info('  create-vehicle - Create a new vehicle');
-    this.logger.info('  select <vehicle> - Select a vehicle to drive');
-    this.logger.info('  tracks         - List all available tracks');
-    this.logger.info('  start-race     - Start a racing session');
-    this.logger.info('  drive          - Drive current vehicle');
-    this.logger.info('  controls       - Show driving controls');
-    this.logger.info('  status         - Show current vehicle status');
-    this.logger.info('  stats          - Show driving statistics');
-    this.logger.info('  demo           - Run automated demo');
-    this.logger.info('  help           - Show this help');
-    this.logger.info('  exit           - Exit the CLI');
-    this.logger.info('');
+    console.info('🚗 Welcome to MIFF DrivingSystemPure CLI!');
+    console.info('=========================================');
+    console.info('Available commands:');
+    console.info('  vehicles       - List all available vehicles');
+    console.info('  create-vehicle - Create a new vehicle');
+    console.info('  select <vehicle> - Select a vehicle to drive');
+    console.info('  tracks         - List all available tracks');
+    console.info('  start-race     - Start a racing session');
+    console.info('  drive          - Drive current vehicle');
+    console.info('  controls       - Show driving controls');
+    console.info('  status         - Show current vehicle status');
+    console.info('  stats          - Show driving statistics');
+    console.info('  demo           - Run automated demo');
+    console.info('  help           - Show this help');
+    console.info('  exit           - Exit the CLI');
+    console.info('');
 
     this.showPrompt();
   }
@@ -130,7 +130,7 @@ class DrivingSystemCLI {
 
         case 'select':
           if (args.length === 0) {
-            this.logger.info('❌ Usage: select <vehicle-id>');
+            console.info('❌ Usage: select <vehicle-id>');
           } else {
             this.selectVehicle(args[0]);
           }
@@ -173,12 +173,12 @@ class DrivingSystemCLI {
           return;
 
         default:
-          this.logger.info(`❓ Unknown command: ${command}`);
-          this.logger.info('Type "help" for available commands.');
+          console.info(`❓ Unknown command: ${command}`);
+          console.info('Type "help" for available commands.');
           break;
       }
     } catch (error) {
-      this.logger.error(`❌ Error: ${error.message}`);
+      console.error(`❌ Error: ${error.message}`);
     }
 
     if (this.isRunning) {
@@ -192,24 +192,24 @@ class DrivingSystemCLI {
   private showVehicles(): void {
     const vehicles = this.getAvailableVehicles();
 
-    this.logger.info('\n🚗 Available Vehicles:');
-    this.logger.info('=======================');
+    console.info('\n🚗 Available Vehicles:');
+    console.info('=======================');
 
     if (vehicles.length === 0) {
-      this.logger.info('No vehicles available. Create some with "create-vehicle"');
+      console.info('No vehicles available. Create some with "create-vehicle"');
       return;
     }
 
     vehicles.forEach(vehicle => {
-      this.logger.info(`${vehicle.name} (${vehicle.id})`);
-      this.logger.info(`  Type: ${vehicle.type} | Category: ${vehicle.category}`);
-      this.logger.info(`  Max Speed: ${vehicle.maxSpeed} m/s (${(vehicle.maxSpeed * 3.6).toFixed(0)} km/h)`);
-      this.logger.info(`  Acceleration: ${vehicle.acceleration} m/s²`);
-      this.logger.info(`  Mass: ${vehicle.mass} kg`);
-      this.logger.info(`  Handling: ${(vehicle.handling * 100).toFixed(0)}%`);
-      this.logger.info(`  Fuel Capacity: ${vehicle.fuelCapacity || 'N/A'}`);
-      this.logger.info(`  Value: $${vehicle.value.toLocaleString()}`);
-      this.logger.info('');
+      console.info(`${vehicle.name} (${vehicle.id})`);
+      console.info(`  Type: ${vehicle.type} | Category: ${vehicle.category}`);
+      console.info(`  Max Speed: ${vehicle.maxSpeed} m/s (${(vehicle.maxSpeed * 3.6).toFixed(0)} km/h)`);
+      console.info(`  Acceleration: ${vehicle.acceleration} m/s²`);
+      console.info(`  Mass: ${vehicle.mass} kg`);
+      console.info(`  Handling: ${(vehicle.handling * 100).toFixed(0)}%`);
+      console.info(`  Fuel Capacity: ${vehicle.fuelCapacity || 'N/A'}`);
+      console.info(`  Value: $${vehicle.value.toLocaleString()}`);
+      console.info('');
     });
   }
 
@@ -342,7 +342,7 @@ class DrivingSystemCLI {
     const vehicle = vehicles.find(v => v.id === vehicleId);
 
     if (!vehicle) {
-      this.logger.info(`❌ Vehicle not found: ${vehicleId}`);
+      console.info(`❌ Vehicle not found: ${vehicleId}`);
       return;
     }
 
@@ -350,12 +350,12 @@ class DrivingSystemCLI {
     this.currentVehicle = this.drivingSystem.createVehicle(vehicleId, 'demo-player');
 
     if (this.currentVehicle) {
-      this.logger.info(`✅ Selected vehicle: ${vehicle.name}`);
-      this.logger.info(`   Type: ${vehicle.type}`);
-      this.logger.info(`   Max Speed: ${vehicle.maxSpeed} m/s`);
-      this.logger.info(`   Mass: ${vehicle.mass} kg`);
+      console.info(`✅ Selected vehicle: ${vehicle.name}`);
+      console.info(`   Type: ${vehicle.type}`);
+      console.info(`   Max Speed: ${vehicle.maxSpeed} m/s`);
+      console.info(`   Mass: ${vehicle.mass} kg`);
     } else {
-      this.logger.info('❌ Failed to create vehicle instance');
+      console.info('❌ Failed to create vehicle instance');
     }
   }
 
@@ -365,22 +365,22 @@ class DrivingSystemCLI {
   private showTracks(): void {
     const tracks = this.getAvailableTracks();
 
-    this.logger.info('\n🏁 Available Tracks:');
-    this.logger.info('====================');
+    console.info('\n🏁 Available Tracks:');
+    console.info('====================');
 
     if (tracks.length === 0) {
-      this.logger.info('No tracks available.');
+      console.info('No tracks available.');
       return;
     }
 
     tracks.forEach(track => {
-      this.logger.info(`${track.name} (${track.id})`);
-      this.logger.info(`  Type: ${track.type}`);
-      this.logger.info(`  Length: ${track.length}m`);
-      this.logger.info(`  Laps: ${track.lapCount}`);
-      this.logger.info(`  Allowed Vehicles: ${track.allowedVehicles.join(', ')}`);
-      this.logger.info(`  Description: ${track.description}`);
-      this.logger.info('');
+      console.info(`${track.name} (${track.id})`);
+      console.info(`  Type: ${track.type}`);
+      console.info(`  Length: ${track.length}m`);
+      console.info(`  Laps: ${track.lapCount}`);
+      console.info(`  Allowed Vehicles: ${track.allowedVehicles.join(', ')}`);
+      console.info(`  Description: ${track.description}`);
+      console.info('');
     });
   }
 
@@ -456,20 +456,20 @@ class DrivingSystemCLI {
    */
   private async startRaceInteractive(): Promise<void> {
     if (!this.currentVehicle) {
-      this.logger.info('❌ No vehicle selected. Use "select <vehicle>" first.');
+      console.info('❌ No vehicle selected. Use "select <vehicle>" first.');
       return;
     }
 
-    this.logger.info('\n🏁 Starting Race');
-    this.logger.info('================');
+    console.info('\n🏁 Starting Race');
+    console.info('================');
 
     const trackId = await this.askQuestion('Track ID (demo-circuit): ') || 'demo-circuit';
     const laps = parseInt(await this.askQuestion('Number of laps (3): ') || '3');
 
-    this.logger.info(`🏁 Starting race on ${trackId} with ${laps} laps...`);
+    console.info(`🏁 Starting race on ${trackId} with ${laps} laps...`);
 
     // This would normally create a driving session
-    this.logger.info('✅ Race started!');
+    console.info('✅ Race started!');
   }
 
   /**
@@ -477,14 +477,14 @@ class DrivingSystemCLI {
    */
   private async driveInteractive(): Promise<void> {
     if (!this.currentVehicle) {
-      this.logger.info('❌ No vehicle selected. Use "select <vehicle>" first.');
+      console.info('❌ No vehicle selected. Use "select <vehicle>" first.');
       return;
     }
 
-    this.logger.info('\n🚗 Driving Mode');
-    this.logger.info('===============');
-    this.logger.info('Use arrow keys or WASD to control the vehicle');
-    this.logger.info('Press SPACE for boost, ENTER to exit');
+    console.info('\n🚗 Driving Mode');
+    console.info('===============');
+    console.info('Use arrow keys or WASD to control the vehicle');
+    console.info('Press SPACE for boost, ENTER to exit');
 
     // Simple driving simulation
     const startTime = Date.now();
@@ -499,14 +499,14 @@ class DrivingSystemCLI {
       distance += this.currentVehicle.currentSpeed * deltaTime;
 
       // Show driving status
-      this.logger.info(`\rSpeed: ${this.currentVehicle.currentSpeed.toFixed(1)} m/s | Distance: ${distance.toFixed(0)}m | Fuel: ${this.currentVehicle.fuel.toFixed(1)}L`);
+      console.info(`\rSpeed: ${this.currentVehicle.currentSpeed.toFixed(1)} m/s | Distance: ${distance.toFixed(0)}m | Fuel: ${this.currentVehicle.fuel.toFixed(1)}L`);
 
       // Check for input
       await new Promise(resolve => setTimeout(resolve, 100));
 
       // Simple exit condition
       if (distance > 1000) {
-        this.logger.info('\n🏁 Reached 1km! Race complete.');
+        console.info('\n🏁 Reached 1km! Race complete.');
         break;
       }
     }
@@ -516,22 +516,22 @@ class DrivingSystemCLI {
    * Show driving controls
    */
   private showControls(): void {
-    this.logger.info('\n🎮 Driving Controls:');
-    this.logger.info('====================');
-    this.logger.info('W/↑ - Accelerate/Throttle');
-    this.logger.info('S/↓ - Brake/Reverse');
-    this.logger.info('A/← - Steer Left');
-    this.logger.info('D/→ - Steer Right');
-    this.logger.info('SPACE - Boost (if available)');
-    this.logger.info('E - Use Ability');
-    this.logger.info('R - Repair Vehicle');
-    this.logger.info('F - Refuel');
-    this.logger.info('ESC - Exit driving mode');
-    this.logger.info('');
-    this.logger.info('Vehicle Abilities:');
-    this.logger.info('  Sports Car: Nitro Boost');
-    this.logger.info('  Racing Bike: Wheelie');
-    this.logger.info('');
+    console.info('\n🎮 Driving Controls:');
+    console.info('====================');
+    console.info('W/↑ - Accelerate/Throttle');
+    console.info('S/↓ - Brake/Reverse');
+    console.info('A/← - Steer Left');
+    console.info('D/→ - Steer Right');
+    console.info('SPACE - Boost (if available)');
+    console.info('E - Use Ability');
+    console.info('R - Repair Vehicle');
+    console.info('F - Refuel');
+    console.info('ESC - Exit driving mode');
+    console.info('');
+    console.info('Vehicle Abilities:');
+    console.info('  Sports Car: Nitro Boost');
+    console.info('  Racing Bike: Wheelie');
+    console.info('');
   }
 
   /**
@@ -539,25 +539,25 @@ class DrivingSystemCLI {
    */
   private showVehicleStatus(): void {
     if (!this.currentVehicle) {
-      this.logger.info('❌ No vehicle selected');
+      console.info('❌ No vehicle selected');
       return;
     }
 
     const vehicle = this.currentVehicle;
     const definition = vehicle.definition;
 
-    this.logger.info('\n📊 Vehicle Status:');
-    this.logger.info('==================');
-    this.logger.info(`${definition.name} (${vehicle.id})`);
-    this.logger.info(`Position: (${vehicle.currentPosition.x.toFixed(1)}, ${vehicle.currentPosition.y.toFixed(1)}, ${vehicle.currentPosition.z.toFixed(1)})`);
-    this.logger.info(`Speed: ${vehicle.currentSpeed.toFixed(1)} m/s (${(vehicle.currentSpeed * 3.6).toFixed(0)} km/h)`);
-    this.logger.info(`Engine: ${vehicle.isEngineRunning ? '🟢 Running' : '🔴 Stopped'}`);
-    this.logger.info(`Health: ${vehicle.health}/${vehicle.maxHealth} (${((vehicle.health / vehicle.maxHealth) * 100).toFixed(1)}%)`);
-    this.logger.info(`Fuel: ${vehicle.fuel.toFixed(1)}/${vehicle.maxFuel.toFixed(1)}L`);
-    this.logger.info(`Terrain: ${vehicle.currentTerrain}`);
-    this.logger.info(`Distance Traveled: ${vehicle.distanceTraveled.toFixed(0)}m`);
-    this.logger.info(`Time Driven: ${Math.round(vehicle.timeDriven)}s`);
-    this.logger.info('');
+    console.info('\n📊 Vehicle Status:');
+    console.info('==================');
+    console.info(`${definition.name} (${vehicle.id})`);
+    console.info(`Position: (${vehicle.currentPosition.x.toFixed(1)}, ${vehicle.currentPosition.y.toFixed(1)}, ${vehicle.currentPosition.z.toFixed(1)})`);
+    console.info(`Speed: ${vehicle.currentSpeed.toFixed(1)} m/s (${(vehicle.currentSpeed * 3.6).toFixed(0)} km/h)`);
+    console.info(`Engine: ${vehicle.isEngineRunning ? '🟢 Running' : '🔴 Stopped'}`);
+    console.info(`Health: ${vehicle.health}/${vehicle.maxHealth} (${((vehicle.health / vehicle.maxHealth) * 100).toFixed(1)}%)`);
+    console.info(`Fuel: ${vehicle.fuel.toFixed(1)}/${vehicle.maxFuel.toFixed(1)}L`);
+    console.info(`Terrain: ${vehicle.currentTerrain}`);
+    console.info(`Distance Traveled: ${vehicle.distanceTraveled.toFixed(0)}m`);
+    console.info(`Time Driven: ${Math.round(vehicle.timeDriven)}s`);
+    console.info('');
   }
 
   /**
@@ -566,119 +566,119 @@ class DrivingSystemCLI {
   private showStats(): void {
     const stats = this.drivingSystem.getStats();
 
-    this.logger.info('\n📊 Driving Statistics:');
-    this.logger.info('======================');
-    this.logger.info(`Total Sessions: ${stats.totalSessions}`);
-    this.logger.info(`Total Distance: ${stats.totalDistance.toLocaleString()}m`);
-    this.logger.info(`Total Time: ${Math.round(stats.totalTime)}s`);
-    this.logger.info(`Total Crashes: ${stats.totalCrashes}`);
-    this.logger.info(`Total Repairs: ${stats.totalRepairs}`);
-    this.logger.info(`Total Fuel Consumed: ${stats.totalFuelConsumed.toFixed(1)}L`);
-    this.logger.info(`Average Speed: ${stats.averageSpeed.toFixed(1)} m/s`);
-    this.logger.info(`Best Lap Time: ${stats.bestLapTime}s`);
-    this.logger.info(`Vehicles Owned: ${stats.vehiclesOwned}`);
-    this.logger.info(`Tracks Completed: ${stats.tracksCompleted}`);
-    this.logger.info(`Achievements: ${stats.achievements.length}`);
-    this.logger.info(`Favorite Vehicle: ${stats.favoriteVehicle || 'None'}`);
-    this.logger.info(`Favorite Track: ${stats.favoriteTrack || 'None'}`);
+    console.info('\n📊 Driving Statistics:');
+    console.info('======================');
+    console.info(`Total Sessions: ${stats.totalSessions}`);
+    console.info(`Total Distance: ${stats.totalDistance.toLocaleString()}m`);
+    console.info(`Total Time: ${Math.round(stats.totalTime)}s`);
+    console.info(`Total Crashes: ${stats.totalCrashes}`);
+    console.info(`Total Repairs: ${stats.totalRepairs}`);
+    console.info(`Total Fuel Consumed: ${stats.totalFuelConsumed.toFixed(1)}L`);
+    console.info(`Average Speed: ${stats.averageSpeed.toFixed(1)} m/s`);
+    console.info(`Best Lap Time: ${stats.bestLapTime}s`);
+    console.info(`Vehicles Owned: ${stats.vehiclesOwned}`);
+    console.info(`Tracks Completed: ${stats.tracksCompleted}`);
+    console.info(`Achievements: ${stats.achievements.length}`);
+    console.info(`Favorite Vehicle: ${stats.favoriteVehicle || 'None'}`);
+    console.info(`Favorite Track: ${stats.favoriteTrack || 'None'}`);
   }
 
   /**
    * Run demo sequence
    */
   private async runDemo(): Promise<void> {
-    this.logger.info('\n🚗 Running Driving System Demo...');
-    this.logger.info('===================================');
+    console.info('\n🚗 Running Driving System Demo...');
+    console.info('===================================');
 
     // Show available vehicles
-    this.logger.info('\n🚗 Available vehicles:');
+    console.info('\n🚗 Available vehicles:');
     this.showVehicles();
 
     // Select a vehicle
-    this.logger.info('\n🎯 Selecting demo car...');
+    console.info('\n🎯 Selecting demo car...');
     this.selectVehicle('demo-car');
 
     // Show tracks
-    this.logger.info('\n🏁 Available tracks:');
+    console.info('\n🏁 Available tracks:');
     this.showTracks();
 
     // Start a race
-    this.logger.info('\n🏁 Starting demo race...');
+    console.info('\n🏁 Starting demo race...');
     await this.startRaceInteractive();
 
     // Drive for a bit
-    this.logger.info('\n🚗 Demo drive mode...');
+    console.info('\n🚗 Demo drive mode...');
     await this.driveInteractive();
 
     // Show final stats
-    this.logger.info('\n📊 Demo Results:');
+    console.info('\n📊 Demo Results:');
     this.showStats();
 
-    this.logger.info('\n✅ Demo complete!');
+    console.info('\n✅ Demo complete!');
   }
 
   /**
    * Show help information
    */
   private showHelp(): void {
-    this.logger.info('\n🚗 MIFF DrivingSystemPure CLI Help');
-    this.logger.info('==================================');
-    this.logger.info('');
-    this.logger.info('COMMANDS:');
-    this.logger.info('  vehicles       - List all available vehicles');
-    this.logger.info('  create-vehicle - Create a new vehicle');
-    this.logger.info('  select <id>    - Select a vehicle to drive');
-    this.logger.info('  tracks         - List all available tracks');
-    this.logger.info('  start-race     - Start a racing session');
-    this.logger.info('  drive          - Drive current vehicle');
-    this.logger.info('  controls       - Show driving controls');
-    this.logger.info('  status         - Show current vehicle status');
-    this.logger.info('  stats          - Show driving statistics');
-    this.logger.info('  demo           - Run automated demo sequence');
-    this.logger.info('  help           - Show this help information');
-    this.logger.info('  exit           - Exit the CLI');
-    this.logger.info('');
-    this.logger.info('VEHICLE TYPES:');
-    this.logger.info('  car            - Standard passenger vehicles');
-    this.logger.info('  bike           - Motorcycles and bikes');
-    this.logger.info('  truck          - Heavy-duty vehicles');
-    this.logger.info('  boat           - Watercraft');
-    this.logger.info('  aircraft       - Flying vehicles');
-    this.logger.info('');
-    this.logger.info('DRIVING CONTROLS:');
-    this.logger.info('  W/↑ - Accelerate');
-    this.logger.info('  S/↓ - Brake');
-    this.logger.info('  A/← - Steer Left');
-    this.logger.info('  D/→ - Steer Right');
-    this.logger.info('  SPACE - Boost');
-    this.logger.info('  E - Use Ability');
-    this.logger.info('');
-    this.logger.info('NOTES:');
-    this.logger.info('- Different vehicles have different handling characteristics');
-    this.logger.info('- Terrain affects vehicle performance');
-    this.logger.info('- Weather conditions impact driving');
-    this.logger.info('- Fuel management is important for long drives');
-    this.logger.info('- Vehicle damage affects performance');
+    console.info('\n🚗 MIFF DrivingSystemPure CLI Help');
+    console.info('==================================');
+    console.info('');
+    console.info('COMMANDS:');
+    console.info('  vehicles       - List all available vehicles');
+    console.info('  create-vehicle - Create a new vehicle');
+    console.info('  select <id>    - Select a vehicle to drive');
+    console.info('  tracks         - List all available tracks');
+    console.info('  start-race     - Start a racing session');
+    console.info('  drive          - Drive current vehicle');
+    console.info('  controls       - Show driving controls');
+    console.info('  status         - Show current vehicle status');
+    console.info('  stats          - Show driving statistics');
+    console.info('  demo           - Run automated demo sequence');
+    console.info('  help           - Show this help information');
+    console.info('  exit           - Exit the CLI');
+    console.info('');
+    console.info('VEHICLE TYPES:');
+    console.info('  car            - Standard passenger vehicles');
+    console.info('  bike           - Motorcycles and bikes');
+    console.info('  truck          - Heavy-duty vehicles');
+    console.info('  boat           - Watercraft');
+    console.info('  aircraft       - Flying vehicles');
+    console.info('');
+    console.info('DRIVING CONTROLS:');
+    console.info('  W/↑ - Accelerate');
+    console.info('  S/↓ - Brake');
+    console.info('  A/← - Steer Left');
+    console.info('  D/→ - Steer Right');
+    console.info('  SPACE - Boost');
+    console.info('  E - Use Ability');
+    console.info('');
+    console.info('NOTES:');
+    console.info('- Different vehicles have different handling characteristics');
+    console.info('- Terrain affects vehicle performance');
+    console.info('- Weather conditions impact driving');
+    console.info('- Fuel management is important for long drives');
+    console.info('- Vehicle damage affects performance');
   }
 
   /**
    * Create vehicle interactively
    */
   private async createVehicleInteractive(): Promise<void> {
-    this.logger.info('\n🆕 Creating New Vehicle');
-    this.logger.info('=======================');
+    console.info('\n🆕 Creating New Vehicle');
+    console.info('=======================');
 
     const name = await this.askQuestion('Vehicle name: ');
     const type = await this.askQuestion('Vehicle type (car/bike/truck/boat/aircraft): ');
 
-    this.logger.info(`✅ Vehicle "${name}" created successfully!`);
+    console.info(`✅ Vehicle "${name}" created successfully!`);
   }
 
   /**
    * Exit the CLI
    */
   private exit(): void {
-    this.logger.info('\n👋 Thank you for using MIFF DrivingSystemPure CLI!');
+    console.info('\n👋 Thank you for using MIFF DrivingSystemPure CLI!');
     this.isRunning = false;
     this.rl.close();
     process.exit(0);

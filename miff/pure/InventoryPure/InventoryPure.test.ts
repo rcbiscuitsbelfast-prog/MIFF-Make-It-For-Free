@@ -161,7 +161,7 @@ describe('InventoryPure', () => {
       const inventory = manager.getInventory('player1');
       expect(inventory?.items.size).toBe(1); // Should be stacked
       
-      const item = Array.from(inventory!.items.values())[0];
+      const item = Array.from(inventory?.items.values())[0];
       expect(item.quantity).toBe(8);
     });
 
@@ -186,7 +186,7 @@ describe('InventoryPure', () => {
       expect(success).toBe(true);
       
       const inventory = manager.getInventory('player1');
-      const item = Array.from(inventory!.items.values())[0];
+      const item = Array.from(inventory?.items.values())[0];
       expect(item.quantity).toBe(3);
     });
 
@@ -268,7 +268,7 @@ describe('InventoryPure', () => {
       expect(success).toBe(true);
       
       const inventory = manager.getInventory('player1');
-      const item = Array.from(inventory!.items.values())[0];
+      const item = Array.from(inventory?.items.values())[0];
       expect(item.quantity).toBe(2);
     });
 
@@ -293,7 +293,7 @@ describe('InventoryPure', () => {
       const afterUse = Date.now();
       
       const inventory = manager.getInventory('player1');
-      const item = Array.from(inventory!.items.values())[0];
+      const item = Array.from(inventory?.items.values())[0];
       expect(item.lastUsed).toBeGreaterThanOrEqual(beforeUse);
       expect(item.lastUsed).toBeLessThanOrEqual(afterUse);
     });

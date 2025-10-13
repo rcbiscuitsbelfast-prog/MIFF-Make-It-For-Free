@@ -59,7 +59,7 @@ class PerformanceCLI {
           break;
       }
     } catch (error) {
-      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -67,36 +67,36 @@ class PerformanceCLI {
   private async analyzePerformance(args: string[]): Promise<void> {
     const outputFile = args[0] || 'performance-analysis.json';
 
-    this.logger.info('📊 Analyzing performance metrics...');
+    console.info('📊 Analyzing performance metrics...');
     
     const metrics = await this.optimizer.analyzePerformance();
     
     // Save metrics to file
     fs.writeFileSync(outputFile, JSON.stringify(metrics, null, 2));
     
-    this.logger.info('✅ Performance analysis completed');
-    this.logger.info(`📄 Metrics saved to ${outputFile}`);
+    console.info('✅ Performance analysis completed');
+    console.info(`📄 Metrics saved to ${outputFile}`);
 
     // Display key metrics
-    this.logger.info('\n📊 Performance Metrics:');
-    this.logger.info(`Memory Usage: ${((metrics.memory.heapUsed / metrics.memory.heapTotal) * 100).toFixed(1)}%`);
-    this.logger.info(`CPU Usage: ${metrics.cpu.usage.toFixed(1)}%`);
-    this.logger.info(`Network Latency: ${metrics.network.latency}ms`);
-    this.logger.info(`Cache Hit Rate: ${metrics.cache.hitRate.toFixed(1)}%`);
+    console.info('\n📊 Performance Metrics:');
+    console.info(`Memory Usage: ${((metrics.memory.heapUsed / metrics.memory.heapTotal) * 100).toFixed(1)}%`);
+    console.info(`CPU Usage: ${metrics.cpu.usage.toFixed(1)}%`);
+    console.info(`Network Latency: ${metrics.network.latency}ms`);
+    console.info(`Cache Hit Rate: ${metrics.cache.hitRate.toFixed(1)}%`);
   }
 
   private async identifyTargets(args: string[]): Promise<void> {
     const outputFile = args[0] || 'optimization-targets.json';
 
-    this.logger.info('🎯 Identifying optimization targets...');
+    console.info('🎯 Identifying optimization targets...');
     
     const targets = await this.optimizer.identifyOptimizationTargets();
     
     // Save targets to file
     fs.writeFileSync(outputFile, JSON.stringify(targets, null, 2));
     
-    this.logger.info(`✅ Identified ${targets.length} optimization targets`);
-    this.logger.info(`📄 Targets saved to ${outputFile}`);
+    console.info(`✅ Identified ${targets.length} optimization targets`);
+    console.info(`📄 Targets saved to ${outputFile}`);
 
     // Show targets by priority
     const critical = targets.filter(t => t.priority === 'critical');
@@ -104,11 +104,11 @@ class PerformanceCLI {
     const medium = targets.filter(t => t.priority === 'medium');
     const low = targets.filter(t => t.priority === 'low');
 
-    this.logger.info('\n📊 Optimization Targets by Priority:');
-    this.logger.info(`Critical: ${critical.length}`);
-    this.logger.info(`High: ${high.length}`);
-    this.logger.info(`Medium: ${medium.length}`);
-    this.logger.info(`Low: ${low.length}`);
+    console.info('\n📊 Optimization Targets by Priority:');
+    console.info(`Critical: ${critical.length}`);
+    console.info(`High: ${high.length}`);
+    console.info(`Medium: ${medium.length}`);
+    console.info(`Low: ${low.length}`);
 
     // Show targets by type
     const memory = targets.filter(t => t.type === 'memory');
@@ -116,17 +116,17 @@ class PerformanceCLI {
     const network = targets.filter(t => t.type === 'network');
     const cache = targets.filter(t => t.type === 'cache');
 
-    this.logger.info('\n📊 Optimization Targets by Type:');
-    this.logger.info(`Memory: ${memory.length}`);
-    this.logger.info(`CPU: ${cpu.length}`);
-    this.logger.info(`Network: ${network.length}`);
-    this.logger.info(`Cache: ${cache.length}`);
+    console.info('\n📊 Optimization Targets by Type:');
+    console.info(`Memory: ${memory.length}`);
+    console.info(`CPU: ${cpu.length}`);
+    console.info(`Network: ${network.length}`);
+    console.info(`Cache: ${cache.length}`);
 
     if (critical.length > 0) {
-      this.logger.info('\n🚨 Critical Optimization Targets:');
+      console.info('\n🚨 Critical Optimization Targets:');
       critical.forEach(target => {
-        this.logger.info(`  ${target.module} (${target.type}): ${target.description}`);
-        this.logger.info(`    Current: ${target.currentValue}, Target: ${target.targetValue}, Improvement: ${target.improvement}%`);
+        console.info(`  ${target.module} (${target.type}): ${target.description}`);
+        console.info(`    Current: ${target.currentValue}, Target: ${target.targetValue}, Improvement: ${target.improvement}%`);
       });
     }
   }
@@ -135,30 +135,30 @@ class PerformanceCLI {
     const type = args[0] || 'all';
     const outputFile = args[1] || 'optimization-results.json';
 
-    this.logger.info(`⚡ Optimizing performance (${type})...`);
+    console.info(`⚡ Optimizing performance (${type})...`);
     
     const results: any = {};
     
     if (type === 'all' || type === 'memory') {
-      this.logger.info('🧠 Implementing memory optimizations...');
+      console.info('🧠 Implementing memory optimizations...');
       await this.optimizer.implementMemoryOptimizations();
       results.memory = 'completed';
     }
     
     if (type === 'all' || type === 'cpu') {
-      this.logger.info('⚡ Implementing CPU optimizations...');
+      console.info('⚡ Implementing CPU optimizations...');
       await this.optimizer.implementCPUOptimizations();
       results.cpu = 'completed';
     }
     
     if (type === 'all' || type === 'network') {
-      this.logger.info('🌐 Implementing network optimizations...');
+      console.info('🌐 Implementing network optimizations...');
       await this.optimizer.implementNetworkOptimizations();
       results.network = 'completed';
     }
     
     if (type === 'all' || type === 'cache') {
-      this.logger.info('💾 Implementing caching strategies...');
+      console.info('💾 Implementing caching strategies...');
       await this.optimizer.implementCachingStrategies();
       results.cache = 'completed';
     }
@@ -166,62 +166,62 @@ class PerformanceCLI {
     // Save results
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    this.logger.info('✅ Performance optimization completed');
-    this.logger.info(`📄 Results saved to ${outputFile}`);
+    console.info('✅ Performance optimization completed');
+    console.info(`📄 Results saved to ${outputFile}`);
   }
 
   private async optimizeMemory(args: string[]): Promise<void> {
     const outputFile = args[0] || 'memory-optimization.json';
 
-    this.logger.info('🧠 Implementing memory optimizations...');
+    console.info('🧠 Implementing memory optimizations...');
     
     await this.optimizer.implementMemoryOptimizations();
     
     const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'memory');
-    this.logger.info(`✅ Implemented memory optimizations for ${targets.length} critical targets`);
-    this.logger.info(`📄 Memory optimization results saved to ${outputFile}`);
+    console.info(`✅ Implemented memory optimizations for ${targets.length} critical targets`);
+    console.info(`📄 Memory optimization results saved to ${outputFile}`);
   }
 
   private async optimizeCPU(args: string[]): Promise<void> {
     const outputFile = args[0] || 'cpu-optimization.json';
 
-    this.logger.info('⚡ Implementing CPU optimizations...');
+    console.info('⚡ Implementing CPU optimizations...');
     
     await this.optimizer.implementCPUOptimizations();
     
     const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'cpu');
-    this.logger.info(`✅ Implemented CPU optimizations for ${targets.length} critical targets`);
-    this.logger.info(`📄 CPU optimization results saved to ${outputFile}`);
+    console.info(`✅ Implemented CPU optimizations for ${targets.length} critical targets`);
+    console.info(`📄 CPU optimization results saved to ${outputFile}`);
   }
 
   private async optimizeNetwork(args: string[]): Promise<void> {
     const outputFile = args[0] || 'network-optimization.json';
 
-    this.logger.info('🌐 Implementing network optimizations...');
+    console.info('🌐 Implementing network optimizations...');
     
     await this.optimizer.implementNetworkOptimizations();
     
     const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'network');
-    this.logger.info(`✅ Implemented network optimizations for ${targets.length} critical targets`);
-    this.logger.info(`📄 Network optimization results saved to ${outputFile}`);
+    console.info(`✅ Implemented network optimizations for ${targets.length} critical targets`);
+    console.info(`📄 Network optimization results saved to ${outputFile}`);
   }
 
   private async optimizeCache(args: string[]): Promise<void> {
     const outputFile = args[0] || 'cache-optimization.json';
 
-    this.logger.info('💾 Implementing caching strategies...');
+    console.info('💾 Implementing caching strategies...');
     
     await this.optimizer.implementCachingStrategies();
     
     const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'cache');
-    this.logger.info(`✅ Implemented caching strategies for ${targets.length} critical targets`);
-    this.logger.info(`📄 Cache optimization results saved to ${outputFile}`);
+    console.info(`✅ Implemented caching strategies for ${targets.length} critical targets`);
+    console.info(`📄 Cache optimization results saved to ${outputFile}`);
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'performance-report.html';
 
-    this.logger.info('📊 Generating performance report...');
+    console.info('📊 Generating performance report...');
     
     const report = this.optimizer.generatePerformanceReport();
     const html = this.generateHTMLReport(report);
@@ -229,25 +229,25 @@ class PerformanceCLI {
     // Save report to file
     fs.writeFileSync(outputFile, html);
     
-    this.logger.info('✅ Performance report generated');
-    this.logger.info(`📄 Report saved to ${outputFile}`);
+    console.info('✅ Performance report generated');
+    console.info(`📄 Report saved to ${outputFile}`);
 
     // Display summary
-    this.logger.info('\n📊 Performance Report Summary:');
-    this.logger.info(`Overall Score: ${report.overallScore}/100`);
-    this.logger.info(`Memory Score: ${report.memoryScore}/100`);
-    this.logger.info(`CPU Score: ${report.cpuScore}/100`);
-    this.logger.info(`Network Score: ${report.networkScore}/100`);
-    this.logger.info(`Cache Score: ${report.cacheScore}/100`);
-    this.logger.info(`Optimization Targets: ${report.optimizations.length}`);
-    this.logger.info(`Recommendations: ${report.recommendations.length}`);
+    console.info('\n📊 Performance Report Summary:');
+    console.info(`Overall Score: ${report.overallScore}/100`);
+    console.info(`Memory Score: ${report.memoryScore}/100`);
+    console.info(`CPU Score: ${report.cpuScore}/100`);
+    console.info(`Network Score: ${report.networkScore}/100`);
+    console.info(`Cache Score: ${report.cacheScore}/100`);
+    console.info(`Optimization Targets: ${report.optimizations.length}`);
+    console.info(`Recommendations: ${report.recommendations.length}`);
   }
 
   private async monitorPerformance(args: string[]): Promise<void> {
     const interval = parseInt(args[0]) || 5000; // 5 seconds default
     const duration = parseInt(args[1]) || 60000; // 1 minute default
 
-    this.logger.info(`📊 Monitoring performance (${interval}ms interval, ${duration}ms duration)...`);
+    console.info(`📊 Monitoring performance (${interval}ms interval, ${duration}ms duration)...`);
     
     const startTime = Date.now();
     const history: PerformanceReport[] = [];
@@ -257,19 +257,19 @@ class PerformanceCLI {
         const report = this.optimizer.generatePerformanceReport();
         history.push(report);
         
-        this.logger.info(`[${new Date().toLocaleTimeString()}] Overall: ${report.overallScore}/100, Memory: ${report.memoryScore}/100, CPU: ${report.cpuScore}/100`);
+        console.info(`[${new Date().toLocaleTimeString()}] Overall: ${report.overallScore}/100, Memory: ${report.memoryScore}/100, CPU: ${report.cpuScore}/100`);
         
         if (Date.now() - startTime >= duration) {
           clearInterval(monitor);
-          this.logger.info('\n✅ Performance monitoring completed');
+          console.info('\n✅ Performance monitoring completed');
           
           // Save monitoring data
           const outputFile = `performance-monitoring-${Date.now()}.json`;
           fs.writeFileSync(outputFile, JSON.stringify(history, null, 2));
-          this.logger.info(`📄 Monitoring data saved to ${outputFile}`);
+          console.info(`📄 Monitoring data saved to ${outputFile}`);
         }
       } catch (error) {
-        this.logger.error('❌ Error during monitoring:', error);
+        console.error('❌ Error during monitoring:', error);
       }
     }, interval);
   }
@@ -357,7 +357,7 @@ class PerformanceCLI {
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 ⚡ MIFF Performance Optimization CLI
 
 Usage: tsx performanceCLI.ts <command> [options]

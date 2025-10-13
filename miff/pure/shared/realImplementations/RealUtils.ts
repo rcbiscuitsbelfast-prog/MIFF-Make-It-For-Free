@@ -506,7 +506,7 @@ export class RealUtils {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -526,7 +526,7 @@ export class RealUtils {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in utils event handler for ${event}:`, error);
+          console.error(`Error in utils event handler for ${event}:`, error);
         }
       });
     }

@@ -269,7 +269,7 @@ export class SecurityManager {
   private log(message: string, level: 'info' | 'warn' | 'error' = 'info'): void {
     const ts = new Date().toISOString();
     // eslint-disable-next-line no-console
-    this.logger.info(`[SECURITY:${level.toUpperCase()}] ${ts} - ${message}`);
+    console.info(`[SECURITY:${level.toUpperCase()}] ${ts} - ${message}`);
   }
 
   private checkGDPRCompliance(): boolean {

@@ -30,7 +30,7 @@ export class SceneBuilder {
     return Array.from(this.scenes.values());
   }
 
-  getScene(sceneId: string): Scene | undefined {
+  getScene(sceneId: string): Scene! {
     return this.scenes.get(sceneId);
   }
 }

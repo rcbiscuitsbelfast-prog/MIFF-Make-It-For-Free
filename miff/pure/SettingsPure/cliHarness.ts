@@ -162,7 +162,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(manager: SettingsManager): any {

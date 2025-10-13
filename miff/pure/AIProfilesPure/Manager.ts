@@ -203,28 +203,28 @@ export class AIProfilesManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('AI Profiles Manager already initialized');
+      console.warn('AIProfilesPure', 'AI Profiles Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing AI Profiles Manager...');
+      console.info('AIProfilesPure', 'Initializing AI Profiles Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('AI Profiles Manager initialized successfully');
+      console.info('AIProfilesPure', 'AI Profiles Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize AI Profiles Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -257,11 +257,11 @@ export class AIProfilesManager {
       this.profiles.set(profile.id, profile);
       this.updateAnalytics();
 
-      this.logger.info('AI profile created', { profileId: profile.id, profileName: profile.name });
+      console.info('AI profile created', { profileId: profile.id, profileName: profile.name });
       return profile;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create AI profile');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -288,7 +288,7 @@ export class AIProfilesManager {
     try {
       const profile = this.profiles.get(profileId);
       if (!profile) {
-        this.logger.warn('Profile not found', { profileId });
+        console.warn('Profile not found', { profileId });
         return null;
       }
 
@@ -302,11 +302,11 @@ export class AIProfilesManager {
       this.profiles.set(profileId, updatedProfile);
       this.updateAnalytics();
 
-      this.logger.info('AI profile updated', { profileId, profileName: updatedProfile.name });
+      console.info('AI profile updated', { profileId, profileName: updatedProfile.name });
       return updatedProfile;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update AI profile');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -322,18 +322,18 @@ export class AIProfilesManager {
     try {
       const profile = this.profiles.get(profileId);
       if (!profile) {
-        this.logger.warn('Profile not found', { profileId });
+        console.warn('Profile not found', { profileId });
         return false;
       }
 
       this.profiles.delete(profileId);
       this.updateAnalytics();
 
-      this.logger.info('AI profile deleted', { profileId, profileName: profile.name });
+      console.info('AI profile deleted', { profileId, profileName: profile.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete AI profile');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -382,7 +382,7 @@ export class AIProfilesManager {
     try {
       const profile = this.profiles.get(profileId);
       if (!profile) {
-        this.logger.warn('Profile not found', { profileId });
+        console.warn('Profile not found', { profileId });
         return null;
       }
 
@@ -392,11 +392,11 @@ export class AIProfilesManager {
       // Select most appropriate response
       const response = this.selectBehaviorResponse(profile, behaviorScore);
       
-      this.logger.debug('Behavior simulated', { profileId, behaviorScore, response: response?.name });
+      console.debug('Behavior simulated', { profileId, behaviorScore, response: response?.name });
       return response;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to simulate behavior');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -599,12 +599,12 @@ export class AIProfilesManager {
    * Destroy the AI Profiles Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying AI Profiles Manager...');
+    console.info('AIProfilesPure', 'Destroying AI Profiles Manager...');
 
     this.profiles.clear();
     this.isInitialized = false;
 
-    this.logger.info('AI Profiles Manager destroyed');
+    console.info('AIProfilesPure', 'AI Profiles Manager destroyed');
   }
 }
 

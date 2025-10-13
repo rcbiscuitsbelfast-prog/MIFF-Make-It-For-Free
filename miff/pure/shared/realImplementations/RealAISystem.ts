@@ -142,7 +142,7 @@ export class RealAISystem {
       this.emit('modelAdded', { modelId: model.id, model });
       return true;
     } catch (error) {
-      this.logger.error('Error adding AI model:', error);
+      console.error('Error adding AI model:', error);
       return false;
     }
   }
@@ -150,7 +150,7 @@ export class RealAISystem {
   /**
    * Get an AI model by ID
    */
-  getModel(modelId: string): AIModel | undefined {
+  getModel(modelId: string): AIModel! {
     return this.models.get(modelId);
   }
 
@@ -174,7 +174,7 @@ export class RealAISystem {
       this.emit('modelUpdated', { modelId, model: updatedModel });
       return true;
     } catch (error) {
-      this.logger.error('Error updating AI model:', error);
+      console.error('Error updating AI model:', error);
       return false;
     }
   }
@@ -192,7 +192,7 @@ export class RealAISystem {
       this.emit('modelRemoved', { modelId, model });
       return true;
     } catch (error) {
-      this.logger.error('Error removing AI model:', error);
+      console.error('Error removing AI model:', error);
       return false;
     }
   }
@@ -417,7 +417,7 @@ export class RealAISystem {
   /**
    * Get task by ID
    */
-  getTask(taskId: string): AITask | undefined {
+  getTask(taskId: string): AITask! {
     return this.tasks.get(taskId);
   }
 
@@ -438,7 +438,7 @@ export class RealAISystem {
   /**
    * Get learning session by ID
    */
-  getLearningSession(sessionId: string): AILearningSession | undefined {
+  getLearningSession(sessionId: string): AILearningSession! {
     return this.learningSessions.get(sessionId);
   }
 
@@ -472,7 +472,7 @@ export class RealAISystem {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -492,7 +492,7 @@ export class RealAISystem {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in event handler for ${event}:`, error);
+          console.error(`Error in event handler for ${event}:`, error);
         }
       });
     }
@@ -524,7 +524,7 @@ export class RealAISystem {
     const completedTasks = Array.from(this.tasks.values())
       .filter(task => task.status === 'completed' && task.completedAt)
       .filter(task => {
-        const age = Date.now() - task.completedAt!.getTime();
+        const age = Date.now() - task.completedAt?.getTime();
         return age > 24 * 60 * 60 * 1000; // 24 hours
       });
 

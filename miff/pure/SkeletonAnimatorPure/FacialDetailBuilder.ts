@@ -291,7 +291,7 @@ export class FacialDetailBuilder {
 
     // Apply morph to feature vertices (simplified - in real implementation would affect actual mesh)
     // This is a placeholder for the actual morphing logic
-    this.logger.info(`Applying morph ${morphTarget.name} to feature ${feature.name} with strength ${strength}`);
+    console.info(`Applying morph ${morphTarget.name} to feature ${feature.name} with strength ${strength}`);
 
     return this;
   }
@@ -321,7 +321,7 @@ export class FacialDetailBuilder {
   /**
    * Get feature by ID
    */
-  getFeature(featureId: string): FaceFeature | undefined {
+  getFeature(featureId: string): FaceFeature! {
     return this.faceConfig.features.find(f => f.id === featureId);
   }
 

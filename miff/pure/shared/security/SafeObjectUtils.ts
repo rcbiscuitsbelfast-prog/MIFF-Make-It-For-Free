@@ -115,7 +115,7 @@ export class SafeObjectUtils {
   /**
    * Safely get a property value from an object
    */
-  static safeGet<T>(obj: any, path: string, defaultValue?: T): T | undefined {
+  static safeGet<T>(obj: any, path: string, defaultValue?: T): T! {
     if (!obj || typeof obj !== 'object') {
       return defaultValue;
     }

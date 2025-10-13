@@ -88,7 +88,7 @@ export class PathfindingPureManager {
     this.memoryId = MemoryManager.registerInstance(this, 'PathfindingPureManager');
     this.errorHandler = new StandardErrorHandler(this.logger);
     
-    this.logger.info('PathfindingPureManager initialized', {
+    console.info('PathfindingPureManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -97,18 +97,18 @@ export class PathfindingPureManager {
   // Initialize the manager
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Manager already initialized');
+      console.warn('PathfindingPure', 'Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing PathfindingPureManager...');
+      console.info('PathfindingPure', 'Initializing PathfindingPureManager...');
       
       // Initialize core functionality
       await this.initializeCore();
       
       this.isInitialized = true;
-      this.logger.info('PathfindingPureManager initialized successfully');
+      console.info('PathfindingPure', 'PathfindingPureManager initialized successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, {
@@ -122,7 +122,7 @@ export class PathfindingPureManager {
   // Initialize core functionality
   private async initializeCore(): Promise<void> {
     // Core initialization logic
-    this.logger.debug('Initializing core functionality');
+    console.debug('PathfindingPure', 'Initializing core functionality');
     
     // Initialize default items if needed
     if (this.items.size === 0) {
@@ -132,7 +132,7 @@ export class PathfindingPureManager {
 
   // Create default items
   private async createDefaultItems(): Promise<void> {
-    this.logger.debug('Creating default items');
+    console.debug('PathfindingPure', 'Creating default items');
     
     const defaultItems = [
       {
@@ -171,7 +171,7 @@ export class PathfindingPureManager {
       this.items.set(id, item);
       this.updateAnalytics();
       
-      this.logger.info('Item created successfully', {
+      console.info('Item created successfully', {
         itemId: id,
         itemType: item.type,
         totalItems: this.items.size
@@ -190,7 +190,7 @@ export class PathfindingPureManager {
   }
 
   // Get item by ID
-  getItem(id: string): PathfindingPureItem | undefined {
+  getItem(id: string): PathfindingPureItem! {
     return this.items.get(id);
   }
 
@@ -200,11 +200,11 @@ export class PathfindingPureManager {
   }
 
   // Update item
-  async updateItem(id: string, updates: Partial<PathfindingPureItem>): Promise<PathfindingPureItem | undefined> {
+  async updateItem(id: string, updates: Partial<PathfindingPureItem>): Promise<PathfindingPureItem!> {
     try {
       const item = this.items.get(id);
       if (!item) {
-        this.logger.warn('Item not found for update', { itemId: id 
+        console.warn('Item not found for update', { itemId: id 
     });
         return undefined;
       }
@@ -219,7 +219,7 @@ export class PathfindingPureManager {
       this.items.set(id, updatedItem);
       this.updateAnalytics();
       
-      this.logger.info('Item updated successfully', {
+      console.info('Item updated successfully', {
         itemId: id,
         updates: Object.keys(updates)
       });
@@ -243,10 +243,10 @@ export class PathfindingPureManager {
       const deleted = this.items.delete(id);
       if (deleted) {
         this.updateAnalytics();
-        this.logger.info('Item deleted successfully', { itemId: id 
+        console.info('Item deleted successfully', { itemId: id 
     });
       } else {
-        this.logger.warn('Item not found for deletion', { itemId: id 
+        console.warn('Item not found for deletion', { itemId: id 
     });
       }
       return deleted;
@@ -332,15 +332,15 @@ export class PathfindingPureManager {
   // Cleanup and destroy
   async destroy(): Promise<void> {
     try {
-      this.logger.info('Destroying PathfindingPureManager...');
+      console.info('PathfindingPure', 'Destroying PathfindingPureManager...');
       
       // Cleanup resources
       this.items.clear();
       MemoryManager.unregisterInstance(this.memoryId);
-      this.logger.destroy();
+      console.destroy();
       
       this.isInitialized = false;
-      this.logger.info('PathfindingPureManager destroyed successfully');
+      console.info('PathfindingPure', 'PathfindingPureManager destroyed successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, {

@@ -19,7 +19,7 @@ export class CombatManager {
     return entity;
   }
 
-  get(id: string): CombatEntity | undefined { return this.entities.get(id); }
+  get(id: string): CombatEntity! { return this.entities.get(id); }
 
   simulate(attackerId: string, defenderId: string): CombatResult {
     const attacker = this.ensure(attackerId);

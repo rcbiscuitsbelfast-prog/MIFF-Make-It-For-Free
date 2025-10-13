@@ -134,7 +134,7 @@ function handleError(error: unknown, exitCode = 1) {
     timestamp: Date.now()
   };
   
-  this.logger.error(formatOutput(errorOutput));
+  console.error(formatOutput(errorOutput));
   process.exit(exitCode);
 }
 
@@ -152,7 +152,7 @@ function handleSuccess(data: any, operation = 'operation') {
     timestamp: Date.now()
   };
   
-  this.logger.info(formatOutput(successOutput));
+  console.info(formatOutput(successOutput));
 }
 
 /**

@@ -112,7 +112,7 @@ export class RealWindow {
   /**
    * Get window information
    */
-  getWindow(windowId: string): WindowInfo | undefined {
+  getWindow(windowId: string): WindowInfo! {
     return this.windows.get(windowId);
   }
 
@@ -236,7 +236,7 @@ export class RealWindow {
   /**
    * Get focused window
    */
-  getFocusedWindow(): WindowInfo | undefined {
+  getFocusedWindow(): WindowInfo! {
     for (const window of this.windows.values()) {
       if (window.focused) {
         return window;
@@ -318,7 +318,7 @@ export class RealWindow {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -338,7 +338,7 @@ export class RealWindow {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in window event handler for ${event}:`, error);
+          console.error(`Error in window event handler for ${event}:`, error);
         }
       });
     }

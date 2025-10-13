@@ -84,12 +84,12 @@ export class AssetPipelineValidator {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Asset pipeline validator already initialized');
+      console.warn('Asset pipeline validator already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing asset pipeline validator...');
+      console.info('Initializing asset pipeline validator...');
       
       // Load validation rules
       await this.loadValidationRules();
@@ -98,7 +98,7 @@ export class AssetPipelineValidator {
       this.validateConfiguration();
       
       this.isInitialized = true;
-      this.logger.info('Asset pipeline validator initialized successfully');
+      console.info('Asset pipeline validator initialized successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, 'Failed to initialize asset pipeline validator');
@@ -121,7 +121,7 @@ export class AssetPipelineValidator {
       // Run validation rules
       const result = await this.runValidationRules(assetInfo, bridge);
       
-      this.logger.debug('Asset validation completed', {
+      console.debug('Asset validation completed', {
         asset: assetPath,
         bridge,
         valid: result.valid,
@@ -152,7 +152,7 @@ export class AssetPipelineValidator {
     }
 
     try {
-      this.logger.info('Starting directory validation', { dirPath, bridge });
+      console.info('Starting directory validation', { dirPath, bridge });
       
       const assets = await this.discoverAssets(dirPath, bridge);
       const report: ValidationReport = {
@@ -204,7 +204,7 @@ export class AssetPipelineValidator {
         }
       }
 
-      this.logger.info('Directory validation completed', {
+      console.info('Directory validation completed', {
         totalAssets: report.totalAssets,
         validAssets: report.validAssets,
         invalidAssets: report.invalidAssets,
@@ -260,7 +260,7 @@ export class AssetPipelineValidator {
         metadata = SafeJSONParser.parse(metadataContent);
       }
     } catch (error) {
-      this.logger.warn('Failed to load metadata', { assetPath, error: error.message });
+      console.warn('Failed to load metadata', { assetPath, error: error.message });
     }
 
     return {
@@ -306,7 +306,7 @@ export class AssetPipelineValidator {
         Object.assign(result.metadata, ruleResult.metadata);
         
       } catch (error) {
-        this.logger.warn('Rule validation failed', { rule: rule.id, error: error.message });
+        console.warn('Rule validation failed', { rule: rule.id, error: error.message });
         result.warnings.push(`Rule ${rule.name} failed: ${error.message}`);
       }
     }
@@ -336,7 +336,7 @@ export class AssetPipelineValidator {
         }
       }
     } catch (error) {
-      this.logger.warn('Failed to discover assets in directory', { dirPath, error: error.message });
+      console.warn('Failed to discover assets in directory', { dirPath, error: error.message });
     }
     
     return assets;
@@ -611,12 +611,12 @@ export class AssetPipelineValidator {
    * Destroy the validator
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying asset pipeline validator...');
+    console.info('Destroying asset pipeline validator...');
     
     this.rules.clear();
     this.isInitialized = false;
     
-    this.logger.info('Asset pipeline validator destroyed');
+    console.info('Asset pipeline validator destroyed');
   }
 }
 

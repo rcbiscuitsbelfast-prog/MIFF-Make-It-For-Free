@@ -226,28 +226,28 @@ export class DataAnalysisManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Data Analysis System already initialized');
+      console.warn('DataAnalysisPure', 'Data Analysis System already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Data Analysis System...');
+      console.info('DataAnalysisPure', 'Initializing Data Analysis System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableProfiling) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Data Analysis System initialized successfully');
+      console.info('DataAnalysisPure', 'Data Analysis System initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Data Analysis System');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -282,11 +282,11 @@ export class DataAnalysisManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Data analysis system created', { systemId: system.id, systemName: system.name });
+      console.info('Data analysis system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create data analysis system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -313,7 +313,7 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -327,11 +327,11 @@ export class DataAnalysisManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Data analysis system updated', { systemId, systemName: updatedSystem.name });
+      console.info('Data analysis system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update data analysis system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -347,18 +347,18 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Data analysis system deleted', { systemId, systemName: system.name });
+      console.info('Data analysis system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete data analysis system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -407,7 +407,7 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -420,11 +420,11 @@ export class DataAnalysisManager {
       system.datasets.push(dataset);
       this.updateAnalytics();
 
-      this.logger.info('Dataset added to system', { systemId, datasetId: dataset.id, datasetName: dataset.name });
+      console.info('Dataset added to system', { systemId, datasetId: dataset.id, datasetName: dataset.name });
       return dataset;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add dataset to system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -440,24 +440,24 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const datasetIndex = system.datasets.findIndex(d => d.id === datasetId);
       if (datasetIndex === -1) {
-        this.logger.warn('Dataset not found', { systemId, datasetId });
+        console.warn('Dataset not found', { systemId, datasetId });
         return false;
       }
 
       system.datasets.splice(datasetIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Dataset removed from system', { systemId, datasetId });
+      console.info('Dataset removed from system', { systemId, datasetId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove dataset from system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -473,13 +473,13 @@ export class DataAnalysisManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
       const dataset = system.datasets.find(d => d.id === analysisData.dataset);
       if (!dataset) {
-        this.logger.warn('Dataset not found', { systemId, datasetId: analysisData.dataset });
+        console.warn('Dataset not found', { systemId, datasetId: analysisData.dataset });
         return null;
       }
 
@@ -503,11 +503,11 @@ export class DataAnalysisManager {
       // Start analysis in background
       this.performAnalysis(systemId, analysis.id);
 
-      this.logger.info('Analysis started', { systemId, analysisId: analysis.id, analysisName: analysis.name });
+      console.info('Analysis started', { systemId, analysisId: analysis.id, analysisName: analysis.name });
       return analysis;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to run analysis');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -547,7 +547,7 @@ export class DataAnalysisManager {
       analysis.completed = new Date();
       this.updateAnalytics();
 
-      this.logger.info('Analysis completed', { systemId, analysisId });
+      console.info('Analysis completed', { systemId, analysisId });
 
     } catch (error) {
       const system = this.systems.get(systemId);
@@ -558,7 +558,7 @@ export class DataAnalysisManager {
           analysis.results.errors.push(error.message);
         }
       }
-      this.errorHandler.handleError(error, 'Failed to perform analysis');
+      this.errorHandler.handleError($1);
     }
   }
 
@@ -839,12 +839,12 @@ export class DataAnalysisManager {
    * Destroy the Data Analysis System
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Data Analysis System...');
+    console.info('DataAnalysisPure', 'Destroying Data Analysis System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('Data Analysis System destroyed');
+    console.info('DataAnalysisPure', 'Data Analysis System destroyed');
   }
 }
 

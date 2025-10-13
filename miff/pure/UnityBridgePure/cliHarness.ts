@@ -18,7 +18,7 @@ interface UnityBridgeOperation {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
+    console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
     process.exit(1);
   }
 
@@ -198,10 +198,10 @@ ${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name
         throw new Error(`Unknown operation: ${input.op}`);
     }
     
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    this.logger.error('Error:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }

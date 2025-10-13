@@ -88,7 +88,7 @@ export class ChainManager {
         if (!this.questDependencies.has(questId)) {
           this.questDependencies.set(questId, []);
         }
-        this.questDependencies.get(questId)!.push(chain.id);
+        this.questDependencies.get(questId)?.push(chain.id);
       }
 
       // Initialize progress
@@ -271,7 +271,7 @@ progress:
 exportedAt: ${data.exportedAt}`;
   }
 
-  private convertToCSV(chain: QuestChain, progress: ChainProgress | undefined): string {
+  private convertToCSV(chain: QuestChain, progress: ChainProgress!): string {
     let csv = 'Quest ID,Quest Name,Status,Completed\n';
     
     for (const questId of chain.quests) {

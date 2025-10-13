@@ -240,7 +240,7 @@ export class RealModdingSystem {
   /**
    * Get mod by ID
    */
-  getMod(modId: string): Mod | undefined {
+  getMod(modId: string): Mod! {
     return this.mods.get(modId);
   }
 
@@ -527,7 +527,7 @@ export class RealModdingSystem {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -547,7 +547,7 @@ export class RealModdingSystem {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in modding system event handler for ${event}:`, error);
+          console.error(`Error in modding system event handler for ${event}:`, error);
         }
       });
     }

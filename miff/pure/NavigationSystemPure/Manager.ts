@@ -93,28 +93,28 @@ export class NavigationSystemManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('NavigationSystemManager', 'initialize');
+    const timerId = console.startTimer('NavigationSystemManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('NavigationSystemManager', 'Manager initialized successfully', {
+      console.info('NavigationSystemManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('NavigationSystemManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('NavigationSystemManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('NavigationSystemManager', 'Failed to initialize manager', {
+      console.error('NavigationSystemManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class NavigationSystemManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class NavigationSystemManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class NavigationSystemManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('NavigationSystemManager', 'Created item', {
+    console.info('NavigationSystemManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class NavigationSystemManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class NavigationSystemManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('NavigationSystemManager', 'Updated item', {
+    console.info('NavigationSystemManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class NavigationSystemManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('NavigationSystemManager', 'Deleted item', {
+    console.info('NavigationSystemManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class NavigationSystemManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('NavigationSystemManager', 'Initializing manager...');
+    console.debug('NavigationSystemManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class NavigationSystemManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('NavigationSystemManager', 'Loaded default items', {
+    console.info('NavigationSystemManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class NavigationSystemManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('NavigationSystemManager', 'Destroying manager', {
+    console.info('NavigationSystemManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class NavigationSystemManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

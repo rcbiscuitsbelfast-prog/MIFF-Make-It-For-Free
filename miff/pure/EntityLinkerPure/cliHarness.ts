@@ -32,7 +32,7 @@ function main() {
       const extern = SafeJSONParser.parse(fs.readFileSync(path.resolve(externFile), 'utf-8')) as ExternalRefMaps;
       mgr.inject(extern);
     } catch (error) {
-      this.logger.error('Error loading external references:', error);
+      console.error('Error loading external references:', error);
       process.exit(1);
     }
   }
@@ -142,7 +142,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(mgr: EntityLinkerManager): any {

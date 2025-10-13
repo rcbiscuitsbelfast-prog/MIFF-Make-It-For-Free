@@ -353,7 +353,7 @@ describe('PerfPure Golden Tests', () => {
 
         expect(innerResult).toBeDefined();
         expect(outerResult).toBeDefined();
-        expect(innerResult!.durationMs).toBeLessThanOrEqual(outerResult!.durationMs);
+        expect(innerResult?.durationMs).toBeLessThanOrEqual(outerResult?.durationMs);
       }, 10);
     });
   });
@@ -447,7 +447,7 @@ describe('PerfPure Golden Tests', () => {
 
       const result = profiler.stop('Async Operation');
       expect(result).toBeDefined();
-      expect(result!.durationMs).toBeGreaterThanOrEqual(0);
+      expect(result?.durationMs).toBeGreaterThanOrEqual(0);
     });
 
     test('should work with utility functions in complex scenarios', () => {

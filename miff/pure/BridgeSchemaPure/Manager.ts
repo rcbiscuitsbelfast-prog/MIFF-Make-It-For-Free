@@ -229,28 +229,28 @@ export class BridgeSchemaManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Bridge Schema Manager already initialized');
+      console.warn('BridgeSchemaPure', 'Bridge Schema Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Bridge Schema Manager...');
+      console.info('BridgeSchemaPure', 'Initializing Bridge Schema Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Bridge Schema Manager initialized successfully');
+      console.info('BridgeSchemaPure', 'Bridge Schema Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Bridge Schema Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -282,11 +282,11 @@ export class BridgeSchemaManager {
       this.schemas.set(schema.id, schema);
       this.updateAnalytics();
 
-      this.logger.info('Bridge schema created', { schemaId: schema.id, schemaName: schema.name, schemaType: schema.type });
+      console.info('Bridge schema created', { schemaId: schema.id, schemaName: schema.name, schemaType: schema.type });
       return schema;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create bridge schema');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -313,7 +313,7 @@ export class BridgeSchemaManager {
     try {
       const schema = this.schemas.get(schemaId);
       if (!schema) {
-        this.logger.warn('Schema not found', { schemaId });
+        console.warn('Schema not found', { schemaId });
         return null;
       }
 
@@ -326,11 +326,11 @@ export class BridgeSchemaManager {
       this.schemas.set(schemaId, updatedSchema);
       this.updateAnalytics();
 
-      this.logger.info('Bridge schema updated', { schemaId, schemaName: updatedSchema.name });
+      console.info('Bridge schema updated', { schemaId, schemaName: updatedSchema.name });
       return updatedSchema;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update bridge schema');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -346,18 +346,18 @@ export class BridgeSchemaManager {
     try {
       const schema = this.schemas.get(schemaId);
       if (!schema) {
-        this.logger.warn('Schema not found', { schemaId });
+        console.warn('Schema not found', { schemaId });
         return false;
       }
 
       this.schemas.delete(schemaId);
       this.updateAnalytics();
 
-      this.logger.info('Bridge schema deleted', { schemaId, schemaName: schema.name });
+      console.info('Bridge schema deleted', { schemaId, schemaName: schema.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete bridge schema');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -406,7 +406,7 @@ export class BridgeSchemaManager {
     try {
       const schema = this.schemas.get(schemaId);
       if (!schema) {
-        this.logger.warn('Schema not found', { schemaId });
+        console.warn('Schema not found', { schemaId });
         return { valid: false, errors: [], warnings: [] };
       }
 
@@ -418,11 +418,11 @@ export class BridgeSchemaManager {
       schema.performance.validationTime = validationTime;
       this.updateAnalytics();
 
-      this.logger.debug('Data validated against schema', { schemaId, valid: result.valid, validationTime });
+      console.debug('Data validated against schema', { schemaId, valid: result.valid, validationTime });
       return result;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to validate data against schema');
+      this.errorHandler.handleError($1);
       return { valid: false, errors: [], warnings: [] };
     }
   }
@@ -469,28 +469,28 @@ export class BridgeSchemaManager {
     try {
       const schema = this.schemas.get(schemaId);
       if (!schema) {
-        this.logger.warn('Schema not found', { schemaId });
+        console.warn('Schema not found', { schemaId });
         return false;
       }
 
       const platformInfo = schema.compatibility.platforms.find(p => p.name === platform);
       if (!platformInfo) {
-        this.logger.warn('Platform not found in schema compatibility', { schemaId, platform });
+        console.warn('Platform not found in schema compatibility', { schemaId, platform });
         return false;
       }
 
       const versionInfo = schema.compatibility.versions.find(v => v.version === version);
       if (!versionInfo) {
-        this.logger.warn('Version not found in schema compatibility', { schemaId, version });
+        console.warn('Version not found in schema compatibility', { schemaId, version });
         return false;
       }
 
       const compatible = platformInfo.supported && versionInfo.compatible;
-      this.logger.debug('Schema compatibility checked', { schemaId, platform, version, compatible });
+      console.debug('Schema compatibility checked', { schemaId, platform, version, compatible });
       return compatible;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to check schema compatibility');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -506,21 +506,21 @@ export class BridgeSchemaManager {
     try {
       const schema = this.schemas.get(schemaId);
       if (!schema) {
-        this.logger.warn('Schema not found', { schemaId });
+        console.warn('Schema not found', { schemaId });
         return null;
       }
 
       const versionInfo = schema.compatibility.versions.find(v => v.version === toVersion);
       if (!versionInfo) {
-        this.logger.warn('Target version not found in schema compatibility', { schemaId, toVersion });
+        console.warn('Target version not found in schema compatibility', { schemaId, toVersion });
         return null;
       }
 
-      this.logger.debug('Migration path retrieved', { schemaId, fromVersion, toVersion });
+      console.debug('Migration path retrieved', { schemaId, fromVersion, toVersion });
       return versionInfo.migration;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to get schema migration path');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -621,12 +621,12 @@ export class BridgeSchemaManager {
    * Destroy the Bridge Schema Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Bridge Schema Manager...');
+    console.info('BridgeSchemaPure', 'Destroying Bridge Schema Manager...');
 
     this.schemas.clear();
     this.isInitialized = false;
 
-    this.logger.info('Bridge Schema Manager destroyed');
+    console.info('BridgeSchemaPure', 'Bridge Schema Manager destroyed');
   }
 }
 

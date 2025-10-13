@@ -458,7 +458,7 @@ export class UnrealSceneBuilderPure {
   }
 
   private initializeDefaultConfigurations(): void {
-    this.logger.info('[UnrealSceneBuilderPure] Initializing default scene configurations...');
+    console.info('[UnrealSceneBuilderPure] Initializing default scene configurations...');
 
     // Default Game Scene Configuration
     const defaultGameConfig: UnrealSceneBuildConfiguration = {
@@ -687,7 +687,7 @@ export class UnrealSceneBuilderPure {
 
     this.sceneConfigurations.set('combat_arena', combatArenaConfig);
 
-    this.logger.info(`[UnrealSceneBuilderPure] Initialized ${this.sceneConfigurations.size} scene configurations`);
+    console.info(`[UnrealSceneBuilderPure] Initialized ${this.sceneConfigurations.size} scene configurations`);
   }
 
   async buildUnrealScene(
@@ -695,7 +695,7 @@ export class UnrealSceneBuilderPure {
     configurationId?: string,
     options?: Partial<UnrealSceneBuildConfiguration>
   ): Promise<UnrealSceneBuildResult> {
-    this.logger.info(`[UnrealSceneBuilderPure] Building Unreal scene from payload: ${payloadId}`);
+    console.info(`[UnrealSceneBuilderPure] Building Unreal scene from payload: ${payloadId}`);
 
     try {
       // Get or create configuration
@@ -803,7 +803,7 @@ export class UnrealSceneBuilderPure {
       const startTime = Date.now();
 
       // Convert payload to Unreal format
-      this.logger.info('[UnrealSceneBuilderPure] Converting render payload to Unreal format...');
+      console.info('[UnrealSceneBuilderPure] Converting render payload to Unreal format...');
       const conversionResult = await this.payloadAdapter.convertRenderPayload(payloadId, configurationId, config);
 
       if (!conversionResult.success) {
@@ -811,32 +811,32 @@ export class UnrealSceneBuilderPure {
       }
 
       // Build scene composition
-      this.logger.info('[UnrealSceneBuilderPure] Building scene composition...');
+      console.info('[UnrealSceneBuilderPure] Building scene composition...');
       const composition = await this.buildSceneComposition(config, conversionResult);
 
       // Create world and level structures
-      this.logger.info('[UnrealSceneBuilderPure] Creating world and level structures...');
+      console.info('[UnrealSceneBuilderPure] Creating world and level structures...');
       const world = this.createUnrealWorld(config, composition);
       const persistentLevel = this.createUnrealLevel(config, composition);
 
       // Create navigation system
-      this.logger.info('[UnrealSceneBuilderPure] Creating navigation system...');
+      console.info('[UnrealSceneBuilderPure] Creating navigation system...');
       const navigationSystem = this.createNavigationSystem(config);
 
       // Create lighting system
-      this.logger.info('[UnrealSceneBuilderPure] Creating lighting system...');
+      console.info('[UnrealSceneBuilderPure] Creating lighting system...');
       const lightingSystem = this.createLightingSystem(config);
 
       // Create physics system
-      this.logger.info('[UnrealSceneBuilderPure] Creating physics system...');
+      console.info('[UnrealSceneBuilderPure] Creating physics system...');
       const physicsSystem = this.createPhysicsSystem(config);
 
       // Create audio system
-      this.logger.info('[UnrealSceneBuilderPure] Creating audio system...');
+      console.info('[UnrealSceneBuilderPure] Creating audio system...');
       const audioSystem = this.createAudioSystem(config);
 
       // Register all components with bridge manager
-      this.logger.info('[UnrealSceneBuilderPure] Registering components with bridge manager...');
+      console.info('[UnrealSceneBuilderPure] Registering components with bridge manager...');
       this.registerSceneComponents(composition);
 
       const buildTime = Date.now() - startTime;
@@ -861,17 +861,17 @@ export class UnrealSceneBuilderPure {
         }
       };
 
-      this.logger.info(`[UnrealSceneBuilderPure] Scene build completed: ${result.success ? 'SUCCESS' : 'PARTIAL'}`);
-      this.logger.info(`[UnrealSceneBuilderPure] Created world: ${world.name} (${world.id})`);
-      this.logger.info(`[UnrealSceneBuilderPure] Created level: ${persistentLevel.name} (${persistentLevel.id})`);
-      this.logger.info(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors, ${composition.components.length} components`);
-      this.logger.info(`[UnrealSceneBuilderPure] Build time: ${buildTime}ms`);
-      this.logger.info(`[UnrealSceneBuilderPure] Warnings: ${result.warnings.length}, Errors: ${result.errors.length}`);
+      console.info(`[UnrealSceneBuilderPure] Scene build completed: ${result.success ? 'SUCCESS' : 'PARTIAL'}`);
+      console.info(`[UnrealSceneBuilderPure] Created world: ${world.name} (${world.id})`);
+      console.info(`[UnrealSceneBuilderPure] Created level: ${persistentLevel.name} (${persistentLevel.id})`);
+      console.info(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors, ${composition.components.length} components`);
+      console.info(`[UnrealSceneBuilderPure] Build time: ${buildTime}ms`);
+      console.info(`[UnrealSceneBuilderPure] Warnings: ${result.warnings.length}, Errors: ${result.errors.length}`);
 
       return result;
 
     } catch (error) {
-      this.logger.error('[UnrealSceneBuilderPure] Scene build failed:', error);
+      console.error('[UnrealSceneBuilderPure] Scene build failed:', error);
 
       return {
         success: false,
@@ -894,7 +894,7 @@ export class UnrealSceneBuilderPure {
     config: UnrealSceneBuildConfiguration,
     conversionResult: any
   ): Promise<UnrealSceneComposition> {
-    this.logger.info('[UnrealSceneBuilderPure] Building scene composition...');
+    console.info('[UnrealSceneBuilderPure] Building scene composition...');
 
     const composition: UnrealSceneComposition = {
       world: null as any,
@@ -1291,7 +1291,7 @@ export class UnrealSceneBuilderPure {
       this.bridgeManager.registerActor(actor);
     }
 
-    this.logger.info(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors and ${composition.systems.length} systems`);
+    console.info(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors and ${composition.systems.length} systems`);
   }
 
   // Configuration management
@@ -1299,7 +1299,7 @@ export class UnrealSceneBuilderPure {
     this.sceneConfigurations.set(name, config);
   }
 
-  getConfiguration(name: string): UnrealSceneBuildConfiguration | undefined {
+  getConfiguration(name: string): UnrealSceneBuildConfiguration! {
     return this.sceneConfigurations.get(name);
   }
 
@@ -1337,8 +1337,8 @@ export class UnrealSceneBuilderPure {
   }
 
   dispose(): void {
-    this.logger.info('[UnrealSceneBuilderPure] Disposing scene builder...');
+    console.info('[UnrealSceneBuilderPure] Disposing scene builder...');
     this.sceneConfigurations.clear();
-    this.logger.info('[UnrealSceneBuilderPure] Scene builder disposed successfully');
+    console.info('[UnrealSceneBuilderPure] Scene builder disposed successfully');
   }
 }

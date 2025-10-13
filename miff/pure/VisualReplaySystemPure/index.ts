@@ -532,7 +532,7 @@ function analyzeInputPatterns(inputEvents: InputEvent[]): InputPattern[] {
     if (!eventTypes.has(event.type)) {
       eventTypes.set(event.type, []);
     }
-    eventTypes.get(event.type)!.push(event);
+    eventTypes.get(event.type)?.push(event);
   });
   
   // Analyze each event type
@@ -566,7 +566,7 @@ function analyzeVisualSequences(frames: ReplayFrame[]): VisualSequence[] {
       if (!hookTypes.has(hook.type)) {
         hookTypes.set(hook.type, []);
       }
-      hookTypes.get(hook.type)!.push({ frame: frame.frameNumber, hook });
+      hookTypes.get(hook.type)?.push({ frame: frame.frameNumber, hook });
     });
   });
   

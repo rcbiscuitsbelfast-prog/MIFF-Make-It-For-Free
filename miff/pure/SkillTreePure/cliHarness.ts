@@ -33,7 +33,7 @@ function main() {
           if (!candidates.includes(cwdPath)) candidates.push(cwdPath);
           if (!candidates.includes(modulePath)) candidates.push(modulePath);
 
-          let fileToRead: string | undefined;
+          let fileToRead: string;
           for (const p of candidates) {
             try {
               if (fs.existsSync(p)) { fileToRead = p; break; }
@@ -254,7 +254,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(mgr: SkillTreeManager): any {

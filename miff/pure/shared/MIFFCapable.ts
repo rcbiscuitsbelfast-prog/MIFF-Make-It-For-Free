@@ -520,7 +520,7 @@ export class CapabilityManager {
   /**
    * Get module capabilities
    */
-  getModuleCapabilities(moduleId: string): MIFFCapable | undefined {
+  getModuleCapabilities(moduleId: string): MIFFCapable! {
     return this.registry.modules.get(moduleId);
   }
 

@@ -342,7 +342,7 @@ export class HapticEngine {
 
   private async initializeHapticSystem(): Promise<void> {
     try {
-      this.logger.info('[HapticEngine] Initializing haptic system...');
+      console.info('[HapticEngine] Initializing haptic system...');
 
       // Initialize default patterns
       await this.initializeDefaultPatterns();
@@ -357,9 +357,9 @@ export class HapticEngine {
       this.startEventProcessing();
 
       this.isInitialized = true;
-      this.logger.info('[HapticEngine] Haptic system initialized successfully');
+      console.info('[HapticEngine] Haptic system initialized successfully');
     } catch (error) {
-      this.logger.error('[HapticEngine] Failed to initialize haptic system:', error);
+      console.error('[HapticEngine] Failed to initialize haptic system:', error);
       throw new Error(`Haptic initialization failed: ${error}`);
     }
   }
@@ -487,7 +487,7 @@ export class HapticEngine {
   }
 
   private async discoverDevices(): Promise<void> {
-    this.logger.info('[HapticEngine] Discovering haptic devices...');
+    console.info('[HapticEngine] Discovering haptic devices...');
 
     try {
       // Check for gamepad support
@@ -548,9 +548,9 @@ export class HapticEngine {
         });
       }
 
-      this.logger.info(`[HapticEngine] Discovered ${this.devices.size} haptic devices`);
+      console.info(`[HapticEngine] Discovered ${this.devices.size} haptic devices`);
     } catch (error) {
-      this.logger.warn('[HapticEngine] Device discovery failed:', error);
+      console.warn('[HapticEngine] Device discovery failed:', error);
     }
   }
 
@@ -585,7 +585,7 @@ export class HapticEngine {
     };
 
     this.configuration.deviceProfiles.set(deviceInfo.id, profile);
-    this.logger.info(`[HapticEngine] Registered device: ${deviceInfo.name}`);
+    console.info(`[HapticEngine] Registered device: ${deviceInfo.name}`);
   }
 
   private createDefaultPatternForType(patternType: HapticPatternType): HapticPattern {
@@ -660,7 +660,7 @@ export class HapticEngine {
     // Queue for processing
     await this.queueEffect(effect);
 
-    this.logger.info(`[HapticEngine] Playing pattern: ${pattern.name} on ${device.name}`);
+    console.info(`[HapticEngine] Playing pattern: ${pattern.name} on ${device.name}`);
     return effectId;
   }
 
@@ -733,7 +733,7 @@ export class HapticEngine {
         event.processed = true;
         this.performanceMetrics.processedEvents++;
       } catch (error) {
-        this.logger.error(`Failed to process haptic event: ${error}`);
+        console.error(`Failed to process haptic event: ${error}`);
         this.performanceMetrics.failedEvents++;
       }
     }
@@ -774,7 +774,7 @@ export class HapticEngine {
       effect.endTime = Date.now();
       this.configuration.statistics.completedEffects++;
 
-      this.logger.info(`[HapticEngine] Effect completed: ${effect.id}`);
+      console.info(`[HapticEngine] Effect completed: ${effect.id}`);
     } catch (error) {
       effect.status = 'failed';
       this.configuration.statistics.failedEffects++;
@@ -833,12 +833,12 @@ export class HapticEngine {
   private async executeWearableEffect(effect: HapticEffect, pattern: HapticPattern, device: HapticDevice): Promise<void> {
     // Wearable device implementation would go here
     // This is a placeholder for future implementation
-    this.logger.info(`[HapticEngine] Wearable effect not implemented: ${effect.id}`);
+    console.info(`[HapticEngine] Wearable effect not implemented: ${effect.id}`);
   }
 
   private async executeGenericEffect(effect: HapticEffect, pattern: HapticPattern, device: HapticDevice): Promise<void> {
     // Generic fallback implementation
-    this.logger.info(`[HapticEngine] Generic haptic effect: ${pattern.name} on ${device.name}`);
+    console.info(`[HapticEngine] Generic haptic effect: ${pattern.name} on ${device.name}`);
   }
 
   private async updateActiveEffects(): Promise<void> {
@@ -892,7 +892,7 @@ export class HapticEngine {
     return patternId;
   }
 
-  getPattern(patternId: string): HapticPattern | undefined {
+  getPattern(patternId: string): HapticPattern! {
     return this.patterns.get(patternId);
   }
 
@@ -991,7 +991,7 @@ export class HapticEngine {
 
     device.isConnected = true;
     device.isActive = true;
-    this.logger.info(`[HapticEngine] Connected device: ${device.name}`);
+    console.info(`[HapticEngine] Connected device: ${device.name}`);
     return true;
   }
 
@@ -1009,7 +1009,7 @@ export class HapticEngine {
       }
     }
 
-    this.logger.info(`[HapticEngine] Disconnected device: ${device.name}`);
+    console.info(`[HapticEngine] Disconnected device: ${device.name}`);
     return true;
   }
 
@@ -1042,14 +1042,14 @@ export class HapticEngine {
       }
     }
 
-    this.logger.info('[HapticEngine] Stopped all active effects');
+    console.info('[HapticEngine] Stopped all active effects');
   }
 
   getActiveEffects(): HapticEffect[] {
     return Array.from(this.activeEffects.values());
   }
 
-  getDevice(deviceId: string): HapticDevice | undefined {
+  getDevice(deviceId: string): HapticDevice! {
     return this.devices.get(deviceId);
   }
 
@@ -1074,7 +1074,7 @@ export class HapticEngine {
     // Reinitialize
     this.initializeHapticSystem();
 
-    this.logger.info('[HapticEngine] Reset to initial state');
+    console.info('[HapticEngine] Reset to initial state');
   }
 
   dispose(): void {
@@ -1086,7 +1086,7 @@ export class HapticEngine {
     this.environments.clear();
     this.isInitialized = false;
 
-    this.logger.info('[HapticEngine] Disposed successfully');
+    console.info('[HapticEngine] Disposed successfully');
   }
 }
 
@@ -1133,7 +1133,7 @@ class HapticGestureRecognizer {
   async recognize(input: GestureInput): Promise<HapticGesture | null> {
     // Simple gesture recognition implementation
     // In a real implementation, this would use more sophisticated algorithms
-    this.logger.info(`[HapticGestureRecognizer] Recognizing gesture: ${input.type}`);
+    console.info(`[HapticGestureRecognizer] Recognizing gesture: ${input.type}`);
     return null;
   }
 }

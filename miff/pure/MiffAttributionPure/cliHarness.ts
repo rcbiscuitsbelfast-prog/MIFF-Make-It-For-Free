@@ -17,6 +17,6 @@ function main(){
   const commands:Cmd[] = cmdsPath? SafeJSONParser.parse(fs.readFileSync(path.resolve(cmdsPath),'utf-8')) : [{op:'showAttribution'}];
   const outputs:any[] = [];
   for(const c of commands){ if(c.op==='showAttribution') outputs.push(mgr.showAttribution(cfg)); }
-  this.logger.info(JSON.stringify({outputs}, null, 2));
+  console.info(JSON.stringify({outputs}, null, 2));
 }
 if(import.meta.url === `file://${process.argv[1]}`) main();

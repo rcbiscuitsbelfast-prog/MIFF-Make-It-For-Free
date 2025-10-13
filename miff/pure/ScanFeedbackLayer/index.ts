@@ -326,7 +326,7 @@ export class ScanFeedbackManager {
   /**
    * Get current scan target
    */
-  getCurrentScanTarget(): ScanTarget | undefined {
+  getCurrentScanTarget(): ScanTarget! {
     if (!this.currentScanTarget) return undefined;
     return this.targets.get(this.currentScanTarget);
   }

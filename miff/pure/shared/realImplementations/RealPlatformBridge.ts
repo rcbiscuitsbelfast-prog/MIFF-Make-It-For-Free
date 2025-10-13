@@ -686,7 +686,7 @@ export class RealPlatformBridge {
       const result = await navigator.permissions.query({ name: permission as PermissionName });
       return result.state === 'granted';
     } catch (error) {
-      this.logger.error('Error requesting permission:', error);
+      console.error('Error requesting permission:', error);
       return false;
     }
   }
@@ -703,7 +703,7 @@ export class RealPlatformBridge {
           usage: estimate.usage || 0
         };
       } catch (error) {
-        this.logger.error('Error getting storage quota:', error);
+        console.error('Error getting storage quota:', error);
       }
     }
     
@@ -718,7 +718,7 @@ export class RealPlatformBridge {
       try {
         return await navigator.storage.persist();
       } catch (error) {
-        this.logger.error('Error requesting persistent storage:', error);
+        console.error('Error requesting persistent storage:', error);
       }
     }
     
@@ -732,7 +732,7 @@ export class RealPlatformBridge {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -752,7 +752,7 @@ export class RealPlatformBridge {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in event handler for ${event}:`, error);
+          console.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

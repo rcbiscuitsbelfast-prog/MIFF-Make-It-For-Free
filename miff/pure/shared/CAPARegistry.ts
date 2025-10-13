@@ -36,7 +36,7 @@ export class CAPARegistryManager {
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
 
-    this.logger.info('🛡️ Initializing CAPA Registry...');
+    console.info('🛡️ Initializing CAPA Registry...');
 
     // Ensure data directory exists
     await this.ensureDataDirectory();
@@ -50,7 +50,7 @@ export class CAPARegistryManager {
     }
 
     this.isInitialized = true;
-    this.logger.info(`✅ CAPA Registry initialized with ${this.registry.entries.size} entries`);
+    console.info(`✅ CAPA Registry initialized with ${this.registry.entries.size} entries`);
   }
 
   /**
@@ -70,7 +70,7 @@ export class CAPARegistryManager {
     this.updateMetrics();
     
     this.eventBus.emit('capa:created', capaEntry);
-    this.logger.info(`📝 Created CAPA entry: ${id} - ${capaEntry.title}`);
+    console.info(`📝 Created CAPA entry: ${id} - ${capaEntry.title}`);
 
     return capaEntry;
   }
@@ -81,7 +81,7 @@ export class CAPARegistryManager {
   async updateStatus(id: string, status: CAPAStatus, resolution?: string): Promise<boolean> {
     const entry = this.registry.entries.get(id);
     if (!entry) {
-      this.logger.warn(`⚠️ CAPA entry not found: ${id}`);
+      console.warn(`⚠️ CAPA entry not found: ${id}`);
       return false;
     }
 
@@ -98,7 +98,7 @@ export class CAPARegistryManager {
     this.updateMetrics();
     
     this.eventBus.emit('capa:updated', { entry, previousStatus });
-    this.logger.info(`📝 Updated CAPA entry: ${id} - ${previousStatus} → ${status}`);
+    console.info(`📝 Updated CAPA entry: ${id} - ${previousStatus} → ${status}`);
 
     return true;
   }
@@ -261,9 +261,9 @@ export class CAPARegistryManager {
           }
           this.registry.entries.set(entry.id, entry);
         }
-        this.logger.info(`📂 Loaded ${this.registry.entries.size} CAPA entries from storage`);
+        console.info(`📂 Loaded ${this.registry.entries.size} CAPA entries from storage`);
       } catch (error) {
-        this.logger.warn('⚠️ Failed to load CAPA entries:', error);
+        console.warn('⚠️ Failed to load CAPA entries:', error);
       }
     }
   }
@@ -275,12 +275,12 @@ export class CAPARegistryManager {
     try {
       fs.writeFileSync(entriesPath, JSON.stringify({ entries: allEntries }, null, 2));
     } catch (error) {
-      this.logger.error('❌ Failed to save CAPA entry:', error);
+      console.error('❌ Failed to save CAPA entry:', error);
     }
   }
 
   private async initializeFromAuditFindings(): Promise<void> {
-    this.logger.info('📋 Initializing CAPA entries from audit findings...');
+    console.info('📋 Initializing CAPA entries from audit findings...');
 
     // Schema Drift (Critical)
     await this.createEntry({
@@ -414,7 +414,7 @@ export class CAPARegistryManager {
       preventiveActions: []
     });
 
-    this.logger.info(`✅ Created ${this.registry.entries.size} CAPA entries from audit findings`);
+    console.info(`✅ Created ${this.registry.entries.size} CAPA entries from audit findings`);
   }
 
   private generateId(): string {
@@ -478,7 +478,7 @@ export class CAPARegistryManager {
     const resolvedEntries = entries.filter(e => e.resolvedAt);
     if (resolvedEntries.length > 0) {
       const totalTime = resolvedEntries.reduce((sum, entry) => {
-        const resolutionTime = entry.resolvedAt!.getTime() - entry.discoveredAt.getTime();
+        const resolutionTime = entry.resolvedAt?.getTime() - entry.discoveredAt.getTime();
         return sum + (resolutionTime / (1000 * 60 * 60 * 24)); // Convert to days
       }, 0);
       this.registry.metrics.averageResolutionTime = totalTime / resolvedEntries.length;

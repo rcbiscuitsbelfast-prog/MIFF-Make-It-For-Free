@@ -304,28 +304,28 @@ export class BattleAIManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Battle AI Manager already initialized');
+      console.warn('BattleAIPure', 'Battle AI Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Battle AI Manager...');
+      console.info('BattleAIPure', 'Initializing Battle AI Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Battle AI Manager initialized successfully');
+      console.info('BattleAIPure', 'Battle AI Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Battle AI Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -360,11 +360,11 @@ export class BattleAIManager {
       this.aiSystems.set(aiSystem.id, aiSystem);
       this.updateAnalytics();
 
-      this.logger.info('Battle AI system created', { aiSystemId: aiSystem.id, aiSystemName: aiSystem.name });
+      console.info('Battle AI system created', { aiSystemId: aiSystem.id, aiSystemName: aiSystem.name });
       return aiSystem;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create battle AI system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -391,7 +391,7 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return null;
       }
 
@@ -405,11 +405,11 @@ export class BattleAIManager {
       this.aiSystems.set(aiSystemId, updatedAISystem);
       this.updateAnalytics();
 
-      this.logger.info('Battle AI system updated', { aiSystemId, aiSystemName: updatedAISystem.name });
+      console.info('Battle AI system updated', { aiSystemId, aiSystemName: updatedAISystem.name });
       return updatedAISystem;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update battle AI system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -425,18 +425,18 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return false;
       }
 
       this.aiSystems.delete(aiSystemId);
       this.updateAnalytics();
 
-      this.logger.info('Battle AI system deleted', { aiSystemId, aiSystemName: aiSystem.name });
+      console.info('Battle AI system deleted', { aiSystemId, aiSystemName: aiSystem.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete battle AI system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -485,7 +485,7 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return null;
       }
 
@@ -497,11 +497,11 @@ export class BattleAIManager {
       aiSystem.units.push(unit);
       this.updateAnalytics();
 
-      this.logger.info('Unit added to AI system', { aiSystemId, unitId: unit.id, unitName: unit.name });
+      console.info('Unit added to AI system', { aiSystemId, unitId: unit.id, unitName: unit.name });
       return unit;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add unit to AI system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -517,13 +517,13 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return null;
       }
 
       const unit = aiSystem.units.find(u => u.id === unitId);
       if (!unit) {
-        this.logger.warn('Unit not found', { aiSystemId, unitId });
+        console.warn('Unit not found', { aiSystemId, unitId });
         return null;
       }
 
@@ -536,11 +536,11 @@ export class BattleAIManager {
       aiSystem.units[unitIndex] = updatedUnit;
       this.updateAnalytics();
 
-      this.logger.info('Unit updated in AI system', { aiSystemId, unitId, unitName: updatedUnit.name });
+      console.info('Unit updated in AI system', { aiSystemId, unitId, unitName: updatedUnit.name });
       return updatedUnit;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update unit in AI system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -556,24 +556,24 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return false;
       }
 
       const unitIndex = aiSystem.units.findIndex(u => u.id === unitId);
       if (unitIndex === -1) {
-        this.logger.warn('Unit not found', { aiSystemId, unitId });
+        console.warn('Unit not found', { aiSystemId, unitId });
         return false;
       }
 
       aiSystem.units.splice(unitIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Unit removed from AI system', { aiSystemId, unitId });
+      console.info('Unit removed from AI system', { aiSystemId, unitId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove unit from AI system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -589,7 +589,7 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return null;
       }
 
@@ -601,11 +601,11 @@ export class BattleAIManager {
       aiSystem.strategies.push(strategy);
       this.updateAnalytics();
 
-      this.logger.info('Strategy added to AI system', { aiSystemId, strategyId: strategy.id, strategyName: strategy.name });
+      console.info('Strategy added to AI system', { aiSystemId, strategyId: strategy.id, strategyName: strategy.name });
       return strategy;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add strategy to AI system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -621,7 +621,7 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return null;
       }
 
@@ -633,11 +633,11 @@ export class BattleAIManager {
       aiSystem.behaviors.push(behavior);
       this.updateAnalytics();
 
-      this.logger.info('Behavior added to AI system', { aiSystemId, behaviorId: behavior.id, behaviorName: behavior.name });
+      console.info('Behavior added to AI system', { aiSystemId, behaviorId: behavior.id, behaviorName: behavior.name });
       return behavior;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add behavior to AI system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -653,13 +653,13 @@ export class BattleAIManager {
     try {
       const aiSystem = this.aiSystems.get(aiSystemId);
       if (!aiSystem) {
-        this.logger.warn('AI system not found', { aiSystemId });
+        console.warn('AI system not found', { aiSystemId });
         return null;
       }
 
       const unit = aiSystem.units.find(u => u.id === unitId);
       if (!unit) {
-        this.logger.warn('Unit not found', { aiSystemId, unitId });
+        console.warn('Unit not found', { aiSystemId, unitId });
         return null;
       }
 
@@ -671,11 +671,11 @@ export class BattleAIManager {
       aiSystem.performance.decisionTime = decisionTime;
       this.updateAnalytics();
 
-      this.logger.debug('AI decision executed', { aiSystemId, unitId, decision, decisionTime });
+      console.debug('AI decision executed', { aiSystemId, unitId, decision, decisionTime });
       return decision;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to execute AI decision');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -828,12 +828,12 @@ export class BattleAIManager {
    * Destroy the Battle AI Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Battle AI Manager...');
+    console.info('BattleAIPure', 'Destroying Battle AI Manager...');
 
     this.aiSystems.clear();
     this.isInitialized = false;
 
-    this.logger.info('Battle AI Manager destroyed');
+    console.info('BattleAIPure', 'Battle AI Manager destroyed');
   }
 }
 

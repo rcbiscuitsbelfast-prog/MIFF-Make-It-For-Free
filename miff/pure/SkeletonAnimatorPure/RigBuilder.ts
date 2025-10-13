@@ -179,7 +179,7 @@ export class RigBuilder {
   /**
    * Get node by ID
    */
-  getNode(nodeId: string): RigNode | undefined {
+  getNode(nodeId: string): RigNode! {
     return this.config.nodes[nodeId];
   }
 

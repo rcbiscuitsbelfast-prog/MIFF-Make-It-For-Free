@@ -317,7 +317,7 @@ export class GodotConverter {
     const errors: string[] = [];
 
     try {
-      this.logger.info('[GodotConverter] Starting conversion...');
+      console.info('[GodotConverter] Starting conversion...');
 
       // Reset counters
       this.nodeCounter = 0;
@@ -372,7 +372,7 @@ export class GodotConverter {
         optimizationSavings: this.calculateOptimizationSavings()
       };
 
-      this.logger.info('[GodotConverter] Conversion completed successfully');
+      console.info('[GodotConverter] Conversion completed successfully');
 
       return {
         success: errors.length === 0,
@@ -383,7 +383,7 @@ export class GodotConverter {
       };
 
     } catch (error) {
-      this.logger.error('[GodotConverter] Conversion failed:', error);
+      console.error('[GodotConverter] Conversion failed:', error);
       return {
         success: false,
         project: this.currentProject,
@@ -479,7 +479,7 @@ export class GodotConverter {
             scene.rootNode = entityId;
           }
         } catch (error) {
-          this.logger.warn(`Failed to convert entity ${entityId}:`, error);
+          console.warn(`Failed to convert entity ${entityId}:`, error);
         }
       }
     }
@@ -491,7 +491,7 @@ export class GodotConverter {
           const node = await this.convertSystemToNode(systemData, systemId);
           scene.nodes.set(systemId, node);
         } catch (error) {
-          this.logger.warn(`Failed to convert system ${systemId}:`, error);
+          console.warn(`Failed to convert system ${systemId}:`, error);
         }
       }
     }
@@ -867,7 +867,7 @@ func quit_game():
   // Export functionality
   async exportProject(outputPath: string, presetName?: string): Promise<boolean> {
     try {
-      this.logger.info(`[GodotConverter] Exporting project to ${outputPath}...`);
+      console.info(`[GodotConverter] Exporting project to ${outputPath}...`);
 
       // Create project structure
       await this.createProjectStructure(outputPath);
@@ -883,11 +883,11 @@ func quit_game():
       // Create final package
       const success = await this.createFinalPackage(outputPath, presetName);
 
-      this.logger.info(`[GodotConverter] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
+      console.info(`[GodotConverter] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
       return success;
 
     } catch (error) {
-      this.logger.error('[GodotConverter] Export failed:', error);
+      console.error('[GodotConverter] Export failed:', error);
       return false;
     }
   }
@@ -993,13 +993,13 @@ func _ready():
       throw new Error(`Export preset not found: ${presetName}`);
     }
 
-    this.logger.info(`[GodotConverter] Applying export preset: ${presetName}`);
+    console.info(`[GodotConverter] Applying export preset: ${presetName}`);
     // Apply preset-specific configurations
   }
 
   private async createFinalPackage(outputPath: string, presetName?: string): Promise<boolean> {
     // Simulate packaging process
-    this.logger.info('[GodotConverter] Creating final package...');
+    console.info('[GodotConverter] Creating final package...');
 
     // In a real implementation, this would use Godot's export system
     // For now, we'll just create a zip file or copy files as needed
@@ -1027,6 +1027,6 @@ func _ready():
     this.currentProject.scenes.clear();
     this.currentProject.resources.clear();
     this.currentProject.autoloads.clear();
-    this.logger.info('[GodotConverter] Disposed successfully');
+    console.info('[GodotConverter] Disposed successfully');
   }
 }

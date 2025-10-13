@@ -194,28 +194,28 @@ export class ConfigManagerManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Config Manager already initialized');
+      console.warn('ConfigManagerPure', 'Config Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Config Manager...');
+      console.info('ConfigManagerPure', 'Initializing Config Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableProfiling) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Config Manager initialized successfully');
+      console.info('ConfigManagerPure', 'Config Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Config Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -249,11 +249,11 @@ export class ConfigManagerManager {
       this.managers.set(manager.id, manager);
       this.updateAnalytics();
 
-      this.logger.info('Config manager created', { managerId: manager.id, managerName: manager.name });
+      console.info('Config manager created', { managerId: manager.id, managerName: manager.name });
       return manager;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create config manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -280,7 +280,7 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return null;
       }
 
@@ -294,11 +294,11 @@ export class ConfigManagerManager {
       this.managers.set(managerId, updatedManager);
       this.updateAnalytics();
 
-      this.logger.info('Config manager updated', { managerId, managerName: updatedManager.name });
+      console.info('Config manager updated', { managerId, managerName: updatedManager.name });
       return updatedManager;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update config manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -314,18 +314,18 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return false;
       }
 
       this.managers.delete(managerId);
       this.updateAnalytics();
 
-      this.logger.info('Config manager deleted', { managerId, managerName: manager.name });
+      console.info('Config manager deleted', { managerId, managerName: manager.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete config manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -374,7 +374,7 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return null;
       }
 
@@ -387,11 +387,11 @@ export class ConfigManagerManager {
       manager.configs.push(configuration);
       this.updateAnalytics();
 
-      this.logger.info('Configuration added to manager', { managerId, configId: configuration.id, configName: configuration.name });
+      console.info('Configuration added to manager', { managerId, configId: configuration.id, configName: configuration.name });
       return configuration;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add configuration to manager');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -407,24 +407,24 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return false;
       }
 
       const configIndex = manager.configs.findIndex(c => c.id === configId);
       if (configIndex === -1) {
-        this.logger.warn('Configuration not found', { managerId, configId });
+        console.warn('Configuration not found', { managerId, configId });
         return false;
       }
 
       manager.configs.splice(configIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Configuration removed from manager', { managerId, configId });
+      console.info('Configuration removed from manager', { managerId, configId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove configuration from manager');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -440,13 +440,13 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return null;
       }
 
       const configuration = manager.configs.find(c => c.id === configId);
       if (!configuration) {
-        this.logger.warn('Configuration not found', { managerId, configId });
+        console.warn('Configuration not found', { managerId, configId });
         return null;
       }
 
@@ -461,11 +461,11 @@ export class ConfigManagerManager {
       manager.configs[configIndex] = updatedConfiguration;
       this.updateAnalytics();
 
-      this.logger.info('Configuration updated', { managerId, configId });
+      console.info('Configuration updated', { managerId, configId });
       return updatedConfiguration;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update configuration');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -481,14 +481,14 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return null;
       }
 
       return manager.configs.find(c => c.id === configId) || null;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to get configuration');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -504,19 +504,19 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return { valid: false, errors: ['Manager not found'] };
       }
 
       const configuration = manager.configs.find(c => c.id === configId);
       if (!configuration) {
-        this.logger.warn('Configuration not found', { managerId, configId });
+        console.warn('Configuration not found', { managerId, configId });
         return { valid: false, errors: ['Configuration not found'] };
       }
 
       const schema = manager.schemas.find(s => s.id === configuration.schema);
       if (!schema) {
-        this.logger.warn('Schema not found', { managerId, configId, schemaId: configuration.schema });
+        console.warn('Schema not found', { managerId, configId, schemaId: configuration.schema });
         return { valid: false, errors: ['Schema not found'] };
       }
 
@@ -556,11 +556,11 @@ export class ConfigManagerManager {
       const valid = errors.length === 0;
       this.updateAnalytics();
 
-      this.logger.debug('Configuration validation completed', { managerId, configId, valid, errorCount: errors.length });
+      console.debug('Configuration validation completed', { managerId, configId, valid, errorCount: errors.length });
       return { valid, errors };
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to validate configuration');
+      this.errorHandler.handleError($1);
       return { valid: false, errors: [error.message] };
     }
   }
@@ -596,7 +596,7 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return null;
       }
 
@@ -608,11 +608,11 @@ export class ConfigManagerManager {
       manager.schemas.push(schema);
       this.updateAnalytics();
 
-      this.logger.info('Schema added to manager', { managerId, schemaId: schema.id, schemaName: schema.name });
+      console.info('Schema added to manager', { managerId, schemaId: schema.id, schemaName: schema.name });
       return schema;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add schema to manager');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -628,24 +628,24 @@ export class ConfigManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        this.logger.warn('Manager not found', { managerId });
+        console.warn('Manager not found', { managerId });
         return false;
       }
 
       const schemaIndex = manager.schemas.findIndex(s => s.id === schemaId);
       if (schemaIndex === -1) {
-        this.logger.warn('Schema not found', { managerId, schemaId });
+        console.warn('Schema not found', { managerId, schemaId });
         return false;
       }
 
       manager.schemas.splice(schemaIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Schema removed from manager', { managerId, schemaId });
+      console.info('Schema removed from manager', { managerId, schemaId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove schema from manager');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -760,12 +760,12 @@ export class ConfigManagerManager {
    * Destroy the Config Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Config Manager...');
+    console.info('ConfigManagerPure', 'Destroying Config Manager...');
 
     this.managers.clear();
     this.isInitialized = false;
 
-    this.logger.info('Config Manager destroyed');
+    console.info('ConfigManagerPure', 'Config Manager destroyed');
   }
 }
 

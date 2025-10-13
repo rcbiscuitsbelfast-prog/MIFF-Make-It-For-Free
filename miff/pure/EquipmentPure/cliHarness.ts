@@ -30,7 +30,7 @@ function main() {
     },
   };
 
-  const lookup = (id: string): CatalogItem | undefined => obj.items.find(i => i.id === id);
+  const lookup = (id: string): CatalogItem! => obj.items.find(i => i.id === id);
   const log: string[] = [];
   const mgr = new EquipmentManager({
     onEquip: (item) => log.push(`EQUIP ${item.id} -> ${item.slot}`),
@@ -64,7 +64,7 @@ function main() {
   }
 
   const out = { log, outputs, inventory: Array.from(inventory.entries()).map(([id, quantity]) => ({ id, quantity })) };
-  this.logger.info(JSON.stringify(out, null, 2));
+  console.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

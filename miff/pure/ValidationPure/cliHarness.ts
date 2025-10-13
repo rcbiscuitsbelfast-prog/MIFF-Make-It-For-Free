@@ -39,7 +39,7 @@ try {
   if (candidatePath && !String(candidatePath).startsWith('--') && String(candidatePath).endsWith('.json') && fsLocal.existsSync(candidatePath)) {
     const legacyInput = SafeJSONParser.parse(fsLocal.readFileSync(candidatePath, 'utf-8')) as ValidationInput;
     const legacyResult = manager.validateAll(legacyInput);
-    this.logger.info(formatOutput({ outputs: [legacyResult] }));
+    console.info(formatOutput({ outputs: [legacyResult] }));
     process.exit(0);
   }
 } catch {}
@@ -47,7 +47,7 @@ try {
 try {
   switch (mode) {
     case 'configure':
-      const config: ValidationConfig = args.includes('--config') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--config='))!.split('=')[1]) : {
+      const config: ValidationConfig = args.includes('--config') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--config='))?.split('=')[1]) : {
         rules: ['missing_refs', 'stat_bounds', 'zone_overlap'],
         combatExpectedStatKeys: ['hp', 'attack', 'defense']
       };
@@ -77,7 +77,7 @@ try {
             { id: 'asset1', name: 'Test Asset 1', type: 'texture', path: '/assets/texture1.png', size: 1024, checksum: 'abc123' },
             { id: 'asset2', name: 'Test Asset 2', type: 'model', path: '/assets/model1.obj', size: 2048, checksum: 'def456' }
           ],
-          scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update() { this.logger.info("test"); }', language: 'javascript', dependencies: ['library1'] } ]
+          scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update() { console.info("test"); }', language: 'javascript', dependencies: ['library1'] } ]
         };
       }
       output = manager.validateAll(input);
@@ -304,4 +304,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-this.logger.info(formatOutput(output));
+console.info(formatOutput(output));

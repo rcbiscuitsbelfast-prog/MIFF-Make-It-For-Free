@@ -7,7 +7,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const inputFile = process.argv[2];
 if (!inputFile) {
-  this.logger.error('Usage: ts-node cliHarness.ts <input-file>');
+  console.error('Usage: ts-node cliHarness.ts <input-file>');
   process.exit(1);
 }
 
@@ -26,8 +26,8 @@ try {
   const events: QuestEvent[] = input.events;
   
   const result = applyQuestEvents(state, events);
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 } catch (error) {
-  this.logger.error('Error:', error);
+  console.error('Error:', error);
   process.exit(1);
 }

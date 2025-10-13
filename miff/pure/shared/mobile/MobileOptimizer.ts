@@ -805,7 +805,7 @@ export class MobileOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    this.logger.info(`[MOBILEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    console.info(`[MOBILEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

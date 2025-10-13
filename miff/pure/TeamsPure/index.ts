@@ -802,7 +802,7 @@ export class TeamRules implements ITeamRules {
 
     // Check forbidden types
     if (this.forbiddenTypes && this.forbiddenTypes.length > 0) {
-      const forbiddenInTeam = spirits.filter(s => this.forbiddenTypes!.includes(s.type));
+      const forbiddenInTeam = spirits.filter(s => this.forbiddenTypes?.includes(s.type));
       if (forbiddenInTeam.length > 0) {
         errors.push(`Team contains forbidden types: ${forbiddenInTeam.map(s => s.type).join(', ')}`);
         return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
@@ -1904,7 +1904,7 @@ export const TeamUtils = {
       if (result !== TeamOperationResult.SUCCESS) {
         // If adding to active team fails, try reserves
         if (team.spirits.length < team.maxSize) {
-          this.logger.warn(`Failed to add spirit ${sortedSpirits[i].name} to team: ${result}`);
+          console.warn(`Failed to add spirit ${sortedSpirits[i].name} to team: ${result}`);
         }
       }
     }

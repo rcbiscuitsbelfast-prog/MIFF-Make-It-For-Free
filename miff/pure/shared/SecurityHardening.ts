@@ -128,7 +128,7 @@ export class SecurityHardening {
    * Initialize security hardening
    */
   async initialize(): Promise<void> {
-    this.logger.info('🔒 Initializing security hardening...');
+    console.info('🔒 Initializing security hardening...');
     
     try {
       // Setup security headers
@@ -151,9 +151,9 @@ export class SecurityHardening {
         await this.setupSSL();
       }
 
-      this.logger.info('✅ Security hardening initialized');
+      console.info('✅ Security hardening initialized');
     } catch (error) {
-      this.logger.error('❌ Security hardening initialization failed:', error);
+      console.error('❌ Security hardening initialization failed:', error);
       throw error;
     }
   }
@@ -403,7 +403,7 @@ export class SecurityHardening {
 
     // Log critical events
     if (event.severity === 'critical') {
-      this.logger.error(`🚨 CRITICAL SECURITY EVENT: ${event.type} from ${event.source}`);
+      console.error(`🚨 CRITICAL SECURITY EVENT: ${event.type} from ${event.source}`);
     }
   }
 
@@ -411,7 +411,7 @@ export class SecurityHardening {
    * Run security audit
    */
   async runSecurityAudit(): Promise<SecurityAudit> {
-    this.logger.info('🔍 Running security audit...');
+    console.info('🔍 Running security audit...');
 
     const vulnerabilities: SecurityVulnerability[] = [];
     const recommendations: string[] = [];
@@ -526,7 +526,7 @@ export class SecurityHardening {
       }
     };
 
-    this.logger.info(`✅ Security audit completed - Score: ${score}/100`);
+    console.info(`✅ Security audit completed - Score: ${score}/100`);
     return this.audit;
   }
 
@@ -571,22 +571,22 @@ export class SecurityHardening {
 
   private async setupSecurityHeaders(): Promise<void> {
     // Security headers are applied in middleware
-    this.logger.info('✅ Security headers configured');
+    console.info('✅ Security headers configured');
   }
 
   private async setupRateLimiting(): Promise<void> {
     // Rate limiting is handled in checkRateLimit method
-    this.logger.info('✅ Rate limiting configured');
+    console.info('✅ Rate limiting configured');
   }
 
   private async setupInputValidation(): Promise<void> {
     // Input validation is handled in validateInput method
-    this.logger.info('✅ Input validation configured');
+    console.info('✅ Input validation configured');
   }
 
   private async setupSSL(): Promise<void> {
     // SSL setup would be handled by the web server
-    this.logger.info('✅ SSL/TLS configuration ready');
+    console.info('✅ SSL/TLS configuration ready');
   }
 
   private sanitizeString(input: string): string {

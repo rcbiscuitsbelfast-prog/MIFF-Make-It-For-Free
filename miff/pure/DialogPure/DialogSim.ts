@@ -48,9 +48,9 @@ export class DialogSim {
 
   listDialogs(): string[] { return Array.from(this.dialogs.keys()); }
 
-  getDialog(id: string): DialogTree | undefined { return this.dialogs.get(id); }
+  getDialog(id: string): DialogTree! { return this.dialogs.get(id); }
 
-  exportDialog(id: string): DialogTree | undefined {
+  exportDialog(id: string): DialogTree! {
     const d = this.dialogs.get(id);
     return d ? PerformanceOptimizer.optimizeObjectCloning(d, true).result : undefined;
   }

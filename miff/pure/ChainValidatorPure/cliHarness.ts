@@ -28,7 +28,7 @@ function readJSONFile<T = any>(filePath: string): T {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html|yaml]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html|yaml]');
     process.exit(1);
   }
 
@@ -197,12 +197,12 @@ function main() {
     };
     if (operation.op === 'export') envelope.format = (operation as any).format || 'json';
 
-    this.logger.info(JSON.stringify(envelope, null, 2));
+    console.info(JSON.stringify(envelope, null, 2));
     if (exportData) {
-      this.logger.error('\n' + exportData);
+      console.error('\n' + exportData);
     }
   } catch (error) {
-    this.logger.error(JSON.stringify({
+    console.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

@@ -23,7 +23,7 @@ class MockEventBus {
     if (!this.events.has(event)) {
       this.events.set(event, []);
     }
-    this.events.get(event)!.push(handler);
+    this.events.get(event)?.push(handler);
   }
 }
 
@@ -257,7 +257,7 @@ describe('DrivingSystemPure Golden Tests', () => {
 
     test('should retrieve vehicle instances', () => {
       const createdVehicle = drivingSystem.createVehicle('demo-car', 'test-player');
-      const retrievedVehicle = drivingSystem.getVehicleInstance(createdVehicle!.id);
+      const retrievedVehicle = drivingSystem.getVehicleInstance(createdVehicle?.id);
       const nonExistentVehicle = drivingSystem.getVehicleInstance('non-existent');
 
       expect(retrievedVehicle).toBeDefined();

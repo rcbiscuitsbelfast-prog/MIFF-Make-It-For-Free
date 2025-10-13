@@ -61,10 +61,10 @@ function run(speciesPath:string, cmds:Cmd[]){
 function main(){
   const speciesPath = process.argv[2];
   const cmdPath = process.argv[3];
-  if(!speciesPath||!cmdPath){ this.logger.error('Usage: cliHarness.ts <species.json> <commands.json>'); process.exit(1); }
+  if(!speciesPath||!cmdPath){ console.error('Usage: cliHarness.ts <species.json> <commands.json>'); process.exit(1); }
   const cmds:Cmd[] = SafeJSONParser.parse(fs.readFileSync(cmdPath,'utf-8'));
   const out = run(speciesPath, cmds);
-  this.logger.info(JSON.stringify(out,null,2));
+  console.info(JSON.stringify(out,null,2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

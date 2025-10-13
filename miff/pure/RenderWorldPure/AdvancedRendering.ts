@@ -208,7 +208,7 @@ export class AdvancedRendering {
       shader.compiled = true;
       return true;
     } catch (error) {
-      this.logger.error(`Failed to compile shader ${shaderId}:`, error);
+      console.error(`Failed to compile shader ${shaderId}:`, error);
       return false;
     }
   }
@@ -238,7 +238,7 @@ export class AdvancedRendering {
     if (!system || !system.enabled) return;
 
     // In a real implementation, this would create and manage particle instances
-    this.logger.info(`Emitted ${count} particles from system ${systemId}`);
+    console.info(`Emitted ${count} particles from system ${systemId}`);
   }
 
   /**
@@ -360,7 +360,7 @@ export class AdvancedRendering {
     // 3. Bind textures and materials
     // 4. Draw the mesh
 
-    this.logger.info(`Rendering batch ${batch.id} on layer ${layer.id}`);
+    console.info(`Rendering batch ${batch.id} on layer ${layer.id}`);
   }
 
   /**
@@ -391,7 +391,7 @@ export class AdvancedRendering {
     const contrast = filter.parameters.get('contrast') || 1.0;
     const saturation = filter.parameters.get('saturation') || 1.0;
 
-    this.logger.info(`Applying color filter: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
+    console.info(`Applying color filter: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
   }
 
   /**
@@ -401,7 +401,7 @@ export class AdvancedRendering {
     const radius = filter.parameters.get('radius') || 1.0;
     const quality = filter.parameters.get('quality') || 1.0;
 
-    this.logger.info(`Applying blur filter: radius=${radius}, quality=${quality}`);
+    console.info(`Applying blur filter: radius=${radius}, quality=${quality}`);
   }
 
   /**
@@ -410,7 +410,7 @@ export class AdvancedRendering {
   private applySharpenFilter(filter: RenderFilter, batches: RenderBatch[]): void {
     const strength = filter.parameters.get('strength') || 1.0;
 
-    this.logger.info(`Applying sharpen filter: strength=${strength}`);
+    console.info(`Applying sharpen filter: strength=${strength}`);
   }
 
   /**
@@ -420,7 +420,7 @@ export class AdvancedRendering {
     const threshold = filter.parameters.get('threshold') || 0.5;
     const color = filter.parameters.get('color') || { r: 1, g: 1, b: 1, a: 1 };
 
-    this.logger.info(`Applying edge detection filter: threshold=${threshold}, color=${JSON.stringify(color)}`);
+    console.info(`Applying edge detection filter: threshold=${threshold}, color=${JSON.stringify(color)}`);
   }
 
   /**
@@ -464,7 +464,7 @@ export class AdvancedRendering {
     const threshold = effect.parameters.get('threshold') || 0.8;
     const intensity = effect.intensity;
 
-    this.logger.info(`Applying bloom effect: threshold=${threshold}, intensity=${intensity}`);
+    console.info(`Applying bloom effect: threshold=${threshold}, intensity=${intensity}`);
   }
 
   /**
@@ -474,7 +474,7 @@ export class AdvancedRendering {
     const radius = effect.parameters.get('radius') || 1.0;
     const intensity = effect.intensity;
 
-    this.logger.info(`Applying blur effect: radius=${radius}, intensity=${intensity}`);
+    console.info(`Applying blur effect: radius=${radius}, intensity=${intensity}`);
   }
 
   /**
@@ -485,7 +485,7 @@ export class AdvancedRendering {
     const contrast = effect.parameters.get('contrast') || 1.0;
     const saturation = effect.parameters.get('saturation') || 1.0;
 
-    this.logger.info(`Applying color correction: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
+    console.info(`Applying color correction: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
   }
 
   /**
@@ -495,7 +495,7 @@ export class AdvancedRendering {
     const focusDistance = effect.parameters.get('focusDistance') || 10.0;
     const aperture = effect.parameters.get('aperture') || 1.0;
 
-    this.logger.info(`Applying depth of field: focusDistance=${focusDistance}, aperture=${aperture}`);
+    console.info(`Applying depth of field: focusDistance=${focusDistance}, aperture=${aperture}`);
   }
 
   /**
@@ -505,7 +505,7 @@ export class AdvancedRendering {
     const samples = effect.parameters.get('samples') || 8;
     const intensity = effect.intensity;
 
-    this.logger.info(`Applying motion blur: samples=${samples}, intensity=${intensity}`);
+    console.info(`Applying motion blur: samples=${samples}, intensity=${intensity}`);
   }
 
   /**

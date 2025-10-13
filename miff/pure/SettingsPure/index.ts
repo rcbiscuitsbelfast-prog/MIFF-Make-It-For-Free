@@ -82,7 +82,7 @@ export class SettingsManager {
         const data = this.loadSettingsFile(initPath);
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
       } catch (error) {
-        this.logger.warn('Failed to load settings, using defaults:', error);
+        console.warn('Failed to load settings, using defaults:', error);
         this.settings = { ...this.defaults };
       }
     } else {
@@ -508,7 +508,7 @@ export class SettingsManager {
       this.settings = this.mergeSettings(this.defaults, data.settings || data);
       return true;
     } catch (error) {
-      this.logger.error('Failed to load settings:', error);
+      console.error('Failed to load settings:', error);
       return false;
     }
   }

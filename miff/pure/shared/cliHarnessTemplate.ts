@@ -252,7 +252,7 @@ export abstract class BaseCLIHarness {
       const args = parseCLIArgs(process.argv);
       
       if (args.help) {
-        this.logger.info(generateHelpText(this.moduleName, this.supportedOperations));
+        console.info(generateHelpText(this.moduleName, this.supportedOperations));
         return;
       }
       
@@ -274,15 +274,15 @@ export abstract class BaseCLIHarness {
       if (args.outputFile) {
         fs.writeFileSync(args.outputFile, output);
         if (args.verbose) {
-          this.logger.info(`Output written to: ${args.outputFile}`);
+          console.info(`Output written to: ${args.outputFile}`);
         }
       } else {
-        this.logger.info(output);
+        console.info(output);
       }
       
     } catch (error) {
       const result = handleCLIError(error, 'unknown', this.moduleName);
-      this.logger.error(formatOutput(result, 'json'));
+      console.error(formatOutput(result, 'json'));
       process.exit(1);
     }
   }

@@ -546,7 +546,7 @@ export class CombatEngine {
     this.performanceMetrics.activeSessions++;
     this.performanceMetrics.totalSessions++;
 
-    this.logger.info(`[CombatEngine] Started combat session: ${sessionId}`);
+    console.info(`[CombatEngine] Started combat session: ${sessionId}`);
     return sessionId;
   }
 
@@ -1010,7 +1010,7 @@ export class CombatEngine {
     for (const condition of scenario.defeatConditions) {
       if (this.evaluateCondition(session, condition)) {
         session.state = CombatState.FINISHED;
-        this.logger.info(`[CombatEngine] Defeat condition met: ${condition.description}`);
+        console.info(`[CombatEngine] Defeat condition met: ${condition.description}`);
         return;
       }
     }
@@ -1022,7 +1022,7 @@ export class CombatEngine {
         session.winner = this.determineWinner(session);
         session.endTime = Date.now();
         session.duration = session.endTime - session.startTime;
-        this.logger.info(`[CombatEngine] Victory condition met: ${condition.description}`);
+        console.info(`[CombatEngine] Victory condition met: ${condition.description}`);
         return;
       }
     }
@@ -1056,7 +1056,7 @@ export class CombatEngine {
         if (!teams.has(entity.team)) {
           teams.set(entity.team, []);
         }
-        teams.get(entity.team)!.push(entity);
+        teams.get(entity.team)?.push(entity);
       }
     }
 
@@ -1068,7 +1068,7 @@ export class CombatEngine {
   }
 
   // Utility methods
-  getSession(sessionId: string): CombatSession | undefined {
+  getSession(sessionId: string): CombatSession! {
     return this.sessions.get(sessionId);
   }
 
@@ -1076,11 +1076,11 @@ export class CombatEngine {
     return Array.from(this.sessions.values());
   }
 
-  getEntity(entityId: string): CombatEntity | undefined {
+  getEntity(entityId: string): CombatEntity! {
     return this.entities.get(entityId);
   }
 
-  getActiveSession(): CombatSession | undefined {
+  getActiveSession(): CombatSession! {
     return this.activeSessionId ? this.sessions.get(this.activeSessionId) : undefined;
   }
 
@@ -1098,7 +1098,7 @@ export class CombatEngine {
       this.activeSessionId = undefined;
     }
 
-    this.logger.info(`[CombatEngine] Ended session: ${sessionId}`);
+    console.info(`[CombatEngine] Ended session: ${sessionId}`);
     return true;
   }
 
@@ -1141,12 +1141,12 @@ export class CombatEngine {
     this.activeSessionId = undefined;
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    this.logger.info('[CombatEngine] Reset to initial state');
+    console.info('[CombatEngine] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    this.logger.info('[CombatEngine] Disposed successfully');
+    console.info('[CombatEngine] Disposed successfully');
   }
 }
 

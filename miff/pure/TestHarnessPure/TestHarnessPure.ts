@@ -138,7 +138,7 @@ export class TestHarness {
     }
   }
 
-  getSuite(suiteId: string): TestSuite | undefined {
+  getSuite(suiteId: string): TestSuite! {
     return this.suites.get(suiteId);
   }
 
@@ -306,11 +306,11 @@ export class TestHarness {
 
   private startFileWatcher(): void {
     // In a real implementation, this would use fs.watch or similar
-    this.logger.info('[TestHarnessPure] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
+    console.info('[TestHarnessPure] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
   }
 
   private stopFileWatcher(): void {
-    this.logger.info('[TestHarnessPure] Hot reload disabled');
+    console.info('[TestHarnessPure] Hot reload disabled');
   }
 
   // Code Injection Management
@@ -335,7 +335,7 @@ export class TestHarness {
     try {
       // In a real implementation, this would modify the actual code
       // For now, we'll simulate the injection
-      this.logger.info(`[TestHarnessPure] Code injection applied: ${injection.id} -> ${injection.target}`);
+      console.info(`[TestHarnessPure] Code injection applied: ${injection.id} -> ${injection.target}`);
       
       // Store original function if it exists
       const target = (globalThis as any)[injection.target];
@@ -369,7 +369,7 @@ export class TestHarness {
           break;
       }
     } catch (error) {
-      this.logger.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, error);
+      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, error);
     }
   }
 
@@ -385,9 +385,9 @@ export class TestHarness {
         delete (globalThis as any)[injection.target];
       }
       
-      this.logger.info(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
+      console.info(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
     } catch (error) {
-      this.logger.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, error);
+      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, error);
     }
   }
 
@@ -445,7 +445,7 @@ export class TestHarness {
             break;
         }
       } catch (error) {
-        this.logger.error('[TestHarnessPure] Observer error:', error);
+        console.error('[TestHarnessPure] Observer error:', error);
       }
     });
   }

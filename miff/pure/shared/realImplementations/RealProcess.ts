@@ -117,7 +117,7 @@ export class RealProcess {
   /**
    * Get environment variable
    */
-  getEnv(key: string): string | undefined {
+  getEnv(key: string): string! {
     return process.env[key];
   }
 
@@ -326,7 +326,7 @@ export class RealProcess {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -346,7 +346,7 @@ export class RealProcess {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in event handler for ${event}:`, error);
+          console.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

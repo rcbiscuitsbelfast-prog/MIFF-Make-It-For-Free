@@ -185,7 +185,7 @@ export class FinalIntegrationTester {
    * Run comprehensive end-to-end testing
    */
   async runEndToEndTesting(): Promise<void> {
-    this.logger.info('🧪 Running comprehensive end-to-end testing...');
+    console.info('🧪 Running comprehensive end-to-end testing...');
     
     try {
       const endToEndSuite = this.testSuites.get('end_to_end');
@@ -205,10 +205,10 @@ export class FinalIntegrationTester {
       endToEndSuite.duration = Date.now() - startTime;
       endToEndSuite.lastRun = new Date();
       
-      this.logger.info('✅ End-to-end testing completed');
+      console.info('✅ End-to-end testing completed');
       
     } catch (error) {
-      this.logger.error('❌ Error running end-to-end testing:', error);
+      console.error('❌ Error running end-to-end testing:', error);
       throw error;
     }
   }
@@ -217,17 +217,17 @@ export class FinalIntegrationTester {
    * Run integration validation tests
    */
   async runIntegrationValidation(): Promise<void> {
-    this.logger.info('🔗 Running integration validation tests...');
+    console.info('🔗 Running integration validation tests...');
     
     try {
       for (const integrationTest of this.integrationTests.values()) {
         await this.runIntegrationTest(integrationTest);
       }
       
-      this.logger.info('✅ Integration validation completed');
+      console.info('✅ Integration validation completed');
       
     } catch (error) {
-      this.logger.error('❌ Error running integration validation:', error);
+      console.error('❌ Error running integration validation:', error);
       throw error;
     }
   }
@@ -236,17 +236,17 @@ export class FinalIntegrationTester {
    * Run performance and load testing
    */
   async runPerformanceTesting(): Promise<void> {
-    this.logger.info('⚡ Running performance and load testing...');
+    console.info('⚡ Running performance and load testing...');
     
     try {
       for (const performanceTest of this.performanceTests.values()) {
         await this.runPerformanceTest(performanceTest);
       }
       
-      this.logger.info('✅ Performance testing completed');
+      console.info('✅ Performance testing completed');
       
     } catch (error) {
-      this.logger.error('❌ Error running performance testing:', error);
+      console.error('❌ Error running performance testing:', error);
       throw error;
     }
   }
@@ -255,17 +255,17 @@ export class FinalIntegrationTester {
    * Run security testing and validation
    */
   async runSecurityTesting(): Promise<void> {
-    this.logger.info('🔒 Running security testing and validation...');
+    console.info('🔒 Running security testing and validation...');
     
     try {
       for (const securityTest of this.securityTests.values()) {
         await this.runSecurityTest(securityTest);
       }
       
-      this.logger.info('✅ Security testing completed');
+      console.info('✅ Security testing completed');
       
     } catch (error) {
-      this.logger.error('❌ Error running security testing:', error);
+      console.error('❌ Error running security testing:', error);
       throw error;
     }
   }
@@ -274,17 +274,17 @@ export class FinalIntegrationTester {
    * Run user acceptance testing
    */
   async runUserAcceptanceTesting(): Promise<void> {
-    this.logger.info('👥 Running user acceptance testing...');
+    console.info('👥 Running user acceptance testing...');
     
     try {
       for (const uatTest of this.userAcceptanceTests.values()) {
         await this.runUserAcceptanceTest(uatTest);
       }
       
-      this.logger.info('✅ User acceptance testing completed');
+      console.info('✅ User acceptance testing completed');
       
     } catch (error) {
-      this.logger.error('❌ Error running user acceptance testing:', error);
+      console.error('❌ Error running user acceptance testing:', error);
       throw error;
     }
   }
@@ -293,7 +293,7 @@ export class FinalIntegrationTester {
    * Generate final validation report
    */
   generateFinalValidationReport(): FinalValidationReport {
-    this.logger.info('📊 Generating final validation report...');
+    console.info('📊 Generating final validation report...');
     
     const allTestSuites = Array.from(this.testSuites.values());
     const allIntegrationTests = Array.from(this.integrationTests.values());
@@ -398,7 +398,7 @@ export class FinalIntegrationTester {
       nextSteps
     };
     
-    this.logger.info('✅ Final validation report generated');
+    console.info('✅ Final validation report generated');
     return this.report;
   }
 

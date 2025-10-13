@@ -173,22 +173,22 @@ export class ProductionDeployment {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Production deployment system already initialized');
+      console.warn('Production deployment system already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing production deployment system...');
+      console.info('Initializing production deployment system...');
       
       // Initialize dependencies
       await this.healthCheckSystem.initialize();
       await this.productionMonitor.initialize();
       
       this.isInitialized = true;
-      this.logger.info('Production deployment system initialized successfully');
+      console.info('Production deployment system initialized successfully');
       
     } catch (error) {
-      this.logger.error('Failed to initialize production deployment system', { error: error.message });
+      console.error('Failed to initialize production deployment system', { error: error.message });
       throw error;
     }
   }
@@ -201,7 +201,7 @@ export class ProductionDeployment {
       throw new Error('Production deployment system not initialized');
     }
 
-    this.logger.info('Starting production deployment...', {
+    console.info('Starting production deployment...', {
       version: this.config.version,
       buildNumber: this.config.buildNumber,
       environment: this.config.environment
@@ -231,37 +231,37 @@ export class ProductionDeployment {
     try {
       // Step 1: Pre-deployment validation
       await this.executeStep('Pre-deployment validation', async () => {
-        this.deploymentStatus!.progress = 10;
+        this.deploymentStatus?.progress = 10;
         await this.preDeploymentValidation();
       });
 
       // Step 2: Build and package
       await this.executeStep('Build and package', async () => {
-        this.deploymentStatus!.progress = 30;
+        this.deploymentStatus?.progress = 30;
         await this.buildAndPackage();
       });
 
       // Step 3: Deploy to staging
       await this.executeStep('Deploy to staging', async () => {
-        this.deploymentStatus!.progress = 50;
+        this.deploymentStatus?.progress = 50;
         await this.deployToStaging();
       });
 
       // Step 4: Run validation tests
       await this.executeStep('Run validation tests', async () => {
-        this.deploymentStatus!.progress = 70;
+        this.deploymentStatus?.progress = 70;
         await this.runValidationTests();
       });
 
       // Step 5: Deploy to production
       await this.executeStep('Deploy to production', async () => {
-        this.deploymentStatus!.progress = 90;
+        this.deploymentStatus?.progress = 90;
         await this.deployToProduction();
       });
 
       // Step 6: Post-deployment monitoring
       await this.executeStep('Post-deployment monitoring', async () => {
-        this.deploymentStatus!.progress = 100;
+        this.deploymentStatus?.progress = 100;
         await this.postDeploymentMonitoring();
       });
 
@@ -270,7 +270,7 @@ export class ProductionDeployment {
       this.deploymentStatus.endTime = new Date();
       this.deploymentStatus.duration = this.deploymentStatus.endTime.getTime() - this.deploymentStatus.startTime.getTime();
 
-      this.logger.info('Production deployment completed successfully', {
+      console.info('Production deployment completed successfully', {
         duration: this.deploymentStatus.duration,
         version: this.config.version
       });
@@ -278,7 +278,7 @@ export class ProductionDeployment {
       return this.deploymentStatus;
 
     } catch (error) {
-      this.logger.error('Production deployment failed', { error: error.message });
+      console.error('Production deployment failed', { error: error.message });
       
       this.deploymentStatus.status = 'failed';
       this.deploymentStatus.endTime = new Date();
@@ -297,8 +297,8 @@ export class ProductionDeployment {
    * Execute a deployment step
    */
   private async executeStep(stepName: string, stepFunction: () => Promise<void>): Promise<void> {
-    this.logger.info(`Executing step: ${stepName}`);
-    this.deploymentStatus!.currentStep = stepName;
+    console.info(`Executing step: ${stepName}`);
+    this.deploymentStatus?.currentStep = stepName;
     
     try {
       await stepFunction();
@@ -327,7 +327,7 @@ export class ProductionDeployment {
    * Pre-deployment validation
    */
   private async preDeploymentValidation(): Promise<void> {
-    this.logger.info('Running pre-deployment validation...');
+    console.info('Running pre-deployment validation...');
     
     // Check system requirements
     await this.checkSystemRequirements();
@@ -403,7 +403,7 @@ export class ProductionDeployment {
    * Build and package
    */
   private async buildAndPackage(): Promise<void> {
-    this.logger.info('Building and packaging application...');
+    console.info('Building and packaging application...');
     
     try {
       // Run TypeScript compilation
@@ -427,7 +427,7 @@ export class ProductionDeployment {
    * Deploy to staging
    */
   private async deployToStaging(): Promise<void> {
-    this.logger.info('Deploying to staging environment...');
+    console.info('Deploying to staging environment...');
     
     // Simulate staging deployment
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -439,10 +439,10 @@ export class ProductionDeployment {
    * Run validation tests
    */
   private async runValidationTests(): Promise<void> {
-    this.logger.info('Running validation tests...');
+    console.info('Running validation tests...');
     
     const validationResult = await this.runValidation();
-    this.deploymentStatus!.validation = validationResult;
+    this.deploymentStatus?.validation = validationResult;
     
     if (!validationResult.passed) {
       throw new Error('Validation tests failed');
@@ -589,7 +589,7 @@ export class ProductionDeployment {
    * Deploy to production
    */
   private async deployToProduction(): Promise<void> {
-    this.logger.info('Deploying to production environment...');
+    console.info('Deploying to production environment...');
     
     // Simulate production deployment
     await new Promise(resolve => setTimeout(resolve, 3000));
@@ -601,7 +601,7 @@ export class ProductionDeployment {
    * Post-deployment monitoring
    */
   private async postDeploymentMonitoring(): Promise<void> {
-    this.logger.info('Starting post-deployment monitoring...');
+    console.info('Starting post-deployment monitoring...');
     
     if (this.config.monitoring.enabled) {
       // Start monitoring for the specified duration
@@ -615,9 +615,9 @@ export class ProductionDeployment {
    * Attempt rollback
    */
   private async attemptRollback(reason: string): Promise<void> {
-    this.logger.warn('Attempting rollback...', { reason });
+    console.warn('Attempting rollback...', { reason });
     
-    this.deploymentStatus!.rollback = {
+    this.deploymentStatus?.rollback = {
       enabled: true,
       reason,
       timestamp: new Date(),
@@ -633,7 +633,7 @@ export class ProductionDeployment {
     // Simulate rollback process
     await new Promise(resolve => setTimeout(resolve, 5000));
     
-    this.deploymentStatus!.status = 'rolled_back';
+    this.deploymentStatus?.status = 'rolled_back';
     this.addLog('info', 'Rollback completed successfully');
   }
 
@@ -662,7 +662,7 @@ export class ProductionDeployment {
    * Destroy the production deployment system
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying production deployment system...');
+    console.info('Destroying production deployment system...');
     
     await this.healthCheckSystem.destroy();
     await this.productionMonitor.destroy();
@@ -670,7 +670,7 @@ export class ProductionDeployment {
     this.deploymentStatus = null;
     this.isInitialized = false;
     
-    this.logger.info('Production deployment system destroyed');
+    console.info('Production deployment system destroyed');
   }
 }
 

@@ -169,7 +169,7 @@ export class MonitoringSystem {
       this.collectMetrics();
     }, this.config.collectionInterval * 1000);
 
-    this.logger.info('🔍 Monitoring system started');
+    console.info('🔍 Monitoring system started');
   }
 
   /**
@@ -183,7 +183,7 @@ export class MonitoringSystem {
       clearInterval(this.collectionTimer);
     }
 
-    this.logger.info('🔍 Monitoring system stopped');
+    console.info('🔍 Monitoring system stopped');
   }
 
   /**
@@ -205,10 +205,10 @@ export class MonitoringSystem {
 
       // Log metrics if enabled
       if (this.config.notifications.log) {
-        this.logger.info(`📊 Metrics collected - CPU: ${systemMetrics.cpu.usage.toFixed(1)}%, Memory: ${systemMetrics.memory.usage.toFixed(1)}%`);
+        console.info(`📊 Metrics collected - CPU: ${systemMetrics.cpu.usage.toFixed(1)}%, Memory: ${systemMetrics.memory.usage.toFixed(1)}%`);
       }
     } catch (error) {
-      this.logger.error('Failed to collect metrics:', error);
+      console.error('Failed to collect metrics:', error);
     }
   }
 
@@ -664,11 +664,11 @@ export class MonitoringSystem {
 
   private sendNotifications(alert: Alert): void {
     if (this.config.notifications.console) {
-      this.logger.info(`🚨 ALERT [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.message}`);
+      console.info(`🚨 ALERT [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.message}`);
     }
 
     if (this.config.notifications.log) {
-      this.logger.info(`Alert created: ${JSON.stringify(alert, null, 2)}`);
+      console.info(`Alert created: ${JSON.stringify(alert, null, 2)}`);
     }
 
     // In a real implementation, send email and webhook notifications

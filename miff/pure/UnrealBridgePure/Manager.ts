@@ -202,7 +202,7 @@ export class UnrealBridgeManager {
     this.memoryId = `UnrealBridgeManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'UnrealBridgeManager');
 
-    this.logger.info('UnrealBridgeManager initialized', {
+    console.info('UnrealBridgeManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -213,12 +213,12 @@ export class UnrealBridgeManager {
    */
   public connect(): Promise<boolean> {
     return new Promise((resolve) => {
-      this.logger.info('Connecting to Unreal Engine...');
+      console.info('UnrealBridgePure', 'Connecting to Unreal Engine...');
       
       // Simulate connection process
       setTimeout(() => {
         this.isConnected = true;
-        this.logger.info('Connected to Unreal Engine');
+        console.info('UnrealBridgePure', 'Connected to Unreal Engine');
         
         // Start sync process
         if (this.config.enableRealTimeSync) {
@@ -234,7 +234,7 @@ export class UnrealBridgeManager {
    * Disconnect from Unreal Engine
    */
   public disconnect(): void {
-    this.logger.info('Disconnecting from Unreal Engine...');
+    console.info('UnrealBridgePure', 'Disconnecting from Unreal Engine...');
     
     this.isConnected = false;
     
@@ -248,7 +248,7 @@ export class UnrealBridgeManager {
     this.syncQueue = [];
     this.eventQueue = [];
     
-    this.logger.info('Disconnected from Unreal Engine');
+    console.info('UnrealBridgePure', 'Disconnected from Unreal Engine');
   }
 
   /**
@@ -263,7 +263,7 @@ export class UnrealBridgeManager {
    */
   public async loadAsset(assetPath: string, priority: number = 1): Promise<UnrealAsset | null> {
     if (!this.isConnected) {
-      this.logger.warn('Not connected to Unreal Engine');
+      console.warn('UnrealBridgePure', 'Not connected to Unreal Engine');
       return null;
     }
 
@@ -274,7 +274,7 @@ export class UnrealBridgeManager {
     if (existingAsset) {
       existingAsset.lastAccessed = Date.now();
       existingAsset.accessCount++;
-      this.logger.debug('Asset already loaded', { assetPath, assetId: existingAsset.id });
+      console.debug('Asset already loaded', { assetPath, assetId: existingAsset.id });
       return existingAsset;
     }
 
@@ -314,11 +314,11 @@ export class UnrealBridgeManager {
       asset.cached = true;
       this.assets.set(assetId, asset);
       
-      this.logger.info('Asset loaded', { assetId, assetPath, type: asset.type });
+      console.info('Asset loaded', { assetId, assetPath, type: asset.type });
       return asset;
       
     } catch (error) {
-      this.logger.error('Failed to load asset', { assetPath, error: error.message });
+      console.error('Failed to load asset', { assetPath, error: error.message });
       return null;
     }
   }
@@ -329,7 +329,7 @@ export class UnrealBridgeManager {
   public unloadAsset(assetId: string): boolean {
     const asset = this.assets.get(assetId);
     if (!asset) {
-      this.logger.warn('Asset not found', { assetId });
+      console.warn('Asset not found', { assetId });
       return false;
     }
 
@@ -338,7 +338,7 @@ export class UnrealBridgeManager {
     this.assets.delete(assetId);
     this.assetCache.delete(assetId);
     
-    this.logger.info('Asset unloaded', { assetId, path: asset.path });
+    console.info('Asset unloaded', { assetId, path: asset.path });
     return true;
   }
 
@@ -361,7 +361,7 @@ export class UnrealBridgeManager {
    */
   public createObject(name: string, type: string, position: Vector3D = { x: 0, y: 0, z: 0 }): UnrealObject | null {
     if (!this.isConnected) {
-      this.logger.warn('Not connected to Unreal Engine');
+      console.warn('UnrealBridgePure', 'Not connected to Unreal Engine');
       return null;
     }
 
@@ -387,7 +387,7 @@ export class UnrealBridgeManager {
     // Queue sync data
     this.queueSyncData('create', objectId, object);
     
-    this.logger.info('Object created', { objectId, name, type });
+    console.info('Object created', { objectId, name, type });
     return object;
   }
 
@@ -397,7 +397,7 @@ export class UnrealBridgeManager {
   public updateObject(objectId: string, updates: Partial<UnrealObject>): boolean {
     const object = this.objects.get(objectId);
     if (!object) {
-      this.logger.warn('Object not found', { objectId });
+      console.warn('Object not found', { objectId });
       return false;
     }
 
@@ -407,7 +407,7 @@ export class UnrealBridgeManager {
     // Queue sync data
     this.queueSyncData('update', objectId, object);
     
-    this.logger.debug('Object updated', { objectId, updates });
+    console.debug('Object updated', { objectId, updates });
     return true;
   }
 
@@ -417,7 +417,7 @@ export class UnrealBridgeManager {
   public deleteObject(objectId: string): boolean {
     const object = this.objects.get(objectId);
     if (!object) {
-      this.logger.warn('Object not found', { objectId });
+      console.warn('Object not found', { objectId });
       return false;
     }
 
@@ -426,7 +426,7 @@ export class UnrealBridgeManager {
     // Queue sync data
     this.queueSyncData('delete', objectId, null);
     
-    this.logger.info('Object deleted', { objectId, name: object.name });
+    console.info('Object deleted', { objectId, name: object.name });
     return true;
   }
 
@@ -449,7 +449,7 @@ export class UnrealBridgeManager {
    */
   public registerBlueprintFunction(blueprint: BlueprintFunction): void {
     this.blueprints.set(blueprint.name, blueprint);
-    this.logger.info('Blueprint function registered', { name: blueprint.name, category: blueprint.category });
+    console.info('Blueprint function registered', { name: blueprint.name, category: blueprint.category });
   }
 
   /**
@@ -458,12 +458,12 @@ export class UnrealBridgeManager {
   public async callBlueprintFunction(name: string, parameters: any[] = []): Promise<any> {
     const blueprint = this.blueprints.get(name);
     if (!blueprint) {
-      this.logger.warn('Blueprint function not found', { name });
+      console.warn('Blueprint function not found', { name });
       return null;
     }
 
     if (!blueprint.enabled) {
-      this.logger.warn('Blueprint function is disabled', { name });
+      console.warn('Blueprint function is disabled', { name });
       return null;
     }
 
@@ -474,11 +474,11 @@ export class UnrealBridgeManager {
       blueprint.lastCalled = Date.now();
       blueprint.callCount++;
       
-      this.logger.info('Blueprint function called', { name, parameters, result });
+      console.info('Blueprint function called', { name, parameters, result });
       return result;
       
     } catch (error) {
-      this.logger.error('Blueprint function call failed', { name, error: error.message });
+      console.error('Blueprint function call failed', { name, error: error.message });
       return null;
     }
   }
@@ -532,7 +532,7 @@ export class UnrealBridgeManager {
     if (!syncData) return;
 
     // Simulate sending sync data to Unreal Engine
-    this.logger.debug('Sync data processed', { 
+    console.debug('Sync data processed', { 
       type: syncData.type, 
       objectId: syncData.objectId,
       priority: syncData.priority 
@@ -549,7 +549,7 @@ export class UnrealBridgeManager {
     if (!event) return;
 
     // Process event
-    this.logger.debug('Event processed', { 
+    console.debug('Event processed', { 
       type: event.type, 
       source: event.source,
       target: event.target 
@@ -709,7 +709,7 @@ export class UnrealBridgeManager {
    */
   public updateConfig(newConfig: Partial<UnrealBridgeConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.logger.info('UnrealBridgeManager configuration updated', { config: this.config });
+    console.info('UnrealBridgeManager configuration updated', { config: this.config });
   }
 
   /**
@@ -718,6 +718,6 @@ export class UnrealBridgeManager {
   public destroy(): void {
     this.disconnect();
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('UnrealBridgeManager destroyed');
+    console.info('UnrealBridgePure', 'UnrealBridgeManager destroyed');
   }
 }

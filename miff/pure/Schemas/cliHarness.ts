@@ -19,7 +19,7 @@ interface CLIState {
 }
 
 function printHelp(): void {
-  this.logger.info(`
+  console.info(`
 Schemas CLI - JSON Schema Validation Testing
 =============================================
 
@@ -43,24 +43,24 @@ Examples:
 }
 
 function printSchema(schema: SchemaDefinition): void {
-  this.logger.info('📋 Current Schema:');
-  if (schema.title) this.logger.info(`Title: ${schema.title}`);
-  if (schema.description) this.logger.info(`Description: ${schema.description}`);
+  console.info('📋 Current Schema:');
+  if (schema.title) console.info(`Title: ${schema.title}`);
+  if (schema.description) console.info(`Description: ${schema.description}`);
   if (schema.required && schema.required.length > 0) {
-    this.logger.info(`Required Fields: ${schema.required.join(', ')}`);
+    console.info(`Required Fields: ${schema.required.join(', ')}`);
   }
   if (schema.properties) {
-    this.logger.info('Properties:');
+    console.info('Properties:');
     for (const [name, prop] of Object.entries(schema.properties)) {
-      this.logger.info(`  ${name}: ${prop.type}${prop.required ? ' (required)' : ''}`);
-      if (prop.description) this.logger.info(`    ${prop.description}`);
+      console.info(`  ${name}: ${prop.type}${prop.required ? ' (required)' : ''}`);
+      if (prop.description) console.info(`    ${prop.description}`);
     }
   }
 }
 
 function interactiveSchemaCreation(): SchemaDefinition {
-  this.logger.info('🔧 Interactive Schema Creation');
-  this.logger.info('Press Enter to skip optional fields');
+  console.info('🔧 Interactive Schema Creation');
+  console.info('Press Enter to skip optional fields');
 
   const schema: SchemaDefinition = {};
 
@@ -71,7 +71,7 @@ function interactiveSchemaCreation(): SchemaDefinition {
   if (description) schema.description = description;
 
   const requiredFields: string[] = [];
-  this.logger.info('\n📝 Required Fields (empty line to finish):');
+  console.info('\n📝 Required Fields (empty line to finish):');
   while (true) {
     const field = prompt('Required field name: ');
     if (!field) break;
@@ -82,7 +82,7 @@ function interactiveSchemaCreation(): SchemaDefinition {
   }
 
   const properties: Record<string, FieldDefinition> = {};
-  this.logger.info('\n🏷️  Properties (empty line to finish):');
+  console.info('\n🏷️  Properties (empty line to finish):');
   while (true) {
     const fieldName = prompt('Field name: ');
     if (!fieldName) break;
@@ -100,7 +100,7 @@ function interactiveSchemaCreation(): SchemaDefinition {
 
     if (fieldType === 'object') {
       const objectProps: Record<string, FieldDefinition> = {};
-      this.logger.info(`  Properties for ${fieldName} (empty line to finish):`);
+      console.info(`  Properties for ${fieldName} (empty line to finish):`);
       while (true) {
         const propName = prompt(`  Property name: `);
         if (!propName) break;
@@ -140,26 +140,26 @@ function prompt(question: string, defaultValue?: string): string {
 }
 
 function formatValidationResult(result: any): void {
-  this.logger.info('\n📊 Validation Result:');
-  this.logger.info(`Status: ${result.isValid ? '✅ Valid' : '❌ Invalid'}`);
+  console.info('\n📊 Validation Result:');
+  console.info(`Status: ${result.isValid ? '✅ Valid' : '❌ Invalid'}`);
 
   if (result.errors.length > 0) {
-    this.logger.info('\n❌ Errors:');
+    console.info('\n❌ Errors:');
     result.errors.forEach((error: string, index: number) => {
-      this.logger.info(`  ${index + 1}. ${error}`);
+      console.info(`  ${index + 1}. ${error}`);
     });
   }
 
   if (result.warnings.length > 0) {
-    this.logger.info('\n⚠️  Warnings:');
+    console.info('\n⚠️  Warnings:');
     result.warnings.forEach((warning: string, index: number) => {
-      this.logger.info(`  ${index + 1}. ${warning}`);
+      console.info(`  ${index + 1}. ${warning}`);
     });
   }
 }
 
 function runDemo(): void {
-  this.logger.info('🎮 Running Schemas Demo...');
+  console.info('🎮 Running Schemas Demo...');
 
   // Create a sample schema
   const sampleSchema: SchemaDefinition = {
@@ -201,7 +201,7 @@ function runDemo(): void {
   // Save sample schema
   const schemaPath = './demo_schema.json';
   SchemaValidator.saveSchema(schemaPath, sampleSchema);
-  this.logger.info('✅ Created sample schema: demo_schema.json');
+  console.info('✅ Created sample schema: demo_schema.json');
 
   // Create sample valid data
   const validData = {
@@ -236,14 +236,14 @@ function runDemo(): void {
   fs.writeFileSync('./demo_valid.json', JSON.stringify(validData, null, 2));
   fs.writeFileSync('./demo_invalid.json', JSON.stringify(invalidData, null, 2));
 
-  this.logger.info('✅ Created test data files');
+  console.info('✅ Created test data files');
 
   // Validate files
-  this.logger.info('\n🔍 Validating demo_valid.json:');
+  console.info('\n🔍 Validating demo_valid.json:');
   const validResult = SchemaValidator.validate(schemaPath, './demo_valid.json');
   formatValidationResult(validResult);
 
-  this.logger.info('\n🔍 Validating demo_invalid.json:');
+  console.info('\n🔍 Validating demo_invalid.json:');
   const invalidResult = SchemaValidator.validate(schemaPath, './demo_invalid.json');
   formatValidationResult(invalidResult);
 
@@ -252,7 +252,7 @@ function runDemo(): void {
     fs.unlinkSync(schemaPath);
     fs.unlinkSync('./demo_valid.json');
     fs.unlinkSync('./demo_invalid.json');
-    this.logger.info('🧹 Demo files cleaned up');
+    console.info('🧹 Demo files cleaned up');
   } catch (e) {
     // Ignore cleanup errors
   }
@@ -263,7 +263,7 @@ async function runCLI(): Promise<void> {
     recentValidations: []
   };
 
-  this.logger.info('📋 Schemas CLI - Type "help" for commands or "demo" to see validation in action\n');
+  console.info('📋 Schemas CLI - Type "help" for commands or "demo" to see validation in action\n');
 
   const readline = require('readline');
   const rl = readline.createInterface({
@@ -287,16 +287,16 @@ async function runCLI(): Promise<void> {
 
       case 'load':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: load <schema_file>');
+          console.info('❌ Usage: load <schema_file>');
         } else {
           const schemaPath = args[0];
           const schema = SchemaValidator.loadSchema(schemaPath);
           if (schema) {
             state.currentSchema = schema;
-            this.logger.info(`✅ Loaded schema from ${schemaPath}`);
+            console.info(`✅ Loaded schema from ${schemaPath}`);
             printSchema(schema);
           } else {
-            this.logger.info(`❌ Failed to load schema from ${schemaPath}`);
+            console.info(`❌ Failed to load schema from ${schemaPath}`);
           }
         }
         break;
@@ -304,7 +304,7 @@ async function runCLI(): Promise<void> {
       case 'validate':
       case 'check':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: validate <json_file>');
+          console.info('❌ Usage: validate <json_file>');
         } else {
           const jsonPath = args[0];
           if (state.currentSchema) {
@@ -315,31 +315,31 @@ async function runCLI(): Promise<void> {
             state.recentValidations.push({ file: jsonPath, result });
             formatValidationResult(result);
           } else {
-            this.logger.info('❌ No schema loaded. Use "load <schema_file>" first.');
+            console.info('❌ No schema loaded. Use "load <schema_file>" first.');
           }
         }
         break;
 
       case 'create':
         state.currentSchema = interactiveSchemaCreation();
-        this.logger.info('✅ Schema created!');
+        console.info('✅ Schema created!');
         printSchema(state.currentSchema);
         break;
 
       case 'save':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: save <file>');
+          console.info('❌ Usage: save <file>');
         } else {
           const filePath = args[0];
           if (state.currentSchema) {
             const success = SchemaValidator.saveSchema(filePath, state.currentSchema);
             if (success) {
-              this.logger.info(`✅ Schema saved to ${filePath}`);
+              console.info(`✅ Schema saved to ${filePath}`);
             } else {
-              this.logger.info(`❌ Failed to save schema to ${filePath}`);
+              console.info(`❌ Failed to save schema to ${filePath}`);
             }
           } else {
-            this.logger.info('❌ No schema to save. Create one with "create" command.');
+            console.info('❌ No schema to save. Create one with "create" command.');
           }
         }
         break;
@@ -347,11 +347,11 @@ async function runCLI(): Promise<void> {
       case 'list':
       case 'history':
         if (state.recentValidations.length === 0) {
-          this.logger.info('No recent validations');
+          console.info('No recent validations');
         } else {
-          this.logger.info('\n📋 Recent Validations:');
+          console.info('\n📋 Recent Validations:');
           state.recentValidations.forEach((validation, index) => {
-            this.logger.info(`${index + 1}. ${validation.file}: ${validation.result.isValid ? '✅ Valid' : '❌ Invalid'}`);
+            console.info(`${index + 1}. ${validation.file}: ${validation.result.isValid ? '✅ Valid' : '❌ Invalid'}`);
           });
         }
         break;
@@ -363,13 +363,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        this.logger.info('👋 Goodbye!');
+        console.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -377,7 +377,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    this.logger.info('\n👋 Goodbye!');
+    console.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -386,7 +386,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    this.logger.error('❌ CLI Error:', error);
+    console.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

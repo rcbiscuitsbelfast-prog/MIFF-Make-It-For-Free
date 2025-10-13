@@ -273,28 +273,28 @@ export class BackupSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Backup System Manager already initialized');
+      console.warn('BackupSystemPure', 'Backup System Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Backup System Manager...');
+      console.info('BackupSystemPure', 'Initializing Backup System Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Backup System Manager initialized successfully');
+      console.info('BackupSystemPure', 'Backup System Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Backup System Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -328,11 +328,11 @@ export class BackupSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Backup system created', { systemId: system.id, systemName: system.name });
+      console.info('Backup system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create backup system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -359,7 +359,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -373,11 +373,11 @@ export class BackupSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Backup system updated', { systemId, systemName: updatedSystem.name });
+      console.info('Backup system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update backup system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -393,18 +393,18 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Backup system deleted', { systemId, systemName: system.name });
+      console.info('Backup system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete backup system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -453,7 +453,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -466,11 +466,11 @@ export class BackupSystemManager {
       system.backups.push(backup);
       this.updateAnalytics();
 
-      this.logger.info('Backup created', { systemId, backupId: backup.id, backupName: backup.name });
+      console.info('Backup created', { systemId, backupId: backup.id, backupName: backup.name });
       return backup;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create backup');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -486,18 +486,18 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const backup = system.backups.find(b => b.id === backupId);
       if (!backup) {
-        this.logger.warn('Backup not found', { systemId, backupId });
+        console.warn('Backup not found', { systemId, backupId });
         return false;
       }
 
       backup.status = 'running';
-      this.logger.info('Starting backup execution', { systemId, backupId, backupName: backup.name });
+      console.info('Starting backup execution', { systemId, backupId, backupName: backup.name });
 
       // Simulate backup execution
       await this.performBackup(backup);
@@ -506,11 +506,11 @@ export class BackupSystemManager {
       backup.completedAt = new Date();
       this.updateAnalytics();
 
-      this.logger.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
+      console.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to execute backup');
+      this.errorHandler.handleError($1);
       const system = this.systems.get(systemId);
       if (system) {
         const backup = system.backups.find(b => b.id === backupId);
@@ -533,31 +533,31 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const backup = system.backups.find(b => b.id === backupId);
       if (!backup) {
-        this.logger.warn('Backup not found', { systemId, backupId });
+        console.warn('Backup not found', { systemId, backupId });
         return false;
       }
 
       if (backup.status !== 'completed') {
-        this.logger.warn('Backup not completed', { systemId, backupId, status: backup.status });
+        console.warn('Backup not completed', { systemId, backupId, status: backup.status });
         return false;
       }
 
-      this.logger.info('Starting backup restore', { systemId, backupId, destination });
+      console.info('Starting backup restore', { systemId, backupId, destination });
 
       // Simulate restore operation
       await this.performRestore(backup, destination);
 
-      this.logger.info('Backup restored successfully', { systemId, backupId, destination });
+      console.info('Backup restored successfully', { systemId, backupId, destination });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to restore backup');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -573,7 +573,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -583,11 +583,11 @@ export class BackupSystemManager {
       };
 
       system.schedules.push(schedule);
-      this.logger.info('Backup schedule created', { systemId, scheduleId: schedule.id, scheduleName: schedule.name });
+      console.info('Backup schedule created', { systemId, scheduleId: schedule.id, scheduleName: schedule.name });
       return schedule;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create backup schedule');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -603,7 +603,7 @@ export class BackupSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -613,11 +613,11 @@ export class BackupSystemManager {
       };
 
       system.policies.push(policy);
-      this.logger.info('Backup policy created', { systemId, policyId: policy.id, policyName: policy.name });
+      console.info('Backup policy created', { systemId, policyId: policy.id, policyName: policy.name });
       return policy;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create backup policy');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -769,12 +769,12 @@ export class BackupSystemManager {
    * Destroy the Backup System Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Backup System Manager...');
+    console.info('BackupSystemPure', 'Destroying Backup System Manager...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('Backup System Manager destroyed');
+    console.info('BackupSystemPure', 'Backup System Manager destroyed');
   }
 }
 

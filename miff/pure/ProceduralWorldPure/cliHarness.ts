@@ -77,7 +77,7 @@ function main() {
     process.exitCode = 1;
   }
 
-  this.logger.info(formatOutput(out));
+  console.info(formatOutput(out));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

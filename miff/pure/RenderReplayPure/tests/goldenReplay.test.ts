@@ -338,7 +338,7 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.op).toBe('replay');
       expect(result.status).toBe('error');
       expect(result.issues).toBeDefined();
-      expect(result.issues!.length).toBeGreaterThan(0);
+      expect(result.issues?.length).toBeGreaterThan(0);
       expect(result.issues![0]).toContain('Failed to load golden test');
     });
 
@@ -358,7 +358,7 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.op).toBe('replay');
       expect(result.status).toBe('error');
       expect(result.issues).toBeDefined();
-      expect(result.issues!.length).toBeGreaterThan(0);
+      expect(result.issues?.length).toBeGreaterThan(0);
       expect(result.issues![0]).toContain('No renderData found in CLI output');
     });
 
@@ -390,9 +390,9 @@ describe('RenderReplayPure Golden Tests', () => {
       expect(result.op).toBe('replay');
       expect(result.status).toBe('error');
       expect(result.issues).toBeDefined();
-      expect(result.issues!.length).toBeGreaterThan(0);
-      expect(result.issues!.some(issue => issue.includes('Invalid render type'))).toBe(true);
-      expect(result.issues!.some(issue => issue.includes('Position x must be a number'))).toBe(true);
+      expect(result.issues?.length).toBeGreaterThan(0);
+      expect(result.issues?.some(issue => issue.includes('Invalid render type'))).toBe(true);
+      expect(result.issues?.some(issue => issue.includes('Position x must be a number'))).toBe(true);
     });
 
     test('✓ exports replay session to JSON', () => {

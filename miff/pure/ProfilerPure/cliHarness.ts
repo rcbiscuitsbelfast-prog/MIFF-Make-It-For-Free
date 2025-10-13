@@ -32,7 +32,7 @@ function main() {
       const loadedConfig = SafeJSONParser.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
       config = { ...config, ...loadedConfig };
     } catch (error) {
-      this.logger.error('Error loading config:', error);
+      console.error('Error loading config:', error);
       process.exit(1);
     }
   }
@@ -169,7 +169,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(profiler: Profiler): any {

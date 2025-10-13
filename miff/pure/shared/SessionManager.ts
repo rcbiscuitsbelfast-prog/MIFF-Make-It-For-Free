@@ -153,7 +153,7 @@ export class SessionManager {
   /**
    * Get session by ID
    */
-  getSession(sessionId: string): Session | undefined {
+  getSession(sessionId: string): Session! {
     return this.authSystem['sessions'].get(sessionId);
   }
 
@@ -189,7 +189,7 @@ export class SessionManager {
 
       return true;
     } catch (error) {
-      this.logger.error('Failed to update session activity:', error);
+      console.error('Failed to update session activity:', error);
       return false;
     }
   }
@@ -221,7 +221,7 @@ export class SessionManager {
 
       return true;
     } catch (error) {
-      this.logger.error('Failed to refresh session:', error);
+      console.error('Failed to refresh session:', error);
       return false;
     }
   }
@@ -254,7 +254,7 @@ export class SessionManager {
 
       return true;
     } catch (error) {
-      this.logger.error('Failed to terminate session:', error);
+      console.error('Failed to terminate session:', error);
       return false;
     }
   }
@@ -275,7 +275,7 @@ export class SessionManager {
 
       return terminatedCount;
     } catch (error) {
-      this.logger.error('Failed to terminate user sessions:', error);
+      console.error('Failed to terminate user sessions:', error);
       return 0;
     }
   }
@@ -319,7 +319,7 @@ export class SessionManager {
 
       return cleanedCount;
     } catch (error) {
-      this.logger.error('Failed to cleanup expired sessions:', error);
+      console.error('Failed to cleanup expired sessions:', error);
       return 0;
     }
   }
@@ -406,10 +406,10 @@ export class SessionManager {
       try {
         const cleanedCount = await this.cleanupExpiredSessions();
         if (cleanedCount > 0) {
-          this.logger.info(`Cleaned up ${cleanedCount} expired sessions`);
+          console.info(`Cleaned up ${cleanedCount} expired sessions`);
         }
       } catch (error) {
-        this.logger.error('Session cleanup error:', error);
+        console.error('Session cleanup error:', error);
       }
     }, this.config.cleanupInterval * 1000);
   }
@@ -422,10 +422,10 @@ export class SessionManager {
         this.updateStats();
         const alerts = this.getAlerts();
         if (alerts.length > 0 && this.monitor.notifications.log) {
-          this.logger.info('Session monitoring alerts:', alerts);
+          console.info('Session monitoring alerts:', alerts);
         }
       } catch (error) {
-        this.logger.error('Session monitoring error:', error);
+        console.error('Session monitoring error:', error);
       }
     }, this.monitor.checkInterval * 1000);
   }

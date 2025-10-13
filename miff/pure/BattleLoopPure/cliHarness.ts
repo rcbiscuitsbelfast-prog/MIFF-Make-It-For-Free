@@ -76,7 +76,7 @@ class BattleLoopPureCLI {
    * Initialize demo data
    */
   private initializeDemo(): void {
-    this.logger.info('Initializing BattleLoopPure CLI...');
+    console.info('Initializing BattleLoopPure CLI...');
 
     // Create a simple action selector for demo
     const actionSelector = (actorId: number, availableMoves: string[]) => {
@@ -96,7 +96,7 @@ class BattleLoopPureCLI {
    * Run demo turns
    */
   private runDemoTurns(actionSelector: (actorId: number, availableMoves: string[]) => BattleAction): void {
-    this.logger.info('Running demo battle turns...');
+    console.info('Running demo battle turns...');
 
     for (let i = 0; i < 3; i++) {
       const seed = 1000 + i;
@@ -112,35 +112,35 @@ class BattleLoopPureCLI {
       this.battleHistory.push(state);
       this.currentTurn = state.currentTurn;
 
-      this.logger.info(`Demo Turn ${state.currentTurn} completed. Active: ${state.isActive}`);
+      console.info(`Demo Turn ${state.currentTurn} completed. Active: ${state.isActive}`);
     }
 
-    this.logger.info('Demo completed. Use "battle" command to run custom battles.');
+    console.info('Demo completed. Use "battle" command to run custom battles.');
   }
 
   /**
    * Start CLI application
    */
   start(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('⚔️ BattleLoopPure CLI - Battle Loop Management System');
-    this.logger.info('='.repeat(60));
-    this.logger.info('');
-    this.logger.info('Available commands:');
-    this.logger.info('  battle [turns]    - Run battle simulation');
-    this.logger.info('  phase             - Show current phase');
-    this.logger.info('  state             - Show current battle state');
-    this.logger.info('  history           - Show battle history');
-    this.logger.info('  stats             - Show battle statistics');
-    this.logger.info('  actors            - Show available actors');
-    this.logger.info('  moves             - Show available moves');
-    this.logger.info('  addactor [id]     - Add actor to battle');
-    this.logger.info('  addmove [actor] [move] - Add move to actor');
-    this.logger.info('  clear             - Clear battle state');
-    this.logger.info('  demo              - Run demo battle');
-    this.logger.info('  help              - Show this help');
-    this.logger.info('  exit              - Exit application');
-    this.logger.info('');
+    console.info('='.repeat(60));
+    console.info('⚔️ BattleLoopPure CLI - Battle Loop Management System');
+    console.info('='.repeat(60));
+    console.info('');
+    console.info('Available commands:');
+    console.info('  battle [turns]    - Run battle simulation');
+    console.info('  phase             - Show current phase');
+    console.info('  state             - Show current battle state');
+    console.info('  history           - Show battle history');
+    console.info('  stats             - Show battle statistics');
+    console.info('  actors            - Show available actors');
+    console.info('  moves             - Show available moves');
+    console.info('  addactor [id]     - Add actor to battle');
+    console.info('  addmove [actor] [move] - Add move to actor');
+    console.info('  clear             - Clear battle state');
+    console.info('  demo              - Run demo battle');
+    console.info('  help              - Show this help');
+    console.info('  exit              - Exit application');
+    console.info('');
 
     this.showPrompt();
   }
@@ -220,11 +220,11 @@ class BattleLoopPureCLI {
           this.exit();
           return;
         default:
-          this.logger.info(`❌ Unknown command: ${command}`);
-          this.logger.info('Type "help" for available commands.');
+          console.info(`❌ Unknown command: ${command}`);
+          console.info('Type "help" for available commands.');
       }
     } catch (error) {
-      this.logger.info(`❌ Error: ${error}`);
+      console.info(`❌ Error: ${error}`);
     }
 
     this.showPrompt();
@@ -234,31 +234,31 @@ class BattleLoopPureCLI {
    * Show help information
    */
   private showHelp(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('📚 BattleLoopPure CLI Help');
-    this.logger.info('='.repeat(60));
-    this.logger.info('');
-    this.logger.info('Commands:');
-    this.logger.info('  help                    - Show this help');
-    this.logger.info('  battle [turns]          - Run battle simulation');
-    this.logger.info('  phase                   - Show current phase');
-    this.logger.info('  state                   - Show current battle state');
-    this.logger.info('  history                 - Show battle history');
-    this.logger.info('  stats                   - Show battle statistics');
-    this.logger.info('  actors                  - Show available actors');
-    this.logger.info('  moves                   - Show available moves');
-    this.logger.info('  addactor [id]           - Add actor to battle');
-    this.logger.info('  addmove [actor] [move]  - Add move to actor');
-    this.logger.info('  clear                   - Clear battle state');
-    this.logger.info('  demo                    - Run demo battle');
-    this.logger.info('  exit                    - Exit the application');
-    this.logger.info('');
-    this.logger.info('Examples:');
-    this.logger.info('  battle 5                - Run 5-turn battle');
-    this.logger.info('  addactor 3              - Add actor with ID 3');
-    this.logger.info('  addmove 1 fireball      - Add fireball move to actor 1');
-    this.logger.info('  state                   - Show current state');
-    this.logger.info('');
+    console.info('='.repeat(60));
+    console.info('📚 BattleLoopPure CLI Help');
+    console.info('='.repeat(60));
+    console.info('');
+    console.info('Commands:');
+    console.info('  help                    - Show this help');
+    console.info('  battle [turns]          - Run battle simulation');
+    console.info('  phase                   - Show current phase');
+    console.info('  state                   - Show current battle state');
+    console.info('  history                 - Show battle history');
+    console.info('  stats                   - Show battle statistics');
+    console.info('  actors                  - Show available actors');
+    console.info('  moves                   - Show available moves');
+    console.info('  addactor [id]           - Add actor to battle');
+    console.info('  addmove [actor] [move]  - Add move to actor');
+    console.info('  clear                   - Clear battle state');
+    console.info('  demo                    - Run demo battle');
+    console.info('  exit                    - Exit the application');
+    console.info('');
+    console.info('Examples:');
+    console.info('  battle 5                - Run 5-turn battle');
+    console.info('  addactor 3              - Add actor with ID 3');
+    console.info('  addmove 1 fireball      - Add fireball move to actor 1');
+    console.info('  state                   - Show current state');
+    console.info('');
   }
 
   /**
@@ -267,7 +267,7 @@ class BattleLoopPureCLI {
   private async runBattle(args: string[]): Promise<void> {
     const turnCount = parseInt(args[0]) || 3;
 
-    this.logger.info(`⚔️ Starting battle simulation for ${turnCount} turns...`);
+    console.info(`⚔️ Starting battle simulation for ${turnCount} turns...`);
 
     const actionSelector = (actorId: number, availableMoves: string[]) => {
       // Simple AI: choose random move
@@ -283,7 +283,7 @@ class BattleLoopPureCLI {
 
     for (let turn = 1; turn <= turnCount; turn++) {
       const seed = Date.now() + turn;
-      this.logger.info(`📍 Turn ${turn} (Seed: ${seed})`);
+      console.info(`📍 Turn ${turn} (Seed: ${seed})`);
 
       // Start the battle if not already active
       if (!this.controller.getState().isActive) {
@@ -297,12 +297,12 @@ class BattleLoopPureCLI {
       this.battleHistory.push(state);
       this.currentTurn = state.currentTurn;
 
-      this.logger.info(`   Turn: ${state.currentTurn}`);
-      this.logger.info(`   Active: ${state.isActive}`);
-      this.logger.info(`   Paused: ${state.isPaused}`);
+      console.info(`   Turn: ${state.currentTurn}`);
+      console.info(`   Active: ${state.isActive}`);
+      console.info(`   Paused: ${state.isPaused}`);
 
       if (state.winner) {
-        this.logger.info(`🏁 Battle ended: Winner ${state.winner} (${state.reason})`);
+        console.info(`🏁 Battle ended: Winner ${state.winner} (${state.reason})`);
         break;
       }
 
@@ -310,7 +310,7 @@ class BattleLoopPureCLI {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
 
-    this.logger.info('✅ Battle simulation completed!');
+    console.info('✅ Battle simulation completed!');
   }
 
   /**
@@ -318,15 +318,15 @@ class BattleLoopPureCLI {
    */
   private showCurrentPhase(): void {
     const state = this.controller.getState();
-    this.logger.info('='.repeat(60));
-    this.logger.info('📍 Current Battle State');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('📍 Current Battle State');
+    console.info('='.repeat(60));
 
-    this.logger.info(`Current Turn: ${state.currentTurn}`);
-    this.logger.info(`Active: ${state.isActive}`);
-    this.logger.info(`Paused: ${state.isPaused}`);
+    console.info(`Current Turn: ${state.currentTurn}`);
+    console.info(`Active: ${state.isActive}`);
+    console.info(`Paused: ${state.isPaused}`);
     if (state.winner) {
-      this.logger.info(`Winner: ${state.winner} (${state.reason})`);
+      console.info(`Winner: ${state.winner} (${state.reason})`);
     }
   }
 
@@ -336,20 +336,20 @@ class BattleLoopPureCLI {
   private showBattleState(): void {
     const state = this.controller.getState();
 
-    this.logger.info('='.repeat(60));
-    this.logger.info('📊 Current Battle State');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('📊 Current Battle State');
+    console.info('='.repeat(60));
 
-    this.logger.info(`Current Turn: ${state.currentTurn}`);
-    this.logger.info(`Active: ${state.isActive}`);
-    this.logger.info(`Paused: ${state.isPaused}`);
+    console.info(`Current Turn: ${state.currentTurn}`);
+    console.info(`Active: ${state.isActive}`);
+    console.info(`Paused: ${state.isPaused}`);
     if (state.winner) {
-      this.logger.info(`Winner: ${state.winner} (${state.reason})`);
+      console.info(`Winner: ${state.winner} (${state.reason})`);
     }
 
-    this.logger.info('Battle History:');
+    console.info('Battle History:');
     this.battleHistory.slice(-3).forEach((historyState, index) => {
-      this.logger.info(`  ${index + 1}. Turn ${historyState.currentTurn} - Active: ${historyState.isActive}`);
+      console.info(`  ${index + 1}. Turn ${historyState.currentTurn} - Active: ${historyState.isActive}`);
     });
   }
 
@@ -357,27 +357,27 @@ class BattleLoopPureCLI {
    * Show battle history
    */
   private showBattleHistory(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('📜 Battle History');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('📜 Battle History');
+    console.info('='.repeat(60));
 
     if (this.battleHistory.length === 0) {
-      this.logger.info('No battle history available.');
+      console.info('No battle history available.');
       return;
     }
 
     this.battleHistory.forEach((state, index) => {
-      this.logger.info(`Turn ${state.currentTurn}:`);
-      this.logger.info(`  Active: ${state.isActive}`);
-      this.logger.info(`  Paused: ${state.isPaused}`);
+      console.info(`Turn ${state.currentTurn}:`);
+      console.info(`  Active: ${state.isActive}`);
+      console.info(`  Paused: ${state.isPaused}`);
       if (state.winner) {
-        this.logger.info(`  Winner: ${state.winner} (${state.reason})`);
+        console.info(`  Winner: ${state.winner} (${state.reason})`);
       }
-      this.logger.info('');
+      console.info('');
     });
 
-    this.logger.info(`Total Turns: ${this.battleHistory.length}`);
-    this.logger.info(`Current Turn: ${this.currentTurn}`);
+    console.info(`Total Turns: ${this.battleHistory.length}`);
+    console.info(`Current Turn: ${this.currentTurn}`);
   }
 
   /**
@@ -387,30 +387,30 @@ class BattleLoopPureCLI {
     const state = this.controller.getState();
     const config = this.controller.getConfig();
 
-    this.logger.info('='.repeat(60));
-    this.logger.info('📈 Battle Statistics');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('📈 Battle Statistics');
+    console.info('='.repeat(60));
 
-    this.logger.info(`Current Turn: ${state.currentTurn}`);
-    this.logger.info(`Max Turns: ${config.maxTurns}`);
-    this.logger.info(`Timeout: ${config.timeoutMs}ms`);
-    this.logger.info(`Auto Resolve: ${config.enableAutoResolve}`);
-    this.logger.info(`Replay Enabled: ${config.enableReplay}`);
-    this.logger.info(`Battle History: ${this.battleHistory.length} turns`);
+    console.info(`Current Turn: ${state.currentTurn}`);
+    console.info(`Max Turns: ${config.maxTurns}`);
+    console.info(`Timeout: ${config.timeoutMs}ms`);
+    console.info(`Auto Resolve: ${config.enableAutoResolve}`);
+    console.info(`Replay Enabled: ${config.enableReplay}`);
+    console.info(`Battle History: ${this.battleHistory.length} turns`);
   }
 
   /**
    * Show available actors
    */
   private showActors(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('👥 Available Actors');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('👥 Available Actors');
+    console.info('='.repeat(60));
 
-    this.logger.info(`Total Actors: ${this.availableActors.length}`);
+    console.info(`Total Actors: ${this.availableActors.length}`);
     this.availableActors.forEach((actorId, index) => {
       const moves = this.availableMoves[actorId] || [];
-      this.logger.info(`${index + 1}. Actor ${actorId} - Moves: ${moves.join(', ')}`);
+      console.info(`${index + 1}. Actor ${actorId} - Moves: ${moves.join(', ')}`);
     });
   }
 
@@ -418,16 +418,16 @@ class BattleLoopPureCLI {
    * Show available moves
    */
   private showMoves(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('🎯 Available Moves');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('🎯 Available Moves');
+    console.info('='.repeat(60));
 
-    this.logger.info('Moves by Actor:');
+    console.info('Moves by Actor:');
     Object.entries(this.availableMoves).forEach(([actorId, moves]) => {
-      this.logger.info(`Actor ${actorId}: ${moves.join(', ')}`);
+      console.info(`Actor ${actorId}: ${moves.join(', ')}`);
     });
 
-    this.logger.info('All Moves:');
+    console.info('All Moves:');
     const allMoves = Array.from(new Set(
       Object.values(this.availableMoves).flat()
     )).sort();
@@ -437,7 +437,7 @@ class BattleLoopPureCLI {
         .filter(([, moves]) => moves.includes(move))
         .map(([actorId]) => actorId);
 
-      this.logger.info(`${index + 1}. ${move} (Actors: ${actors.join(', ')})`);
+      console.info(`${index + 1}. ${move} (Actors: ${actors.join(', ')})`);
     });
   }
 
@@ -446,25 +446,25 @@ class BattleLoopPureCLI {
    */
   private addActor(args: string[]): void {
     if (args.length === 0) {
-      this.logger.info('❌ Usage: addactor [actor_id]');
+      console.info('❌ Usage: addactor [actor_id]');
       return;
     }
 
     const actorId = parseInt(args[0]);
     if (isNaN(actorId) || actorId <= 0) {
-      this.logger.info('❌ Invalid actor ID. Must be a positive number.');
+      console.info('❌ Invalid actor ID. Must be a positive number.');
       return;
     }
 
     if (this.availableActors.includes(actorId)) {
-      this.logger.info(`❌ Actor ${actorId} already exists.`);
+      console.info(`❌ Actor ${actorId} already exists.`);
       return;
     }
 
     this.availableActors.push(actorId);
     this.availableMoves[actorId] = ['attack', 'defend']; // Default moves
 
-    this.logger.info(`✅ Added Actor ${actorId} with default moves: attack, defend`);
+    console.info(`✅ Added Actor ${actorId} with default moves: attack, defend`);
   }
 
   /**
@@ -472,7 +472,7 @@ class BattleLoopPureCLI {
    */
   private addMove(args: string[]): void {
     if (args.length < 2) {
-      this.logger.info('❌ Usage: addmove [actor_id] [move_name]');
+      console.info('❌ Usage: addmove [actor_id] [move_name]');
       return;
     }
 
@@ -480,7 +480,7 @@ class BattleLoopPureCLI {
     const moveName = args[1];
 
     if (!this.availableActors.includes(actorId)) {
-      this.logger.info(`❌ Actor ${actorId} not found. Use "addactor" first.`);
+      console.info(`❌ Actor ${actorId} not found. Use "addactor" first.`);
       return;
     }
 
@@ -489,12 +489,12 @@ class BattleLoopPureCLI {
     }
 
     if (this.availableMoves[actorId].includes(moveName)) {
-      this.logger.info(`❌ Move "${moveName}" already exists for actor ${actorId}.`);
+      console.info(`❌ Move "${moveName}" already exists for actor ${actorId}.`);
       return;
     }
 
     this.availableMoves[actorId].push(moveName);
-    this.logger.info(`✅ Added move "${moveName}" to actor ${actorId}`);
+    console.info(`✅ Added move "${moveName}" to actor ${actorId}`);
   }
 
   /**
@@ -505,8 +505,8 @@ class BattleLoopPureCLI {
     this.battleHistory = [];
     this.currentTurn = 0;
 
-    this.logger.info('🗑️ Battle state cleared');
-    this.logger.info('Use "demo" to run a new demo or "battle" to start a custom battle.');
+    console.info('🗑️ Battle state cleared');
+    console.info('Use "demo" to run a new demo or "battle" to start a custom battle.');
   }
 
   /**
@@ -531,8 +531,8 @@ class BattleLoopPureCLI {
    * Exit application
    */
   private exit(): void {
-    this.logger.info('');
-    this.logger.info('👋 Thank you for using BattleLoopPure CLI!');
+    console.info('');
+    console.info('👋 Thank you for using BattleLoopPure CLI!');
     this.rl.close();
     process.exit(0);
   }

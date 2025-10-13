@@ -63,10 +63,10 @@ export class UnityEditorCLI {
   }
 
   private initializeUnityProject(): void {
-    this.logger.info('🎯 Initializing Unity Editor CLI...');
-    this.logger.info(`📁 Project Path: ${this.projectPath}`);
-    this.logger.info(`📦 Assets Path: ${this.assetsPath}`);
-    this.logger.info(`🔧 Scripts Path: ${this.scriptsPath}`);
+    console.info('🎯 Initializing Unity Editor CLI...');
+    console.info(`📁 Project Path: ${this.projectPath}`);
+    console.info(`📦 Assets Path: ${this.assetsPath}`);
+    console.info(`🔧 Scripts Path: ${this.scriptsPath}`);
 
     // Ensure project directories exist
     if (!fs.existsSync(this.projectPath)) {
@@ -81,11 +81,11 @@ export class UnityEditorCLI {
       fs.mkdirSync(this.scriptsPath, { recursive: true });
     }
 
-    this.logger.info('✅ Unity Editor CLI initialized');
+    console.info('✅ Unity Editor CLI initialized');
   }
 
   async connectToEditor(): Promise<boolean> {
-    this.logger.info('🔌 Connecting to Unity Editor...');
+    console.info('🔌 Connecting to Unity Editor...');
 
     try {
       // In a real implementation, this would connect to the running Unity Editor
@@ -93,16 +93,16 @@ export class UnityEditorCLI {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       this.isConnected = true;
-      this.logger.info('✅ Connected to Unity Editor');
+      console.info('✅ Connected to Unity Editor');
       return true;
     } catch (error) {
-      this.logger.error('❌ Failed to connect to Unity Editor:', error);
+      console.error('❌ Failed to connect to Unity Editor:', error);
       return false;
     }
   }
 
   async testCombatIntegration(): Promise<void> {
-    this.logger.info('⚔️  Testing CombatPure integration with Unity Editor...');
+    console.info('⚔️  Testing CombatPure integration with Unity Editor...');
 
     try {
       // Create sample combat scene
@@ -181,7 +181,7 @@ export class UnityEditorCLI {
 
       fs.writeFileSync(sceneFile, JSON.stringify(combatScene, null, 2));
 
-      this.logger.info(`✅ Combat scene created: ${sceneFile}`);
+      console.info(`✅ Combat scene created: ${sceneFile}`);
 
       // Test bridge communication
       const testMessage = {
@@ -206,17 +206,17 @@ export class UnityEditorCLI {
         }
       };
 
-      this.logger.info('📤 Sending combat integration test...');
+      console.info('📤 Sending combat integration test...');
       // In real implementation, this would send the message to Unity Editor
 
-      this.logger.info('✅ Combat integration test completed');
+      console.info('✅ Combat integration test completed');
     } catch (error) {
-      this.logger.error('💥 Combat integration test failed:', error);
+      console.error('💥 Combat integration test failed:', error);
     }
   }
 
   async testItemIntegration(): Promise<void> {
-    this.logger.info('🎒 Testing ItemsPure integration with Unity Editor...');
+    console.info('🎒 Testing ItemsPure integration with Unity Editor...');
 
     try {
       // Create sample inventory system
@@ -321,7 +321,7 @@ export class UnityEditorCLI {
 
       fs.writeFileSync(prefabFile, JSON.stringify(inventorySystem, null, 2));
 
-      this.logger.info(`✅ Inventory system created: ${prefabFile}`);
+      console.info(`✅ Inventory system created: ${prefabFile}`);
 
       // Test item system integration
       const testMessage = {
@@ -348,17 +348,17 @@ export class UnityEditorCLI {
         }
       };
 
-      this.logger.info('📤 Sending inventory integration test...');
+      console.info('📤 Sending inventory integration test...');
       // In real implementation, this would send the message to Unity Editor
 
-      this.logger.info('✅ Item integration test completed');
+      console.info('✅ Item integration test completed');
     } catch (error) {
-      this.logger.error('💥 Item integration test failed:', error);
+      console.error('💥 Item integration test failed:', error);
     }
   }
 
   async testAIIntegration(): Promise<void> {
-    this.logger.info('🤖 Testing AIPure integration with Unity Editor...');
+    console.info('🤖 Testing AIPure integration with Unity Editor...');
 
     try {
       // Create sample AI behavior system
@@ -509,7 +509,7 @@ public class MIFFBattleAI : MonoBehaviour
 
       fs.writeFileSync(scriptFile, scriptContent);
 
-      this.logger.info(`✅ AI system created: ${scriptFile}`);
+      console.info(`✅ AI system created: ${scriptFile}`);
 
       // Test AI policy integration
       const testMessage = {
@@ -536,22 +536,22 @@ public class MIFFBattleAI : MonoBehaviour
         }
       };
 
-      this.logger.info('📤 Sending AI integration test...');
+      console.info('📤 Sending AI integration test...');
       // In real implementation, this would send the message to Unity Editor
 
-      this.logger.info('✅ AI integration test completed');
+      console.info('✅ AI integration test completed');
     } catch (error) {
-      this.logger.error('💥 AI integration test failed:', error);
+      console.error('💥 AI integration test failed:', error);
     }
   }
 
   async runLiveValidation(): Promise<void> {
-    this.logger.info('🔍 Running live validation in Unity Editor...');
+    console.info('🔍 Running live validation in Unity Editor...');
 
     if (!this.isConnected) {
       const connected = await this.connectToEditor();
       if (!connected) {
-        this.logger.info('⚠️  Skipping live validation - not connected to Unity Editor');
+        console.info('⚠️  Skipping live validation - not connected to Unity Editor');
         return;
       }
     }
@@ -566,14 +566,14 @@ public class MIFFBattleAI : MonoBehaviour
       // Test AI integration
       await this.testAIIntegration();
 
-      this.logger.info('✅ Live validation completed successfully');
+      console.info('✅ Live validation completed successfully');
     } catch (error) {
-      this.logger.error('💥 Live validation failed:', error);
+      console.error('💥 Live validation failed:', error);
     }
   }
 
   async createEditorPlugin(): Promise<void> {
-    this.logger.info('🔧 Creating Unity Editor Plugin...');
+    console.info('🔧 Creating Unity Editor Plugin...');
 
     const pluginDir = path.join(this.assetsPath, 'Editor', 'MIFFBridge');
     if (!fs.existsSync(pluginDir)) {
@@ -735,11 +735,11 @@ public class MIFFBridge : EditorWindow
 
     fs.writeFileSync(path.join(pluginDir, 'MIFFBridge.cs'), pluginScript);
 
-    this.logger.info(`✅ Unity Editor Plugin created: ${pluginDir}`);
+    console.info(`✅ Unity Editor Plugin created: ${pluginDir}`);
   }
 
   async generateProjectFiles(): Promise<void> {
-    this.logger.info('📄 Generating Unity project files...');
+    console.info('📄 Generating Unity project files...');
 
     // Create project settings
     const projectSettings = {
@@ -773,40 +773,40 @@ public class MIFFBridge : EditorWindow
       JSON.stringify(manifest, null, 2)
     );
 
-    this.logger.info('✅ Unity project files generated');
+    console.info('✅ Unity project files generated');
   }
 
   async demo(): Promise<void> {
-    this.logger.info('🎮 Unity Editor CLI Demo');
-    this.logger.info('=========================');
+    console.info('🎮 Unity Editor CLI Demo');
+    console.info('=========================');
 
-    this.logger.info('This demo shows how MIFF integrates with Unity Editor:');
-    this.logger.info('');
-    this.logger.info('1. ⚔️  CombatPure → Unity Battle System');
-    this.logger.info('   - Spirit data becomes Unity GameObjects with components');
-    this.logger.info('   - Move execution through Unity physics and animation');
-    this.logger.info('   - Battle events trigger Unity particle effects');
-    this.logger.info('');
-    this.logger.info('2. 🎒 ItemsPure → Unity Inventory System');
-    this.logger.info('   - Items become Unity ScriptableObjects');
-    this.logger.info('   - Effect systems integrate with Unity VFX Graph');
-    this.logger.info('   - Inventory UI rendered with Unity UI Canvas');
-    this.logger.info('');
-    this.logger.info('3. 🤖 AIPure → Unity AI Behavior');
-    this.logger.info('   - AI policies control Unity NavMeshAgent components');
-    this.logger.info('   - Decision trees become Unity Behavior Designer trees');
-    this.logger.info('   - Tactical analysis drives Unity formation systems');
-    this.logger.info('');
-    this.logger.info('4. 🎨 SceneBuilderPure → Unity Scene Composition');
-    this.logger.info('   - Scene templates become Unity .unity scene files');
-    this.logger.info('   - Layer system maps to Unity layer hierarchy');
-    this.logger.info('   - Optimization settings configure Unity render pipeline');
-    this.logger.info('');
-    this.logger.info('5. 🎯 Editor Integration');
-    this.logger.info('   - Live bridge validation within Unity Editor');
-    this.logger.info('   - Real-time testing of MIFF modules');
-    this.logger.info('   - Editor plugin for seamless workflow');
-    this.logger.info('');
+    console.info('This demo shows how MIFF integrates with Unity Editor:');
+    console.info('');
+    console.info('1. ⚔️  CombatPure → Unity Battle System');
+    console.info('   - Spirit data becomes Unity GameObjects with components');
+    console.info('   - Move execution through Unity physics and animation');
+    console.info('   - Battle events trigger Unity particle effects');
+    console.info('');
+    console.info('2. 🎒 ItemsPure → Unity Inventory System');
+    console.info('   - Items become Unity ScriptableObjects');
+    console.info('   - Effect systems integrate with Unity VFX Graph');
+    console.info('   - Inventory UI rendered with Unity UI Canvas');
+    console.info('');
+    console.info('3. 🤖 AIPure → Unity AI Behavior');
+    console.info('   - AI policies control Unity NavMeshAgent components');
+    console.info('   - Decision trees become Unity Behavior Designer trees');
+    console.info('   - Tactical analysis drives Unity formation systems');
+    console.info('');
+    console.info('4. 🎨 SceneBuilderPure → Unity Scene Composition');
+    console.info('   - Scene templates become Unity .unity scene files');
+    console.info('   - Layer system maps to Unity layer hierarchy');
+    console.info('   - Optimization settings configure Unity render pipeline');
+    console.info('');
+    console.info('5. 🎯 Editor Integration');
+    console.info('   - Live bridge validation within Unity Editor');
+    console.info('   - Real-time testing of MIFF modules');
+    console.info('   - Editor plugin for seamless workflow');
+    console.info('');
 
     await this.runLiveValidation();
   }
@@ -847,17 +847,17 @@ async function main() {
       break;
     case 'help':
     default:
-      this.logger.info('Unity Editor CLI');
-      this.logger.info('Usage:');
-      this.logger.info('  node unity-editor-cli.ts connect [project-path]  # Connect to Unity Editor');
-      this.logger.info('  node unity-editor-cli.ts combat [project-path]   # Test CombatPure integration');
-      this.logger.info('  node unity-editor-cli.ts items [project-path]    # Test ItemsPure integration');
-      this.logger.info('  node unity-editor-cli.ts ai [project-path]       # Test AIPure integration');
-      this.logger.info('  node unity-editor-cli.ts validate [project-path] # Run live validation');
-      this.logger.info('  node unity-editor-cli.ts plugin [project-path]   # Create editor plugin');
-      this.logger.info('  node unity-editor-cli.ts project [project-path]  # Generate project files');
-      this.logger.info('  node unity-editor-cli.ts demo [project-path]     # Run interactive demo');
-      this.logger.info('  node unity-editor-cli.ts help                    # Show this help');
+      console.info('Unity Editor CLI');
+      console.info('Usage:');
+      console.info('  node unity-editor-cli.ts connect [project-path]  # Connect to Unity Editor');
+      console.info('  node unity-editor-cli.ts combat [project-path]   # Test CombatPure integration');
+      console.info('  node unity-editor-cli.ts items [project-path]    # Test ItemsPure integration');
+      console.info('  node unity-editor-cli.ts ai [project-path]       # Test AIPure integration');
+      console.info('  node unity-editor-cli.ts validate [project-path] # Run live validation');
+      console.info('  node unity-editor-cli.ts plugin [project-path]   # Create editor plugin');
+      console.info('  node unity-editor-cli.ts project [project-path]  # Generate project files');
+      console.info('  node unity-editor-cli.ts demo [project-path]     # Run interactive demo');
+      console.info('  node unity-editor-cli.ts help                    # Show this help');
       break;
   }
 }

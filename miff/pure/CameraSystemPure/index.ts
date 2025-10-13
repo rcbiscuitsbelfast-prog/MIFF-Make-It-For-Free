@@ -766,12 +766,12 @@ export class CameraSystemPure {
   createCamera(cameraId: string, targetEntity?: string): CameraInstance | null {
     const definition = this.cameraDefinitions.get(cameraId);
     if (!definition) {
-      this.logger.warn(`Camera definition not found: ${cameraId}`);
+      console.warn(`Camera definition not found: ${cameraId}`);
       return null;
     }
 
     if (this.activeCameras.size >= this.config.maxActiveCameras) {
-      this.logger.warn('Maximum active cameras reached');
+      console.warn('Maximum active cameras reached');
       return null;
     }
 
@@ -825,7 +825,7 @@ export class CameraSystemPure {
       targetEntity
     });
 
-    this.logger.info(`📷 Created camera: ${definition.name} (${instance.id})`);
+    console.info(`📷 Created camera: ${definition.name} (${instance.id})`);
     return instance;
   }
 

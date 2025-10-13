@@ -43,7 +43,7 @@ describe('RaidSystemPure Golden', () => {
     expect(encounter?.status).toBe('active');
     expect(encounter?.totalPhases).toBeGreaterThan(0);
 
-    const processed = raid.processEncounter(encounter!.id, [
+    const processed = raid.processEncounter(encounter?.id, [
       { timestamp: Date.now(), type: 'damage', source: 'd1', target: 'dragon', value: 1200, description: '' },
       { timestamp: Date.now(), type: 'healing', source: 'h1', target: 't1', value: 800, description: '' },
       { timestamp: Date.now(), type: 'phase_change', source: 'system', target: 'phase', value: 2, description: '' }

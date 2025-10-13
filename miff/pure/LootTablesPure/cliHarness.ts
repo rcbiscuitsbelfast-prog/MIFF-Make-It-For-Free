@@ -19,7 +19,7 @@ function main() {
   const commandsPath = process.argv[3];
   
   if (!tablesPath || !commandsPath) {
-    this.logger.error('Usage: cliHarness.ts <tables.json> <commands.json>');
+    console.error('Usage: cliHarness.ts <tables.json> <commands.json>');
     process.exit(1);
   }
 
@@ -100,7 +100,7 @@ function main() {
     }
   });
 
-  this.logger.info(JSON.stringify({ log, outputs }, null, 2));
+  console.info(JSON.stringify({ log, outputs }, null, 2));
 }
 
 main();

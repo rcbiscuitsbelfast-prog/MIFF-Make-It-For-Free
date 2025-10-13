@@ -530,7 +530,7 @@ export class BattleEffect implements IBattleEffect {
 
     if (this.value === 0 && this.effectType !== EffectType.STUN) {
       // Some effects might legitimately have 0 value, but warn about it
-      this.logger.warn(`Effect ${this.effectId} has value of 0`);
+      console.warn(`Effect ${this.effectId} has value of 0`);
     }
 
     return errors;
@@ -1166,7 +1166,7 @@ export class EffectResolver implements IEffectResolver {
       if (!effectGroups.has(key)) {
         effectGroups.set(key, []);
       }
-      effectGroups.get(key)!.push(effect);
+      effectGroups.get(key)?.push(effect);
     });
 
     const resolvedEffects: IActiveEffect[] = [];
@@ -1306,7 +1306,7 @@ export class EffectManager implements IEffectManager {
 
     const errors = effect.validate();
     if (errors.length > 0) {
-      this.logger.warn(`Invalid effect ${effect.effectId}:`, errors);
+      console.warn(`Invalid effect ${effect.effectId}:`, errors);
       return EffectApplicationResult.REJECTED;
     }
 
@@ -1545,7 +1545,7 @@ export const EffectUtils = {
         if (!entityStats.has(entityId)) {
           entityStats.set(entityId, new Map());
         }
-        entityStats.get(entityId)!.set(stat, Math.max(0, value));
+        entityStats.get(entityId)?.set(stat, Math.max(0, value));
       },
       hasImmunity: (entityId: string, immunityTag: string) => false,
       getEntityImmunities: (entityId: string) => [],

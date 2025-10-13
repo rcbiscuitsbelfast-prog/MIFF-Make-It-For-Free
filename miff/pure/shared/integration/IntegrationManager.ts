@@ -168,7 +168,7 @@ export class IntegrationManager {
     });
     
     this.eventBus.subscribe('integration:unregister', (event: BusEvent) => {
-      const id = (event.data && (event.data as any).id) as string | undefined;
+      const id = (event.data && (event.data as any).id) as string!;
       if (typeof id === 'string') {
         this.unregisterIntegration(id);
       }

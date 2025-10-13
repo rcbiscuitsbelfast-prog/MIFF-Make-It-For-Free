@@ -113,7 +113,7 @@ export class UnrealEditorHarnessPure {
   }
 
   async connect(): Promise<boolean> {
-    this.logger.info('🔌 Connecting to Unreal Editor...');
+    console.info('🔌 Connecting to Unreal Editor...');
 
     try {
       // Connect bridge manager
@@ -126,16 +126,16 @@ export class UnrealEditorHarnessPure {
       await this.initializeSystems();
 
       this.isConnected = true;
-      this.logger.info('✅ Connected to Unreal Editor successfully');
+      console.info('✅ Connected to Unreal Editor successfully');
       return true;
     } catch (error) {
-      this.logger.error('❌ Failed to connect to Unreal Editor:', error);
+      console.error('❌ Failed to connect to Unreal Editor:', error);
       return false;
     }
   }
 
   private async initializeSystems(): Promise<void> {
-    this.logger.info('🔧 Initializing Unreal Editor systems...');
+    console.info('🔧 Initializing Unreal Editor systems...');
 
     // Initialize asset manager
     await this.initializeAssetManager();
@@ -146,12 +146,12 @@ export class UnrealEditorHarnessPure {
     // Initialize scene builder
     await this.initializeSceneBuilder();
 
-    this.logger.info('✅ Unreal Editor systems initialized');
+    console.info('✅ Unreal Editor systems initialized');
   }
 
   private async initializeAssetManager(): Promise<void> {
     // Create test assets for validation
-    this.logger.info('📦 Initializing asset manager...');
+    console.info('📦 Initializing asset manager...');
 
     // Create sample static mesh asset
     const staticMeshAsset = {
@@ -230,11 +230,11 @@ export class UnrealEditorHarnessPure {
 
     this.bridgeManager.registerAsset(materialAsset);
 
-    this.logger.info('📦 Asset manager initialized with test assets');
+    console.info('📦 Asset manager initialized with test assets');
   }
 
   private async initializeEventSync(): Promise<void> {
-    this.logger.info('🔄 Initializing event synchronization...');
+    console.info('🔄 Initializing event synchronization...');
 
     // Test basic event sync
     const testEvent = {
@@ -251,14 +251,14 @@ export class UnrealEditorHarnessPure {
 
     const synced = await this.eventSync.syncEvent(testEvent);
     if (synced) {
-      this.logger.info('✅ Event synchronization test passed');
+      console.info('✅ Event synchronization test passed');
     } else {
-      this.logger.warn('⚠️ Event synchronization test failed');
+      console.warn('⚠️ Event synchronization test failed');
     }
   }
 
   private async initializeSceneBuilder(): Promise<void> {
-    this.logger.info('🏗️ Initializing scene builder...');
+    console.info('🏗️ Initializing scene builder...');
 
     // Create test scene configuration
     const testSceneConfig = {
@@ -355,14 +355,14 @@ export class UnrealEditorHarnessPure {
     // Test scene building
     const sceneResult = await this.sceneBuilder.buildUnrealScene('test_payload', undefined, testSceneConfig);
     if (sceneResult.success) {
-      this.logger.info('✅ Scene builder test passed');
+      console.info('✅ Scene builder test passed');
     } else {
-      this.logger.warn('⚠️ Scene builder test failed:', sceneResult.errors);
+      console.warn('⚠️ Scene builder test failed:', sceneResult.errors);
     }
   }
 
   async runTests(testSuite?: string): Promise<UnrealEditorTestResult[]> {
-    this.logger.info('🧪 Running Unreal Editor tests...');
+    console.info('🧪 Running Unreal Editor tests...');
 
     this.isRunning = true;
     const results: UnrealEditorTestResult[] = [];
@@ -396,12 +396,12 @@ export class UnrealEditorHarnessPure {
         results.push(await this.testPerformance());
       }
 
-      this.logger.info(`✅ Test suite completed: ${results.filter(r => r.success).length}/${results.length} passed`);
+      console.info(`✅ Test suite completed: ${results.filter(r => r.success).length}/${results.length} passed`);
       this.testResults = results;
 
       return results;
     } catch (error) {
-      this.logger.error('❌ Test suite failed:', error);
+      console.error('❌ Test suite failed:', error);
       const errorResult: UnrealEditorTestResult = {
         success: false,
         testName: testSuite || 'all',
@@ -420,7 +420,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async testBridgeManager(): Promise<UnrealEditorTestResult> {
-    this.logger.info('🔌 Testing Unreal Bridge Manager...');
+    console.info('🔌 Testing Unreal Bridge Manager...');
 
     const startTime = Date.now();
 
@@ -525,7 +525,7 @@ export class UnrealEditorHarnessPure {
 
       // Test statistics
       const stats = this.bridgeManager.getStatistics();
-      this.logger.info(`📊 Bridge Statistics: ${stats.activeConnections} connections, ${stats.totalMessages} messages`);
+      console.info(`📊 Bridge Statistics: ${stats.activeConnections} connections, ${stats.totalMessages} messages`);
 
       const duration = Date.now() - startTime;
       return {
@@ -559,7 +559,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async testPayloadAdapter(): Promise<UnrealEditorTestResult> {
-    this.logger.info('🔄 Testing Payload Adapter...');
+    console.info('🔄 Testing Payload Adapter...');
 
     const startTime = Date.now();
 
@@ -595,7 +595,7 @@ export class UnrealEditorHarnessPure {
         throw new Error(`Payload conversion failed: ${conversionResult.errors.join(', ')}`);
       }
 
-      this.logger.info(`✅ Converted ${conversionResult.convertedAssets.length} assets, ${conversionResult.convertedActors.length} actors`);
+      console.info(`✅ Converted ${conversionResult.convertedAssets.length} assets, ${conversionResult.convertedActors.length} actors`);
 
       const duration = Date.now() - startTime;
       return {
@@ -628,7 +628,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async testSceneBuilder(): Promise<UnrealEditorTestResult> {
-    this.logger.info('🏗️ Testing Scene Builder...');
+    console.info('🏗️ Testing Scene Builder...');
 
     const startTime = Date.now();
 
@@ -639,7 +639,7 @@ export class UnrealEditorHarnessPure {
         throw new Error(`Scene building failed: ${sceneResult.errors.join(', ')}`);
       }
 
-      this.logger.info(`✅ Built scene: ${sceneResult.sceneId} with ${sceneResult.composition.actors.length} actors`);
+      console.info(`✅ Built scene: ${sceneResult.sceneId} with ${sceneResult.composition.actors.length} actors`);
 
       const duration = Date.now() - startTime;
       return {
@@ -674,7 +674,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async testAssetManager(): Promise<UnrealEditorTestResult> {
-    this.logger.info('📦 Testing Asset Manager...');
+    console.info('📦 Testing Asset Manager...');
 
     const startTime = Date.now();
 
@@ -703,10 +703,10 @@ export class UnrealEditorHarnessPure {
       // Test asset optimization
       const optimizationResult = await this.assetManager.optimizeAsset('test_static_mesh');
       if (!optimizationResult.success) {
-        this.logger.warn('⚠️ Asset optimization failed:', optimizationResult.errors);
+        console.warn('⚠️ Asset optimization failed:', optimizationResult.errors);
       }
 
-      this.logger.info(`✅ Asset loaded and optimized: ${loadResult.asset?.name}`);
+      console.info(`✅ Asset loaded and optimized: ${loadResult.asset?.name}`);
 
       const duration = Date.now() - startTime;
       return {
@@ -740,7 +740,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async testEventSync(): Promise<UnrealEditorTestResult> {
-    this.logger.info('🔄 Testing Event Synchronization...');
+    console.info('🔄 Testing Event Synchronization...');
 
     const startTime = Date.now();
 
@@ -791,7 +791,7 @@ export class UnrealEditorHarnessPure {
       }
 
       const stats = this.eventSync.getStatistics();
-      this.logger.info(`✅ Event sync test: ${successCount}/${testEvents.length} events synced successfully`);
+      console.info(`✅ Event sync test: ${successCount}/${testEvents.length} events synced successfully`);
 
       const duration = Date.now() - startTime;
       return {
@@ -826,25 +826,25 @@ export class UnrealEditorHarnessPure {
   }
 
   private async testIntegration(): Promise<UnrealEditorTestResult> {
-    this.logger.info('🔗 Testing Full Integration...');
+    console.info('🔗 Testing Full Integration...');
 
     const startTime = Date.now();
 
     try {
       // Test full integration pipeline
-      this.logger.info('⚔️ Testing CombatPure integration...');
+      console.info('⚔️ Testing CombatPure integration...');
 
       // Test combat integration (would require actual combat data)
-      this.logger.info('🎒 Testing ItemsPure integration...');
+      console.info('🎒 Testing ItemsPure integration...');
 
       // Test items integration (would require actual item data)
-      this.logger.info('🤖 Testing AIPure integration...');
+      console.info('🤖 Testing AIPure integration...');
 
       // Test AI integration (would require actual AI data)
-      this.logger.info('🎨 Testing RenderPayloadPure integration...');
+      console.info('🎨 Testing RenderPayloadPure integration...');
 
       // Test render payload integration (would require actual payload data)
-      this.logger.info('🏗️ Testing SceneBuilderPure integration...');
+      console.info('🏗️ Testing SceneBuilderPure integration...');
 
       // Test scene building integration (would require actual scene data)
 
@@ -878,7 +878,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async testPerformance(): Promise<UnrealEditorTestResult> {
-    this.logger.info('⚡ Testing Performance...');
+    console.info('⚡ Testing Performance...');
 
     const startTime = Date.now();
 
@@ -888,10 +888,10 @@ export class UnrealEditorHarnessPure {
       const assetStats = this.assetManager.getStatistics();
       const eventStats = this.eventSync.getStatistics();
 
-      this.logger.info('📊 Performance Metrics:');
-      this.logger.info(`   Bridge: ${bridgeStats.activeConnections} connections, ${bridgeStats.totalMessages} messages`);
-      this.logger.info(`   Assets: ${assetStats.loadedAssets} loaded, ${assetStats.cachedAssets} cached`);
-      this.logger.info(`   Events: ${eventStats.processedEvents} processed, ${eventStats.failedEvents} failed`);
+      console.info('📊 Performance Metrics:');
+      console.info(`   Bridge: ${bridgeStats.activeConnections} connections, ${bridgeStats.totalMessages} messages`);
+      console.info(`   Assets: ${assetStats.loadedAssets} loaded, ${assetStats.cachedAssets} cached`);
+      console.info(`   Events: ${eventStats.processedEvents} processed, ${eventStats.failedEvents} failed`);
 
       const duration = Date.now() - startTime;
       return {
@@ -929,7 +929,7 @@ export class UnrealEditorHarnessPure {
   }
 
   async runDemo(demoName?: string): Promise<UnrealEditorDemoResult> {
-    this.logger.info(`🎮 Running Unreal Editor Demo: ${demoName || 'default'}`);
+    console.info(`🎮 Running Unreal Editor Demo: ${demoName || 'default'}`);
 
     const startTime = Date.now();
 
@@ -1011,8 +1011,8 @@ export class UnrealEditorHarnessPure {
         }
       };
 
-      this.logger.info(`✅ Demo completed: ${demoName || 'default'} (${duration}ms)`);
-      this.logger.info(`📊 Results: ${scenesCreated} scenes, ${assetsGenerated} assets, ${eventsProcessed} events`);
+      console.info(`✅ Demo completed: ${demoName || 'default'} (${duration}ms)`);
+      console.info(`📊 Results: ${scenesCreated} scenes, ${assetsGenerated} assets, ${eventsProcessed} events`);
       this.demoResults.push(result);
 
       return result;
@@ -1032,7 +1032,7 @@ export class UnrealEditorHarnessPure {
         metadata: { error, startTime, endTime: Date.now() }
       };
 
-      this.logger.error(`❌ Demo failed: ${demoName || 'default'}`, error);
+      console.error(`❌ Demo failed: ${demoName || 'default'}`, error);
       this.demoResults.push(result);
 
       return result;
@@ -1040,7 +1040,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async runCombatDemo(): Promise<void> {
-    this.logger.info('⚔️ Running Combat Demo...');
+    console.info('⚔️ Running Combat Demo...');
 
     // Simulate combat scenario
     const combatEvents = [
@@ -1071,7 +1071,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async runItemsDemo(): Promise<void> {
-    this.logger.info('🎒 Running Items Demo...');
+    console.info('🎒 Running Items Demo...');
 
     // Simulate item usage scenario
     const itemEvents = [
@@ -1101,7 +1101,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async runAIDemo(): Promise<void> {
-    this.logger.info('🤖 Running AI Demo...');
+    console.info('🤖 Running AI Demo...');
 
     // Simulate AI decision making
     const aiEvents = [
@@ -1132,19 +1132,19 @@ export class UnrealEditorHarnessPure {
   }
 
   private async runSceneDemo(): Promise<void> {
-    this.logger.info('🏗️ Running Scene Demo...');
+    console.info('🏗️ Running Scene Demo...');
 
     // Simulate scene building
     const sceneConfigs = ['default_game', 'combat_arena'];
 
     for (const configName of sceneConfigs) {
-      this.logger.info(`Building scene with configuration: ${configName}`);
+      console.info(`Building scene with configuration: ${configName}`);
 
       const sceneResult = await this.sceneBuilder.buildUnrealScene('test_payload', configName);
       if (sceneResult.success) {
-        this.logger.info(`✅ Scene built successfully: ${sceneResult.sceneId}`);
+        console.info(`✅ Scene built successfully: ${sceneResult.sceneId}`);
       } else {
-        this.logger.warn(`⚠️ Scene build failed: ${sceneResult.errors.join(', ')}`);
+        console.warn(`⚠️ Scene build failed: ${sceneResult.errors.join(', ')}`);
       }
 
       await new Promise(resolve => setTimeout(resolve, 500)); // Simulate scene build time
@@ -1152,7 +1152,7 @@ export class UnrealEditorHarnessPure {
   }
 
   private async runFullDemo(): Promise<void> {
-    this.logger.info('🎮 Running Full Demo...');
+    console.info('🎮 Running Full Demo...');
 
     // Run all demo scenarios in sequence
     await this.runCombatDemo();
@@ -1160,11 +1160,11 @@ export class UnrealEditorHarnessPure {
     await this.runAIDemo();
     await this.runSceneDemo();
 
-    this.logger.info('🎯 Full demo completed successfully');
+    console.info('🎯 Full demo completed successfully');
   }
 
   private async runDefaultDemo(): Promise<void> {
-    this.logger.info('🎯 Running Default Demo...');
+    console.info('🎯 Running Default Demo...');
 
     // Simple demonstration of core functionality
     const testEvent = {
@@ -1180,7 +1180,7 @@ export class UnrealEditorHarnessPure {
     };
 
     await this.eventSync.syncEvent(testEvent);
-    this.logger.info('✅ Default demo completed');
+    console.info('✅ Default demo completed');
   }
 
   private gatherPerformanceMetrics(): Record<string, any> {
@@ -1217,7 +1217,7 @@ export class UnrealEditorHarnessPure {
   }
 
   async disconnect(): Promise<void> {
-    this.logger.info('🔌 Disconnecting from Unreal Editor...');
+    console.info('🔌 Disconnecting from Unreal Editor...');
 
     this.isConnected = false;
     this.isRunning = false;
@@ -1230,13 +1230,13 @@ export class UnrealEditorHarnessPure {
     this.eventSync.dispose();
     this.sceneBuilder.dispose();
 
-    this.logger.info('✅ Disconnected from Unreal Editor');
+    console.info('✅ Disconnected from Unreal Editor');
   }
 
   // Configuration management
   updateConfiguration(updates: Partial<UnrealEditorConfiguration>): void {
     Object.assign(this.configuration, updates);
-    this.logger.info('⚙️ Configuration updated');
+    console.info('⚙️ Configuration updated');
   }
 
   getConfiguration(): UnrealEditorConfiguration {

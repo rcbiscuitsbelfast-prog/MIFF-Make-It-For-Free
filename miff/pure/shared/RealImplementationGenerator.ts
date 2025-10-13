@@ -61,7 +61,7 @@ export class RealImplementationGenerator {
    * Generate real implementations for all target modules
    */
   async generateAllImplementations(): Promise<GeneratedImplementation[]> {
-    this.logger.info('🔧 Generating real implementations for all target modules...');
+    console.info('🔧 Generating real implementations for all target modules...');
     
     const results: GeneratedImplementation[] = [];
     
@@ -70,11 +70,11 @@ export class RealImplementationGenerator {
         const implementations = await this.generateModuleImplementations(moduleId);
         results.push(...implementations);
       } catch (error) {
-        this.logger.error(`❌ Error generating implementations for ${moduleId}:`, error);
+        console.error(`❌ Error generating implementations for ${moduleId}:`, error);
       }
     }
     
-    this.logger.info(`✅ Generated ${results.length} implementations`);
+    console.info(`✅ Generated ${results.length} implementations`);
     return results;
   }
 
@@ -82,7 +82,7 @@ export class RealImplementationGenerator {
    * Generate implementations for a specific module
    */
   async generateModuleImplementations(moduleId: string): Promise<GeneratedImplementation[]> {
-    this.logger.info(`🔧 Generating implementations for module: ${moduleId}`);
+    console.info(`🔧 Generating implementations for module: ${moduleId}`);
     
     const implementations: GeneratedImplementation[] = [];
     
@@ -92,7 +92,7 @@ export class RealImplementationGenerator {
           const implementation = await this.generateImplementation(moduleId, template);
           implementations.push(implementation);
         } catch (error) {
-          this.logger.error(`❌ Error generating ${template.name} for ${moduleId}:`, error);
+          console.error(`❌ Error generating ${template.name} for ${moduleId}:`, error);
         }
       }
     }
@@ -132,7 +132,7 @@ export class RealImplementationGenerator {
       implementation.status = 'validated';
     } else {
       implementation.status = 'failed';
-      this.logger.error(`❌ Validation failed for ${implementationId}:`, validation.errors);
+      console.error(`❌ Validation failed for ${implementationId}:`, validation.errors);
     }
     
     this.generatedImplementations.set(implementationId, implementation);
@@ -217,7 +217,7 @@ export class RealImplementationGenerator {
   /**
    * Get implementation by ID
    */
-  getImplementation(id: string): GeneratedImplementation | undefined {
+  getImplementation(id: string): GeneratedImplementation! {
     return this.generatedImplementations.get(id);
   }
 
@@ -293,7 +293,7 @@ export class {{moduleName}}Manager {
 
   private initialize(): void {
     // Initialize manager with real functionality
-    this.logger.info('{{moduleName}}Manager initialized');
+    console.info('{{moduleName}}Manager initialized');
   }
 
   async process(data: any): Promise<any> {

@@ -202,7 +202,7 @@ export class SocialDeductionManager {
     });
 
     this.eventBus.subscribe('social:ability_used', (e: any) => {
-      const effect = (e?.data as any)?.effect as AbilityEffect | undefined;
+      const effect = (e?.data as any)?.effect as AbilityEffect!;
       if (effect) this.handleAbilityEffects(effect);
     });
   }

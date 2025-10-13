@@ -54,7 +54,7 @@ class CLISpiritInstance extends Spirit implements ISpiritInstance {
     if (!this.canEvolve()) {
       return false;
     }
-    this.logger.info(`${this.name} evolved to ${evolutionId}!`);
+    console.info(`${this.name} evolved to ${evolutionId}!`);
     return true;
   }
 }
@@ -101,7 +101,7 @@ class ItemsPureCLI {
   private initializeItems(): void {
     this.items = ItemUtils.createStandardItemSet();
     this.items.forEach(item => this.manager.registerItem(item));
-    this.logger.info(`Loaded ${this.items.length} items into registry`);
+    console.info(`Loaded ${this.items.length} items into registry`);
   }
 
   /**
@@ -140,29 +140,29 @@ class ItemsPureCLI {
       this.spirits.set(spirit.id, spirit);
     });
 
-    this.logger.info(`Created ${spirits.length} test spirits`);
+    console.info(`Created ${spirits.length} test spirits`);
   }
 
   /**
    * Start CLI application
    */
   start(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('🎒 ItemsPure CLI - Item Management System');
-    this.logger.info('='.repeat(60));
-    this.logger.info('');
-    this.logger.info('Available commands:');
-    this.logger.info('  items         - Show all items');
-    this.logger.info('  spirits       - Show all spirits');
-    this.logger.info('  use [item] [spirit] - Use item on spirit');
-    this.logger.info('  info [item]   - Show item details');
-    this.logger.info('  search [query] - Search items');
-    this.logger.info('  heal [spirit] [amount] - Heal spirit');
-    this.logger.info('  damage [spirit] [amount] - Damage spirit');
-    this.logger.info('  status        - Show system status');
-    this.logger.info('  help          - Show this help');
-    this.logger.info('  exit          - Exit application');
-    this.logger.info('');
+    console.info('='.repeat(60));
+    console.info('🎒 ItemsPure CLI - Item Management System');
+    console.info('='.repeat(60));
+    console.info('');
+    console.info('Available commands:');
+    console.info('  items         - Show all items');
+    console.info('  spirits       - Show all spirits');
+    console.info('  use [item] [spirit] - Use item on spirit');
+    console.info('  info [item]   - Show item details');
+    console.info('  search [query] - Search items');
+    console.info('  heal [spirit] [amount] - Heal spirit');
+    console.info('  damage [spirit] [amount] - Damage spirit');
+    console.info('  status        - Show system status');
+    console.info('  help          - Show this help');
+    console.info('  exit          - Exit application');
+    console.info('');
 
     this.showPrompt();
   }
@@ -230,11 +230,11 @@ class ItemsPureCLI {
           this.exit();
           return;
         default:
-          this.logger.info(`❌ Unknown command: ${command}`);
-          this.logger.info('Type "help" for available commands.');
+          console.info(`❌ Unknown command: ${command}`);
+          console.info('Type "help" for available commands.');
       }
     } catch (error) {
-      this.logger.info(`❌ Error: ${error}`);
+      console.info(`❌ Error: ${error}`);
     }
 
     this.showPrompt();
@@ -244,53 +244,53 @@ class ItemsPureCLI {
    * Show help information
    */
   private showHelp(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('📚 ItemsPure CLI Help');
-    this.logger.info('='.repeat(60));
-    this.logger.info('');
-    this.logger.info('Commands:');
-    this.logger.info('  help                    - Show this help');
-    this.logger.info('  items                   - List all registered items');
-    this.logger.info('  spirits                 - List all available spirits');
-    this.logger.info('  use [item] [spirit]     - Use item on spirit');
-    this.logger.info('  info [item]             - Show detailed item information');
-    this.logger.info('  search [query]          - Search items by name or ID');
-    this.logger.info('  heal [spirit] [amount]  - Heal spirit by amount (default: 20)');
-    this.logger.info('  damage [spirit] [amount]- Damage spirit by amount (default: 20)');
-    this.logger.info('  status                  - Show system statistics');
-    this.logger.info('  exit                    - Exit the application');
-    this.logger.info('');
-    this.logger.info('Examples:');
-    this.logger.info('  use health_potion spirit1');
-    this.logger.info('  use revive spirit3');
-    this.logger.info('  use sync_crystal spirit2');
-    this.logger.info('  search potion');
-    this.logger.info('  heal spirit1 50');
-    this.logger.info('');
+    console.info('='.repeat(60));
+    console.info('📚 ItemsPure CLI Help');
+    console.info('='.repeat(60));
+    console.info('');
+    console.info('Commands:');
+    console.info('  help                    - Show this help');
+    console.info('  items                   - List all registered items');
+    console.info('  spirits                 - List all available spirits');
+    console.info('  use [item] [spirit]     - Use item on spirit');
+    console.info('  info [item]             - Show detailed item information');
+    console.info('  search [query]          - Search items by name or ID');
+    console.info('  heal [spirit] [amount]  - Heal spirit by amount (default: 20)');
+    console.info('  damage [spirit] [amount]- Damage spirit by amount (default: 20)');
+    console.info('  status                  - Show system statistics');
+    console.info('  exit                    - Exit the application');
+    console.info('');
+    console.info('Examples:');
+    console.info('  use health_potion spirit1');
+    console.info('  use revive spirit3');
+    console.info('  use sync_crystal spirit2');
+    console.info('  search potion');
+    console.info('  heal spirit1 50');
+    console.info('');
   }
 
   /**
    * Show all registered items
    */
   private showItems(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('📦 Registered Items');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('📦 Registered Items');
+    console.info('='.repeat(60));
 
     if (this.items.length === 0) {
-      this.logger.info('No items registered.');
+      console.info('No items registered.');
       return;
     }
 
     this.items.forEach((item, index) => {
       const inventoryCount = this.context.inventory[item.itemID] || 0;
       const effectIcon = this.getEffectIcon(item.effect.effectType);
-      this.logger.info(`${index + 1}. ${effectIcon} ${item.name} (${item.type})`);
-      this.logger.info(`   ID: ${item.itemID}`);
-      this.logger.info(`   Effect: ${item.effect.getSummary()}`);
-      this.logger.info(`   Target: ${item.targetRule}`);
-      this.logger.info(`   Inventory: ${inventoryCount}`);
-      this.logger.info('');
+      console.info(`${index + 1}. ${effectIcon} ${item.name} (${item.type})`);
+      console.info(`   ID: ${item.itemID}`);
+      console.info(`   Effect: ${item.effect.getSummary()}`);
+      console.info(`   Target: ${item.targetRule}`);
+      console.info(`   Inventory: ${inventoryCount}`);
+      console.info('');
     });
   }
 
@@ -298,12 +298,12 @@ class ItemsPureCLI {
    * Show all spirits
    */
   private showSpirits(): void {
-    this.logger.info('='.repeat(60));
-    this.logger.info('👻 Available Spirits');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('👻 Available Spirits');
+    console.info('='.repeat(60));
 
     if (this.spirits.size === 0) {
-      this.logger.info('No spirits available.');
+      console.info('No spirits available.');
       return;
     }
 
@@ -313,10 +313,10 @@ class ItemsPureCLI {
       const healthBar = this.createHealthBar(spirit.currentHP, spirit.maxHP);
       const evolveStatus = spirit.canEvolve() ? '✨ Can Evolve' : '';
 
-      this.logger.info(`${index + 1}. ${spirit.name} [${spirit.id}]`);
-      this.logger.info(`   HP: ${spirit.currentHP}/${spirit.maxHP} ${healthBar}`);
-      this.logger.info(`   Status: ${status}${syncInfo} ${evolveStatus}`);
-      this.logger.info('');
+      console.info(`${index + 1}. ${spirit.name} [${spirit.id}]`);
+      console.info(`   HP: ${spirit.currentHP}/${spirit.maxHP} ${healthBar}`);
+      console.info(`   Status: ${status}${syncInfo} ${evolveStatus}`);
+      console.info('');
     });
   }
 
@@ -325,7 +325,7 @@ class ItemsPureCLI {
    */
   private async useItem(args: string[]): Promise<void> {
     if (args.length < 2) {
-      this.logger.info('❌ Usage: use [item] [spirit]');
+      console.info('❌ Usage: use [item] [spirit]');
       return;
     }
 
@@ -336,20 +336,20 @@ class ItemsPureCLI {
     const spirit = this.spirits.get(spiritId);
 
     if (!item) {
-      this.logger.info(`❌ Item not found: ${itemId}`);
+      console.info(`❌ Item not found: ${itemId}`);
       return;
     }
 
     if (!spirit) {
-      this.logger.info(`❌ Spirit not found: ${spiritId}`);
+      console.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
-    this.logger.info(`🎒 Using ${item.name} on ${spirit.name}...`);
+    console.info(`🎒 Using ${item.name} on ${spirit.name}...`);
 
     // Check if can use
     if (!this.manager.canUseItem(itemId, spirit)) {
-      this.logger.info(`❌ Cannot use ${item.name} on ${spirit.name}`);
+      console.info(`❌ Cannot use ${item.name} on ${spirit.name}`);
       return;
     }
 
@@ -357,10 +357,10 @@ class ItemsPureCLI {
     const result = this.manager.useItem(itemId, spirit);
 
     if (result.isSuccess) {
-      this.logger.info(`✅ ${result.message}`);
-      this.logger.info(`📊 ${spirit.name} HP: ${spirit.currentHP}/${spirit.maxHP}`);
+      console.info(`✅ ${result.message}`);
+      console.info(`📊 ${spirit.name} HP: ${spirit.currentHP}/${spirit.maxHP}`);
     } else {
-      this.logger.info(`❌ ${result.message}`);
+      console.info(`❌ ${result.message}`);
     }
   }
 
@@ -369,44 +369,44 @@ class ItemsPureCLI {
    */
   private showItemInfo(itemId: string): void {
     if (!itemId) {
-      this.logger.info('❌ Usage: info [item]');
+      console.info('❌ Usage: info [item]');
       return;
     }
 
     const item = this.manager.getItem(itemId);
     if (!item) {
-      this.logger.info(`❌ Item not found: ${itemId}`);
+      console.info(`❌ Item not found: ${itemId}`);
       return;
     }
 
-    this.logger.info('='.repeat(60));
-    this.logger.info(`📋 Item Information: ${item.name}`);
-    this.logger.info('='.repeat(60));
-    this.logger.info(`ID: ${item.itemID}`);
-    this.logger.info(`Type: ${item.type}`);
-    this.logger.info(`Target Rule: ${item.targetRule}`);
-    this.logger.info(`Description: ${item.getDescription()}`);
-    this.logger.info('');
+    console.info('='.repeat(60));
+    console.info(`📋 Item Information: ${item.name}`);
+    console.info('='.repeat(60));
+    console.info(`ID: ${item.itemID}`);
+    console.info(`Type: ${item.type}`);
+    console.info(`Target Rule: ${item.targetRule}`);
+    console.info(`Description: ${item.getDescription()}`);
+    console.info('');
 
     // Show effect details
     const effect = item.effect;
-    this.logger.info('Effect Details:');
-    this.logger.info(`  Type: ${effect.effectType}`);
-    this.logger.info(`  Amount: ${effect.amount}`);
+    console.info('Effect Details:');
+    console.info(`  Type: ${effect.effectType}`);
+    console.info(`  Amount: ${effect.amount}`);
     if (effect.param) {
-      this.logger.info(`  Parameter: ${effect.param}`);
+      console.info(`  Parameter: ${effect.param}`);
     }
-    this.logger.info(`  Cooldown: ${effect.cooldownSeconds}s`);
-    this.logger.info(`  Max Uses: ${effect.maxUses === -1 ? 'Unlimited' : effect.maxUses}`);
-    this.logger.info('');
+    console.info(`  Cooldown: ${effect.cooldownSeconds}s`);
+    console.info(`  Max Uses: ${effect.maxUses === -1 ? 'Unlimited' : effect.maxUses}`);
+    console.info('');
 
     // Show validation
     const errors = item.validate();
     if (errors.length === 0) {
-      this.logger.info('✅ Item is valid');
+      console.info('✅ Item is valid');
     } else {
-      this.logger.info('❌ Validation errors:');
-      errors.forEach(error => this.logger.info(`   - ${error}`));
+      console.info('❌ Validation errors:');
+      errors.forEach(error => console.info(`   - ${error}`));
     }
   }
 
@@ -416,19 +416,19 @@ class ItemsPureCLI {
   private searchItems(query: string): void {
     const results = this.manager.searchItems(query);
 
-    this.logger.info('='.repeat(60));
-    this.logger.info(`🔍 Search Results for "${query}"`);
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info(`🔍 Search Results for "${query}"`);
+    console.info('='.repeat(60));
 
     if (results.length === 0) {
-      this.logger.info('No items found.');
+      console.info('No items found.');
       return;
     }
 
     results.forEach((item, index) => {
-      this.logger.info(`${index + 1}. ${item.name} (${item.type}) - ${item.itemID}`);
+      console.info(`${index + 1}. ${item.name} (${item.type}) - ${item.itemID}`);
     });
-    this.logger.info(`\nFound ${results.length} items.`);
+    console.info(`\nFound ${results.length} items.`);
   }
 
   /**
@@ -437,7 +437,7 @@ class ItemsPureCLI {
   private healSpirit(spiritId: string, amount: number): void {
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      this.logger.info(`❌ Spirit not found: ${spiritId}`);
+      console.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
@@ -446,13 +446,13 @@ class ItemsPureCLI {
     const actualHeal = Math.min(amount, maxHeal);
 
     if (actualHeal <= 0) {
-      this.logger.info(`❌ ${spirit.name} is already at full health`);
+      console.info(`❌ ${spirit.name} is already at full health`);
       return;
     }
 
     spirit.currentHP += actualHeal;
-    this.logger.info(`❤️ Healed ${spirit.name} by ${actualHeal} HP`);
-    this.logger.info(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.info(`❤️ Healed ${spirit.name} by ${actualHeal} HP`);
+    console.info(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
   }
 
   /**
@@ -461,23 +461,23 @@ class ItemsPureCLI {
   private damageSpirit(spiritId: string, amount: number): void {
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      this.logger.info(`❌ Spirit not found: ${spiritId}`);
+      console.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
     if (spirit.isFainted()) {
-      this.logger.info(`❌ ${spirit.name} is already fainted`);
+      console.info(`❌ ${spirit.name} is already fainted`);
       return;
     }
 
     const oldHP = spirit.currentHP;
     spirit.currentHP = Math.max(0, spirit.currentHP - amount);
 
-    this.logger.info(`💔 Damaged ${spirit.name} by ${amount} HP`);
-    this.logger.info(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    console.info(`💔 Damaged ${spirit.name} by ${amount} HP`);
+    console.info(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
 
     if (spirit.isFainted()) {
-      this.logger.info(`💀 ${spirit.name} fainted!`);
+      console.info(`💀 ${spirit.name} fainted!`);
     }
   }
 
@@ -487,44 +487,44 @@ class ItemsPureCLI {
   private showStatus(): void {
     const stats = ItemUtils.getItemStatistics(this.items);
 
-    this.logger.info('='.repeat(60));
-    this.logger.info('📊 System Status');
-    this.logger.info('='.repeat(60));
+    console.info('='.repeat(60));
+    console.info('📊 System Status');
+    console.info('='.repeat(60));
 
-    this.logger.info(`Total Items: ${stats.totalItems}`);
-    this.logger.info(`Consumables: ${stats.consumableCount}`);
-    this.logger.info(`Items with Target Rules: ${stats.hasTargetRules}`);
-    this.logger.info('');
+    console.info(`Total Items: ${stats.totalItems}`);
+    console.info(`Consumables: ${stats.consumableCount}`);
+    console.info(`Items with Target Rules: ${stats.hasTargetRules}`);
+    console.info('');
 
-    this.logger.info('Items by Type:');
+    console.info('Items by Type:');
     Object.entries(stats.byType).forEach(([type, count]) => {
-      this.logger.info(`  ${type}: ${count}`);
+      console.info(`  ${type}: ${count}`);
     });
-    this.logger.info('');
+    console.info('');
 
-    this.logger.info('Items by Effect:');
+    console.info('Items by Effect:');
     Object.entries(stats.byEffect).forEach(([effect, count]) => {
       if (count > 0) {
-        this.logger.info(`  ${effect}: ${count}`);
+        console.info(`  ${effect}: ${count}`);
       }
     });
-    this.logger.info('');
+    console.info('');
 
-    this.logger.info('Current Inventory:');
+    console.info('Current Inventory:');
     Object.entries(this.context.inventory).forEach(([itemId, count]) => {
       if (count > 0) {
         const item = this.manager.getItem(itemId);
-        this.logger.info(`  ${item?.name || itemId}: ${count}`);
+        console.info(`  ${item?.name || itemId}: ${count}`);
       }
     });
-    this.logger.info('');
+    console.info('');
 
-    this.logger.info('Active Spirits:');
+    console.info('Active Spirits:');
     Array.from(this.spirits.values()).forEach(spirit => {
       const status = spirit.isFainted() ? '💀 Fainted' : '✅ Active';
       const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${spirit.syncLevel}` : '';
       const evolveStatus = spirit.canEvolve() ? ' ✨ Can Evolve' : '';
-      this.logger.info(`  ${spirit.name}: ${spirit.currentHP}/${spirit.maxHP} HP ${status}${syncInfo}${evolveStatus}`);
+      console.info(`  ${spirit.name}: ${spirit.currentHP}/${spirit.maxHP} HP ${status}${syncInfo}${evolveStatus}`);
     });
   }
 
@@ -563,8 +563,8 @@ class ItemsPureCLI {
    * Exit application
    */
   private exit(): void {
-    this.logger.info('');
-    this.logger.info('👋 Thank you for using ItemsPure CLI!');
+    console.info('');
+    console.info('👋 Thank you for using ItemsPure CLI!');
     this.rl.close();
     process.exit(0);
   }

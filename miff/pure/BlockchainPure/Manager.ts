@@ -197,28 +197,28 @@ export class BlockchainManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Blockchain Manager already initialized');
+      console.warn('BlockchainPure', 'Blockchain Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Blockchain Manager...');
+      console.info('BlockchainPure', 'Initializing Blockchain Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Blockchain Manager initialized successfully');
+      console.info('BlockchainPure', 'Blockchain Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Blockchain Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -252,11 +252,11 @@ export class BlockchainManager {
       this.blockchains.set(blockchain.id, blockchain);
       this.updateAnalytics();
 
-      this.logger.info('Blockchain created', { blockchainId: blockchain.id, blockchainName: blockchain.name });
+      console.info('Blockchain created', { blockchainId: blockchain.id, blockchainName: blockchain.name });
       return blockchain;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create blockchain');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -283,7 +283,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -297,11 +297,11 @@ export class BlockchainManager {
       this.blockchains.set(blockchainId, updatedBlockchain);
       this.updateAnalytics();
 
-      this.logger.info('Blockchain updated', { blockchainId, blockchainName: updatedBlockchain.name });
+      console.info('Blockchain updated', { blockchainId, blockchainName: updatedBlockchain.name });
       return updatedBlockchain;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update blockchain');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -317,18 +317,18 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
       this.blockchains.delete(blockchainId);
       this.updateAnalytics();
 
-      this.logger.info('Blockchain deleted', { blockchainId, blockchainName: blockchain.name });
+      console.info('Blockchain deleted', { blockchainId, blockchainName: blockchain.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete blockchain');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -377,7 +377,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -390,11 +390,11 @@ export class BlockchainManager {
       blockchain.blocks.push(block);
       this.updateAnalytics();
 
-      this.logger.info('Block created', { blockchainId, blockId: block.id, blockIndex: block.index });
+      console.info('Block created', { blockchainId, blockId: block.id, blockIndex: block.index });
       return block;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create block');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -410,7 +410,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -423,11 +423,11 @@ export class BlockchainManager {
       blockchain.transactions.push(transaction);
       this.updateAnalytics();
 
-      this.logger.info('Transaction created', { blockchainId, transactionId: transaction.id, transactionType: transaction.type });
+      console.info('Transaction created', { blockchainId, transactionId: transaction.id, transactionType: transaction.type });
       return transaction;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create transaction');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -443,7 +443,7 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
@@ -456,11 +456,11 @@ export class BlockchainManager {
       blockchain.contracts.push(contract);
       this.updateAnalytics();
 
-      this.logger.info('Smart contract deployed', { blockchainId, contractId: contract.id, contractName: contract.name });
+      console.info('Smart contract deployed', { blockchainId, contractId: contract.id, contractName: contract.name });
       return contract;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to deploy smart contract');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -476,17 +476,17 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return null;
       }
 
       const contract = blockchain.contracts.find(c => c.id === contractId);
       if (!contract) {
-        this.logger.warn('Contract not found', { blockchainId, contractId });
+        console.warn('Contract not found', { blockchainId, contractId });
         return null;
       }
 
-      this.logger.info('Executing contract function', { blockchainId, contractId, functionName, parameters });
+      console.info('Executing contract function', { blockchainId, contractId, functionName, parameters });
       
       // Simulate contract execution
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -494,7 +494,7 @@ export class BlockchainManager {
       return { success: true, result: 'Function executed successfully' };
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to execute contract function');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -510,26 +510,26 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
       const block = blockchain.blocks.find(b => b.id === blockId);
       if (!block) {
-        this.logger.warn('Block not found', { blockchainId, blockId });
+        console.warn('Block not found', { blockchainId, blockId });
         return false;
       }
 
-      this.logger.info('Mining block', { blockchainId, blockId, blockIndex: block.index });
+      console.info('Mining block', { blockchainId, blockId, blockIndex: block.index });
       
       // Simulate mining process
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      this.logger.info('Block mined successfully', { blockchainId, blockId, blockIndex: block.index });
+      console.info('Block mined successfully', { blockchainId, blockId, blockIndex: block.index });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to mine block');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -545,17 +545,17 @@ export class BlockchainManager {
     try {
       const blockchain = this.blockchains.get(blockchainId);
       if (!blockchain) {
-        this.logger.warn('Blockchain not found', { blockchainId });
+        console.warn('Blockchain not found', { blockchainId });
         return false;
       }
 
       const transaction = blockchain.transactions.find(t => t.id === transactionId);
       if (!transaction) {
-        this.logger.warn('Transaction not found', { blockchainId, transactionId });
+        console.warn('Transaction not found', { blockchainId, transactionId });
         return false;
       }
 
-      this.logger.debug('Validating transaction', { blockchainId, transactionId });
+      console.debug('Validating transaction', { blockchainId, transactionId });
       
       // Simulate validation process
       await new Promise(resolve => setTimeout(resolve, 10));
@@ -563,7 +563,7 @@ export class BlockchainManager {
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to validate transaction');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -691,12 +691,12 @@ export class BlockchainManager {
    * Destroy the Blockchain Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Blockchain Manager...');
+    console.info('BlockchainPure', 'Destroying Blockchain Manager...');
 
     this.blockchains.clear();
     this.isInitialized = false;
 
-    this.logger.info('Blockchain Manager destroyed');
+    console.info('BlockchainPure', 'Blockchain Manager destroyed');
   }
 }
 

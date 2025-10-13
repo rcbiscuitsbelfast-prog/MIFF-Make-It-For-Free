@@ -160,28 +160,28 @@ export class AvatarAssetRegistryManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Avatar Asset Registry Manager already initialized');
+      console.warn('AvatarAssetRegistryPure', 'Avatar Asset Registry Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Avatar Asset Registry Manager...');
+      console.info('AvatarAssetRegistryPure', 'Initializing Avatar Asset Registry Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Avatar Asset Registry Manager initialized successfully');
+      console.info('AvatarAssetRegistryPure', 'Avatar Asset Registry Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Avatar Asset Registry Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -215,11 +215,11 @@ export class AvatarAssetRegistryManager {
       this.registries.set(registry.id, registry);
       this.updateAnalytics();
 
-      this.logger.info('Avatar asset registry created', { registryId: registry.id, registryName: registry.name });
+      console.info('Avatar asset registry created', { registryId: registry.id, registryName: registry.name });
       return registry;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create avatar asset registry');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -246,7 +246,7 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return null;
       }
 
@@ -260,11 +260,11 @@ export class AvatarAssetRegistryManager {
       this.registries.set(registryId, updatedRegistry);
       this.updateAnalytics();
 
-      this.logger.info('Avatar asset registry updated', { registryId, registryName: updatedRegistry.name });
+      console.info('Avatar asset registry updated', { registryId, registryName: updatedRegistry.name });
       return updatedRegistry;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update avatar asset registry');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -280,18 +280,18 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return false;
       }
 
       this.registries.delete(registryId);
       this.updateAnalytics();
 
-      this.logger.info('Avatar asset registry deleted', { registryId, registryName: registry.name });
+      console.info('Avatar asset registry deleted', { registryId, registryName: registry.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete avatar asset registry');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -340,7 +340,7 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return null;
       }
 
@@ -353,11 +353,11 @@ export class AvatarAssetRegistryManager {
       registry.assets.push(asset);
       this.updateAnalytics();
 
-      this.logger.info('Asset added to registry', { registryId, assetId: asset.id, assetName: asset.name });
+      console.info('Asset added to registry', { registryId, assetId: asset.id, assetName: asset.name });
       return asset;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add asset to registry');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -373,24 +373,24 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return false;
       }
 
       const assetIndex = registry.assets.findIndex(asset => asset.id === assetId);
       if (assetIndex === -1) {
-        this.logger.warn('Asset not found', { registryId, assetId });
+        console.warn('Asset not found', { registryId, assetId });
         return false;
       }
 
       registry.assets.splice(assetIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Asset removed from registry', { registryId, assetId });
+      console.info('Asset removed from registry', { registryId, assetId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove asset from registry');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -411,7 +411,7 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return [];
       }
 
@@ -437,7 +437,7 @@ export class AvatarAssetRegistryManager {
         }
         if (filters.tags && filters.tags.length > 0) {
           results = results.filter(asset => 
-            filters.tags!.some(tag => asset.tags.includes(tag))
+            filters.tags?.some(tag => asset.tags.includes(tag))
           );
         }
         if (filters.status) {
@@ -445,11 +445,11 @@ export class AvatarAssetRegistryManager {
         }
       }
 
-      this.logger.debug('Asset search completed', { registryId, query, resultCount: results.length });
+      console.debug('Asset search completed', { registryId, query, resultCount: results.length });
       return results;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to search assets');
+      this.errorHandler.handleError($1);
       return [];
     }
   }
@@ -465,14 +465,14 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return [];
       }
 
       return registry.assets.filter(asset => asset.category === category);
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to get assets by category');
+      this.errorHandler.handleError($1);
       return [];
     }
   }
@@ -488,14 +488,14 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return [];
       }
 
       return registry.assets.filter(asset => asset.tags.includes(tag));
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to get assets by tag');
+      this.errorHandler.handleError($1);
       return [];
     }
   }
@@ -511,7 +511,7 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return null;
       }
 
@@ -523,11 +523,11 @@ export class AvatarAssetRegistryManager {
       registry.categories.push(category);
       this.updateAnalytics();
 
-      this.logger.info('Category added to registry', { registryId, categoryId: category.id, categoryName: category.name });
+      console.info('Category added to registry', { registryId, categoryId: category.id, categoryName: category.name });
       return category;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add category to registry');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -543,7 +543,7 @@ export class AvatarAssetRegistryManager {
     try {
       const registry = this.registries.get(registryId);
       if (!registry) {
-        this.logger.warn('Registry not found', { registryId });
+        console.warn('Registry not found', { registryId });
         return null;
       }
 
@@ -555,11 +555,11 @@ export class AvatarAssetRegistryManager {
       registry.tags.push(tag);
       this.updateAnalytics();
 
-      this.logger.info('Tag added to registry', { registryId, tagId: tag.id, tagName: tag.name });
+      console.info('Tag added to registry', { registryId, tagId: tag.id, tagName: tag.name });
       return tag;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add tag to registry');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -692,12 +692,12 @@ export class AvatarAssetRegistryManager {
    * Destroy the Avatar Asset Registry Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Avatar Asset Registry Manager...');
+    console.info('AvatarAssetRegistryPure', 'Destroying Avatar Asset Registry Manager...');
 
     this.registries.clear();
     this.isInitialized = false;
 
-    this.logger.info('Avatar Asset Registry Manager destroyed');
+    console.info('AvatarAssetRegistryPure', 'Avatar Asset Registry Manager destroyed');
   }
 }
 

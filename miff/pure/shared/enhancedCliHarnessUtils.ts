@@ -71,13 +71,13 @@ export function runCLI(cliPath: string, args: string[] = []): string {
       
       if (scenarioId && fixture) {
         const result: CLIOutput = orchestrateScenario(scenarioId, fixture, args);
-        this.logger.info(JSON.stringify(result));
+        console.info(JSON.stringify(result));
         return output.trim();
       }
       
       // Fallback to existing mock logic for backward compatibility
       let mockResponse: any = generateMockResponse(resolvedPath, args);
-      this.logger.info(JSON.stringify(mockResponse));
+      console.info(JSON.stringify(mockResponse));
       
     } finally {
       // Restore original console methods
@@ -562,27 +562,27 @@ function generateMockResponse(resolvedPath: string, args: string[]): any {
  */
 export function registerReplayHooks(system: any): void {
   if (!system || typeof system.on !== 'function') {
-    this.logger.warn('[ReplayHook] System does not support event handling');
+    console.warn('[ReplayHook] System does not support event handling');
     return;
   }
 
   system.on("hookRegistered", (hook: ReplayHook) => {
-    this.logger.info(`[ReplayHook] Registered: ${hook.name}`);
+    console.info(`[ReplayHook] Registered: ${hook.name}`);
   });
 
   system.on("replayStart", async () => {
     const unresolved = detectUnresolvedHooks(system);
     if (unresolved.length > 0) {
-      this.logger.warn(`[ReplayHook] Unresolved hooks:`, unresolved);
+      console.warn(`[ReplayHook] Unresolved hooks:`, unresolved);
     }
   });
 
   system.on("replayEnd", () => {
-    this.logger.info('[ReplayHook] Replay session completed');
+    console.info('[ReplayHook] Replay session completed');
   });
 
   system.on("hookError", (error: Error, hook: ReplayHook) => {
-    this.logger.error(`[ReplayHook] Error in hook ${hook.name}:`, error.message);
+    console.error(`[ReplayHook] Error in hook ${hook.name}:`, error.message);
   });
 }
 

@@ -236,28 +236,28 @@ export class BridgeInspectorManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Bridge Inspector Manager already initialized');
+      console.warn('BridgeInspectorPure', 'Bridge Inspector Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Bridge Inspector Manager...');
+      console.info('BridgeInspectorPure', 'Initializing Bridge Inspector Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceAnalysis) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Bridge Inspector Manager initialized successfully');
+      console.info('BridgeInspectorPure', 'Bridge Inspector Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Bridge Inspector Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -291,11 +291,11 @@ export class BridgeInspectorManager {
       this.inspectors.set(inspector.id, inspector);
       this.updateAnalytics();
 
-      this.logger.info('Bridge inspector created', { inspectorId: inspector.id, inspectorName: inspector.name });
+      console.info('Bridge inspector created', { inspectorId: inspector.id, inspectorName: inspector.name });
       return inspector;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create bridge inspector');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -322,7 +322,7 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return null;
       }
 
@@ -336,11 +336,11 @@ export class BridgeInspectorManager {
       this.inspectors.set(inspectorId, updatedInspector);
       this.updateAnalytics();
 
-      this.logger.info('Bridge inspector updated', { inspectorId, inspectorName: updatedInspector.name });
+      console.info('Bridge inspector updated', { inspectorId, inspectorName: updatedInspector.name });
       return updatedInspector;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update bridge inspector');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -356,18 +356,18 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return false;
       }
 
       this.inspectors.delete(inspectorId);
       this.updateAnalytics();
 
-      this.logger.info('Bridge inspector deleted', { inspectorId, inspectorName: inspector.name });
+      console.info('Bridge inspector deleted', { inspectorId, inspectorName: inspector.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete bridge inspector');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -416,7 +416,7 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return null;
       }
 
@@ -428,11 +428,11 @@ export class BridgeInspectorManager {
       inspector.bridges.push(bridge);
       this.updateAnalytics();
 
-      this.logger.info('Bridge added to inspector', { inspectorId, bridgeId: bridge.id, bridgeName: bridge.name });
+      console.info('Bridge added to inspector', { inspectorId, bridgeId: bridge.id, bridgeName: bridge.name });
       return bridge;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add bridge to inspector');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -448,24 +448,24 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return false;
       }
 
       const bridgeIndex = inspector.bridges.findIndex(b => b.id === bridgeId);
       if (bridgeIndex === -1) {
-        this.logger.warn('Bridge not found', { inspectorId, bridgeId });
+        console.warn('Bridge not found', { inspectorId, bridgeId });
         return false;
       }
 
       inspector.bridges.splice(bridgeIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Bridge removed from inspector', { inspectorId, bridgeId });
+      console.info('Bridge removed from inspector', { inspectorId, bridgeId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove bridge from inspector');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -481,13 +481,13 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return null;
       }
 
       const bridge = inspector.bridges.find(b => b.id === bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { inspectorId, bridgeId });
+        console.warn('Bridge not found', { inspectorId, bridgeId });
         return null;
       }
 
@@ -510,11 +510,11 @@ export class BridgeInspectorManager {
       inspector.inspections.push(inspection);
       this.updateAnalytics();
 
-      this.logger.info('Inspection started', { inspectorId, bridgeId, inspectionId: inspection.id, inspectionType });
+      console.info('Inspection started', { inspectorId, bridgeId, inspectionId: inspection.id, inspectionType });
       return inspection;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to start inspection');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -530,13 +530,13 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return false;
       }
 
       const inspection = inspector.inspections.find(i => i.id === inspectionId);
       if (!inspection) {
-        this.logger.warn('Inspection not found', { inspectorId, inspectionId });
+        console.warn('Inspection not found', { inspectorId, inspectionId });
         return false;
       }
 
@@ -545,11 +545,11 @@ export class BridgeInspectorManager {
       inspection.results = results;
       this.updateAnalytics();
 
-      this.logger.info('Inspection completed', { inspectorId, inspectionId, passed: results.passed, score: results.score });
+      console.info('Inspection completed', { inspectorId, inspectionId, passed: results.passed, score: results.score });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to complete inspection');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -565,13 +565,13 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return null;
       }
 
       const inspection = inspector.inspections.find(i => i.id === inspectionId);
       if (!inspection) {
-        this.logger.warn('Inspection not found', { inspectorId, inspectionId });
+        console.warn('Inspection not found', { inspectorId, inspectionId });
         return null;
       }
 
@@ -590,11 +590,11 @@ export class BridgeInspectorManager {
       inspector.reports.push(report);
       this.updateAnalytics();
 
-      this.logger.info('Inspection report generated', { inspectorId, bridgeId, inspectionId, reportId: report.id, reportType });
+      console.info('Inspection report generated', { inspectorId, bridgeId, inspectionId, reportId: report.id, reportType });
       return report;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to generate inspection report');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -610,20 +610,20 @@ export class BridgeInspectorManager {
     try {
       const inspector = this.inspectors.get(inspectorId);
       if (!inspector) {
-        this.logger.warn('Inspector not found', { inspectorId });
+        console.warn('Inspector not found', { inspectorId });
         return null;
       }
 
       const bridge = inspector.bridges.find(b => b.id === bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { inspectorId, bridgeId });
+        console.warn('Bridge not found', { inspectorId, bridgeId });
         return null;
       }
 
       return bridge.health;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to get bridge health');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -753,12 +753,12 @@ export class BridgeInspectorManager {
    * Destroy the Bridge Inspector Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Bridge Inspector Manager...');
+    console.info('BridgeInspectorPure', 'Destroying Bridge Inspector Manager...');
 
     this.inspectors.clear();
     this.isInitialized = false;
 
-    this.logger.info('Bridge Inspector Manager destroyed');
+    console.info('BridgeInspectorPure', 'Bridge Inspector Manager destroyed');
   }
 }
 

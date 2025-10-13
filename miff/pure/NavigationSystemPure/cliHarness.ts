@@ -20,13 +20,13 @@ function main() {
   
   const pathResult = SafePathUtils.safeReadFile(inputPath, process.cwd());
   if (!pathResult.success) {
-    this.logger.error('Error reading input file:', pathResult.error);
+    console.error('Error reading input file:', pathResult.error);
     process.exit(1);
   }
   
   const jsonResult = SafeJSONParser.parse(pathResult.data!);
   if (!jsonResult.success) {
-    this.logger.error('Error parsing JSON:', jsonResult.error);
+    console.error('Error parsing JSON:', jsonResult.error);
     process.exit(1);
   }
   
@@ -59,7 +59,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  this.logger.info(JSON.stringify(out, null, 2));
+  console.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

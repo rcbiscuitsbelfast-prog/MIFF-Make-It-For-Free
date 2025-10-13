@@ -49,7 +49,7 @@ function main() {
   const opts = parseArgs(process.argv);
   // Placeholder validation: ensure project exists
   const projectPath = path.resolve(process.cwd(), opts.project);
-  this.logger.info(JSON.stringify({
+  console.info(JSON.stringify({
     log: [
       `ExportAndroidPure: project=${projectPath}`,
       `preset=${opts.preset}`,

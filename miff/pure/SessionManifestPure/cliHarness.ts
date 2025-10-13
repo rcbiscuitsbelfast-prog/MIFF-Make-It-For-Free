@@ -405,14 +405,14 @@ async function main() {
   const cli = new SessionManifestCLI();
   
   if (process.argv.length < 3) {
-    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
-    this.logger.error('Operations: create, get, list, addPlayer, removePlayer, updateStatus, delete, cleanup, stats, simulate, export, validate');
-    this.logger.error('Examples:');
-    this.logger.error('  cliHarness.ts list');
-    this.logger.error('  cliHarness.ts get demo-toppler');
-    this.logger.error('  cliHarness.ts stats');
-    this.logger.error('  cliHarness.ts simulate demo-toppler 60');
-    this.logger.error('  cliHarness.ts export demo-toppler yaml');
+    console.error('Usage: cliHarness.ts <operation> [args...]');
+    console.error('Operations: create, get, list, addPlayer, removePlayer, updateStatus, delete, cleanup, stats, simulate, export, validate');
+    console.error('Examples:');
+    console.error('  cliHarness.ts list');
+    console.error('  cliHarness.ts get demo-toppler');
+    console.error('  cliHarness.ts stats');
+    console.error('  cliHarness.ts simulate demo-toppler 60');
+    console.error('  cliHarness.ts export demo-toppler yaml');
     process.exit(1);
   }
 
@@ -516,9 +516,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    this.logger.error('Error:', error instanceof Error ? error.message : error);
+    console.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

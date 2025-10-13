@@ -183,28 +183,28 @@ export class CIEnforcerManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('CI Enforcer already initialized');
+      console.warn('CIEnforcerPure', 'CI Enforcer already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing CI Enforcer...');
+      console.info('CIEnforcerPure', 'Initializing CI Enforcer...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceMonitoring) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableQualityChecks) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('CI Enforcer initialized successfully');
+      console.info('CIEnforcerPure', 'CI Enforcer initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize CI Enforcer');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -240,11 +240,11 @@ export class CIEnforcerManager {
       this.enforcers.set(enforcer.id, enforcer);
       this.updateAnalytics();
 
-      this.logger.info('CI enforcer created', { enforcerId: enforcer.id, enforcerName: enforcer.name });
+      console.info('CI enforcer created', { enforcerId: enforcer.id, enforcerName: enforcer.name });
       return enforcer;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create CI enforcer');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -271,7 +271,7 @@ export class CIEnforcerManager {
     try {
       const enforcer = this.enforcers.get(enforcerId);
       if (!enforcer) {
-        this.logger.warn('Enforcer not found', { enforcerId });
+        console.warn('Enforcer not found', { enforcerId });
         return null;
       }
 
@@ -285,11 +285,11 @@ export class CIEnforcerManager {
       this.enforcers.set(enforcerId, updatedEnforcer);
       this.updateAnalytics();
 
-      this.logger.info('CI enforcer updated', { enforcerId, enforcerName: updatedEnforcer.name });
+      console.info('CI enforcer updated', { enforcerId, enforcerName: updatedEnforcer.name });
       return updatedEnforcer;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update CI enforcer');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -305,18 +305,18 @@ export class CIEnforcerManager {
     try {
       const enforcer = this.enforcers.get(enforcerId);
       if (!enforcer) {
-        this.logger.warn('Enforcer not found', { enforcerId });
+        console.warn('Enforcer not found', { enforcerId });
         return false;
       }
 
       this.enforcers.delete(enforcerId);
       this.updateAnalytics();
 
-      this.logger.info('CI enforcer deleted', { enforcerId, enforcerName: enforcer.name });
+      console.info('CI enforcer deleted', { enforcerId, enforcerName: enforcer.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete CI enforcer');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -365,7 +365,7 @@ export class CIEnforcerManager {
     try {
       const enforcer = this.enforcers.get(enforcerId);
       if (!enforcer) {
-        this.logger.warn('Enforcer not found', { enforcerId });
+        console.warn('Enforcer not found', { enforcerId });
         return null;
       }
 
@@ -377,11 +377,11 @@ export class CIEnforcerManager {
       enforcer.rules.push(rule);
       this.updateAnalytics();
 
-      this.logger.info('Rule added to enforcer', { enforcerId, ruleId: rule.id, ruleName: rule.name });
+      console.info('Rule added to enforcer', { enforcerId, ruleId: rule.id, ruleName: rule.name });
       return rule;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add rule to enforcer');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -397,24 +397,24 @@ export class CIEnforcerManager {
     try {
       const enforcer = this.enforcers.get(enforcerId);
       if (!enforcer) {
-        this.logger.warn('Enforcer not found', { enforcerId });
+        console.warn('Enforcer not found', { enforcerId });
         return false;
       }
 
       const ruleIndex = enforcer.rules.findIndex(r => r.id === ruleId);
       if (ruleIndex === -1) {
-        this.logger.warn('Rule not found', { enforcerId, ruleId });
+        console.warn('Rule not found', { enforcerId, ruleId });
         return false;
       }
 
       enforcer.rules.splice(ruleIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Rule removed from enforcer', { enforcerId, ruleId });
+      console.info('Rule removed from enforcer', { enforcerId, ruleId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove rule from enforcer');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -430,7 +430,7 @@ export class CIEnforcerManager {
     try {
       const enforcer = this.enforcers.get(enforcerId);
       if (!enforcer) {
-        this.logger.warn('Enforcer not found', { enforcerId });
+        console.warn('Enforcer not found', { enforcerId });
         return null;
       }
 
@@ -455,11 +455,11 @@ export class CIEnforcerManager {
 
       this.updateAnalytics();
 
-      this.logger.info('Check completed', { enforcerId, checkId: check.id, checkName: check.name, passed: check.result.passed });
+      console.info('Check completed', { enforcerId, checkId: check.id, checkName: check.name, passed: check.result.passed });
       return check;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to run check');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -813,12 +813,12 @@ export class CIEnforcerManager {
    * Destroy the CI Enforcer
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying CI Enforcer...');
+    console.info('CIEnforcerPure', 'Destroying CI Enforcer...');
 
     this.enforcers.clear();
     this.isInitialized = false;
 
-    this.logger.info('CI Enforcer destroyed');
+    console.info('CIEnforcerPure', 'CI Enforcer destroyed');
   }
 }
 

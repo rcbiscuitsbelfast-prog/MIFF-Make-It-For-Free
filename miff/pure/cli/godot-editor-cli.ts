@@ -60,9 +60,9 @@ export class GodotEditorCLI {
   }
 
   private initializeGodotProject(): void {
-    this.logger.info('🎮 Initializing Godot Editor CLI...');
-    this.logger.info(`📁 Project Path: ${this.projectPath}`);
-    this.logger.info(`🎭 Scene Path: ${this.scenePath}`);
+    console.info('🎮 Initializing Godot Editor CLI...');
+    console.info(`📁 Project Path: ${this.projectPath}`);
+    console.info(`🎭 Scene Path: ${this.scenePath}`);
 
     // Ensure project directories exist
     if (!fs.existsSync(this.projectPath)) {
@@ -73,11 +73,11 @@ export class GodotEditorCLI {
       fs.mkdirSync(this.scenePath, { recursive: true });
     }
 
-    this.logger.info('✅ Godot Editor CLI initialized');
+    console.info('✅ Godot Editor CLI initialized');
   }
 
   async connectToEditor(): Promise<boolean> {
-    this.logger.info('🔌 Connecting to Godot Editor...');
+    console.info('🔌 Connecting to Godot Editor...');
 
     try {
       // In a real implementation, this would connect to the running Godot Editor
@@ -85,16 +85,16 @@ export class GodotEditorCLI {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       this.isConnected = true;
-      this.logger.info('✅ Connected to Godot Editor');
+      console.info('✅ Connected to Godot Editor');
       return true;
     } catch (error) {
-      this.logger.error('❌ Failed to connect to Godot Editor:', error);
+      console.error('❌ Failed to connect to Godot Editor:', error);
       return false;
     }
   }
 
   async testCombatIntegration(): Promise<void> {
-    this.logger.info('⚔️  Testing CombatPure integration with Godot Editor...');
+    console.info('⚔️  Testing CombatPure integration with Godot Editor...');
 
     try {
       // Create sample combat scene
@@ -135,7 +135,7 @@ export class GodotEditorCLI {
       const sceneFile = path.join(this.scenePath, 'combat_test_scene.tscn');
       fs.writeFileSync(sceneFile, JSON.stringify(combatScene, null, 2));
 
-      this.logger.info(`✅ Combat scene created: ${sceneFile}`);
+      console.info(`✅ Combat scene created: ${sceneFile}`);
 
       // Test bridge communication
       const testMessage = {
@@ -160,17 +160,17 @@ export class GodotEditorCLI {
         }
       };
 
-      this.logger.info('📤 Sending combat integration test...');
+      console.info('📤 Sending combat integration test...');
       // In real implementation, this would send the message to Godot Editor
 
-      this.logger.info('✅ Combat integration test completed');
+      console.info('✅ Combat integration test completed');
     } catch (error) {
-      this.logger.error('💥 Combat integration test failed:', error);
+      console.error('💥 Combat integration test failed:', error);
     }
   }
 
   async testItemIntegration(): Promise<void> {
-    this.logger.info('🎒 Testing ItemsPure integration with Godot Editor...');
+    console.info('🎒 Testing ItemsPure integration with Godot Editor...');
 
     try {
       // Create sample inventory system
@@ -207,7 +207,7 @@ export class GodotEditorCLI {
       const sceneFile = path.join(this.scenePath, 'inventory_test_scene.tscn');
       fs.writeFileSync(sceneFile, JSON.stringify(inventoryScene, null, 2));
 
-      this.logger.info(`✅ Inventory scene created: ${sceneFile}`);
+      console.info(`✅ Inventory scene created: ${sceneFile}`);
 
       // Test item system integration
       const testMessage = {
@@ -249,17 +249,17 @@ export class GodotEditorCLI {
         }
       };
 
-      this.logger.info('📤 Sending inventory integration test...');
+      console.info('📤 Sending inventory integration test...');
       // In real implementation, this would send the message to Godot Editor
 
-      this.logger.info('✅ Item integration test completed');
+      console.info('✅ Item integration test completed');
     } catch (error) {
-      this.logger.error('💥 Item integration test failed:', error);
+      console.error('💥 Item integration test failed:', error);
     }
   }
 
   async testAIIntegration(): Promise<void> {
-    this.logger.info('🤖 Testing AIPure integration with Godot Editor...');
+    console.info('🤖 Testing AIPure integration with Godot Editor...');
 
     try {
       // Create sample AI behavior scene
@@ -300,7 +300,7 @@ export class GodotEditorCLI {
       const sceneFile = path.join(this.scenePath, 'ai_test_scene.tscn');
       fs.writeFileSync(sceneFile, JSON.stringify(aiScene, null, 2));
 
-      this.logger.info(`✅ AI scene created: ${sceneFile}`);
+      console.info(`✅ AI scene created: ${sceneFile}`);
 
       // Test AI policy integration
       const testMessage = {
@@ -347,22 +347,22 @@ export class GodotEditorCLI {
         }
       };
 
-      this.logger.info('📤 Sending AI integration test...');
+      console.info('📤 Sending AI integration test...');
       // In real implementation, this would send the message to Godot Editor
 
-      this.logger.info('✅ AI integration test completed');
+      console.info('✅ AI integration test completed');
     } catch (error) {
-      this.logger.error('💥 AI integration test failed:', error);
+      console.error('💥 AI integration test failed:', error);
     }
   }
 
   async runLiveValidation(): Promise<void> {
-    this.logger.info('🔍 Running live validation in Godot Editor...');
+    console.info('🔍 Running live validation in Godot Editor...');
 
     if (!this.isConnected) {
       const connected = await this.connectToEditor();
       if (!connected) {
-        this.logger.info('⚠️  Skipping live validation - not connected to Godot Editor');
+        console.info('⚠️  Skipping live validation - not connected to Godot Editor');
         return;
       }
     }
@@ -377,14 +377,14 @@ export class GodotEditorCLI {
       // Test AI integration
       await this.testAIIntegration();
 
-      this.logger.info('✅ Live validation completed successfully');
+      console.info('✅ Live validation completed successfully');
     } catch (error) {
-      this.logger.error('💥 Live validation failed:', error);
+      console.error('💥 Live validation failed:', error);
     }
   }
 
   async createEditorPlugin(): Promise<void> {
-    this.logger.info('🔧 Creating Godot Editor Plugin...');
+    console.info('🔧 Creating Godot Editor Plugin...');
 
     const pluginDir = path.join(this.projectPath, 'addons', 'miff-bridge');
     if (!fs.existsSync(pluginDir)) {
@@ -423,11 +423,11 @@ func _exit_tree():
 
     fs.writeFileSync(path.join(pluginDir, 'miff_bridge.gd'), pluginScript);
 
-    this.logger.info(`✅ Godot Editor Plugin created: ${pluginDir}`);
+    console.info(`✅ Godot Editor Plugin created: ${pluginDir}`);
   }
 
   async generateProjectFiles(): Promise<void> {
-    this.logger.info('📄 Generating Godot project files...');
+    console.info('📄 Generating Godot project files...');
 
     // Create project.godot file
     const projectConfig = {
@@ -473,35 +473,35 @@ enabled=${projectConfig.audio.enabled}`;
 
     fs.writeFileSync(path.join(this.projectPath, 'project.godot'), projectGodot);
 
-    this.logger.info('✅ Godot project files generated');
+    console.info('✅ Godot project files generated');
   }
 
   async demo(): Promise<void> {
-    this.logger.info('🎮 Godot Editor CLI Demo');
-    this.logger.info('=========================');
+    console.info('🎮 Godot Editor CLI Demo');
+    console.info('=========================');
 
-    this.logger.info('This demo shows how MIFF integrates with Godot Editor:');
-    this.logger.info('');
-    this.logger.info('1. ⚔️  CombatPure → Godot Combat System');
-    this.logger.info('   - Spirit data becomes Godot KinematicBody2D nodes');
-    this.logger.info('   - Move execution through Godot physics');
-    this.logger.info('   - Battle events trigger Godot animations');
-    this.logger.info('');
-    this.logger.info('2. 🎒 ItemsPure → Godot Inventory System');
-    this.logger.info('   - Items become Godot TextureRect UI elements');
-    this.logger.info('   - Effect systems integrate with Godot particles');
-    this.logger.info('   - Inventory UI rendered with Godot Control nodes');
-    this.logger.info('');
-    this.logger.info('3. 🤖 AIPure → Godot AI Behavior');
-    this.logger.info('   - AI policies control Godot NavigationAgent2D');
-    this.logger.info('   - Decision trees become Godot BehaviorTree nodes');
-    this.logger.info('   - Tactical analysis drives Godot formations');
-    this.logger.info('');
-    this.logger.info('4. 🎨 SceneBuilderPure → Godot Scene Composition');
-    this.logger.info('   - Scene templates become Godot .tscn files');
-    this.logger.info('   - Layer system maps to Godot node hierarchy');
-    this.logger.info('   - Optimization settings configure Godot renderer');
-    this.logger.info('');
+    console.info('This demo shows how MIFF integrates with Godot Editor:');
+    console.info('');
+    console.info('1. ⚔️  CombatPure → Godot Combat System');
+    console.info('   - Spirit data becomes Godot KinematicBody2D nodes');
+    console.info('   - Move execution through Godot physics');
+    console.info('   - Battle events trigger Godot animations');
+    console.info('');
+    console.info('2. 🎒 ItemsPure → Godot Inventory System');
+    console.info('   - Items become Godot TextureRect UI elements');
+    console.info('   - Effect systems integrate with Godot particles');
+    console.info('   - Inventory UI rendered with Godot Control nodes');
+    console.info('');
+    console.info('3. 🤖 AIPure → Godot AI Behavior');
+    console.info('   - AI policies control Godot NavigationAgent2D');
+    console.info('   - Decision trees become Godot BehaviorTree nodes');
+    console.info('   - Tactical analysis drives Godot formations');
+    console.info('');
+    console.info('4. 🎨 SceneBuilderPure → Godot Scene Composition');
+    console.info('   - Scene templates become Godot .tscn files');
+    console.info('   - Layer system maps to Godot node hierarchy');
+    console.info('   - Optimization settings configure Godot renderer');
+    console.info('');
 
     await this.runLiveValidation();
   }
@@ -542,17 +542,17 @@ async function main() {
       break;
     case 'help':
     default:
-      this.logger.info('Godot Editor CLI');
-      this.logger.info('Usage:');
-      this.logger.info('  node godot-editor-cli.ts connect [project-path]  # Connect to Godot Editor');
-      this.logger.info('  node godot-editor-cli.ts combat [project-path]   # Test CombatPure integration');
-      this.logger.info('  node godot-editor-cli.ts items [project-path]    # Test ItemsPure integration');
-      this.logger.info('  node godot-editor-cli.ts ai [project-path]       # Test AIPure integration');
-      this.logger.info('  node godot-editor-cli.ts validate [project-path] # Run live validation');
-      this.logger.info('  node godot-editor-cli.ts plugin [project-path]   # Create editor plugin');
-      this.logger.info('  node godot-editor-cli.ts project [project-path]  # Generate project files');
-      this.logger.info('  node godot-editor-cli.ts demo [project-path]     # Run interactive demo');
-      this.logger.info('  node godot-editor-cli.ts help                    # Show this help');
+      console.info('Godot Editor CLI');
+      console.info('Usage:');
+      console.info('  node godot-editor-cli.ts connect [project-path]  # Connect to Godot Editor');
+      console.info('  node godot-editor-cli.ts combat [project-path]   # Test CombatPure integration');
+      console.info('  node godot-editor-cli.ts items [project-path]    # Test ItemsPure integration');
+      console.info('  node godot-editor-cli.ts ai [project-path]       # Test AIPure integration');
+      console.info('  node godot-editor-cli.ts validate [project-path] # Run live validation');
+      console.info('  node godot-editor-cli.ts plugin [project-path]   # Create editor plugin');
+      console.info('  node godot-editor-cli.ts project [project-path]  # Generate project files');
+      console.info('  node godot-editor-cli.ts demo [project-path]     # Run interactive demo');
+      console.info('  node godot-editor-cli.ts help                    # Show this help');
       break;
   }
 }

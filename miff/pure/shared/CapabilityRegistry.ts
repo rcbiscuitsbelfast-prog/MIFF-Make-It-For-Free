@@ -36,7 +36,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
     await this.autoDiscoverModules();
 
     this.isInitialized = true;
-    this.logger.info(`✅ Capability Registry initialized`);
+    console.info(`✅ Capability Registry initialized`);
   }
 
   /**
@@ -44,7 +44,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
    */
   private async autoDiscoverModules(): Promise<void> {
     // TODO: Implement in next phase
-    this.logger.info('Module discovery not yet implemented');
+    console.info('Module discovery not yet implemented');
   }
 
   /**

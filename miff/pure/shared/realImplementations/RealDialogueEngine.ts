@@ -194,7 +194,7 @@ export class RealDialogueEngine {
       this.emit('dialogueTreeAdded', { treeId, nodeCount: nodes.length });
       return true;
     } catch (error) {
-      this.logger.error('Error adding dialogue tree:', error);
+      console.error('Error adding dialogue tree:', error);
       return false;
     }
   }
@@ -215,7 +215,7 @@ export class RealDialogueEngine {
       this.emit('characterAdded', { characterId: character.id, character });
       return true;
     } catch (error) {
-      this.logger.error('Error adding character:', error);
+      console.error('Error adding character:', error);
       return false;
     }
   }
@@ -223,7 +223,7 @@ export class RealDialogueEngine {
   /**
    * Get a character
    */
-  getCharacter(characterId: string): Character | undefined {
+  getCharacter(characterId: string): Character! {
     return this.characters.get(characterId);
   }
 
@@ -513,7 +513,7 @@ export class RealDialogueEngine {
   /**
    * Get active dialogue session
    */
-  getDialogueSession(sessionId: string): DialogueSession | undefined {
+  getDialogueSession(sessionId: string): DialogueSession! {
     return this.activeSessions.get(sessionId);
   }
 
@@ -579,7 +579,7 @@ export class RealDialogueEngine {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -599,7 +599,7 @@ export class RealDialogueEngine {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in event handler for ${event}:`, error);
+          console.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

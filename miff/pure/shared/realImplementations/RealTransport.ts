@@ -48,7 +48,7 @@ export class RealTransport {
         this.ws.onopen = () => {
           this.isConnected = true;
           this.reconnectAttempts = 0;
-          this.logger.info('Transport connected');
+          console.info('Transport connected');
           resolve();
         };
 
@@ -57,7 +57,7 @@ export class RealTransport {
             const message: TransportMessage = SafeJSONParser.parse(event.data);
             this.handleMessage(message);
           } catch (error) {
-            this.logger.error('Failed to parse message:', error);
+            console.error('Failed to parse message:', error);
           }
         };
 
@@ -67,7 +67,7 @@ export class RealTransport {
         };
 
         this.ws.onerror = (error) => {
-          this.logger.error('Transport error:', error);
+          console.error('Transport error:', error);
           reject(error);
         };
       } catch (error) {
@@ -106,7 +106,7 @@ export class RealTransport {
     if (!this.messageHandlers.has(event)) {
       this.messageHandlers.set(event, []);
     }
-    this.messageHandlers.get(event)!.push(handler);
+    this.messageHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler?: Function): void {
@@ -131,7 +131,7 @@ export class RealTransport {
       try {
         handler(message.data);
       } catch (error) {
-        this.logger.error('Error in message handler:', error);
+        console.error('Error in message handler:', error);
       }
     });
   }
@@ -139,15 +139,15 @@ export class RealTransport {
   private handleReconnect(): void {
     if (this.reconnectAttempts < this.options.maxReconnectAttempts!) {
       this.reconnectAttempts++;
-      this.logger.info(`Attempting to reconnect (${this.reconnectAttempts}/${this.options.maxReconnectAttempts})`);
+      console.info(`Attempting to reconnect (${this.reconnectAttempts}/${this.options.maxReconnectAttempts})`);
       
       setTimeout(() => {
         this.connect().catch(error => {
-          this.logger.error('Reconnect failed:', error);
+          console.error('Reconnect failed:', error);
         });
       }, this.options.reconnectInterval);
     } else {
-      this.logger.error('Max reconnect attempts reached');
+      console.error('Max reconnect attempts reached');
     }
   }
 

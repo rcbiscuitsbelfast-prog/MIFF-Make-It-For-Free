@@ -7,7 +7,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  this.logger.info(`
+  console.info(`
 StatusEffectsPure CLI Harness - Status Effects Management System
 
 Usage: npx tsx miff/pure/StatusEffectsPure/cliHarness.ts [statusFile] [commandsFile]
@@ -101,7 +101,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  this.logger.info(JSON.stringify(out, null, 2));
+  console.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

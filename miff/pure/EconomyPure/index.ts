@@ -525,7 +525,7 @@ export class EconomicEngine {
       // Validate transaction
       const validation = this.validateTransaction(transaction);
       if (!validation.valid) {
-        this.logger.error(`Invalid transaction: ${validation.reason}`);
+        console.error(`Invalid transaction: ${validation.reason}`);
         return false;
       }
 
@@ -541,7 +541,7 @@ export class EconomicEngine {
       const totalCost = transaction.price * transaction.quantity + fees + taxes;
 
       if (!this.hasSufficientFunds(buyer!, transaction.currency, totalCost)) {
-        this.logger.error('Insufficient funds for transaction');
+        console.error('Insufficient funds for transaction');
         return false;
       }
 
@@ -562,13 +562,13 @@ export class EconomicEngine {
         // Trigger economic events if needed
         this.checkEconomicTriggers(transaction);
 
-        this.logger.info(`Transaction processed: ${transaction.id}`);
+        console.info(`Transaction processed: ${transaction.id}`);
         return true;
       }
 
       return false;
     } catch (error) {
-      this.logger.error('Transaction processing failed:', error);
+      console.error('Transaction processing failed:', error);
       return false;
     }
   }
@@ -785,7 +785,7 @@ export class EconomicEngine {
     };
 
     this.economicEvents.set(event.id, event);
-    this.logger.info(`Economic event triggered: ${event.name}`);
+    console.info(`Economic event triggered: ${event.name}`);
   }
 
   // Market operations
@@ -985,15 +985,15 @@ export class EconomicEngine {
   }
 
   // Utility methods
-  getEntity(entityId: string): EconomicEntity | undefined {
+  getEntity(entityId: string): EconomicEntity! {
     return this.entities.get(entityId);
   }
 
-  getMarket(marketId: string): Market | undefined {
+  getMarket(marketId: string): Market! {
     return this.markets.get(marketId);
   }
 
-  getCurrency(currencyType: CurrencyType): Currency | undefined {
+  getCurrency(currencyType: CurrencyType): Currency! {
     return this.currencies.get(currencyType);
   }
 
@@ -1040,12 +1040,12 @@ export class EconomicEngine {
     this.initializeDefaultMarkets();
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    this.logger.info('[EconomicEngine] Reset to initial state');
+    console.info('[EconomicEngine] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    this.logger.info('[EconomicEngine] Disposed successfully');
+    console.info('[EconomicEngine] Disposed successfully');
   }
 }
 

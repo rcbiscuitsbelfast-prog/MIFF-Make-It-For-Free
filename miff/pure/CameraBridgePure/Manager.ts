@@ -251,28 +251,28 @@ export class CameraBridgeManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Camera Bridge already initialized');
+      console.warn('CameraBridgePure', 'Camera Bridge already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Camera Bridge...');
+      console.info('CameraBridgePure', 'Initializing Camera Bridge...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeProcessing) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Camera Bridge initialized successfully');
+      console.info('CameraBridgePure', 'Camera Bridge initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Camera Bridge');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -308,11 +308,11 @@ export class CameraBridgeManager {
       this.bridges.set(bridge.id, bridge);
       this.updateAnalytics();
 
-      this.logger.info('Camera bridge created', { bridgeId: bridge.id, bridgeName: bridge.name });
+      console.info('Camera bridge created', { bridgeId: bridge.id, bridgeName: bridge.name });
       return bridge;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create camera bridge');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -339,7 +339,7 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return null;
       }
 
@@ -353,11 +353,11 @@ export class CameraBridgeManager {
       this.bridges.set(bridgeId, updatedBridge);
       this.updateAnalytics();
 
-      this.logger.info('Camera bridge updated', { bridgeId, bridgeName: updatedBridge.name });
+      console.info('Camera bridge updated', { bridgeId, bridgeName: updatedBridge.name });
       return updatedBridge;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update camera bridge');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -373,18 +373,18 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       this.bridges.delete(bridgeId);
       this.updateAnalytics();
 
-      this.logger.info('Camera bridge deleted', { bridgeId, bridgeName: bridge.name });
+      console.info('Camera bridge deleted', { bridgeId, bridgeName: bridge.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete camera bridge');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -433,7 +433,7 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return null;
       }
 
@@ -445,11 +445,11 @@ export class CameraBridgeManager {
       bridge.cameras.push(camera);
       this.updateAnalytics();
 
-      this.logger.info('Camera added to bridge', { bridgeId, cameraId: camera.id, cameraName: camera.name });
+      console.info('Camera added to bridge', { bridgeId, cameraId: camera.id, cameraName: camera.name });
       return camera;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add camera to bridge');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -465,24 +465,24 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       const cameraIndex = bridge.cameras.findIndex(c => c.id === cameraId);
       if (cameraIndex === -1) {
-        this.logger.warn('Camera not found', { bridgeId, cameraId });
+        console.warn('Camera not found', { bridgeId, cameraId });
         return false;
       }
 
       bridge.cameras.splice(cameraIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Camera removed from bridge', { bridgeId, cameraId });
+      console.info('Camera removed from bridge', { bridgeId, cameraId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove camera from bridge');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -498,13 +498,13 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return null;
       }
 
       const camera = bridge.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        this.logger.warn('Camera not found', { bridgeId, cameraId });
+        console.warn('Camera not found', { bridgeId, cameraId });
         return null;
       }
 
@@ -518,11 +518,11 @@ export class CameraBridgeManager {
       bridge.streams.push(stream);
       this.updateAnalytics();
 
-      this.logger.info('Camera stream started', { bridgeId, cameraId, streamId: stream.id });
+      console.info('Camera stream started', { bridgeId, cameraId, streamId: stream.id });
       return stream;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to start camera stream');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -538,24 +538,24 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       const stream = bridge.streams.find(s => s.id === streamId);
       if (!stream) {
-        this.logger.warn('Stream not found', { bridgeId, streamId });
+        console.warn('Stream not found', { bridgeId, streamId });
         return false;
       }
 
       stream.status = 'stopped';
       this.updateAnalytics();
 
-      this.logger.info('Camera stream stopped', { bridgeId, streamId });
+      console.info('Camera stream stopped', { bridgeId, streamId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to stop camera stream');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -571,13 +571,13 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return null;
       }
 
       const camera = bridge.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        this.logger.warn('Camera not found', { bridgeId, cameraId });
+        console.warn('Camera not found', { bridgeId, cameraId });
         return null;
       }
 
@@ -593,11 +593,11 @@ export class CameraBridgeManager {
       bridge.recordings.push(recording);
       this.updateAnalytics();
 
-      this.logger.info('Camera recording started', { bridgeId, cameraId, recordingId: recording.id });
+      console.info('Camera recording started', { bridgeId, cameraId, recordingId: recording.id });
       return recording;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to start camera recording');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -613,24 +613,24 @@ export class CameraBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       const recording = bridge.recordings.find(r => r.id === recordingId);
       if (!recording) {
-        this.logger.warn('Recording not found', { bridgeId, recordingId });
+        console.warn('Recording not found', { bridgeId, recordingId });
         return false;
       }
 
       recording.status = 'stopped';
       this.updateAnalytics();
 
-      this.logger.info('Camera recording stopped', { bridgeId, recordingId });
+      console.info('Camera recording stopped', { bridgeId, recordingId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to stop camera recording');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -758,12 +758,12 @@ export class CameraBridgeManager {
    * Destroy the Camera Bridge
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Camera Bridge...');
+    console.info('CameraBridgePure', 'Destroying Camera Bridge...');
 
     this.bridges.clear();
     this.isInitialized = false;
 
-    this.logger.info('Camera Bridge destroyed');
+    console.info('CameraBridgePure', 'Camera Bridge destroyed');
   }
 }
 

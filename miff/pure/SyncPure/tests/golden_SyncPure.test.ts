@@ -404,8 +404,8 @@ describe('SyncPure Golden Tests', () => {
       syncManager.increaseSync('test_spirit', 25);
       const entry = syncManager.getSyncEntry('test_spirit');
       expect(entry).not.toBeNull();
-      expect(entry!.spiritId).toBe('test_spirit');
-      expect(entry!.currentLevel).toBe(25);
+      expect(entry?.spiritId).toBe('test_spirit');
+      expect(entry?.currentLevel).toBe(25);
     });
 
     test('should increase sync correctly', () => {
@@ -447,7 +447,7 @@ describe('SyncPure Golden Tests', () => {
 
       expect(success).toBe(true);
       const entry = syncManager.getSyncEntry('test_spirit');
-      expect(entry!.thresholds).toEqual([10, 25, 50]);
+      expect(entry?.thresholds).toEqual([10, 25, 50]);
     });
 
     test('should get spirits by various criteria', () => {
@@ -532,7 +532,7 @@ describe('SyncPure Golden Tests', () => {
 
       expect(syncManager.getSyncLevel('spirit1')).toBe(15);
       const entry = syncManager.getSyncEntry('spirit1');
-      expect(entry!.thresholds).toEqual([10, 25, 50]);
+      expect(entry?.thresholds).toEqual([10, 25, 50]);
     });
 
     test('should get level up candidates correctly', () => {

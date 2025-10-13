@@ -423,7 +423,7 @@ export class RealBrowserAPIs {
       this.eventHandlers.set(eventKey, []);
     }
     
-    this.eventHandlers.get(eventKey)!.push(handler);
+    this.eventHandlers.get(eventKey)?.push(handler);
     this.emit('eventListenerAdded', { elementId, eventType });
     return true;
   }
@@ -471,7 +471,7 @@ export class RealBrowserAPIs {
       try {
         handler(eventInfo);
       } catch (error) {
-        this.logger.error(`Error in event handler for ${eventType}:`, error);
+        console.error(`Error in event handler for ${eventType}:`, error);
       }
     });
 
@@ -515,7 +515,7 @@ export class RealBrowserAPIs {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -535,7 +535,7 @@ export class RealBrowserAPIs {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in browser API event handler for ${event}:`, error);
+          console.error(`Error in browser API event handler for ${event}:`, error);
         }
       });
     }

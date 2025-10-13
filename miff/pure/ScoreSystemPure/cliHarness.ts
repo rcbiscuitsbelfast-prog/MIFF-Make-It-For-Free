@@ -36,12 +36,12 @@ try {
       break;
 
     case 'update-score':
-      const updates = args.includes('--updates') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--updates='))!.split('=')[1]) : {};
+      const updates = args.includes('--updates') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--updates='))?.split('=')[1]) : {};
       output = manager.updateScore(scoreId, updates);
       break;
 
     case 'apply-events':
-      const events: ScoreEvent[] = args.includes('--events') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--events='))!.split('=')[1]) : [
+      const events: ScoreEvent[] = args.includes('--events') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--events='))?.split('=')[1]) : [
         { id: 'evt1', type: 'add', value: 100, category: 'general', source: 'test', timestamp: Date.now() },
         { id: 'evt2', type: 'multiply', value: 1.5, category: 'bonus', source: 'test', timestamp: Date.now() }
       ];
@@ -53,9 +53,9 @@ try {
         id: args.find(arg => arg.startsWith('--bonus-id='))?.split('=')[1] || 'bonus_1',
         name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'Test Bonus',
         multiplier: parseFloat(args.find(arg => arg.startsWith('--multiplier='))?.split('=')[1] || '1.2'),
-        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1]) : undefined,
+        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1]) : undefined,
         source: args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'test',
-        metadata: args.includes('--metadata') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--metadata='))!.split('=')[1]) : undefined
+        metadata: args.includes('--metadata') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--metadata='))?.split('=')[1]) : undefined
       };
       output = manager.addBonus(scoreId, bonus);
       break;
@@ -65,9 +65,9 @@ try {
         id: args.find(arg => arg.startsWith('--penalty-id='))?.split('=')[1] || 'penalty_1',
         name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'Test Penalty',
         reduction: parseFloat(args.find(arg => arg.startsWith('--reduction='))?.split('=')[1] || '50'),
-        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1]) : undefined,
+        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1]) : undefined,
         source: args.find(arg => arg.startsWith('--source='))?.split('=')[1] || 'test',
-        metadata: args.includes('--metadata') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--metadata='))!.split('=')[1]) : undefined
+        metadata: args.includes('--metadata') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--metadata='))?.split('=')[1]) : undefined
       };
       output = manager.addPenalty(scoreId, penalty);
       break;
@@ -78,14 +78,14 @@ try {
         name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'Test Achievement',
         description: args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'Test achievement description',
         category: args.find(arg => arg.startsWith('--category='))?.split('=')[1] || 'general',
-        requirements: args.includes('--requirements') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--requirements='))!.split('=')[1]) : [
+        requirements: args.includes('--requirements') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--requirements='))?.split('=')[1]) : [
           { type: 'score_threshold', value: 1000, category: 'general' }
         ],
-        rewards: args.includes('--rewards') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--rewards='))!.split('=')[1]) : [
+        rewards: args.includes('--rewards') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--rewards='))?.split('=')[1]) : [
           { type: 'score_bonus', value: 100 }
         ],
         unlocked: false,
-        metadata: args.includes('--metadata') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--metadata='))!.split('=')[1]) : undefined
+        metadata: args.includes('--metadata') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--metadata='))?.split('=')[1]) : undefined
       };
       output = manager.registerAchievement(achievement);
       break;
@@ -104,18 +104,18 @@ try {
 
     case 'get-leaderboard':
       const leaderboardId2 = args.find(arg => arg.startsWith('--leaderboard-id='))?.split('=')[1] || 'general';
-      const limit = args.includes('--limit') ? parseInt(args.find(arg => arg.startsWith('--limit='))!.split('=')[1]) : undefined;
+      const limit = args.includes('--limit') ? parseInt(args.find(arg => arg.startsWith('--limit='))?.split('=')[1]) : undefined;
       output = manager.getLeaderboard(leaderboardId2, limit);
       break;
 
     case 'list-scores':
       const filter: any = {};
       if (args.includes('--category')) filter.category = category;
-      if (args.includes('--min-score')) filter.minScore = parseInt(args.find(arg => arg.startsWith('--min-score='))!.split('=')[1]);
-      if (args.includes('--max-score')) filter.maxScore = parseInt(args.find(arg => arg.startsWith('--max-score='))!.split('=')[1]);
+      if (args.includes('--min-score')) filter.minScore = parseInt(args.find(arg => arg.startsWith('--min-score='))?.split('=')[1]);
+      if (args.includes('--max-score')) filter.maxScore = parseInt(args.find(arg => arg.startsWith('--max-score='))?.split('=')[1]);
       if (args.includes('--has-achievements')) filter.hasAchievements = true;
-      if (args.includes('--level')) filter.level = parseInt(args.find(arg => arg.startsWith('--level='))!.split('=')[1]);
-      if (args.includes('--source')) filter.source = args.find(arg => arg.startsWith('--source='))!.split('=')[1];
+      if (args.includes('--level')) filter.level = parseInt(args.find(arg => arg.startsWith('--level='))?.split('=')[1]);
+      if (args.includes('--source')) filter.source = args.find(arg => arg.startsWith('--source='))?.split('=')[1];
       
       output = manager.listScores(filter);
       break;
@@ -280,4 +280,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-this.logger.info(formatOutput(output));
+console.info(formatOutput(output));

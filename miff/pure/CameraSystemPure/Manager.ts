@@ -208,28 +208,28 @@ export class CameraSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Camera System already initialized');
+      console.warn('CameraSystemPure', 'Camera System already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Camera System...');
+      console.info('CameraSystemPure', 'Initializing Camera System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeProcessing) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Camera System initialized successfully');
+      console.info('CameraSystemPure', 'Camera System initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Camera System');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -264,11 +264,11 @@ export class CameraSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Camera system created', { systemId: system.id, systemName: system.name });
+      console.info('Camera system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create camera system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -295,7 +295,7 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -309,11 +309,11 @@ export class CameraSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Camera system updated', { systemId, systemName: updatedSystem.name });
+      console.info('Camera system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update camera system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -329,18 +329,18 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Camera system deleted', { systemId, systemName: system.name });
+      console.info('Camera system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete camera system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -389,7 +389,7 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -401,11 +401,11 @@ export class CameraSystemManager {
       system.cameras.push(camera);
       this.updateAnalytics();
 
-      this.logger.info('Camera added to system', { systemId, cameraId: camera.id, cameraName: camera.name });
+      console.info('Camera added to system', { systemId, cameraId: camera.id, cameraName: camera.name });
       return camera;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add camera to system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -421,24 +421,24 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const cameraIndex = system.cameras.findIndex(c => c.id === cameraId);
       if (cameraIndex === -1) {
-        this.logger.warn('Camera not found', { systemId, cameraId });
+        console.warn('Camera not found', { systemId, cameraId });
         return false;
       }
 
       system.cameras.splice(cameraIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Camera removed from system', { systemId, cameraId });
+      console.info('Camera removed from system', { systemId, cameraId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove camera from system');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -454,24 +454,24 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const camera = system.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        this.logger.warn('Camera not found', { systemId, cameraId });
+        console.warn('Camera not found', { systemId, cameraId });
         return false;
       }
 
       camera.settings = { ...camera.settings, ...settings };
       this.updateAnalytics();
 
-      this.logger.info('Camera settings updated', { systemId, cameraId });
+      console.info('Camera settings updated', { systemId, cameraId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update camera settings');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -487,24 +487,24 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const camera = system.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        this.logger.warn('Camera not found', { systemId, cameraId });
+        console.warn('Camera not found', { systemId, cameraId });
         return false;
       }
 
       camera.controls = { ...camera.controls, ...controls };
       this.updateAnalytics();
 
-      this.logger.info('Camera controls updated', { systemId, cameraId });
+      console.info('Camera controls updated', { systemId, cameraId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update camera controls');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -520,18 +520,18 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return { success: false, error: 'System not found' };
       }
 
       const camera = system.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        this.logger.warn('Camera not found', { systemId, cameraId });
+        console.warn('Camera not found', { systemId, cameraId });
         return { success: false, error: 'Camera not found' };
       }
 
       if (camera.status !== 'available') {
-        this.logger.warn('Camera not available', { systemId, cameraId, status: camera.status });
+        console.warn('Camera not available', { systemId, cameraId, status: camera.status });
         return { success: false, error: 'Camera not available' };
       }
 
@@ -548,11 +548,11 @@ export class CameraSystemManager {
 
       this.updateAnalytics();
 
-      this.logger.info('Image captured', { systemId, cameraId, imageId: imageData.id });
+      console.info('Image captured', { systemId, cameraId, imageId: imageData.id });
       return { success: true, data: imageData };
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to capture image');
+      this.errorHandler.handleError($1);
       return { success: false, error: error.message };
     }
   }
@@ -568,29 +568,29 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return { success: false, error: 'System not found' };
       }
 
       const camera = system.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        this.logger.warn('Camera not found', { systemId, cameraId });
+        console.warn('Camera not found', { systemId, cameraId });
         return { success: false, error: 'Camera not found' };
       }
 
       if (camera.status !== 'available') {
-        this.logger.warn('Camera not available', { systemId, cameraId, status: camera.status });
+        console.warn('Camera not available', { systemId, cameraId, status: camera.status });
         return { success: false, error: 'Camera not available' };
       }
 
       const recordingId = this.generateRecordingId();
       this.updateAnalytics();
 
-      this.logger.info('Video recording started', { systemId, cameraId, recordingId });
+      console.info('Video recording started', { systemId, cameraId, recordingId });
       return { success: true, recordingId };
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to start video recording');
+      this.errorHandler.handleError($1);
       return { success: false, error: error.message };
     }
   }
@@ -606,23 +606,23 @@ export class CameraSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return { success: false, error: 'System not found' };
       }
 
       const camera = system.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        this.logger.warn('Camera not found', { systemId, cameraId });
+        console.warn('Camera not found', { systemId, cameraId });
         return { success: false, error: 'Camera not found' };
       }
 
       this.updateAnalytics();
 
-      this.logger.info('Video recording stopped', { systemId, cameraId, recordingId });
+      console.info('Video recording stopped', { systemId, cameraId, recordingId });
       return { success: true };
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to stop video recording');
+      this.errorHandler.handleError($1);
       return { success: false, error: error.message };
     }
   }
@@ -754,12 +754,12 @@ export class CameraSystemManager {
    * Destroy the Camera System
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Camera System...');
+    console.info('CameraSystemPure', 'Destroying Camera System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('Camera System destroyed');
+    console.info('CameraSystemPure', 'Camera System destroyed');
   }
 }
 

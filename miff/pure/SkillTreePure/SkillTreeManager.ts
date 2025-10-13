@@ -136,7 +136,7 @@ export class SkillTreeManager {
     return tree;
   }
 
-  getTree(id: string): SkillTree | undefined {
+  getTree(id: string): SkillTree! {
     return this.trees.get(id);
   }
 
@@ -152,7 +152,7 @@ export class SkillTreeManager {
     return Array.from(this.unlocked.values());
   }
 
-  get(id: string): Skill | undefined {
+  get(id: string): Skill! {
     return this.skills.get(id);
   }
 
@@ -253,7 +253,7 @@ export class SkillTreeManager {
     return true;
   }
 
-  getProgress(id: string): SkillProgress | undefined {
+  getProgress(id: string): SkillProgress! {
     return this.progress.get(id);
   }
 

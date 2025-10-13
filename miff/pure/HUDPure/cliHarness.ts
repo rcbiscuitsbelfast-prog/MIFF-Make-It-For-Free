@@ -27,7 +27,7 @@ interface CLIState {
 }
 
 function printHelp(): void {
-  this.logger.info(`
+  console.info(`
 HUDPure CLI - Battle HUD Management Testing
 ==========================================
 
@@ -69,66 +69,66 @@ Examples:
 function printStatus(state: CLIState): void {
   const model = state.hudManager.getModel();
 
-  this.logger.info('\n🎮 HUD Status:');
-  this.logger.info(`Player Spirits: ${model.player.length}`);
-  this.logger.info(`Opponent Spirits: ${model.opponent.length}`);
-  this.logger.info(`Current Phase: ${model.turn.phaseName}`);
-  this.logger.info(`Active Spirit: ${model.turn.activeSpiritId || 'None'}`);
-  this.logger.info(`Update History: ${state.updateHistory.length} events`);
-  this.logger.info(`Simulation Mode: ${state.simulationMode ? 'Active' : 'Inactive'}`);
+  console.info('\n🎮 HUD Status:');
+  console.info(`Player Spirits: ${model.player.length}`);
+  console.info(`Opponent Spirits: ${model.opponent.length}`);
+  console.info(`Current Phase: ${model.turn.phaseName}`);
+  console.info(`Active Spirit: ${model.turn.activeSpiritId || 'None'}`);
+  console.info(`Update History: ${state.updateHistory.length} events`);
+  console.info(`Simulation Mode: ${state.simulationMode ? 'Active' : 'Inactive'}`);
 }
 
 function printStats(state: CLIState): void {
   const model = state.hudManager.getModel();
   const stats = HUDPureUtils.calculateHealthStats(model);
 
-  this.logger.info('\n📊 Battle Statistics:');
-  this.logger.info(`Player Health Total: ${stats.playerTotal.toFixed(0)}%`);
-  this.logger.info(`Opponent Health Total: ${stats.opponentTotal.toFixed(0)}%`);
-  this.logger.info(`Player Health Average: ${stats.playerAverage.toFixed(1)}%`);
-  this.logger.info(`Opponent Health Average: ${stats.opponentAverage.toFixed(1)}%`);
+  console.info('\n📊 Battle Statistics:');
+  console.info(`Player Health Total: ${stats.playerTotal.toFixed(0)}%`);
+  console.info(`Opponent Health Total: ${stats.opponentTotal.toFixed(0)}%`);
+  console.info(`Player Health Average: ${stats.playerAverage.toFixed(1)}%`);
+  console.info(`Opponent Health Average: ${stats.opponentAverage.toFixed(1)}%`);
 
   const livingSpirits = model.player.filter(s => !s.isKO);
   const koSpirits = model.player.filter(s => s.isKO);
 
-  this.logger.info(`Player Living: ${livingSpirits.length}/${model.player.length}`);
-  this.logger.info(`Player KO'd: ${koSpirits.length}/${model.player.length}`);
+  console.info(`Player Living: ${livingSpirits.length}/${model.player.length}`);
+  console.info(`Player KO'd: ${koSpirits.length}/${model.player.length}`);
 
   const opponentLiving = model.opponent.filter(s => !s.isKO);
   const opponentKO = model.opponent.filter(s => s.isKO);
 
-  this.logger.info(`Opponent Living: ${opponentLiving.length}/${model.opponent.length}`);
-  this.logger.info(`Opponent KO'd: ${opponentKO.length}/${model.opponent.length}`);
+  console.info(`Opponent Living: ${opponentLiving.length}/${model.opponent.length}`);
+  console.info(`Opponent KO'd: ${opponentKO.length}/${model.opponent.length}`);
 
   if (model.player.length > 0 || model.opponent.length > 0) {
-    this.logger.info(`\nPriority Order:`);
+    console.info(`\nPriority Order:`);
     const priorityOrder = HUDPureUtils.getSpiritsByPriority(model);
     priorityOrder.forEach((spirit, index) => {
-      this.logger.info(`  ${index + 1}. ${spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO]' : ''}`);
+      console.info(`  ${index + 1}. ${spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO]' : ''}`);
     });
   }
 }
 
 function printHistory(updateHistory: IHUDUpdateEvent[]): void {
   if (updateHistory.length === 0) {
-    this.logger.info('📜 No updates in history');
+    console.info('📜 No updates in history');
     return;
   }
 
-  this.logger.info('\n📜 Update History (last 10):');
+  console.info('\n📜 Update History (last 10):');
   updateHistory.slice(-10).forEach((event, index) => {
     const time = new Date(event.timestamp).toLocaleTimeString();
     const spiritInfo = event.spiritId ? ` [${event.spiritId}]` : '';
-    this.logger.info(`  ${updateHistory.length - 10 + index + 1}. ${time} - ${event.type}${spiritInfo}`);
+    console.info(`  ${updateHistory.length - 10 + index + 1}. ${time} - ${event.type}${spiritInfo}`);
   });
 
   if (updateHistory.length > 10) {
-    this.logger.info(`  ... and ${updateHistory.length - 10} more`);
+    console.info(`  ... and ${updateHistory.length - 10} more`);
   }
 }
 
 function createDemoData(): { hudManager: HUDManager; updateHistory: IHUDUpdateEvent[] } {
-  this.logger.info('🎮 Creating demo battle HUD...');
+  console.info('🎮 Creating demo battle HUD...');
 
   // Create demo spirits
   const playerSpirits = [
@@ -153,50 +153,50 @@ function createDemoData(): { hudManager: HUDManager; updateHistory: IHUDUpdateEv
     updateHistory.push(event);
   });
 
-  this.logger.info('✅ Demo data created with battle in progress');
+  console.info('✅ Demo data created with battle in progress');
   return { hudManager, updateHistory };
 }
 
 function runDemo(state: CLIState): void {
-  this.logger.info('🎯 Running HUDPure Demo...\n');
+  console.info('🎯 Running HUDPure Demo...\n');
 
   const demoData = createDemoData();
   state.hudManager = demoData.hudManager;
   state.updateHistory = demoData.updateHistory;
 
-  this.logger.info('Initial state:');
-  this.logger.info(state.hudManager.render());
+  console.info('Initial state:');
+  console.info(state.hudManager.render());
 
   // Simulate damage resolution
-  this.logger.info('\n--- Simulating Damage Resolution ---');
+  console.info('\n--- Simulating Damage Resolution ---');
   state.hudManager.updateSpirit('ember', { currentHP: 28 - 14 });
 
-  this.logger.info('\nAfter damage:');
-  this.logger.info(state.hudManager.render());
+  console.info('\nAfter damage:');
+  console.info(state.hudManager.render());
 
   // Change phase
-  this.logger.info('\n--- Changing to Resolution Phase ---');
+  console.info('\n--- Changing to Resolution Phase ---');
   state.hudManager.changePhase('ResolveAction', 'waterling', 'water_burst -> ember (resolved)');
 
-  this.logger.info('\nAfter phase change:');
-  this.logger.info(state.hudManager.render());
+  console.info('\nAfter phase change:');
+  console.info(state.hudManager.render());
 
   // Add status effect
-  this.logger.info('\n--- Adding Status Effects ---');
+  console.info('\n--- Adding Status Effects ---');
   state.hudManager.updateSpirit('ember', { statusEffects: ['burn'] });
 
-  this.logger.info('\nAfter status effect:');
-  this.logger.info(state.hudManager.render());
+  console.info('\nAfter status effect:');
+  console.info(state.hudManager.render());
 
-  this.logger.info('\n✅ Demo complete!');
+  console.info('\n✅ Demo complete!');
 }
 
 function runSimulation(state: CLIState, turns: number): void {
-  this.logger.info(`🎲 Running ${turns} turn simulation...\n`);
+  console.info(`🎲 Running ${turns} turn simulation...\n`);
 
   const model = state.hudManager.getModel();
   if (model.player.length === 0 || model.opponent.length === 0) {
-    this.logger.info('❌ Need both player and opponent spirits for simulation');
+    console.info('❌ Need both player and opponent spirits for simulation');
     return;
   }
 
@@ -209,7 +209,7 @@ function runSimulation(state: CLIState, turns: number): void {
   );
 
   for (let turn = 1; turn <= turns; turn++) {
-    this.logger.info(`\n--- Turn ${turn} ---`);
+    console.info(`\n--- Turn ${turn} ---`);
 
     // Random action phase
     const randomPlayer = simManager.getModel().player.filter(s => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.filter(s => !s.isKO).length))];
@@ -222,14 +222,14 @@ function runSimulation(state: CLIState, turns: number): void {
       const damage = Math.floor(Math.random() * 20) + 5;
       simManager.updateSpirit(randomOpponent.spiritId, { currentHP: Math.max(0, randomOpponent.currentHP - damage) });
 
-      this.logger.info(`  ${randomPlayer.name} attacks ${randomOpponent.name} for ${damage} damage!`);
-      this.logger.info(`  ${randomOpponent.name} HP: ${Math.max(0, randomOpponent.currentHP - damage)}/${randomOpponent.maxHP}`);
+      console.info(`  ${randomPlayer.name} attacks ${randomOpponent.name} for ${damage} damage!`);
+      console.info(`  ${randomOpponent.name} HP: ${Math.max(0, randomOpponent.currentHP - damage)}/${randomOpponent.maxHP}`);
     }
 
     // Check for KO
     const livingOpponents = simManager.getModel().opponent.filter(s => !s.isKO);
     if (livingOpponents.length === 0) {
-      this.logger.info('  🎉 All opponents defeated! Battle simulation ends.');
+      console.info('  🎉 All opponents defeated! Battle simulation ends.');
       break;
     }
 
@@ -242,15 +242,15 @@ function runSimulation(state: CLIState, turns: number): void {
 
       if (targetSpirit && !targetSpirit.hasStatusEffect(randomEffect)) {
         simManager.updateSpirit(targetSpirit.spiritId, { statusEffects: [...targetSpirit.statusEffects, randomEffect] });
-        this.logger.info(`  ${targetSpirit.name} gets ${randomEffect} status effect!`);
+        console.info(`  ${targetSpirit.name} gets ${randomEffect} status effect!`);
       }
     }
   }
 
   // Update main state with simulation results
   state.hudManager = simManager;
-  this.logger.info('\n✅ Simulation complete!');
-  this.logger.info(state.hudManager.render());
+  console.info('\n✅ Simulation complete!');
+  console.info(state.hudManager.render());
 }
 
 async function runCLI(): Promise<void> {
@@ -269,7 +269,7 @@ async function runCLI(): Promise<void> {
     state.updateHistory.push(event);
   });
 
-  this.logger.info('🎮 HUDPure CLI - Type "help" for commands or "demo" to see battle HUD in action\n');
+  console.info('🎮 HUDPure CLI - Type "help" for commands or "demo" to see battle HUD in action\n');
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -295,12 +295,12 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'render':
-        this.logger.info('\n' + state.hudManager.render());
+        console.info('\n' + state.hudManager.render());
         break;
 
       case 'add':
         if (args.length < 4) {
-          this.logger.info('❌ Usage: add <side> <spirit_id> <name> <max_hp> [current_hp] [level] [element]');
+          console.info('❌ Usage: add <side> <spirit_id> <name> <max_hp> [current_hp] [level] [element]');
         } else {
           const side = args[0];
           const spiritId = args[1];
@@ -311,51 +311,51 @@ async function runCLI(): Promise<void> {
           const element = args[6];
 
           if (isNaN(maxHP) || maxHP <= 0) {
-            this.logger.info('❌ Max HP must be a positive number');
+            console.info('❌ Max HP must be a positive number');
           } else if (isNaN(currentHP) || currentHP < 0) {
-            this.logger.info('❌ Current HP must be a non-negative number');
+            console.info('❌ Current HP must be a non-negative number');
           } else {
             const spirit = HUDPureUtils.createSpirit(spiritId, name, currentHP, maxHP, { level, element });
             const success = state.hudManager['model'].addSpirit(spirit, side as 'player' | 'opponent');
-            this.logger.info(success ? `✅ Added ${name} to ${side}` : '❌ Failed to add spirit');
+            console.info(success ? `✅ Added ${name} to ${side}` : '❌ Failed to add spirit');
           }
         }
         break;
 
       case 'update':
         if (args.length < 2) {
-          this.logger.info('❌ Usage: update <spirit_id> <current_hp>');
+          console.info('❌ Usage: update <spirit_id> <current_hp>');
         } else {
           const spiritId = args[0];
           const currentHP = parseInt(args[1]);
 
           if (isNaN(currentHP) || currentHP < 0) {
-            this.logger.info('❌ Current HP must be a non-negative number');
+            console.info('❌ Current HP must be a non-negative number');
           } else {
             const success = state.hudManager.updateSpirit(spiritId, { currentHP });
-            this.logger.info(success ? `✅ Updated ${spiritId} HP to ${currentHP}` : '❌ Spirit not found');
+            console.info(success ? `✅ Updated ${spiritId} HP to ${currentHP}` : '❌ Spirit not found');
           }
         }
         break;
 
       case 'damage':
         if (args.length < 2) {
-          this.logger.info('❌ Usage: damage <spirit_id> <amount>');
+          console.info('❌ Usage: damage <spirit_id> <amount>');
         } else {
           const spiritId = args[0];
           const amount = parseInt(args[1]);
 
           if (isNaN(amount) || amount <= 0) {
-            this.logger.info('❌ Damage amount must be a positive number');
+            console.info('❌ Damage amount must be a positive number');
           } else {
             const model = state.hudManager.getModel();
             const spirit = model.player.find(s => s.spiritId === spiritId) || model.opponent.find(s => s.spiritId === spiritId);
             if (spirit) {
               const actualDamage = spirit.takeDamage(amount);
               state.hudManager.updateSpirit(spiritId, { currentHP: spirit.currentHP });
-              this.logger.info(`✅ ${spirit.name} takes ${actualDamage} damage (${spirit.currentHP}/${spirit.maxHP} HP remaining)`);
+              console.info(`✅ ${spirit.name} takes ${actualDamage} damage (${spirit.currentHP}/${spirit.maxHP} HP remaining)`);
             } else {
-              this.logger.info('❌ Spirit not found');
+              console.info('❌ Spirit not found');
             }
           }
         }
@@ -363,22 +363,22 @@ async function runCLI(): Promise<void> {
 
       case 'heal':
         if (args.length < 2) {
-          this.logger.info('❌ Usage: heal <spirit_id> <amount>');
+          console.info('❌ Usage: heal <spirit_id> <amount>');
         } else {
           const spiritId = args[0];
           const amount = parseInt(args[1]);
 
           if (isNaN(amount) || amount <= 0) {
-            this.logger.info('❌ Heal amount must be a positive number');
+            console.info('❌ Heal amount must be a positive number');
           } else {
             const model = state.hudManager.getModel();
             const spirit = model.player.find(s => s.spiritId === spiritId) || model.opponent.find(s => s.spiritId === spiritId);
             if (spirit) {
               const actualHeal = spirit.heal(amount);
               state.hudManager.updateSpirit(spiritId, { currentHP: spirit.currentHP });
-              this.logger.info(`✅ ${spirit.name} heals ${actualHeal} HP (${spirit.currentHP}/${spirit.maxHP} HP)`);
+              console.info(`✅ ${spirit.name} heals ${actualHeal} HP (${spirit.currentHP}/${spirit.maxHP} HP)`);
             } else {
-              this.logger.info('❌ Spirit not found');
+              console.info('❌ Spirit not found');
             }
           }
         }
@@ -386,7 +386,7 @@ async function runCLI(): Promise<void> {
 
       case 'status':
         if (args.length < 2) {
-          this.logger.info('❌ Usage: status <spirit_id> <effect>');
+          console.info('❌ Usage: status <spirit_id> <effect>');
         } else {
           const spiritId = args[0];
           const effect = args[1];
@@ -397,14 +397,14 @@ async function runCLI(): Promise<void> {
             if (spirit.hasStatusEffect(effect)) {
               spirit.removeStatusEffect(effect);
               state.hudManager.updateSpirit(spiritId, { statusEffects: spirit.statusEffects });
-              this.logger.info(`✅ Removed ${effect} from ${spirit.name}`);
+              console.info(`✅ Removed ${effect} from ${spirit.name}`);
             } else {
               spirit.addStatusEffect(effect);
               state.hudManager.updateSpirit(spiritId, { statusEffects: spirit.statusEffects });
-              this.logger.info(`✅ Added ${effect} to ${spirit.name}`);
+              console.info(`✅ Added ${effect} to ${spirit.name}`);
             }
           } else {
-            this.logger.info('❌ Spirit not found');
+            console.info('❌ Spirit not found');
           }
         }
         break;
@@ -414,37 +414,37 @@ async function runCLI(): Promise<void> {
         const activeSpiritId = args[1];
 
         if (!phaseName) {
-          this.logger.info('❌ Usage: phase <phase_name> [active_spirit_id]');
+          console.info('❌ Usage: phase <phase_name> [active_spirit_id]');
         } else {
           state.hudManager.changePhase(phaseName, activeSpiritId, `Action in ${phaseName} phase`);
-          this.logger.info(`✅ Changed to phase: ${phaseName}${activeSpiritId ? ` (active: ${activeSpiritId})` : ''}`);
+          console.info(`✅ Changed to phase: ${phaseName}${activeSpiritId ? ` (active: ${activeSpiritId})` : ''}`);
         }
         break;
 
       case 'turn':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: turn <number>');
+          console.info('❌ Usage: turn <number>');
         } else {
           const turnNumber = parseInt(args[0]);
           if (isNaN(turnNumber) || turnNumber < 0) {
-            this.logger.info('❌ Turn number must be a non-negative integer');
+            console.info('❌ Turn number must be a non-negative integer');
           } else {
             state.hudManager.updateTurn({ turnNumber });
-            this.logger.info(`✅ Set turn number to ${turnNumber}`);
+            console.info(`✅ Set turn number to ${turnNumber}`);
           }
         }
         break;
 
       case 'round':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: round <number>');
+          console.info('❌ Usage: round <number>');
         } else {
           const roundNumber = parseInt(args[0]);
           if (isNaN(roundNumber) || roundNumber < 0) {
-            this.logger.info('❌ Round number must be a non-negative integer');
+            console.info('❌ Round number must be a non-negative integer');
           } else {
             state.hudManager.updateTurn({ roundNumber });
-            this.logger.info(`✅ Set round number to ${roundNumber}`);
+            console.info(`✅ Set round number to ${roundNumber}`);
           }
         }
         break;
@@ -452,7 +452,7 @@ async function runCLI(): Promise<void> {
       case 'clear':
         state.hudManager.clear();
         state.updateHistory.length = 0;
-        this.logger.info('✅ HUD cleared');
+        console.info('✅ HUD cleared');
         break;
 
       case 'demo':
@@ -461,11 +461,11 @@ async function runCLI(): Promise<void> {
 
       case 'simulate':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: simulate <turns>');
+          console.info('❌ Usage: simulate <turns>');
         } else {
           const turns = parseInt(args[0]);
           if (isNaN(turns) || turns <= 0) {
-            this.logger.info('❌ Turns must be a positive number');
+            console.info('❌ Turns must be a positive number');
           } else {
             runSimulation(state, turns);
           }
@@ -483,13 +483,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        this.logger.info('👋 Goodbye!');
+        console.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -497,7 +497,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    this.logger.info('\n👋 Goodbye!');
+    console.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -506,7 +506,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    this.logger.error('❌ CLI Error:', error);
+    console.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

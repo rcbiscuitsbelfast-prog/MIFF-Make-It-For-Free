@@ -18,7 +18,7 @@ interface GodotBridgeOperation {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
+    console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
     process.exit(1);
   }
 
@@ -204,10 +204,10 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
         throw new Error(`Unknown operation: ${input.op}`);
     }
     
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    this.logger.error('Error:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }

@@ -15,7 +15,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 const args: string[] = process.argv.slice(2);
-const command: string | undefined = args[0];
+const command: string = args[0];
 const flags = parseFlags(args.slice(1));
 
 function parseFlags(args: string[]): Record<string, any> {
@@ -32,7 +32,7 @@ function parseFlags(args: string[]): Record<string, any> {
 }
 
 function showHelp() {
-  this.logger.info(`
+  console.info(`
 🎮 MIFF CLI - SplashScreen Commands
 
 Usage:
@@ -67,32 +67,32 @@ async function handlePreview() {
   const theme = flags['splash-theme'] || 'dark';
 
   if (flags.verbose) {
-    this.logger.info(`🎬 Previewing with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
-    this.logger.info(`⏱️  Duration: ${duration}ms`);
-    this.logger.info(`🎨 Theme: ${theme}`);
+    console.info(`🎬 Previewing with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
+    console.info(`⏱️  Duration: ${duration}ms`);
+    console.info(`🎨 Theme: ${theme}`);
   }
 
   // Simulate splash screen preview
-  this.logger.info('🎮 Starting MIFF scene preview...');
+  console.info('🎮 Starting MIFF scene preview...');
 
   if (splashEnabled) {
-    this.logger.info('✨ Splash screen enabled');
-    this.logger.info(`⏳ Showing splash screen for ${duration}ms...`);
+    console.info('✨ Splash screen enabled');
+    console.info(`⏳ Showing splash screen for ${duration}ms...`);
 
     // Simulate splash screen timing
     await new Promise(resolve => setTimeout(resolve, Math.min(duration, 1000)));
 
-    this.logger.info('🎯 Splash screen completed, starting scene...');
+    console.info('🎯 Splash screen completed, starting scene...');
   } else {
-    this.logger.info('⚠️  Splash screen disabled');
+    console.info('⚠️  Splash screen disabled');
   }
 
-  this.logger.info('✅ Preview session started');
-  this.logger.info('💡 Controls:');
-  this.logger.info('   - WASD: Move around');
-  this.logger.info('   - Mouse: Look around');
-  this.logger.info('   - E: Use Spirit Lens');
-  this.logger.info('   - ESC: Exit preview');
+  console.info('✅ Preview session started');
+  console.info('💡 Controls:');
+  console.info('   - WASD: Move around');
+  console.info('   - Mouse: Look around');
+  console.info('   - E: Use Spirit Lens');
+  console.info('   - ESC: Exit preview');
 
   return {
     command: 'preview',
@@ -109,12 +109,12 @@ async function handleExportWeb() {
   const output = flags['output'] || flags['o'] || './dist';
 
   if (flags.verbose) {
-    this.logger.info(`📦 Exporting to web with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
-    this.logger.info(`⏱️  Duration: ${duration}ms`);
-    this.logger.info(`📁 Output: ${output}`);
+    console.info(`📦 Exporting to web with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
+    console.info(`⏱️  Duration: ${duration}ms`);
+    console.info(`📁 Output: ${output}`);
   }
 
-  this.logger.info('🏗️  Building web export...');
+  console.info('🏗️  Building web export...');
 
   // Simulate export process
   const steps = [
@@ -126,16 +126,16 @@ async function handleExportWeb() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    this.logger.info(`   ${i + 1}/${steps.length} ${steps[i]}...`);
+    console.info(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
   if (splashEnabled) {
-    this.logger.info('✨ Splash screen injected into index.html');
+    console.info('✨ Splash screen injected into index.html');
   }
 
-  this.logger.info(`✅ Export completed: ${output}`);
-  this.logger.info('🌐 Ready for deployment to GitHub Pages or web server');
+  console.info(`✅ Export completed: ${output}`);
+  console.info('🌐 Ready for deployment to GitHub Pages or web server');
 
   return {
     command: 'export-web',
@@ -157,12 +157,12 @@ async function handleBuildUnity() {
   const unityVersion = flags['unity-version'] || '2021.3';
 
   if (flags.verbose) {
-    this.logger.info(`🏗️  Building Unity project with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
-    this.logger.info(`⏱️  Duration: ${duration}ms`);
-    this.logger.info(`🎮 Unity version: ${unityVersion}`);
+    console.info(`🏗️  Building Unity project with splash screen: ${splashEnabled ? 'enabled' : 'disabled'}`);
+    console.info(`⏱️  Duration: ${duration}ms`);
+    console.info(`🎮 Unity version: ${unityVersion}`);
   }
 
-  this.logger.info('🔧 Setting up Unity project...');
+  console.info('🔧 Setting up Unity project...');
 
   // Simulate Unity build process
   const steps = [
@@ -174,16 +174,16 @@ async function handleBuildUnity() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    this.logger.info(`   ${i + 1}/${steps.length} ${steps[i]}...`);
+    console.info(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 500));
   }
 
   if (splashEnabled) {
-    this.logger.info('✨ Splash screen integrated into Unity scene');
+    console.info('✨ Splash screen integrated into Unity scene');
   }
 
-  this.logger.info(`✅ Unity build completed for version ${unityVersion}`);
-  this.logger.info('🎯 Build output ready for Unity Editor or standalone deployment');
+  console.info(`✅ Unity build completed for version ${unityVersion}`);
+  console.info('🎯 Build output ready for Unity Editor or standalone deployment');
 
   return {
     command: 'build-unity',
@@ -215,19 +215,19 @@ async function main() {
         result = await handleBuildUnity();
         break;
       default:
-        this.logger.error(`❌ Unknown command: ${command}`);
+        console.error(`❌ Unknown command: ${command}`);
         showHelp();
         process.exit(1);
     }
 
     if (flags.verbose) {
-      this.logger.info('\n📊 Command Result:');
-      this.logger.info(JSON.stringify(result, null, 2));
+      console.info('\n📊 Command Result:');
+      console.info(JSON.stringify(result, null, 2));
     }
 
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    this.logger.error(`❌ Command failed: ${message}`);
+    console.error(`❌ Command failed: ${message}`);
     process.exit(1);
   }
 }
@@ -235,6 +235,6 @@ async function main() {
 // Run CLI
 main().catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error);
-  this.logger.error(`💥 Unexpected error: ${message}`);
+  console.error(`💥 Unexpected error: ${message}`);
   process.exit(1);
 });

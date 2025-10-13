@@ -53,7 +53,7 @@ export class WebSocketBridgePure {
             this.reconnectAttempts = 0;
             this.onStatusChange?.('connected');
             // Join the channel
-            this.ws!.send(JSON.stringify({
+            this.ws?.send(JSON.stringify({
               type: 'join',
               channel: this.channel
             }));
@@ -69,12 +69,12 @@ export class WebSocketBridgePure {
                 this.handler?.(this.channel, message.payload);
               }
             } catch (error) {
-              this.logger.warn('Failed to parse WebSocket message:', error);
+              console.warn('Failed to parse WebSocket message:', error);
             }
           };
 
           this.ws.onerror = (error) => { 
-            this.logger.warn('WebSocket connection failed, falling back to simulation:', error);
+            console.warn('WebSocket connection failed, falling back to simulation:', error);
             this.isConnected = true; // Fallback to simulation
             this.onStatusChange?.('simulation');
             resolve(); // Resolve instead of reject to allow fallback
@@ -87,7 +87,7 @@ export class WebSocketBridgePure {
           };
         });
       } catch (error) {
-        this.logger.warn('WebSocket connection failed, falling back to simulation:', error);
+        console.warn('WebSocket connection failed, falling back to simulation:', error);
         this.isConnected = true; // Fallback to simulation
         this.onStatusChange?.('simulation');
       }

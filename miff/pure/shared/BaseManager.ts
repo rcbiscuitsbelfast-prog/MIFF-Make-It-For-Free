@@ -311,8 +311,8 @@ export abstract class BaseManager extends EventEmitter {
     }
   }
 
-  protected getCacheValue<T>(key: string): T | undefined {
-    return this.cache.get(key) as T | undefined;
+  protected getCacheValue<T>(key: string): T! {
+    return this.cache.get(key) as T!;
   }
 
   protected clearCache(): void {
@@ -340,7 +340,7 @@ export abstract class BaseManager extends EventEmitter {
     }
 
     // Basic console logging (can be replaced with proper logging system)
-    this.logger.info(`[${logEntry.timestamp}] ${level.toUpperCase()} [${this.config.id}]: ${message}`, metadata || '');
+    console.info(`[${logEntry.timestamp}] ${level.toUpperCase()} [${this.config.id}]: ${message}`, metadata || '');
   }
 
   /**
@@ -397,7 +397,7 @@ export abstract class BaseManager extends EventEmitter {
       this.metrics.operationsPerSecond = recentOperations.length / 60;
       
       const totalResponseTime = recentOperations.reduce((sum, op) => {
-        return sum + (op.endTime!.getTime() - op.startTime.getTime());
+        return sum + (op.endTime?.getTime() - op.startTime.getTime());
       }, 0);
       this.metrics.averageResponseTime = totalResponseTime / recentOperations.length;
       

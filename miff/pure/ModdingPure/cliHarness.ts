@@ -226,7 +226,7 @@ async function runDemo(system: ModdingSystem): Promise<any> {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((err) => {
-    this.logger.error(err instanceof Error ? err.message : String(err));
+    console.error(err instanceof Error ? err.message : String(err));
     process.exit(1);
   });
 }

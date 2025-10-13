@@ -20,4 +20,4 @@ const { mode } = parseCLIArgs(process.argv);
 
 // Select output based on CLI argument (default to witcher demo)
 const output = witcherExplorerDemo();
-this.logger.info(formatOutput(output));
+console.info(formatOutput(output));

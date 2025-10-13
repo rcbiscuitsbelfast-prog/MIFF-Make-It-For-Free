@@ -8,7 +8,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  this.logger.info(`
+  console.info(`
 TeamsPure CLI Harness - Team Management System
 
 Usage: npx tsx miff/pure/TeamsPure/cliHarness.ts [command] [options]
@@ -196,7 +196,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -386,7 +386,7 @@ function main() {
     );
 
     // Output in JSON envelope format
-    this.logger.info(JSON.stringify({
+    console.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -395,11 +395,11 @@ function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      this.logger.error('\n' + exportData);
+      console.error('\n' + exportData);
     }
 
   } catch (error) {
-    this.logger.error(JSON.stringify({
+    console.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

@@ -153,10 +153,10 @@ export class EventBus {
       this.handlers.set(eventType, []);
     }
 
-    this.handlers.get(eventType)!.push(eventHandler);
+    this.handlers.get(eventType)?.push(eventHandler);
     
     // Sort by priority (higher priority first)
-    this.handlers.get(eventType)!.sort((a, b) => b.priority - a.priority);
+    this.handlers.get(eventType)?.sort((a, b) => b.priority - a.priority);
 
     const subscription: EventSubscription = {
       id: subscriptionId,
@@ -168,7 +168,7 @@ export class EventBus {
     this.subscriptions.set(subscriptionId, subscription);
 
     if (this.config.enableLogging) {
-      this.logger.info(`📡 Event subscription created: ${eventType} (${subscriptionId})`);
+      console.info(`📡 Event subscription created: ${eventType} (${subscriptionId})`);
     }
 
     return subscriptionId;
@@ -195,7 +195,7 @@ export class EventBus {
     this.subscriptions.delete(subscriptionId);
 
     if (this.config.enableLogging) {
-      this.logger.info(`📡 Event subscription removed: ${subscriptionId}`);
+      console.info(`📡 Event subscription removed: ${subscriptionId}`);
     }
 
     return true;
@@ -239,7 +239,7 @@ export class EventBus {
     this.stats.eventsByType[eventType] = (this.stats.eventsByType[eventType] || 0) + 1;
 
     if (this.config.enableLogging) {
-      this.logger.info(`📢 Event published: ${eventType} (${eventId})`);
+      console.info(`📢 Event published: ${eventType} (${eventId})`);
     }
 
     // Handle replication
@@ -276,7 +276,7 @@ export class EventBus {
             handlersToRemove.push(handler.id);
           }
         } catch (error) {
-          this.logger.error(`Error in event handler ${handler.id}:`, error);
+          console.error(`Error in event handler ${handler.id}:`, error);
         }
       }
     }
@@ -311,12 +311,12 @@ export class EventBus {
       try {
         callback(message);
       } catch (error) {
-        this.logger.error('Error in network callback:', error);
+        console.error('Error in network callback:', error);
       }
     }
 
     if (this.config.enableLogging) {
-      this.logger.info(`🌐 Event replicated: ${event.type} (${event.id})`);
+      console.info(`🌐 Event replicated: ${event.type} (${event.id})`);
     }
   }
 
@@ -334,7 +334,7 @@ export class EventBus {
     this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
 
     if (this.config.enableLogging) {
-      this.logger.info(`📡 Network event received: ${event.type} (${event.id}) from ${event.source}`);
+      console.info(`📡 Network event received: ${event.type} (${event.id}) from ${event.source}`);
     }
 
     // Process the event

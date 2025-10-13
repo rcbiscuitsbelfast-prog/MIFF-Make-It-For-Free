@@ -194,28 +194,28 @@ export class ChainValidatorManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Chain Validator already initialized');
+      console.warn('ChainValidatorPure', 'Chain Validator already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Chain Validator...');
+      console.info('ChainValidatorPure', 'Initializing Chain Validator...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Chain Validator initialized successfully');
+      console.info('ChainValidatorPure', 'Chain Validator initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Chain Validator');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -251,11 +251,11 @@ export class ChainValidatorManager {
       this.validators.set(validator.id, validator);
       this.updateAnalytics();
 
-      this.logger.info('Chain validator created', { validatorId: validator.id, validatorName: validator.name });
+      console.info('Chain validator created', { validatorId: validator.id, validatorName: validator.name });
       return validator;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create chain validator');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -282,7 +282,7 @@ export class ChainValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return null;
       }
 
@@ -296,11 +296,11 @@ export class ChainValidatorManager {
       this.validators.set(validatorId, updatedValidator);
       this.updateAnalytics();
 
-      this.logger.info('Chain validator updated', { validatorId, validatorName: updatedValidator.name });
+      console.info('Chain validator updated', { validatorId, validatorName: updatedValidator.name });
       return updatedValidator;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update chain validator');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -316,18 +316,18 @@ export class ChainValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return false;
       }
 
       this.validators.delete(validatorId);
       this.updateAnalytics();
 
-      this.logger.info('Chain validator deleted', { validatorId, validatorName: validator.name });
+      console.info('Chain validator deleted', { validatorId, validatorName: validator.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete chain validator');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -376,7 +376,7 @@ export class ChainValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return null;
       }
 
@@ -388,11 +388,11 @@ export class ChainValidatorManager {
       validator.chains.push(chain);
       this.updateAnalytics();
 
-      this.logger.info('Chain added to validator', { validatorId, chainId: chain.id, chainName: chain.name });
+      console.info('Chain added to validator', { validatorId, chainId: chain.id, chainName: chain.name });
       return chain;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add chain to validator');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -408,24 +408,24 @@ export class ChainValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return false;
       }
 
       const chainIndex = validator.chains.findIndex(c => c.id === chainId);
       if (chainIndex === -1) {
-        this.logger.warn('Chain not found', { validatorId, chainId });
+        console.warn('Chain not found', { validatorId, chainId });
         return false;
       }
 
       validator.chains.splice(chainIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Chain removed from validator', { validatorId, chainId });
+      console.info('Chain removed from validator', { validatorId, chainId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove chain from validator');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -441,13 +441,13 @@ export class ChainValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return null;
       }
 
       const chain = validator.chains.find(c => c.id === chainId);
       if (!chain) {
-        this.logger.warn('Chain not found', { validatorId, chainId });
+        console.warn('Chain not found', { validatorId, chainId });
         return null;
       }
 
@@ -458,7 +458,7 @@ export class ChainValidatorManager {
       chain.validation = validation;
       this.updateAnalytics();
 
-      this.logger.info('Chain validation completed', { 
+      console.info('Chain validation completed', { 
         validatorId, 
         chainId, 
         isValid: validation.isValid, 
@@ -469,7 +469,7 @@ export class ChainValidatorManager {
       return validation;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to validate chain');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -735,12 +735,12 @@ export class ChainValidatorManager {
    * Destroy the Chain Validator
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Chain Validator...');
+    console.info('ChainValidatorPure', 'Destroying Chain Validator...');
 
     this.validators.clear();
     this.isInitialized = false;
 
-    this.logger.info('Chain Validator destroyed');
+    console.info('ChainValidatorPure', 'Chain Validator destroyed');
   }
 }
 

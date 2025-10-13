@@ -17,7 +17,7 @@ interface SceneBuilderOperation {
 async function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op> [template] [output]');
+    console.error('Usage: tsx cliHarness.ts <op> [template] [output]');
     process.exit(1);
   }
 
@@ -92,16 +92,16 @@ async function main() {
         throw new Error(`Unknown operation: ${input.op}`);
     }
 
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
 
   } catch (error) {
-    this.logger.error('Error:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }
 
 async function buildScene(builder: SceneBuilderManager, templateId?: string): Promise<any> {
-  this.logger.info(`[SceneBuilder CLI] Building scene${templateId ? ` with template: ${templateId}` : ''}...`);
+  console.info(`[SceneBuilder CLI] Building scene${templateId ? ` with template: ${templateId}` : ''}...`);
 
   try {
     const result = await builder.buildScene(templateId);
@@ -127,7 +127,7 @@ async function buildScene(builder: SceneBuilderManager, templateId?: string): Pr
 }
 
 function validateScene(builder: SceneBuilderManager): any {
-  this.logger.info('[SceneBuilder CLI] Validating scene...');
+  console.info('[SceneBuilder CLI] Validating scene...');
 
   const validation = builder.validateScene();
 
@@ -144,7 +144,7 @@ function validateScene(builder: SceneBuilderManager): any {
 }
 
 async function exportScene(builder: SceneBuilderManager, format: SceneExportFormat): Promise<any> {
-  this.logger.info(`[SceneBuilder CLI] Exporting scene to ${format}...`);
+  console.info(`[SceneBuilder CLI] Exporting scene to ${format}...`);
 
   try {
     // Update configuration to include the desired format

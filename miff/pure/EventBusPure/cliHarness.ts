@@ -36,7 +36,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -138,7 +138,7 @@ async function main() {
         const handlerId = eventBus.subscribe(
           operation.eventType!,
           (event) => {
-            this.logger.info(`📡 Handler ${operation.handlerId} received event:`, event.type, event.data);
+            console.info(`📡 Handler ${operation.handlerId} received event:`, event.type, event.data);
           },
           {
             id: operation.handlerId,
@@ -222,11 +222,11 @@ async function main() {
 
         // Add some subscriptions
         const sub1 = demoBus.subscribe('player.move', (event) => {
-          this.logger.info(`Player moved: ${event.data.x}, ${event.data.y}`);
+          console.info(`Player moved: ${event.data.x}, ${event.data.y}`);
         }, { id: 'player-move-handler' });
 
         const sub2 = demoBus.subscribe('player.action', (event) => {
-          this.logger.info(`Player action: ${event.data.action}`);
+          console.info(`Player action: ${event.data.action}`);
         }, { id: 'player-action-handler' });
 
         // Add a filter
@@ -330,7 +330,7 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    this.logger.info(JSON.stringify({
+    console.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -339,11 +339,11 @@ async function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      this.logger.error('\n' + exportData);
+      console.error('\n' + exportData);
     }
 
   } catch (error) {
-    this.logger.error(JSON.stringify({
+    console.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

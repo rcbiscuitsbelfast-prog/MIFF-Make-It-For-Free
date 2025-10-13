@@ -43,8 +43,8 @@ class PetCollectionCli {
     this.setupCommands();
     this.setupEventListeners();
 
-    this.logger.info('🐾 PetCollectionPure CLI - AAA Pet Collection System');
-    this.logger.info('Type "help" for available commands or "quit" to exit.\n');
+    console.info('🐾 PetCollectionPure CLI - AAA Pet Collection System');
+    console.info('Type "help" for available commands or "quit" to exit.\n');
   }
 
   private setupCommands(): void {
@@ -147,103 +147,103 @@ class PetCollectionCli {
 
   private setupEventListeners(): void {
     this.eventBus.on('pet:egg_created', (data) => {
-      this.logger.info(`🥚 Egg created: ${data.egg.species} (${data.egg.rarity})`);
+      console.info(`🥚 Egg created: ${data.egg.species} (${data.egg.rarity})`);
     });
 
     this.eventBus.on('pet:egg_hatched', (data) => {
-      this.logger.info(`✨ Pet hatched: ${data.pet.name} (${data.pet.species} - ${data.pet.rarity})`);
+      console.info(`✨ Pet hatched: ${data.pet.name} (${data.pet.species} - ${data.pet.rarity})`);
     });
 
     this.eventBus.on('pet:trade_created', (data) => {
-      this.logger.info(`🤝 Trade offer created for ${data.tradeOffer.petId}`);
+      console.info(`🤝 Trade offer created for ${data.tradeOffer.petId}`);
     });
 
     this.eventBus.on('pet:trade_completed', (data) => {
-      this.logger.info(`✅ Trade completed between players`);
+      console.info(`✅ Trade completed between players`);
     });
 
     this.eventBus.on('pet:fed', (data) => {
-      this.logger.info(`🍖 Pet fed successfully`);
+      console.info(`🍖 Pet fed successfully`);
     });
 
     this.eventBus.on('pet:favorite_toggled', (data) => {
-      this.logger.info(`⭐ Pet favorite status changed`);
+      console.info(`⭐ Pet favorite status changed`);
     });
   }
 
   private handleCreatePlayer(args: string[]): void {
     if (args.length < 2) {
-      this.logger.info('Usage: create-player <id> <name>');
+      console.info('Usage: create-player <id> <name>');
       return;
     }
 
     const [playerId, playerName] = args;
     this.currentPlayerId = playerId;
 
-    this.logger.info(`👤 Player created: ${playerName} (${playerId})`);
-    this.logger.info(`Current player set to: ${this.currentPlayerId}`);
+    console.info(`👤 Player created: ${playerName} (${playerId})`);
+    console.info(`Current player set to: ${this.currentPlayerId}`);
   }
 
   private handleCreateEgg(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: create-egg <type> [species]');
+      console.info('Usage: create-egg <type> [species]');
       return;
     }
 
     const [eggType, species = 'dragon'] = args;
 
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.createEgg(this.currentPlayerId, eggType as EggType, species);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
       if (result.data) {
         const egg = result.data.egg;
-        this.logger.info(`   Species: ${egg.species}`);
-        this.logger.info(`   Rarity: ${egg.rarity}`);
-        this.logger.info(`   Incubation: ${egg.incubationTime}s`);
+        console.info(`   Species: ${egg.species}`);
+        console.info(`   Rarity: ${egg.rarity}`);
+        console.info(`   Incubation: ${egg.incubationTime}s`);
       }
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleHatchEgg(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: hatch-egg <eggId>');
+      console.info('Usage: hatch-egg <eggId>');
       return;
     }
 
     const [eggId] = args;
 
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.hatchEgg(eggId, this.currentPlayerId);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
       if (result.data) {
         const pet = result.data.pet;
-        this.logger.info(`   Name: ${pet.name}`);
-        this.logger.info(`   Species: ${pet.species}`);
-        this.logger.info(`   Rarity: ${pet.rarity}`);
-        this.logger.info(`   Stats: H:${pet.stats.health} A:${pet.stats.attack} D:${pet.stats.defense}`);
+        console.info(`   Name: ${pet.name}`);
+        console.info(`   Species: ${pet.species}`);
+        console.info(`   Rarity: ${pet.rarity}`);
+        console.info(`   Stats: H:${pet.stats.health} A:${pet.stats.attack} D:${pet.stats.defense}`);
       }
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleShowPets(args: string[]): void {
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -252,14 +252,14 @@ class PetCollectionCli {
     if (result.success && result.data) {
       const pets = result.data.pets;
       if (pets.length === 0) {
-        this.logger.info('No pets found.');
+        console.info('No pets found.');
         return;
       }
 
-      this.logger.info(`\n🐾 Your Pets (${pets.length}):`);
-      this.logger.info('─'.repeat(80));
-      this.logger.info('Name                    | Species    | Rarity    | Lvl | HP  | ATK | DEF | Fav');
-      this.logger.info('─'.repeat(80));
+      console.info(`\n🐾 Your Pets (${pets.length}):`);
+      console.info('─'.repeat(80));
+      console.info('Name                    | Species    | Rarity    | Lvl | HP  | ATK | DEF | Fav');
+      console.info('─'.repeat(80));
 
       pets.forEach(pet => {
         const name = pet.name.padEnd(23);
@@ -271,17 +271,17 @@ class PetCollectionCli {
         const def = pet.stats.defense.toString().padStart(3);
         const fav = pet.isFavorite ? '⭐' : '  ';
 
-        this.logger.info(`${name} | ${species} | ${rarity} | ${level} | ${hp} | ${atk} | ${def} | ${fav}`);
+        console.info(`${name} | ${species} | ${rarity} | ${level} | ${hp} | ${atk} | ${def} | ${fav}`);
       });
-      this.logger.info('─'.repeat(80));
+      console.info('─'.repeat(80));
     } else {
-      this.logger.info('❌ Failed to get pets');
+      console.info('❌ Failed to get pets');
     }
   }
 
   private handleShowEggs(args: string[]): void {
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -290,14 +290,14 @@ class PetCollectionCli {
     if (result.success && result.data) {
       const eggs = result.data.eggs;
       if (eggs.length === 0) {
-        this.logger.info('No eggs found.');
+        console.info('No eggs found.');
         return;
       }
 
-      this.logger.info(`\n🥚 Your Eggs (${eggs.length}):`);
-      this.logger.info('─'.repeat(60));
-      this.logger.info('Species    | Rarity    | Progress | Time Left');
-      this.logger.info('─'.repeat(60));
+      console.info(`\n🥚 Your Eggs (${eggs.length}):`);
+      console.info('─'.repeat(60));
+      console.info('Species    | Rarity    | Progress | Time Left');
+      console.info('─'.repeat(60));
 
       eggs.forEach(egg => {
         const species = egg.species.padEnd(10);
@@ -306,17 +306,17 @@ class PetCollectionCli {
         const timeLeft = Math.max(0, egg.hatchTime - Date.now());
         const timeLeftStr = timeLeft > 0 ? `${Math.round(timeLeft / 1000)}s` : 'Ready!';
 
-        this.logger.info(`${species} | ${rarity} | ${progress} | ${timeLeftStr}`);
+        console.info(`${species} | ${rarity} | ${progress} | ${timeLeftStr}`);
       });
-      this.logger.info('─'.repeat(60));
+      console.info('─'.repeat(60));
     } else {
-      this.logger.info('❌ Failed to get eggs');
+      console.info('❌ Failed to get eggs');
     }
   }
 
   private handleShowStats(args: string[]): void {
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -325,69 +325,69 @@ class PetCollectionCli {
     if (result.success && result.data) {
       const stats = result.data.stats;
 
-      this.logger.info(`\n📊 Collection Stats for ${this.currentPlayerId}:`);
-      this.logger.info('─'.repeat(40));
-      this.logger.info(`Total Pets: ${stats.totalPets}`);
-      this.logger.info(`Unique Species: ${stats.uniqueSpecies}`);
-      this.logger.info(`Average Rarity: ${(stats.averageRarity).toFixed(1)}`);
-      this.logger.info(`Eggs Hatched: ${stats.eggsHatched}`);
-      this.logger.info(`Favorite Pets: ${stats.favoritePets}`);
-      this.logger.info(`Max Level: ${stats.maxLevel}`);
-      this.logger.info(`Total Trades: ${stats.totalTrades}`);
-      this.logger.info(`Collection Value: ${stats.collectionValue}`);
-      this.logger.info('─'.repeat(40));
+      console.info(`\n📊 Collection Stats for ${this.currentPlayerId}:`);
+      console.info('─'.repeat(40));
+      console.info(`Total Pets: ${stats.totalPets}`);
+      console.info(`Unique Species: ${stats.uniqueSpecies}`);
+      console.info(`Average Rarity: ${(stats.averageRarity).toFixed(1)}`);
+      console.info(`Eggs Hatched: ${stats.eggsHatched}`);
+      console.info(`Favorite Pets: ${stats.favoritePets}`);
+      console.info(`Max Level: ${stats.maxLevel}`);
+      console.info(`Total Trades: ${stats.totalTrades}`);
+      console.info(`Collection Value: ${stats.collectionValue}`);
+      console.info('─'.repeat(40));
     } else {
-      this.logger.info('❌ Failed to get stats');
+      console.info('❌ Failed to get stats');
     }
   }
 
   private handleFeedPet(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: feed-pet <petId>');
+      console.info('Usage: feed-pet <petId>');
       return;
     }
 
     const [petId] = args;
 
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.feedPet(petId, this.currentPlayerId);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleToggleFavorite(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: toggle-favorite <petId>');
+      console.info('Usage: toggle-favorite <petId>');
       return;
     }
 
     const [petId] = args;
 
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.toggleFavorite(petId, this.currentPlayerId);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleCreateTrade(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: create-trade <petId> [requestedPetId] [item1,item2,...]');
+      console.info('Usage: create-trade <petId> [requestedPetId] [item1,item2,...]');
       return;
     }
 
@@ -395,7 +395,7 @@ class PetCollectionCli {
     const requestedItems = itemsStr ? itemsStr.split(',') : undefined;
 
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -407,45 +407,45 @@ class PetCollectionCli {
     );
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleAcceptTrade(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: accept-trade <tradeId>');
+      console.info('Usage: accept-trade <tradeId>');
       return;
     }
 
     const [tradeId] = args;
 
     if (!this.currentPlayerId) {
-      this.logger.info('❌ No current player set. Use create-player first.');
+      console.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.acceptTradeOffer(tradeId, this.currentPlayerId);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleDemo(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: demo <mode>');
-      this.logger.info('Available modes: hatch, collect, trade');
+      console.info('Usage: demo <mode>');
+      console.info('Available modes: hatch, collect, trade');
       return;
     }
 
     const [mode] = args;
     this.demoMode = true;
 
-    this.logger.info(`🎮 Starting ${mode} demo mode...`);
+    console.info(`🎮 Starting ${mode} demo mode...`);
 
     switch (mode) {
       case 'hatch':
@@ -458,17 +458,17 @@ class PetCollectionCli {
         this.runTradeDemo();
         break;
       default:
-        this.logger.info('❌ Unknown demo mode:', mode);
+        console.info('❌ Unknown demo mode:', mode);
     }
   }
 
   private async runHatchDemo(): Promise<void> {
     if (!this.currentPlayerId) {
-      this.logger.info('Creating demo player...');
+      console.info('Creating demo player...');
       this.currentPlayerId = 'demo_player';
     }
 
-    this.logger.info('Creating various eggs...');
+    console.info('Creating various eggs...');
 
     // Create different types of eggs
     const eggTypes: EggType[] = ['basic', 'premium', 'golden'];
@@ -481,7 +481,7 @@ class PetCollectionCli {
       }
     }
 
-    this.logger.info('Hatching all eggs...');
+    console.info('Hatching all eggs...');
 
     // Wait a bit then hatch all eggs
     await this.sleep(2000);
@@ -503,7 +503,7 @@ class PetCollectionCli {
       this.currentPlayerId = 'demo_player';
     }
 
-    this.logger.info('Creating a large collection...');
+    console.info('Creating a large collection...');
 
     const species = ['dragon', 'phoenix', 'unicorn', 'griffin', 'cerberus', 'pegasus'];
 
@@ -536,7 +536,7 @@ class PetCollectionCli {
     }
 
     // Create some pets for trading
-    this.logger.info('Creating pets for trading...');
+    console.info('Creating pets for trading...');
 
     for (let i = 0; i < 5; i++) {
       const species = ['dragon', 'phoenix', 'unicorn'][i % 3];
@@ -553,16 +553,16 @@ class PetCollectionCli {
       }
     }
 
-    this.logger.info('Creating trade offers...');
+    console.info('Creating trade offers...');
     this.demoMode = false;
   }
 
   private async handleSimulate(args: string[]): Promise<void> {
     const rounds = parseInt(args[0]) || 5;
-    this.logger.info(`🧪 Running simulation for ${rounds} rounds...`);
+    console.info(`🧪 Running simulation for ${rounds} rounds...`);
 
     for (let i = 0; i < rounds; i++) {
-      this.logger.info(`\n--- Round ${i + 1} ---`);
+      console.info(`\n--- Round ${i + 1} ---`);
 
       // Create eggs
       const eggTypes: EggType[] = ['basic', 'premium', 'golden'];
@@ -593,13 +593,13 @@ class PetCollectionCli {
       await this.sleep(200);
     }
 
-    this.logger.info('\n✅ Simulation completed!');
+    console.info('\n✅ Simulation completed!');
     this.handleShowStats([]);
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
     const operations = parseInt(args[0]) || 1000;
-    this.logger.info(`🔬 Running benchmark with ${operations} operations...`);
+    console.info(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
 
@@ -621,10 +621,10 @@ class PetCollectionCli {
     const duration = endTime - startTime;
     const opsPerSecond = (operations / duration) * 1000;
 
-    this.logger.info(`\n📈 Benchmark Results:`);
-    this.logger.info(`   Total Operations: ${operations}`);
-    this.logger.info(`   Duration: ${duration.toFixed(2)}ms`);
-    this.logger.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
+    console.info(`\n📈 Benchmark Results:`);
+    console.info(`   Total Operations: ${operations}`);
+    console.info(`   Duration: ${duration.toFixed(2)}ms`);
+    console.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
 
     // Cleanup
     await this.sleep(1000);
@@ -632,25 +632,25 @@ class PetCollectionCli {
 
   private handleSpecies(args: string[]): void {
     const species = this.manager.getAvailableSpecies();
-    this.logger.info('\n🦄 Available Species:');
-    this.logger.info('─'.repeat(30));
+    console.info('\n🦄 Available Species:');
+    console.info('─'.repeat(30));
     species.forEach((species, index) => {
-      this.logger.info(`${(index + 1).toString().padStart(2)}. ${species}`);
+      console.info(`${(index + 1).toString().padStart(2)}. ${species}`);
     });
-    this.logger.info('─'.repeat(30));
+    console.info('─'.repeat(30));
   }
 
   private handleHelp(args: string[]): void {
-    this.logger.info('\n🛠️ Available Commands:');
-    this.logger.info('─'.repeat(50));
+    console.info('\n🛠️ Available Commands:');
+    console.info('─'.repeat(50));
     this.commands.forEach((cmd, key) => {
-      this.logger.info(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
+      console.info(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
     });
-    this.logger.info('─'.repeat(50));
+    console.info('─'.repeat(50));
   }
 
   private handleQuit(args: string[]): void {
-    this.logger.info('👋 Goodbye!');
+    console.info('👋 Goodbye!');
     this.isRunning = false;
   }
 
@@ -683,7 +683,7 @@ class PetCollectionCli {
         if (cmd) {
           cmd.handler(args);
         } else {
-          this.logger.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
         }
       }
 
@@ -695,7 +695,7 @@ class PetCollectionCli {
     });
 
     rl.on('close', () => {
-      this.logger.info('CLI session ended.');
+      console.info('CLI session ended.');
       process.exit(0);
     });
   }
@@ -719,12 +719,12 @@ async function main() {
 
 // Handle process termination
 process.on('SIGINT', () => {
-  this.logger.info('\n👋 Received SIGINT. Exiting...');
+  console.info('\n👋 Received SIGINT. Exiting...');
   process.exit(0);
 });
 
 process.on('SIGTERM', () => {
-  this.logger.info('\n👋 Received SIGTERM. Exiting...');
+  console.info('\n👋 Received SIGTERM. Exiting...');
   process.exit(0);
 });
 

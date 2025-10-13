@@ -93,28 +93,28 @@ export class ExportWebManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('ExportWebManager', 'initialize');
+    const timerId = console.startTimer('ExportWebManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('ExportWebManager', 'Manager initialized successfully', {
+      console.info('ExportWebManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('ExportWebManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('ExportWebManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('ExportWebManager', 'Failed to initialize manager', {
+      console.error('ExportWebManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class ExportWebManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class ExportWebManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class ExportWebManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('ExportWebManager', 'Created item', {
+    console.info('ExportWebManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class ExportWebManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class ExportWebManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('ExportWebManager', 'Updated item', {
+    console.info('ExportWebManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class ExportWebManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('ExportWebManager', 'Deleted item', {
+    console.info('ExportWebManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class ExportWebManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('ExportWebManager', 'Initializing manager...');
+    console.debug('ExportWebManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class ExportWebManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('ExportWebManager', 'Loaded default items', {
+    console.info('ExportWebManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class ExportWebManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('ExportWebManager', 'Destroying manager', {
+    console.info('ExportWebManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class ExportWebManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

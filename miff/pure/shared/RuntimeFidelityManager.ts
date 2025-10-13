@@ -80,14 +80,14 @@ export class RuntimeFidelityManager {
    * Scan for mock implementations across all modules
    */
   async scanMockImplementations(rootPath: string): Promise<MockImplementation[]> {
-    this.logger.info('🔍 Scanning for mock implementations...');
+    console.info('🔍 Scanning for mock implementations...');
     
     const mocks: MockImplementation[] = [];
     
     try {
       // Find all TypeScript files
       const files = await this.findTypeScriptFiles(rootPath);
-      this.logger.info(`📁 Found ${files.length} TypeScript files`);
+      console.info(`📁 Found ${files.length} TypeScript files`);
       
       // Scan each file for mock implementations
       for (const filePath of files) {
@@ -101,12 +101,12 @@ export class RuntimeFidelityManager {
       }
       
       this.updateStats();
-      this.logger.info(`✅ Found ${mocks.length} mock implementations`);
+      console.info(`✅ Found ${mocks.length} mock implementations`);
       
       return mocks;
       
     } catch (error) {
-      this.logger.error('❌ Error scanning mock implementations:', error);
+      console.error('❌ Error scanning mock implementations:', error);
       return [];
     }
   }
@@ -115,7 +115,7 @@ export class RuntimeFidelityManager {
    * Replace critical mock implementations with real ones
    */
   async replaceCriticalMocks(): Promise<void> {
-    this.logger.info('🔄 Replacing critical mock implementations...');
+    console.info('🔄 Replacing critical mock implementations...');
     
     const criticalMocks = Array.from(this.mockImplementations.values())
       .filter(mock => mock.priority === 'critical');
@@ -123,9 +123,9 @@ export class RuntimeFidelityManager {
     for (const mock of criticalMocks) {
       try {
         await this.replaceMockImplementation(mock);
-        this.logger.info(`✅ Replaced mock: ${mock.id} in ${mock.module}`);
+        console.info(`✅ Replaced mock: ${mock.id} in ${mock.module}`);
       } catch (error) {
-        this.logger.error(`❌ Failed to replace mock ${mock.id}:`, error);
+        console.error(`❌ Failed to replace mock ${mock.id}:`, error);
       }
     }
     
@@ -136,7 +136,7 @@ export class RuntimeFidelityManager {
    * Implement real transport layers for bridge modules
    */
   async implementTransportLayers(): Promise<void> {
-    this.logger.info('🌐 Implementing real transport layers...');
+    console.info('🌐 Implementing real transport layers...');
     
     const bridgeModules = ['UnityBridgePure', 'GodotBridgePure', 'WebBridgePure', 'UnrealBridgePure'];
     
@@ -144,9 +144,9 @@ export class RuntimeFidelityManager {
       try {
         const transportLayer = await this.createTransportLayer(module);
         this.transportLayers.set(module, transportLayer);
-        this.logger.info(`✅ Implemented transport layer for ${module}`);
+        console.info(`✅ Implemented transport layer for ${module}`);
       } catch (error) {
-        this.logger.error(`❌ Failed to implement transport layer for ${module}:`, error);
+        console.error(`❌ Failed to implement transport layer for ${module}:`, error);
       }
     }
   }
@@ -155,7 +155,7 @@ export class RuntimeFidelityManager {
    * Implement complete lifecycle hook functionality
    */
   async implementLifecycleHooks(): Promise<void> {
-    this.logger.info('🔄 Implementing lifecycle hooks...');
+    console.info('🔄 Implementing lifecycle hooks...');
     
     const modules = await this.getModulesWithLifecycleHooks();
     
@@ -165,9 +165,9 @@ export class RuntimeFidelityManager {
         for (const hook of hooks) {
           this.lifecycleHooks.set(hook.id, hook);
         }
-        this.logger.info(`✅ Implemented lifecycle hooks for ${module}`);
+        console.info(`✅ Implemented lifecycle hooks for ${module}`);
       } catch (error) {
-        this.logger.error(`❌ Failed to implement lifecycle hooks for ${module}:`, error);
+        console.error(`❌ Failed to implement lifecycle hooks for ${module}:`, error);
       }
     }
   }
@@ -309,7 +309,7 @@ export class RuntimeFidelityManager {
   private async replaceMockImplementation(mock: MockImplementation): Promise<void> {
     // This would replace the actual mock implementation
     // For now, just log the replacement
-    this.logger.info(`Replacing mock ${mock.id} with real implementation`);
+    console.info(`Replacing mock ${mock.id} with real implementation`);
   }
 
   private async createTransportLayer(module: string): Promise<TransportLayer> {

@@ -76,8 +76,8 @@ try {
         amount: shieldAmount,
         maxAmount: shieldAmount,
         absorption: parseInt(args.find(arg => arg.startsWith('--absorption='))?.split('=')[1] || '100'),
-        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1]) : -1,
-        expiresAt: args.includes('--duration') ? Date.now() + parseInt(args.find(arg => arg.startsWith('--duration='))!.split('=')[1]) * 1000 : undefined
+        duration: args.includes('--duration') ? parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1]) : -1,
+        expiresAt: args.includes('--duration') ? Date.now() + parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1]) * 1000 : undefined
       };
       output = manager.addShield(entityId, shield);
       break;
@@ -101,8 +101,8 @@ try {
 
     case 'list':
       const filter: any = {};
-      if (args.includes('--min-hp')) filter.minHp = parseInt(args.find(arg => arg.startsWith('--min-hp='))!.split('=')[1]);
-      if (args.includes('--max-hp')) filter.maxHp = parseInt(args.find(arg => arg.startsWith('--max-hp='))!.split('=')[1]);
+      if (args.includes('--min-hp')) filter.minHp = parseInt(args.find(arg => arg.startsWith('--min-hp='))?.split('=')[1]);
+      if (args.includes('--max-hp')) filter.maxHp = parseInt(args.find(arg => arg.startsWith('--max-hp='))?.split('=')[1]);
       if (args.includes('--has-shields')) filter.hasShields = true;
       if (args.includes('--has-regeneration')) filter.hasRegeneration = true;
       if (args.includes('--is-alive')) filter.isAlive = true;
@@ -314,4 +314,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-this.logger.info(formatOutput(output));
+console.info(formatOutput(output));

@@ -124,7 +124,7 @@ export class OverlinkThemes {
     return Array.from(this.state.availableThemes.keys());
   }
 
-  getThemeConfig(themeId: ThemeId): ThemeConfig | undefined {
+  getThemeConfig(themeId: ThemeId): ThemeConfig! {
     return this.state.availableThemes.get(themeId);
   }
 
@@ -192,11 +192,11 @@ export class OverlinkThemes {
   }
 
   // Audio and Shader Presets
-  getAudioPreset(themeId: ThemeId): string | undefined {
+  getAudioPreset(themeId: ThemeId): string! {
     return this.state.audioPresets.get(themeId);
   }
 
-  getShaderPreset(themeId: ThemeId): string | undefined {
+  getShaderPreset(themeId: ThemeId): string! {
     return this.state.shaderPresets.get(themeId);
   }
 
@@ -256,7 +256,7 @@ export class OverlinkThemes {
 
   async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
     if (!this.audioManager) {
-      this.logger.warn('Audio manager not set');
+      console.warn('Audio manager not set');
       return false;
     }
 
@@ -265,7 +265,7 @@ export class OverlinkThemes {
 
   async stopThemeAudio(): Promise<void> {
     if (!this.audioManager) {
-      this.logger.warn('Audio manager not set');
+      console.warn('Audio manager not set');
       return;
     }
 
@@ -274,7 +274,7 @@ export class OverlinkThemes {
 
   setThemeVolume(themeId: ThemeId, volume: number): void {
     if (!this.audioManager) {
-      this.logger.warn('Audio manager not set');
+      console.warn('Audio manager not set');
       return;
     }
 

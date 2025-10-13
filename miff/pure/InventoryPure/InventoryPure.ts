@@ -113,7 +113,7 @@ export class InventoryManager {
     this.system.items.set(definition.id, definition);
   }
 
-  getItemDefinition(itemId: string): ItemDefinition | undefined {
+  getItemDefinition(itemId: string): ItemDefinition! {
     return this.system.items.get(itemId);
   }
 
@@ -137,7 +137,7 @@ export class InventoryManager {
     return inventory;
   }
 
-  getInventory(entityId: string): InventoryComponent | undefined {
+  getInventory(entityId: string): InventoryComponent! {
     return this.system.inventories.get(entityId);
   }
 
@@ -450,7 +450,7 @@ export class InventoryManager {
   }
 
   // Helper Methods
-  private findItemInInventory(inventory: InventoryComponent, itemId: string): ItemInstance | undefined {
+  private findItemInInventory(inventory: InventoryComponent, itemId: string): ItemInstance! {
     for (const [slot, item] of inventory.items) {
       if (item.definitionId === itemId) {
         return item;
@@ -459,7 +459,7 @@ export class InventoryManager {
     return undefined;
   }
 
-  private findEmptySlot(inventory: InventoryComponent): string | undefined {
+  private findEmptySlot(inventory: InventoryComponent): string! {
     for (let i = 0; i < inventory.maxSlots; i++) {
       const slot = `slot_${i}`;
       if (!inventory.items.has(slot)) {

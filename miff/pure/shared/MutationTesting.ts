@@ -92,7 +92,7 @@ export class MutationTester {
       return mutations;
 
     } catch (error) {
-      this.logger.error(`❌ Error generating mutations for ${filePath}:`, error);
+      console.error(`❌ Error generating mutations for ${filePath}:`, error);
       return [];
     }
   }
@@ -101,7 +101,7 @@ export class MutationTester {
    * Run mutation testing
    */
   async runMutationTesting(): Promise<MutationStats> {
-    this.logger.info('🧬 Starting mutation testing...');
+    console.info('🧬 Starting mutation testing...');
     
     for (const mutation of this.mutations) {
       try {
@@ -109,7 +109,7 @@ export class MutationTester {
         this.results.push(result);
         
         const status = result.killed ? '💀 KILLED' : '🧟 SURVIVED';
-        this.logger.info(`${status} ${mutation.type} at ${mutation.filePath}:${mutation.lineNumber}`);
+        console.info(`${status} ${mutation.type} at ${mutation.filePath}:${mutation.lineNumber}`);
         
       } catch (error) {
         const errorResult: MutationResult = {
@@ -120,7 +120,7 @@ export class MutationTester {
           error: error instanceof Error ? error.message : String(error)
         };
         this.results.push(errorResult);
-        this.logger.info(`❌ ERROR ${mutation.type} at ${mutation.filePath}:${mutation.lineNumber}`);
+        console.info(`❌ ERROR ${mutation.type} at ${mutation.filePath}:${mutation.lineNumber}`);
       }
     }
 

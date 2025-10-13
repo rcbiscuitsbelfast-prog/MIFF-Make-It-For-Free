@@ -55,7 +55,7 @@ class CapabilityCLI {
           break;
       }
     } catch (error) {
-      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -64,32 +64,32 @@ class CapabilityCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'capability-discovery.json';
 
-    this.logger.info(`🔍 Discovering capabilities in ${rootPath}...`);
+    console.info(`🔍 Discovering capabilities in ${rootPath}...`);
     
     const results = await this.discovery.discoverAllCapabilities(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    this.logger.info(`✅ Discovered capabilities for ${results.length} modules`);
-    this.logger.info(`📄 Results saved to ${outputFile}`);
+    console.info(`✅ Discovered capabilities for ${results.length} modules`);
+    console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
     const stats = this.discovery.getStats();
-    this.logger.info('\n📊 Discovery Summary:');
-    this.logger.info(`Total modules: ${stats.totalModules}`);
-    this.logger.info(`Successful discoveries: ${stats.successfulDiscoveries}`);
-    this.logger.info(`Failed discoveries: ${stats.failedDiscoveries}`);
-    this.logger.info(`Warning discoveries: ${stats.warningDiscoveries}`);
-    this.logger.info(`Total capabilities: ${stats.totalCapabilities}`);
-    this.logger.info(`Average capabilities per module: ${stats.averageCapabilitiesPerModule.toFixed(1)}`);
+    console.info('\n📊 Discovery Summary:');
+    console.info(`Total modules: ${stats.totalModules}`);
+    console.info(`Successful discoveries: ${stats.successfulDiscoveries}`);
+    console.info(`Failed discoveries: ${stats.failedDiscoveries}`);
+    console.info(`Warning discoveries: ${stats.warningDiscoveries}`);
+    console.info(`Total capabilities: ${stats.totalCapabilities}`);
+    console.info(`Average capabilities per module: ${stats.averageCapabilitiesPerModule.toFixed(1)}`);
 
     // Show failed discoveries
     const failed = this.discovery.getResultsByStatus('error');
     if (failed.length > 0) {
-      this.logger.info('\n❌ Failed Discoveries:');
+      console.info('\n❌ Failed Discoveries:');
       failed.forEach(result => {
-        this.logger.info(`  ${result.moduleName}: ${result.errors.join(', ')}`);
+        console.info(`  ${result.moduleName}: ${result.errors.join(', ')}`);
       });
     }
   }
@@ -99,58 +99,58 @@ class CapabilityCLI {
     const outputFile = args[1];
 
     if (!moduleId) {
-      this.logger.error('❌ Module ID required');
-      this.logger.error('Usage: tsx capabilityCLI.ts list <module-id> [output-file]');
+      console.error('❌ Module ID required');
+      console.error('Usage: tsx capabilityCLI.ts list <module-id> [output-file]');
       return;
     }
 
-    this.logger.info(`📋 Listing capabilities for module: ${moduleId}`);
+    console.info(`📋 Listing capabilities for module: ${moduleId}`);
     
     const results = this.discovery.getAllResults();
     const result = results.find(r => r.moduleId === moduleId);
     
     if (!result) {
-      this.logger.error(`❌ Module not found: ${moduleId}`);
+      console.error(`❌ Module not found: ${moduleId}`);
       return;
     }
 
     if (result.status !== 'success') {
-      this.logger.error(`❌ Module discovery failed: ${result.errors.join(', ')}`);
+      console.error(`❌ Module discovery failed: ${result.errors.join(', ')}`);
       return;
     }
 
     const capabilities = result.capabilities;
     
-    this.logger.info(`\n📊 ${result.moduleName} Capabilities:`);
-    this.logger.info(`Module ID: ${result.moduleId}`);
-    this.logger.info(`File Path: ${result.filePath}`);
-    this.logger.info(`Discovered: ${result.discoveredAt.toISOString()}`);
+    console.info(`\n📊 ${result.moduleName} Capabilities:`);
+    console.info(`Module ID: ${result.moduleId}`);
+    console.info(`File Path: ${result.filePath}`);
+    console.info(`Discovered: ${result.discoveredAt.toISOString()}`);
 
     // Operations
     if (capabilities.operations && capabilities.operations.length > 0) {
-      this.logger.info(`\n🔧 Operations (${capabilities.operations.length}):`);
+      console.info(`\n🔧 Operations (${capabilities.operations.length}):`);
       capabilities.operations.forEach(op => {
-        this.logger.info(`  ${op.name}: ${op.description}`);
-        this.logger.info(`    Input Schema: ${op.inputSchema.schemaId} v${op.inputSchema.version}`);
-        this.logger.info(`    Output Schema: ${op.outputSchema?.schemaId || 'N/A'} v${op.outputSchema?.version || 'N/A'}`);
+        console.info(`  ${op.name}: ${op.description}`);
+        console.info(`    Input Schema: ${op.inputSchema.schemaId} v${op.inputSchema.version}`);
+        console.info(`    Output Schema: ${op.outputSchema?.schemaId || 'N/A'} v${op.outputSchema?.version || 'N/A'}`);
       });
     }
 
     // Data processing
     if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
-      this.logger.info(`\n📊 Data Processing (${capabilities.dataProcessing.length}):`);
+      console.info(`\n📊 Data Processing (${capabilities.dataProcessing.length}):`);
       capabilities.dataProcessing.forEach(dp => {
-        this.logger.info(`  ${dp.name}: ${dp.description}`);
-        this.logger.info(`    Input: ${dp.inputTypes.join(', ')} → Output: ${dp.outputTypes.join(', ')}`);
+        console.info(`  ${dp.name}: ${dp.description}`);
+        console.info(`    Input: ${dp.inputTypes.join(', ')} → Output: ${dp.outputTypes.join(', ')}`);
       });
     }
 
     // Integrations
     if (capabilities.integrations && capabilities.integrations.length > 0) {
-      this.logger.info(`\n🔗 Integrations (${capabilities.integrations.length}):`);
+      console.info(`\n🔗 Integrations (${capabilities.integrations.length}):`);
       capabilities.integrations.forEach(integration => {
-        this.logger.info(`  ${integration.name}: ${integration.description}`);
-        this.logger.info(`    Type: ${integration.integrationType}, Auth Required: ${integration.authenticationRequired ? 'Yes' : 'No'}`);
+        console.info(`  ${integration.name}: ${integration.description}`);
+        console.info(`    Type: ${integration.integrationType}, Auth Required: ${integration.authenticationRequired ? 'Yes' : 'No'}`);
       });
     }
 
@@ -166,7 +166,7 @@ class CapabilityCLI {
         discoveredAt: result.discoveredAt
       };
       fs.writeFileSync(outputFile, JSON.stringify(output, null, 2));
-      this.logger.info(`\n📄 Capabilities saved to ${outputFile}`);
+      console.info(`\n📄 Capabilities saved to ${outputFile}`);
     }
   }
 
@@ -175,26 +175,26 @@ class CapabilityCLI {
     const outputFile = args[1] || `${moduleId}-help.md`;
 
     if (!moduleId) {
-      this.logger.error('❌ Module ID required');
-      this.logger.error('Usage: tsx capabilityCLI.ts help <module-id> [output-file]');
+      console.error('❌ Module ID required');
+      console.error('Usage: tsx capabilityCLI.ts help <module-id> [output-file]');
       return;
     }
 
-    this.logger.info(`📖 Generating help for module: ${moduleId}`);
+    console.info(`📖 Generating help for module: ${moduleId}`);
     
     const help = this.discovery.generateDynamicCLIHelp(moduleId);
     
     // Save help to file
     fs.writeFileSync(outputFile, help);
     
-    this.logger.info(`✅ Help generated for ${moduleId}`);
-    this.logger.info(`📄 Help saved to ${outputFile}`);
+    console.info(`✅ Help generated for ${moduleId}`);
+    console.info(`📄 Help saved to ${outputFile}`);
     
     // Show preview
-    this.logger.info('\n📖 Help Preview:');
-    this.logger.info(help.split('\n').slice(0, 20).join('\n'));
+    console.info('\n📖 Help Preview:');
+    console.info(help.split('\n').slice(0, 20).join('\n'));
     if (help.split('\n').length > 20) {
-      this.logger.info('... (truncated)');
+      console.info('... (truncated)');
     }
   }
 
@@ -203,33 +203,33 @@ class CapabilityCLI {
     const outputFile = args[1] || `${moduleId}-tests.test.ts`;
 
     if (!moduleId) {
-      this.logger.error('❌ Module ID required');
-      this.logger.error('Usage: tsx capabilityCLI.ts test <module-id> [output-file]');
+      console.error('❌ Module ID required');
+      console.error('Usage: tsx capabilityCLI.ts test <module-id> [output-file]');
       return;
     }
 
-    this.logger.info(`🧪 Generating tests for module: ${moduleId}`);
+    console.info(`🧪 Generating tests for module: ${moduleId}`);
     
     const testTemplate = this.discovery.generateDynamicTestTemplates(moduleId);
     
     // Save test template to file
     fs.writeFileSync(outputFile, testTemplate);
     
-    this.logger.info(`✅ Test template generated for ${moduleId}`);
-    this.logger.info(`📄 Test template saved to ${outputFile}`);
+    console.info(`✅ Test template generated for ${moduleId}`);
+    console.info(`📄 Test template saved to ${outputFile}`);
     
     // Show preview
-    this.logger.info('\n🧪 Test Template Preview:');
-    this.logger.info(testTemplate.split('\n').slice(0, 30).join('\n'));
+    console.info('\n🧪 Test Template Preview:');
+    console.info(testTemplate.split('\n').slice(0, 30).join('\n'));
     if (testTemplate.split('\n').length > 30) {
-      this.logger.info('... (truncated)');
+      console.info('... (truncated)');
     }
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'capability-report.html';
 
-    this.logger.info('📊 Generating capability report...');
+    console.info('📊 Generating capability report...');
     
     const results = this.discovery.getAllResults();
     const stats = this.discovery.getStats();
@@ -239,46 +239,46 @@ class CapabilityCLI {
     // Save report to file
     fs.writeFileSync(outputFile, html);
     
-    this.logger.info(`✅ Capability report generated`);
-    this.logger.info(`📄 Report saved to ${outputFile}`);
+    console.info(`✅ Capability report generated`);
+    console.info(`📄 Report saved to ${outputFile}`);
   }
 
   private async validateCapabilities(args: string[]): Promise<void> {
     const moduleId = args[0];
 
     if (!moduleId) {
-      this.logger.error('❌ Module ID required');
-      this.logger.error('Usage: tsx capabilityCLI.ts validate <module-id>');
+      console.error('❌ Module ID required');
+      console.error('Usage: tsx capabilityCLI.ts validate <module-id>');
       return;
     }
 
-    this.logger.info(`✅ Validating capabilities for module: ${moduleId}`);
+    console.info(`✅ Validating capabilities for module: ${moduleId}`);
     
     const results = this.discovery.getAllResults();
     const result = results.find(r => r.moduleId === moduleId);
     
     if (!result) {
-      this.logger.error(`❌ Module not found: ${moduleId}`);
+      console.error(`❌ Module not found: ${moduleId}`);
       return;
     }
 
-    this.logger.info(`\n📊 Validation Results for ${result.moduleName}:`);
-    this.logger.info(`Status: ${result.status.toUpperCase()}`);
+    console.info(`\n📊 Validation Results for ${result.moduleName}:`);
+    console.info(`Status: ${result.status.toUpperCase()}`);
     
     if (result.errors.length > 0) {
-      this.logger.info(`Errors: ${result.errors.length}`);
-      result.errors.forEach(error => this.logger.info(`  - ${error}`));
+      console.info(`Errors: ${result.errors.length}`);
+      result.errors.forEach(error => console.info(`  - ${error}`));
     }
     
     if (result.warnings.length > 0) {
-      this.logger.info(`Warnings: ${result.warnings.length}`);
-      result.warnings.forEach(warning => this.logger.info(`  - ${warning}`));
+      console.info(`Warnings: ${result.warnings.length}`);
+      result.warnings.forEach(warning => console.info(`  - ${warning}`));
     }
     
     if (result.status === 'success') {
-      this.logger.info('✅ Module capabilities are valid');
+      console.info('✅ Module capabilities are valid');
     } else {
-      this.logger.info('❌ Module capabilities have issues');
+      console.info('❌ Module capabilities have issues');
     }
   }
 
@@ -364,7 +364,7 @@ class CapabilityCLI {
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 🧩 MIFF Capability Introspection CLI
 
 Usage: tsx capabilityCLI.ts <command> [options]

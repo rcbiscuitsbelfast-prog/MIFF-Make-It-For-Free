@@ -7,7 +7,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 async function main() {
   const argv = process.argv.slice(2);
   if (!argv.length) {
-    this.logger.error('Usage: tsx cliHarness.ts <requests.json>');
+    console.error('Usage: tsx cliHarness.ts <requests.json>');
     process.exit(1);
   }
   const file = argv[0];
@@ -15,8 +15,8 @@ async function main() {
   const manager = new HapticsManager();
   manager.enqueue(reqs);
   const results = await manager.playAll();
-  this.logger.info(JSON.stringify({ op: 'haptics:play', status: 'ok', result: results }, null, 2));
+  console.info(JSON.stringify({ op: 'haptics:play', status: 'ok', result: results }, null, 2));
 }
 
-main().catch(err => { this.logger.error(err); process.exit(1); });
+main().catch(err => { console.error(err); process.exit(1); });
 

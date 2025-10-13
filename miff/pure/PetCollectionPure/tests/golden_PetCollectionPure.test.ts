@@ -155,8 +155,8 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
         const egg = createResult.data.egg;
 
         // Manually complete incubation (normally would wait)
-        manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-        manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+        manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+        manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
 
         // Hatch egg
         const hatchResult = manager.hatchEgg(egg.id, 'player1');
@@ -192,8 +192,8 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
           if (createResult.success && createResult.data) {
             const egg = createResult.data.egg;
             // Complete incubation
-            manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-            manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+            manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+            manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
 
             const hatchResult = manager.hatchEgg(egg.id, 'player1');
             if (hatchResult.success && hatchResult.data) {
@@ -228,8 +228,8 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
           const createResult = manager.createEgg(`player${i + 1}`, 'basic', 'dragon');
           if (createResult.success && createResult.data) {
             const egg = createResult.data.egg;
-            manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-            manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+            manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+            manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
             manager.hatchEgg(egg.id, `player${i + 1}`);
           }
         }
@@ -278,8 +278,8 @@ function createCoreFunctionalitySuite(): GoldenTestSuite {
           const createResult = manager.createEgg('player1', 'basic', species[i % 3]);
           if (createResult.success && createResult.data) {
             const egg = createResult.data.egg;
-            manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-            manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+            manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+            manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
             manager.hatchEgg(egg.id, 'player1');
           }
         }
@@ -432,8 +432,8 @@ function createPerformanceSuite(): GoldenTestSuite {
         const eggsResult = manager.getEggsByOwner('player0');
         if (eggsResult.success && eggsResult.data) {
           for (const egg of eggsResult.data.eggs) {
-            manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-            manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+            manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+            manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
             manager.hatchEgg(egg.id, egg.ownerId);
           }
         }
@@ -467,8 +467,8 @@ function createPerformanceSuite(): GoldenTestSuite {
           const createResult = manager.createEgg(`player${i}`, 'basic', 'dragon');
           if (createResult.success && createResult.data) {
             const egg = createResult.data.egg;
-            manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-            manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+            manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+            manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
             manager.hatchEgg(egg.id, `player${i}`);
           }
         }
@@ -570,8 +570,8 @@ function createIntegrationSuite(): GoldenTestSuite {
         const eggsResult = manager.getEggsByOwner('test_player');
         if (eggsResult.success && eggsResult.data) {
           const egg = eggsResult.data.eggs[0];
-          manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-          manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+          manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+          manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
           manager.hatchEgg(egg.id, 'test_player');
         }
 
@@ -602,8 +602,8 @@ function createIntegrationSuite(): GoldenTestSuite {
         const eggsResult = manager.getEggsByOwner('export_player');
         if (eggsResult.success && eggsResult.data) {
           for (const egg of eggsResult.data.eggs) {
-            manager['petSystem']['eggs'].get(egg.id)!.progress = 100;
-            manager['petSystem']['eggs'].get(egg.id)!.hatchTime = Date.now() - 1000;
+            manager['petSystem']['eggs'].get(egg.id)?.progress = 100;
+            manager['petSystem']['eggs'].get(egg.id)?.hatchTime = Date.now() - 1000;
             manager.hatchEgg(egg.id, 'export_player');
           }
         }

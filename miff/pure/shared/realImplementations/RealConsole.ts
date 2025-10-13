@@ -173,19 +173,19 @@ export class RealConsole {
     
     switch (entry.level) {
       case 'debug':
-        this.logger.debug(formattedMessage);
+        console.debug(formattedMessage);
         break;
       case 'info':
-        this.logger.info(formattedMessage);
+        console.info(formattedMessage);
         break;
       case 'warn':
-        this.logger.warn(formattedMessage);
+        console.warn(formattedMessage);
         break;
       case 'error':
-        this.logger.error(formattedMessage);
+        console.error(formattedMessage);
         break;
       case 'fatal':
-        this.logger.error(formattedMessage);
+        console.error(formattedMessage);
         break;
     }
   }
@@ -223,7 +223,7 @@ export class RealConsole {
         try {
           destination.write(entry);
         } catch (error) {
-          this.logger.error('Error writing to custom destination:', error);
+          console.error('Error writing to custom destination:', error);
         }
       }
     });
@@ -322,7 +322,7 @@ export class RealConsole {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -342,7 +342,7 @@ export class RealConsole {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in event handler for ${event}:`, error);
+          console.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

@@ -30,7 +30,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -126,9 +126,9 @@ async function main() {
         result = {
           action: 'suite_added',
           suite: {
-            id: operation.suite!.id,
-            name: operation.suite!.name,
-            testCount: operation.suite!.tests.length
+            id: operation.suite?.id,
+            name: operation.suite?.name,
+            testCount: operation.suite?.tests.length
           },
           summary: {
             totalSuites: testHarness['suites'].size,
@@ -144,9 +144,9 @@ async function main() {
           action: 'test_added',
           suiteId: operation.suiteId,
           test: {
-            id: operation.test!.id,
-            name: operation.test!.name,
-            category: operation.test!.category
+            id: operation.test?.id,
+            name: operation.test?.name,
+            category: operation.test?.category
           },
           summary: {
             totalSuites: testHarness['suites'].size,
@@ -444,7 +444,7 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    this.logger.info(JSON.stringify({
+    console.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -453,11 +453,11 @@ async function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      this.logger.error('\n' + exportData);
+      console.error('\n' + exportData);
     }
 
   } catch (error) {
-    this.logger.error(JSON.stringify({
+    console.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

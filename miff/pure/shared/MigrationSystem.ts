@@ -400,7 +400,7 @@ export class MigrationManager {
       if (!stepMap.has(key)) {
         stepMap.set(key, []);
       }
-      stepMap.get(key)!.push(step);
+      stepMap.get(key)?.push(step);
     }
 
     // Create migration paths

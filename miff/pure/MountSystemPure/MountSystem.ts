@@ -82,7 +82,7 @@ export interface MountInstance {
 
 export interface MountState {
   mounts: Record<string, MountInstance>;
-  mounted: Record<string, string | undefined>; // rider -> mount
+  mounted: Record<string, string>; // rider -> mount
   market: {
     availableMounts: Array<{
       id: string;
@@ -462,11 +462,11 @@ export class MountManager {
     return { ...this.state };
   }
 
-  getMount(mountId: string): MountInstance | undefined {
+  getMount(mountId: string): MountInstance! {
     return this.state.mounts[mountId];
   }
 
-  getMountedRider(mountId: string): string | undefined {
+  getMountedRider(mountId: string): string! {
     for (const [rider, mount] of Object.entries(this.state.mounted)) {
       if (mount === mountId) return rider;
     }

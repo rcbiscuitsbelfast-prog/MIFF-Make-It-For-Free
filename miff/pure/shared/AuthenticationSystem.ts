@@ -305,7 +305,7 @@ export class AuthenticationSystem {
   /**
    * Get user by ID
    */
-  getUser(userId: string): User | undefined {
+  getUser(userId: string): User! {
     return this.users.get(userId);
   }
 
@@ -427,15 +427,15 @@ export class AuthenticationSystem {
     return crypto.randomBytes(32).toString('hex');
   }
 
-  private findUserByEmail(email: string): User | undefined {
+  private findUserByEmail(email: string): User! {
     return Array.from(this.users.values()).find(user => user.email === email);
   }
 
-  private findSessionByToken(token: string): Session | undefined {
+  private findSessionByToken(token: string): Session! {
     return Array.from(this.sessions.values()).find(session => session.token === token);
   }
 
-  private findSessionByRefreshToken(refreshToken: string): Session | undefined {
+  private findSessionByRefreshToken(refreshToken: string): Session! {
     return Array.from(this.sessions.values()).find(session => session.refreshToken === refreshToken);
   }
 

@@ -8,7 +8,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 async function main() {
   const inputFile = process.argv[2];
   if (!inputFile) {
-    this.logger.error('Usage: ts-node cliHarness.ts <input-file>');
+    console.error('Usage: ts-node cliHarness.ts <input-file>');
     process.exit(1);
   }
 
@@ -29,19 +29,19 @@ async function main() {
     const report = await enforceCIStandardsForModules(modulePaths);
     
     // Output JSON result
-    this.logger.info(JSON.stringify(report, null, 2));
+    console.info(JSON.stringify(report, null, 2));
     
     // Also output human-readable report if requested
     if (input.verbose) {
-      this.logger.error('\n' + generateCIEnforcementReport(report));
+      console.error('\n' + generateCIEnforcementReport(report));
     }
   } catch (error) {
-    this.logger.error('Error:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }
 
 main().catch(error => {
-  this.logger.error('Unhandled error:', error);
+  console.error('Unhandled error:', error);
   process.exit(1);
 });

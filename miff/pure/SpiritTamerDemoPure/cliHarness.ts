@@ -451,7 +451,7 @@ async function main() {
   if (process.argv.length < 3) {
     // Run demo by default when no arguments provided
     const result = await cli.execute({ op: 'demo' });
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
     return;
   }
 
@@ -547,9 +547,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    this.logger.error('Error:', error instanceof Error ? error.message : error);
+    console.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

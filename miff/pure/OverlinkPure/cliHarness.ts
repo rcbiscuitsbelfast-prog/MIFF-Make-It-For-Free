@@ -34,7 +34,7 @@ function main() {
   const configFile = args[0];
   
   if (!configFile) {
-    this.logger.error('Usage: OverlinkPure/cliHarness.ts <config.json> or OverlinkPure/cliHarness.ts demo');
+    console.error('Usage: OverlinkPure/cliHarness.ts <config.json> or OverlinkPure/cliHarness.ts demo');
     process.exit(1);
   }
 
@@ -46,7 +46,7 @@ function main() {
     const result = runScenario(config);
     
     // Output result as JSON
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
     
     // Exit with error code if scenario failed
     if (result.status === 'error') {

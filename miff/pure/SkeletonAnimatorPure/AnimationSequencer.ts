@@ -541,7 +541,7 @@ export class AnimationSequencer {
   /**
    * Get animation by ID
    */
-  getAnimation(animationId: string): AnimationConfig | undefined {
+  getAnimation(animationId: string): AnimationConfig! {
     return this.animations.get(animationId);
   }
 

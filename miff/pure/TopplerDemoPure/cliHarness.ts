@@ -61,7 +61,7 @@ function main() {
     issues: []
   };
   
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 // Run if called directly

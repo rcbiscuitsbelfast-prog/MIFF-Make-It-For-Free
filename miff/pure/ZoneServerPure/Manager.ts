@@ -93,28 +93,28 @@ export class ZoneServerManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('ZoneServerManager', 'initialize');
+    const timerId = console.startTimer('ZoneServerManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('ZoneServerManager', 'Manager initialized successfully', {
+      console.info('ZoneServerManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('ZoneServerManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('ZoneServerManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('ZoneServerManager', 'Failed to initialize manager', {
+      console.error('ZoneServerManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class ZoneServerManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class ZoneServerManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class ZoneServerManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('ZoneServerManager', 'Created item', {
+    console.info('ZoneServerManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class ZoneServerManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class ZoneServerManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('ZoneServerManager', 'Updated item', {
+    console.info('ZoneServerManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class ZoneServerManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('ZoneServerManager', 'Deleted item', {
+    console.info('ZoneServerManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class ZoneServerManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('ZoneServerManager', 'Initializing manager...');
+    console.debug('ZoneServerManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class ZoneServerManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('ZoneServerManager', 'Loaded default items', {
+    console.info('ZoneServerManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class ZoneServerManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('ZoneServerManager', 'Destroying manager', {
+    console.info('ZoneServerManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class ZoneServerManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

@@ -222,7 +222,7 @@ export class OverlinkZone {
     this.state.assetBindings = this.state.assetBindings.filter(b => b.id !== assetId);
   }
 
-  getAssetBinding(assetId: string): AssetBinding | undefined {
+  getAssetBinding(assetId: string): AssetBinding! {
     return this.state.assetBindings.find(b => b.id === assetId);
   }
 

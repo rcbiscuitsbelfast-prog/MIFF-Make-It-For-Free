@@ -173,7 +173,7 @@ export class MovementManager {
     MemoryManager.registerObject(this.memoryId, this, 'MovementManager');
 
     this.initializeDefaultPatterns();
-    this.logger.info('MovementManager initialized', {
+    console.info('MovementManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -184,11 +184,11 @@ export class MovementManager {
    */
   public start(): void {
     if (this.updateInterval) {
-      this.logger.warn('Movement system is already running');
+      console.warn('MovementPure', 'Movement system is already running');
       return;
     }
 
-    this.logger.info('Starting movement system');
+    console.info('MovementPure', 'Starting movement system');
 
     if (this.config.enableRealTimeUpdate) {
       this.updateInterval = setInterval(() => {
@@ -196,7 +196,7 @@ export class MovementManager {
       }, this.config.updateInterval);
     }
 
-    this.logger.info('Movement system started');
+    console.info('MovementPure', 'Movement system started');
   }
 
   /**
@@ -204,18 +204,18 @@ export class MovementManager {
    */
   public stop(): void {
     if (!this.updateInterval) {
-      this.logger.warn('Movement system is not running');
+      console.warn('MovementPure', 'Movement system is not running');
       return;
     }
 
-    this.logger.info('Stopping movement system');
+    console.info('MovementPure', 'Stopping movement system');
 
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
       this.updateInterval = null;
     }
 
-    this.logger.info('Movement system stopped');
+    console.info('MovementPure', 'Movement system stopped');
   }
 
   private initializeDefaultPatterns() {
@@ -260,7 +260,7 @@ export class MovementManager {
     };
 
     this.entities.set(id, entity);
-    this.logger.info('Movement entity created', { entityId: id, pattern: pattern.type });
+    console.info('Movement entity created', { entityId: id, pattern: pattern.type });
     
     return {
       op: 'create',
@@ -290,7 +290,7 @@ export class MovementManager {
     entity.state.pathIndex = 0;
     entity.state.stuckTime = 0;
 
-    this.logger.debug('Movement pattern updated', { entityId, pattern: pattern.type });
+    console.debug('Movement pattern updated', { entityId, pattern: pattern.type });
     
     return {
       op: 'update_pattern',
@@ -316,7 +316,7 @@ export class MovementManager {
     entity.pattern.targetId = targetId;
     entity.lastUpdate = Date.now();
 
-    this.logger.debug('Follow target set', { entityId, targetId });
+    console.debug('Follow target set', { entityId, targetId });
     
     return {
       op: 'set_follow_target',
@@ -343,7 +343,7 @@ export class MovementManager {
     entity.state.pathIndex = 0;
     entity.lastUpdate = Date.now();
 
-    this.logger.debug('Waypoints set', { entityId, waypointCount: waypoints.length });
+    console.debug('Waypoints set', { entityId, waypointCount: waypoints.length });
     
     return {
       op: 'set_waypoints',
@@ -788,12 +788,12 @@ export class MovementManager {
   public removeEntity(entityId: string): boolean {
     const entity = this.entities.get(entityId);
     if (!entity) {
-      this.logger.warn('Entity not found', { entityId });
+      console.warn('Entity not found', { entityId });
       return false;
     }
 
     this.entities.delete(entityId);
-    this.logger.info('Movement entity removed', { entityId });
+    console.info('Movement entity removed', { entityId });
     return true;
   }
 
@@ -802,7 +802,7 @@ export class MovementManager {
    */
   public addObstacle(position: Vector2): void {
     this.obstacles.push({ ...position });
-    this.logger.debug('Obstacle added', { position });
+    console.debug('Obstacle added', { position });
   }
 
   /**
@@ -816,7 +816,7 @@ export class MovementManager {
     if (index === -1) return false;
     
     this.obstacles.splice(index, 1);
-    this.logger.debug('Obstacle removed', { position });
+    console.debug('Obstacle removed', { position });
     return true;
   }
 
@@ -866,7 +866,7 @@ export class MovementManager {
    */
   public clearEvents(): void {
     this.events = [];
-    this.logger.info('Movement events cleared');
+    console.info('MovementPure', 'Movement events cleared');
   }
 
   /**
@@ -881,7 +881,7 @@ export class MovementManager {
    */
   public updateConfig(newConfig: Partial<MovementConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.logger.info('MovementManager configuration updated', { config: this.config });
+    console.info('MovementManager configuration updated', { config: this.config });
   }
 
   /**
@@ -890,6 +890,6 @@ export class MovementManager {
   public destroy(): void {
     this.stop();
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('MovementManager destroyed');
+    console.info('MovementPure', 'MovementManager destroyed');
   }
 }

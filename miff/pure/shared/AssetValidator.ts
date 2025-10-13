@@ -77,7 +77,7 @@ export class AssetValidator {
    * Scan for asset references in codebase
    */
   async scanAssetReferences(rootPath: string): Promise<AssetReference[]> {
-    this.logger.info(`🔍 Scanning for asset references in ${rootPath}...`);
+    console.info(`🔍 Scanning for asset references in ${rootPath}...`);
     
     const references: AssetReference[] = [];
     
@@ -123,11 +123,11 @@ export class AssetValidator {
         }
       }
       
-      this.logger.info(`✅ Found ${references.length} asset references`);
+      console.info(`✅ Found ${references.length} asset references`);
       return references;
       
     } catch (error) {
-      this.logger.error('❌ Error scanning asset references:', error);
+      console.error('❌ Error scanning asset references:', error);
       return [];
     }
   }
@@ -136,7 +136,7 @@ export class AssetValidator {
    * Validate asset existence
    */
   async validateAssets(rootPath: string): Promise<AssetValidationResult[]> {
-    this.logger.info('🔍 Validating asset existence...');
+    console.info('🔍 Validating asset existence...');
     
     const results: AssetValidationResult[] = [];
     
@@ -153,7 +153,7 @@ export class AssetValidator {
    * Check pipeline integrity
    */
   async checkPipelineIntegrity(rootPath: string): Promise<PipelineIntegrityResult[]> {
-    this.logger.info('🔍 Checking pipeline integrity...');
+    console.info('🔍 Checking pipeline integrity...');
     
     const results: PipelineIntegrityResult[] = [];
     

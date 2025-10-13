@@ -655,7 +655,7 @@ export class TycoonSystemCLI {
 
   private log(message: string): void {
     const timestamp = new Date().toLocaleTimeString();
-    this.logger.info(`[${timestamp}] ${message}`);
+    console.info(`[${timestamp}] ${message}`);
   }
 
   private shutdown(): void {
@@ -752,16 +752,16 @@ async function main(): Promise<void> {
         break;
       case '--help':
       case '-h':
-        this.logger.info('TycoonSystemPure CLI Harness');
-        this.logger.info('Usage: tsx cliHarness.ts [options]');
-        this.logger.info('Options:');
-        this.logger.info('  --mode, -m <mode>          Mode: interactive, simulate, manage');
-        this.logger.info('  --capital, -c <amount>     Initial capital amount');
-        this.logger.info('  --auto, -a                 Enable auto-management mode');
-        this.logger.info('  --days, -d <days>          Simulation duration in days');
-        this.logger.info('  --verbose, -v              Enable verbose output');
-        this.logger.info('  --help, -h                 Show this help');
-        this.logger.info('');
+        console.info('TycoonSystemPure CLI Harness');
+        console.info('Usage: tsx cliHarness.ts [options]');
+        console.info('Options:');
+        console.info('  --mode, -m <mode>          Mode: interactive, simulate, manage');
+        console.info('  --capital, -c <amount>     Initial capital amount');
+        console.info('  --auto, -a                 Enable auto-management mode');
+        console.info('  --days, -d <days>          Simulation duration in days');
+        console.info('  --verbose, -v              Enable verbose output');
+        console.info('  --help, -h                 Show this help');
+        console.info('');
         process.exit(0);
     }
   }

@@ -291,7 +291,7 @@ class WebSocketTransport implements INetworkTransport {
         });
       }
     } catch (error) {
-      this.logger.warn('WebSocket connection failed, falling back to local mode:', error);
+      console.warn('WebSocket connection failed, falling back to local mode:', error);
       return false;
     }
   }
@@ -311,7 +311,7 @@ class WebSocketTransport implements INetworkTransport {
         ws.send(data);
         return true;
       } catch (error) {
-        this.logger.warn('Failed to send data:', error);
+        console.warn('Failed to send data:', error);
         return false;
       }
     }

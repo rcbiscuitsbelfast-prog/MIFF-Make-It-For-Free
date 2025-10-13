@@ -77,7 +77,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  this.logger.info(JSON.stringify(out, null, 2));
+  console.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

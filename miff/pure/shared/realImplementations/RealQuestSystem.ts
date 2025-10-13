@@ -64,13 +64,13 @@ export class RealQuestSystem {
   addQuest(quest: Quest): boolean {
     try {
       if (this.quests.has(quest.id)) {
-        this.logger.warn(`Quest ${quest.id} already exists`);
+        console.warn(`Quest ${quest.id} already exists`);
         return false;
       }
 
       // Validate quest structure
       if (!this.validateQuest(quest)) {
-        this.logger.error(`Invalid quest structure for ${quest.id}`);
+        console.error(`Invalid quest structure for ${quest.id}`);
         return false;
       }
 
@@ -78,7 +78,7 @@ export class RealQuestSystem {
       this.emit('questAdded', { quest });
       return true;
     } catch (error) {
-      this.logger.error(`Failed to add quest ${quest.id}:`, error);
+      console.error(`Failed to add quest ${quest.id}:`, error);
       return false;
     }
   }
@@ -97,18 +97,18 @@ export class RealQuestSystem {
     try {
       const quest = this.quests.get(questId);
       if (!quest) {
-        this.logger.warn(`Quest ${questId} not found`);
+        console.warn(`Quest ${questId} not found`);
         return false;
       }
 
       if (quest.status !== 'available') {
-        this.logger.warn(`Quest ${questId} is not available`);
+        console.warn(`Quest ${questId} is not available`);
         return false;
       }
 
       // Check prerequisites
       if (!this.checkPrerequisites(quest, playerId)) {
-        this.logger.warn(`Prerequisites not met for quest ${questId}`);
+        console.warn(`Prerequisites not met for quest ${questId}`);
         return false;
       }
 
@@ -135,7 +135,7 @@ export class RealQuestSystem {
       this.emit('questStarted', { questId, playerId, quest });
       return true;
     } catch (error) {
-      this.logger.error(`Failed to start quest ${questId}:`, error);
+      console.error(`Failed to start quest ${questId}:`, error);
       return false;
     }
   }
@@ -150,13 +150,13 @@ export class RealQuestSystem {
       const quest = this.quests.get(questId);
 
       if (!progress || !quest) {
-        this.logger.warn(`Quest ${questId} not found or not active for player ${playerId}`);
+        console.warn(`Quest ${questId} not found or not active for player ${playerId}`);
         return false;
       }
 
       // Check if all objectives are completed
       if (!this.areAllObjectivesCompleted(quest, progress)) {
-        this.logger.warn(`Not all objectives completed for quest ${questId}`);
+        console.warn(`Not all objectives completed for quest ${questId}`);
         return false;
       }
 
@@ -175,7 +175,7 @@ export class RealQuestSystem {
       this.emit('questCompleted', { questId, playerId, quest });
       return true;
     } catch (error) {
-      this.logger.error(`Failed to complete quest ${questId}:`, error);
+      console.error(`Failed to complete quest ${questId}:`, error);
       return false;
     }
   }
@@ -214,7 +214,7 @@ export class RealQuestSystem {
 
       return true;
     } catch (error) {
-      this.logger.error(`Failed to update objective ${objectiveId}:`, error);
+      console.error(`Failed to update objective ${objectiveId}:`, error);
       return false;
     }
   }
@@ -275,7 +275,7 @@ export class RealQuestSystem {
     if (!this.questEvents.has(event)) {
       this.questEvents.set(event, []);
     }
-    this.questEvents.get(event)!.push(handler);
+    this.questEvents.get(event)?.push(handler);
   }
 
   /**
@@ -301,7 +301,7 @@ export class RealQuestSystem {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in quest event handler for ${event}:`, error);
+          console.error(`Error in quest event handler for ${event}:`, error);
         }
       });
     }
@@ -347,7 +347,7 @@ export class RealQuestSystem {
   private awardRewards(quest: Quest, playerId: string): void {
     quest.rewards.forEach(reward => {
       // This would integrate with player systems to award rewards
-      this.logger.info(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
+      console.info(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
     });
   }
 

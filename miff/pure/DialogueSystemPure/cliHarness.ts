@@ -684,19 +684,19 @@ async function main() {
       const issue = step.result?.issue;
       const status = step.status;
       const out = { op: 'dialogue.next', status, id, issue };
-      this.logger.info(JSON.stringify(out));
+      console.info(JSON.stringify(out));
       return;
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Unknown error';
       const out = { op: 'dialogue.next', status: 'error', issue: message };
-      this.logger.info(JSON.stringify(out));
+      console.info(JSON.stringify(out));
       process.exit(1);
     }
   }
 
   if (process.argv.length < 3) {
-    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
-    this.logger.error('Operations: start, next [choiceIndex], dump, simulate, validate, reset, export [format]');
+    console.error('Usage: cliHarness.ts <operation> [args...]');
+    console.error('Operations: start, next [choiceIndex], dump, simulate, validate, reset, export [format]');
     process.exit(1);
   }
 
@@ -728,12 +728,12 @@ async function main() {
       op = { op: 'export', format: args[0] as any || 'json' };
       break;
     default:
-      this.logger.error(`Unknown operation: ${operation}`);
+      console.error(`Unknown operation: ${operation}`);
       process.exit(1);
   }
 
   const result = await cli.execute(op);
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

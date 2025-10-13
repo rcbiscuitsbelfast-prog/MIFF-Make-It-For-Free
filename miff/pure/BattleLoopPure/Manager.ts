@@ -210,28 +210,28 @@ export class BattleLoopManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Battle Loop Manager already initialized');
+      console.warn('BattleLoopPure', 'Battle Loop Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Battle Loop Manager...');
+      console.info('BattleLoopPure', 'Initializing Battle Loop Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Battle Loop Manager initialized successfully');
+      console.info('BattleLoopPure', 'Battle Loop Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Battle Loop Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -265,11 +265,11 @@ export class BattleLoopManager {
       this.loops.set(loop.id, loop);
       this.updateAnalytics();
 
-      this.logger.info('Battle loop created', { loopId: loop.id, loopName: loop.name });
+      console.info('Battle loop created', { loopId: loop.id, loopName: loop.name });
       return loop;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create battle loop');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -296,7 +296,7 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return null;
       }
 
@@ -310,11 +310,11 @@ export class BattleLoopManager {
       this.loops.set(loopId, updatedLoop);
       this.updateAnalytics();
 
-      this.logger.info('Battle loop updated', { loopId, loopName: updatedLoop.name });
+      console.info('Battle loop updated', { loopId, loopName: updatedLoop.name });
       return updatedLoop;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update battle loop');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -330,18 +330,18 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return false;
       }
 
       this.loops.delete(loopId);
       this.updateAnalytics();
 
-      this.logger.info('Battle loop deleted', { loopId, loopName: loop.name });
+      console.info('Battle loop deleted', { loopId, loopName: loop.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete battle loop');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -390,7 +390,7 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return null;
       }
 
@@ -403,11 +403,11 @@ export class BattleLoopManager {
       loop.battles.push(battle);
       this.updateAnalytics();
 
-      this.logger.info('Battle created', { loopId, battleId: battle.id, battleName: battle.name });
+      console.info('Battle created', { loopId, battleId: battle.id, battleName: battle.name });
       return battle;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create battle');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -423,18 +423,18 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return false;
       }
 
       const battle = loop.battles.find(b => b.id === battleId);
       if (!battle) {
-        this.logger.warn('Battle not found', { loopId, battleId });
+        console.warn('Battle not found', { loopId, battleId });
         return false;
       }
 
       if (battle.status !== 'waiting') {
-        this.logger.warn('Battle not in waiting status', { loopId, battleId, status: battle.status });
+        console.warn('Battle not in waiting status', { loopId, battleId, status: battle.status });
         return false;
       }
 
@@ -442,11 +442,11 @@ export class BattleLoopManager {
       loop.state.currentPhase = 'preparation';
       loop.state.phaseStartTime = new Date();
 
-      this.logger.info('Battle started', { loopId, battleId, battleName: battle.name });
+      console.info('Battle started', { loopId, battleId, battleName: battle.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to start battle');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -462,13 +462,13 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return false;
       }
 
       const battle = loop.battles.find(b => b.id === battleId);
       if (!battle) {
-        this.logger.warn('Battle not found', { loopId, battleId });
+        console.warn('Battle not found', { loopId, battleId });
         return false;
       }
 
@@ -478,11 +478,11 @@ export class BattleLoopManager {
         battle.winner = winner;
       }
 
-      this.logger.info('Battle ended', { loopId, battleId, battleName: battle.name, winner });
+      console.info('Battle ended', { loopId, battleId, battleName: battle.name, winner });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to end battle');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -498,7 +498,7 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return null;
       }
 
@@ -511,11 +511,11 @@ export class BattleLoopManager {
       loop.events.push(event);
       this.updateAnalytics();
 
-      this.logger.debug('Event added to battle loop', { loopId, eventId: event.id, eventType: event.type });
+      console.debug('Event added to battle loop', { loopId, eventId: event.id, eventType: event.type });
       return event;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add event to battle loop');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -531,7 +531,7 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return 0;
       }
 
@@ -552,11 +552,11 @@ export class BattleLoopManager {
       loop.performance.eventProcessingTime = processingTime;
       this.updateAnalytics();
 
-      this.logger.debug('Events processed', { loopId, processedCount, processingTime });
+      console.debug('Events processed', { loopId, processedCount, processingTime });
       return processedCount;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to process events');
+      this.errorHandler.handleError($1);
       return 0;
     }
   }
@@ -568,7 +568,7 @@ export class BattleLoopManager {
     // Simulate event processing
     await new Promise(resolve => setTimeout(resolve, 1));
     
-    this.logger.debug('Event processed', { eventId: event.id, eventType: event.type });
+    console.debug('Event processed', { eventId: event.id, eventType: event.type });
   }
 
   /**
@@ -582,7 +582,7 @@ export class BattleLoopManager {
     try {
       const loop = this.loops.get(loopId);
       if (!loop) {
-        this.logger.warn('Loop not found', { loopId });
+        console.warn('Loop not found', { loopId });
         return false;
       }
 
@@ -591,11 +591,11 @@ export class BattleLoopManager {
         ...stateUpdates
       };
 
-      this.logger.debug('Battle state updated', { loopId, stateUpdates });
+      console.debug('Battle state updated', { loopId, stateUpdates });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update battle state');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -719,12 +719,12 @@ export class BattleLoopManager {
    * Destroy the Battle Loop Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Battle Loop Manager...');
+    console.info('BattleLoopPure', 'Destroying Battle Loop Manager...');
 
     this.loops.clear();
     this.isInitialized = false;
 
-    this.logger.info('Battle Loop Manager destroyed');
+    console.info('BattleLoopPure', 'Battle Loop Manager destroyed');
   }
 }
 

@@ -41,8 +41,8 @@ class SocialDeductionCli {
     this.setupCommands();
     this.setupEventListeners();
 
-    this.logger.info('🤝 SocialDeductionPure CLI - AAA Social Deduction System');
-    this.logger.info('Type "help" for available commands or "quit" to exit.\n');
+    console.info('🤝 SocialDeductionPure CLI - AAA Social Deduction System');
+    console.info('Type "help" for available commands or "quit" to exit.\n');
   }
 
   private setupCommands(): void {
@@ -127,37 +127,37 @@ class SocialDeductionCli {
 
   private setupEventListeners(): void {
     this.eventBus.on('social:player_joined', (data) => {
-      this.logger.info(`✅ Player ${data.player.name} (${data.playerId}) joined the game`);
+      console.info(`✅ Player ${data.player.name} (${data.playerId}) joined the game`);
     });
 
     this.eventBus.on('social:roles_assigned', (data) => {
-      this.logger.info('🎭 Roles have been assigned!');
+      console.info('🎭 Roles have been assigned!');
       this.showPlayers();
     });
 
     this.eventBus.on('social:game_started', (data) => {
-      this.logger.info('🎮 Game started! Current phase:', data.phase);
+      console.info('🎮 Game started! Current phase:', data.phase);
     });
 
     this.eventBus.on('social:vote_cast', (data) => {
-      this.logger.info(`🗳️ Vote cast by ${data.vote.voterId} against ${data.vote.targetId}`);
+      console.info(`🗳️ Vote cast by ${data.vote.voterId} against ${data.vote.targetId}`);
     });
 
     this.eventBus.on('social:ability_used', (data) => {
-      this.logger.info(`⚡ ${data.playerId} used ability: ${data.abilityId}`);
+      console.info(`⚡ ${data.playerId} used ability: ${data.abilityId}`);
       if (data.effect.message) {
-        this.logger.info(`   Result: ${data.effect.message}`);
+        console.info(`   Result: ${data.effect.message}`);
       }
     });
 
     this.eventBus.on('social:game_ended', (data) => {
-      this.logger.info(`🏆 Game ended! Winner: ${data.winner}`);
+      console.info(`🏆 Game ended! Winner: ${data.winner}`);
     });
   }
 
   private handleAddPlayer(args: string[]): void {
     if (args.length < 2) {
-      this.logger.info('Usage: add-player <id> <name>');
+      console.info('Usage: add-player <id> <name>');
       return;
     }
 
@@ -165,37 +165,37 @@ class SocialDeductionCli {
     const result = this.manager.addPlayer(playerId, playerName);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
       if (result.data) {
         this.currentPlayerId = result.data.playerId;
-        this.logger.info(`Current player set to: ${this.currentPlayerId}`);
+        console.info(`Current player set to: ${this.currentPlayerId}`);
       }
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleAssignRoles(args: string[]): void {
     const result = this.manager.assignRoles();
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleStartGame(args: string[]): void {
     const result = this.manager.startGame();
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleCastVote(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: cast-vote <targetId> [reason]');
+      console.info('Usage: cast-vote <targetId> [reason]');
       return;
     }
 
@@ -204,15 +204,15 @@ class SocialDeductionCli {
     const result = this.manager.castVote(this.currentPlayerId, targetId, 'accuse', reason);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleUseAbility(args: string[]): void {
     if (args.length < 1) {
-      this.logger.info('Usage: use-ability <abilityId> [targetId]');
+      console.info('Usage: use-ability <abilityId> [targetId]');
       return;
     }
 
@@ -220,9 +220,9 @@ class SocialDeductionCli {
     const result = this.manager.useAbility(this.currentPlayerId, abilityId, targetId);
 
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
@@ -233,14 +233,14 @@ class SocialDeductionCli {
   private showPlayers(): void {
     const players = this.manager.getPlayers();
     if (players.size === 0) {
-      this.logger.info('No players in the game.');
+      console.info('No players in the game.');
       return;
     }
 
-    this.logger.info('\n📋 Current Players:');
-    this.logger.info('─'.repeat(50));
-    this.logger.info('ID       | Name         | Role      | Alive | Votes | Abilities');
-    this.logger.info('─'.repeat(50));
+    console.info('\n📋 Current Players:');
+    console.info('─'.repeat(50));
+    console.info('ID       | Name         | Role      | Alive | Votes | Abilities');
+    console.info('─'.repeat(50));
 
     players.forEach((player, id) => {
       const role = player.role.padEnd(9);
@@ -248,47 +248,47 @@ class SocialDeductionCli {
       const votes = player.votes.toString().padEnd(5);
       const abilities = player.specialAbilities.join(', ') || 'None';
 
-      this.logger.info(`${id.padEnd(8)} | ${player.name.padEnd(12)} | ${role} | ${status} | ${votes} | ${abilities}`);
+      console.info(`${id.padEnd(8)} | ${player.name.padEnd(12)} | ${role} | ${status} | ${votes} | ${abilities}`);
     });
-    this.logger.info('─'.repeat(50));
+    console.info('─'.repeat(50));
   }
 
   private handleShowPhase(args: string[]): void {
     const phase = this.manager.getCurrentPhase();
-    this.logger.info(`Current phase: ${phase}`);
+    console.info(`Current phase: ${phase}`);
   }
 
   private handleShowStats(args: string[]): void {
     const stats = this.manager.getGameStats();
-    this.logger.info('\n📊 Game Statistics:');
-    this.logger.info('─'.repeat(30));
-    this.logger.info(`Total Games: ${stats.totalGames}`);
-    this.logger.info(`Total Players: ${stats.totalPlayers}`);
-    this.logger.info(`Average Game Duration: ${Math.round(stats.averageGameDuration / 1000)}s`);
-    this.logger.info(`Elimination Rate: ${(stats.eliminationRate * 100).toFixed(1)}%`);
-    this.logger.info(`Detection Rate: ${(stats.detectionRate * 100).toFixed(1)}%`);
+    console.info('\n📊 Game Statistics:');
+    console.info('─'.repeat(30));
+    console.info(`Total Games: ${stats.totalGames}`);
+    console.info(`Total Players: ${stats.totalPlayers}`);
+    console.info(`Average Game Duration: ${Math.round(stats.averageGameDuration / 1000)}s`);
+    console.info(`Elimination Rate: ${(stats.eliminationRate * 100).toFixed(1)}%`);
+    console.info(`Detection Rate: ${(stats.detectionRate * 100).toFixed(1)}%`);
 
-    this.logger.info('\nRole Distribution:');
+    console.info('\nRole Distribution:');
     stats.roleDistribution.forEach((count, role) => {
-      this.logger.info(`  ${role}: ${count}`);
+      console.info(`  ${role}: ${count}`);
     });
   }
 
   private handleResetGame(args: string[]): void {
     const result = this.manager.resetGame();
     if (result.success) {
-      this.logger.info(result.message);
+      console.info(result.message);
     } else {
-      this.logger.info('❌', result.message);
+      console.info('❌', result.message);
     }
   }
 
   private handleSimulate(args: string[]): void {
     const rounds = parseInt(args[0]) || 5;
-    this.logger.info(`🧪 Running simulation for ${rounds} rounds...`);
+    console.info(`🧪 Running simulation for ${rounds} rounds...`);
 
     for (let i = 0; i < rounds; i++) {
-      this.logger.info(`\n--- Round ${i + 1} ---`);
+      console.info(`\n--- Round ${i + 1} ---`);
 
       // Add players
       for (let j = 1; j <= 6; j++) {
@@ -326,13 +326,13 @@ class SocialDeductionCli {
       this.manager.resetGame();
     }
 
-    this.logger.info('\n✅ Simulation completed!');
+    console.info('\n✅ Simulation completed!');
     this.handleShowStats([]);
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
     const operations = parseInt(args[0]) || 1000;
-    this.logger.info(`🔬 Running benchmark with ${operations} operations...`);
+    console.info(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
 
@@ -351,26 +351,26 @@ class SocialDeductionCli {
     const duration = endTime - startTime;
     const opsPerSecond = (operations / duration) * 1000;
 
-    this.logger.info(`\n📈 Benchmark Results:`);
-    this.logger.info(`   Total Operations: ${operations}`);
-    this.logger.info(`   Duration: ${duration.toFixed(2)}ms`);
-    this.logger.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
+    console.info(`\n📈 Benchmark Results:`);
+    console.info(`   Total Operations: ${operations}`);
+    console.info(`   Duration: ${duration.toFixed(2)}ms`);
+    console.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
 
     // Cleanup
     this.manager.resetGame();
   }
 
   private handleHelp(args: string[]): void {
-    this.logger.info('\n🛠️ Available Commands:');
-    this.logger.info('─'.repeat(40));
+    console.info('\n🛠️ Available Commands:');
+    console.info('─'.repeat(40));
     this.commands.forEach((cmd, key) => {
-      this.logger.info(`  ${cmd.command.padEnd(30)} | ${cmd.description}`);
+      console.info(`  ${cmd.command.padEnd(30)} | ${cmd.description}`);
     });
-    this.logger.info('─'.repeat(40));
+    console.info('─'.repeat(40));
   }
 
   private handleQuit(args: string[]): void {
-    this.logger.info('👋 Goodbye!');
+    console.info('👋 Goodbye!');
     this.isRunning = false;
   }
 
@@ -393,7 +393,7 @@ class SocialDeductionCli {
         if (cmd) {
           cmd.handler(args);
         } else {
-          this.logger.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
         }
       }
 
@@ -405,7 +405,7 @@ class SocialDeductionCli {
     });
 
     rl.on('close', () => {
-      this.logger.info('CLI session ended.');
+      console.info('CLI session ended.');
       process.exit(0);
     });
   }
@@ -430,12 +430,12 @@ async function main() {
 
 // Handle process termination
 process.on('SIGINT', () => {
-  this.logger.info('\n👋 Received SIGINT. Exiting...');
+  console.info('\n👋 Received SIGINT. Exiting...');
   process.exit(0);
 });
 
 process.on('SIGTERM', () => {
-  this.logger.info('\n👋 Received SIGTERM. Exiting...');
+  console.info('\n👋 Received SIGTERM. Exiting...');
   process.exit(0);
 });
 

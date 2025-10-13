@@ -942,10 +942,10 @@ export class SkeletonAnimatorIntegrationTests {
     try {
       this.manager.createFullCharacter('ExportTestCharacter');
       const exportIntegration = this.manager.getExportIntegration();
-      const exportConfig = exportIntegration!.createCreatureExport('ExportTestCharacter');
+      const exportConfig = exportIntegration?.createCreatureExport('ExportTestCharacter');
 
       // Test 1: .gbpg format
-      const gbpkgData = exportIntegration!.exportAsGbpkg(exportConfig);
+      const gbpkgData = exportIntegration?.exportAsGbpkg(exportConfig);
       tests.push({
         name: '.gbpg format export',
         passed: gbpkgData.includes('"format": "gbpkg-v1"'),
@@ -954,7 +954,7 @@ export class SkeletonAnimatorIntegrationTests {
       });
 
       // Test 2: GLTF format
-      const gltfData = exportIntegration!.exportAsGLTF(exportConfig);
+      const gltfData = exportIntegration?.exportAsGLTF(exportConfig);
       tests.push({
         name: 'GLTF format export',
         passed: gltfData.includes('"asset"') && gltfData.includes('"version": "2.0"'),

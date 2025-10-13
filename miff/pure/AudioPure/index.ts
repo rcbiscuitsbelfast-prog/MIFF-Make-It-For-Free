@@ -240,9 +240,9 @@ export class AudioEngine {
       this.gainNodes.set('master', masterGain);
 
       this.isInitialized = true;
-      this.logger.info('[AudioEngine] Initialized successfully');
+      console.info('[AudioEngine] Initialized successfully');
     } catch (error) {
-      this.logger.error('[AudioEngine] Failed to initialize:', error);
+      console.error('[AudioEngine] Failed to initialize:', error);
       throw new Error(`Audio initialization failed: ${error}`);
     }
   }
@@ -263,9 +263,9 @@ export class AudioEngine {
 
       this.performanceMetrics.totalSources++;
 
-      this.logger.info(`[AudioEngine] Loaded audio source: ${source.name}`);
+      console.info(`[AudioEngine] Loaded audio source: ${source.name}`);
     } catch (error) {
-      this.logger.error(`[AudioEngine] Failed to load audio source ${source.name}:`, error);
+      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, error);
       throw new Error(`Audio source loading failed: ${error}`);
     }
   }
@@ -316,12 +316,12 @@ export class AudioEngine {
       audioSource.onended = () => {
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        this.logger.info(`[AudioEngine] Source ended: ${sourceId}`);
+        console.info(`[AudioEngine] Source ended: ${sourceId}`);
       };
 
-      this.logger.info(`[AudioEngine] Playing source: ${source.name}`);
+      console.info(`[AudioEngine] Playing source: ${source.name}`);
     } catch (error) {
-      this.logger.error(`[AudioEngine] Failed to play source ${sourceId}:`, error);
+      console.error(`[AudioEngine] Failed to play source ${sourceId}:`, error);
       throw new Error(`Audio playback failed: ${error}`);
     }
   }
@@ -352,9 +352,9 @@ export class AudioEngine {
         source.stop();
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
-        this.logger.info(`[AudioEngine] Stopped source: ${sourceId}`);
+        console.info(`[AudioEngine] Stopped source: ${sourceId}`);
       } catch (error) {
-        this.logger.warn(`[AudioEngine] Error stopping source ${sourceId}:`, error);
+        console.warn(`[AudioEngine] Error stopping source ${sourceId}:`, error);
       }
     }
   }
@@ -363,7 +363,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 0;
-      this.logger.info(`[AudioEngine] Paused source: ${sourceId}`);
+      console.info(`[AudioEngine] Paused source: ${sourceId}`);
     }
   }
 
@@ -371,7 +371,7 @@ export class AudioEngine {
     const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 1;
-      this.logger.info(`[AudioEngine] Resumed source: ${sourceId}`);
+      console.info(`[AudioEngine] Resumed source: ${sourceId}`);
     }
   }
 
@@ -380,7 +380,7 @@ export class AudioEngine {
     if (source) {
       // Note: Volume control is now handled by gain nodes created during playback
       // This method is kept for API compatibility but doesn't directly control volume
-      this.logger.info(`[AudioEngine] Volume control for ${sourceId} should be set during playback: ${volume}`);
+      console.info(`[AudioEngine] Volume control for ${sourceId} should be set during playback: ${volume}`);
     }
   }
 
@@ -433,7 +433,7 @@ export class AudioEngine {
     return bus.id;
   }
 
-  getBus(busId: string): AudioBus | undefined {
+  getBus(busId: string): AudioBus! {
     return this.buses.get(busId);
   }
 
@@ -483,7 +483,7 @@ export class AudioEngine {
   private applyEffect(busId: string, effect: AudioEffect): void {
     // Apply audio effects - simplified implementation
     // In a real implementation, this would create actual audio nodes
-    this.logger.info(`[AudioEngine] Applying effect ${effect.type} to bus ${busId}`);
+    console.info(`[AudioEngine] Applying effect ${effect.type} to bus ${busId}`);
   }
 
   // Spatial audio
@@ -628,7 +628,7 @@ export class AudioEngine {
         source.stop();
         source.disconnect();
       } catch (error) {
-        this.logger.warn(`Error stopping source ${sourceId}:`, error);
+        console.warn(`Error stopping source ${sourceId}:`, error);
       }
     }
 
@@ -645,7 +645,7 @@ export class AudioEngine {
     }
 
     this.isInitialized = false;
-    this.logger.info('[AudioEngine] Disposed successfully');
+    console.info('[AudioEngine] Disposed successfully');
   }
 }
 

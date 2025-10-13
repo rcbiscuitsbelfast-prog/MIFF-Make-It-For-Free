@@ -39,7 +39,7 @@ const manager = new DebugOverlayManager({
 });
 
 function printUsage(): void {
-  this.logger.info(`
+  console.info(`
 DebugOverlayPure CLI - Real-time debug overlay for MIFF engine bridges
 
 Usage:
@@ -133,7 +133,7 @@ function updateConfig(options: any): void {
 
 function overlay(args: string[], options: any): void {
   if (args.length < 1) {
-    this.logger.error('Error: JSON file required');
+    console.error('Error: JSON file required');
     printUsage();
     process.exit(1);
   }
@@ -141,11 +141,11 @@ function overlay(args: string[], options: any): void {
   const jsonFile = args[0];
   updateConfig(options);
 
-  this.logger.info(`🔍 Creating debug overlay from: ${jsonFile}`);
-  this.logger.info(`🎨 Colorized: ${manager['config'].colorize ? 'Yes' : 'No'}`);
-  this.logger.info(`📦 Compact: ${manager['config'].compact ? 'Yes' : 'No'}`);
-  this.logger.info(`📄 Format: ${manager['config'].outputFormat}`);
-  this.logger.info('');
+  console.info(`🔍 Creating debug overlay from: ${jsonFile}`);
+  console.info(`🎨 Colorized: ${manager['config'].colorize ? 'Yes' : 'No'}`);
+  console.info(`📦 Compact: ${manager['config'].compact ? 'Yes' : 'No'}`);
+  console.info(`📄 Format: ${manager['config'].outputFormat}`);
+  console.info('');
 
   try {
     const payloadContent = fs.readFileSync(jsonFile, 'utf-8');
@@ -159,7 +159,7 @@ function overlay(args: string[], options: any): void {
 
 function overlayCLI(args: string[], options: any): void {
   if (args.length < 1) {
-    this.logger.error('Error: CLI output file required');
+    console.error('Error: CLI output file required');
     printUsage();
     process.exit(1);
   }
@@ -167,11 +167,11 @@ function overlayCLI(args: string[], options: any): void {
   const outputFile = args[0];
   updateConfig(options);
 
-  this.logger.info(`🔍 Creating debug overlay from CLI output: ${outputFile}`);
-  this.logger.info(`🎨 Colorized: ${manager['config'].colorize ? 'Yes' : 'No'}`);
-  this.logger.info(`📦 Compact: ${manager['config'].compact ? 'Yes' : 'No'}`);
-  this.logger.info(`📄 Format: ${manager['config'].outputFormat}`);
-  this.logger.info('');
+  console.info(`🔍 Creating debug overlay from CLI output: ${outputFile}`);
+  console.info(`🎨 Colorized: ${manager['config'].colorize ? 'Yes' : 'No'}`);
+  console.info(`📦 Compact: ${manager['config'].compact ? 'Yes' : 'No'}`);
+  console.info(`📄 Format: ${manager['config'].outputFormat}`);
+  console.info('');
 
   try {
     const cliOutput = fs.readFileSync(outputFile, 'utf-8');
@@ -184,7 +184,7 @@ function overlayCLI(args: string[], options: any): void {
 
 function overlayGolden(args: string[], options: any): void {
   if (args.length < 1) {
-    this.logger.error('Error: Test path required');
+    console.error('Error: Test path required');
     printUsage();
     process.exit(1);
   }
@@ -192,11 +192,11 @@ function overlayGolden(args: string[], options: any): void {
   const testPath = args[0];
   updateConfig(options);
 
-  this.logger.info(`🔍 Creating debug overlay from golden test: ${testPath}`);
-  this.logger.info(`🎨 Colorized: ${manager['config'].colorize ? 'Yes' : 'No'}`);
-  this.logger.info(`📦 Compact: ${manager['config'].compact ? 'Yes' : 'No'}`);
-  this.logger.info(`📄 Format: ${manager['config'].outputFormat}`);
-  this.logger.info('');
+  console.info(`🔍 Creating debug overlay from golden test: ${testPath}`);
+  console.info(`🎨 Colorized: ${manager['config'].colorize ? 'Yes' : 'No'}`);
+  console.info(`📦 Compact: ${manager['config'].compact ? 'Yes' : 'No'}`);
+  console.info(`📄 Format: ${manager['config'].outputFormat}`);
+  console.info('');
 
   const result = manager.createOverlayFromGoldenTest(testPath);
   outputResult(result);
@@ -204,7 +204,7 @@ function overlayGolden(args: string[], options: any): void {
 
 function exportOverlay(args: string[], options: any): void {
   if (args.length < 2) {
-    this.logger.error('Error: Overlay ID and output path required');
+    console.error('Error: Overlay ID and output path required');
     printUsage();
     process.exit(1);
   }
@@ -213,10 +213,10 @@ function exportOverlay(args: string[], options: any): void {
   const outputPath = args[1];
   updateConfig(options);
 
-  this.logger.info(`📤 Exporting debug overlay: ${overlayId}`);
-  this.logger.info(`📁 Output: ${outputPath}`);
-  this.logger.info(`📄 Format: ${manager['config'].outputFormat}`);
-  this.logger.info('');
+  console.info(`📤 Exporting debug overlay: ${overlayId}`);
+  console.info(`📁 Output: ${outputPath}`);
+  console.info(`📄 Format: ${manager['config'].outputFormat}`);
+  console.info('');
 
   // For demo purposes, create a sample overlay
   // In a real implementation, you'd load the overlay from storage
@@ -250,44 +250,44 @@ function exportOverlay(args: string[], options: any): void {
     const exportResult = manager.exportOverlay(overlayResult.overlay, outputPath);
     
     if (exportResult.success) {
-      this.logger.info(`✅ Export successful: ${outputPath}`);
+      console.info(`✅ Export successful: ${outputPath}`);
     } else {
-      this.logger.error(`❌ Export failed: ${exportResult.issues?.join(', ')}`);
+      console.error(`❌ Export failed: ${exportResult.issues?.join(', ')}`);
       process.exit(1);
     }
   } else {
-    this.logger.error(`❌ Overlay creation failed: ${overlayResult.issues?.join(', ')}`);
+    console.error(`❌ Overlay creation failed: ${overlayResult.issues?.join(', ')}`);
     process.exit(1);
   }
 }
 
 function outputResult(result: DebugOverlayOutput): void {
   if (result.status === 'error') {
-    this.logger.error(`❌ Debug overlay failed:`);
+    console.error(`❌ Debug overlay failed:`);
     result.issues?.forEach(issue => {
-      this.logger.error(`  - ${issue}`);
+      console.error(`  - ${issue}`);
     });
     process.exit(1);
   }
 
   const overlay = result.overlay;
   
-  this.logger.info(`✅ Debug overlay created successfully!`);
-  this.logger.info(`📊 Operation: ${overlay.debugInfo.op}`);
-  this.logger.info(`🎯 Status: ${overlay.debugInfo.status}`);
-  this.logger.info(`📈 RenderData: ${overlay.debugInfo.renderDataCount} items`);
-  this.logger.info(`⚠️ Issues: ${overlay.issues.length}`);
-  this.logger.info(`📝 Annotations: ${overlay.annotations.length}`);
-  this.logger.info('');
+  console.info(`✅ Debug overlay created successfully!`);
+  console.info(`📊 Operation: ${overlay.debugInfo.op}`);
+  console.info(`🎯 Status: ${overlay.debugInfo.status}`);
+  console.info(`📈 RenderData: ${overlay.debugInfo.renderDataCount} items`);
+  console.info(`⚠️ Issues: ${overlay.issues.length}`);
+  console.info(`📝 Annotations: ${overlay.annotations.length}`);
+  console.info('');
 
   // Show debug display
   const debugDisplay = manager.generateDebugDisplay(overlay);
-  this.logger.info(debugDisplay);
+  console.info(debugDisplay);
 
   // Show JSON output if requested
   if (manager['config'].outputFormat === 'json') {
-    this.logger.info('\n📄 JSON Output:');
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info('\n📄 JSON Output:');
+    console.info(JSON.stringify(result, null, 2));
   }
 }
 
@@ -320,7 +320,7 @@ function main(): void {
       exportOverlay(args, options);
       break;
     default:
-      this.logger.error(`Error: Unknown command '${command}'`);
+      console.error(`Error: Unknown command '${command}'`);
       printUsage();
       process.exit(1);
   }

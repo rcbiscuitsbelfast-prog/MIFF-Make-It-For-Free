@@ -40,7 +40,7 @@ export interface TestHealthSystem {
   createEntity(entityId: string, options: Partial<TestEntity>): TestEntity;
   damageEntity(entityId: string, damage: number): boolean;
   healEntity(entityId: string, healing: number): boolean;
-  getEntity(entityId: string): TestEntity | undefined;
+  getEntity(entityId: string): TestEntity!;
   isEntityAlive(entityId: string): boolean;
   killEntity(entityId: string): void;
   reviveEntity(entityId: string): void;
@@ -189,7 +189,7 @@ export class TestImplementationFactory {
 
         return true;
       },
-      getEntity(entityId: string): TestEntity | undefined {
+      getEntity(entityId: string): TestEntity! {
         return entities.get(entityId);
       },
       isEntityAlive(entityId: string): boolean {

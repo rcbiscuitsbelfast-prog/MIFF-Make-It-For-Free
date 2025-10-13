@@ -236,28 +236,28 @@ export class DataStorageManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Data Storage System already initialized');
+      console.warn('DataStoragePure', 'Data Storage System already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Data Storage System...');
+      console.info('DataStoragePure', 'Initializing Data Storage System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableProfiling) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Data Storage System initialized successfully');
+      console.info('DataStoragePure', 'Data Storage System initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Data Storage System');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -292,11 +292,11 @@ export class DataStorageManager {
       this.storages.set(storage.id, storage);
       this.updateAnalytics();
 
-      this.logger.info('Data storage system created', { storageId: storage.id, storageName: storage.name });
+      console.info('Data storage system created', { storageId: storage.id, storageName: storage.name });
       return storage;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create data storage system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -323,7 +323,7 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return null;
       }
 
@@ -337,11 +337,11 @@ export class DataStorageManager {
       this.storages.set(storageId, updatedStorage);
       this.updateAnalytics();
 
-      this.logger.info('Data storage system updated', { storageId, storageName: updatedStorage.name });
+      console.info('Data storage system updated', { storageId, storageName: updatedStorage.name });
       return updatedStorage;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update data storage system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -357,18 +357,18 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return false;
       }
 
       this.storages.delete(storageId);
       this.updateAnalytics();
 
-      this.logger.info('Data storage system deleted', { storageId, storageName: storage.name });
+      console.info('Data storage system deleted', { storageId, storageName: storage.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete data storage system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -417,7 +417,7 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return null;
       }
 
@@ -429,11 +429,11 @@ export class DataStorageManager {
       storage.databases.push(database);
       this.updateAnalytics();
 
-      this.logger.info('Database added to storage', { storageId, databaseId: database.id, databaseName: database.name });
+      console.info('Database added to storage', { storageId, databaseId: database.id, databaseName: database.name });
       return database;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add database to storage');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -449,24 +449,24 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return false;
       }
 
       const databaseIndex = storage.databases.findIndex(d => d.id === databaseId);
       if (databaseIndex === -1) {
-        this.logger.warn('Database not found', { storageId, databaseId });
+        console.warn('Database not found', { storageId, databaseId });
         return false;
       }
 
       storage.databases.splice(databaseIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Database removed from storage', { storageId, databaseId });
+      console.info('Database removed from storage', { storageId, databaseId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove database from storage');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -482,7 +482,7 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return null;
       }
 
@@ -494,11 +494,11 @@ export class DataStorageManager {
       storage.connections.push(connection);
       this.updateAnalytics();
 
-      this.logger.info('Connection added to storage', { storageId, connectionId: connection.id, connectionName: connection.name });
+      console.info('Connection added to storage', { storageId, connectionId: connection.id, connectionName: connection.name });
       return connection;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add connection to storage');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -514,24 +514,24 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return false;
       }
 
       const connectionIndex = storage.connections.findIndex(c => c.id === connectionId);
       if (connectionIndex === -1) {
-        this.logger.warn('Connection not found', { storageId, connectionId });
+        console.warn('Connection not found', { storageId, connectionId });
         return false;
       }
 
       storage.connections.splice(connectionIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Connection removed from storage', { storageId, connectionId });
+      console.info('Connection removed from storage', { storageId, connectionId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove connection from storage');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -547,18 +547,18 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return { success: false, error: 'Storage not found' };
       }
 
       const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        this.logger.warn('Database not found', { storageId, databaseId });
+        console.warn('Database not found', { storageId, databaseId });
         return { success: false, error: 'Database not found' };
       }
 
       if (database.status !== 'connected') {
-        this.logger.warn('Database not connected', { storageId, databaseId, status: database.status });
+        console.warn('Database not connected', { storageId, databaseId, status: database.status });
         return { success: false, error: 'Database not connected' };
       }
 
@@ -569,7 +569,7 @@ export class DataStorageManager {
 
       this.updateAnalytics();
 
-      this.logger.info('Query executed', { 
+      console.info('Query executed', { 
         storageId, 
         databaseId, 
         query: query.substring(0, 100) + '...', 
@@ -580,7 +580,7 @@ export class DataStorageManager {
       return { success: true, data: result };
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to execute query');
+      this.errorHandler.handleError($1);
       return { success: false, error: error.message };
     }
   }
@@ -621,13 +621,13 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return null;
       }
 
       const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        this.logger.warn('Database not found', { storageId, databaseId });
+        console.warn('Database not found', { storageId, databaseId });
         return null;
       }
 
@@ -641,11 +641,11 @@ export class DataStorageManager {
       database.tables.push(table);
       this.updateAnalytics();
 
-      this.logger.info('Table created', { storageId, databaseId, tableId: table.id, tableName: table.name });
+      console.info('Table created', { storageId, databaseId, tableId: table.id, tableName: table.name });
       return table;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create table');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -661,30 +661,30 @@ export class DataStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        this.logger.warn('Storage not found', { storageId });
+        console.warn('Storage not found', { storageId });
         return false;
       }
 
       const database = storage.databases.find(d => d.id === databaseId);
       if (!database) {
-        this.logger.warn('Database not found', { storageId, databaseId });
+        console.warn('Database not found', { storageId, databaseId });
         return false;
       }
 
       const tableIndex = database.tables.findIndex(t => t.id === tableId);
       if (tableIndex === -1) {
-        this.logger.warn('Table not found', { storageId, databaseId, tableId });
+        console.warn('Table not found', { storageId, databaseId, tableId });
         return false;
       }
 
       database.tables.splice(tableIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Table dropped', { storageId, databaseId, tableId });
+      console.info('Table dropped', { storageId, databaseId, tableId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to drop table');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -808,12 +808,12 @@ export class DataStorageManager {
    * Destroy the Data Storage System
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Data Storage System...');
+    console.info('DataStoragePure', 'Destroying Data Storage System...');
 
     this.storages.clear();
     this.isInitialized = false;
 
-    this.logger.info('Data Storage System destroyed');
+    console.info('DataStoragePure', 'Data Storage System destroyed');
   }
 }
 

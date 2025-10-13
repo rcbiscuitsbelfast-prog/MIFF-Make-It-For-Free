@@ -42,31 +42,31 @@ class CombatCLI {
   // Test method for module validation
   public test(): CLIResult {
     try {
-      this.logger.info('🧪 Testing CombatPure module...');
+      console.info('🧪 Testing CombatPure module...');
       
       // Test 1: Create basic combatants
       const player = CombatUtils.createStandardSpirit(1, 'Player', 5, 100, 50, 30, 20);
       const enemy = CombatUtils.createStandardSpirit(2, 'Enemy', 3, 80, 40, 25, 15);
       
-      this.logger.info('✅ Created combatants');
+      console.info('✅ Created combatants');
       
       // Test 2: Add to battle engine
       this.battleEngine.addCombatant(player);
       this.battleEngine.addCombatant(enemy);
       
-      this.logger.info('✅ Added combatants to battle');
+      console.info('✅ Added combatants to battle');
       
       // Test 3: Create moves
       const basicAttack = CombatUtils.createStandardMove('basic_attack', 'Basic Attack', MoveCategory.PHYSICAL, 40, 'normal');
       const specialAttack = CombatUtils.createStandardMove('special_attack', 'Special Attack', MoveCategory.SPECIAL, 60, 'fire');
       
-      this.logger.info('✅ Created moves');
+      console.info('✅ Created moves');
       
       // Test 4: Test damage calculation
       const damageCalc = new DamageCalculator(this.typeChart);
       const damageResult = damageCalc.calculateDamage(basicAttack, player, enemy);
       
-      this.logger.info(`✅ Damage calculation: ${damageResult.damage} damage`);
+      console.info(`✅ Damage calculation: ${damageResult.damage} damage`);
       
       // Test 5: Test battle actions
       this.battleEngine.startBattle();
@@ -79,16 +79,16 @@ class CombatCLI {
       });
       
       const turnResult = this.battleEngine.processTurn();
-      this.logger.info(`✅ Battle turn processed: ${turnResult.results.join(', ')}`);
+      console.info(`✅ Battle turn processed: ${turnResult.results.join(', ')}`);
       
       // Test 6: Validate combatants
       const playerErrors = CombatUtils.validateSpiritInstance(player);
       const enemyErrors = CombatUtils.validateSpiritInstance(enemy);
       
       if (playerErrors.length > 0 || enemyErrors.length > 0) {
-        this.logger.info('⚠️ Validation errors found');
+        console.info('⚠️ Validation errors found');
       } else {
-        this.logger.info('✅ Combatant validation passed');
+        console.info('✅ Combatant validation passed');
       }
       
       return {
@@ -418,10 +418,10 @@ function main() {
         break;
     }
     
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    this.logger.info(JSON.stringify({
+    console.info(JSON.stringify({
       op: command,
       status: 'error',
       error: error instanceof Error ? error.message : 'Unknown error',

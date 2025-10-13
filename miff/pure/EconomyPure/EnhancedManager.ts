@@ -721,7 +721,7 @@ export class EnhancedEconomyManager {
         marketData.topVendors = Array.from(vendorVolumes.entries())
           .map(([vendorId, volume]) => ({
             vendorId,
-            marketShare: volume / marketData!.totalVolume
+            marketShare: volume / marketData?.totalVolume
           }))
           .sort((a, b) => b.marketShare - a.marketShare)
           .slice(0, 5);

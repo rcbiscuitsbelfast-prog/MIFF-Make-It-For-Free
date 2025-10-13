@@ -113,7 +113,7 @@ export class PerfTimer {
     }
 
     const result = this.getResult();
-    this.logger.info(`[perf] ${this.label}: ${result.durationMs.toFixed(2)}ms`);
+    console.info(`[perf] ${this.label}: ${result.durationMs.toFixed(2)}ms`);
     
     this._isDisposed = true;
   }
@@ -279,7 +279,7 @@ export class PerfUtils {
     const timer = new PerfTimer(label);
     try {
       const result = fn();
-      this.logger.info(`[perf] ${label}: ${timer.elapsedMs.toFixed(2)}ms`);
+      console.info(`[perf] ${label}: ${timer.elapsedMs.toFixed(2)}ms`);
       return result;
     } finally {
       timer.dispose();

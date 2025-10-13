@@ -93,28 +93,28 @@ export class RNGManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('RNGManager', 'initialize');
+    const timerId = console.startTimer('RNGManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('RNGManager', 'Manager initialized successfully', {
+      console.info('RNGManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('RNGManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('RNGManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('RNGManager', 'Failed to initialize manager', {
+      console.error('RNGManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class RNGManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class RNGManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class RNGManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('RNGManager', 'Created item', {
+    console.info('RNGManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class RNGManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class RNGManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('RNGManager', 'Updated item', {
+    console.info('RNGManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class RNGManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('RNGManager', 'Deleted item', {
+    console.info('RNGManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class RNGManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('RNGManager', 'Initializing manager...');
+    console.debug('RNGManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class RNGManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('RNGManager', 'Loaded default items', {
+    console.info('RNGManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class RNGManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('RNGManager', 'Destroying manager', {
+    console.info('RNGManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class RNGManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

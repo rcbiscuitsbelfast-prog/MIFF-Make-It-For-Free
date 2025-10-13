@@ -204,12 +204,12 @@ export class ProductionMonitor {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Production monitor already initialized');
+      console.warn('Production monitor already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing production monitor...');
+      console.info('Initializing production monitor...');
       
       // Initialize health check system
       await this.healthCheckSystem.initialize();
@@ -220,10 +220,10 @@ export class ProductionMonitor {
       }
       
       this.isInitialized = true;
-      this.logger.info('Production monitor initialized successfully');
+      console.info('Production monitor initialized successfully');
       
     } catch (error) {
-      this.logger.error('Failed to initialize production monitor', { error: error.message });
+      console.error('Failed to initialize production monitor', { error: error.message });
       throw error;
     }
   }
@@ -242,11 +242,11 @@ export class ProductionMonitor {
         await this.checkAlerts();
         await this.cleanupOldMetrics();
       } catch (error) {
-        this.logger.error('Monitoring cycle failed', { error: error.message });
+        console.error('Monitoring cycle failed', { error: error.message });
       }
     }, this.config.interval);
     
-    this.logger.info('Monitoring started', { interval: this.config.interval });
+    console.info('Monitoring started', { interval: this.config.interval });
   }
 
   /**
@@ -258,7 +258,7 @@ export class ProductionMonitor {
       this.monitoringInterval = null;
     }
     
-    this.logger.info('Monitoring stopped');
+    console.info('Monitoring stopped');
   }
 
   /**
@@ -288,7 +288,7 @@ export class ProductionMonitor {
       this.metrics = this.metrics.filter(m => m.timestamp > cutoff);
       
     } catch (error) {
-      this.logger.error('Failed to collect metrics', { error: error.message });
+      console.error('Failed to collect metrics', { error: error.message });
     }
   }
 
@@ -479,7 +479,7 @@ export class ProductionMonitor {
     try {
       switch (channel.type) {
         case 'console':
-          this.logger.error(`ALERT: ${type}`, data);
+          console.error(`ALERT: ${type}`, data);
           break;
         case 'email':
           // Would implement email sending
@@ -492,7 +492,7 @@ export class ProductionMonitor {
           break;
       }
     } catch (error) {
-      this.logger.error('Failed to send alert', { channel: channel.type, type, error: error.message });
+      console.error('Failed to send alert', { channel: channel.type, type, error: error.message });
     }
   }
 
@@ -598,7 +598,7 @@ export class ProductionMonitor {
    * Destroy the production monitor
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying production monitor...');
+    console.info('Destroying production monitor...');
     
     this.stopMonitoring();
     await this.healthCheckSystem.destroy();
@@ -607,7 +607,7 @@ export class ProductionMonitor {
     this.alerts.clear();
     this.isInitialized = false;
     
-    this.logger.info('Production monitor destroyed');
+    console.info('Production monitor destroyed');
   }
 }
 

@@ -211,7 +211,7 @@ function main() {
         throw new Error(`Unknown operation: ${(operation as any).op}`);
     }
 
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
 
   } catch (error) {
     const errorResult = {
@@ -220,7 +220,7 @@ function main() {
       error: error instanceof Error ? error.message : String(error),
       timestamp: Date.now()
     };
-    this.logger.error(JSON.stringify(errorResult, null, 2));
+    console.error(JSON.stringify(errorResult, null, 2));
     process.exit(1);
   }
 }

@@ -1354,7 +1354,7 @@ export class RenderWorldPure {
   /**
    * Get NPC quest ID based on key
    */
-  private getNPCQuestId(key: string): string | undefined {
+  private getNPCQuestId(key: string): string! {
     const questMap: Record<string, string> = {
       'guide': 'tutorial_quest',
       'mystic': 'spirit_lens_quest'
@@ -1509,7 +1509,7 @@ export class RenderWorldPure {
     if (!this.engines.mobilePerformance.isPerformanceAcceptable()) {
       const recommendations = this.engines.mobilePerformance.getOptimizationRecommendations();
       if (recommendations.length > 0) {
-        this.logger.warn('Performance optimization recommendations:', recommendations);
+        console.warn('Performance optimization recommendations:', recommendations);
       }
     }
   }

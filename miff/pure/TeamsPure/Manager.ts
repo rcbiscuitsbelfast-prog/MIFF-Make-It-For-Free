@@ -42,7 +42,7 @@ export class TeamsManager {
     return Array.from(this.teams.values());
   }
 
-  getTeam(teamId: string): Team | undefined {
+  getTeam(teamId: string): Team! {
     return this.teams.get(teamId);
   }
 }

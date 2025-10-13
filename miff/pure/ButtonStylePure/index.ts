@@ -484,7 +484,7 @@ export class ButtonStyleManager {
   /**
    * Get a theme by name
    */
-  getTheme(name: string): ButtonTheme | undefined {
+  getTheme(name: string): ButtonTheme! {
     return this.themes.get(name);
   }
 
@@ -500,7 +500,7 @@ export class ButtonStyleManager {
   /**
    * Get the current theme
    */
-  getCurrentTheme(): ButtonTheme | undefined {
+  getCurrentTheme(): ButtonTheme! {
     return this.themes.get(this.currentTheme);
   }
 
@@ -639,7 +639,7 @@ export class ButtonStyleManager {
       this.addTheme(theme);
       return true;
     } catch (error) {
-      this.logger.error('Failed to import theme:', error);
+      console.error('Failed to import theme:', error);
       return false;
     }
   }

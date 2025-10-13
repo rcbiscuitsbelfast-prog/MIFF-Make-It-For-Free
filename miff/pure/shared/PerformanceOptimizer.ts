@@ -117,7 +117,7 @@ export class PerformanceOptimizer {
    * Analyze current performance across all modules
    */
   async analyzePerformance(): Promise<PerformanceMetrics> {
-    this.logger.info('📊 Analyzing performance metrics...');
+    console.info('📊 Analyzing performance metrics...');
     
     try {
       // Collect memory metrics
@@ -139,11 +139,11 @@ export class PerformanceOptimizer {
         cache: cacheMetrics
       };
       
-      this.logger.info('✅ Performance analysis completed');
+      console.info('✅ Performance analysis completed');
       return this.metrics;
       
     } catch (error) {
-      this.logger.error('❌ Error analyzing performance:', error);
+      console.error('❌ Error analyzing performance:', error);
       return this.metrics;
     }
   }
@@ -152,7 +152,7 @@ export class PerformanceOptimizer {
    * Identify performance optimization targets
    */
   async identifyOptimizationTargets(): Promise<OptimizationTarget[]> {
-    this.logger.info('🎯 Identifying optimization targets...');
+    console.info('🎯 Identifying optimization targets...');
     
     const targets: OptimizationTarget[] = [];
     
@@ -177,7 +177,7 @@ export class PerformanceOptimizer {
       this.optimizations.set(target.id, target);
     }
     
-    this.logger.info(`✅ Identified ${targets.length} optimization targets`);
+    console.info(`✅ Identified ${targets.length} optimization targets`);
     return targets;
   }
 
@@ -185,7 +185,7 @@ export class PerformanceOptimizer {
    * Implement memory optimizations
    */
   async implementMemoryOptimizations(): Promise<void> {
-    this.logger.info('🧠 Implementing memory optimizations...');
+    console.info('🧠 Implementing memory optimizations...');
     
     const memoryTargets = Array.from(this.optimizations.values())
       .filter(target => target.type === 'memory');
@@ -194,9 +194,9 @@ export class PerformanceOptimizer {
       try {
         const optimization = await this.createMemoryOptimization(target);
         this.memoryOptimizations.set(optimization.id, optimization);
-        this.logger.info(`✅ Implemented memory optimization: ${optimization.id}`);
+        console.info(`✅ Implemented memory optimization: ${optimization.id}`);
       } catch (error) {
-        this.logger.error(`❌ Failed to implement memory optimization for ${target.id}:`, error);
+        console.error(`❌ Failed to implement memory optimization for ${target.id}:`, error);
       }
     }
   }
@@ -205,7 +205,7 @@ export class PerformanceOptimizer {
    * Implement CPU optimizations
    */
   async implementCPUOptimizations(): Promise<void> {
-    this.logger.info('⚡ Implementing CPU optimizations...');
+    console.info('⚡ Implementing CPU optimizations...');
     
     const cpuTargets = Array.from(this.optimizations.values())
       .filter(target => target.type === 'cpu');
@@ -214,9 +214,9 @@ export class PerformanceOptimizer {
       try {
         const optimization = await this.createCPUOptimization(target);
         this.cpuOptimizations.set(optimization.id, optimization);
-        this.logger.info(`✅ Implemented CPU optimization: ${optimization.id}`);
+        console.info(`✅ Implemented CPU optimization: ${optimization.id}`);
       } catch (error) {
-        this.logger.error(`❌ Failed to implement CPU optimization for ${target.id}:`, error);
+        console.error(`❌ Failed to implement CPU optimization for ${target.id}:`, error);
       }
     }
   }
@@ -225,7 +225,7 @@ export class PerformanceOptimizer {
    * Implement network optimizations
    */
   async implementNetworkOptimizations(): Promise<void> {
-    this.logger.info('🌐 Implementing network optimizations...');
+    console.info('🌐 Implementing network optimizations...');
     
     const networkTargets = Array.from(this.optimizations.values())
       .filter(target => target.type === 'network');
@@ -234,9 +234,9 @@ export class PerformanceOptimizer {
       try {
         const optimization = await this.createNetworkOptimization(target);
         this.networkOptimizations.set(optimization.id, optimization);
-        this.logger.info(`✅ Implemented network optimization: ${optimization.id}`);
+        console.info(`✅ Implemented network optimization: ${optimization.id}`);
       } catch (error) {
-        this.logger.error(`❌ Failed to implement network optimization for ${target.id}:`, error);
+        console.error(`❌ Failed to implement network optimization for ${target.id}:`, error);
       }
     }
   }
@@ -245,7 +245,7 @@ export class PerformanceOptimizer {
    * Implement caching strategies
    */
   async implementCachingStrategies(): Promise<void> {
-    this.logger.info('💾 Implementing caching strategies...');
+    console.info('💾 Implementing caching strategies...');
     
     const modules = await this.getModulesForCaching();
     
@@ -253,9 +253,9 @@ export class PerformanceOptimizer {
       try {
         const strategy = await this.createCacheStrategy(module);
         this.cacheStrategies.set(strategy.id, strategy);
-        this.logger.info(`✅ Implemented caching strategy: ${strategy.id}`);
+        console.info(`✅ Implemented caching strategy: ${strategy.id}`);
       } catch (error) {
-        this.logger.error(`❌ Failed to implement caching strategy for ${module}:`, error);
+        console.error(`❌ Failed to implement caching strategy for ${module}:`, error);
       }
     }
   }

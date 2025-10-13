@@ -402,7 +402,7 @@ export class LazyLoader {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    this.logger.info(`[LAZYLOADER:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    console.info(`[LAZYLOADER:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

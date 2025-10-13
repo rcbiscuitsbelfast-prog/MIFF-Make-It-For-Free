@@ -136,28 +136,28 @@ export class AIProfileIntegrationManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('AI Profile Integration Manager already initialized');
+      console.warn('AIProfileIntegrationLayer', 'AI Profile Integration Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing AI Profile Integration Manager...');
+      console.info('AIProfileIntegrationLayer', 'Initializing AI Profile Integration Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('AI Profile Integration Manager initialized successfully');
+      console.info('AIProfileIntegrationLayer', 'AI Profile Integration Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize AI Profile Integration Manager');
+      this.errorHandler.handleError(error as any);
       throw error;
     }
   }
@@ -190,11 +190,11 @@ export class AIProfileIntegrationManager {
       this.profiles.set(profile.id, profile);
       this.updateAnalytics();
 
-      this.logger.info('AI profile created', { profileId: profile.id, profileName: profile.name });
+      console.info('AI profile created', { profileId: profile.id, profileName: profile.name });
       return profile;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create AI profile');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -221,7 +221,7 @@ export class AIProfileIntegrationManager {
     try {
       const profile = this.profiles.get(profileId);
       if (!profile) {
-        this.logger.warn('Profile not found', { profileId });
+        console.warn('Profile not found', { profileId });
         return null;
       }
 
@@ -235,11 +235,11 @@ export class AIProfileIntegrationManager {
       this.profiles.set(profileId, updatedProfile);
       this.updateAnalytics();
 
-      this.logger.info('AI profile updated', { profileId, profileName: updatedProfile.name });
+      console.info('AI profile updated', { profileId, profileName: updatedProfile.name });
       return updatedProfile;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update AI profile');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -255,18 +255,18 @@ export class AIProfileIntegrationManager {
     try {
       const profile = this.profiles.get(profileId);
       if (!profile) {
-        this.logger.warn('Profile not found', { profileId });
+        console.warn('Profile not found', { profileId });
         return false;
       }
 
       this.profiles.delete(profileId);
       this.updateAnalytics();
 
-      this.logger.info('AI profile deleted', { profileId, profileName: profile.name });
+      console.info('AI profile deleted', { profileId, profileName: profile.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete AI profile');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -329,7 +329,7 @@ export class AIProfileIntegrationManager {
       return Math.max(-1, Math.min(1, influence));
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to calculate behavior influence');
+      this.errorHandler.handleError($1);
       return 0;
     }
   }
@@ -491,12 +491,12 @@ export class AIProfileIntegrationManager {
    * Destroy the AI Profile Integration Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying AI Profile Integration Manager...');
+    console.info('AIProfileIntegrationLayer', 'Destroying AI Profile Integration Manager...');
 
     this.profiles.clear();
     this.isInitialized = false;
 
-    this.logger.info('AI Profile Integration Manager destroyed');
+    console.info('AIProfileIntegrationLayer', 'AI Profile Integration Manager destroyed');
   }
 }
 

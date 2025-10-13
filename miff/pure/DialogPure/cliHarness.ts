@@ -43,7 +43,7 @@ function main() {
     }
   }
 
-  this.logger.info(JSON.stringify({ outputs }, null, 2));
+  console.info(JSON.stringify({ outputs }, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -61,7 +61,7 @@ class MockEntityContext implements IEntityContext {
     if (!this.entityStats.has(entityId)) {
       this.entityStats.set(entityId, new Map());
     }
-    this.entityStats.get(entityId)!.set(stat, Math.max(0, value));
+    this.entityStats.get(entityId)?.set(stat, Math.max(0, value));
   }
 
   hasImmunity(entityId: string, immunityTag: string): boolean { return false; }
@@ -144,8 +144,8 @@ describe('Module Integration Tests', () => {
       // Verify effect details
       const effect = activeEffects.find(e => e.effect.effectId === 'attack_boost');
       expect(effect).toBeDefined();
-      expect(effect!.effect.name).toBe('Attack Boost');
-      expect(effect!.effect.value).toBe(20);
+      expect(effect?.effect.name).toBe('Attack Boost');
+      expect(effect?.effect.value).toBe(20);
     });
 
     test('should handle effect expiration and cleanup', () => {
@@ -226,8 +226,8 @@ describe('Module Integration Tests', () => {
 
       expect(attackEffectFound).toBeDefined();
       expect(defenseEffectFound).toBeDefined();
-      expect(attackEffectFound!.effect.value).toBe(15);
-      expect(defenseEffectFound!.effect.value).toBe(10);
+      expect(attackEffectFound?.effect.value).toBe(15);
+      expect(defenseEffectFound?.effect.value).toBe(10);
     });
 
     test('should handle effect stacking correctly', () => {

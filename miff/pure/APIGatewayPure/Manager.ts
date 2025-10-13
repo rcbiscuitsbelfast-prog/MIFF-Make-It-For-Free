@@ -171,28 +171,28 @@ export class APIGatewayManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('API Gateway Manager already initialized');
+      console.warn('APIGatewayPure', 'API Gateway Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing API Gateway Manager...');
+      console.info('APIGatewayPure', 'Initializing API Gateway Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('API Gateway Manager initialized successfully');
+      console.info('APIGatewayPure', 'API Gateway Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize API Gateway Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -225,11 +225,11 @@ export class APIGatewayManager {
       this.gateways.set(gateway.id, gateway);
       this.updateAnalytics();
 
-      this.logger.info('API Gateway created', { gatewayId: gateway.id, gatewayName: gateway.name });
+      console.info('API Gateway created', { gatewayId: gateway.id, gatewayName: gateway.name });
       return gateway;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create API Gateway');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -256,7 +256,7 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        this.logger.warn('Gateway not found', { gatewayId });
+        console.warn('Gateway not found', { gatewayId });
         return null;
       }
 
@@ -270,11 +270,11 @@ export class APIGatewayManager {
       this.gateways.set(gatewayId, updatedGateway);
       this.updateAnalytics();
 
-      this.logger.info('API Gateway updated', { gatewayId, gatewayName: updatedGateway.name });
+      console.info('API Gateway updated', { gatewayId, gatewayName: updatedGateway.name });
       return updatedGateway;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update API Gateway');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -290,18 +290,18 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        this.logger.warn('Gateway not found', { gatewayId });
+        console.warn('Gateway not found', { gatewayId });
         return false;
       }
 
       this.gateways.delete(gatewayId);
       this.updateAnalytics();
 
-      this.logger.info('API Gateway deleted', { gatewayId, gatewayName: gateway.name });
+      console.info('API Gateway deleted', { gatewayId, gatewayName: gateway.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete API Gateway');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -350,21 +350,21 @@ export class APIGatewayManager {
     try {
       const gateway = this.gateways.get(gatewayId);
       if (!gateway) {
-        this.logger.warn('Gateway not found', { gatewayId });
+        console.warn('Gateway not found', { gatewayId });
         return this.createErrorResponse(404, 'Gateway not found');
       }
 
       // Find matching route
       const route = this.findMatchingRoute(gateway, request);
       if (!route) {
-        this.logger.warn('No matching route found', { gatewayId, path: request.path, method: request.method });
+        console.warn('No matching route found', { gatewayId, path: request.path, method: request.method });
         return this.createErrorResponse(404, 'Route not found');
       }
 
       // Apply policies
       const policyResult = await this.applyPolicies(gateway, route, request);
       if (!policyResult.allowed) {
-        this.logger.warn('Request blocked by policy', { gatewayId, policy: policyResult.policy });
+        console.warn('Request blocked by policy', { gatewayId, policy: policyResult.policy });
         return this.createErrorResponse(403, 'Request blocked by policy');
       }
 
@@ -374,11 +374,11 @@ export class APIGatewayManager {
       // Update analytics
       this.updateGatewayAnalytics(gateway, request, response);
 
-      this.logger.debug('Request processed', { gatewayId, path: request.path, status: response.status });
+      console.debug('Request processed', { gatewayId, path: request.path, status: response.status });
       return response;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to process request');
+      this.errorHandler.handleError($1);
       return this.createErrorResponse(500, 'Internal server error');
     }
   }
@@ -569,12 +569,12 @@ export class APIGatewayManager {
    * Destroy the API Gateway Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying API Gateway Manager...');
+    console.info('APIGatewayPure', 'Destroying API Gateway Manager...');
 
     this.gateways.clear();
     this.isInitialized = false;
 
-    this.logger.info('API Gateway Manager destroyed');
+    console.info('APIGatewayPure', 'API Gateway Manager destroyed');
   }
 }
 

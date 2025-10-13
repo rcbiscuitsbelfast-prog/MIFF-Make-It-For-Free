@@ -334,4 +334,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-this.logger.info(formatOutput(output));
+console.info(formatOutput(output));

@@ -24,7 +24,7 @@ const bridgeOptions = {
   url: `${config.protocol}://${config.host}:${config.port}`,
   useRealWebSocket: true,
   serverUrl: `${config.protocol}://${config.host}:${config.port}`,
-  onStatusChange: (status: string) => this.logger.info(`WebSocket status: ${status}`)
+  onStatusChange: (status: string) => console.info(`WebSocket status: ${status}`)
 };
 
 const bridge = new WebSocketBridgePure(bridgeOptions);

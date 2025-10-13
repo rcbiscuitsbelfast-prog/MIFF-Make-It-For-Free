@@ -17,7 +17,7 @@ interface WebBridgeOperation {
 function main() {
   const inputFile = process.argv[2];
   if (!inputFile) {
-    this.logger.error('Usage: tsx cliHarness.ts <input-file>');
+    console.error('Usage: tsx cliHarness.ts <input-file>');
     process.exit(1);
   }
 
@@ -120,10 +120,10 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         throw new Error(`Unknown operation: ${input.op}`);
     }
     
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    this.logger.error('Error:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }

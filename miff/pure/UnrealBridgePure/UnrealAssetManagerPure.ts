@@ -365,7 +365,7 @@ export class UnrealAssetManagerPure {
   }
 
   private async initializeAssetManager(): Promise<void> {
-    this.logger.info('[UnrealAssetManagerPure] Initializing asset manager...');
+    console.info('[UnrealAssetManagerPure] Initializing asset manager...');
 
     try {
       // Initialize priority queues
@@ -384,9 +384,9 @@ export class UnrealAssetManagerPure {
       await this.initializeOptimizationSystem();
 
       this.isInitialized = true;
-      this.logger.info('[UnrealAssetManagerPure] Asset manager initialized successfully');
+      console.info('[UnrealAssetManagerPure] Asset manager initialized successfully');
     } catch (error) {
-      this.logger.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', error);
+      console.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', error);
       throw new Error(`Asset manager initialization failed: ${error}`);
     }
   }
@@ -407,16 +407,16 @@ export class UnrealAssetManagerPure {
     this.priorityQueues.set('ondemand', []);
     this.priorityQueues.set('fallback', []);
 
-    this.logger.info(`[UnrealAssetManagerPure] Initialized ${this.priorityQueues.size} priority queues`);
+    console.info(`[UnrealAssetManagerPure] Initialized ${this.priorityQueues.size} priority queues`);
   }
 
   private async initializeAssetBundles(): Promise<void> {
     if (!this.configuration || !this.configuration.enableAssetBundles) {
-      this.logger.info('[UnrealAssetManagerPure] Asset bundles disabled');
+      console.info('[UnrealAssetManagerPure] Asset bundles disabled');
       return;
     }
 
-    this.logger.info('[UnrealAssetManagerPure] Initializing asset bundles...');
+    console.info('[UnrealAssetManagerPure] Initializing asset bundles...');
 
     // Create default asset bundles
     const defaultBundle: AssetBundle = {
@@ -501,16 +501,16 @@ export class UnrealAssetManagerPure {
 
     this.assetBundles.set('environment_bundle', environmentBundle);
 
-    this.logger.info(`[UnrealAssetManagerPure] Initialized ${this.assetBundles.size} asset bundles`);
+    console.info(`[UnrealAssetManagerPure] Initialized ${this.assetBundles.size} asset bundles`);
   }
 
   private async initializeCachingSystem(): Promise<void> {
     if (!this.configuration || this.configuration.cachingStrategy === AssetCachingStrategy.NONE) {
-      this.logger.info('[UnrealAssetManagerPure] Caching disabled');
+      console.info('[UnrealAssetManagerPure] Caching disabled');
       return;
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Initializing caching system: ${this.configuration.cachingStrategy}`);
+    console.info(`[UnrealAssetManagerPure] Initializing caching system: ${this.configuration.cachingStrategy}`);
 
     // Initialize cache storage based on strategy
     switch (this.configuration.cachingStrategy) {
@@ -530,44 +530,44 @@ export class UnrealAssetManagerPure {
         await this.initializePersistentCache();
         break;
       default:
-        this.logger.warn(`[UnrealAssetManagerPure] Unknown caching strategy: ${this.configuration.cachingStrategy}`);
+        console.warn(`[UnrealAssetManagerPure] Unknown caching strategy: ${this.configuration.cachingStrategy}`);
     }
 
-    this.logger.info('[UnrealAssetManagerPure] Caching system initialized');
+    console.info('[UnrealAssetManagerPure] Caching system initialized');
   }
 
   private async initializeMemoryCache(): Promise<void> {
     // Implementation for memory-based caching
-    this.logger.info('[UnrealAssetManagerPure] Memory cache initialized');
+    console.info('[UnrealAssetManagerPure] Memory cache initialized');
   }
 
   private async initializeDiskCache(): Promise<void> {
     // Implementation for disk-based caching
-    this.logger.info('[UnrealAssetManagerPure] Disk cache initialized');
+    console.info('[UnrealAssetManagerPure] Disk cache initialized');
   }
 
   private async initializeHybridCache(): Promise<void> {
     // Implementation for hybrid memory/disk caching
-    this.logger.info('[UnrealAssetManagerPure] Hybrid cache initialized');
+    console.info('[UnrealAssetManagerPure] Hybrid cache initialized');
   }
 
   private async initializeVirtualCache(): Promise<void> {
     // Implementation for virtual caching
-    this.logger.info('[UnrealAssetManagerPure] Virtual cache initialized');
+    console.info('[UnrealAssetManagerPure] Virtual cache initialized');
   }
 
   private async initializePersistentCache(): Promise<void> {
     // Implementation for persistent caching
-    this.logger.info('[UnrealAssetManagerPure] Persistent cache initialized');
+    console.info('[UnrealAssetManagerPure] Persistent cache initialized');
   }
 
   private async initializeStreamingSystem(): Promise<void> {
     if (this.configuration?.streamingMode || 'none' === AssetStreamingMode.NONE) {
-      this.logger.info('[UnrealAssetManagerPure] Streaming disabled');
+      console.info('[UnrealAssetManagerPure] Streaming disabled');
       return;
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Initializing streaming system: ${this.configuration?.streamingMode || 'none'}`);
+    console.info(`[UnrealAssetManagerPure] Initializing streaming system: ${this.configuration?.streamingMode || 'none'}`);
 
     // Initialize streaming components
     switch (this.configuration?.streamingMode || 'none') {
@@ -584,39 +584,39 @@ export class UnrealAssetManagerPure {
         await this.initializePriorityStreaming();
         break;
       default:
-        this.logger.warn(`[UnrealAssetManagerPure] Unknown streaming mode: ${this.configuration?.streamingMode || 'none'}`);
+        console.warn(`[UnrealAssetManagerPure] Unknown streaming mode: ${this.configuration?.streamingMode || 'none'}`);
     }
 
-    this.logger.info('[UnrealAssetManagerPure] Streaming system initialized');
+    console.info('[UnrealAssetManagerPure] Streaming system initialized');
   }
 
   private async initializeOnDemandStreaming(): Promise<void> {
     // Implementation for on-demand streaming
-    this.logger.info('[UnrealAssetManagerPure] On-demand streaming initialized');
+    console.info('[UnrealAssetManagerPure] On-demand streaming initialized');
   }
 
   private async initializePredictiveStreaming(): Promise<void> {
     // Implementation for predictive streaming
-    this.logger.info('[UnrealAssetManagerPure] Predictive streaming initialized');
+    console.info('[UnrealAssetManagerPure] Predictive streaming initialized');
   }
 
   private async initializeAdaptiveStreaming(): Promise<void> {
     // Implementation for adaptive streaming
-    this.logger.info('[UnrealAssetManagerPure] Adaptive streaming initialized');
+    console.info('[UnrealAssetManagerPure] Adaptive streaming initialized');
   }
 
   private async initializePriorityStreaming(): Promise<void> {
     // Implementation for priority streaming
-    this.logger.info('[UnrealAssetManagerPure] Priority streaming initialized');
+    console.info('[UnrealAssetManagerPure] Priority streaming initialized');
   }
 
   private async initializeOptimizationSystem(): Promise<void> {
     if (this.configuration?.optimizationLevel || 'none' === AssetOptimizationLevel.NONE) {
-      this.logger.info('[UnrealAssetManagerPure] Optimization disabled');
+      console.info('[UnrealAssetManagerPure] Optimization disabled');
       return;
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Initializing optimization system: ${this.configuration?.optimizationLevel || 'none'}`);
+    console.info(`[UnrealAssetManagerPure] Initializing optimization system: ${this.configuration?.optimizationLevel || 'none'}`);
 
     // Initialize optimization components
     await this.initializeMeshOptimization();
@@ -624,27 +624,27 @@ export class UnrealAssetManagerPure {
     await this.initializeAnimationOptimization();
     await this.initializeAudioOptimization();
 
-    this.logger.info('[UnrealAssetManagerPure] Optimization system initialized');
+    console.info('[UnrealAssetManagerPure] Optimization system initialized');
   }
 
   private async initializeMeshOptimization(): Promise<void> {
     // Implementation for mesh optimization
-    this.logger.info('[UnrealAssetManagerPure] Mesh optimization initialized');
+    console.info('[UnrealAssetManagerPure] Mesh optimization initialized');
   }
 
   private async initializeTextureOptimization(): Promise<void> {
     // Implementation for texture optimization
-    this.logger.info('[UnrealAssetManagerPure] Texture optimization initialized');
+    console.info('[UnrealAssetManagerPure] Texture optimization initialized');
   }
 
   private async initializeAnimationOptimization(): Promise<void> {
     // Implementation for animation optimization
-    this.logger.info('[UnrealAssetManagerPure] Animation optimization initialized');
+    console.info('[UnrealAssetManagerPure] Animation optimization initialized');
   }
 
   private async initializeAudioOptimization(): Promise<void> {
     // Implementation for audio optimization
-    this.logger.info('[UnrealAssetManagerPure] Audio optimization initialized');
+    console.info('[UnrealAssetManagerPure] Audio optimization initialized');
   }
 
   async loadAsset(request: AssetLoadingRequest): Promise<AssetLoadingResponse> {
@@ -652,7 +652,7 @@ export class UnrealAssetManagerPure {
       throw new Error('Asset manager not initialized');
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Loading asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] Loading asset: ${request.assetId}`);
 
     const startTime = Date.now();
     this.statistics.totalRequests++;
@@ -662,7 +662,7 @@ export class UnrealAssetManagerPure {
       // Check cache first
       const cachedAsset = this.assetCache.get(request.assetId);
       if (cachedAsset && this.configuration.cachingStrategy !== AssetCachingStrategy.NONE) {
-        this.logger.info(`[UnrealAssetManagerPure] Asset found in cache: ${request.assetId}`);
+        console.info(`[UnrealAssetManagerPure] Asset found in cache: ${request.assetId}`);
         this.statistics.cachedAssets++;
         this.statistics.cacheHitRate = this.statistics.cachedAssets / this.statistics.totalRequests;
         this.updateCacheEntry(cachedAsset);
@@ -757,7 +757,7 @@ export class UnrealAssetManagerPure {
         request.callback(asset, asset ? undefined : `Failed to load asset: ${request.assetId}`);
       }
 
-      this.logger.info(`[UnrealAssetManagerPure] Asset loaded successfully: ${request.assetId} (${loadTime}ms)`);
+      console.info(`[UnrealAssetManagerPure] Asset loaded successfully: ${request.assetId} (${loadTime}ms)`);
       return response;
 
     } catch (error) {
@@ -786,14 +786,14 @@ export class UnrealAssetManagerPure {
         request.callback(null, error instanceof Error ? error.message : 'Unknown error');
       }
 
-      this.logger.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, error);
+      console.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, error);
       return response;
     }
   }
 
   private async loadAssetLazy(request: AssetLoadingRequest): Promise<UnrealAssetBridge | null> {
     // Implementation for lazy loading
-    this.logger.info(`[UnrealAssetManagerPure] Lazy loading asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] Lazy loading asset: ${request.assetId}`);
 
     // Get asset from bridge manager
     const asset = this.bridgeManager.getAsset(request.assetId);
@@ -828,37 +828,37 @@ export class UnrealAssetManagerPure {
 
   private async loadAssetEager(request: AssetLoadingRequest): Promise<UnrealAssetBridge | null> {
     // Implementation for eager loading
-    this.logger.info(`[UnrealAssetManagerPure] Eager loading asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] Eager loading asset: ${request.assetId}`);
     return await this.loadAssetLazy(request);
   }
 
   private async loadAssetPreload(request: AssetLoadingRequest): Promise<UnrealAssetBridge | null> {
     // Implementation for preload loading
-    this.logger.info(`[UnrealAssetManagerPure] Preloading asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] Preloading asset: ${request.assetId}`);
     return await this.loadAssetLazy(request);
   }
 
   private async loadAssetOnDemand(request: AssetLoadingRequest): Promise<UnrealAssetBridge | null> {
     // Implementation for on-demand loading
-    this.logger.info(`[UnrealAssetManagerPure] On-demand loading asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] On-demand loading asset: ${request.assetId}`);
     return await this.loadAssetLazy(request);
   }
 
   private async loadAssetStreaming(request: AssetLoadingRequest): Promise<UnrealAssetBridge | null> {
     // Implementation for streaming loading
-    this.logger.info(`[UnrealAssetManagerPure] Streaming asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] Streaming asset: ${request.assetId}`);
     return await this.loadAssetLazy(request);
   }
 
   private async loadAssetVirtual(request: AssetLoadingRequest): Promise<UnrealAssetBridge | null> {
     // Implementation for virtual loading
-    this.logger.info(`[UnrealAssetManagerPure] Virtual loading asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] Virtual loading asset: ${request.assetId}`);
     return await this.loadAssetLazy(request);
   }
 
   private async loadAssetPredictive(request: AssetLoadingRequest): Promise<UnrealAssetBridge | null> {
     // Implementation for predictive loading
-    this.logger.info(`[UnrealAssetManagerPure] Predictive loading asset: ${request.assetId}`);
+    console.info(`[UnrealAssetManagerPure] Predictive loading asset: ${request.assetId}`);
     return await this.loadAssetLazy(request);
   }
 
@@ -886,7 +886,7 @@ export class UnrealAssetManagerPure {
       this.evictCacheEntries();
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Cached asset: ${asset.id}`);
+    console.info(`[UnrealAssetManagerPure] Cached asset: ${asset.id}`);
   }
 
   private updateCacheEntry(entry: AssetCacheEntry): void {
@@ -907,7 +907,7 @@ export class UnrealAssetManagerPure {
       this.assetCache.delete(entry.id);
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Evicted ${entriesToRemove.length} cache entries`);
+    console.info(`[UnrealAssetManagerPure] Evicted ${entriesToRemove.length} cache entries`);
   }
 
   async streamAsset(request: AssetStreamingRequest): Promise<AssetStreamingResponse> {
@@ -915,7 +915,7 @@ export class UnrealAssetManagerPure {
       throw new Error('Asset manager not initialized');
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Streaming asset: ${request.assetId} at quality: ${request.qualityLevel}`);
+    console.info(`[UnrealAssetManagerPure] Streaming asset: ${request.assetId} at quality: ${request.qualityLevel}`);
 
     const startTime = Date.now();
     this.statistics.streamingRequests++;
@@ -992,7 +992,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      this.logger.info(`[UnrealAssetManagerPure] Asset streamed successfully: ${request.assetId} at ${actualQualityLevel} quality (${streamingTime}ms)`);
+      console.info(`[UnrealAssetManagerPure] Asset streamed successfully: ${request.assetId} at ${actualQualityLevel} quality (${streamingTime}ms)`);
       return response;
 
     } catch (error) {
@@ -1019,7 +1019,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      this.logger.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, error);
+      console.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, error);
       return response;
     }
   }
@@ -1029,7 +1029,7 @@ export class UnrealAssetManagerPure {
       throw new Error('Asset manager not initialized');
     }
 
-    this.logger.info(`[UnrealAssetManagerPure] Optimizing asset: ${assetId}`);
+    console.info(`[UnrealAssetManagerPure] Optimizing asset: ${assetId}`);
 
     const startTime = Date.now();
 
@@ -1098,9 +1098,9 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      this.logger.info(`[UnrealAssetManagerPure] Asset optimized successfully: ${assetId}`);
-      this.logger.info(`[UnrealAssetManagerPure] Size reduction: ${originalSize} → ${optimizedSize} (${compressionRatio.toFixed(2)}x compression)`);
-      this.logger.info(`[UnrealAssetManagerPure] Quality loss: ${qualityLoss * 100}%`);
+      console.info(`[UnrealAssetManagerPure] Asset optimized successfully: ${assetId}`);
+      console.info(`[UnrealAssetManagerPure] Size reduction: ${originalSize} → ${optimizedSize} (${compressionRatio.toFixed(2)}x compression)`);
+      console.info(`[UnrealAssetManagerPure] Quality loss: ${qualityLoss * 100}%`);
       return result;
 
     } catch (error) {
@@ -1121,7 +1121,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      this.logger.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, error);
+      console.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, error);
       return result;
     }
   }
@@ -1131,7 +1131,7 @@ export class UnrealAssetManagerPure {
     this.assetBundles.set(bundle.id, bundle);
     this.statistics.bundleCount++;
 
-    this.logger.info(`[UnrealAssetManagerPure] Created asset bundle: ${bundle.name} (${bundle.id})`);
+    console.info(`[UnrealAssetManagerPure] Created asset bundle: ${bundle.name} (${bundle.id})`);
   }
 
   loadAssetBundle(bundleId: string): Promise<boolean> {
@@ -1142,7 +1142,7 @@ export class UnrealAssetManagerPure {
         return;
       }
 
-      this.logger.info(`[UnrealAssetManagerPure] Loading asset bundle: ${bundle.name}`);
+      console.info(`[UnrealAssetManagerPure] Loading asset bundle: ${bundle.name}`);
 
       // Simulate bundle loading
       setTimeout(() => {
@@ -1152,7 +1152,7 @@ export class UnrealAssetManagerPure {
         this.statistics.bundleMemoryUsage += bundle.memory;
         this.statistics.bundleDiskUsage += bundle.diskUsage;
 
-        this.logger.info(`[UnrealAssetManagerPure] Asset bundle loaded: ${bundle.name}`);
+        console.info(`[UnrealAssetManagerPure] Asset bundle loaded: ${bundle.name}`);
         resolve(true);
       }, bundle.loadTime);
     });
@@ -1166,7 +1166,7 @@ export class UnrealAssetManagerPure {
         return;
       }
 
-      this.logger.info(`[UnrealAssetManagerPure] Unloading asset bundle: ${bundle.name}`);
+      console.info(`[UnrealAssetManagerPure] Unloading asset bundle: ${bundle.name}`);
 
       // Simulate bundle unloading
       setTimeout(() => {
@@ -1175,13 +1175,13 @@ export class UnrealAssetManagerPure {
         this.statistics.bundleMemoryUsage -= bundle.memory;
         this.statistics.bundleDiskUsage -= bundle.diskUsage;
 
-        this.logger.info(`[UnrealAssetManagerPure] Asset bundle unloaded: ${bundle.name}`);
+        console.info(`[UnrealAssetManagerPure] Asset bundle unloaded: ${bundle.name}`);
         resolve(true);
       }, bundle.loadTime / 2);
     });
   }
 
-  getAssetBundle(bundleId: string): AssetBundle | undefined {
+  getAssetBundle(bundleId: string): AssetBundle! {
     return this.assetBundles.get(bundleId);
   }
 
@@ -1195,16 +1195,16 @@ export class UnrealAssetManagerPure {
     if (queue && !queue.includes(assetId)) {
       queue.push(assetId);
       this.updateStatistics();
-      this.logger.info(`[UnrealAssetManagerPure] Enqueued asset: ${assetId} in ${priority} queue`);
+      console.info(`[UnrealAssetManagerPure] Enqueued asset: ${assetId} in ${priority} queue`);
     }
   }
 
-  dequeueAsset(priority: string): string | undefined {
+  dequeueAsset(priority: string): string! {
     const queue = this.priorityQueues.get(priority);
     if (queue && queue.length > 0) {
       const assetId = queue.shift();
       this.updateStatistics();
-      this.logger.info(`[UnrealAssetManagerPure] Dequeued asset: ${assetId} from ${priority} queue`);
+      console.info(`[UnrealAssetManagerPure] Dequeued asset: ${assetId} from ${priority} queue`);
       return assetId;
     }
     return undefined;
@@ -1321,7 +1321,7 @@ export class UnrealAssetManagerPure {
       this.initializeOptimizationSystem();
     }
 
-    this.logger.info('[UnrealAssetManagerPure] Configuration updated');
+    console.info('[UnrealAssetManagerPure] Configuration updated');
   }
 
   getConfiguration(): AssetManagerConfiguration {
@@ -1374,7 +1374,7 @@ export class UnrealAssetManagerPure {
   clearCache(): void {
     this.assetCache.clear();
     this.statistics.cachedAssets = 0;
-    this.logger.info('[UnrealAssetManagerPure] Asset cache cleared');
+    console.info('[UnrealAssetManagerPure] Asset cache cleared');
   }
 
   reset(): void {
@@ -1384,12 +1384,12 @@ export class UnrealAssetManagerPure {
     this.assetBundles.clear();
     this.priorityQueues.clear();
     this.initializePriorityQueues();
-    this.logger.info('[UnrealAssetManagerPure] Asset manager reset to initial state');
+    console.info('[UnrealAssetManagerPure] Asset manager reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    this.logger.info('[UnrealAssetManagerPure] Asset manager disposed successfully');
+    console.info('[UnrealAssetManagerPure] Asset manager disposed successfully');
   }
 }

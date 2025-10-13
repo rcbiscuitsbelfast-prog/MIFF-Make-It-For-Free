@@ -96,7 +96,7 @@ export class PluginDiscovery {
    * Discover plugins in the plugin directory
    */
   async discoverPlugins(): Promise<PluginInstance[]> {
-    this.logger.info(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
+    console.info(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
     
     try {
       const discoveredPlugins: PluginInstance[] = [];
@@ -117,7 +117,7 @@ export class PluginDiscovery {
                 this.plugins.set(plugin.id, plugin);
               }
             } catch (error) {
-              this.logger.warn(`⚠️ Failed to load plugin ${file.name}:`, error);
+              console.warn(`⚠️ Failed to load plugin ${file.name}:`, error);
             }
           }
         }
@@ -132,10 +132,10 @@ export class PluginDiscovery {
         }
       }
       
-      this.logger.info(`✅ Discovered ${discoveredPlugins.length} plugins`);
+      console.info(`✅ Discovered ${discoveredPlugins.length} plugins`);
       return discoveredPlugins;
     } catch (error) {
-      this.logger.error('❌ Error discovering plugins:', error);
+      console.error('❌ Error discovering plugins:', error);
       // Fallback to mock plugins
       const mockPlugins = this.createMockPlugins();
       for (const plugin of mockPlugins) {
@@ -158,7 +158,7 @@ export class PluginDiscovery {
       return plugin;
     }
 
-    this.logger.info(`📦 Loading plugin: ${plugin.manifest.name} (${plugin.manifest.version})`);
+    console.info(`📦 Loading plugin: ${plugin.manifest.name} (${plugin.manifest.version})`);
     
     try {
       // Check dependencies
@@ -171,12 +171,12 @@ export class PluginDiscovery {
       await this.loadPluginAssets(plugin);
       
       plugin.status = 'loaded';
-      this.logger.info(`✅ Plugin loaded: ${plugin.manifest.name}`);
+      console.info(`✅ Plugin loaded: ${plugin.manifest.name}`);
       
     } catch (error) {
       plugin.status = 'error';
       plugin.error = error instanceof Error ? error.message : 'Unknown error';
-      this.logger.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, error);
+      console.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, error);
     }
 
     return plugin;
@@ -191,14 +191,14 @@ export class PluginDiscovery {
       return false;
     }
 
-    this.logger.info(`📦 Unloading plugin: ${plugin.manifest.name}`);
+    console.info(`📦 Unloading plugin: ${plugin.manifest.name}`);
     
     // Cleanup plugin resources
     plugin.assets.clear();
     plugin.entryPoint = null;
     plugin.status = 'disabled';
     
-    this.logger.info(`✅ Plugin unloaded: ${plugin.manifest.name}`);
+    console.info(`✅ Plugin unloaded: ${plugin.manifest.name}`);
     return true;
   }
 
@@ -212,7 +212,7 @@ export class PluginDiscovery {
   /**
    * Get plugin by ID
    */
-  getPlugin(id: string): PluginInstance | undefined {
+  getPlugin(id: string): PluginInstance! {
     return this.plugins.get(id);
   }
 
@@ -292,14 +292,14 @@ export class PluginDiscovery {
   private createMockEntryPoint(manifest: PluginManifest): any {
     return {
       initialize: () => {
-        this.logger.info(`🎮 Initializing plugin: ${manifest.name}`);
+        console.info(`🎮 Initializing plugin: ${manifest.name}`);
         return { success: true };
       },
       update: (delta: number) => {
         // Plugin update logic
       },
       cleanup: () => {
-        this.logger.info(`🧹 Cleaning up plugin: ${manifest.name}`);
+        console.info(`🧹 Cleaning up plugin: ${manifest.name}`);
       }
     };
   }
@@ -492,7 +492,7 @@ export class AssetPipeline {
     assets: Map<string, any>,
     metadata: Record<string, any> = {}
   ): Promise<AssetBundle> {
-    this.logger.info(`📦 Creating asset bundle: ${name}`);
+    console.info(`📦 Creating asset bundle: ${name}`);
 
     const bundle: AssetBundle = {
       id,
@@ -504,7 +504,7 @@ export class AssetPipeline {
     };
 
     this.bundles.set(id, bundle);
-    this.logger.info(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
+    console.info(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
     
     return bundle;
   }
@@ -527,7 +527,7 @@ export class AssetPipeline {
       throw new Error(`Template not found: ${templateId}`);
     }
 
-    this.logger.info(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
+    console.info(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
 
     // Apply template configuration
     const exportedAssets = this.applyTemplateConfig(bundle, template);
@@ -538,7 +538,7 @@ export class AssetPipeline {
     // In a real implementation, this would write files to disk
     const exportPath = `${outputPath}/${bundle.id}-${template.platform}.json`;
     
-    this.logger.info(`✅ Bundle exported to: ${exportPath}`);
+    console.info(`✅ Bundle exported to: ${exportPath}`);
     return exportPath;
   }
 
@@ -554,7 +554,7 @@ export class AssetPipeline {
    */
   addExportTemplate(template: ExportTemplate): void {
     this.templates.set(template.id, template);
-    this.logger.info(`📋 Added export template: ${template.name}`);
+    console.info(`📋 Added export template: ${template.name}`);
   }
 
   /**
@@ -745,14 +745,14 @@ export class ModdingSystem {
    * Initialize the modding system
    */
   async initialize(): Promise<void> {
-    this.logger.info('🎮 Initializing modding system...');
+    console.info('🎮 Initializing modding system...');
     
     if (this.config.autoLoad) {
       await this.discovery.discoverPlugins();
       await this.loadEnabledPlugins();
     }
     
-    this.logger.info('✅ Modding system initialized');
+    console.info('✅ Modding system initialized');
   }
 
   /**
@@ -772,7 +772,7 @@ export class ModdingSystem {
         const loaded = await this.discovery.loadPlugin(plugin.id);
         loadedPlugins.push(loaded);
       } catch (error) {
-        this.logger.error(`Failed to load plugin ${plugin.manifest.name}:`, error);
+        console.error(`Failed to load plugin ${plugin.manifest.name}:`, error);
       }
     }
     
@@ -789,7 +789,7 @@ export class ModdingSystem {
   /**
    * Get plugin by ID
    */
-  getPlugin(id: string): PluginInstance | undefined {
+  getPlugin(id: string): PluginInstance! {
     return this.discovery.getPlugin(id);
   }
 

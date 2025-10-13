@@ -705,7 +705,7 @@ export class AssetPipeline {
 
   private log(message: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    this.logger.info(`[ASSETPIPE:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    console.info(`[ASSETPIPE:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

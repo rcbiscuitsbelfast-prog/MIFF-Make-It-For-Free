@@ -92,14 +92,14 @@ class MockEventBus implements IEventBus {
     if (!this.events.has(event)) {
       this.events.set(event, []);
     }
-    this.events.get(event)!.push(data);
+    this.events.get(event)?.push(data);
   }
 
   subscribe(event: string, handler: (data?: any) => void): () => void {
     if (!this.subscriptions.has(event)) {
       this.subscriptions.set(event, []);
     }
-    this.subscriptions.get(event)!.push(handler);
+    this.subscriptions.get(event)?.push(handler);
 
     // Return unsubscribe function
     return () => {

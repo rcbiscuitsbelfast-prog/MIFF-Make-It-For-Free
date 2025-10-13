@@ -93,28 +93,28 @@ export class QuestSystemManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('QuestSystemManager', 'initialize');
+    const timerId = console.startTimer('QuestSystemManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('QuestSystemManager', 'Manager initialized successfully', {
+      console.info('QuestSystemManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('QuestSystemManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('QuestSystemManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('QuestSystemManager', 'Failed to initialize manager', {
+      console.error('QuestSystemManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class QuestSystemManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class QuestSystemManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class QuestSystemManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('QuestSystemManager', 'Created item', {
+    console.info('QuestSystemManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class QuestSystemManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class QuestSystemManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('QuestSystemManager', 'Updated item', {
+    console.info('QuestSystemManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class QuestSystemManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('QuestSystemManager', 'Deleted item', {
+    console.info('QuestSystemManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class QuestSystemManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('QuestSystemManager', 'Initializing manager...');
+    console.debug('QuestSystemManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class QuestSystemManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('QuestSystemManager', 'Loaded default items', {
+    console.info('QuestSystemManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class QuestSystemManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('QuestSystemManager', 'Destroying manager', {
+    console.info('QuestSystemManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class QuestSystemManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

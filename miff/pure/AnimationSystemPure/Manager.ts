@@ -141,28 +141,28 @@ export class AnimationSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Animation System Manager already initialized');
+      console.warn('AnimationSystemPure', 'Animation System Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Animation System Manager...');
+      console.info('AnimationSystemPure', 'Initializing Animation System Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Animation System Manager initialized successfully');
+      console.info('AnimationSystemPure', 'Animation System Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Animation System Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -195,11 +195,11 @@ export class AnimationSystemManager {
       this.animations.set(animation.id, animation);
       this.updateAnalytics();
 
-      this.logger.info('Animation created', { animationId: animation.id, animationName: animation.name });
+      console.info('Animation created', { animationId: animation.id, animationName: animation.name });
       return animation;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create animation');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -226,7 +226,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        this.logger.warn('Animation not found', { animationId });
+        console.warn('Animation not found', { animationId });
         return null;
       }
 
@@ -240,11 +240,11 @@ export class AnimationSystemManager {
       this.animations.set(animationId, updatedAnimation);
       this.updateAnalytics();
 
-      this.logger.info('Animation updated', { animationId, animationName: updatedAnimation.name });
+      console.info('Animation updated', { animationId, animationName: updatedAnimation.name });
       return updatedAnimation;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update animation');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -260,18 +260,18 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        this.logger.warn('Animation not found', { animationId });
+        console.warn('Animation not found', { animationId });
         return false;
       }
 
       this.animations.delete(animationId);
       this.updateAnalytics();
 
-      this.logger.info('Animation deleted', { animationId, animationName: animation.name });
+      console.info('Animation deleted', { animationId, animationName: animation.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete animation');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -320,18 +320,18 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        this.logger.warn('Animation not found', { animationId });
+        console.warn('Animation not found', { animationId });
         return false;
       }
 
       animation.status = 'playing';
       animation.timeline.currentTime = 0;
 
-      this.logger.debug('Animation started', { animationId, animationName: animation.name });
+      console.debug('Animation started', { animationId, animationName: animation.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to play animation');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -347,19 +347,19 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        this.logger.warn('Animation not found', { animationId });
+        console.warn('Animation not found', { animationId });
         return false;
       }
 
       if (animation.status === 'playing') {
         animation.status = 'paused';
-        this.logger.debug('Animation paused', { animationId, animationName: animation.name });
+        console.debug('Animation paused', { animationId, animationName: animation.name });
       }
 
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to pause animation');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -375,18 +375,18 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        this.logger.warn('Animation not found', { animationId });
+        console.warn('Animation not found', { animationId });
         return false;
       }
 
       animation.status = 'stopped';
       animation.timeline.currentTime = 0;
 
-      this.logger.debug('Animation stopped', { animationId, animationName: animation.name });
+      console.debug('Animation stopped', { animationId, animationName: animation.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to stop animation');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -402,7 +402,7 @@ export class AnimationSystemManager {
     try {
       const animation = this.animations.get(animationId);
       if (!animation) {
-        this.logger.warn('Animation not found', { animationId });
+        console.warn('Animation not found', { animationId });
         return false;
       }
 
@@ -428,7 +428,7 @@ export class AnimationSystemManager {
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update timeline');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -620,12 +620,12 @@ export class AnimationSystemManager {
    * Destroy the Animation System Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Animation System Manager...');
+    console.info('AnimationSystemPure', 'Destroying Animation System Manager...');
 
     this.animations.clear();
     this.isInitialized = false;
 
-    this.logger.info('Animation System Manager destroyed');
+    console.info('AnimationSystemPure', 'Animation System Manager destroyed');
   }
 }
 

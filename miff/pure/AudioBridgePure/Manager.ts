@@ -170,28 +170,28 @@ export class AudioBridgeManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Audio Bridge Manager already initialized');
+      console.warn('AudioBridgePure', 'Audio Bridge Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Audio Bridge Manager...');
+      console.info('AudioBridgePure', 'Initializing Audio Bridge Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Audio Bridge Manager initialized successfully');
+      console.info('AudioBridgePure', 'Audio Bridge Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Audio Bridge Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -226,11 +226,11 @@ export class AudioBridgeManager {
       this.bridges.set(bridge.id, bridge);
       this.updateAnalytics();
 
-      this.logger.info('Audio bridge created', { bridgeId: bridge.id, bridgeName: bridge.name });
+      console.info('Audio bridge created', { bridgeId: bridge.id, bridgeName: bridge.name });
       return bridge;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create audio bridge');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -257,7 +257,7 @@ export class AudioBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return null;
       }
 
@@ -271,11 +271,11 @@ export class AudioBridgeManager {
       this.bridges.set(bridgeId, updatedBridge);
       this.updateAnalytics();
 
-      this.logger.info('Audio bridge updated', { bridgeId, bridgeName: updatedBridge.name });
+      console.info('Audio bridge updated', { bridgeId, bridgeName: updatedBridge.name });
       return updatedBridge;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update audio bridge');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -291,18 +291,18 @@ export class AudioBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       this.bridges.delete(bridgeId);
       this.updateAnalytics();
 
-      this.logger.info('Audio bridge deleted', { bridgeId, bridgeName: bridge.name });
+      console.info('Audio bridge deleted', { bridgeId, bridgeName: bridge.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete audio bridge');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -351,7 +351,7 @@ export class AudioBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return null;
       }
 
@@ -363,11 +363,11 @@ export class AudioBridgeManager {
       bridge.devices.push(device);
       this.updateAnalytics();
 
-      this.logger.info('Device added to bridge', { bridgeId, deviceId: device.id, deviceName: device.name });
+      console.info('Device added to bridge', { bridgeId, deviceId: device.id, deviceName: device.name });
       return device;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add device to bridge');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -383,24 +383,24 @@ export class AudioBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       const deviceIndex = bridge.devices.findIndex(device => device.id === deviceId);
       if (deviceIndex === -1) {
-        this.logger.warn('Device not found', { bridgeId, deviceId });
+        console.warn('Device not found', { bridgeId, deviceId });
         return false;
       }
 
       bridge.devices.splice(deviceIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Device removed from bridge', { bridgeId, deviceId });
+      console.info('Device removed from bridge', { bridgeId, deviceId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove device from bridge');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -416,7 +416,7 @@ export class AudioBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return null;
       }
 
@@ -428,11 +428,11 @@ export class AudioBridgeManager {
       bridge.streams.push(stream);
       this.updateAnalytics();
 
-      this.logger.info('Stream created', { bridgeId, streamId: stream.id, streamName: stream.name });
+      console.info('Stream created', { bridgeId, streamId: stream.id, streamName: stream.name });
       return stream;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create stream');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -448,24 +448,24 @@ export class AudioBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       const stream = bridge.streams.find(s => s.id === streamId);
       if (!stream) {
-        this.logger.warn('Stream not found', { bridgeId, streamId });
+        console.warn('Stream not found', { bridgeId, streamId });
         return false;
       }
 
       stream.status = 'playing';
       this.updateAnalytics();
 
-      this.logger.debug('Stream started', { bridgeId, streamId });
+      console.debug('Stream started', { bridgeId, streamId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to start stream');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -481,24 +481,24 @@ export class AudioBridgeManager {
     try {
       const bridge = this.bridges.get(bridgeId);
       if (!bridge) {
-        this.logger.warn('Bridge not found', { bridgeId });
+        console.warn('Bridge not found', { bridgeId });
         return false;
       }
 
       const stream = bridge.streams.find(s => s.id === streamId);
       if (!stream) {
-        this.logger.warn('Stream not found', { bridgeId, streamId });
+        console.warn('Stream not found', { bridgeId, streamId });
         return false;
       }
 
       stream.status = 'stopped';
       this.updateAnalytics();
 
-      this.logger.debug('Stream stopped', { bridgeId, streamId });
+      console.debug('Stream stopped', { bridgeId, streamId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to stop stream');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -520,7 +520,7 @@ export class AudioBridgeManager {
       const convertedData = new ArrayBuffer(data.byteLength);
       new Uint8Array(convertedData).set(new Uint8Array(data));
 
-      this.logger.debug('Format converted', { 
+      console.debug('Format converted', { 
         inputFormat: inputFormat.encoding, 
         outputFormat: outputFormat.encoding,
         conversionTime 
@@ -529,7 +529,7 @@ export class AudioBridgeManager {
       return convertedData;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to convert audio format');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -655,12 +655,12 @@ export class AudioBridgeManager {
    * Destroy the Audio Bridge Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Audio Bridge Manager...');
+    console.info('AudioBridgePure', 'Destroying Audio Bridge Manager...');
 
     this.bridges.clear();
     this.isInitialized = false;
 
-    this.logger.info('Audio Bridge Manager destroyed');
+    console.info('AudioBridgePure', 'Audio Bridge Manager destroyed');
   }
 }
 

@@ -325,7 +325,7 @@ export class AdvancedInput {
    * Execute input action
    */
   private executeInputAction(action: string, input: InputData): void {
-    this.logger.info(`Executing action: ${action} for input:`, input);
+    console.info(`Executing action: ${action} for input:`, input);
     
     // In a real implementation, this would dispatch events or call callbacks
     // For now, we'll just log the action
@@ -408,7 +408,7 @@ export class AdvancedInput {
         tolerance: 50
       },
       callback: (gesture, data) => {
-        this.logger.info('Tap gesture detected:', data);
+        console.info('Tap gesture detected:', data);
       },
       enabled: true
     });
@@ -441,7 +441,7 @@ export class AdvancedInput {
         tolerance: 20
       },
       callback: (gesture, data) => {
-        this.logger.info('Swipe gesture detected:', data);
+        console.info('Swipe gesture detected:', data);
       },
       enabled: true
     });
@@ -788,27 +788,27 @@ class HapticManager {
   }
 
   private executeSingleHaptic(state: HapticState): void {
-    this.logger.info(`Executing single haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    console.info(`Executing single haptic: intensity=${state.intensity}, duration=${state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeDoubleHaptic(state: HapticState): void {
-    this.logger.info(`Executing double haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    console.info(`Executing double haptic: intensity=${state.intensity}, duration=${state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeTripleHaptic(state: HapticState): void {
-    this.logger.info(`Executing triple haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    console.info(`Executing triple haptic: intensity=${state.intensity}, duration=${state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeContinuousHaptic(state: HapticState): void {
-    this.logger.info(`Executing continuous haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    console.info(`Executing continuous haptic: intensity=${state.intensity}, duration=${state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 
   private executeCustomHaptic(state: HapticState): void {
-    this.logger.info(`Executing custom haptic: intensity=${state.intensity}, duration=${state.duration}`);
+    console.info(`Executing custom haptic: intensity=${state.intensity}, duration=${state.duration}`);
     // In a real implementation, this would trigger actual haptic feedback
   }
 }

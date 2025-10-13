@@ -47,7 +47,7 @@ function ensureDir(dir: string) { fs.mkdirSync(dir, { recursive: true }); }
 async function main() {
   const argv = process.argv.slice(2);
   if (!argv.length || argv[0] === 'help') {
-    this.logger.info('export:android --project ./docs/godot --output ./build/android --aab --keystore ./keystore.jks --alias app --ks-pass secret --key-pass secret');
+    console.info('export:android --project ./docs/godot --output ./build/android --aab --keystore ./keystore.jks --alias app --ks-pass secret --key-pass secret');
     process.exit(0);
   }
   const args = parseArgs(argv);
@@ -57,7 +57,7 @@ async function main() {
 
   const src = path.resolve(args.project);
   if (!fs.existsSync(src)) {
-    this.logger.error(`Godot project not found: ${src}`);
+    console.error(`Godot project not found: ${src}`);
     process.exit(2);
   }
 
@@ -81,8 +81,8 @@ async function main() {
     outputs,
     signing: { alias: args.alias }
   };
-  this.logger.info(JSON.stringify(result, null, 2));
+  console.info(JSON.stringify(result, null, 2));
 }
 
-main().catch(err => { this.logger.error(err); process.exit(1); });
+main().catch(err => { console.error(err); process.exit(1); });
 

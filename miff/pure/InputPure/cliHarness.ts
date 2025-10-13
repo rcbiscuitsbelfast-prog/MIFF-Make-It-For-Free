@@ -18,7 +18,7 @@ interface CLIState {
 }
 
 function printHelp(): void {
-  this.logger.info(`
+  console.info(`
 InputPure CLI - Input Management Testing
 ========================================
 
@@ -49,39 +49,39 @@ Examples:
 }
 
 function printActions(profile: InputProfile, category?: string): void {
-  this.logger.info('\n📋 Registered Actions:');
+  console.info('\n📋 Registered Actions:');
   const actions = category
     ? profile.getActionsByCategory(category)
     : Array.from(profile.getActions().values());
 
   if (actions.length === 0) {
-    this.logger.info('  No actions registered');
+    console.info('  No actions registered');
     return;
   }
 
   const categories = new Set(actions.map(a => a.category));
   for (const cat of Array.from(categories).sort()) {
-    this.logger.info(`\n  ${cat.toUpperCase()}:`);
+    console.info(`\n  ${cat.toUpperCase()}:`);
     const catActions = actions.filter(a => a.category === cat);
     catActions.forEach(action => {
       const bindings = Array.from(profile.getBindings().entries())
         .filter(([_, actionId]) => actionId === action.actionId)
         .map(([input, _]) => input);
 
-      this.logger.info(`    ${action.actionId}: ${action.defaultInput} (remappable: ${action.remappable})`);
+      console.info(`    ${action.actionId}: ${action.defaultInput} (remappable: ${action.remappable})`);
       if (bindings.length > 0) {
-        this.logger.info(`      → ${bindings.join(', ')}`);
+        console.info(`      → ${bindings.join(', ')}`);
       }
     });
   }
 }
 
 function printBindings(profile: InputProfile): void {
-  this.logger.info('\n🔗 Current Bindings:');
+  console.info('\n🔗 Current Bindings:');
   const bindings = profile.getBindings();
 
   if (bindings.size === 0) {
-    this.logger.info('  No bindings configured');
+    console.info('  No bindings configured');
     return;
   }
 
@@ -89,12 +89,12 @@ function printBindings(profile: InputProfile): void {
 
   for (const [input, actionId] of sortedBindings) {
     const action = profile.getAction(actionId);
-    this.logger.info(`  ${input} → ${actionId}${action ? ` (${action.category})` : ''}`);
+    console.info(`  ${input} → ${actionId}${action ? ` (${action.category})` : ''}`);
   }
 }
 
 function createDemoProfile(): InputProfile {
-  this.logger.info('🎮 Creating demo input profile...');
+  console.info('🎮 Creating demo input profile...');
 
   const profile = new InputProfile();
 
@@ -122,34 +122,34 @@ function createDemoProfile(): InputProfile {
   profile.registerAction(new InputAction('console', '`', true, InputCategories.DEBUG));
   profile.registerAction(new InputAction('god_mode', 'F2', false, InputCategories.DEBUG));
 
-  this.logger.info('✅ Demo profile created with actions in multiple categories');
+  console.info('✅ Demo profile created with actions in multiple categories');
   return profile;
 }
 
 function runDemo(profile: InputProfile): void {
-  this.logger.info('🎯 Running InputPure Demo...');
+  console.info('🎯 Running InputPure Demo...');
 
   // Show initial state
   printActions(profile);
   printBindings(profile);
 
   // Demonstrate rebinding
-  this.logger.info('\n🔄 Testing rebinding...');
+  console.info('\n🔄 Testing rebinding...');
   const success1 = profile.rebind('move_up', 'ArrowUp');
-  this.logger.info(`Rebind move_up to ArrowUp: ${success1 ? '✅ Success' : '❌ Failed'}`);
+  console.info(`Rebind move_up to ArrowUp: ${success1 ? '✅ Success' : '❌ Failed'}`);
 
   const success2 = profile.rebind('god_mode', 'F1'); // Should fail (not remappable)
-  this.logger.info(`Rebind god_mode to F1: ${success2 ? '✅ Success' : '❌ Failed (expected)'}`);
+  console.info(`Rebind god_mode to F1: ${success2 ? '✅ Success' : '❌ Failed (expected)'}`);
 
   printBindings(profile);
 
   // Demonstrate input testing
-  this.logger.info('\n🧪 Testing inputs...');
+  console.info('\n🧪 Testing inputs...');
   const testInputs = ['w', 'ArrowUp', 'd', 'F3', 'unknown_input'];
 
   testInputs.forEach(input => {
     const action = profile.getActionForInput(input);
-    this.logger.info(`Input '${input}' → ${action ? action.actionId : 'no action'}`);
+    console.info(`Input '${input}' → ${action ? action.actionId : 'no action'}`);
   });
 }
 
@@ -160,7 +160,7 @@ async function runCLI(): Promise<void> {
     currentCategory: InputCategories.GENERAL
   };
 
-  this.logger.info('🎮 InputPure CLI - Type "help" for commands or "demo" to see it in action\n');
+  console.info('🎮 InputPure CLI - Type "help" for commands or "demo" to see it in action\n');
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -195,62 +195,62 @@ async function runCLI(): Promise<void> {
       case 'rebind':
       case 'bind':
         if (args.length < 2) {
-          this.logger.info('❌ Usage: rebind <action> <input>');
+          console.info('❌ Usage: rebind <action> <input>');
         } else {
           const [actionId, newInput] = args;
           const success = state.profile.rebind(actionId, newInput);
-          this.logger.info(`Rebind ${actionId} to ${newInput}: ${success ? '✅ Success' : '❌ Failed'}`);
+          console.info(`Rebind ${actionId} to ${newInput}: ${success ? '✅ Success' : '❌ Failed'}`);
         }
         break;
 
       case 'test':
       case 't':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: test <input>');
+          console.info('❌ Usage: test <input>');
         } else {
           const input = args[0];
           const action = state.profile.getActionForInput(input);
-          this.logger.info(`Input '${input}' → ${action ? action.actionId + ' (' + action.category + ')' : 'no action'}`);
+          console.info(`Input '${input}' → ${action ? action.actionId + ' (' + action.category + ')' : 'no action'}`);
         }
         break;
 
       case 'add':
         if (args.length < 2) {
-          this.logger.info('❌ Usage: add <id> <input> [category]');
+          console.info('❌ Usage: add <id> <input> [category]');
         } else {
           const [actionId, defaultInput, category = state.currentCategory] = args;
           const action = new InputAction(actionId, defaultInput, true, category);
           state.profile.registerAction(action);
-          this.logger.info(`✅ Added action: ${actionId} (${category})`);
+          console.info(`✅ Added action: ${actionId} (${category})`);
         }
         break;
 
       case 'remove':
       case 'rem':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: remove <id>');
+          console.info('❌ Usage: remove <id>');
         } else {
           const actionId = args[0];
           const success = state.profile.removeAction(actionId);
-          this.logger.info(`Remove ${actionId}: ${success ? '✅ Success' : '❌ Not found'}`);
+          console.info(`Remove ${actionId}: ${success ? '✅ Success' : '❌ Not found'}`);
         }
         break;
 
       case 'category':
       case 'cat':
         if (args.length === 0) {
-          this.logger.info(`Current category: ${state.currentCategory}`);
+          console.info(`Current category: ${state.currentCategory}`);
         } else {
           state.currentCategory = args[0];
-          this.logger.info(`Set current category to: ${state.currentCategory}`);
+          console.info(`Set current category to: ${state.currentCategory}`);
         }
         break;
 
       case 'load':
       case 'preset':
         if (args.length === 0) {
-          this.logger.info('❌ Usage: load <preset>');
-          this.logger.info('Available presets: standard, movement, combat, ui, debug');
+          console.info('❌ Usage: load <preset>');
+          console.info('Available presets: standard, movement, combat, ui, debug');
         } else {
           const preset = args[0];
           state.profile.clear();
@@ -258,26 +258,26 @@ async function runCLI(): Promise<void> {
           switch (preset) {
             case 'standard':
               state.profile = InputUtils.createStandardProfile();
-              this.logger.info('✅ Loaded standard preset');
+              console.info('✅ Loaded standard preset');
               break;
             case 'movement':
               InputUtils.createMovementActions().forEach(action => state.profile.registerAction(action));
-              this.logger.info('✅ Loaded movement preset');
+              console.info('✅ Loaded movement preset');
               break;
             case 'combat':
               InputUtils.createCombatActions().forEach(action => state.profile.registerAction(action));
-              this.logger.info('✅ Loaded combat preset');
+              console.info('✅ Loaded combat preset');
               break;
             case 'ui':
               InputUtils.createUIActions().forEach(action => state.profile.registerAction(action));
-              this.logger.info('✅ Loaded UI preset');
+              console.info('✅ Loaded UI preset');
               break;
             case 'debug':
               InputUtils.createDebugActions().forEach(action => state.profile.registerAction(action));
-              this.logger.info('✅ Loaded debug preset');
+              console.info('✅ Loaded debug preset');
               break;
             default:
-              this.logger.info(`❌ Unknown preset: ${preset}`);
+              console.info(`❌ Unknown preset: ${preset}`);
           }
 
           state.mapper = new InputMapper(state.profile);
@@ -286,7 +286,7 @@ async function runCLI(): Promise<void> {
 
       case 'clear':
         state.profile.clear();
-        this.logger.info('✅ Cleared all actions and bindings');
+        console.info('✅ Cleared all actions and bindings');
         break;
 
       case 'demo':
@@ -298,13 +298,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        this.logger.info('👋 Goodbye!');
+        console.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          console.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -312,7 +312,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    this.logger.info('\n👋 Goodbye!');
+    console.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -321,7 +321,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    this.logger.error('❌ CLI Error:', error);
+    console.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

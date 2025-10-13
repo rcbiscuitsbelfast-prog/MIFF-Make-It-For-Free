@@ -335,7 +335,7 @@ export class PlayerStateManager {
     this.memoryId = `PlayerStateManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'PlayerStateManager');
 
-    this.logger.info('PlayerStateManager initialized', {
+    console.info('PlayerStateManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -473,7 +473,7 @@ export class PlayerStateManager {
     state.metadata.checksum = state.checksum;
 
     this.states.set(stateId, state);
-    this.logger.info('Player state created', { stateId, userId, sessionId });
+    console.info('Player state created', { stateId, userId, sessionId });
 
     return state;
   }
@@ -503,12 +503,12 @@ export class PlayerStateManager {
   public updatePlayerState(stateId: string, updates: Partial<PlayerStateData>): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      this.logger.warn('Player state not found', { stateId });
+      console.warn('Player state not found', { stateId });
       return false;
     }
 
     if (state.isLocked && state.lockExpiry > Date.now()) {
-      this.logger.warn('Player state is locked', { stateId, lockExpiry: state.lockExpiry });
+      console.warn('Player state is locked', { stateId, lockExpiry: state.lockExpiry });
       return false;
     }
 
@@ -516,7 +516,7 @@ export class PlayerStateManager {
     if (this.config.enableValidation) {
       const validation = this.validateStateUpdate(state, updates);
       if (!validation.passed) {
-        this.logger.warn('State update validation failed', { stateId, validation });
+        console.warn('State update validation failed', { stateId, validation });
         return false;
       }
     }
@@ -530,7 +530,7 @@ export class PlayerStateManager {
     state.checksum = this.calculateChecksum(state);
     state.metadata.checksum = state.checksum;
 
-    this.logger.debug('Player state updated', { stateId, version: state.version });
+    console.debug('Player state updated', { stateId, version: state.version });
     return true;
   }
 
@@ -540,13 +540,13 @@ export class PlayerStateManager {
   public lockPlayerState(stateId: string, duration: number = 30000): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      this.logger.warn('Player state not found', { stateId });
+      console.warn('Player state not found', { stateId });
       return false;
     }
 
     state.isLocked = true;
     state.lockExpiry = Date.now() + duration;
-    this.logger.info('Player state locked', { stateId, duration });
+    console.info('Player state locked', { stateId, duration });
     return true;
   }
 
@@ -556,13 +556,13 @@ export class PlayerStateManager {
   public unlockPlayerState(stateId: string): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      this.logger.warn('Player state not found', { stateId });
+      console.warn('Player state not found', { stateId });
       return false;
     }
 
     state.isLocked = false;
     state.lockExpiry = 0;
-    this.logger.info('Player state unlocked', { stateId });
+    console.info('Player state unlocked', { stateId });
     return true;
   }
 
@@ -572,12 +572,12 @@ export class PlayerStateManager {
   public deletePlayerState(stateId: string): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      this.logger.warn('Player state not found', { stateId });
+      console.warn('Player state not found', { stateId });
       return false;
     }
 
     this.states.delete(stateId);
-    this.logger.info('Player state deleted', { stateId, userId: state.userId });
+    console.info('Player state deleted', { stateId, userId: state.userId });
     return true;
   }
 
@@ -587,7 +587,7 @@ export class PlayerStateManager {
   public syncPlayerState(stateId: string, direction: 'upload' | 'download'): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      this.logger.warn('Player state not found', { stateId });
+      console.warn('Player state not found', { stateId });
       return false;
     }
 
@@ -613,7 +613,7 @@ export class PlayerStateManager {
       state.metadata.syncCount++;
       state.isDirty = false;
 
-      this.logger.info('Player state synced', { stateId, direction, duration: sync.duration });
+      console.info('Player state synced', { stateId, direction, duration: sync.duration });
       return true;
 
     } catch (error) {
@@ -630,7 +630,7 @@ export class PlayerStateManager {
       };
 
       this.syncs.set(syncId, sync);
-      this.logger.error('Player state sync failed', { stateId, direction, error: error.message });
+      console.error('Player state sync failed', { stateId, direction, error: error.message });
       return false;
     }
   }
@@ -740,7 +740,7 @@ export class PlayerStateManager {
    */
   public updateConfig(newConfig: Partial<PlayerStateConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    this.logger.info('PlayerStateManager configuration updated', { config: this.config });
+    console.info('PlayerStateManager configuration updated', { config: this.config });
   }
 
   /**
@@ -755,6 +755,6 @@ export class PlayerStateManager {
     }
     
     MemoryManager.unregisterObject(this.memoryId);
-    this.logger.info('PlayerStateManager destroyed');
+    console.info('PlayerStatePure', 'PlayerStateManager destroyed');
   }
 }

@@ -271,7 +271,7 @@ export class ZoneServerPure {
         this.players.set(id, next);
         simulated += 1;
       } catch (error) {
-        this.logger.error(`Error simulating player ${id}:`, error);
+        console.error(`Error simulating player ${id}:`, error);
       }
     }
 
@@ -547,7 +547,7 @@ export class ZoneServerPure {
       try {
         callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: Date.now() });
       } catch (error) {
-        this.logger.error(`Error in event listener for ${eventType}:`, error);
+        console.error(`Error in event listener for ${eventType}:`, error);
       }
     }
   }

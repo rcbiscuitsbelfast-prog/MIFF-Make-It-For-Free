@@ -110,7 +110,7 @@ export class RealCanvas {
   /**
    * Get canvas information
    */
-  getCanvas(canvasId: string): CanvasInfo | undefined {
+  getCanvas(canvasId: string): CanvasInfo! {
     return this.canvases.get(canvasId);
   }
 
@@ -180,7 +180,7 @@ export class RealCanvas {
   /**
    * Get drawing context
    */
-  getDrawingContext(canvasId: string): DrawingContext | undefined {
+  getDrawingContext(canvasId: string): DrawingContext! {
     return this.contexts.get(canvasId);
   }
 
@@ -369,7 +369,7 @@ export class RealCanvas {
   /**
    * Get active canvas
    */
-  getActiveCanvas(): CanvasInfo | undefined {
+  getActiveCanvas(): CanvasInfo! {
     for (const canvas of this.canvases.values()) {
       if (canvas.isActive) {
         return canvas;
@@ -426,7 +426,7 @@ export class RealCanvas {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
-    this.eventHandlers.get(event)!.push(handler);
+    this.eventHandlers.get(event)?.push(handler);
   }
 
   off(event: string, handler: Function): void {
@@ -446,7 +446,7 @@ export class RealCanvas {
         try {
           handler(data);
         } catch (error) {
-          this.logger.error(`Error in canvas event handler for ${event}:`, error);
+          console.error(`Error in canvas event handler for ${event}:`, error);
         }
       });
     }

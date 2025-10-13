@@ -175,7 +175,7 @@ export class ConsolidatedSchemaManager {
   /**
    * Get a schema definition
    */
-  getSchema(id: string): SchemaDefinition | undefined {
+  getSchema(id: string): SchemaDefinition! {
     return this.schemas.get(id);
   }
 

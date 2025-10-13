@@ -431,7 +431,7 @@ export class CacheManager {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    this.logger.info(`[CACHE:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    console.info(`[CACHE:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

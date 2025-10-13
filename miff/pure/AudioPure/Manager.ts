@@ -147,28 +147,28 @@ export class AudioManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Audio Manager already initialized');
+      console.warn('AudioPure', 'Audio Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Audio Manager...');
+      console.info('AudioPure', 'Initializing Audio Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Audio Manager initialized successfully');
+      console.info('AudioPure', 'Audio Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Audio Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -201,11 +201,11 @@ export class AudioManager {
       this.sources.set(source.id, source);
       this.updateAnalytics();
 
-      this.logger.info('Audio source created', { sourceId: source.id, sourceName: source.name });
+      console.info('Audio source created', { sourceId: source.id, sourceName: source.name });
       return source;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create audio source');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -232,7 +232,7 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return null;
       }
 
@@ -246,11 +246,11 @@ export class AudioManager {
       this.sources.set(sourceId, updatedSource);
       this.updateAnalytics();
 
-      this.logger.info('Audio source updated', { sourceId, sourceName: updatedSource.name });
+      console.info('Audio source updated', { sourceId, sourceName: updatedSource.name });
       return updatedSource;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update audio source');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -266,18 +266,18 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       this.sources.delete(sourceId);
       this.updateAnalytics();
 
-      this.logger.info('Audio source deleted', { sourceId, sourceName: source.name });
+      console.info('Audio source deleted', { sourceId, sourceName: source.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete audio source');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -326,18 +326,18 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       source.status = 'playing';
       this.updateAnalytics();
 
-      this.logger.debug('Audio source started playing', { sourceId, sourceName: source.name });
+      console.debug('Audio source started playing', { sourceId, sourceName: source.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to play audio source');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -353,20 +353,20 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       if (source.status === 'playing') {
         source.status = 'paused';
         this.updateAnalytics();
-        this.logger.debug('Audio source paused', { sourceId, sourceName: source.name });
+        console.debug('Audio source paused', { sourceId, sourceName: source.name });
       }
 
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to pause audio source');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -382,18 +382,18 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       source.status = 'stopped';
       this.updateAnalytics();
 
-      this.logger.debug('Audio source stopped', { sourceId, sourceName: source.name });
+      console.debug('Audio source stopped', { sourceId, sourceName: source.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to stop audio source');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -409,16 +409,16 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       source.settings.volume = Math.max(0, Math.min(1, volume));
-      this.logger.debug('Source volume set', { sourceId, volume });
+      console.debug('Source volume set', { sourceId, volume });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to set source volume');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -434,16 +434,16 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       source.settings.pitch = Math.max(0.5, Math.min(2.0, pitch));
-      this.logger.debug('Source pitch set', { sourceId, pitch });
+      console.debug('Source pitch set', { sourceId, pitch });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to set source pitch');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -459,16 +459,16 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       source.settings.pan = Math.max(-1, Math.min(1, pan));
-      this.logger.debug('Source pan set', { sourceId, pan });
+      console.debug('Source pan set', { sourceId, pan });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to set source pan');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -484,7 +484,7 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return null;
       }
 
@@ -496,11 +496,11 @@ export class AudioManager {
       source.effects.push(effect);
       this.updateAnalytics();
 
-      this.logger.info('Effect added to source', { sourceId, effectId: effect.id, effectName: effect.name });
+      console.info('Effect added to source', { sourceId, effectId: effect.id, effectName: effect.name });
       return effect;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add effect to source');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -516,24 +516,24 @@ export class AudioManager {
     try {
       const source = this.sources.get(sourceId);
       if (!source) {
-        this.logger.warn('Source not found', { sourceId });
+        console.warn('Source not found', { sourceId });
         return false;
       }
 
       const effectIndex = source.effects.findIndex(effect => effect.id === effectId);
       if (effectIndex === -1) {
-        this.logger.warn('Effect not found', { sourceId, effectId });
+        console.warn('Effect not found', { sourceId, effectId });
         return false;
       }
 
       source.effects.splice(effectIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Effect removed from source', { sourceId, effectId });
+      console.info('Effect removed from source', { sourceId, effectId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to remove effect from source');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -552,11 +552,11 @@ export class AudioManager {
       await new Promise(resolve => setTimeout(resolve, loadTime));
 
       const sourceId = this.generateSourceId();
-      this.logger.debug('Audio data loaded', { sourceId, loadTime });
+      console.debug('Audio data loaded', { sourceId, loadTime });
       return sourceId;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to load audio data');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -667,12 +667,12 @@ export class AudioManager {
    * Destroy the Audio Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Audio Manager...');
+    console.info('AudioPure', 'Destroying Audio Manager...');
 
     this.sources.clear();
     this.isInitialized = false;
 
-    this.logger.info('Audio Manager destroyed');
+    console.info('AudioPure', 'Audio Manager destroyed');
   }
 }
 

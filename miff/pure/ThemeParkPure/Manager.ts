@@ -93,28 +93,28 @@ export class ThemeParkManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('ThemeParkManager', 'initialize');
+    const timerId = console.startTimer('ThemeParkManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('ThemeParkManager', 'Manager initialized successfully', {
+      console.info('ThemeParkManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('ThemeParkManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('ThemeParkManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('ThemeParkManager', 'Failed to initialize manager', {
+      console.error('ThemeParkManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class ThemeParkManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class ThemeParkManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class ThemeParkManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('ThemeParkManager', 'Created item', {
+    console.info('ThemeParkManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class ThemeParkManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class ThemeParkManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('ThemeParkManager', 'Updated item', {
+    console.info('ThemeParkManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class ThemeParkManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('ThemeParkManager', 'Deleted item', {
+    console.info('ThemeParkManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class ThemeParkManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('ThemeParkManager', 'Initializing manager...');
+    console.debug('ThemeParkManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class ThemeParkManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('ThemeParkManager', 'Loaded default items', {
+    console.info('ThemeParkManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class ThemeParkManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('ThemeParkManager', 'Destroying manager', {
+    console.info('ThemeParkManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class ThemeParkManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

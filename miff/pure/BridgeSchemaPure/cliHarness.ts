@@ -351,17 +351,17 @@ async function main() {
   const cli = new BridgeSchemaCLI();
   
   if (process.argv.length < 3) {
-    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
-    this.logger.error('Operations: addSchema, getSchema, listSchemas, validate, convert, generate, addConversion, stats, export, clearCache');
-    this.logger.error('Examples:');
-    this.logger.error('  cliHarness.ts listSchemas');
-    this.logger.error('  cliHarness.ts listSchemas unity');
-    this.logger.error('  cliHarness.ts getSchema unity-bridge-v1');
-    this.logger.error('  cliHarness.ts validate unity-bridge-v1 data.json');
-    this.logger.error('  cliHarness.ts convert data.json unity web');
-    this.logger.error('  cliHarness.ts generate data.json my-schema "My Schema" web');
-    this.logger.error('  cliHarness.ts stats');
-    this.logger.error('  cliHarness.ts export yaml');
+    console.error('Usage: cliHarness.ts <operation> [args...]');
+    console.error('Operations: addSchema, getSchema, listSchemas, validate, convert, generate, addConversion, stats, export, clearCache');
+    console.error('Examples:');
+    console.error('  cliHarness.ts listSchemas');
+    console.error('  cliHarness.ts listSchemas unity');
+    console.error('  cliHarness.ts getSchema unity-bridge-v1');
+    console.error('  cliHarness.ts validate unity-bridge-v1 data.json');
+    console.error('  cliHarness.ts convert data.json unity web');
+    console.error('  cliHarness.ts generate data.json my-schema "My Schema" web');
+    console.error('  cliHarness.ts stats');
+    console.error('  cliHarness.ts export yaml');
     process.exit(1);
   }
 
@@ -442,9 +442,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    this.logger.error('Error:', error instanceof Error ? error.message : error);
+    console.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

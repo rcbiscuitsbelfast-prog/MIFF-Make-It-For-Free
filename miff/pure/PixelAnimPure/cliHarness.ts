@@ -481,15 +481,15 @@ async function main() {
   const cli = new PixelAnimCLI();
   
   if (process.argv.length < 3) {
-    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
-    this.logger.error('Operations: create, createFromPreset, get, list, addPreset, listPresets, createSequence, getSequence, listSequences, createSpriteSheet, simulate, stats, export, validate, delete');
-    this.logger.error('Examples:');
-    this.logger.error('  cliHarness.ts list');
-    this.logger.error('  cliHarness.ts listPresets character');
-    this.logger.error('  cliHarness.ts createFromPreset walk-basic');
-    this.logger.error('  cliHarness.ts create my-anim frame1.png,frame2.png,frame3.png 10 true');
-    this.logger.error('  cliHarness.ts simulate "Basic Walk Cycle" 3000');
-    this.logger.error('  cliHarness.ts export "Basic Walk Cycle" manifest');
+    console.error('Usage: cliHarness.ts <operation> [args...]');
+    console.error('Operations: create, createFromPreset, get, list, addPreset, listPresets, createSequence, getSequence, listSequences, createSpriteSheet, simulate, stats, export, validate, delete');
+    console.error('Examples:');
+    console.error('  cliHarness.ts list');
+    console.error('  cliHarness.ts listPresets character');
+    console.error('  cliHarness.ts createFromPreset walk-basic');
+    console.error('  cliHarness.ts create my-anim frame1.png,frame2.png,frame3.png 10 true');
+    console.error('  cliHarness.ts simulate "Basic Walk Cycle" 3000');
+    console.error('  cliHarness.ts export "Basic Walk Cycle" manifest');
     process.exit(1);
   }
 
@@ -599,9 +599,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    this.logger.info(JSON.stringify(result, null, 2));
+    console.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    this.logger.error('Error:', error instanceof Error ? error.message : error);
+    console.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

@@ -51,7 +51,7 @@ class TestInfrastructureCLI {
           break;
       }
     } catch (error) {
-      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -60,38 +60,38 @@ class TestInfrastructureCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'test-infrastructure.json';
 
-    this.logger.info(`🔍 Scanning test infrastructure in ${rootPath}...`);
+    console.info(`🔍 Scanning test infrastructure in ${rootPath}...`);
     
     const modules = await this.manager.scanTestInfrastructure(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(modules, null, 2));
     
-    this.logger.info(`✅ Scanned ${modules.length} modules`);
-    this.logger.info(`📄 Results saved to ${outputFile}`);
+    console.info(`✅ Scanned ${modules.length} modules`);
+    console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
     const stats = this.manager.getStats();
-    this.logger.info('\n📊 Test Infrastructure Summary:');
-    this.logger.info(`Total modules: ${stats.totalModules}`);
-    this.logger.info(`Modules with tests: ${stats.modulesWithTests}`);
-    this.logger.info(`Modules with mocks: ${stats.modulesWithMocks}`);
-    this.logger.info(`Total test files: ${stats.totalTestFiles}`);
-    this.logger.info(`Total mock files: ${stats.totalMockFiles}`);
+    console.info('\n📊 Test Infrastructure Summary:');
+    console.info(`Total modules: ${stats.totalModules}`);
+    console.info(`Modules with tests: ${stats.modulesWithTests}`);
+    console.info(`Modules with mocks: ${stats.modulesWithMocks}`);
+    console.info(`Total test files: ${stats.totalTestFiles}`);
+    console.info(`Total mock files: ${stats.totalMockFiles}`);
   }
 
   private async identifyMocks(args: string[]): Promise<void> {
     const outputFile = args[0] || 'mock-replacements.json';
 
-    this.logger.info('🔍 Identifying mock replacements...');
+    console.info('🔍 Identifying mock replacements...');
     
     const replacements = await this.manager.identifyMockReplacements();
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(replacements, null, 2));
     
-    this.logger.info(`✅ Identified ${replacements.length} mock replacements`);
-    this.logger.info(`📄 Results saved to ${outputFile}`);
+    console.info(`✅ Identified ${replacements.length} mock replacements`);
+    console.info(`📄 Results saved to ${outputFile}`);
 
     // Show breakdown by priority
     const critical = replacements.filter(r => r.priority === 'critical');
@@ -99,16 +99,16 @@ class TestInfrastructureCLI {
     const medium = replacements.filter(r => r.priority === 'medium');
     const low = replacements.filter(r => r.priority === 'low');
 
-    this.logger.info('\n📊 Mock Replacements by Priority:');
-    this.logger.info(`Critical: ${critical.length}`);
-    this.logger.info(`High: ${high.length}`);
-    this.logger.info(`Medium: ${medium.length}`);
-    this.logger.info(`Low: ${low.length}`);
+    console.info('\n📊 Mock Replacements by Priority:');
+    console.info(`Critical: ${critical.length}`);
+    console.info(`High: ${high.length}`);
+    console.info(`Medium: ${medium.length}`);
+    console.info(`Low: ${low.length}`);
 
     if (critical.length > 0) {
-      this.logger.info('\n🚨 Critical Mock Replacements:');
+      console.info('\n🚨 Critical Mock Replacements:');
       critical.forEach(replacement => {
-        this.logger.info(`  ${replacement.id}: ${replacement.description}`);
+        console.info(`  ${replacement.id}: ${replacement.description}`);
       });
     }
   }
@@ -116,28 +116,28 @@ class TestInfrastructureCLI {
   private async generateCoverage(args: string[]): Promise<void> {
     const outputFile = args[0] || 'test-coverage.json';
 
-    this.logger.info('📊 Generating test coverage report...');
+    console.info('📊 Generating test coverage report...');
     
     const coverage = await this.manager.generateTestCoverage();
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(coverage, null, 2));
     
-    this.logger.info(`✅ Generated coverage for ${coverage.length} modules`);
-    this.logger.info(`📄 Results saved to ${outputFile}`);
+    console.info(`✅ Generated coverage for ${coverage.length} modules`);
+    console.info(`📄 Results saved to ${outputFile}`);
 
     // Show coverage summary
     const avgCoverage = coverage.reduce((sum, c) => sum + c.coveragePercentage, 0) / coverage.length;
     const lowCoverage = coverage.filter(c => c.coveragePercentage < 70);
 
-    this.logger.info('\n📊 Coverage Summary:');
-    this.logger.info(`Average coverage: ${avgCoverage.toFixed(1)}%`);
-    this.logger.info(`Low coverage modules: ${lowCoverage.length}`);
+    console.info('\n📊 Coverage Summary:');
+    console.info(`Average coverage: ${avgCoverage.toFixed(1)}%`);
+    console.info(`Low coverage modules: ${lowCoverage.length}`);
 
     if (lowCoverage.length > 0) {
-      this.logger.info('\n⚠️ Low Coverage Modules:');
+      console.info('\n⚠️ Low Coverage Modules:');
       lowCoverage.forEach(module => {
-        this.logger.info(`  ${module.module}: ${module.coveragePercentage}%`);
+        console.info(`  ${module.module}: ${module.coveragePercentage}%`);
       });
     }
   }
@@ -145,30 +145,30 @@ class TestInfrastructureCLI {
   private async assessQuality(args: string[]): Promise<void> {
     const outputFile = args[0] || 'test-quality.json';
 
-    this.logger.info('🧪 Assessing test quality...');
+    console.info('🧪 Assessing test quality...');
     
     const quality = await this.manager.assessTestQuality();
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(quality, null, 2));
     
-    this.logger.info(`✅ Assessed quality for ${quality.length} modules`);
-    this.logger.info(`📄 Results saved to ${outputFile}`);
+    console.info(`✅ Assessed quality for ${quality.length} modules`);
+    console.info(`📄 Results saved to ${outputFile}`);
 
     // Show quality summary
     const avgQuality = quality.reduce((sum, q) => sum + q.mutationScore, 0) / quality.length;
     const lowQuality = quality.filter(q => q.mutationScore < 70);
 
-    this.logger.info('\n📊 Quality Summary:');
-    this.logger.info(`Average mutation score: ${avgQuality.toFixed(1)}%`);
-    this.logger.info(`Low quality modules: ${lowQuality.length}`);
+    console.info('\n📊 Quality Summary:');
+    console.info(`Average mutation score: ${avgQuality.toFixed(1)}%`);
+    console.info(`Low quality modules: ${lowQuality.length}`);
 
     if (lowQuality.length > 0) {
-      this.logger.info('\n⚠️ Low Quality Modules:');
+      console.info('\n⚠️ Low Quality Modules:');
       lowQuality.forEach(module => {
-        this.logger.info(`  ${module.module}: ${module.mutationScore}%`);
+        console.info(`  ${module.module}: ${module.mutationScore}%`);
         if (module.recommendations.length > 0) {
-          this.logger.info(`    Recommendations: ${module.recommendations.join(', ')}`);
+          console.info(`    Recommendations: ${module.recommendations.join(', ')}`);
         }
       });
     }
@@ -177,25 +177,25 @@ class TestInfrastructureCLI {
   private async replaceMocks(args: string[]): Promise<void> {
     const priority = args[0] || 'critical';
 
-    this.logger.info(`🔄 Replacing ${priority} priority mocks...`);
+    console.info(`🔄 Replacing ${priority} priority mocks...`);
     
     await this.manager.replaceCriticalMocks();
     
     const stats = this.manager.getStats();
-    this.logger.info(`✅ Completed ${stats.completedReplacements} mock replacements`);
-    this.logger.info(`📊 Remaining critical mocks: ${stats.criticalMocks}`);
+    console.info(`✅ Completed ${stats.completedReplacements} mock replacements`);
+    console.info(`📊 Remaining critical mocks: ${stats.criticalMocks}`);
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'test-infrastructure-report.html';
 
-    this.logger.info('📄 Generating comprehensive test infrastructure report...');
+    console.info('📄 Generating comprehensive test infrastructure report...');
     
     const report = this.manager.generateReport();
     const html = this.generateHTMLReport(report);
 
     fs.writeFileSync(outputFile, html);
-    this.logger.info(`📄 HTML report generated: ${outputFile}`);
+    console.info(`📄 HTML report generated: ${outputFile}`);
   }
 
   private generateHTMLReport(report: string): string {
@@ -263,7 +263,7 @@ class TestInfrastructureCLI {
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 🧪 MIFF Test Infrastructure CLI
 
 Usage: tsx testInfrastructureCLI.ts <command> [options]

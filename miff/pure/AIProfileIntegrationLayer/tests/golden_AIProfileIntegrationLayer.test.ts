@@ -25,7 +25,7 @@ describe('AIProfileIntegrationLayer Golden', () => {
 
     const decision = ai.makeDecision('p1', 'enemies_present', actions);
     expect(decision).toBeTruthy();
-    expect(decision!.chosenAction.type).toBe('attack');
+    expect(decision?.chosenAction.type).toBe('attack');
 
     const integrated = ai.integrateWithGameplay('p1', { health: 0.9, enemies: ['e1'], allies: [] });
     expect(integrated?.status).toBe('success');
@@ -34,7 +34,7 @@ describe('AIProfileIntegrationLayer Golden', () => {
     ai.recordLearning('p1', {
       profileId: 'p1',
       situation: 'combat',
-      action: decision!.chosenAction,
+      action: decision?.chosenAction,
       outcome: 'success',
       feedback: 0.5,
       timestamp: Date.now(),

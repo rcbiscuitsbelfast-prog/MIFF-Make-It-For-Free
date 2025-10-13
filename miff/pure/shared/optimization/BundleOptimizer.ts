@@ -317,7 +317,7 @@ export class BundleOptimizer {
 
     // Mark all exports as used (simplified - real implementation would be more complex)
     analysis.exports.forEach(exportName => {
-      usedExports.get(modulePath)!.add(exportName);
+      usedExports.get(modulePath)?.add(exportName);
     });
 
     // Recursively mark dependencies
@@ -551,7 +551,7 @@ export class BundleOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    this.logger.info(`[BUNDLEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    console.info(`[BUNDLEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 }
 

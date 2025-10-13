@@ -418,7 +418,7 @@ export class TestRunner {
       });
       
       if (stderr) {
-        this.logger.warn('Jest stderr:', stderr);
+        console.warn('Jest stderr:', stderr);
       }
       
       return stdout;
@@ -505,7 +505,7 @@ export class TestRunner {
       
       return results;
     } catch (error: unknown) {
-      this.logger.error('Error parsing Jest results:', error);
+      console.error('Error parsing Jest results:', error);
       return [];
     }
   }

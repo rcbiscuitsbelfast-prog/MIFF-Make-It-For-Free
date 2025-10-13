@@ -223,7 +223,7 @@ export class RenderWorldWebBridge {
     this.gl.compileShader(shader);
 
     if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
-      this.logger.error('Shader compilation error: ' + this.gl.getShaderInfoLog(shader));
+      console.error('Shader compilation error: ' + this.gl.getShaderInfoLog(shader));
       this.gl.deleteShader(shader);
       return null;
     }

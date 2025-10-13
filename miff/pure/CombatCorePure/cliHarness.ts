@@ -27,6 +27,6 @@ function main(){
     else if(c.op==='simulate') outputs.push(mgr.simulate(c.attackerId, c.defenderId));
     else if(c.op==='dump') { const e=mgr.get(c.id); outputs.push(e? {op:'dump', id:e.id, hp:e.hp} : {op:'dump', id:c.id, missing:true}); }
   }
-  this.logger.info(JSON.stringify({outputs}, null, 2));
+  console.info(JSON.stringify({outputs}, null, 2));
 }
 if(import.meta.url === `file://${process.argv[1]}`) main();

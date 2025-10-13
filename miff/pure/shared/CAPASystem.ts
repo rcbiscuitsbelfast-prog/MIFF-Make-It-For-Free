@@ -325,7 +325,7 @@ export class CAPAManager {
     const resolvedEntries = entries.filter(e => e.resolvedAt);
     if (resolvedEntries.length > 0) {
       const totalTime = resolvedEntries.reduce((sum, entry) => {
-        const resolutionTime = entry.resolvedAt!.getTime() - entry.discoveredAt.getTime();
+        const resolutionTime = entry.resolvedAt?.getTime() - entry.discoveredAt.getTime();
         return sum + (resolutionTime / (1000 * 60 * 60 * 24)); // Convert to days
       }, 0);
       this.registry.metrics.averageResolutionTime = totalTime / resolvedEntries.length;

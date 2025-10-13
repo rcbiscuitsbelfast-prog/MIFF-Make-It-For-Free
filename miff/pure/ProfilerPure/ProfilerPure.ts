@@ -207,7 +207,7 @@ export class Profiler {
   }
 
   // Utility Methods
-  getCurrentFrame(): ProfilerFrame | undefined {
+  getCurrentFrame(): ProfilerFrame! {
     return this.currentFrame;
   }
 
@@ -282,7 +282,7 @@ export class Profiler {
             break;
         }
       } catch (error) {
-        this.logger.error('[ProfilerPure] Observer error:', error);
+        console.error('[ProfilerPure] Observer error:', error);
       }
     });
   }

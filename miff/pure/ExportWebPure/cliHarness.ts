@@ -26,7 +26,7 @@ function parseArgs(argv: string[]): WebExportOptions {
 function main() {
   const opts = parseArgs(process.argv);
   const projectPath = path.resolve(process.cwd(), opts.project);
-  this.logger.info(JSON.stringify({
+  console.info(JSON.stringify({
     log: [
       `ExportWebPure: project=${projectPath}`,
       `output=${path.resolve(process.cwd(), opts.output)}`,

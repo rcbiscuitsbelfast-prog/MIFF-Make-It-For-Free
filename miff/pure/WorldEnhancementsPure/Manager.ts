@@ -93,28 +93,28 @@ export class WorldEnhancementsManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('WorldEnhancementsManager', 'initialize');
+    const timerId = console.startTimer('WorldEnhancementsManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('WorldEnhancementsManager', 'Manager initialized successfully', {
+      console.info('WorldEnhancementsManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('WorldEnhancementsManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('WorldEnhancementsManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('WorldEnhancementsManager', 'Failed to initialize manager', {
+      console.error('WorldEnhancementsManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class WorldEnhancementsManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class WorldEnhancementsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class WorldEnhancementsManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('WorldEnhancementsManager', 'Created item', {
+    console.info('WorldEnhancementsManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class WorldEnhancementsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class WorldEnhancementsManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('WorldEnhancementsManager', 'Updated item', {
+    console.info('WorldEnhancementsManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class WorldEnhancementsManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('WorldEnhancementsManager', 'Deleted item', {
+    console.info('WorldEnhancementsManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class WorldEnhancementsManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('WorldEnhancementsManager', 'Initializing manager...');
+    console.debug('WorldEnhancementsManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class WorldEnhancementsManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('WorldEnhancementsManager', 'Loaded default items', {
+    console.info('WorldEnhancementsManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class WorldEnhancementsManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('WorldEnhancementsManager', 'Destroying manager', {
+    console.info('WorldEnhancementsManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class WorldEnhancementsManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

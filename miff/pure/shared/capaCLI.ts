@@ -35,7 +35,7 @@ class CAPACLI {
           try {
             await this.listEntries(args.slice(1));
           } catch (error) {
-            this.logger.error('Error listing entries:', error);
+            console.error('Error listing entries:', error);
             // Don't exit with error for list command
           }
           break;
@@ -60,7 +60,7 @@ class CAPACLI {
           break;
       }
     } catch (error) {
-      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -95,30 +95,30 @@ class CAPACLI {
     const entries = this.registry.getEntries(filter);
     
     if (entries.length === 0) {
-      this.logger.info('📝 No CAPA entries found matching criteria');
+      console.info('📝 No CAPA entries found matching criteria');
       return;
     }
 
-    this.logger.info(`📝 Found ${entries.length} CAPA entries:\n`);
+    console.info(`📝 Found ${entries.length} CAPA entries:\n`);
     
     for (const entry of entries) {
       const statusIcon = this.getStatusIcon(entry.status);
       const severityIcon = this.getSeverityIcon(entry.severity);
       
-      this.logger.info(`${statusIcon} ${severityIcon} ${entry.id}: ${entry.title}`);
-      this.logger.info(`   Category: ${entry.category} | Modules: ${entry.relatedModules.join(', ')}`);
-      this.logger.info(`   Discovered: ${entry.discoveredAt.toISOString().split('T')[0]}`);
+      console.info(`${statusIcon} ${severityIcon} ${entry.id}: ${entry.title}`);
+      console.info(`   Category: ${entry.category} | Modules: ${entry.relatedModules.join(', ')}`);
+      console.info(`   Discovered: ${entry.discoveredAt.toISOString().split('T')[0]}`);
       if (entry.assignedTo) {
-        this.logger.info(`   Assigned to: ${entry.assignedTo}`);
+        console.info(`   Assigned to: ${entry.assignedTo}`);
       }
-      this.logger.info('');
+      console.info('');
     }
   }
 
   private async createEntry(args: string[]): Promise<void> {
     if (args.length < 2) {
-      this.logger.error('❌ Usage: create <title> <description> [options]');
-      this.logger.error('   Options: --category <category> --severity <severity> --module <module>');
+      console.error('❌ Usage: create <title> <description> [options]');
+      console.error('   Options: --category <category> --severity <severity> --module <module>');
       return;
     }
 
@@ -175,15 +175,15 @@ class CAPACLI {
     }
 
     const created = await this.registry.createEntry(entry);
-    this.logger.info(`✅ Created CAPA entry: ${created.id}`);
-    this.logger.info(`   Title: ${created.title}`);
-    this.logger.info(`   Severity: ${created.severity}`);
-    this.logger.info(`   Category: ${created.category}`);
+    console.info(`✅ Created CAPA entry: ${created.id}`);
+    console.info(`   Title: ${created.title}`);
+    console.info(`   Severity: ${created.severity}`);
+    console.info(`   Category: ${created.category}`);
   }
 
   private async updateEntry(args: string[]): Promise<void> {
     if (args.length < 3) {
-      this.logger.error('❌ Usage: update <id> <status> [resolution]');
+      console.error('❌ Usage: update <id> <status> [resolution]');
       return;
     }
 
@@ -194,15 +194,15 @@ class CAPACLI {
     const success = await this.registry.updateStatus(id, status, resolution);
     
     if (success) {
-      this.logger.info(`✅ Updated CAPA entry ${id} to ${status}`);
+      console.info(`✅ Updated CAPA entry ${id} to ${status}`);
     } else {
-      this.logger.error(`❌ Failed to update CAPA entry ${id}`);
+      console.error(`❌ Failed to update CAPA entry ${id}`);
     }
   }
 
   private async showEntry(args: string[]): Promise<void> {
     if (args.length < 1) {
-      this.logger.error('❌ Usage: show <id>');
+      console.error('❌ Usage: show <id>');
       return;
     }
 
@@ -211,63 +211,63 @@ class CAPACLI {
     const entry = entries.find(e => e.id === id);
 
     if (!entry) {
-      this.logger.error(`❌ CAPA entry not found: ${id}`);
+      console.error(`❌ CAPA entry not found: ${id}`);
       return;
     }
 
-    this.logger.info(`# ${entry.id}: ${entry.title}\n`);
-    this.logger.info(`**Description:** ${entry.description}\n`);
-    this.logger.info(`**Category:** ${entry.category}`);
-    this.logger.info(`**Severity:** ${entry.severity}`);
-    this.logger.info(`**Status:** ${entry.status}`);
-    this.logger.info(`**Discovered:** ${entry.discoveredAt.toISOString()}`);
+    console.info(`# ${entry.id}: ${entry.title}\n`);
+    console.info(`**Description:** ${entry.description}\n`);
+    console.info(`**Category:** ${entry.category}`);
+    console.info(`**Severity:** ${entry.severity}`);
+    console.info(`**Status:** ${entry.status}`);
+    console.info(`**Discovered:** ${entry.discoveredAt.toISOString()}`);
     if (entry.resolvedAt) {
-      this.logger.info(`**Resolved:** ${entry.resolvedAt.toISOString()}`);
+      console.info(`**Resolved:** ${entry.resolvedAt.toISOString()}`);
     }
     if (entry.assignedTo) {
-      this.logger.info(`**Assigned to:** ${entry.assignedTo}`);
+      console.info(`**Assigned to:** ${entry.assignedTo}`);
     }
-    this.logger.info(`**Modules:** ${entry.relatedModules.join(', ')}`);
-    this.logger.info(`**Tags:** ${entry.tags.join(', ')}`);
-    this.logger.info(`**CI Blocking:** ${entry.ciBlocking ? 'Yes' : 'No'}`);
-    this.logger.info(`**PR Required:** ${entry.prRequired ? 'Yes' : 'No'}\n`);
+    console.info(`**Modules:** ${entry.relatedModules.join(', ')}`);
+    console.info(`**Tags:** ${entry.tags.join(', ')}`);
+    console.info(`**CI Blocking:** ${entry.ciBlocking ? 'Yes' : 'No'}`);
+    console.info(`**PR Required:** ${entry.prRequired ? 'Yes' : 'No'}\n`);
 
-    this.logger.info(`**Impact:**`);
-    this.logger.info(`- Modules Affected: ${entry.impact.modulesAffected.join(', ')}`);
-    this.logger.info(`- Users Affected: ${entry.impact.usersAffected.join(', ')}`);
-    this.logger.info(`- Business Impact: ${entry.impact.businessImpact}`);
-    this.logger.info(`- Technical Debt: ${entry.impact.technicalDebt}/10`);
-    this.logger.info(`- Risk Level: ${entry.impact.riskLevel}\n`);
+    console.info(`**Impact:**`);
+    console.info(`- Modules Affected: ${entry.impact.modulesAffected.join(', ')}`);
+    console.info(`- Users Affected: ${entry.impact.usersAffected.join(', ')}`);
+    console.info(`- Business Impact: ${entry.impact.businessImpact}`);
+    console.info(`- Technical Debt: ${entry.impact.technicalDebt}/10`);
+    console.info(`- Risk Level: ${entry.impact.riskLevel}\n`);
 
     if (entry.correctiveActions.length > 0) {
-      this.logger.info(`**Corrective Actions:**`);
+      console.info(`**Corrective Actions:**`);
       for (const action of entry.correctiveActions) {
-        this.logger.info(`- ${action.description} (${action.status})`);
+        console.info(`- ${action.description} (${action.status})`);
       }
-      this.logger.info('');
+      console.info('');
     }
 
     if (entry.preventiveActions.length > 0) {
-      this.logger.info(`**Preventive Actions:**`);
+      console.info(`**Preventive Actions:**`);
       for (const action of entry.preventiveActions) {
-        this.logger.info(`- ${action.description} (${action.status})`);
+        console.info(`- ${action.description} (${action.status})`);
       }
-      this.logger.info('');
+      console.info('');
     }
 
     if (entry.resolution) {
-      this.logger.info(`**Resolution:** ${entry.resolution}\n`);
+      console.info(`**Resolution:** ${entry.resolution}\n`);
     }
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const report = this.registry.generateReport();
-    this.logger.info(report);
+    console.info(report);
   }
 
   private async checkPR(args: string[]): Promise<void> {
     if (args.length < 1) {
-      this.logger.error('❌ Usage: check <module> [changes...]');
+      console.error('❌ Usage: check <module> [changes...]');
       return;
     }
 
@@ -277,22 +277,22 @@ class CAPACLI {
     const result = this.registry.shouldBlockPR(module, changes);
     
     if (result.blocked) {
-      this.logger.info('🚫 PR should be BLOCKED');
-      this.logger.info('Reasons:');
+      console.info('🚫 PR should be BLOCKED');
+      console.info('Reasons:');
       for (const reason of result.reasons) {
-        this.logger.info(`  - ${reason}`);
+        console.info(`  - ${reason}`);
       }
     } else {
-      this.logger.info('✅ PR can proceed');
+      console.info('✅ PR can proceed');
     }
 
     // Generate impact statement
     const impactStatement = this.registry.generateImpactStatement(module, changes);
-    this.logger.info('\n' + impactStatement);
+    console.info('\n' + impactStatement);
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 🛡️ CAPA CLI Tool
 
 Usage: tsx capaCLI.ts <command> [options]
@@ -368,7 +368,7 @@ Examples:
 if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new CAPACLI();
   cli.run().catch((error) => {
-    this.logger.error('CAPA CLI Error:', error);
+    console.error('CAPA CLI Error:', error);
     // Only exit with code 1 for non-list commands
     if (process.argv[2] !== 'list') {
       process.exit(1);

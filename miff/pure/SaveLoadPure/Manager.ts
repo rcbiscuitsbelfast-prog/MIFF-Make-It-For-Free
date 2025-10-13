@@ -93,28 +93,28 @@ export class SaveLoadManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('SaveLoadManager', 'initialize');
+    const timerId = console.startTimer('SaveLoadManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('SaveLoadManager', 'Manager initialized successfully', {
+      console.info('SaveLoadManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('SaveLoadManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('SaveLoadManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('SaveLoadManager', 'Failed to initialize manager', {
+      console.error('SaveLoadManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class SaveLoadManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class SaveLoadManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class SaveLoadManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('SaveLoadManager', 'Created item', {
+    console.info('SaveLoadManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class SaveLoadManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class SaveLoadManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('SaveLoadManager', 'Updated item', {
+    console.info('SaveLoadManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class SaveLoadManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('SaveLoadManager', 'Deleted item', {
+    console.info('SaveLoadManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class SaveLoadManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('SaveLoadManager', 'Initializing manager...');
+    console.debug('SaveLoadManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class SaveLoadManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('SaveLoadManager', 'Loaded default items', {
+    console.info('SaveLoadManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class SaveLoadManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('SaveLoadManager', 'Destroying manager', {
+    console.info('SaveLoadManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class SaveLoadManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 

@@ -121,28 +121,28 @@ export class AssetValidatorManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Asset Validator Manager already initialized');
+      console.warn('AssetValidatorPure', 'Asset Validator Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Asset Validator Manager...');
+      console.info('AssetValidatorPure', 'Initializing Asset Validator Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Asset Validator Manager initialized successfully');
+      console.info('AssetValidatorPure', 'Asset Validator Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Asset Validator Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -175,11 +175,11 @@ export class AssetValidatorManager {
       this.validators.set(validator.id, validator);
       this.updateAnalytics();
 
-      this.logger.info('Asset validator created', { validatorId: validator.id, validatorName: validator.name });
+      console.info('Asset validator created', { validatorId: validator.id, validatorName: validator.name });
       return validator;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create asset validator');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -206,7 +206,7 @@ export class AssetValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return null;
       }
 
@@ -220,11 +220,11 @@ export class AssetValidatorManager {
       this.validators.set(validatorId, updatedValidator);
       this.updateAnalytics();
 
-      this.logger.info('Asset validator updated', { validatorId, validatorName: updatedValidator.name });
+      console.info('Asset validator updated', { validatorId, validatorName: updatedValidator.name });
       return updatedValidator;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update asset validator');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -240,18 +240,18 @@ export class AssetValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return false;
       }
 
       this.validators.delete(validatorId);
       this.updateAnalytics();
 
-      this.logger.info('Asset validator deleted', { validatorId, validatorName: validator.name });
+      console.info('Asset validator deleted', { validatorId, validatorName: validator.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete asset validator');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -300,7 +300,7 @@ export class AssetValidatorManager {
     try {
       const validator = this.validators.get(validatorId);
       if (!validator) {
-        this.logger.warn('Validator not found', { validatorId });
+        console.warn('Validator not found', { validatorId });
         return [];
       }
 
@@ -331,7 +331,7 @@ export class AssetValidatorManager {
       validator.analytics.successfulValidations += successfulResults;
       validator.analytics.failedValidations += failedResults;
 
-      this.logger.debug('Asset validation completed', { 
+      console.debug('Asset validation completed', { 
         validatorId, 
         assetId, 
         validationTime, 
@@ -341,7 +341,7 @@ export class AssetValidatorManager {
       return results;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to validate asset');
+      this.errorHandler.handleError($1);
       return [];
     }
   }
@@ -404,7 +404,7 @@ export class AssetValidatorManager {
       };
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to run validation rule');
+      this.errorHandler.handleError($1);
       return {
         id: this.generateResultId(),
         assetId,
@@ -593,12 +593,12 @@ export class AssetValidatorManager {
    * Destroy the Asset Validator Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Asset Validator Manager...');
+    console.info('AssetValidatorPure', 'Destroying Asset Validator Manager...');
 
     this.validators.clear();
     this.isInitialized = false;
 
-    this.logger.info('Asset Validator Manager destroyed');
+    console.info('AssetValidatorPure', 'Asset Validator Manager destroyed');
   }
 }
 

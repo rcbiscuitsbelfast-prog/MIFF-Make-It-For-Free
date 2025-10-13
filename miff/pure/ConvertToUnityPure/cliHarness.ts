@@ -7,7 +7,7 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function printUsage(){
-  this.logger.info(`
+  console.info(`
 ConvertToUnityPure CLI
 
 Usage:
@@ -24,7 +24,7 @@ function main(){
   const payload = SafeJSONParser.parse(fs.readFileSync(path.resolve(file), 'utf-8'));
   const mgr = new ConvertToUnityManager();
   const out = mgr.convert(payload);
-  this.logger.info(JSON.stringify(out, null, 2));
+  console.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

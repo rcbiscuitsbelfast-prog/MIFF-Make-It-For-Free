@@ -60,7 +60,7 @@ class ProductionCLI {
           break;
       }
     } catch (error) {
-      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
+      console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -68,49 +68,49 @@ class ProductionCLI {
   private async assessReadiness(args: string[]): Promise<void> {
     const outputFile = args[0] || 'production-readiness-report.json';
 
-    this.logger.info('🔍 Assessing production readiness...');
+    console.info('🔍 Assessing production readiness...');
     
     const report = await this.manager.assessProductionReadiness();
     
     // Save report to file
     fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
     
-    this.logger.info('✅ Production readiness assessment completed');
-    this.logger.info(`📄 Report saved to ${outputFile}`);
+    console.info('✅ Production readiness assessment completed');
+    console.info(`📄 Report saved to ${outputFile}`);
 
     // Display summary
-    this.logger.info('\n📊 Production Readiness Summary:');
-    this.logger.info(`Overall Score: ${report.overallScore}/100`);
-    this.logger.info(`Readiness Level: ${report.readinessLevel}`);
-    this.logger.info(`Total Checks: ${report.checks.length}`);
-    this.logger.info(`Passed Checks: ${report.checks.filter(c => c.status === 'pass').length}`);
-    this.logger.info(`Failed Checks: ${report.checks.filter(c => c.status === 'fail').length}`);
-    this.logger.info(`Warning Checks: ${report.checks.filter(c => c.status === 'warning').length}`);
+    console.info('\n📊 Production Readiness Summary:');
+    console.info(`Overall Score: ${report.overallScore}/100`);
+    console.info(`Readiness Level: ${report.readinessLevel}`);
+    console.info(`Total Checks: ${report.checks.length}`);
+    console.info(`Passed Checks: ${report.checks.filter(c => c.status === 'pass').length}`);
+    console.info(`Failed Checks: ${report.checks.filter(c => c.status === 'fail').length}`);
+    console.info(`Warning Checks: ${report.checks.filter(c => c.status === 'warning').length}`);
 
     // Show critical issues
     if (report.criticalIssues.length > 0) {
-      this.logger.info('\n🚨 Critical Issues:');
+      console.info('\n🚨 Critical Issues:');
       report.criticalIssues.forEach(issue => {
-        this.logger.info(`  - ${issue}`);
+        console.info(`  - ${issue}`);
       });
     }
 
     // Show recommendations
     if (report.recommendations.length > 0) {
-      this.logger.info('\n💡 Recommendations:');
+      console.info('\n💡 Recommendations:');
       report.recommendations.slice(0, 5).forEach(rec => {
-        this.logger.info(`  - ${rec}`);
+        console.info(`  - ${rec}`);
       });
       if (report.recommendations.length > 5) {
-        this.logger.info(`  ... and ${report.recommendations.length - 5} more`);
+        console.info(`  ... and ${report.recommendations.length - 5} more`);
       }
     }
 
     // Show next steps
     if (report.nextSteps.length > 0) {
-      this.logger.info('\n🎯 Next Steps:');
+      console.info('\n🎯 Next Steps:');
       report.nextSteps.forEach(step => {
-        this.logger.info(`  - ${step}`);
+        console.info(`  - ${step}`);
       });
     }
   }
@@ -118,18 +118,18 @@ class ProductionCLI {
   private async setupPipeline(args: string[]): Promise<void> {
     const outputFile = args[0] || 'deployment-pipeline-config.json';
 
-    this.logger.info('🚀 Setting up deployment pipeline...');
+    console.info('🚀 Setting up deployment pipeline...');
     
     await this.manager.setupDeploymentPipeline();
     
-    this.logger.info('✅ Deployment pipeline setup completed');
-    this.logger.info(`📄 Configuration saved to ${outputFile}`);
+    console.info('✅ Deployment pipeline setup completed');
+    console.info(`📄 Configuration saved to ${outputFile}`);
 
     // Show pipeline status
     const pipelines = this.manager.getDeploymentPipelines();
-    this.logger.info('\n📊 Deployment Pipelines:');
+    console.info('\n📊 Deployment Pipelines:');
     pipelines.forEach(pipeline => {
-      this.logger.info(`  ${pipeline.name}: ${pipeline.status} (${pipeline.successRate.toFixed(1)}% success rate)`);
+      console.info(`  ${pipeline.name}: ${pipeline.status} (${pipeline.successRate.toFixed(1)}% success rate)`);
     });
   }
 
@@ -137,114 +137,114 @@ class ProductionCLI {
     const environment = args[0] || 'production';
     const outputFile = args[1] || `${environment}-config.json`;
 
-    this.logger.info(`⚙️ Configuring ${environment} environment...`);
+    console.info(`⚙️ Configuring ${environment} environment...`);
     
     await this.manager.configureProductionEnvironment();
     
-    this.logger.info(`✅ ${environment} environment configuration completed`);
-    this.logger.info(`📄 Configuration saved to ${outputFile}`);
+    console.info(`✅ ${environment} environment configuration completed`);
+    console.info(`📄 Configuration saved to ${outputFile}`);
 
     // Show environment status
     const environments = this.manager.getDeploymentEnvironments();
-    this.logger.info('\n📊 Deployment Environments:');
+    console.info('\n📊 Deployment Environments:');
     environments.forEach(env => {
-      this.logger.info(`  ${env.name} (${env.type}): ${env.status} - ${env.url}`);
+      console.info(`  ${env.name} (${env.type}): ${env.status} - ${env.url}`);
     });
   }
 
   private async setupMonitoring(args: string[]): Promise<void> {
     const outputFile = args[0] || 'monitoring-config.json';
 
-    this.logger.info('📊 Setting up monitoring and alerting...');
+    console.info('📊 Setting up monitoring and alerting...');
     
     await this.manager.setupMonitoringAndAlerting();
     
-    this.logger.info('✅ Monitoring and alerting setup completed');
-    this.logger.info(`📄 Configuration saved to ${outputFile}`);
+    console.info('✅ Monitoring and alerting setup completed');
+    console.info(`📄 Configuration saved to ${outputFile}`);
 
-    this.logger.info('\n📊 Monitoring Features:');
-    this.logger.info('  - Application performance monitoring');
-    this.logger.info('  - Infrastructure monitoring');
-    this.logger.info('  - Error tracking and alerting');
-    this.logger.info('  - Custom dashboards');
-    this.logger.info('  - Log aggregation and analysis');
+    console.info('\n📊 Monitoring Features:');
+    console.info('  - Application performance monitoring');
+    console.info('  - Infrastructure monitoring');
+    console.info('  - Error tracking and alerting');
+    console.info('  - Custom dashboards');
+    console.info('  - Log aggregation and analysis');
   }
 
   private async performSecurityAudit(args: string[]): Promise<void> {
     const outputFile = args[0] || 'security-audit-report.json';
 
-    this.logger.info('🔒 Performing security audit...');
+    console.info('🔒 Performing security audit...');
     
     await this.manager.performSecurityAudit();
     
-    this.logger.info('✅ Security audit completed');
-    this.logger.info(`📄 Report saved to ${outputFile}`);
+    console.info('✅ Security audit completed');
+    console.info(`📄 Report saved to ${outputFile}`);
 
-    this.logger.info('\n🔒 Security Audit Results:');
-    this.logger.info('  - Vulnerability scanning completed');
-    this.logger.info('  - Security configurations validated');
-    this.logger.info('  - Authentication and authorization checked');
-    this.logger.info('  - Encryption and data protection verified');
+    console.info('\n🔒 Security Audit Results:');
+    console.info('  - Vulnerability scanning completed');
+    console.info('  - Security configurations validated');
+    console.info('  - Authentication and authorization checked');
+    console.info('  - Encryption and data protection verified');
   }
 
   private async listEnvironments(args: string[]): Promise<void> {
     const outputFile = args[0];
 
-    this.logger.info('🌐 Listing deployment environments...');
+    console.info('🌐 Listing deployment environments...');
     
     const environments = this.manager.getDeploymentEnvironments();
     
-    this.logger.info(`\n📊 Deployment Environments (${environments.length}):`);
+    console.info(`\n📊 Deployment Environments (${environments.length}):`);
     environments.forEach(env => {
-      this.logger.info(`\n${env.name} (${env.type})`);
-      this.logger.info(`  Status: ${env.status}`);
-      this.logger.info(`  URL: ${env.url}`);
-      this.logger.info(`  Node Version: ${env.configuration.nodeVersion}`);
-      this.logger.info(`  Memory Limit: ${env.configuration.memoryLimit}`);
-      this.logger.info(`  CPU Limit: ${env.configuration.cpuLimit}`);
-      this.logger.info(`  Monitoring: ${env.monitoring.enabled ? 'Enabled' : 'Disabled'}`);
-      this.logger.info(`  SSL: ${env.security.sslEnabled ? 'Enabled' : 'Disabled'}`);
+      console.info(`\n${env.name} (${env.type})`);
+      console.info(`  Status: ${env.status}`);
+      console.info(`  URL: ${env.url}`);
+      console.info(`  Node Version: ${env.configuration.nodeVersion}`);
+      console.info(`  Memory Limit: ${env.configuration.memoryLimit}`);
+      console.info(`  CPU Limit: ${env.configuration.cpuLimit}`);
+      console.info(`  Monitoring: ${env.monitoring.enabled ? 'Enabled' : 'Disabled'}`);
+      console.info(`  SSL: ${env.security.sslEnabled ? 'Enabled' : 'Disabled'}`);
     });
 
     if (outputFile) {
       fs.writeFileSync(outputFile, JSON.stringify(environments, null, 2));
-      this.logger.info(`\n📄 Environment list saved to ${outputFile}`);
+      console.info(`\n📄 Environment list saved to ${outputFile}`);
     }
   }
 
   private async listPipelines(args: string[]): Promise<void> {
     const outputFile = args[0];
 
-    this.logger.info('🚀 Listing deployment pipelines...');
+    console.info('🚀 Listing deployment pipelines...');
     
     const pipelines = this.manager.getDeploymentPipelines();
     
-    this.logger.info(`\n📊 Deployment Pipelines (${pipelines.length}):`);
+    console.info(`\n📊 Deployment Pipelines (${pipelines.length}):`);
     pipelines.forEach(pipeline => {
-      this.logger.info(`\n${pipeline.name}`);
-      this.logger.info(`  Status: ${pipeline.status}`);
-      this.logger.info(`  Success Rate: ${pipeline.successRate.toFixed(1)}%`);
-      this.logger.info(`  Last Run: ${pipeline.lastRun.toLocaleString()}`);
-      this.logger.info(`  Stages: ${pipeline.stages.length}`);
+      console.info(`\n${pipeline.name}`);
+      console.info(`  Status: ${pipeline.status}`);
+      console.info(`  Success Rate: ${pipeline.successRate.toFixed(1)}%`);
+      console.info(`  Last Run: ${pipeline.lastRun.toLocaleString()}`);
+      console.info(`  Stages: ${pipeline.stages.length}`);
       pipeline.stages.forEach(stage => {
-        this.logger.info(`    - ${stage.name} (${stage.type}): ${stage.status}`);
+        console.info(`    - ${stage.name} (${stage.type}): ${stage.status}`);
       });
     });
 
     if (outputFile) {
       fs.writeFileSync(outputFile, JSON.stringify(pipelines, null, 2));
-      this.logger.info(`\n📄 Pipeline list saved to ${outputFile}`);
+      console.info(`\n📄 Pipeline list saved to ${outputFile}`);
     }
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'production-deployment-report.html';
 
-    this.logger.info('📊 Generating production deployment report...');
+    console.info('📊 Generating production deployment report...');
     
     const report = this.manager.getProductionReadinessReport();
     if (!report) {
-      this.logger.info('❌ No production readiness report available. Run "assess" first.');
+      console.info('❌ No production readiness report available. Run "assess" first.');
       return;
     }
     
@@ -253,34 +253,34 @@ class ProductionCLI {
     // Save report to file
     fs.writeFileSync(outputFile, html);
     
-    this.logger.info('✅ Production deployment report generated');
-    this.logger.info(`📄 Report saved to ${outputFile}`);
+    console.info('✅ Production deployment report generated');
+    console.info(`📄 Report saved to ${outputFile}`);
 
     // Display summary
-    this.logger.info('\n📊 Production Deployment Report Summary:');
-    this.logger.info(`Overall Score: ${report.overallScore}/100`);
-    this.logger.info(`Readiness Level: ${report.readinessLevel}`);
-    this.logger.info(`Environments: ${report.environments.length}`);
-    this.logger.info(`Pipelines: ${report.pipelines.length}`);
-    this.logger.info(`Critical Issues: ${report.criticalIssues.length}`);
-    this.logger.info(`Recommendations: ${report.recommendations.length}`);
+    console.info('\n📊 Production Deployment Report Summary:');
+    console.info(`Overall Score: ${report.overallScore}/100`);
+    console.info(`Readiness Level: ${report.readinessLevel}`);
+    console.info(`Environments: ${report.environments.length}`);
+    console.info(`Pipelines: ${report.pipelines.length}`);
+    console.info(`Critical Issues: ${report.criticalIssues.length}`);
+    console.info(`Recommendations: ${report.recommendations.length}`);
   }
 
   private async deployToEnvironment(args: string[]): Promise<void> {
     const environment = args[0] || 'production';
     const version = args[1] || 'latest';
 
-    this.logger.info(`🚀 Deploying version ${version} to ${environment} environment...`);
+    console.info(`🚀 Deploying version ${version} to ${environment} environment...`);
     
     // This would perform actual deployment
-    this.logger.info(`✅ Deployment to ${environment} completed`);
-    this.logger.info(`📦 Version ${version} deployed successfully`);
+    console.info(`✅ Deployment to ${environment} completed`);
+    console.info(`📦 Version ${version} deployed successfully`);
     
-    this.logger.info('\n📊 Deployment Summary:');
-    this.logger.info(`  Environment: ${environment}`);
-    this.logger.info(`  Version: ${version}`);
-    this.logger.info(`  Status: Success`);
-    this.logger.info(`  Timestamp: ${new Date().toISOString()}`);
+    console.info('\n📊 Deployment Summary:');
+    console.info(`  Environment: ${environment}`);
+    console.info(`  Version: ${version}`);
+    console.info(`  Status: Success`);
+    console.info(`  Timestamp: ${new Date().toISOString()}`);
   }
 
   private generateHTMLReport(report: ProductionReadinessReport): string {
@@ -422,7 +422,7 @@ class ProductionCLI {
   }
 
   private showHelp(): void {
-    this.logger.info(`
+    console.info(`
 🚀 MIFF Production Deployment CLI
 
 Usage: tsx productionCLI.ts <command> [options]

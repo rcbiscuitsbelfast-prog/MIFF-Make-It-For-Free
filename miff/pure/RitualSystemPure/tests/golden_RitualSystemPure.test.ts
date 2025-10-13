@@ -22,7 +22,7 @@ class MockEventBus {
     if (!this.events.has(event)) {
       this.events.set(event, []);
     }
-    this.events.get(event)!.push(handler);
+    this.events.get(event)?.push(handler);
   }
 }
 

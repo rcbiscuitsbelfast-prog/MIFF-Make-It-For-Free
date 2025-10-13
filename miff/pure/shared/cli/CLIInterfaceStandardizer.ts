@@ -106,18 +106,18 @@ export class CLIInterfaceStandardizer {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('CLI interface standardizer already initialized');
+      console.warn('CLI interface standardizer already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing CLI interface standardizer...');
+      console.info('Initializing CLI interface standardizer...');
       
       // Validate configuration
       this.validateConfiguration();
       
       this.isInitialized = true;
-      this.logger.info('CLI interface standardizer initialized successfully');
+      console.info('CLI interface standardizer initialized successfully');
       
     } catch (error) {
       this.errorHandler.handleError(error, 'Failed to initialize CLI interface standardizer');
@@ -198,7 +198,7 @@ export class CLIInterfaceStandardizer {
     };
 
     try {
-      this.logger.info('Executing CLI command', { command, options, arguments });
+      console.info('Executing CLI command', { command, options, arguments });
       
       // Execute the command
       result.output = await handler(command, options, arguments);
@@ -343,7 +343,7 @@ export class CLIInterfaceStandardizer {
       // Write the standardized file
       fs.writeFileSync(cliPath, standardizedContent);
       
-      this.logger.info('CLI harness standardized', { moduleName, cliPath });
+      console.info('CLI harness standardized', { moduleName, cliPath });
       return true;
       
     } catch (error) {
@@ -724,9 +724,9 @@ if (import.meta.url === \`file://\${process.argv[1]}\`) {
    * Destroy the CLI interface standardizer
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying CLI interface standardizer...');
+    console.info('Destroying CLI interface standardizer...');
     this.isInitialized = false;
-    this.logger.info('CLI interface standardizer destroyed');
+    console.info('CLI interface standardizer destroyed');
   }
 }
 

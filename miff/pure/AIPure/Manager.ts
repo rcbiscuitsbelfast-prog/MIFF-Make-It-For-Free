@@ -185,28 +185,28 @@ export class AIManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('AI Manager already initialized');
+      console.warn('AIPure', 'AI Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing AI Manager...');
+      console.info('AIPure', 'Initializing AI Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('AI Manager initialized successfully');
+      console.info('AIPure', 'AI Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize AI Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -239,11 +239,11 @@ export class AIManager {
       this.instances.set(instance.id, instance);
       this.updateAnalytics();
 
-      this.logger.info('AI instance created', { instanceId: instance.id, instanceName: instance.name });
+      console.info('AI instance created', { instanceId: instance.id, instanceName: instance.name });
       return instance;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create AI instance');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -270,7 +270,7 @@ export class AIManager {
     try {
       const instance = this.instances.get(instanceId);
       if (!instance) {
-        this.logger.warn('Instance not found', { instanceId });
+        console.warn('Instance not found', { instanceId });
         return null;
       }
 
@@ -284,11 +284,11 @@ export class AIManager {
       this.instances.set(instanceId, updatedInstance);
       this.updateAnalytics();
 
-      this.logger.info('AI instance updated', { instanceId, instanceName: updatedInstance.name });
+      console.info('AI instance updated', { instanceId, instanceName: updatedInstance.name });
       return updatedInstance;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update AI instance');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -304,18 +304,18 @@ export class AIManager {
     try {
       const instance = this.instances.get(instanceId);
       if (!instance) {
-        this.logger.warn('Instance not found', { instanceId });
+        console.warn('Instance not found', { instanceId });
         return false;
       }
 
       this.instances.delete(instanceId);
       this.updateAnalytics();
 
-      this.logger.info('AI instance deleted', { instanceId, instanceName: instance.name });
+      console.info('AI instance deleted', { instanceId, instanceName: instance.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete AI instance');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -364,7 +364,7 @@ export class AIManager {
     try {
       const instance = this.instances.get(instanceId);
       if (!instance) {
-        this.logger.warn('Instance not found', { instanceId });
+        console.warn('Instance not found', { instanceId });
         return null;
       }
 
@@ -379,11 +379,11 @@ export class AIManager {
         this.updateLearning(instance, context, decision);
       }
 
-      this.logger.debug('Decision made', { instanceId, decisionScore, decision: decision?.type });
+      console.debug('Decision made', { instanceId, decisionScore, decision: decision?.type });
       return decision;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to make decision');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -643,12 +643,12 @@ export class AIManager {
    * Destroy the AI Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying AI Manager...');
+    console.info('AIPure', 'Destroying AI Manager...');
 
     this.instances.clear();
     this.isInitialized = false;
 
-    this.logger.info('AI Manager destroyed');
+    console.info('AIPure', 'AI Manager destroyed');
   }
 }
 

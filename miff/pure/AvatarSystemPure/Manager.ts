@@ -256,28 +256,28 @@ export class AvatarSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Avatar System Manager already initialized');
+      console.warn('AvatarSystemPure', 'Avatar System Manager already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing Avatar System Manager...');
+      console.info('AvatarSystemPure', 'Initializing Avatar System Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
-        await this.performanceOptimizer.initialize();
+        // PerformanceOptimizer does not require initialization
       }
 
       // Initialize memory manager
       if (this.config.enableRealTimeMonitoring) {
-        await this.memoryManager.initialize();
+        // MemoryManager initialization handled internally
       }
 
       this.isInitialized = true;
-      this.logger.info('Avatar System Manager initialized successfully');
+      console.info('AvatarSystemPure', 'Avatar System Manager initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to initialize Avatar System Manager');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -312,11 +312,11 @@ export class AvatarSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Avatar system created', { systemId: system.id, systemName: system.name });
+      console.info('Avatar system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create avatar system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -343,7 +343,7 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -357,11 +357,11 @@ export class AvatarSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Avatar system updated', { systemId, systemName: updatedSystem.name });
+      console.info('Avatar system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update avatar system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -377,18 +377,18 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Avatar system deleted', { systemId, systemName: system.name });
+      console.info('Avatar system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete avatar system');
+      this.errorHandler.handleError($1);
       throw error;
     }
   }
@@ -437,7 +437,7 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -449,11 +449,11 @@ export class AvatarSystemManager {
       system.avatars.push(avatar);
       this.updateAnalytics();
 
-      this.logger.info('Avatar created', { systemId, avatarId: avatar.id, avatarName: avatar.name });
+      console.info('Avatar created', { systemId, avatarId: avatar.id, avatarName: avatar.name });
       return avatar;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to create avatar');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -469,13 +469,13 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
       const avatar = system.avatars.find(a => a.id === avatarId);
       if (!avatar) {
-        this.logger.warn('Avatar not found', { systemId, avatarId });
+        console.warn('Avatar not found', { systemId, avatarId });
         return null;
       }
 
@@ -488,11 +488,11 @@ export class AvatarSystemManager {
       system.avatars[avatarIndex] = updatedAvatar;
       this.updateAnalytics();
 
-      this.logger.info('Avatar updated', { systemId, avatarId, avatarName: updatedAvatar.name });
+      console.info('Avatar updated', { systemId, avatarId, avatarName: updatedAvatar.name });
       return updatedAvatar;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to update avatar');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -508,24 +508,24 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const avatarIndex = system.avatars.findIndex(a => a.id === avatarId);
       if (avatarIndex === -1) {
-        this.logger.warn('Avatar not found', { systemId, avatarId });
+        console.warn('Avatar not found', { systemId, avatarId });
         return false;
       }
 
       system.avatars.splice(avatarIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Avatar deleted', { systemId, avatarId });
+      console.info('Avatar deleted', { systemId, avatarId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to delete avatar');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -541,7 +541,7 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -553,11 +553,11 @@ export class AvatarSystemManager {
       system.animations.push(animation);
       this.updateAnalytics();
 
-      this.logger.info('Animation added to system', { systemId, animationId: animation.id, animationName: animation.name });
+      console.info('Animation added to system', { systemId, animationId: animation.id, animationName: animation.name });
       return animation;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add animation to system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -573,7 +573,7 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return null;
       }
 
@@ -585,11 +585,11 @@ export class AvatarSystemManager {
       system.states.push(state);
       this.updateAnalytics();
 
-      this.logger.info('State added to system', { systemId, stateId: state.id, stateName: state.name });
+      console.info('State added to system', { systemId, stateId: state.id, stateName: state.name });
       return state;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to add state to system');
+      this.errorHandler.handleError($1);
       return null;
     }
   }
@@ -605,28 +605,28 @@ export class AvatarSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        console.warn('System not found', { systemId });
         return false;
       }
 
       const avatar = system.avatars.find(a => a.id === avatarId);
       if (!avatar) {
-        this.logger.warn('Avatar not found', { systemId, avatarId });
+        console.warn('Avatar not found', { systemId, avatarId });
         return false;
       }
 
       const state = system.states.find(s => s.id === stateId);
       if (!state) {
-        this.logger.warn('State not found', { systemId, stateId });
+        console.warn('State not found', { systemId, stateId });
         return false;
       }
 
       avatar.currentState = stateId;
-      this.logger.debug('Avatar state set', { systemId, avatarId, stateId });
+      console.debug('Avatar state set', { systemId, avatarId, stateId });
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to set avatar state');
+      this.errorHandler.handleError($1);
       return false;
     }
   }
@@ -759,12 +759,12 @@ export class AvatarSystemManager {
    * Destroy the Avatar System Manager
    */
   async destroy(): Promise<void> {
-    this.logger.info('Destroying Avatar System Manager...');
+    console.info('AvatarSystemPure', 'Destroying Avatar System Manager...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('Avatar System Manager destroyed');
+    console.info('AvatarSystemPure', 'Avatar System Manager destroyed');
   }
 }
 

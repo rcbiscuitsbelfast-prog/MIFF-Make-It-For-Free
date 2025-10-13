@@ -23,7 +23,7 @@ class MockEventBus {
     if (!this.events.has(event)) {
       this.events.set(event, []);
     }
-    this.events.get(event)!.push(handler);
+    this.events.get(event)?.push(handler);
   }
 }
 
@@ -136,7 +136,7 @@ describe('CameraSystemPure Golden Tests', () => {
 
     test('should retrieve camera instances', () => {
       const createdCamera = cameraSystem.createCamera('chase-camera', 'test-target');
-      const retrievedCamera = cameraSystem.getCameraInstance(createdCamera!.id);
+      const retrievedCamera = cameraSystem.getCameraInstance(createdCamera?.id);
       const nonExistentCamera = cameraSystem.getCameraInstance('non-existent');
 
       expect(retrievedCamera).toBeDefined();

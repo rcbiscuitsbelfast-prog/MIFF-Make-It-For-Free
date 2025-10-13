@@ -93,28 +93,28 @@ export class PerfManager {
    * Initialize manager
    */
   async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('PerfManager', 'initialize');
+    const timerId = console.startTimer('PerfManager', 'initialize');
     
     try {
       await this.initializeManager();
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('PerfManager', 'Manager initialized successfully', {
+      console.info('PerfManager', 'Manager initialized successfully', {
         itemsCount: this.items.size,
         config: this.config
       });
       
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('PerfManager', 'initialize', duration);
+      const duration = console.endTimer(timerId);
+      console.logPerformance('PerfManager', 'initialize', duration);
       
       return true;
     } catch (error) {
-      this.logger.error('PerfManager', 'Failed to initialize manager', {
+      console.error('PerfManager', 'Failed to initialize manager', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
       
-      this.logger.endTimer(timerId);
+      console.endTimer(timerId);
       return false;
     }
   }
@@ -131,7 +131,7 @@ export class PerfManager {
         undefined,
         ErrorSeverity.HIGH
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -143,7 +143,7 @@ export class PerfManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -162,7 +162,7 @@ export class PerfManager {
     this.items.set(newItem.id, newItem);
     this.updateStats('create_item', newItem);
 
-    this.logger.info('PerfManager', 'Created item', {
+    console.info('PerfManager', 'Created item', {
       itemId: newItem.id,
       itemName: newItem.name,
       totalItems: this.items.size
@@ -196,7 +196,7 @@ export class PerfManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return null;
     }
 
@@ -210,7 +210,7 @@ export class PerfManager {
     this.items.set(itemId, updatedItem);
     this.updateStats('update_item', updatedItem);
 
-    this.logger.info('PerfManager', 'Updated item', {
+    console.info('PerfManager', 'Updated item', {
       itemId,
       itemName: updatedItem.name
     });
@@ -232,14 +232,14 @@ export class PerfManager {
         undefined,
         ErrorSeverity.MEDIUM
       );
-      this.errorHandler.handleError(error);
+      this.errorHandler.handleError(error as any);
       return false;
     }
 
     this.items.delete(itemId);
     this.updateStats('delete_item', item);
 
-    this.logger.info('PerfManager', 'Deleted item', {
+    console.info('PerfManager', 'Deleted item', {
       itemId,
       itemName: item.name
     });
@@ -267,7 +267,7 @@ export class PerfManager {
    * Initialize manager
    */
   private async initializeManager(): Promise<void> {
-    this.logger.debug('PerfManager', 'Initializing manager...');
+    console.debug('PerfManager', 'Initializing manager...');
   }
 
   /**
@@ -280,7 +280,7 @@ export class PerfManager {
       this.items.set(item.id, item);
     }
 
-    this.logger.info('PerfManager', 'Loaded default items', {
+    console.info('PerfManager', 'Loaded default items', {
       count: defaultItems.length
     });
   }
@@ -327,7 +327,7 @@ export class PerfManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.logger.info('PerfManager', 'Destroying manager', {
+    console.info('PerfManager', 'Destroying manager', {
       itemsCount: this.items.size
     });
     
@@ -339,7 +339,7 @@ export class PerfManager {
     MemoryManager.unregisterObject(this.memoryId);
     
     // Destroy logger
-    this.logger.destroy();
+    console.destroy();
   }
 }
 
