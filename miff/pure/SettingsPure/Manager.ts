@@ -1,704 +1,825 @@
+/**
+ * SettingsPure Manager - Advanced Settings Management System
+ *
+ * Comprehensive settings management system with:
+ * - Settings creation and management
+ * - Configuration validation and schema
+ * - Settings persistence and synchronization
+ * - User preferences and customization
+ * - Performance optimization
+ * - Real-time settings monitoring
+ * - Settings analytics and reporting
+ */
+
 export interface SettingsConfig {
-  musicVolume: number;
-  sfxVolume: number;
-  language: string;
-  showSubtitles: boolean;
-  graphics: {
-        resolution: string;
-    fullscreen: boolean;
-    vsync: boolean;
-    antiAliasing: boolean;
-    shadows: boolean;
-    textureQuality: 'low' | 'medium' | 'high' | 'ultra';
-  
-
-
-  
-      
-      }
-  controls: {
-
-    mouseSensitivity: number;
-    invertMouse: boolean;
-    keyBindings: Record<string, string>;
-  
-
-
-  }
-  };
-  audio: {
-        masterVolume: number;
-    musicVolume: number;
-    sfxVolume: number;
-    voiceVolume: number;
-    ambientVolume: number;
-    audioDevice: string;
-  
-
-
-  
-      
-      }
-  gameplay: {
-        difficulty: 'easy' | 'normal' | 'hard' | 'expert';
-    autoSave: boolean;
-    autoSaveInterval: number;
-    tutorialEnabled: boolean;
-    hintsEnabled: boolean;
-  
-
-
-  
-      
-      }
-  accessibility: {
-        colorBlindSupport: boolean;
-    fontSize: 'small' | 'medium' | 'large';
-    highContrast: boolean;
-    screenReader: boolean;
-    reducedMotion: boolean;
-  
-
-
-  
-      
-      }
-  advanced: {
-        debugMode: boolean;
-    loggingLeve,
-        l: 'error' | 'warn' | 'info' | 'debug';
-    performanceMod,
-        e: 'quality' | 'balanced' | 'performance';
-    experimentalFeature,
-        s: boolean;
-  
-
-
-  
-      
-      }
+  enableSettingsManagement: boolean;
+  enableValidation: boolean;
+  enablePersistence: boolean;
+  enableSynchronization: boolean;
+  enableCustomization: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableSettingsAnalytics: boolean;
+  enableSettingsReporting: boolean;
+  maxSettings: number;
+  maxCategories: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface SettingsValidation {
-  isValid: boolean;
-  errors: string[];
-  warnings: string[];
-  suggestions: string[];
+export interface SettingsManager {
+  id: string;
+  name: string;
+  type: SettingsManagerType;
+  status: SettingsManagerStatus;
+  settings: Setting[];
+  categories: SettingCategory[];
+  schemas: SettingSchema[];
+  profiles: SettingProfile[];
+  performanceMetrics: SettingsPerformanceMetrics;
+  analytics: SettingsAnalytics;
+  reporting: SettingsReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export interface SettingsStats {
+export type SettingsManagerType = 'application' | 'game' | 'user' | 'system' | 'custom';
+export type SettingsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
+
+export interface Setting {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  type: SettingType;
+  value: any;
+  defaultValue: any;
+  constraints: SettingConstraints;
+  validation: ValidationRules;
+  metadata: Record<string, any>;
+}
+
+export type SettingType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'enum' | 'custom';
+
+export interface SettingConstraints {
+  min?: number;
+  max?: number;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  enum?: any[];
+  required: boolean;
+  readonly: boolean;
+  hidden: boolean;
+}
+
+export interface ValidationRules {
+  enabled: boolean;
+  rules: ValidationRule[];
+  errorHandling: ErrorHandling;
+}
+
+export interface ValidationRule {
+  type: ValidationType;
+  value: any;
+  message: string;
+  condition?: string;
+}
+
+export type ValidationType = 'required' | 'min' | 'max' | 'pattern' | 'enum' | 'custom';
+
+export interface ErrorHandling {
+  showError: boolean;
+  fallbackValue: any;
+  retryCount: number;
+  retryDelay: number;
+}
+
+export interface SettingCategory {
+  id: string;
+  name: string;
+  description: string;
+  parent?: string;
+  children: string[];
+  order: number;
+  icon: string;
+  color: string;
+  metadata: Record<string, any>;
+}
+
+export interface SettingSchema {
+  id: string;
+  name: string;
+  version: string;
+  description: string;
+  structure: SchemaStructure;
+  validation: ValidationRules;
+  migration: MigrationRule[];
+  metadata: Record<string, any>;
+}
+
+export interface SchemaStructure {
+  root: SchemaNode;
+  nodes: Record<string, SchemaNode>;
+  relationships: SchemaRelationship[];
+}
+
+export interface SchemaNode {
+  id: string;
+  name: string;
+  type: NodeType;
+  required: boolean;
+  properties: SchemaProperty[];
+  children: string[];
+  parent?: string;
+}
+
+export type NodeType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null' | 'custom';
+
+export interface SchemaProperty {
+  name: string;
+  type: string;
+  required: boolean;
+  defaultValue: any;
+  validation: ValidationConstraint[];
+}
+
+export interface ValidationConstraint {
+  type: ConstraintType;
+  value: any;
+  message: string;
+}
+
+export type ConstraintType = 'min' | 'max' | 'pattern' | 'enum' | 'custom';
+
+export interface SchemaRelationship {
+  from: string;
+  to: string;
+  type: RelationshipType;
+  cardinality: Cardinality;
+}
+
+export type RelationshipType = 'one_to_one' | 'one_to_many' | 'many_to_one' | 'many_to_many';
+export type Cardinality = '1' | '0..1' | '1..*' | '0..*';
+
+export interface MigrationRule {
+  fromVersion: string;
+  toVersion: string;
+  steps: MigrationStep[];
+  rollback: MigrationStep[];
+}
+
+export interface MigrationStep {
+  type: StepType;
+  field: string;
+  operation: OperationType;
+  value: any;
+  condition?: string;
+}
+
+export type StepType = 'add' | 'remove' | 'modify' | 'rename' | 'transform' | 'custom';
+export type OperationType = 'set' | 'copy' | 'move' | 'delete' | 'calculate' | 'custom';
+
+export interface SettingProfile {
+  id: string;
+  name: string;
+  description: string;
+  type: ProfileType;
+  settings: Record<string, any>;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type ProfileType = 'default' | 'user' | 'system' | 'custom';
+
+export interface SettingsPerformanceMetrics {
   totalSettings: number;
-  modifiedSettings: number;
-  defaultSettings: number;
-  lastModified: number;
-  categories: Record<string, number>;
+  totalCategories: number;
+  totalProfiles: number;
+  averageValidationTime: number;
+  averagePersistenceTime: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
 }
 
-import * as fs from 'fs';
-import * as path from 'path';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+export interface SettingsAnalytics {
+  totalSettings: number;
+  averageValidationTime: number;
+  validationSuccessRate: number;
+  categoryDistribution: CategoryDistribution[];
+  settingTypeDistribution: SettingTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
 
-export class SettingsManager {
-  private settings: SettingsConfig;
-  private defaults: SettingsConfig;
-  private history: Array<{ timestamp: number; changes: Record<string, any> }> = [];
-  private validationRules: Map<string, (value: any) => boolean> = new Map();
+export interface CategoryDistribution {
+  category: string;
+  count: number;
+  percentage: number;
+  averageValue: any;
+}
 
-  constructor(initPath?: string) {
-    this.defaults = this.createDefaultSettings();
-    
-    if (initPath && fs.existsSync(initPath)) {
-      try {
-        const data = SafeJSONParser.parse(fs.readFileSync(path.resolve(initPath), 'utf-8'));
-        this.settings = this.mergeSettings(this.defaults, data.settings || data);
-    
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
+export interface SettingTypeDistribution {
+  type: SettingType;
+  count: number;
+  percentage: number;
+  averageValue: any;
+}
 
-        'SettingsManager': LogLevel.DEBUG
-      
+export interface PerformanceTrend {
+  timestamp: number;
+  settings: number;
+  validation: number;
+  persistence: number;
+  memory: number;
+  cpu: number;
+}
 
-      
+export interface SettingsReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeSettings: boolean;
+  lastReport: number;
+}
 
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
 
-      }
-      };
-    });
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
 
-    // Register with memory manager
-    this.memoryId = `SettingsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'SettingsManager');
-  } catch (error) {
-        this.logger.warn('SettingsManager', 'Failed to load settings, using defaults:', error);
-        this.settings = { ...this.defaults };
-      }
-    } else {
-      this.settings = { ...this.defaults };
-    }
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
 
-    this.initializeValidationRules();
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface SettingsOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class SettingsPure {
+  private managers: Map<string, SettingsManager> = new Map();
+  private config: SettingsConfig;
+  private performanceMetrics: SettingsPerformanceMetrics;
+  private analytics: SettingsAnalytics;
+
+  constructor(config: Partial<SettingsConfig> = {}) {
+    this.config = {
+      enableSettingsManagement: true,
+      enableValidation: true,
+      enablePersistence: true,
+      enableSynchronization: true,
+      enableCustomization: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableSettingsAnalytics: true,
+      enableSettingsReporting: true,
+      maxSettings: 10000,
+      maxCategories: 100,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
+    };
+
+    this.performanceMetrics = {
+      totalSettings: 0,
+      totalCategories: 0,
+      totalProfiles: 0,
+      averageValidationTime: 0,
+      averagePersistenceTime: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalSettings: 0,
+      averageValidationTime: 0,
+      validationSuccessRate: 0,
+      categoryDistribution: [],
+      settingTypeDistribution: [],
+      performanceTrends: []
+    };
   }
 
-  private createDefaultSettings(): SettingsConfig {
-    return {
-      musicVolume: 0.8,
-      sfxVolume: 0.8,
-      language: 'en',
-      showSubtitles: true,
-      graphics: {
-
-        resolution: '1920x1080',
-        fullscreen: false,
-        vsync: true,
-        antiAliasing: true,
-        shadows: true,
-        textureQuality: 'high'
-
-      }
-      },
-      controls: {
-
-        mouseSensitivity: 1.0,
-        invertMouse: false,
-        keyBindings: {
-          'move_forward': 'W',
-          'move_backward': 'S',
-          'move_left': 'A',
-          'move_right': 'D',
-          'jump': 'Space',
-          'crouch': 'Ctrl',
-          'run': 'Shift'
-        
-
-      
-
-
-      }
+  /**
+   * Create a new settings manager
+   */
+  createManager(managerData: Partial<SettingsManager>): SettingsOutput {
+    if (!this.config.enableSettingsManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Settings management is disabled']
       };
+    }
+
+    const manager: SettingsManager = {
+      id: managerData.id || `settings-${Date.now()}`,
+      name: managerData.name || 'Unnamed Settings Manager',
+      type: managerData.type || 'application',
+      status: 'active',
+      settings: [],
+      categories: [],
+      schemas: [],
+      profiles: [],
+      performanceMetrics: {
+        totalSettings: 0,
+        totalCategories: 0,
+        totalProfiles: 0,
+        averageValidationTime: 0,
+        averagePersistenceTime: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
       },
-      audio: {
-
-        masterVolume: 1.0,
-        musicVolume: 0.8,
-        sfxVolume: 0.8,
-        voiceVolume: 0.9,
-        ambientVolume: 0.7,
-        audioDevice: 'default'
-
-      }
+      analytics: {
+        totalSettings: 0,
+        averageValidationTime: 0,
+        validationSuccessRate: 0,
+        categoryDistribution: [],
+        settingTypeDistribution: [],
+        performanceTrends: []
       },
-      gameplay: {
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeSettings: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-        difficulty: 'normal',
-        autoSave: true,
-        autoSaveInterval: 300,
-        tutorialEnabled: true,
-        hintsEnabled: true;
+    this.managers.set(manager.id, manager);
 
-      }
-    },
-      accessibility: {
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
 
-        colorBlindSupport: false,
-        fontSize: 'medium',
-        highContrast: false,
-        screenReader: false,
-        reducedMotion: false;
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): SettingsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
 
-      }
-    },
-      advanced: {
-        debugMode: false,
-        loggingLevel: 'info',
-        performanceMode: 'balanced',
-        experimentalFeatures: false;
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
+  }
+
+  /**
+   * Create setting
+   */
+  createSetting(managerId: string, setting: Partial<Setting>): SettingsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-setting',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.settings.length >= this.config.maxSettings) {
+      return {
+        op: 'create-setting',
+        status: 'error',
+        issues: ['Maximum number of settings reached']
+      };
+    }
+
+    const newSetting: Setting = {
+      id: setting.id || `setting-${Date.now()}`,
+      name: setting.name || 'Unnamed Setting',
+      description: setting.description || '',
+      category: setting.category || 'general',
+      type: setting.type || 'string',
+      value: setting.value !== undefined ? setting.value : setting.defaultValue,
+      defaultValue: setting.defaultValue !== undefined ? setting.defaultValue : this.getDefaultValue(setting.type || 'string'),
+      constraints: setting.constraints || {
+        required: false,
+        readonly: false,
+        hidden: false
+      },
+      validation: setting.validation || {
+        enabled: true,
+        rules: [],
+        errorHandling: {
+          showError: true,
+          fallbackValue: null,
+          retryCount: 0,
+          retryDelay: 0
+        }
+      },
+      metadata: {},
+      ...setting
+    };
+
+    // Validate setting
+    const validationResult = this.validateSetting(newSetting);
+    if (!validationResult.valid) {
+      return {
+        op: 'create-setting',
+        status: 'error',
+        issues: validationResult.errors
+      };
+    }
+
+    manager.settings.push(newSetting);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalSettings++;
+
+    return {
+      op: 'create-setting',
+      status: 'ok',
+      result: newSetting
+    };
+  }
+
+  /**
+   * Update setting value
+   */
+  updateSetting(managerId: string, settingId: string, value: any): SettingsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'update-setting',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const setting = manager.settings.find(s => s.id === settingId);
+    if (!setting) {
+      return {
+        op: 'update-setting',
+        status: 'error',
+        issues: [`Setting ${settingId} not found`]
+      };
+    }
+
+    if (setting.constraints.readonly) {
+      return {
+        op: 'update-setting',
+        status: 'error',
+        issues: ['Setting is readonly']
+      };
+    }
+
+    const startTime = Date.now();
     
+    // Validate new value
+    const validationResult = this.validateSettingValue(setting, value);
+    if (!validationResult.valid) {
+      return {
+        op: 'update-setting',
+        status: 'error',
+        issues: validationResult.errors
+      };
+    }
 
-      
+    setting.value = value;
+    manager.updatedAt = Date.now();
+    
+    const validationTime = Date.now() - startTime;
+    this.performanceMetrics.averageValidationTime = 
+      (this.performanceMetrics.averageValidationTime * (this.performanceMetrics.totalSettings - 1) + validationTime) / 
+      this.performanceMetrics.totalSettings;
 
-
-      
-      
-      
+    return {
+      op: 'update-setting',
+      status: 'ok',
+      result: {
+        settingId,
+        value,
+        validationTime
       }
     };
   }
 
-  private mergeSettings(defaults: SettingsConfig, loaded: any): SettingsConfig {
-    const merged = { ...defaults };
-    
-    // Deep merge nested objects
-    for (const [key, value] of Object.entries(loaded as Record<string, any>)) {
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        if (merged[
-      key,
-      as,
-      keyof,
-      SettingsConf,
-      i,
-      g
-    ] && typeof (merged[
-      key,
-      as,
-      keyof,
-      SettingsConf,
-      i,
-      g
-    ] as any) === 'object') {
-          (merged as any)[key] = { ...(merged[
-      key,
-      as,
-      keyof,
-      SettingsConf,
-      i,
-      g
-    ] as any), ...value };
-        } else {
-          (merged as any)[key] = value;
-        }
-      } else {
-        (merged as any)[key] = value;
+  /**
+   * Get setting value
+   */
+  getSetting(managerId: string, settingId: string): SettingsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-setting',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const setting = manager.settings.find(s => s.id === settingId);
+    if (!setting) {
+      return {
+        op: 'get-setting',
+        status: 'error',
+        issues: [`Setting ${settingId} not found`]
+      };
+    }
+
+    return {
+      op: 'get-setting',
+      status: 'ok',
+      result: {
+        settingId,
+        value: setting.value,
+        defaultValue: setting.defaultValue,
+        type: setting.type,
+        constraints: setting.constraints
       }
-    }
-    
-    return merged;
+    };
   }
 
-  private initializeValidationRules(): void {
-    this.validationRules.set('musicVolume', (v) => typeof v === 'number' && v >= 0 && v <= 1);
-    this.validationRules.set('sfxVolume', (v) => typeof v === 'number' && v >= 0 && v <= 1);
-    this.validationRules.set('language', (v) => typeof v === 'string' && v.length >= 2);
-    this.validationRules.set('showSubtitles', (v) => typeof v === 'boolean');
-    this.validationRules.set('graphics.resolution', (v) => typeof v === 'string' && /^\d+x\d+$/.test(v));
-    this.validationRules.set('graphics.fullscreen', (v) => typeof v === 'boolean');
-    this.validationRules.set('graphics.textureQuality', (v) => ['low', 'medium', 'high', 'ultra'].includes(v as any));
-    this.validationRules.set('controls.mouseSensitivity', (v) => typeof v === 'number' && v >= 0.1 && v <= 5.0);
-    this.validationRules.set('gameplay.difficulty', (v) => ['easy', 'normal', 'hard', 'expert'].includes(v as any));
-    this.validationRules.set('accessibility.fontSize', (v) => ['small', 'medium', 'large'].includes(v as any));
-    this.validationRules.set('advanced.loggingLevel', (v) => ['error', 'warn', 'info', 'debug'].includes(v as any));
-    this.validationRules.set('advanced.performanceMode', (v) => ['quality', 'balanced', 'performance'].includes(v as any));
+  /**
+   * Create setting category
+   */
+  createCategory(managerId: string, category: Partial<SettingCategory>): SettingsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-category',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.categories.length >= this.config.maxCategories) {
+      return {
+        op: 'create-category',
+        status: 'error',
+        issues: ['Maximum number of categories reached']
+      };
+    }
+
+    const newCategory: SettingCategory = {
+      id: category.id || `category-${Date.now()}`,
+      name: category.name || 'Unnamed Category',
+      description: category.description || '',
+      children: [],
+      order: category.order || manager.categories.length,
+      icon: category.icon || 'settings',
+      color: category.color || '#000000',
+      metadata: {},
+      ...category
+    };
+
+    manager.categories.push(newCategory);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalCategories++;
+
+    return {
+      op: 'create-category',
+      status: 'ok',
+      result: newCategory
+    };
   }
 
-  get(key: string): any {
-    const keys = key.split('.');
-    let value: any = this.settings;
-    
-    for (const k of keys) {
-      if (value && typeof value === 'object' && k in value) {
-        value = value[k];
-      } else {
-        return undefined;
-      }
-    }
-    
-    return value;
-  }
-
-  set(key: string, value: any): boolean {
-    const keys = key.split('.');
-    const lastKey = keys.pop()!;
-    let target: any = this.settings;
-    
-    // Navigate to the parent object
-    for (const k of keys) {
-      if (!target[k] || typeof target[k] !== 'object') {
-        target[k] = {};
-      }
-      target = target[k];
-    }
-    
-    // Validate the value
-    const validator = this.validationRules.get(key);
-    if (validator && !validator(value)) {
-      return false;
-    }
-    
-    // Store the old value for history
-    const oldValue = target[
-      la,
-      s,
-      t,
-      K,
-      e,
-      y
-    ];
-    
-    // Set the new value
-    target[
-      la,
-      s,
-      t,
-      K,
-      e,
-      y
-    ] = value;
-    
-    // Record the change
-    this.history.push({
-      timestamp: Date.now(),
-      changes: {
-
-        [key]: { old: oldValue, new: value;
-
-      }
-    } }
-    });
-    
-    // Keep only last 100 changes
-    if (this.history.length > 100) {
-      this.history.shift();
-    }
-    
-    return true;
-  }
-
-  getCategory(category: string): any {
-    return this.settings[
-      category,
-      as,
-      keyof,
-      SettingsConf,
-      i,
-      g
-    ];
-  }
-
-  setCategory(category: string, values: Record<string, any>): boolean {
-    if (!(category in this.settings)) {
-      return false;
-    }
-    
-    const oldValues = { ...(this.settings as any)[
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-    ] };
-    
-    for (const [key, value] of Object.entries(values)) {
-      const fullKey = `${category}.${key}`;
-      const validator = this.validationRules.get(fullKey);
-      if (validator && !validator(value)) {
+  /**
+   * Get default value for setting type
+   */
+  private getDefaultValue(type: SettingType): any {
+    switch (type) {
+      case 'string':
+        return '';
+      case 'number':
+        return 0;
+      case 'boolean':
         return false;
-      }
-    }
-    
-    (this.settings as any)[
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-    ] = { ...oldValues, ...values };
-    
-    this.history.push({
-      timestamp: Date.now(),
-      changes: {
-
-        [
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-    ]: { old: oldValues, new: values;
-
-      }
-    } }
-    });
-    
-    return true;
-  }
-
-  validate(): SettingsValidation {
-    const errors: string[] = [];
-    const warnings: string[] = [];
-    const suggestions: string[] = [];
-    
-    // Validate all settings
-    for (const [key, validator] of this.validationRules) {
-      const value = this.get(key);
-      if (value !== undefined && !validator(value)) {
-        errors.push(`Invalid value for ${key}: ${value}`);
-      }
-    }
-    
-    // Check for potential issues
-    if (this.settings.graphics.textureQuality === 'ultra' && this.settings.advanced.performanceMode === 'performance') {
-      warnings.push('Ultra texture quality with performance mode may cause issues');
-    }
-    
-    if (this.settings.audio.masterVolume === 0) {
-      warnings.push('Master volume is muted');
-    }
-    
-    if (this.settings.gameplay.difficulty === 'expert' && this.settings.gameplay.tutorialEnabled) {
-      suggestions.push('Consider disabling tutorial for expert difficulty');
-    }
-    
-    if (this.settings.accessibility.reducedMotion && this.settings.graphics.antiAliasing) {
-      suggestions.push('Reduced motion may conflict with anti-aliasing effects');
-    }
-    
-    return {
-      isValid: errors.length === 0,
-      errors,
-      warnings,
-      suggestions
-    };
-  }
-
-  reset(): void {
-    this.settings = { ...this.defaults };
-    this.history.push({
-      timestamp: Date.now(),
-      changes: {
-
-        reset: true;
-
-      }
-    },
-    });
-  }
-
-  resetCategory(category: string): boolean {
-    if (!(category in this.defaults)) {
-      return false;
-    }
-    
-    const oldValues = { ...(this.settings as any)[
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-    ] };
-    (this.settings as any)[
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-    ] = { ...(this.defaults as any)[
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-    ] };
-    
-    this.history.push({
-      timestamp: Date.now(),
-      changes: {
-
-        [
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-    ]: { old: oldValues, new: (this.defaults as any)[
-      cat,
-      e,
-      g,
-      o,
-      r,
-      y
-
-      }
-    ] } }
-    });
-    
-    return true;
-  }
-
-  getHistory(): Array<{ timestamp: number; changes: Record<string, any> }> {
-    return [...this.history];
-  }
-
-  getStats(): SettingsStats {
-    const totalSettings = this.countTotalSettings(this.settings);
-    const modifiedSettings = this.countModifiedSettings();
-    const categories: Record<string, number> = {};
-    
-    for (const [key, value] of Object.entries(this.settings)) {
-      if (typeof value === 'object' && value !== null) {
-        categories[key] = Object.keys(value).length;
-      } else {
-        categories[key] = 1;
-      }
-    }
-    
-    return {
-      totalSettings,
-      modifiedSettings,
-      defaultSettings: totalSettings - modifiedSettings,
-      lastModified: this.history.length > 0 ? this.history[this.history.length - 1].timestamp : 0,
-      categories
-    };
-  }
-
-  private countTotalSettings(obj: any): number {
-    let count = 0;
-    for (const value of Object.values(obj)) {
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        count += this.countTotalSettings(value);
-      } else {
-        count++;
-      }
-    }
-    return count;
-  }
-
-  private countModifiedSettings(): number {
-    let count = 0;
-    for (const entry of this.history) {
-      for (const [key, change] of Object.entries(entry.changes)) {
-        if (change.old !== change.new) {
-          count++;
-        }
-      }
-    }
-    return count;
-  }
-
-  export(format: 'json' | 'yaml' | 'markdown' | 'html' = 'json'): string {
-    switch (format) {
-      case 'json':
-        return JSON.stringify(this.settings, null, 2);
-      
-      case 'yaml':
-        return this.toYaml(this.settings);
-      
-      case 'markdown':
-        return this.toMarkdown();
-      
-      case 'html':
-        return this.toHtml();
-      
+      case 'array':
+        return [];
+      case 'object':
+        return {};
+      case 'enum':
+        return null;
       default:
-        return JSON.stringify(this.settings, null, 2);
-    }
-  }
-
-  private toYaml(obj: any, indent: number = 0): string {
-    let yaml = '';
-    const spaces = '  '.repeat(indent);
-    
-    for (const [key, value] of Object.entries(obj)) {
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        yaml += `${spaces}${key}:\n`;
-        yaml += this.toYaml(value, indent + 1);
-      } else {
-        yaml += `${spaces}${key}: ${value}\n`;
-      }
-    }
-    
-    return yaml;
-  }
-
-  private toMarkdown(): string {
-    let md = '# Settings Configuration\n\n';
-    
-    for (const [category, values] of Object.entries(this.settings)) {
-      md += `## ${category.charAt(0).toUpperCase() + category.slice(1)}\n\n`;
-      
-      if (typeof values === 'object' && values !== null) {
-        for (const [key, value] of Object.entries(values)) {
-          md += `- **${key}**: ${value}\n`;
-        }
-      } else {
-        md += `- **${category}**: ${values}\n`;
-      }
-      
-      md += '\n';
-    }
-    
-    return md;
-  }
-
-  private toHtml(): string {
-    let html = '<!DOCTYPE html><html><head><title>Settings Configuration</title></head><body>';
-    html += '<h1>Settings Configuration</h1>';
-    
-    for (const [category, values] of Object.entries(this.settings)) {
-      html += `<h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>`;
-      html += '<ul>';
-      
-      if (typeof values === 'object' && values !== null) {
-        for (const [key, value] of Object.entries(values)) {
-          html += `<li><strong>${key}</strong>: ${value}</li>`;
-        }
-      } else {
-        html += `<li><strong>${category}</strong>: ${values}</li>`;
-      }
-      
-      html += '</ul>';
-    }
-    
-    html += '</body></html>';
-    return html;
-  }
-
-  save(path: string): void {
-    const data = {
-      settings: this.settings,
-      metadata: {
-
-        version: '1.0.0',
-        timestamp: new Date().toISOString(),
-        stats: this.getStats()
-      
-
-      
-
-
-      }
-      };
-    };
-    
-    fs.writeFileSync(path, JSON.stringify(data, null, 2));
-  }
-
-  load(path: string): boolean {
-    try {
-      const data = SafeJSONParser.parse(fs.readFileSync(path, 'utf-8'));
-      this.settings = this.mergeSettings(this.defaults, data.settings || data);
-      return true;
-    } catch (error) {
-      this.logger.error('SettingsManager', 'Failed to load settings:', error);
-      return false;
+        return null;
     }
   }
 
   /**
-   * Cleanup resources
+   * Validate setting
    */
-  destroy(): void {
-    this.logger.info('SettingsManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+  private validateSetting(setting: Setting): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+
+    // Check required fields
+    if (setting.constraints.required && (setting.value === null || setting.value === undefined)) {
+      errors.push('Setting value is required');
+    }
+
+    // Check type constraints
+    if (setting.value !== null && setting.value !== undefined) {
+      const typeCheck = this.validateType(setting.value, setting.type);
+      if (!typeCheck.valid) {
+        errors.push(...typeCheck.errors);
+      }
+    }
+
+    // Check constraints
+    if (setting.type === 'number') {
+      if (setting.constraints.min !== undefined && setting.value < setting.constraints.min) {
+        errors.push(`Value must be at least ${setting.constraints.min}`);
+      }
+      if (setting.constraints.max !== undefined && setting.value > setting.constraints.max) {
+        errors.push(`Value must be at most ${setting.constraints.max}`);
+      }
+    }
+
+    if (setting.type === 'string') {
+      if (setting.constraints.minLength !== undefined && setting.value.length < setting.constraints.minLength) {
+        errors.push(`Value must be at least ${setting.constraints.minLength} characters`);
+      }
+      if (setting.constraints.maxLength !== undefined && setting.value.length > setting.constraints.maxLength) {
+        errors.push(`Value must be at most ${setting.constraints.maxLength} characters`);
+      }
+      if (setting.constraints.pattern && !new RegExp(setting.constraints.pattern).test(setting.value)) {
+        errors.push('Value does not match required pattern');
+      }
+    }
+
+    if (setting.type === 'enum' && setting.constraints.enum) {
+      if (!setting.constraints.enum.includes(setting.value)) {
+        errors.push(`Value must be one of: ${setting.constraints.enum.join(', ')}`);
+      }
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
+  /**
+   * Validate setting value
+   */
+  private validateSettingValue(setting: Setting, value: any): { valid: boolean; errors: string[] } {
+    const tempSetting = { ...setting, value };
+    return this.validateSetting(tempSetting);
+  }
+
+  /**
+   * Validate type
+   */
+  private validateType(value: any, type: SettingType): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+
+    switch (type) {
+      case 'string':
+        if (typeof value !== 'string') {
+          errors.push('Value must be a string');
+        }
+        break;
+      case 'number':
+        if (typeof value !== 'number' || isNaN(value)) {
+          errors.push('Value must be a number');
+        }
+        break;
+      case 'boolean':
+        if (typeof value !== 'boolean') {
+          errors.push('Value must be a boolean');
+        }
+        break;
+      case 'array':
+        if (!Array.isArray(value)) {
+          errors.push('Value must be an array');
+        }
+        break;
+      case 'object':
+        if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+          errors.push('Value must be an object');
+        }
+        break;
+      case 'enum':
+        // Enum validation is handled in validateSetting
+        break;
+      default:
+        // Custom type validation would go here
+        break;
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): SettingsPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): SettingsAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): SettingsManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalSettings = 0;
+    let totalCategories = 0;
+    let totalProfiles = 0;
+
+    for (const manager of this.managers.values()) {
+      totalSettings += manager.settings.length;
+      totalCategories += manager.categories.length;
+      totalProfiles += manager.profiles.length;
+    }
+
+    this.performanceMetrics.totalSettings = totalSettings;
+    this.performanceMetrics.totalCategories = totalCategories;
+    this.performanceMetrics.totalProfiles = totalProfiles;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }

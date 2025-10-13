@@ -3,74 +3,291 @@
  *
  * Comprehensive item management system with:
  * - Item creation and management
+ * - Inventory and storage systems
  * - Item properties and attributes
- * - Item categories and types
- * - Item rarity and quality systems
- * - Item crafting and enhancement
- * - Cross-platform item support
+ * - Item crafting and recipes
+ * - Item trading and economy
  * - Performance optimization
  * - Real-time item monitoring
  * - Item analytics and reporting
- *
- * @version 1.0.0
- * @author MIFF Framework
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
-
-export interface ItemConfig {
-  enableItemCreation: boolean;
+export interface ItemsConfig {
   enableItemManagement: boolean;
+  enableInventorySystem: boolean;
   enableItemProperties: boolean;
-  enableItemCategories: boolean;
-  enableItemTypes: boolean;
-  enableItemRarity: boolean;
-  enableItemQuality: boolean;
   enableItemCrafting: boolean;
-  enableItemEnhancement: boolean;
-  enableCrossPlatformSupport: boolean;
+  enableItemTrading: boolean;
   enablePerformanceOptimization: boolean;
   enableRealTimeMonitoring: boolean;
   enableItemAnalytics: boolean;
   enableItemReporting: boolean;
   maxItems: number;
-  maxCategories: number;
+  maxInventories: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
+
+export interface ItemsManager {
+  id: string;
+  name: string;
+  type: ItemsManagerType;
+  status: ItemsManagerStatus;
+  items: Item[];
+  inventories: Inventory[];
+  recipes: Recipe[];
+  categories: ItemCategory[];
+  performanceMetrics: ItemsPerformanceMetrics;
+  analytics: ItemsAnalytics;
+  reporting: ItemsReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type ItemsManagerType = 'game' | 'ecommerce' | 'inventory' | 'custom';
+export type ItemsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Item {
   id: string;
   name: string;
   description: string;
   type: ItemType;
-  category: ItemCategory;
+  category: string;
   rarity: ItemRarity;
-  quality: ItemQuality;
+  value: ItemValue;
   properties: ItemProperties;
-  stats: ItemStats;
   requirements: ItemRequirements;
   effects: ItemEffect[];
-  crafting: ItemCrafting;
-  enhancement: ItemEnhancement;
-  metadata: ItemMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  metadata: Record<string, any>;
 }
 
-export interface ItemType {
+export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'tool' | 'misc' | 'custom';
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
+
+export interface ItemValue {
+  base: number;
+  current: number;
+  currency: string;
+  modifiers: ValueModifier[];
+}
+
+export interface ValueModifier {
+  type: ModifierType;
+  value: number;
+  source: string;
+  duration?: number;
+}
+
+export type ModifierType = 'additive' | 'multiplicative' | 'exponential' | 'custom';
+
+export interface ItemProperties {
+  weight: number;
+  size: ItemSize;
+  durability: Durability;
+  stackable: boolean;
+  maxStack: number;
+  tradeable: boolean;
+  droppable: boolean;
+  sellable: boolean;
+  craftable: boolean;
+}
+
+export interface ItemSize {
+  width: number;
+  height: number;
+  depth: number;
+  volume: number;
+}
+
+export interface Durability {
+  current: number;
+  maximum: number;
+  degradation: number;
+  repairable: boolean;
+  repairCost: number;
+}
+
+export interface ItemRequirements {
+  level: number;
+  stats: StatRequirement[];
+  skills: SkillRequirement[];
+  items: ItemRequirement[];
+  quests: QuestRequirement[];
+}
+
+export interface StatRequirement {
+  stat: string;
+  value: number;
+  operator: RequirementOperator;
+}
+
+export interface SkillRequirement {
+  skill: string;
+  level: number;
+  operator: RequirementOperator;
+}
+
+export interface ItemRequirement {
+  itemId: string;
+  quantity: number;
+  consumed: boolean;
+}
+
+export interface QuestRequirement {
+  questId: string;
+  status: QuestStatus;
+}
+
+export type RequirementOperator = 'equals' | 'greater' | 'less' | 'greater_equal' | 'less_equal';
+export type QuestStatus = 'not_started' | 'in_progress' | 'completed' | 'failed';
+
+export interface ItemEffect {
+  id: string;
+  type: EffectType;
+  value: number;
+  duration: number;
+  target: EffectTarget;
+  conditions: EffectCondition[];
+  metadata: Record<string, any>;
+}
+
+export type EffectType = 'stat_bonus' | 'damage' | 'healing' | 'buff' | 'debuff' | 'custom';
+export type EffectTarget = 'self' | 'target' | 'area' | 'all' | 'custom';
+
+export interface EffectCondition {
+  type: ConditionType;
+  value: any;
+  operator: ConditionOperator;
+}
+
+export type ConditionType = 'health' | 'mana' | 'level' | 'time' | 'location' | 'custom';
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains';
+
+export interface Inventory {
+  id: string;
+  name: string;
+  type: InventoryType;
+  capacity: number;
+  items: InventoryItem[];
+  slots: InventorySlot[];
+  filters: InventoryFilter[];
+  sorting: InventorySorting;
+  metadata: Record<string, any>;
+}
+
+export type InventoryType = 'player' | 'container' | 'shop' | 'bank' | 'guild' | 'custom';
+
+export interface InventoryItem {
+  itemId: string;
+  quantity: number;
+  slot: number;
+  position: InventoryPosition;
+  metadata: Record<string, any>;
+}
+
+export interface InventoryPosition {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface InventorySlot {
+  id: number;
+  position: InventoryPosition;
+  type: SlotType;
+  restrictions: SlotRestriction[];
+  occupied: boolean;
+  itemId?: string;
+}
+
+export type SlotType = 'general' | 'weapon' | 'armor' | 'accessory' | 'consumable' | 'custom';
+
+export interface SlotRestriction {
+  type: RestrictionType;
+  value: any;
+  operator: RestrictionOperator;
+}
+
+export type RestrictionType = 'item_type' | 'item_rarity' | 'item_level' | 'custom';
+export type RestrictionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains';
+
+export interface InventoryFilter {
+  id: string;
+  name: string;
+  type: FilterType;
+  criteria: FilterCriteria;
+  enabled: boolean;
+}
+
+export type FilterType = 'item_type' | 'item_rarity' | 'item_level' | 'item_value' | 'custom';
+
+export interface FilterCriteria {
+  field: string;
+  operator: FilterOperator;
+  value: any;
+  logic: LogicOperator;
+}
+
+export type FilterOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'starts_with' | 'ends_with';
+export type LogicOperator = 'and' | 'or' | 'not';
+
+export interface InventorySorting {
+  enabled: boolean;
+  criteria: SortCriteria[];
+  direction: SortDirection;
+}
+
+export interface SortCriteria {
+  field: string;
+  direction: SortDirection;
+  priority: number;
+}
+
+export type SortDirection = 'asc' | 'desc';
+
+export interface Recipe {
   id: string;
   name: string;
   description: string;
   category: string;
-  properties: string[];
-  requirements: string[];
-  effects: string[];
+  ingredients: RecipeIngredient[];
+  result: RecipeResult;
+  requirements: RecipeRequirements;
+  metadata: Record<string, any>;
+}
+
+export interface RecipeIngredient {
+  itemId: string;
+  quantity: number;
+  consumed: boolean;
+  alternatives: string[];
+}
+
+export interface RecipeResult {
+  itemId: string;
+  quantity: number;
+  chance: number;
+  alternatives: RecipeAlternative[];
+}
+
+export interface RecipeAlternative {
+  itemId: string;
+  quantity: number;
+  chance: number;
+}
+
+export interface RecipeRequirements {
+  level: number;
+  skills: SkillRequirement[];
+  tools: ItemRequirement[];
+  location: string;
+  time: number;
 }
 
 export interface ItemCategory {
@@ -79,668 +296,623 @@ export interface ItemCategory {
   description: string;
   parent?: string;
   children: string[];
-  properties: string[];
-  types: string[];
+  properties: CategoryProperties;
+  metadata: Record<string, any>;
 }
 
-export interface ItemRarity {
-  id: string;
-  name: string;
-  level: number;
-  color: string;
-  multiplier: number;
-  properties: string[];
-}
-
-export interface ItemQuality {
-  id: string;
-  name: string;
-  level: number;
-  multiplier: number;
-  durability: number;
-  properties: string[];
-}
-
-export interface ItemProperties {
-  [key: string]: any;
-  weight: number;
-  value: number;
-  durability: number;
+export interface CategoryProperties {
+  defaultRarity: ItemRarity;
+  defaultType: ItemType;
   stackable: boolean;
   tradeable: boolean;
-  droppable: boolean;
-  sellable: boolean;
+  craftable: boolean;
 }
 
-export interface ItemStats {
-  [key: string]: number;
-  attack?: number;
-  defense?: number;
-  speed?: number;
-  health?: number;
-  mana?: number;
-  stamina?: number;
-}
-
-export interface ItemRequirements {
-  level: number;
-  attributes: {
-
-    [key: string]: number 
-
-
-  };
-  skills: {
-    [key: string]: number;
-  };
-  items: {
-    [key: string]: number;
-  };
-}
-
-export interface ItemEffect {
-  id: string;
-  type: string;
-  value: number;
-  duration: number;
-  condition: string;
-  target: string;
-}
-
-export interface ItemCrafting {
-  enabled: boolean;
-  materials: {
-
-    [key: string]: number 
-
-
-  }
-  };
-  tools: string[];
-  time: number;
-  skill: string;
-  level: number;
-}
-
-export interface ItemEnhancement {
-  enabled: boolean;
-  level: number;
-  maxLevel: number;
-  materials: {
-
-    [key: string]: number 
-
-
-  }
-  };
-  successRate: number;
-  failureRate: number;
-}
-
-export interface ItemMetadata {
-  [key: string]: any;
-  tags: string[];
-  flags: string[];
-  notes: string;
-  source: string;
-  creator: string;
-}
-
-export interface ItemStats {
+export interface ItemsPerformanceMetrics {
   totalItems: number;
+  totalInventories: number;
+  totalRecipes: number;
   totalCategories: number;
-  totalTypes: number;
-  totalRarities: number;
-  totalQualities: number;
+  averageItemValue: number;
+  totalInventoryValue: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface ItemsAnalytics {
+  totalItems: number;
+  averageItemValue: number;
+  itemTypeDistribution: ItemTypeDistribution[];
+  rarityDistribution: RarityDistribution[];
+  inventoryUtilization: InventoryUtilization[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface ItemTypeDistribution {
+  type: ItemType;
+  count: number;
+  percentage: number;
   averageValue: number;
-  mostCommonType: string;
-  rarestItem: string;
+}
+
+export interface RarityDistribution {
+  rarity: ItemRarity;
+  count: number;
+  percentage: number;
+  averageValue: number;
+}
+
+export interface InventoryUtilization {
+  inventoryId: string;
+  name: string;
+  utilization: number;
+  totalValue: number;
+  itemCount: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  items: number;
+  inventories: number;
+  recipes: number;
+  totalValue: number;
+  utilization: number;
+}
+
+export interface ItemsReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeItems: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
 }
 
-export class ItemManager {
-  private config: ItemConfig;
-  private items: Map<string, Item> = new Map();
-  private types: Map<string, ItemType> = new Map();
-  private categories: Map<string, ItemCategory> = new Map();
-  private rarities: Map<string, ItemRarity> = new Map();
-  private qualities: Map<string, ItemQuality> = new Map();
-  private stats: ItemStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
-  private errorHandler: StandardErrorHandler;
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
 
-  constructor(config: Partial<ItemConfig> = {}) {
+export interface ItemsOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class ItemsPure {
+  private managers: Map<string, ItemsManager> = new Map();
+  private config: ItemsConfig;
+  private performanceMetrics: ItemsPerformanceMetrics;
+  private analytics: ItemsAnalytics;
+
+  constructor(config: Partial<ItemsConfig> = {}) {
     this.config = {
-      enableItemCreation: true,
       enableItemManagement: true,
+      enableInventorySystem: true,
       enableItemProperties: true,
-      enableItemCategories: true,
-      enableItemTypes: true,
-      enableItemRarity: true,
-      enableItemQuality: true,
       enableItemCrafting: true,
-      enableItemEnhancement: true,
-      enableCrossPlatformSupport: true,
+      enableItemTrading: true,
       enablePerformanceOptimization: true,
       enableRealTimeMonitoring: true,
       enableItemAnalytics: true,
       enableItemReporting: true,
-      maxItems: 100000,
-      maxCategories: 1000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      maxItems: 10000,
+      maxInventories: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
     };
 
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
+    this.performanceMetrics = {
+      totalItems: 0,
+      totalInventories: 0,
+      totalRecipes: 0,
+      totalCategories: 0,
+      averageItemValue: 0,
+      totalInventoryValue: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-        'ItemManager': LogLevel.DEBUG
-      
+    this.analytics = {
+      totalItems: 0,
+      averageItemValue: 0,
+      itemTypeDistribution: [],
+      rarityDistribution: [],
+      inventoryUtilization: [],
+      performanceTrends: []
+    };
+  }
 
-      
-
-
-      }
+  /**
+   * Create a new items manager
+   */
+  createManager(managerData: Partial<ItemsManager>): ItemsOutput {
+    if (!this.config.enableItemManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Item management is disabled']
       };
-    });
+    }
 
-    // Register with memory manager
-    this.memoryId = `ItemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'ItemManager');
+    const manager: ItemsManager = {
+      id: managerData.id || `items-${Date.now()}`,
+      name: managerData.name || 'Unnamed Items Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      items: [],
+      inventories: [],
+      recipes: [],
+      categories: [],
+      performanceMetrics: {
+        totalItems: 0,
+        totalInventories: 0,
+        totalRecipes: 0,
+        totalCategories: 0,
+        averageItemValue: 0,
+        totalInventoryValue: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalItems: 0,
+        averageItemValue: 0,
+        itemTypeDistribution: [],
+        rarityDistribution: [],
+        inventoryUtilization: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeItems: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-    // Initialize error handler
-    this.errorHandler = new StandardErrorHandler(this.logger);
+    this.managers.set(manager.id, manager);
+
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Initialize item manager
+   * Get manager by ID
    */
-  async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('ItemManager', 'initialize');
-    
-    try {
-      // Initialize item manager
-      await this.initializeItemManager();
-      
-      // Load default items
-      await this.loadDefaultItems();
-      
-      this.isInitialized = true;
-      this.logger.info('ItemManager', 'Item manager initialized successfully', {
-        itemsCount: this.items.size,
-        config: this.config
-      });
-      
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('ItemManager', 'initialize', duration);
-      
-      return true;
-    } catch (error) {
-      this.logger.error('ItemManager', 'Failed to initialize item manager', {
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }, error instanceof Error ? error : undefined);
-      
-      this.logger.endTimer(timerId);
-      return false;
+  getManager(managerId: string): ItemsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Create new item
+   * Create item
    */
-  createItem(item: Partial<Item>): Item | null {
-    if (!this.isInitialized) {
-      const error = this.errorHandler.createError(
-        ErrorCode.MODULE_NOT_INITIALIZED,
-        'Item manager not initialized',
-        { module: 'ItemManager', operation: 'createItem' },
-        undefined,
-        ErrorSeverity.HIGH
-      );
-      this.errorHandler.handleError(error);
-      return null;
+  createItem(managerId: string, item: Partial<Item>): ItemsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-item',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    if (this.items.size >= this.config.maxItems) {
-      const error = this.errorHandler.createError(
-        ErrorCode.OPERATION_FAILED,
-        'Maximum number of items reached',
-        { module: 'ItemManager', operation: 'createItem' },
-        undefined,
-        ErrorSeverity.MEDIUM
-      );
-      this.errorHandler.handleError(error);
-      return null;
+    if (manager.items.length >= this.config.maxItems) {
+      return {
+        op: 'create-item',
+        status: 'error',
+        issues: ['Maximum number of items reached']
+      };
     }
 
     const newItem: Item = {
-      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: item.name || 'New Item',
+      id: item.id || `item-${Date.now()}`,
+      name: item.name || 'Unnamed Item',
       description: item.description || '',
-      type: item.type || this.getDefaultItemType(),
-      category: item.category || this.getDefaultItemCategory(),
-      rarity: item.rarity || this.getDefaultItemRarity(),
-      quality: item.quality || this.getDefaultItemQuality(),
-      properties: item.properties || this.getDefaultItemProperties(),
-      stats: item.stats || {},
-      requirements: item.requirements || this.getDefaultItemRequirements(),
+      type: item.type || 'misc',
+      category: item.category || 'general',
+      rarity: item.rarity || 'common',
+      value: item.value || {
+        base: 0,
+        current: 0,
+        currency: 'gold',
+        modifiers: []
+      },
+      properties: item.properties || {
+        weight: 1,
+        size: { width: 1, height: 1, depth: 1, volume: 1 },
+        durability: { current: 100, maximum: 100, degradation: 0, repairable: true, repairCost: 10 },
+        stackable: true,
+        maxStack: 99,
+        tradeable: true,
+        droppable: true,
+        sellable: true,
+        craftable: false
+      },
+      requirements: item.requirements || {
+        level: 1,
+        stats: [],
+        skills: [],
+        items: [],
+        quests: []
+      },
       effects: item.effects || [],
-      crafting: item.crafting || this.getDefaultItemCrafting(),
-      enhancement: item.enhancement || this.getDefaultItemEnhancement(),
-      metadata: item.metadata || this.getDefaultItemMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
+      metadata: {},
+      ...item
     };
 
-    this.items.set(newItem.id, newItem);
-    this.updateStats('create_item', newItem);
+    manager.items.push(newItem);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalItems++;
 
-    this.logger.info('ItemManager', 'Created item', {
-      itemId: newItem.id,
-      itemName: newItem.name,
-      itemType: newItem.type.name,
-      totalItems: this.items.size
-    });
-    
-    MemoryManager.trackAccess(this.memoryId);
-    return newItem;
+    return {
+      op: 'create-item',
+      status: 'ok',
+      result: newItem
+    };
   }
 
   /**
-   * Get item by ID
+   * Create inventory
    */
-  getItem(itemId: string): Item | null {
-    const item = this.items.get(itemId);
-    if (item) {
-      MemoryManager.trackAccess(this.memoryId);
-    }
-    return item || null;
-  }
-
-  /**
-   * Update item
-   */
-  updateItem(itemId: string, updates: Partial<Item>): Item | null {
-    const item = this.items.get(itemId);
-    if (!item) {
-      const error = this.errorHandler.createError(
-        ErrorCode.RESOURCE_NOT_FOUND,
-        'Item not found',
-        { module: 'ItemManager', operation: 'updateItem', metadata: { itemId } },
-        undefined,
-        ErrorSeverity.MEDIUM
-      );
-      this.errorHandler.handleError(error);
-      return null;
+  createInventory(managerId: string, inventory: Partial<Inventory>): ItemsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-inventory',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    const updatedItem: Item = {
-      ...item,
-      ...updates,
-      id: itemId, // Prevent ID changes
-      modified: Date.now()
+    if (manager.inventories.length >= this.config.maxInventories) {
+      return {
+        op: 'create-inventory',
+        status: 'error',
+        issues: ['Maximum number of inventories reached']
+      };
+    }
+
+    const newInventory: Inventory = {
+      id: inventory.id || `inventory-${Date.now()}`,
+      name: inventory.name || 'Unnamed Inventory',
+      type: inventory.type || 'player',
+      capacity: inventory.capacity || 20,
+      items: [],
+      slots: this.generateSlots(inventory.capacity || 20),
+      filters: [],
+      sorting: {
+        enabled: false,
+        criteria: [],
+        direction: 'asc'
+      },
+      metadata: {},
+      ...inventory
     };
 
-    this.items.set(itemId, updatedItem);
-    this.updateStats('update_item', updatedItem);
+    manager.inventories.push(newInventory);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalInventories++;
 
-    this.logger.info('ItemManager', 'Updated item', {
-      itemId,
-      itemName: updatedItem.name,
-      changes: Object.keys(updates)
-    });
-    
-    MemoryManager.trackAccess(this.memoryId);
-    return updatedItem;
+    return {
+      op: 'create-inventory',
+      status: 'ok',
+      result: newInventory
+    };
   }
 
   /**
-   * Delete item
+   * Add item to inventory
    */
-  deleteItem(itemId: string): boolean {
-    const item = this.items.get(itemId);
+  addItemToInventory(managerId: string, inventoryId: string, itemId: string, quantity: number): ItemsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'add-item-to-inventory',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const inventory = manager.inventories.find(inv => inv.id === inventoryId);
+    if (!inventory) {
+      return {
+        op: 'add-item-to-inventory',
+        status: 'error',
+        issues: [`Inventory ${inventoryId} not found`]
+      };
+    }
+
+    const item = manager.items.find(i => i.id === itemId);
     if (!item) {
-      const error = this.errorHandler.createError(
-        ErrorCode.RESOURCE_NOT_FOUND,
-        'Item not found',
-        { module: 'ItemManager', operation: 'deleteItem', metadata: { itemId } },
-        undefined,
-        ErrorSeverity.MEDIUM
-      );
-      this.errorHandler.handleError(error);
-      return false;
+      return {
+        op: 'add-item-to-inventory',
+        status: 'error',
+        issues: [`Item ${itemId} not found`]
+      };
     }
 
-    this.items.delete(itemId);
-    this.updateStats('delete_item', item);
-
-    this.logger.info('ItemManager', 'Deleted item', {
-      itemId,
-      itemName: item.name
-    });
-    
-    MemoryManager.trackAccess(this.memoryId);
-    return true;
-  }
-
-  /**
-   * Get all items
-   */
-  getAllItems(): Item[] {
-    MemoryManager.trackAccess(this.memoryId);
-    return Array.from(this.items.values());
-  }
-
-  /**
-   * Get items by type
-   */
-  getItemsByType(typeId: string): Item[] {
-    const items = Array.from(this.items.values()).filter(item => item.type.id === typeId);
-    MemoryManager.trackAccess(this.memoryId);
-    return items;
-  }
-
-  /**
-   * Get items by category
-   */
-  getItemsByCategory(categoryId: string): Item[] {
-    const items = Array.from(this.items.values()).filter(item => item.category.id === categoryId);
-    MemoryManager.trackAccess(this.memoryId);
-    return items;
-  }
-
-  /**
-   * Get items by rarity
-   */
-  getItemsByRarity(rarityId: string): Item[] {
-    const items = Array.from(this.items.values()).filter(item => item.rarity.id === rarityId);
-    MemoryManager.trackAccess(this.memoryId);
-    return items;
-  }
-
-  /**
-   * Search items
-   */
-  searchItems(query: string): Item[] {
-    const searchTerm = query.toLowerCase();
-    const items = Array.from(this.items.values()).filter(item => 
-      item.name.toLowerCase().includes(searchTerm) ||
-      item.description.toLowerCase().includes(searchTerm) ||
-      item.type.name.toLowerCase().includes(searchTerm) ||
-      item.category.name.toLowerCase().includes(searchTerm)
-    );
-    MemoryManager.trackAccess(this.memoryId);
-    return items;
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): ItemStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize item manager
-   */
-  private async initializeItemManager(): Promise<void> {
-    this.logger.debug('ItemManager', 'Initializing item manager...');
-  }
-
-  /**
-   * Load default items
-   */
-  private async loadDefaultItems(): Promise<void> {
-    const defaultItems = this.createDefaultItems();
-    
-    for (const item of defaultItems) {
-      this.items.set(item.id, item);
-    }
-
-    this.logger.info('ItemManager', 'Loaded default items', {
-      count: defaultItems.length,
-      items: defaultItems.map(i => i.name)
-    });
-  }
-
-  /**
-   * Create default items
-   */
-  private createDefaultItems(): Item[] {
-    return [
-      {
-        id: 'item_sword_basic',
-        name: 'Basic Sword',
-        description: 'A simple iron sword',
-        type: this.getDefaultItemType(),
-        category: this.getDefaultItemCategory(),
-        rarity: this.getDefaultItemRarity(),
-        quality: this.getDefaultItemQuality(),
-        properties: {
-
-          weight: 2.5, value: 50, durability: 100, stackable: false, tradeable: true, droppable: true, sellable: true;
-
-        }
-    },
-        stats: {
-
-          attack: 10,
-
-          speed: 5;
-
-        }
-    },
-        requirements: { level: 1, attributes: {}, skills: {}, items: {} },
-        effects: [],
-        crafting: this.getDefaultItemCrafting(),
-        enhancement: this.getDefaultItemEnhancement(),
-        metadata: { tags: ['weapon', 'sword'], flags: [], notes: '', source: 'default', creator: 'system' },
-        version: '1.0.0',
-        created: Date.now(),
-        modified: Date.now()
+    // Check if item is stackable and already exists in inventory
+    if (item.properties.stackable) {
+      const existingItem = inventory.items.find(invItem => invItem.itemId === itemId);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+        manager.updatedAt = Date.now();
+        return {
+          op: 'add-item-to-inventory',
+          status: 'ok',
+          result: {
+            inventoryId,
+            itemId,
+            quantity: existingItem.quantity,
+            added: quantity
+          }
+        };
       }
-    ];
-  }
-
-  /**
-   * Get default item type
-   */
-  private getDefaultItemType(): ItemType {
-    return {
-      id: 'type_weapon',
-      name: 'Weapon',
-      description: 'A weapon item',
-      category: 'equipment',
-      properties: ['attack', 'speed'],
-      requirements: ['strength'],
-      effects: ['damage']
-    };
-  }
-
-  /**
-   * Get default item category
-   */
-  private getDefaultItemCategory(): ItemCategory {
-    return {
-      id: 'category_equipment',
-      name: 'Equipment',
-      description: 'Equipment items',
-      children: [],
-      properties: ['durability'],
-      types: ['weapon', 'armor']
-    };
-  }
-
-  /**
-   * Get default item rarity
-   */
-  private getDefaultItemRarity(): ItemRarity {
-    return {
-      id: 'rarity_common',
-      name: 'Common',
-      level: 1,
-      color: '#ffffff',
-      multiplier: 1.0,
-      properties: []
-    };
-  }
-
-  /**
-   * Get default item quality
-   */
-  private getDefaultItemQuality(): ItemQuality {
-    return {
-      id: 'quality_normal',
-      name: 'Normal',
-      level: 1,
-      multiplier: 1.0,
-      durability: 100,
-      properties: []
-    };
-  }
-
-  /**
-   * Get default item properties
-   */
-  private getDefaultItemProperties(): ItemProperties {
-    return {
-      weight: 1.0,
-      value: 10,
-      durability: 100,
-      stackable: false,
-      tradeable: true,
-      droppable: true,
-      sellable: true;
-    };
-  }
-
-  /**
-   * Get default item requirements
-   */
-  private getDefaultItemRequirements(): ItemRequirements {
-    return {
-      level: 1,
-      attributes: {},
-      skills: {},
-      items: {}
-    };
-  }
-
-  /**
-   * Get default item crafting
-   */
-  private getDefaultItemCrafting(): ItemCrafting {
-    return {
-      enabled: false,
-      materials: {},
-      tools: [],
-      time: 0,
-      skill: '',
-      level: 0;
-    };
-  }
-
-  /**
-   * Get default item enhancement
-   */
-  private getDefaultItemEnhancement(): ItemEnhancement {
-    return {
-      enabled: false,
-      level: 0,
-      maxLevel: 0,
-      materials: {},
-      successRate: 0,
-      failureRate: 0;
-    };
-  }
-
-  /**
-   * Get default item metadata
-   */
-  private getDefaultItemMetadata(): ItemMetadata {
-    return {
-      tags: [],
-      flags: [],
-      notes: '',
-      source: 'default',
-      creator: 'system'
-    };
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(operation: string, item: Item): void {
-    this.stats.totalItems = this.items.size;
-    this.stats.lastUpdate = Date.now();
-    
-    // Update other statistics based on operation
-    if (operation === 'create_item') {
-      this.stats.averageValue = this.calculateAverageValue();
     }
-  }
 
-  /**
-   * Calculate average item value
-   */
-  private calculateAverageValue(): number {
-    const items = Array.from(this.items.values());
-    if (items.length === 0) return 0;
-    
-    const totalValue = items.reduce((sum, item) => sum + (item.properties.value || 0), 0);
-    return totalValue / items.length;
-  }
+    // Find available slot
+    const availableSlot = this.findAvailableSlot(inventory, item);
+    if (!availableSlot) {
+      return {
+        op: 'add-item-to-inventory',
+        status: 'error',
+        issues: ['No available slot in inventory']
+      };
+    }
 
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): ItemStats {
+    const inventoryItem: InventoryItem = {
+      itemId,
+      quantity,
+      slot: availableSlot.id,
+      position: availableSlot.position,
+      metadata: {}
+    };
+
+    inventory.items.push(inventoryItem);
+    availableSlot.occupied = true;
+    availableSlot.itemId = itemId;
+    manager.updatedAt = Date.now();
+
     return {
-      totalItems: 0,
-      totalCategories: 0,
-      totalTypes: 0,
-      totalRarities: 0,
-      totalQualities: 0,
-      averageValue: 0,
-      mostCommonType: '',
-      rarestItem: '',
-      lastUpdate: Date.now()
+      op: 'add-item-to-inventory',
+      status: 'ok',
+      result: {
+        inventoryId,
+        itemId,
+        quantity,
+        slot: availableSlot.id
+      }
     };
   }
 
   /**
-   * Cleanup resources
+   * Generate inventory slots
    */
-  destroy(): void {
-    this.logger.info('ItemManager', 'Destroying item manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.types.clear();
-    this.categories.clear();
-    this.rarities.clear();
-    this.qualities.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+  private generateSlots(capacity: number): InventorySlot[] {
+    const slots: InventorySlot[] = [];
+    const slotsPerRow = 10;
+    const slotSize = 32;
+    const padding = 2;
+
+    for (let i = 0; i < capacity; i++) {
+      const row = Math.floor(i / slotsPerRow);
+      const col = i % slotsPerRow;
+      
+      slots.push({
+        id: i,
+        position: {
+          x: col * (slotSize + padding),
+          y: row * (slotSize + padding),
+          width: slotSize,
+          height: slotSize
+        },
+        type: 'general',
+        restrictions: [],
+        occupied: false
+      });
+    }
+
+    return slots;
+  }
+
+  /**
+   * Find available slot for item
+   */
+  private findAvailableSlot(inventory: Inventory, item: Item): InventorySlot | null {
+    for (const slot of inventory.slots) {
+      if (!slot.occupied && this.canItemFitInSlot(item, slot)) {
+        return slot;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Check if item can fit in slot
+   */
+  private canItemFitInSlot(item: Item, slot: InventorySlot): boolean {
+    // Simple size check - in reality this would be more complex
+    return item.properties.size.width <= slot.position.width && 
+           item.properties.size.height <= slot.position.height;
+  }
+
+  /**
+   * Create recipe
+   */
+  createRecipe(managerId: string, recipe: Partial<Recipe>): ItemsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-recipe',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newRecipe: Recipe = {
+      id: recipe.id || `recipe-${Date.now()}`,
+      name: recipe.name || 'Unnamed Recipe',
+      description: recipe.description || '',
+      category: recipe.category || 'general',
+      ingredients: recipe.ingredients || [],
+      result: recipe.result || {
+        itemId: '',
+        quantity: 1,
+        chance: 1.0,
+        alternatives: []
+      },
+      requirements: recipe.requirements || {
+        level: 1,
+        skills: [],
+        tools: [],
+        location: '',
+        time: 0
+      },
+      metadata: {},
+      ...recipe
+    };
+
+    manager.recipes.push(newRecipe);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalRecipes++;
+
+    return {
+      op: 'create-recipe',
+      status: 'ok',
+      result: newRecipe
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): ItemsPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): ItemsAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): ItemsManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalItems = 0;
+    let totalInventories = 0;
+    let totalRecipes = 0;
+    let totalCategories = 0;
+    let totalValue = 0;
+
+    for (const manager of this.managers.values()) {
+      totalItems += manager.items.length;
+      totalInventories += manager.inventories.length;
+      totalRecipes += manager.recipes.length;
+      totalCategories += manager.categories.length;
+      
+      for (const item of manager.items) {
+        totalValue += item.value.current;
+      }
+    }
+
+    this.performanceMetrics.totalItems = totalItems;
+    this.performanceMetrics.totalInventories = totalInventories;
+    this.performanceMetrics.totalRecipes = totalRecipes;
+    this.performanceMetrics.totalCategories = totalCategories;
+    this.performanceMetrics.averageItemValue = totalItems > 0 ? totalValue / totalItems : 0;
+    this.performanceMetrics.totalInventoryValue = totalValue;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultItemManager = new ItemManager();
-export { ItemManager as default };

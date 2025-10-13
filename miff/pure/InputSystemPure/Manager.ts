@@ -1,80 +1,55 @@
 /**
- * InputSystemPure Manager - Advanced Input Management System
+ * InputSystemPure Manager - Advanced Input System Management
  *
- * Comprehensive input system with:
- * - Multi-device input support (keyboard, mouse, gamepad, touch)
- * - Input mapping and customization
- * - Gesture recognition and handling
- * - Input buffering and queuing
- * - Accessibility features
+ * Comprehensive input system management with:
+ * - Input device management and handling
+ * - Input mapping and configuration
+ * - Input events and callbacks
  * - Input validation and filtering
- * - Real-time input processing
- * - Input analytics and monitoring
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Performance optimization
+ * - Real-time input monitoring
+ * - Input analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface InputSystemConfig {
-  enableKeyboard: boolean;
-  enableMouse: boolean;
-  enableGamepad: boolean;
-  enableTouch: boolean;
-  enableGestureRecognition: boolean;
+  enableInputManagement: boolean;
   enableInputMapping: boolean;
-  enableInputBuffering: boolean;
-  enableAccessibility: boolean;
+  enableInputEvents: boolean;
   enableInputValidation: boolean;
-  enableRealTimeProcessing: boolean;
+  enableInputFiltering: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
   enableInputAnalytics: boolean;
-  enableInputMonitoring: boolean;
-  maxInputDevices: number;
-  maxInputMappings: number;
-  maxInputBuffer: number;
+  enableInputReporting: boolean;
+  maxDevices: number;
+  maxMappings: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface InputSystem {
+export interface InputSystemManager {
   id: string;
   name: string;
-  type: InputSystemType;
-  status: InputSystemStatus;
+  type: InputSystemManagerType;
+  status: InputSystemManagerStatus;
   devices: InputDevice[];
   mappings: InputMapping[];
-  gestures: InputGesture[];
-  buffer: InputBuffer;
-  validation: InputValidation;
-  accessibility: AccessibilityConfig;
-  analytics: InputAnalytics;
-  metadata: InputMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  events: InputEvent[];
+  filters: InputFilter[];
+  performanceMetrics: InputSystemPerformanceMetrics;
+  analytics: InputSystemAnalytics;
+  reporting: InputSystemReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum InputSystemType {
-  GAME = 'game',
-  APPLICATION = 'application',
-  WEB = 'web',
-  MOBILE = 'mobile',
-  VR = 'vr',
-  AR = 'ar',
-  CUSTOM = 'custom'
-}
-
-export enum InputSystemStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  MAINTENANCE = 'maintenance'
-}
+export type InputSystemManagerType = 'game' | 'application' | 'simulation' | 'custom';
+export type InputSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface InputDevice {
   id: string;
@@ -83,35 +58,21 @@ export interface InputDevice {
   status: DeviceStatus;
   capabilities: DeviceCapabilities;
   properties: DeviceProperties;
-  statistics: DeviceStatistics;
-  metadata: Map<string, any>;
+  mapping: string;
+  metadata: Record<string, any>;
 }
 
-export enum DeviceType {
-  KEYBOARD = 'keyboard',
-  MOUSE = 'mouse',
-  GAMEPAD = 'gamepad',
-  TOUCH = 'touch',
-  VR_CONTROLLER = 'vr_controller',
-  AR_CONTROLLER = 'ar_controller',
-  CUSTOM = 'custom'
-}
-
-export enum DeviceStatus {
-  CONNECTED = 'connected',
-  DISCONNECTED = 'disconnected',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
+export type DeviceType = 'keyboard' | 'mouse' | 'gamepad' | 'touch' | 'vr' | 'ar' | 'custom';
+export type DeviceStatus = 'connected' | 'disconnected' | 'error' | 'maintenance';
 
 export interface DeviceCapabilities {
   buttons: number;
   axes: number;
-  haptics: boolean;
+  hats: number;
+  forceFeedback: boolean;
+  haptic: boolean;
   motion: boolean;
   touch: boolean;
-  pressure: boolean;
-  metadata: Map<string, any>;
 }
 
 export interface DeviceProperties {
@@ -119,901 +80,705 @@ export interface DeviceProperties {
   product: string;
   version: string;
   serial: string;
-  metadata: Map<string, any>;
-}
-
-export interface DeviceStatistics {
-  totalInputs: number;
-  inputsPerSecond: number;
-  averageLatency: number;
-  errors: number;
-  lastActivity: number;
-  metadata: Map<string, any>;
+  driver: string;
+  firmware: string;
 }
 
 export interface InputMapping {
   id: string;
   name: string;
+  deviceId: string;
   type: MappingType;
   source: InputSource;
   target: InputTarget;
   modifiers: InputModifier[];
   conditions: InputCondition[];
   enabled: boolean;
-  metadata: Map<string, any>;
+  metadata: Record<string, any>;
 }
 
-export enum MappingType {
-  DIRECT = 'direct',
-  COMBINATION = 'combination',
-  SEQUENCE = 'sequence',
-  GESTURE = 'gesture',
-  CUSTOM = 'custom'
-}
+export type MappingType = 'button' | 'axis' | 'hat' | 'key' | 'gesture' | 'custom';
 
 export interface InputSource {
-  device: string;
-  input: string;
-  type: InputType;
-  metadata: Map<string, any>;
+  type: SourceType;
+  code: string;
+  value: number;
+  threshold: number;
+  deadzone: number;
 }
 
-export enum InputType {
-  BUTTON = 'button',
-  AXIS = 'axis',
-  KEY = 'key',
-  MOUSE_BUTTON = 'mouse_button',
-  MOUSE_AXIS = 'mouse_axis',
-  TOUCH = 'touch',
-  GESTURE = 'gesture',
-  CUSTOM = 'custom'
-}
+export type SourceType = 'button' | 'axis' | 'hat' | 'key' | 'gesture' | 'custom';
 
 export interface InputTarget {
   action: string;
-  value: any;
-  metadata: Map<string, any>;
+  value: number;
+  scale: number;
+  offset: number;
+  clamp: ClampSettings;
+}
+
+export interface ClampSettings {
+  enabled: boolean;
+  min: number;
+  max: number;
+  wrap: boolean;
 }
 
 export interface InputModifier {
   type: ModifierType;
-  value: any;
-  metadata: Map<string, any>;
+  value: number;
+  operation: ModifierOperation;
 }
 
-export enum ModifierType {
-  SHIFT = 'shift',
-  CTRL = 'ctrl',
-  ALT = 'alt',
-  META = 'meta',
-  CUSTOM = 'custom'
-}
+export type ModifierType = 'scale' | 'offset' | 'deadzone' | 'sensitivity' | 'custom';
+export type ModifierOperation = 'add' | 'multiply' | 'divide' | 'power' | 'custom';
 
 export interface InputCondition {
   type: ConditionType;
   value: any;
   operator: ConditionOperator;
-  metadata: Map<string, any>;
+  logic: LogicOperator;
 }
 
-export enum ConditionType {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  GREATER_EQUAL = 'greater_equal',
-  LESS_EQUAL = 'less_equal',
-  CONTAINS = 'contains',
-  NOT_CONTAINS = 'not_contains',
-  CUSTOM = 'custom'
-}
-
-export enum ConditionOperator {
-  AND = 'and',
-  OR = 'or',
-  NOT = 'not',
-  CUSTOM = 'custom'
-}
-
-export interface InputGesture {
-  id: string;
-  name: string;
-  type: GestureType;
-  pattern: GesturePattern;
-  recognition: GestureRecognition;
-  action: GestureAction;
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum GestureType {
-  TAP = 'tap',
-  DOUBLE_TAP = 'double_tap',
-  LONG_PRESS = 'long_press',
-  SWIPE = 'swipe',
-  PINCH = 'pinch',
-  ROTATE = 'rotate',
-  DRAG = 'drag',
-  CUSTOM = 'custom'
-}
-
-export interface GesturePattern {
-  points: GesturePoint[];
-  duration: number;
-  threshold: number;
-  metadata: Map<string, any>;
-}
-
-export interface GesturePoint {
-  x: number;
-  y: number;
-  timestamp: number;
-  pressure: number;
-  metadata: Map<string, any>;
-}
-
-export interface GestureRecognition {
-  enabled: boolean;
-  sensitivity: number;
-  timeout: number;
-  metadata: Map<string, any>;
-}
-
-export interface GestureAction {
-  type: ActionType;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum ActionType {
-  TRIGGER_EVENT = 'trigger_event',
-  EXECUTE_SCRIPT = 'execute_script',
-  SEND_MESSAGE = 'send_message',
-  CUSTOM = 'custom'
-}
-
-export interface InputBuffer {
-  enabled: boolean;
-  maxSize: number;
-  currentSize: number;
-  inputs: InputEvent[];
-  strategy: BufferStrategy;
-  statistics: BufferStatistics;
-  metadata: Map<string, any>;
-}
-
-export enum BufferStrategy {
-  FIFO = 'fifo',
-  LIFO = 'lifo',
-  PRIORITY = 'priority',
-  CUSTOM = 'custom'
-}
+export type ConditionType = 'device' | 'state' | 'time' | 'context' | 'custom';
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains';
+export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface InputEvent {
   id: string;
-  type: InputType;
-  device: string;
-  input: string;
-  value: any;
+  type: EventType;
+  deviceId: string;
+  mappingId: string;
+  data: EventData;
   timestamp: number;
+  processed: boolean;
+  metadata: Record<string, any>;
+}
+
+export type EventType = 'pressed' | 'released' | 'moved' | 'held' | 'gesture' | 'custom';
+
+export interface EventData {
+  source: InputSource;
+  target: InputTarget;
+  value: number;
+  delta: number;
   duration: number;
-  metadata: Map<string, any>;
-}
-
-export interface BufferStatistics {
-  totalInputs: number;
-  processedInputs: number;
-  droppedInputs: number;
-  averageLatency: number;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface InputValidation {
-  enabled: boolean;
-  rules: ValidationRule[];
-  filters: InputFilter[];
-  metadata: Map<string, any>;
-}
-
-export interface ValidationRule {
-  type: ValidationRuleType;
-  condition: ValidationCondition;
-  action: ValidationAction;
-  metadata: Map<string, any>;
-}
-
-export enum ValidationRuleType {
-  RATE_LIMIT = 'rate_limit',
-  DEBOUNCE = 'debounce',
-  THROTTLE = 'throttle',
-  CUSTOM = 'custom'
-}
-
-export interface ValidationCondition {
-  type: ConditionType;
-  value: any;
-  operator: ConditionOperator;
-  metadata: Map<string, any>;
-}
-
-export interface ValidationAction {
-  type: ActionType;
-  value: any;
-  metadata: Map<string, any>;
+  modifiers: InputModifier[];
 }
 
 export interface InputFilter {
+  id: string;
+  name: string;
   type: FilterType;
   enabled: boolean;
-  parameters: FilterParameters;
-  metadata: Map<string, any>;
+  settings: FilterSettings;
+  metadata: Record<string, any>;
 }
 
-export enum FilterType {
-  NOISE_REDUCTION = 'noise_reduction',
-  SMOOTHING = 'smoothing',
-  NORMALIZATION = 'normalization',
-  CUSTOM = 'custom'
+export type FilterType = 'deadzone' | 'smoothing' | 'threshold' | 'noise' | 'custom';
+
+export interface FilterSettings {
+  deadzone: DeadzoneSettings;
+  smoothing: SmoothingSettings;
+  threshold: ThresholdSettings;
+  noise: NoiseSettings;
 }
 
-export interface FilterParameters {
-  [key: string]: any;
-}
-
-export interface AccessibilityConfig {
+export interface DeadzoneSettings {
   enabled: boolean;
-  features: AccessibilityFeature[];
-  settings: AccessibilitySettings;
-  metadata: Map<string, any>;
+  value: number;
+  type: DeadzoneType;
 }
 
-export interface AccessibilityFeature {
-  type: AccessibilityFeatureType;
+export type DeadzoneType = 'circular' | 'square' | 'cross' | 'custom';
+
+export interface SmoothingSettings {
   enabled: boolean;
-  parameters: AccessibilityParameters;
-  metadata: Map<string, any>;
+  factor: number;
+  method: SmoothingMethod;
 }
 
-export enum AccessibilityFeatureType {
-  STICKY_KEYS = 'sticky_keys',
-  SLOW_KEYS = 'slow_keys',
-  BOUNCE_KEYS = 'bounce_keys',
-  MOUSE_KEYS = 'mouse_keys',
-  HIGH_CONTRAST = 'high_contrast',
-  LARGE_TEXT = 'large_text',
-  CUSTOM = 'custom'
+export type SmoothingMethod = 'linear' | 'exponential' | 'gaussian' | 'custom';
+
+export interface ThresholdSettings {
+  enabled: boolean;
+  value: number;
+  hysteresis: number;
 }
 
-export interface AccessibilityParameters {
-  [key: string]: any;
+export interface NoiseSettings {
+  enabled: boolean;
+  threshold: number;
+  reduction: number;
 }
 
-export interface AccessibilitySettings {
-  fontSize: number;
-  contrast: number;
-  brightness: number;
-  volume: number;
-  metadata: Map<string, any>;
-}
-
-export interface InputAnalytics {
-  totalInputs: number;
-  inputsPerSecond: number;
-  averageLatency: number;
-  deviceUsage: Map<string, number>;
-  gestureUsage: Map<string, number>;
-  errorRate: number;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface InputMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface InputSystemStats {
+export interface InputSystemPerformanceMetrics {
   totalDevices: number;
   activeDevices: number;
   totalMappings: number;
-  totalGestures: number;
-  totalInputs: number;
-  inputsPerSecond: number;
+  activeMappings: number;
+  totalEvents: number;
+  processedEvents: number;
   averageLatency: number;
-  errorRate: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface InputSystemAnalytics {
+  totalEvents: number;
+  averageLatency: number;
+  deviceUsage: DeviceUsage[];
+  mappingUsage: MappingUsage[];
+  eventDistribution: EventDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface DeviceUsage {
+  deviceId: string;
+  name: string;
+  type: DeviceType;
+  events: number;
+  usage: number;
+  averageLatency: number;
+}
+
+export interface MappingUsage {
+  mappingId: string;
+  name: string;
+  type: MappingType;
+  events: number;
+  usage: number;
+  successRate: number;
+}
+
+export interface EventDistribution {
+  type: EventType;
+  count: number;
+  percentage: number;
+  averageLatency: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  devices: number;
+  events: number;
+  latency: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface InputSystemReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeEvents: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
 }
 
-export class InputSystemManager {
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface InputSystemOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class InputSystemPure {
+  private managers: Map<string, InputSystemManager> = new Map();
   private config: InputSystemConfig;
-  private inputSystems: Map<string, InputSystem> = new Map();
-  private stats: InputSystemStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: InputSystemPerformanceMetrics;
+  private analytics: InputSystemAnalytics;
 
   constructor(config: Partial<InputSystemConfig> = {}) {
     this.config = {
-      enableKeyboard: true,
-      enableMouse: true,
-      enableGamepad: true,
-      enableTouch: true,
-      enableGestureRecognition: true,
+      enableInputManagement: true,
       enableInputMapping: true,
-      enableInputBuffering: true,
-      enableAccessibility: true,
+      enableInputEvents: true,
       enableInputValidation: true,
-      enableRealTimeProcessing: true,
+      enableInputFiltering: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
       enableInputAnalytics: true,
-      enableInputMonitoring: true,
-      maxInputDevices: 10,
-      maxInputMappings: 1000,
-      maxInputBuffer: 10000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      enableInputReporting: true,
+      maxDevices: 100,
+      maxMappings: 1000,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
     };
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'InputSystemManager': LogLevel.DEBUG
-      }
-    });
 
-    // Register with memory manager
-    this.memoryId = `InputSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'InputSystemManager');
-  }
-
-  /**
-   * Initialize input system manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize input system manager
-      await this.initializeInputSystemManager();
-      
-      // Load default input systems
-      await this.loadDefaultInputSystems();
-      
-      this.isInitialized = true;
-      this.logger.info('InputSystemManager', 'Input system manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('InputSystemManager', 'Failed to initialize input system manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new input system
-   */
-  createInputSystem(inputSystem: Partial<InputSystem>): InputSystem | null {
-    const newInputSystem: InputSystem = {
-      id: `input_system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: inputSystem.name || 'New Input System',
-      type: inputSystem.type || InputSystemType.GAME,
-      status: InputSystemStatus.ACTIVE,
-      devices: inputSystem.devices || [],
-      mappings: inputSystem.mappings || [],
-      gestures: inputSystem.gestures || [],
-      buffer: inputSystem.buffer || this.createDefaultBuffer(),
-      validation: inputSystem.validation || this.createDefaultValidation(),
-      accessibility: inputSystem.accessibility || this.createDefaultAccessibility(),
-      analytics: inputSystem.analytics || this.createDefaultAnalytics(),
-      metadata: inputSystem.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
+    this.performanceMetrics = {
+      totalDevices: 0,
+      activeDevices: 0,
+      totalMappings: 0,
+      activeMappings: 0,
+      totalEvents: 0,
+      processedEvents: 0,
+      averageLatency: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
 
-    this.inputSystems.set(newInputSystem.id, newInputSystem);
-    this.updateStats('create_input_system', newInputSystem);
-
-    this.logger.info('InputSystemManager', `Created input system: ${newInputSystem.name}`);
-    return newInputSystem;
+    this.analytics = {
+      totalEvents: 0,
+      averageLatency: 0,
+      deviceUsage: [],
+      mappingUsage: [],
+      eventDistribution: [],
+      performanceTrends: []
+    };
   }
 
   /**
-   * Add input device
+   * Create a new input system manager
    */
-  addDevice(inputSystemId: string, device: InputDevice): boolean {
-    const inputSystem = this.inputSystems.get(inputSystemId);
-    if (!inputSystem) {
-      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
-      return false;
+  createManager(managerData: Partial<InputSystemManager>): InputSystemOutput {
+    if (!this.config.enableInputManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Input management is disabled']
+      };
     }
 
-    if (inputSystem.devices.length >= this.config.maxInputDevices) {
-      this.logger.warn('InputSystemManager', 'Maximum number of input devices reached');
-      return false;
-    }
+    const manager: InputSystemManager = {
+      id: managerData.id || `input-${Date.now()}`,
+      name: managerData.name || 'Unnamed Input System Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      devices: [],
+      mappings: [],
+      events: [],
+      filters: [],
+      performanceMetrics: {
+        totalDevices: 0,
+        activeDevices: 0,
+        totalMappings: 0,
+        activeMappings: 0,
+        totalEvents: 0,
+        processedEvents: 0,
+        averageLatency: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalEvents: 0,
+        averageLatency: 0,
+        deviceUsage: [],
+        mappingUsage: [],
+        eventDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeEvents: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-    try {
-      inputSystem.devices.push(device);
-      inputSystem.modified = Date.now();
+    this.managers.set(manager.id, manager);
 
-      this.updateStats('add_device', inputSystem);
-      this.logger.info('InputSystemManager', `Added input device: ${device.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('InputSystemManager', `Failed to add device to input system ${inputSystemId}:`, error);
-      return false;
-    }
+    return {
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Add input mapping
+   * Get manager by ID
    */
-  addMapping(inputSystemId: string, mapping: InputMapping): boolean {
-    const inputSystem = this.inputSystems.get(inputSystemId);
-    if (!inputSystem) {
-      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
-      return false;
+  getManager(managerId: string): InputSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    if (inputSystem.mappings.length >= this.config.maxInputMappings) {
-      this.logger.warn('InputSystemManager', 'Maximum number of input mappings reached');
-      return false;
-    }
-
-    try {
-      inputSystem.mappings.push(mapping);
-      inputSystem.modified = Date.now();
-
-      this.updateStats('add_mapping', inputSystem);
-      this.logger.info('InputSystemManager', `Added input mapping: ${mapping.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('InputSystemManager', `Failed to add mapping to input system ${inputSystemId}:`, error);
-      return false;
-    }
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Add input gesture
+   * Register input device
    */
-  addGesture(inputSystemId: string, gesture: InputGesture): boolean {
-    const inputSystem = this.inputSystems.get(inputSystemId);
-    if (!inputSystem) {
-      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
-      return false;
+  registerDevice(managerId: string, device: Partial<InputDevice>): InputSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'register-device',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    try {
-      inputSystem.gestures.push(gesture);
-      inputSystem.modified = Date.now();
-
-      this.updateStats('add_gesture', inputSystem);
-      this.logger.info('InputSystemManager', `Added input gesture: ${gesture.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('InputSystemManager', `Failed to add gesture to input system ${inputSystemId}:`, error);
-      return false;
+    if (manager.devices.length >= this.config.maxDevices) {
+      return {
+        op: 'register-device',
+        status: 'error',
+        issues: ['Maximum number of devices reached']
+      };
     }
+
+    const newDevice: InputDevice = {
+      id: device.id || `device-${Date.now()}`,
+      name: device.name || 'Unnamed Device',
+      type: device.type || 'keyboard',
+      status: 'connected',
+      capabilities: device.capabilities || {
+        buttons: 0,
+        axes: 0,
+        hats: 0,
+        forceFeedback: false,
+        haptic: false,
+        motion: false,
+        touch: false
+      },
+      properties: device.properties || {
+        vendor: 'Unknown',
+        product: 'Unknown',
+        version: '1.0.0',
+        serial: '',
+        driver: 'Unknown',
+        firmware: '1.0.0'
+      },
+      mapping: device.mapping || '',
+      metadata: {},
+      ...device
+    };
+
+    manager.devices.push(newDevice);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalDevices++;
+    this.performanceMetrics.activeDevices++;
+
+    return {
+      op: 'register-device',
+      status: 'ok',
+      result: newDevice
+    };
+  }
+
+  /**
+   * Create input mapping
+   */
+  createMapping(managerId: string, mapping: Partial<InputMapping>): InputSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-mapping',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.mappings.length >= this.config.maxMappings) {
+      return {
+        op: 'create-mapping',
+        status: 'error',
+        issues: ['Maximum number of mappings reached']
+      };
+    }
+
+    const newMapping: InputMapping = {
+      id: mapping.id || `mapping-${Date.now()}`,
+      name: mapping.name || 'Unnamed Mapping',
+      deviceId: mapping.deviceId || '',
+      type: mapping.type || 'button',
+      source: mapping.source || {
+        type: 'button',
+        code: '',
+        value: 0,
+        threshold: 0.5,
+        deadzone: 0.1
+      },
+      target: mapping.target || {
+        action: '',
+        value: 0,
+        scale: 1,
+        offset: 0,
+        clamp: {
+          enabled: false,
+          min: 0,
+          max: 1,
+          wrap: false
+        }
+      },
+      modifiers: mapping.modifiers || [],
+      conditions: mapping.conditions || [],
+      enabled: true,
+      metadata: {},
+      ...mapping
+    };
+
+    manager.mappings.push(newMapping);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalMappings++;
+    this.performanceMetrics.activeMappings++;
+
+    return {
+      op: 'create-mapping',
+      status: 'ok',
+      result: newMapping
+    };
   }
 
   /**
    * Process input event
    */
-  processInputEvent(inputSystemId: string, event: InputEvent): boolean {
-    const inputSystem = this.inputSystems.get(inputSystemId);
-    if (!inputSystem) {
-      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
-      return false;
+  processEvent(managerId: string, event: Partial<InputEvent>): InputSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'process-event',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    try {
-      // Add to buffer if enabled
-      if (inputSystem.buffer.enabled) {
-        this.addToBuffer(inputSystem, event);
-      }
-
-      // Process input mapping
-      this.processInputMapping(inputSystem, event);
-
-      // Process gesture recognition
-      if (this.config.enableGestureRecognition) {
-        this.processGestureRecognition(inputSystem, event);
-      }
-
-      // Update analytics
-      this.updateInputAnalytics(inputSystem, event);
-
-      inputSystem.modified = Date.now();
-      this.updateStats('process_input_event', inputSystem);
-      
-      this.logger.info('InputSystemManager', `Processed input event: ${event.type}`);
-      return true;
-    } catch (error) {
-      this.logger.error('InputSystemManager', `Failed to process input event in system ${inputSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Get input system
-   */
-  getInputSystem(inputSystemId: string): InputSystem | null {
-    return this.inputSystems.get(inputSystemId) || null;
-  }
-
-  /**
-   * Get all input systems
-   */
-  getInputSystems(): InputSystem[] {
-    return Array.from(this.inputSystems.values());
-  }
-
-  /**
-   * Get input systems by type
-   */
-  getInputSystemsByType(type: InputSystemType): InputSystem[] {
-    return Array.from(this.inputSystems.values())
-      .filter(system => system.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): InputSystemStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize input system manager
-   */
-  private async initializeInputSystemManager(): Promise<void> {
-    this.logger.info('InputSystemManager', 'Initializing input system manager...');
-  }
-
-  /**
-   * Load default input systems
-   */
-  private async loadDefaultInputSystems(): Promise<void> {
-    // Load default input systems
-    const defaultSystems = [
-      this.createDefaultGameSystem(),
-      this.createDefaultApplicationSystem(),
-      this.createDefaultWebSystem()
-    ];
-
-    for (const system of defaultSystems) {
-      if (system) {
-        this.inputSystems.set(system.id, system);
-      }
-    }
-
-    this.logger.info('InputSystemManager', `Loaded ${defaultSystems.length} default input systems`);
-  }
-
-  /**
-   * Create default buffer
-   */
-  private createDefaultBuffer(): InputBuffer {
-    return {
-      enabled: true,
-      maxSize: this.config.maxInputBuffer,
-      currentSize: 0,
-      inputs: [],
-      strategy: BufferStrategy.FIFO,
-      statistics: {
-
-        totalInputs: 0,
-        processedInputs: 0,
-        droppedInputs: 0,
-        averageLatency: 0,
-        lastUpdate: Date.now(),
-        metadata: new Map()
-
-      }
+    const startTime = Date.now();
+    
+    const newEvent: InputEvent = {
+      id: event.id || `event-${Date.now()}`,
+      type: event.type || 'pressed',
+      deviceId: event.deviceId || '',
+      mappingId: event.mappingId || '',
+      data: event.data || {
+        source: { type: 'button', code: '', value: 0, threshold: 0.5, deadzone: 0.1 },
+        target: { action: '', value: 0, scale: 1, offset: 0, clamp: { enabled: false, min: 0, max: 1, wrap: false } },
+        value: 0,
+        delta: 0,
+        duration: 0,
+        modifiers: []
       },
-      metadata: new Map()
+      timestamp: Date.now(),
+      processed: false,
+      metadata: {},
+      ...event
+    };
+
+    // Find matching mapping
+    const mapping = manager.mappings.find(m => 
+      m.deviceId === newEvent.deviceId && 
+      m.enabled &&
+      this.matchesMapping(m, newEvent)
+    );
+
+    if (mapping) {
+      newEvent.mappingId = mapping.id;
+      newEvent.processed = true;
+    }
+
+    manager.events.push(newEvent);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalEvents++;
+    if (newEvent.processed) {
+      this.performanceMetrics.processedEvents++;
+    }
+
+    const latency = Date.now() - startTime;
+    this.performanceMetrics.averageLatency = 
+      (this.performanceMetrics.averageLatency * (this.performanceMetrics.totalEvents - 1) + latency) / 
+      this.performanceMetrics.totalEvents;
+
+    return {
+      op: 'process-event',
+      status: 'ok',
+      result: {
+        eventId: newEvent.id,
+        processed: newEvent.processed,
+        mappingId: newEvent.mappingId,
+        latency
+      }
     };
   }
 
   /**
-   * Create default validation
+   * Check if event matches mapping
    */
-  private createDefaultValidation(): InputValidation {
-    return {
+  private matchesMapping(mapping: InputMapping, event: InputEvent): boolean {
+    // Simple matching logic - in reality this would be more complex
+    return mapping.source.type === event.data.source.type &&
+           mapping.source.code === event.data.source.code;
+  }
+
+  /**
+   * Create input filter
+   */
+  createFilter(managerId: string, filter: Partial<InputFilter>): InputSystemOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-filter',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const newFilter: InputFilter = {
+      id: filter.id || `filter-${Date.now()}`,
+      name: filter.name || 'Unnamed Filter',
+      type: filter.type || 'deadzone',
       enabled: true,
-      rules: [
-        {
-          type: ValidationRuleType.RATE_LIMIT,
-          condition: {
-        type: ConditionType.GREATER_THAN,
-        value: 1000,
-        operator: ConditionOperator.AND,
-        metadata: new Map()
-
-          
-      
-      }
-          },
-          action: {
-
-            type: ActionType.TRIGGER_EVENT,
-            value: 'rate_limit_exceeded',
-            metadata: new Map()
-
-          }
-          },
-          metadata: new Map()
-        }
-      ],
-      filters: [
-        {
-          type: FilterType.NOISE_REDUCTION,
+      settings: filter.settings || {
+        deadzone: {
           enabled: true,
-          parameters: { threshold: 0.1 },
-          metadata: new Map()
-        }
-      ],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default accessibility
-   */
-  private createDefaultAccessibility(): AccessibilityConfig {
-    return {
-      enabled: true,
-      features: [
-        {
-          type: AccessibilityFeatureType.STICKY_KEYS,
-          enabled: false,
-          parameters: {
-
-            timeout: 5000;
-
-          }
-    },
-          metadata: new Map()
+          value: 0.1,
+          type: 'circular'
         },
-        {
-          type: AccessibilityFeatureType.SLOW_KEYS,
+        smoothing: {
           enabled: false,
-          parameters: {
-
-            delay: 1000;
-
-          }
-    },
-          metadata: new Map()
+          factor: 0.5,
+          method: 'linear'
+        },
+        threshold: {
+          enabled: false,
+          value: 0.5,
+          hysteresis: 0.1
+        },
+        noise: {
+          enabled: false,
+          threshold: 0.01,
+          reduction: 0.5
         }
-      ],
-      settings: {
-
-        fontSize: 16,
-        contrast: 1.0,
-        brightness: 1.0,
-        volume: 1.0,
-        metadata: new Map()
-
-      }
       },
-      metadata: new Map()
+      metadata: {},
+      ...filter
     };
-  }
 
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): InputAnalytics {
+    manager.filters.push(newFilter);
+    manager.updatedAt = Date.now();
+
     return {
-      totalInputs: 0,
-      inputsPerSecond: 0,
-      averageLatency: 0,
-      deviceUsage: new Map(),
-      gestureUsage: new Map(),
-      errorRate: 0,
-      lastUpdate: Date.now(),
-      metadata: new Map()
+      op: 'create-filter',
+      status: 'ok',
+      result: newFilter
     };
   }
 
   /**
-   * Create default metadata
+   * Get performance metrics
    */
-  private createDefaultMetadata(): InputMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
+  getPerformanceMetrics(): InputSystemPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
-   * Create default game system
+   * Get analytics
    */
-  private createDefaultGameSystem(): InputSystem {
-    return this.createInputSystem({
-      name: 'Game Input System',
-      type: InputSystemType.GAME,
-      description: 'Game input system for gameplay controls'
-    });
+  getAnalytics(): InputSystemAnalytics {
+    return { ...this.analytics };
   }
 
   /**
-   * Create default application system
+   * Get all managers
    */
-  private createDefaultApplicationSystem(): InputSystem {
-    return this.createInputSystem({
-      name: 'Application Input System',
-      type: InputSystemType.APPLICATION,
-      description: 'Application input system for UI controls'
-    });
+  getAllManagers(): InputSystemManager[] {
+    return Array.from(this.managers.values());
   }
 
   /**
-   * Create default web system
+   * Update performance metrics
    */
-  private createDefaultWebSystem(): InputSystem {
-    return this.createInputSystem({
-      name: 'Web Input System',
-      type: InputSystemType.WEB,
-      description: 'Web input system for browser controls'
-    });
-  }
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalDevices = 0;
+    let activeDevices = 0;
+    let totalMappings = 0;
+    let activeMappings = 0;
+    let totalEvents = 0;
+    let processedEvents = 0;
 
-  /**
-   * Add to buffer
-   */
-  private addToBuffer(inputSystem: InputSystem, event: InputEvent): void {
-    if (inputSystem.buffer.currentSize >= inputSystem.buffer.maxSize) {
-      // Remove oldest event if buffer is full
-      inputSystem.buffer.inputs.shift();
-      inputSystem.buffer.currentSize--;
-      inputSystem.buffer.statistics.droppedInputs++;
+    for (const manager of this.managers.values()) {
+      totalDevices += manager.devices.length;
+      activeDevices += manager.devices.filter(d => d.status === 'connected').length;
+      totalMappings += manager.mappings.length;
+      activeMappings += manager.mappings.filter(m => m.enabled).length;
+      totalEvents += manager.events.length;
+      processedEvents += manager.events.filter(e => e.processed).length;
     }
 
-    inputSystem.buffer.inputs.push(event);
-    inputSystem.buffer.currentSize++;
-    inputSystem.buffer.statistics.totalInputs++;
-  }
-
-  /**
-   * Process input mapping
-   */
-  private processInputMapping(inputSystem: InputSystem, event: InputEvent): void {
-    for (const mapping of inputSystem.mappings) {
-      if (!mapping.enabled) continue;
-
-      // Check if mapping matches the event
-      if (this.mappingMatchesEvent(mapping, event)) {
-        // Execute mapping action
-        this.executeMappingAction(mapping, event);
-      }
-    }
-  }
-
-  /**
-   * Check if mapping matches event
-   */
-  private mappingMatchesEvent(mapping: InputMapping, event: InputEvent): boolean {
-    return mapping.source.device === event.device &&
-           mapping.source.input === event.input &&
-           mapping.source.type === event.type;
-  }
-
-  /**
-   * Execute mapping action
-   */
-  private executeMappingAction(mapping: InputMapping, event: InputEvent): void {
-    // This would execute the mapping action
-    this.logger.info('InputSystemManager', `Executing mapping action: ${mapping.target.action}`);
-  }
-
-  /**
-   * Process gesture recognition
-   */
-  private processGestureRecognition(inputSystem: InputSystem, event: InputEvent): void {
-    for (const gesture of inputSystem.gestures) {
-      if (!gesture.enabled) continue;
-
-      // Check if gesture pattern matches
-      if (this.gestureMatchesPattern(gesture, event)) {
-        // Execute gesture action
-        this.executeGestureAction(gesture, event);
-      }
-    }
-  }
-
-  /**
-   * Check if gesture matches pattern
-   */
-  private gestureMatchesPattern(gesture: InputGesture, event: InputEvent): boolean {
-    // This would implement gesture pattern matching
-    return false;
-  }
-
-  /**
-   * Execute gesture action
-   */
-  private executeGestureAction(gesture: InputGesture, event: InputEvent): void {
-    // This would execute the gesture action
-    this.logger.info('InputSystemManager', `Executing gesture action: ${gesture.action.type}`);
-  }
-
-  /**
-   * Update input analytics
-   */
-  private updateInputAnalytics(inputSystem: InputSystem, event: InputEvent): void {
-    inputSystem.analytics.totalInputs++;
-    inputSystem.analytics.lastUpdate = Date.now();
-
-    // Update device usage
-    const deviceUsage = inputSystem.analytics.deviceUsage.get(event.device) || 0;
-    inputSystem.analytics.deviceUsage.set(event.device, deviceUsage + 1);
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, inputSystem: InputSystem): void {
-    switch (action) {
-      case 'create_input_system':
-        this.stats.totalDevices += inputSystem.devices.length;
-        this.stats.totalMappings += inputSystem.mappings.length;
-        this.stats.totalGestures += inputSystem.gestures.length;
-        break;
-      case 'add_device':
-        this.stats.totalDevices++;
-        break;
-      case 'add_mapping':
-        this.stats.totalMappings++;
-        break;
-      case 'add_gesture':
-        this.stats.totalGestures++;
-        break;
-      case 'process_input_event':
-        this.stats.totalInputs++;
-        break;
-    }
-
-    this.stats.lastUpdate = Date.now();
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): InputSystemStats {
-    return {
-      totalDevices: 0,
-      activeDevices: 0,
-      totalMappings: 0,
-      totalGestures: 0,
-      totalInputs: 0,
-      inputsPerSecond: 0,
-      averageLatency: 0,
-      errorRate: 0,
-      lastUpdate: Date.now()
-    };
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.inputSystems.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+    this.performanceMetrics.totalDevices = totalDevices;
+    this.performanceMetrics.activeDevices = activeDevices;
+    this.performanceMetrics.totalMappings = totalMappings;
+    this.performanceMetrics.activeMappings = activeMappings;
+    this.performanceMetrics.totalEvents = totalEvents;
+    this.performanceMetrics.processedEvents = processedEvents;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultInputSystemManager = new InputSystemManager();
-export { InputSystemManager as default };

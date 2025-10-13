@@ -1,731 +1,825 @@
 /**
- * SpiritTamerDemoPure Manager
- * 
- * Manages spirit taming gameplay including rhythm-based taming mechanics,
- * spirit collection, battle system, and progression tracking.
+ * SpiritTamerDemoPure Manager - Advanced Spirit Taming Demo Management System
+ *
+ * Comprehensive spirit taming demo management system with:
+ * - Spirit collection and management
+ * - Taming mechanics and progression
+ * - Battle system and combat
+ * - Spirit evolution and growth
+ * - Performance optimization
+ * - Real-time demo monitoring
+ * - Demo analytics and reporting
  */
+
+export interface SpiritTamerDemoConfig {
+  enableSpiritManagement: boolean;
+  enableTamingMechanics: boolean;
+  enableBattleSystem: boolean;
+  enableEvolution: boolean;
+  enableProgression: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableDemoAnalytics: boolean;
+  enableDemoReporting: boolean;
+  maxSpirits: number;
+  maxTamers: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
+}
+
+export interface SpiritTamerDemoManager {
+  id: string;
+  name: string;
+  type: SpiritTamerDemoManagerType;
+  status: SpiritTamerDemoManagerStatus;
+  spirits: Spirit[];
+  tamers: Tamer[];
+  battles: Battle[];
+  evolutions: Evolution[];
+  performanceMetrics: SpiritTamerDemoPerformanceMetrics;
+  analytics: SpiritTamerDemoAnalytics;
+  reporting: SpiritTamerDemoReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type SpiritTamerDemoManagerType = 'demo' | 'tutorial' | 'sandbox' | 'custom';
+export type SpiritTamerDemoManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Spirit {
   id: string;
   name: string;
-  type: 'fire' | 'water' | 'earth' | 'air' | 'shadow' | 'light';
+  species: string;
+  type: SpiritType;
+  rarity: SpiritRarity;
   level: number;
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  stats: {
-        health: number;
-    maxHealth: number;
-    attack: number;
-    defense: number;
-    speed: number;
-    tamingDifficulty: number; // 1-10
-  
-
-
-  
-      
-      }
-  abilities: string[];
-  location: string;
-  isWild: boolean;
+  experience: number;
+  stats: SpiritStats;
+  abilities: SpiritAbility[];
+  evolution: EvolutionInfo;
+  tamer: string;
+  status: SpiritStatus;
+  metadata: Record<string, any>;
 }
 
-export interface TamingSession {
+export type SpiritType = 'fire' | 'water' | 'earth' | 'air' | 'light' | 'dark' | 'nature' | 'ice' | 'electric' | 'psychic';
+export type SpiritRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
+export type SpiritStatus = 'wild' | 'tamed' | 'bonded' | 'evolved' | 'fainted';
+
+export interface SpiritStats {
+  health: StatValue;
+  mana: StatValue;
+  attack: StatValue;
+  defense: StatValue;
+  speed: StatValue;
+  accuracy: StatValue;
+  evasion: StatValue;
+  critical: StatValue;
+}
+
+export interface StatValue {
+  base: number;
+  current: number;
+  bonus: number;
+  max: number;
+}
+
+export interface SpiritAbility {
   id: string;
-  spiritId: string;
-  startTime: number;
-  beats: TamingBeat[];
-  timeline: TimelineEntry[];
-  result: 'success' | 'failure' | 'in_progress';
-  score: number;
+  name: string;
+  type: AbilityType;
+  element: SpiritType;
+  power: number;
   accuracy: number;
+  cost: number;
+  cooldown: number;
+  effects: AbilityEffect[];
+  learned: boolean;
+  level: number;
 }
 
-export interface TamingBeat {
-  time: number;        // Beat timestamp in seconds
-  expected: boolean;   // Whether player should hit this beat
-  hit?: boolean;       // Whether player actually hit this beat
-  timing?: number;     // Timing accuracy (-1 to 1)
+export type AbilityType = 'attack' | 'defense' | 'heal' | 'buff' | 'debuff' | 'special';
+
+export interface AbilityEffect {
+  type: EffectType;
+  value: number;
+  duration: number;
+  target: EffectTarget;
+  condition: EffectCondition;
 }
 
-export interface TimelineEntry {
-  time: number;
-  hits: number;
-  misses: number;
-  aggression: number;  // Spirit aggression level (0-10)
-  progress: number;    // Taming progress (0-100)
-  tamed: boolean;
+export type EffectType = 'damage' | 'heal' | 'stat_change' | 'status_effect' | 'special';
+export type EffectTarget = 'self' | 'enemy' | 'ally' | 'all_enemies' | 'all_allies' | 'random';
+export type EffectCondition = 'always' | 'health_low' | 'health_high' | 'mana_low' | 'status_effect' | 'custom';
+
+export interface EvolutionInfo {
+  stage: number;
+  maxStage: number;
+  requirements: EvolutionRequirement[];
+  nextEvolution?: string;
+  previousEvolution?: string;
 }
 
-export interface PlayerState {
+export interface EvolutionRequirement {
+  type: RequirementType;
+  value: number;
+  description: string;
+}
+
+export type RequirementType = 'level' | 'experience' | 'item' | 'ability' | 'stat' | 'custom';
+
+export interface Tamer {
+  id: string;
   name: string;
   level: number;
   experience: number;
-  location: {
+  spirits: string[];
+  team: string[];
+  inventory: TamerInventory;
+  stats: TamerStats;
+  achievements: Achievement[];
+  status: TamerStatus;
+  metadata: Record<string, any>;
+}
 
-    x: number; y: number; zone: string;
-    
-  inventory: string[];
-  tamedSpirits: string[];
-  equipment: {
-    instrument: string | null;
-    accessory: string | null;
-  }
-  };
-  stats: {
-        totalSpirits: number;
-    successfulTamings: number;
-    battleWins: number;
-    rhythmAccuracy: number;
-  
+export type TamerStatus = 'active' | 'inactive' | 'battling' | 'training' | 'exploring';
 
+export interface TamerInventory {
+  items: InventoryItem[];
+  currency: Currency;
+  capacity: number;
+  maxCapacity: number;
+}
 
-  
-      
-      }
+export interface InventoryItem {
+  id: string;
+  name: string;
+  type: ItemType;
+  quantity: number;
+  value: number;
+  description: string;
+}
+
+export type ItemType = 'potion' | 'ball' | 'stone' | 'berry' | 'crystal' | 'tool' | 'misc';
+
+export interface Currency {
+  gold: number;
+  gems: number;
+  tokens: number;
+}
+
+export interface TamerStats {
+  battlesWon: number;
+  battlesLost: number;
+  spiritsCaught: number;
+  spiritsEvolved: number;
+  totalExperience: number;
+  playTime: number;
+}
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  type: AchievementType;
+  progress: number;
+  maxProgress: number;
+  completed: boolean;
+  reward: AchievementReward;
+  unlockedAt?: number;
+}
+
+export type AchievementType = 'battle' | 'collection' | 'evolution' | 'exploration' | 'social' | 'custom';
+
+export interface AchievementReward {
+  experience: number;
+  currency: Currency;
+  items: InventoryItem[];
+  title: string;
+}
+
+export interface Battle {
+  id: string;
+  tamerId: string;
+  opponentId: string;
+  type: BattleType;
+  status: BattleStatus;
+  turns: BattleTurn[];
+  result: BattleResult;
+  rewards: BattleReward;
+  duration: number;
+  metadata: Record<string, any>;
+}
+
+export type BattleType = 'wild' | 'trainer' | 'gym' | 'tournament' | 'pvp';
+export type BattleStatus = 'pending' | 'active' | 'completed' | 'forfeited' | 'error';
+
+export interface BattleTurn {
+  turnNumber: number;
+  tamerId: string;
+  spiritId: string;
+  action: BattleAction;
+  target?: string;
+  result: ActionResult;
+  timestamp: number;
+}
+
+export interface BattleAction {
+  type: ActionType;
+  abilityId?: string;
+  itemId?: string;
+  target?: string;
+}
+
+export type ActionType = 'attack' | 'defend' | 'item' | 'switch' | 'run' | 'special';
+
+export interface ActionResult {
+  success: boolean;
+  damage?: number;
+  healing?: number;
+  effects?: AbilityEffect[];
+  message: string;
 }
 
 export interface BattleResult {
-  winner: 'player' | 'spirit';
-  turns: BattleTurn[];
+  winner: string;
+  loser: string;
   experience: number;
-  rewards: string[];
-  duration: number;
+  items: InventoryItem[];
+  currency: Currency;
 }
 
-export interface BattleTurn {
-  turn: number;
-  actor: 'player' | 'spirit';
-  action: string;
-  damage: number;
-  effect?: string;
-  healthAfter: {
-
-    player: number; spirit: number;
-    
-
-
-  }
-  };
+export interface BattleReward {
+  experience: number;
+  currency: Currency;
+  items: InventoryItem[];
+  spirits: string[];
 }
 
-export class SpiritTamerManager {
-  private player: PlayerState;
-  private spirits: Map<string, Spirit> = new Map();
-  private tamingSessions: Map<string, TamingSession> = new Map();
-  private activeSession: TamingSession | null = null;
+export interface Evolution {
+  id: string;
+  spiritId: string;
+  fromStage: number;
+  toStage: number;
+  requirements: EvolutionRequirement[];
+  result: EvolutionResult;
+  timestamp: number;
+  metadata: Record<string, any>;
+}
 
-  constructor() {
-    this.player = {
-      name: 'Tamer',
-      level: 1,
-      experience: 0,
-      location: { x: 85, y: 262, zone: 'grove' },
-      inventory: ['spirit_flute', 'calming_herbs', 'energy_crystal'],
-      tamedSpirits: [],
-      equipment: {
+export interface EvolutionResult {
+  newSpecies: string;
+  statChanges: StatChange[];
+  abilityChanges: AbilityChange[];
+  appearanceChanges: AppearanceChange[];
+}
 
-        instrument: 'spirit_flute',
-        accessory: null;
+export interface StatChange {
+  stat: string;
+  change: number;
+  multiplier: number;
+}
 
-      }
-    },
-      stats: {
-        totalSpirits: 0,
-        successfulTamings: 0,
-        battleWins: 0,
-        rhythmAccuracy: 0;
+export interface AbilityChange {
+  type: 'learn' | 'forget' | 'replace';
+  abilityId: string;
+  newAbilityId?: string;
+}
 
-      
-      
-      }
-    },
+export interface AppearanceChange {
+  property: string;
+  value: any;
+  description: string;
+}
+
+export interface SpiritTamerDemoPerformanceMetrics {
+  totalSpirits: number;
+  totalTamers: number;
+  totalBattles: number;
+  totalEvolutions: number;
+  averageSpiritLevel: number;
+  averageTamerLevel: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface SpiritTamerDemoAnalytics {
+  totalSpirits: number;
+  totalTamers: number;
+  totalBattles: number;
+  spiritTypeDistribution: SpiritTypeDistribution[];
+  rarityDistribution: RarityDistribution[];
+  battleResults: BattleResults[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface SpiritTypeDistribution {
+  type: SpiritType;
+  count: number;
+  percentage: number;
+  averageLevel: number;
+}
+
+export interface RarityDistribution {
+  rarity: SpiritRarity;
+  count: number;
+  percentage: number;
+  averageLevel: number;
+}
+
+export interface BattleResults {
+  type: BattleType;
+  total: number;
+  won: number;
+  lost: number;
+  winRate: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  spirits: number;
+  tamers: number;
+  battles: number;
+  evolutions: number;
+  experience: number;
+}
+
+export interface SpiritTamerDemoReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeSpirits: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface SpiritTamerDemoOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class SpiritTamerDemoPure {
+  private managers: Map<string, SpiritTamerDemoManager> = new Map();
+  private config: SpiritTamerDemoConfig;
+  private performanceMetrics: SpiritTamerDemoPerformanceMetrics;
+  private analytics: SpiritTamerDemoAnalytics;
+
+  constructor(config: Partial<SpiritTamerDemoConfig> = {}) {
+    this.config = {
+      enableSpiritManagement: true,
+      enableTamingMechanics: true,
+      enableBattleSystem: true,
+      enableEvolution: true,
+      enableProgression: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableDemoAnalytics: true,
+      enableDemoReporting: true,
+      maxSpirits: 1000,
+      maxTamers: 100,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
 
-    this.initializeSpirits();
-  }
-
-  private initializeSpirits() {
-    const defaultSpirits: Spirit[] = [
-      {
-        id: 'emberfox',
-        name: 'Emberfox',
-        type: 'fire',
-        level: 3,
-        rarity: 'common',
-        stats: {
-
-          health: 45,
-
-          maxHealth: 45,
-
-          attack: 12,
-
-          defense: 8,
-
-          speed: 15,
-
-          tamingDifficulty: 3;
-
-        }
-    },
-        abilities: ['flame_burst', 'quick_strike'],
-        location: 'grove',
-        isWild: true;
-    },
-      {
-        id: 'glimmerbat',
-        name: 'Glimmerbat',
-        type: 'shadow',
-        level: 2,
-        rarity: 'common',
-        stats: {
-
-          health: 30,
-
-          maxHealth: 30,
-
-          attack: 8,
-
-          defense: 5,
-
-          speed: 20,
-
-          tamingDifficulty: 2;
-
-        }
-    },
-        abilities: ['shadow_dash', 'echo_location'],
-        location: 'grove',
-        isWild: true;
-    },
-      {
-        id: 'whisperwind',
-        name: 'Whisperwind',
-        type: 'air',
-        level: 5,
-        rarity: 'uncommon',
-        stats: {
-
-          health: 60,
-
-          maxHealth: 60,
-
-          attack: 15,
-
-          defense: 10,
-
-          speed: 25,
-
-          tamingDifficulty: 5;
-
-        }
-    },
-        abilities: ['wind_blade', 'aerial_dance', 'gust_shield'],
-        location: 'grove',
-        isWild: true;
-    },
-      {
-        id: 'stoneheart',
-        name: 'Stoneheart',
-        type: 'earth',
-        level: 7,
-        rarity: 'rare',
-        stats: {
-
-          health: 100,
-
-          maxHealth: 100,
-
-          attack: 20,
-
-          defense: 25,
-
-          speed: 8,
-
-          tamingDifficulty: 7;
-
-        }
-    },
-        abilities: ['rock_throw', 'earth_armor', 'tremor'],
-        location: 'grove',
-        isWild: true;
-    }
-    ];
-
-    defaultSpirits.forEach(spirit => {
-      this.spirits.set(spirit.id, spirit);
-    });
-  }
-
-  /**
-   * Get player state
-   */
-  getPlayer(): { ok: boolean; player: PlayerState;
-    } {
-    return { ok: true, player: this.player };
-  }
-
-  /**
-   * Update player location
-   */
-  movePlayer(x: number, y: number, zone?: string): { ok: boolean; location?: PlayerState['location']; errors?: string[] } {
-    try {
-      this.player.location.x = x;
-      this.player.location.y = y;
-      if (zone) this.player.location.zone = zone;
-
-      return { ok: true, location: this.player.location };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Get spirit by ID
-   */
-  getSpirit(spiritId: string): { ok: boolean; spirit?: Spirit; errors?: string[] } {
-    const spirit = this.spirits.get(spiritId);
-    if (!spirit) {
-      return { ok: false, errors: [`Spirit ${spiritId} not found`] };
-    }
-    return { ok: true, spirit };
-  }
-
-  /**
-   * List spirits in area or all spirits
-   */
-  listSpirits(location?: string, includeWild: boolean = true): { ok: boolean; spirits: Spirit[]; total: number;
-    } {
-    let spirits = Array.from(this.spirits.values());
-
-    if (location) {
-      spirits = spirits.filter(s => s.location === location);
-    }
-
-    if (!includeWild) {
-      spirits = spirits.filter(s => !s.isWild || this.player.tamedSpirits.includes(s.id));
-    }
-
-    return { ok: true, spirits, total: spirits.length };
-  }
-
-  /**
-   * Start taming session
-   */
-  startTaming(spiritId: string): { ok: boolean; session?: TamingSession; errors?: string[] } {
-    try {
-      const spirit = this.spirits.get(spiritId);
-      if (!spirit) {
-        return { ok: false, errors: [`Spirit ${spiritId} not found`] };
-      }
-
-      if (!spirit.isWild) {
-        return { ok: false, errors: [`Spirit ${spiritId} is already tamed`] };
-      }
-
-      if (this.activeSession) {
-        return { ok: false, errors: ['Another taming session is already active'] };
-      }
-
-      // Generate rhythm pattern based on spirit difficulty
-      const beats = this.generateRhythmPattern(spirit.stats.tamingDifficulty);
-      
-      const session: TamingSession = {
-        id: `taming-${spiritId}-${Date.now()}`,
-        spiritId,
-        startTime: Date.now(),
-        beats,
-        timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit.stats.tamingDifficulty, progress: 0, tamed: false;
-    }],
-        result: 'in_progress',
-        score: 0,
-        accuracy: 0;
+    this.performanceMetrics = {
+      totalSpirits: 0,
+      totalTamers: 0,
+      totalBattles: 0,
+      totalEvolutions: 0,
+      averageSpiritLevel: 0,
+      averageTamerLevel: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
     };
 
-      this.activeSession = session;
-      this.tamingSessions.set(session.id, session);
-
-      return { ok: true, session };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
+    this.analytics = {
+      totalSpirits: 0,
+      totalTamers: 0,
+      totalBattles: 0,
+      spiritTypeDistribution: [],
+      rarityDistribution: [],
+      battleResults: [],
+      performanceTrends: []
+    };
   }
 
   /**
-   * Process rhythm input during taming
+   * Create a new spirit tamer demo manager
    */
-  processRhythmInput(time: number, hit: boolean): { ok: boolean; result?: any; errors?: string[] } {
-    if (!this.activeSession) {
-      return { ok: false, errors: ['No active taming session'] };
-    }
-
-    try {
-      const session = this.activeSession;
-      const spirit = this.spirits.get(session.spiritId)!;
-      
-      // Find the closest beat
-      const closestBeat = session.beats.reduce((closest, beat) => {
-        const currentDistance = Math.abs(beat.time - time);
-        const closestDistance = Math.abs(closest.time - time);
-        return currentDistance < closestDistance ? beat : closest;
-      });
-
-      const timingWindow = 0.2; // 200ms timing window
-      const distance = Math.abs(closestBeat.time - time);
-      const isInWindow = distance <= timingWindow;
-      const timing = isInWindow ? 1 - (distance / timingWindow) : 0;
-
-      // Update beat
-      if (isInWindow && closestBeat.expected && !closestBeat.hit) {
-        closestBeat.hit = hit;
-        closestBeat.timing = timing;
-      }
-
-      // Calculate progress
-      const hitBeats = session.beats.filter(b => b.hit && b.expected).length;
-      const expectedBeats = session.beats.filter(b => b.expected).length;
-      const accuracy = expectedBeats > 0 ? hitBeats / expectedBeats : 0;
-      const progress = Math.min(100, accuracy * 100);
-
-      // Update timeline
-      const lastEntry = session.timeline[session.timeline.length - 1];
-      const newEntry: TimelineEntry = {
-        time,
-        hits: hitBeats,
-        misses: expectedBeats - hitBeats,
-        aggression: Math.max(0, spirit.stats.tamingDifficulty - (accuracy * 10)),
-        progress,
-        tamed: progress >= 75 // 75% accuracy needed to tame
-      };
-
-      session.timeline.push(newEntry);
-      session.accuracy = accuracy;
-      session.score = Math.floor(accuracy * 1000 * timing);
-
-      // Check if taming is complete
-      if (newEntry.tamed) {
-        session.result = 'success';
-        this.completeTaming(session.spiritId, true);
-      } else if (session.timeline.length > 20 && progress < 25) {
-        // Failed if too many attempts with low progress
-        session.result = 'failure';
-        this.completeTaming(session.spiritId, false);
-      }
-
+  createManager(managerData: Partial<SpiritTamerDemoManager>): SpiritTamerDemoOutput {
+    if (!this.config.enableSpiritManagement) {
       return {
-        ok: true,
-        result: {
-
-          timing,
-          accuracy,
-          progress,
-          aggression: newEntry.aggression,
-          tamed: newEntry.tamed,
-          sessionComplete: session.result !== 'in_progress'
-        
-
-        
-
-
-        }
-        };
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Spirit management is disabled']
       };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Complete taming session
-   */
-  private completeTaming(spiritId: string, success: boolean): void {
-    if (success) {
-      this.player.tamedSpirits.push(spiritId);
-      this.player.stats.totalSpirits++;
-      this.player.stats.successfulTamings++;
-      this.player.experience += 50;
-
-      // Mark spirit as tamed
-      const spirit = this.spirits.get(spiritId);
-      if (spirit) {
-        spirit.isWild = false;
-      }
     }
 
-    this.activeSession = null;
-  }
+    const manager: SpiritTamerDemoManager = {
+      id: managerData.id || `spirittamer-${Date.now()}`,
+      name: managerData.name || 'Unnamed Spirit Tamer Demo Manager',
+      type: managerData.type || 'demo',
+      status: 'active',
+      spirits: [],
+      tamers: [],
+      battles: [],
+      evolutions: [],
+      performanceMetrics: {
+        totalSpirits: 0,
+        totalTamers: 0,
+        totalBattles: 0,
+        totalEvolutions: 0,
+        averageSpiritLevel: 0,
+        averageTamerLevel: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalSpirits: 0,
+        totalTamers: 0,
+        totalBattles: 0,
+        spiritTypeDistribution: [],
+        rarityDistribution: [],
+        battleResults: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeSpirits: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-  /**
-   * Simulate battle between player and spirit
-   */
-  simulateBattle(spiritId: string): { ok: boolean; battle?: BattleResult; errors?: string[] } {
-    try {
-      const spirit = this.spirits.get(spiritId);
-      if (!spirit) {
-        return { ok: false, errors: [`Spirit ${spiritId} not found`] };
-      }
-
-      const turns: BattleTurn[] = [];
-      let playerHealth = 100;
-      let spiritHealth = spirit.stats.health;
-      let turn = 1;
-      const startTime = Date.now();
-
-      while (playerHealth > 0 && spiritHealth > 0 && turn <= 20) {
-        // Player turn
-        const playerAttack = Math.floor(Math.random() * 20) + 10;
-        const spiritDefense = spirit.stats.defense;
-        const playerDamage = Math.max(1, playerAttack - spiritDefense);
-        spiritHealth = Math.max(0, spiritHealth - playerDamage);
-
-        turns.push({
-          turn: turn++,
-          actor: 'player',
-          action: 'attack',
-          damage: playerDamage,
-          healthAfter: {
-
-            player: playerHealth,
-
-            spirit: spiritHealth;
-
-          }
-    },
-        });
-
-        if (spiritHealth <= 0) break;
-
-        // Spirit turn
-        const spiritAttack = spirit.stats.attack;
-        const playerDefense = 5; // Base player defense
-        const spiritDamage = Math.max(1, spiritAttack - playerDefense);
-        playerHealth = Math.max(0, playerHealth - spiritDamage);
-
-        turns.push({
-          turn: turn++,
-          actor: 'spirit',
-          action: spirit.abilities[Math.floor(Math.random() * spirit.abilities.length)],
-          damage: spiritDamage,
-          healthAfter: {
-
-            player: playerHealth,
-
-            spirit: spiritHealth;
-
-          }
-    },
-        });
-      }
-
-      const winner = playerHealth > 0 ? 'player' : 'spirit';
-      const experience = winner === 'player' ? spirit.level * 10 : 0;
-      const rewards = winner === 'player' ? ['experience', 'spirit_essence'] : [];
-
-      if (winner === 'player') {
-        this.player.stats.battleWins++;
-        this.player.experience += experience;
-      }
-
-      const battle: BattleResult = {
-        winner,
-        turns,
-        experience,
-        rewards,
-        duration: Date.now() - startTime
-      };
-
-      return { ok: true, battle };
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
-    }
-  }
-
-  /**
-   * Get taming session by ID
-   */
-  getTamingSession(sessionId: string): { ok: boolean; session?: TamingSession; errors?: string[] } {
-    const session = this.tamingSessions.get(sessionId);
-    if (!session) {
-      return { ok: false, errors: [`Taming session ${sessionId} not found`] };
-    }
-    return { ok: true, session };
-  }
-
-  /**
-   * List all taming sessions
-   */
-  listTamingSessions(): { ok: boolean; sessions: TamingSession[]; total: number;
-    } {
-    const sessions = Array.from(this.tamingSessions.values());
-    return { ok: true, sessions, total: sessions.length };
-  }
-
-  /**
-   * Get game statistics
-   */
-  getStats(): { ok: boolean; stats: any;
-    } {
-    const wildSpirits = Array.from(this.spirits.values()).filter(s => s.isWild).length;
-    const tamedSpirits = this.player.tamedSpirits.length;
-    const completedSessions = Array.from(this.tamingSessions.values()).filter(s => s.result !== 'in_progress').length;
+    this.managers.set(manager.id, manager);
 
     return {
-      ok: true,
-      stats: {
-
-        player: this.player.stats,
-        spirits: {
-        total: this.spirits.size,
-        wild: wildSpirits,
-        tamed: tamedSpirits,
-        tamingRate: this.spirits.size > 0 ? (tamedSpirits / this.spirits.size) * 100 : 0
-
-      
-      
-      }
-        },
-        sessions: {
-
-          total: this.tamingSessions.size,
-          completed: completedSessions,
-          active: this.activeSession ? 1 : 0
-
-        }
-        },
-        location: this.player.location
-      }
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Export game data
+   * Get manager by ID
    */
-  exportData(format: 'save' | 'scenario' | 'summary' = 'save'): { ok: boolean; data?: any; errors?: string[] } {
-    try {
-      switch (format) {
-        case 'save':
-          return {
-            ok: true,
-            data: {
-
-              schema: 'miff.spirit-tamer.save.v1',
-              player: this.player,
-              spirits: Object.fromEntries(this.spirits.entries()),
-              sessions: Object.fromEntries(this.tamingSessions.entries()),
-              activeSession: this.activeSession?.id || null,
-              exportedAt: new Date().toISOString()
-            
-
-            
-
-
-            }
-            };
-          };
-
-        case 'scenario':
-          const activeSession = this.activeSession || Array.from(this.tamingSessions.values())[0];
-          return {
-            ok: true,
-            data: {
-
-              op: 'scenario',
-              status: 'ok',
-              name: 'SpiritTamerDemoPure',
-              beats: activeSession?.beats || [],
-              timeline: activeSession?.timeline || [],
-              issues: []
-            
-
-            
-
-
-            }
-            };
-          };
-
-        case 'summary':
-          const stats = this.getStats();
-          return {
-            ok: true,
-            data: {
-
-              playerName: this.player.name,
-              level: this.player.level,
-              experience: this.player.experience,
-              spiritsTamed: this.player.tamedSpirits.length,
-              successRate: stats.stats.spirits.tamingRate,
-              currentLocation: this.player.location,
-              inventory: this.player.inventory.length
-            
-
-            
-
-
-            }
-            };
-          };
-
-        default:
-          return { ok: false, errors: [`Unknown export format: ${format}`] };
-      }
-    } catch (error) {
-      return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
+  getManager(managerId: string): SpiritTamerDemoOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
+
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
+    };
   }
 
   /**
-   * Generate rhythm pattern for taming
+   * Create spirit
    */
-  private generateRhythmPattern(difficulty: number): TamingBeat[] {
-    const beats: TamingBeat[] = [];
-    const duration = 5 + difficulty; // 5-15 seconds based on difficulty
-    const beatCount = Math.floor(duration * (1 + difficulty * 0.2)); // More beats for harder spirits
-
-    for (let i = 0; i < beatCount; i++) {
-      const time = (i / beatCount) * duration;
-      const expected = Math.random() < 0.7; // 70% of beats require input
-      beats.push({ time, expected });
+  createSpirit(managerId: string, spirit: Partial<Spirit>): SpiritTamerDemoOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-spirit',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    return beats.sort((a, b) => a.time - b.time);
-  }
+    if (manager.spirits.length >= this.config.maxSpirits) {
+      return {
+        op: 'create-spirit',
+        status: 'error',
+        issues: ['Maximum number of spirits reached']
+      };
+    }
 
-  /**
-   * Reset game state
-   */
-  reset(): { ok: boolean; message: string;
-    } {
-    this.player = {
-      name: 'Tamer',
+    const newSpirit: Spirit = {
+      id: spirit.id || `spirit-${Date.now()}`,
+      name: spirit.name || 'Unnamed Spirit',
+      species: spirit.species || 'Unknown',
+      type: spirit.type || 'fire',
+      rarity: spirit.rarity || 'common',
       level: 1,
       experience: 0,
-      location: { x: 85, y: 262, zone: 'grove' },
-      inventory: ['spirit_flute', 'calming_herbs', 'energy_crystal'],
-      tamedSpirits: [],
-      equipment: {
-
-        instrument: 'spirit_flute', accessory: null;
-
-      }
-    },
-      stats: {
-        totalSpirits: 0,
-        successfulTamings: 0,
-        battleWins: 0,
-        rhythmAccuracy: 0;
-
-      
-      
-      }
-    },
+      stats: spirit.stats || this.generateBaseStats(spirit.type || 'fire'),
+      abilities: spirit.abilities || [],
+      evolution: spirit.evolution || {
+        stage: 1,
+        maxStage: 3,
+        requirements: [],
+        nextEvolution: undefined,
+        previousEvolution: undefined
+      },
+      tamer: spirit.tamer || '',
+      status: 'wild',
+      metadata: {},
+      ...spirit
     };
 
-    this.spirits.clear();
-    this.tamingSessions.clear();
-    this.activeSession = null;
-    this.initializeSpirits();
+    manager.spirits.push(newSpirit);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalSpirits++;
 
-    return { ok: true, message: 'Game state reset successfully' };
+    return {
+      op: 'create-spirit',
+      status: 'ok',
+      result: newSpirit
+    };
+  }
+
+  /**
+   * Create tamer
+   */
+  createTamer(managerId: string, tamer: Partial<Tamer>): SpiritTamerDemoOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'create-tamer',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    if (manager.tamers.length >= this.config.maxTamers) {
+      return {
+        op: 'create-tamer',
+        status: 'error',
+        issues: ['Maximum number of tamers reached']
+      };
+    }
+
+    const newTamer: Tamer = {
+      id: tamer.id || `tamer-${Date.now()}`,
+      name: tamer.name || 'Unnamed Tamer',
+      level: 1,
+      experience: 0,
+      spirits: [],
+      team: [],
+      inventory: tamer.inventory || {
+        items: [],
+        currency: { gold: 1000, gems: 0, tokens: 0 },
+        capacity: 50,
+        maxCapacity: 100
+      },
+      stats: tamer.stats || {
+        battlesWon: 0,
+        battlesLost: 0,
+        spiritsCaught: 0,
+        spiritsEvolved: 0,
+        totalExperience: 0,
+        playTime: 0
+      },
+      achievements: [],
+      status: 'active',
+      metadata: {},
+      ...tamer
+    };
+
+    manager.tamers.push(newTamer);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalTamers++;
+
+    return {
+      op: 'create-tamer',
+      status: 'ok',
+      result: newTamer
+    };
+  }
+
+  /**
+   * Start battle
+   */
+  startBattle(managerId: string, tamerId: string, opponentId: string, type: BattleType): SpiritTamerDemoOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'start-battle',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
+    const tamer = manager.tamers.find(t => t.id === tamerId);
+    if (!tamer) {
+      return {
+        op: 'start-battle',
+        status: 'error',
+        issues: [`Tamer ${tamerId} not found`]
+      };
+    }
+
+    if (tamer.team.length === 0) {
+      return {
+        op: 'start-battle',
+        status: 'error',
+        issues: ['Tamer has no spirits in team']
+      };
+    }
+
+    const battle: Battle = {
+      id: `battle-${Date.now()}`,
+      tamerId,
+      opponentId,
+      type,
+      status: 'active',
+      turns: [],
+      result: {
+        winner: '',
+        loser: '',
+        experience: 0,
+        items: [],
+        currency: { gold: 0, gems: 0, tokens: 0 }
+      },
+      rewards: {
+        experience: 0,
+        currency: { gold: 0, gems: 0, tokens: 0 },
+        items: [],
+        spirits: []
+      },
+      duration: 0,
+      metadata: {}
+    };
+
+    manager.battles.push(battle);
+    manager.updatedAt = Date.now();
+    this.performanceMetrics.totalBattles++;
+
+    return {
+      op: 'start-battle',
+      status: 'ok',
+      result: battle
+    };
+  }
+
+  /**
+   * Generate base stats for spirit
+   */
+  private generateBaseStats(type: SpiritType): SpiritStats {
+    const baseStats = {
+      fire: { health: 100, mana: 80, attack: 120, defense: 80, speed: 100, accuracy: 90, evasion: 85, critical: 10 },
+      water: { health: 110, mana: 100, attack: 100, defense: 100, speed: 90, accuracy: 95, evasion: 80, critical: 8 },
+      earth: { health: 120, mana: 70, attack: 110, defense: 120, speed: 70, accuracy: 85, evasion: 75, critical: 6 },
+      air: { health: 90, mana: 110, attack: 90, defense: 70, speed: 130, accuracy: 100, evasion: 120, critical: 15 },
+      light: { health: 100, mana: 120, attack: 100, defense: 90, speed: 110, accuracy: 100, evasion: 100, critical: 12 },
+      dark: { health: 100, mana: 100, attack: 130, defense: 90, speed: 90, accuracy: 85, evasion: 90, critical: 18 },
+      nature: { health: 130, mana: 90, attack: 90, defense: 110, speed: 80, accuracy: 90, evasion: 85, critical: 8 },
+      ice: { health: 100, mana: 90, attack: 100, defense: 110, speed: 80, accuracy: 95, evasion: 80, critical: 10 },
+      electric: { health: 90, mana: 100, attack: 120, defense: 80, speed: 120, accuracy: 95, evasion: 90, critical: 20 },
+      psychic: { health: 100, mana: 130, attack: 110, defense: 80, speed: 100, accuracy: 100, evasion: 95, critical: 12 }
+    };
+
+    const stats = baseStats[type] || baseStats.fire;
+    
+    return {
+      health: { base: stats.health, current: stats.health, bonus: 0, max: stats.health },
+      mana: { base: stats.mana, current: stats.mana, bonus: 0, max: stats.mana },
+      attack: { base: stats.attack, current: stats.attack, bonus: 0, max: stats.attack },
+      defense: { base: stats.defense, current: stats.defense, bonus: 0, max: stats.defense },
+      speed: { base: stats.speed, current: stats.speed, bonus: 0, max: stats.speed },
+      accuracy: { base: stats.accuracy, current: stats.accuracy, bonus: 0, max: stats.accuracy },
+      evasion: { base: stats.evasion, current: stats.evasion, bonus: 0, max: stats.evasion },
+      critical: { base: stats.critical, current: stats.critical, bonus: 0, max: stats.critical }
+    };
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): SpiritTamerDemoPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): SpiritTamerDemoAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): SpiritTamerDemoManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalSpirits = 0;
+    let totalTamers = 0;
+    let totalBattles = 0;
+    let totalEvolutions = 0;
+    let totalSpiritLevel = 0;
+    let totalTamerLevel = 0;
+
+    for (const manager of this.managers.values()) {
+      totalSpirits += manager.spirits.length;
+      totalTamers += manager.tamers.length;
+      totalBattles += manager.battles.length;
+      totalEvolutions += manager.evolutions.length;
+      
+      for (const spirit of manager.spirits) {
+        totalSpiritLevel += spirit.level;
+      }
+      
+      for (const tamer of manager.tamers) {
+        totalTamerLevel += tamer.level;
+      }
+    }
+
+    this.performanceMetrics.totalSpirits = totalSpirits;
+    this.performanceMetrics.totalTamers = totalTamers;
+    this.performanceMetrics.totalBattles = totalBattles;
+    this.performanceMetrics.totalEvolutions = totalEvolutions;
+    this.performanceMetrics.averageSpiritLevel = totalSpirits > 0 ? totalSpiritLevel / totalSpirits : 0;
+    this.performanceMetrics.averageTamerLevel = totalTamers > 0 ? totalTamerLevel / totalTamers : 0;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
