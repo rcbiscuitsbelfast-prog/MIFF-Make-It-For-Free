@@ -79,9 +79,7 @@ export interface LevelUpResult {
   statBoosts: {
 
     stat: string; amount: number;
-
-  }
-    }[];
+  }[];
   unlockedSkills: string[];
   rewards: { type: string; id: string; quantity?: number }[];
   totalXp: number;

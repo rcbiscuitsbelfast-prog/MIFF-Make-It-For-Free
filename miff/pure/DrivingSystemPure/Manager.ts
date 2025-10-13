@@ -127,12 +127,7 @@ export interface TrackDefinition {
   }
   };
   finishLine: {
-
     position: Vector3; direction: Vector3;
-    
-
-
-  }
   };
   length: number;
   width: number;

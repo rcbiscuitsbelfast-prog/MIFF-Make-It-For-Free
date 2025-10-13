@@ -55,15 +55,10 @@ export interface RenderStats {
   averageComplexity: number;
   engineDistribution: Record<string, number>;
   performanceMetrics: {
-
     buildTime: number;
     validationTime: number;
     exportTime: number;
-  
-
-
   }
-  };
 }
 
 export class RenderPayloadManager {
