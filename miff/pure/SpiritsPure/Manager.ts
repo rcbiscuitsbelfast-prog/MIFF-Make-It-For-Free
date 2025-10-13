@@ -77,15 +77,8 @@ export class SpiritsManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'SpiritsManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

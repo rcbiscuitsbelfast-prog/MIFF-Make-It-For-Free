@@ -77,15 +77,8 @@ export class RNGManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'RNGManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

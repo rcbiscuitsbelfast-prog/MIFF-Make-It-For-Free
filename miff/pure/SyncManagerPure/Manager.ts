@@ -77,15 +77,8 @@ export class SyncManagerManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'SyncManagerManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
