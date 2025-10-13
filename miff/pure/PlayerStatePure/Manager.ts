@@ -1329,7 +1329,6 @@ export class PlayerStateManager {
     // Register with memory manager
     this.memoryId = `PlayerStateManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'PlayerStateManager');
-  };
   }
 
   /**

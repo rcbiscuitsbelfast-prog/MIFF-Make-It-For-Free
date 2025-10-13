@@ -635,21 +635,7 @@ export class ProfilerManager {
         networkLatency: 100,
         diskUsage: 80,
         custom: new Map()
-    
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'ProfilerManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `ProfilerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'ProfilerManager');
-  },
+      },
       enableReporting: true,
       enableExport: true,
       enableHistoricalData: true,

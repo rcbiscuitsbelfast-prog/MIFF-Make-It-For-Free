@@ -114,10 +114,6 @@ export interface DebugInputAnalysis {
 
     x: number; y: number;
     
-
-
-  }
-  };
   mouseButtons: boolean[];
   keyboardState: Set<string>;
   touchPoints: number;

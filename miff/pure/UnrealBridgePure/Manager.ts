@@ -481,7 +481,6 @@ export class UnrealBridgeManager {
     // Register with memory manager
     this.memoryId = `UnrealBridgeManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'UnrealBridgeManager');
-  };
   }
 
   /**
