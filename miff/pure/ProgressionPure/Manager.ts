@@ -11,12 +11,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
-
 import { EventBus } from '../EventBusPure/EventBusPure';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
@@ -100,15 +99,8 @@ export class XPManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'ProgressionManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

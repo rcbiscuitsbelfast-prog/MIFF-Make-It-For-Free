@@ -94,28 +94,21 @@ export class TimeManager {
     initialTime: 0,
     updateInterval: 1000,
     enablePersistence: false,
-    debugMode: false;
+    debugMode: false
+  }) {
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'TimeSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
     this.memoryId = `TimeSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'TimeSystemManager');
-  }) {
     this.config = config;
     this.updateInterval = config.updateInterval || 1000;
     this.time = config.initialTime || 0;
