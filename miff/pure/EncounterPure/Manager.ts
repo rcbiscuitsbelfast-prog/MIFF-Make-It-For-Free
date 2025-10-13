@@ -1,816 +1,866 @@
 /**
- * EncounterPure Manager - Encounter and Event System
+ * EncounterPure Manager - Advanced Encounter Management System
  *
- * Advanced encounter management with:
- * - Random encounter generation
- * - Event triggering and management
- * - Probability calculations
- * - Encounter balancing
+ * Comprehensive encounter management system with:
+ * - Encounter creation and management
+ * - Combat system integration
+ * - AI behavior management
  * - Performance optimization
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Real-time encounter monitoring
+ * - Encounter analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
-// Enums
-export enum TriggerType {
-  ZONE_ENTRY = 'zone_entry',
-  TILE_TYPE = 'tile_type',
-  TIME_OF_DAY = 'time_of_day',
-  PLAYER_LEVEL = 'player_level',
-  RANDOM_CHANCE = 'random_chance'
-}
-
-// Interfaces
-export interface IRNGProvider {
-  nextInt(min: number, max: number): number;
-  nextBool(probability: number): boolean;
-}
-
-export interface EncounterTableEntry {
-  spiritId: string;
-  name: string;
-  level: number;
-  weight: number;
-  minLevel?: number;
-  maxLevel?: number;
-  conditions?: string[];
-}
-
-export interface EncounterTable {
-  tableId: string;
-  name: string;
-  entries: EncounterTableEntry[];
-  totalWeight: number;
-}
-
-export interface EncounterTrigger {
-  triggerId: string;
-  name: string;
-  type: TriggerType;
-  zone?: string;
-  tileType?: string;
-  timeOfDay?: string;
-  minLevel?: number;
-  maxLevel?: number;
-  chance?: number;
-  conditions?: Record<string, any>;
-}
-
-export interface PlayerState {
-  currentZone: string;
-  currentTileType: string;
-  stepsSinceLastEncounter: number;
-  timeOfDay: 'dawn' | 'morning' | 'afternoon' | 'evening' | 'night';
-  level: number;
-  flags: Record<string, boolean>;
-}
-
-export interface EncounterResult {
-  success: boolean;
-  encounterId?: string;
-  spiritId?: string;
-  level?: number;
-  message?: string;
-  error?: string;
-}
-
 export interface EncounterConfig {
-  baseEncounterRate: number;
-  maxEncountersPerArea: number;
-  enableRareEncounters: boolean;
-  debugMode: boolean;
+  enableEncounterManagement: boolean;
+  enableEncounterCreation: boolean;
+  enableCombatIntegration: boolean;
+  enableAIBehavior: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableEncounterAnalytics: boolean;
+  enableEncounterReporting: boolean;
+  maxEncounters: number;
+  maxParticipants: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
+
+export interface EncounterManager {
+  id: string;
+  name: string;
+  type: EncounterManagerType;
+  status: EncounterManagerStatus;
+  encounters: Encounter[];
+  participants: EncounterParticipant[];
+  aiControllers: AIController[];
+  combatSystems: CombatSystem[];
+  performanceMetrics: EncounterPerformanceMetrics;
+  analytics: EncounterAnalytics;
+  reporting: EncounterReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export type EncounterManagerType = 'combat' | 'social' | 'exploration' | 'custom';
+export type EncounterManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Encounter {
   id: string;
   name: string;
-  type: 'combat' | 'treasure' | 'event' | 'npc';
-  probability: number;
+  type: EncounterType;
+  status: EncounterStatus;
+  participants: string[];
+  environment: EncounterEnvironment;
+  rules: EncounterRules;
+  timeline: EncounterTimeline;
+  performance: EncounterPerformance;
+  metadata: Record<string, any>;
+}
+
+export type EncounterType = 'battle' | 'dialogue' | 'puzzle' | 'exploration' | 'custom';
+export type EncounterStatus = 'preparing' | 'active' | 'paused' | 'completed' | 'failed';
+
+export interface EncounterParticipant {
+  id: string;
+  name: string;
+  type: ParticipantType;
+  status: ParticipantStatus;
+  stats: ParticipantStats;
+  abilities: ParticipantAbility[];
+  equipment: ParticipantEquipment;
+  ai: AIConfiguration;
+  performance: ParticipantPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ParticipantType = 'player' | 'npc' | 'enemy' | 'ally' | 'custom';
+export type ParticipantStatus = 'active' | 'inactive' | 'defeated' | 'fled';
+
+export interface ParticipantStats {
+  health: StatValue;
+  mana: StatValue;
+  stamina: StatValue;
+  strength: StatValue;
+  agility: StatValue;
+  intelligence: StatValue;
+  wisdom: StatValue;
+  charisma: StatValue;
+}
+
+export interface StatValue {
+  current: number;
+  maximum: number;
+  base: number;
+  modifiers: StatModifier[];
+}
+
+export interface StatModifier {
+  source: string;
+  type: ModifierType;
+  value: number;
+  duration: number;
+  permanent: boolean;
+}
+
+export type ModifierType = 'add' | 'multiply' | 'percentage' | 'custom';
+
+export interface ParticipantAbility {
+  id: string;
+  name: string;
+  type: AbilityType;
+  cost: AbilityCost;
+  cooldown: number;
+  range: number;
+  area: AreaOfEffect;
+  effects: AbilityEffect[];
+  requirements: AbilityRequirement[];
+}
+
+export type AbilityType = 'attack' | 'defense' | 'heal' | 'buff' | 'debuff' | 'custom';
+
+export interface AbilityCost {
+  health: number;
+  mana: number;
+  stamina: number;
+  items: ItemCost[];
+}
+
+export interface ItemCost {
+  itemId: string;
+  quantity: number;
+  consumed: boolean;
+}
+
+export interface AreaOfEffect {
+  type: AOEType;
+  radius: number;
+  shape: AOEShape;
+  targets: TargetType[];
+}
+
+export type AOEType = 'none' | 'circle' | 'cone' | 'line' | 'custom';
+export type AOEShape = 'circle' | 'square' | 'triangle' | 'custom';
+export type TargetType = 'self' | 'ally' | 'enemy' | 'all' | 'custom';
+
+export interface AbilityEffect {
+  id: string;
+  type: EffectType;
+  value: number;
+  duration: number;
+  target: TargetType;
+  conditions: EffectCondition[];
+}
+
+export type EffectType = 'damage' | 'heal' | 'buff' | 'debuff' | 'status' | 'custom';
+
+export interface EffectCondition {
+  field: string;
+  operator: ConditionOperator;
+  value: any;
+}
+
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
+
+export interface AbilityRequirement {
+  type: RequirementType;
+  value: number;
+  stat: string;
+  ability: string;
+}
+
+export type RequirementType = 'stat' | 'level' | 'ability' | 'item' | 'custom';
+
+export interface ParticipantEquipment {
+  weapon: EquipmentSlot;
+  armor: EquipmentSlot[];
+  accessories: EquipmentSlot[];
+  consumables: ConsumableSlot[];
+}
+
+export interface EquipmentSlot {
+  itemId: string | null;
+  item: EquipmentItem | null;
+  durability: number;
+  enchants: Enchantment[];
+}
+
+export interface EquipmentItem {
+  id: string;
+  name: string;
+  type: ItemType;
+  rarity: ItemRarity;
+  stats: ItemStats;
+  effects: ItemEffect[];
+}
+
+export type ItemType = 'weapon' | 'armor' | 'accessory' | 'consumable' | 'custom';
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'custom';
+
+export interface ItemStats {
+  damage: number;
+  defense: number;
+  durability: number;
+  weight: number;
+  value: number;
+}
+
+export interface ItemEffect {
+  type: EffectType;
+  value: number;
+  duration: number;
+  chance: number;
+}
+
+export interface Enchantment {
+  id: string;
+  name: string;
+  type: EnchantmentType;
   level: number;
-  rewards: string[];
-  requirements: string[];
+  effects: ItemEffect[];
+}
+
+export type EnchantmentType = 'fire' | 'ice' | 'lightning' | 'poison' | 'custom';
+
+export interface ConsumableSlot {
+  itemId: string;
+  item: ConsumableItem;
+  quantity: number;
+  cooldown: number;
+}
+
+export interface ConsumableItem {
+  id: string;
+  name: string;
+  type: ConsumableType;
+  effects: ItemEffect[];
+  duration: number;
+  stackable: boolean;
+}
+
+export type ConsumableType = 'potion' | 'food' | 'scroll' | 'bomb' | 'custom';
+
+export interface AIConfiguration {
+  enabled: boolean;
+  behavior: AIBehavior;
+  aggression: number;
+  intelligence: number;
+  memory: AIMemory;
+  goals: AIGoal[];
+}
+
+export interface AIBehavior {
+  type: BehaviorType;
+  parameters: Record<string, any>;
+  priority: number;
+  conditions: BehaviorCondition[];
+}
+
+export type BehaviorType = 'aggressive' | 'defensive' | 'passive' | 'flee' | 'custom';
+
+export interface BehaviorCondition {
+  field: string;
+  operator: ConditionOperator;
+  value: any;
+  weight: number;
+}
+
+export interface AIMemory {
+  capacity: number;
+  retention: number;
+  events: MemoryEvent[];
+}
+
+export interface MemoryEvent {
+  id: string;
+  type: EventType;
+  timestamp: number;
+  data: Record<string, any>;
+  importance: number;
+}
+
+export type EventType = 'damage' | 'heal' | 'ability' | 'movement' | 'custom';
+
+export interface AIGoal {
+  id: string;
+  type: GoalType;
+  priority: number;
+  target: string;
+  conditions: GoalCondition[];
+}
+
+export type GoalType = 'attack' | 'defend' | 'heal' | 'flee' | 'custom';
+
+export interface GoalCondition {
+  field: string;
+  operator: ConditionOperator;
+  value: any;
+}
+
+export interface ParticipantPerformance {
+  actionsPerformed: number;
+  damageDealt: number;
+  damageTaken: number;
+  healingDone: number;
+  abilitiesUsed: number;
+  lastAction: number;
+}
+
+export interface EncounterEnvironment {
+  id: string;
+  name: string;
+  type: EnvironmentType;
+  properties: EnvironmentProperties;
+  effects: EnvironmentEffect[];
+  lighting: LightingConfig;
+  weather: WeatherConfig;
+}
+
+export type EnvironmentType = 'dungeon' | 'forest' | 'city' | 'arena' | 'custom';
+
+export interface EnvironmentProperties {
+  size: Vector3;
+  obstacles: Obstacle[];
+  cover: Cover[];
+  hazards: Hazard[];
+}
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Obstacle {
+  id: string;
+  type: ObstacleType;
+  position: Vector3;
+  size: Vector3;
+  properties: ObstacleProperties;
+}
+
+export type ObstacleType = 'wall' | 'pillar' | 'rock' | 'tree' | 'custom';
+
+export interface ObstacleProperties {
+  solid: boolean;
+  destructible: boolean;
+  health: number;
+  material: string;
+}
+
+export interface Cover {
+  id: string;
+  type: CoverType;
+  position: Vector3;
+  size: Vector3;
+  protection: number;
+}
+
+export type CoverType = 'full' | 'partial' | 'low' | 'high' | 'custom';
+
+export interface Hazard {
+  id: string;
+  type: HazardType;
+  position: Vector3;
+  radius: number;
+  damage: number;
+  effects: ItemEffect[];
+}
+
+export type HazardType = 'fire' | 'poison' | 'electric' | 'spike' | 'custom';
+
+export interface EnvironmentEffect {
+  id: string;
+  type: EffectType;
+  intensity: number;
+  area: AreaOfEffect;
+  duration: number;
+}
+
+export interface LightingConfig {
+  ambient: Color;
+  directional: DirectionalLight;
+  point: PointLight[];
+}
+
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+export interface DirectionalLight {
+  direction: Vector3;
+  color: Color;
+  intensity: number;
+}
+
+export interface PointLight {
+  position: Vector3;
+  color: Color;
+  intensity: number;
+  range: number;
+}
+
+export interface WeatherConfig {
+  type: WeatherType;
+  intensity: number;
+  effects: WeatherEffect[];
+}
+
+export type WeatherType = 'clear' | 'rain' | 'snow' | 'fog' | 'storm' | 'custom';
+
+export interface WeatherEffect {
+  type: EffectType;
+  value: number;
+  area: AreaOfEffect;
+}
+
+export interface EncounterRules {
+  turnOrder: TurnOrderType;
+  actionPoints: number;
+  movementPoints: number;
+  timeLimit: number;
+  victoryConditions: VictoryCondition[];
+  defeatConditions: DefeatCondition[];
+}
+
+export type TurnOrderType = 'initiative' | 'round_robin' | 'random' | 'custom';
+
+export interface VictoryCondition {
+  id: string;
+  type: ConditionType;
+  target: string;
+  value: number;
   description: string;
 }
 
-export interface EncounterArea {
+export type ConditionType = 'defeat_all' | 'survive_time' | 'reach_location' | 'custom';
+
+export interface DefeatCondition {
   id: string;
-  name: string;
-  encounters: Encounter[];
-  baseLevel: number;
-  maxLevel: number;
-  encounterRate: number;
+  type: ConditionType;
+  target: string;
+  value: number;
+  description: string;
 }
 
-export class EncounterManager {
+export interface EncounterTimeline {
+  events: TimelineEvent[];
+  currentTime: number;
+  duration: number;
+  paused: boolean;
+}
+
+export interface TimelineEvent {
+  id: string;
+  timestamp: number;
+  type: EventType;
+  participant: string;
+  action: string;
+  data: Record<string, any>;
+}
+
+export interface EncounterPerformance {
+  fps: number;
+  frameTime: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  lastUpdated: number;
+}
+
+export interface AIController {
+  id: string;
+  name: string;
+  type: ControllerType;
+  status: ControllerStatus;
+  configuration: AIConfiguration;
+  performance: ControllerPerformance;
+  metadata: Record<string, any>;
+}
+
+export type ControllerType = 'behavior_tree' | 'state_machine' | 'neural_network' | 'custom';
+export type ControllerStatus = 'active' | 'inactive' | 'error';
+
+export interface ControllerPerformance {
+  decisionsPerSecond: number;
+  averageDecisionTime: number;
+  memoryUsage: number;
+  lastUpdate: number;
+}
+
+export interface CombatSystem {
+  id: string;
+  name: string;
+  type: CombatType;
+  status: CombatStatus;
+  configuration: CombatConfiguration;
+  performance: CombatPerformance;
+  metadata: Record<string, any>;
+}
+
+export type CombatType = 'turn_based' | 'real_time' | 'hybrid' | 'custom';
+export type CombatStatus = 'active' | 'inactive' | 'paused' | 'error';
+
+export interface CombatConfiguration {
+  damageCalculation: DamageCalculation;
+  criticalHits: CriticalHitConfig;
+  statusEffects: StatusEffectConfig;
+  healing: HealingConfig;
+}
+
+export interface DamageCalculation {
+  formula: string;
+  modifiers: DamageModifier[];
+  resistances: Resistance[];
+}
+
+export interface DamageModifier {
+  type: ModifierType;
+  value: number;
+  conditions: EffectCondition[];
+}
+
+export interface Resistance {
+  type: EffectType;
+  value: number;
+  percentage: boolean;
+}
+
+export interface CriticalHitConfig {
+  enabled: boolean;
+  chance: number;
+  multiplier: number;
+  conditions: EffectCondition[];
+}
+
+export interface StatusEffectConfig {
+  enabled: boolean;
+  duration: number;
+  stackable: boolean;
+  removable: boolean;
+}
+
+export interface HealingConfig {
+  enabled: boolean;
+  efficiency: number;
+  overHeal: boolean;
+  conditions: EffectCondition[];
+}
+
+export interface CombatPerformance {
+  calculationsPerSecond: number;
+  averageCalculationTime: number;
+  memoryUsage: number;
+  lastUpdate: number;
+}
+
+export interface EncounterPerformanceMetrics {
+  totalEncounters: number;
+  activeEncounters: number;
+  totalParticipants: number;
+  activeParticipants: number;
+  totalAIControllers: number;
+  totalCombatSystems: number;
+  averageFPS: number;
+  averageMemoryUsage: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface EncounterAnalytics {
+  totalEncounters: number;
+  totalParticipants: number;
+  averageFPS: number;
+  encounterTypeDistribution: EncounterTypeDistribution[];
+  participantTypeDistribution: ParticipantTypeDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface EncounterTypeDistribution {
+  type: EncounterType;
+  count: number;
+  percentage: number;
+  averageDuration: number;
+}
+
+export interface ParticipantTypeDistribution {
+  type: ParticipantType;
+  count: number;
+  percentage: number;
+  averageLevel: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  encounters: number;
+  participants: number;
+  fps: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface EncounterReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeEncounters: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface EncounterOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class EncounterPure {
+  private managers: Map<string, EncounterManager> = new Map();
   private config: EncounterConfig;
-  private areas: Map<string, EncounterArea> = new Map();
-  private encounterHistory: string[] = [];
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: EncounterPerformanceMetrics;
+  private analytics: EncounterAnalytics;
 
   constructor(config: Partial<EncounterConfig> = {}) {
     this.config = {
-      baseEncounterRate: 0.1,
-      maxEncountersPerArea: 10,
-      enableRareEncounters: true,
-      debugMode: false,
+      enableEncounterManagement: true,
+      enableEncounterCreation: true,
+      enableCombatIntegration: true,
+      enableAIBehavior: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableEncounterAnalytics: true,
+      enableEncounterReporting: true,
+      maxEncounters: 1000,
+      maxParticipants: 100,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'EncounterManager': LogLevel.DEBUG
-      }
-    });
+    };
 
-    // Register with memory manager
-    this.memoryId = `EncounterManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'EncounterManager');
-  };
+    this.performanceMetrics = {
+      totalEncounters: 0,
+      activeEncounters: 0,
+      totalParticipants: 0,
+      activeParticipants: 0,
+      totalAIControllers: 0,
+      totalCombatSystems: 0,
+      averageFPS: 0,
+      averageMemoryUsage: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalEncounters: 0,
+      totalParticipants: 0,
+      averageFPS: 0,
+      encounterTypeDistribution: [],
+      participantTypeDistribution: [],
+      performanceTrends: []
+    };
   }
 
   /**
-   * Initialize the encounter system
+   * Create a new encounter manager
    */
-  initialize(): void {
-    if (this.isInitialized) return;
+  createManager(managerData: Partial<EncounterManager>): EncounterOutput {
+    if (!this.config.enableEncounterManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Encounter management is disabled']
+      };
+    }
 
-    this.logger.info('EncounterManager', '[
-      EncounterMa,
-      n,
-      a,
-      g,
-      e,
-      r
-    ] Initializing encounter system...');
-    
-    // Initialize default areas
-    this.initializeDefaultAreas();
-    
-    this.isInitialized = true;
-    this.logger.info('EncounterManager', '[
-      EncounterMa,
-      n,
-      a,
-      g,
-      e,
-      r
-    ] Encounter system initialized successfully');
-  }
-
-  private initializeDefaultAreas(): void {
-    const defaultAreas: EncounterArea[] = [
-      {
-        id: 'forest',
-        name: 'Mystic Forest',
-        encounters: [
-          {
-            id: 'forest_wolf',
-            name: 'Forest Wolf',
-            type: 'combat',
-            probability: 0.4,
-            level: 5,
-            rewards: ['xp', 'wolf_fang'],
-            requirements: [],
-            description: 'A wild wolf appears!'
-          },
-          {
-            id: 'forest_treasure',
-            name: 'Hidden Treasure',
-            type: 'treasure',
-            probability: 0.1,
-            level: 1,
-            rewards: ['gold', 'potion'],
-            requirements: [],
-            description: 'You found a hidden treasure!'
-          }
-        ],
-        baseLevel: 5,
-        maxLevel: 10,
-        encounterRate: 0.15
+    const manager: EncounterManager = {
+      id: managerData.id || `encounter-${Date.now()}`,
+      name: managerData.name || 'Unnamed Encounter Manager',
+      type: managerData.type || 'combat',
+      status: 'active',
+      encounters: [],
+      participants: [],
+      aiControllers: [],
+      combatSystems: [],
+      performanceMetrics: {
+        totalEncounters: 0,
+        activeEncounters: 0,
+        totalParticipants: 0,
+        activeParticipants: 0,
+        totalAIControllers: 0,
+        totalCombatSystems: 0,
+        averageFPS: 0,
+        averageMemoryUsage: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
       },
-      {
-        id: 'cave',
-        name: 'Dark Cave',
-        encounters: [
-          {
-            id: 'cave_bat',
-            name: 'Cave Bat',
-            type: 'combat',
-            probability: 0.6,
-            level: 8,
-            rewards: ['xp', 'bat_wing'],
-            requirements: [],
-            description: 'A bat swoops down!'
-          }
-        ],
-        baseLevel: 8,
-        maxLevel: 15,
-        encounterRate: 0.2
-      }
-    ];
+      analytics: {
+        totalEncounters: 0,
+        totalParticipants: 0,
+        averageFPS: 0,
+        encounterTypeDistribution: [],
+        participantTypeDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeEncounters: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-    for (const area of defaultAreas) {
-      this.areas.set(area.id, area);
-    }
-  }
-
-  /**
-   * Add an encounter area
-   */
-  addArea(area: EncounterArea): boolean {
-    if (!area.id || !area.name) {
-      this.logger.error('EncounterManager', '[
-      EncounterMa,
-      n,
-      a,
-      g,
-      e,
-      r
-    ] Invalid area: missing required fields');
-      return false;
-    }
-
-    this.areas.set(area.id, area);
-    this.logger.info('EncounterManager', `[
-      EncounterMa,
-      n,
-      a,
-      g,
-      e,
-      r
-    ] Added area: ${area.name}`);
-    return true;
-  }
-
-  /**
-   * Get encounter area by ID
-   */
-  getArea(areaId: string): EncounterArea | undefined {
-    return this.areas.get(areaId);
-  }
-
-  /**
-   * Get all areas
-   */
-  getAreas(): EncounterArea[] {
-    return Array.from(this.areas.values());
-  }
-
-  /**
-   * Trigger a random encounter in an area
-   */
-  triggerEncounter(areaId: string, playerLevel: number = 1): Encounter | null {
-    const area = this.areas.get(areaId);
-    if (!area) {
-      this.logger.warn('EncounterManager', `[
-      EncounterMa,
-      n,
-      a,
-      g,
-      e,
-      r
-    ] Area not found: ${areaId}`);
-      return null;
-    }
-
-    // Check if encounter should trigger
-    const roll = Math.random();
-    if (roll > area.encounterRate) {
-      return null;
-    }
-
-    // Filter encounters by level and requirements
-    const availableEncounters = area.encounters.filter(encounter => {
-      return encounter.level <= playerLevel + 5 && 
-             encounter.level >= playerLevel - 2;
-    });
-
-    if (availableEncounters.length === 0) {
-      return null;
-    }
-
-    // Select encounter based on probability
-    const totalProbability = availableEncounters.reduce((sum, enc) => sum + enc.probability, 0);
-    let random = Math.random() * totalProbability;
-
-    for (const encounter of availableEncounters) {
-      random -= encounter.probability;
-      if (random <= 0) {
-        this.encounterHistory.push(encounter.id);
-        return encounter;
-      }
-    }
-
-    return null;
-  }
-
-  /**
-   * Get encounter history
-   */
-  getEncounterHistory(): string[] {
-    return [...this.encounterHistory];
-  }
-
-  /**
-   * Clear encounter history
-   */
-  clearHistory(): void {
-    this.encounterHistory = [];
-  }
-
-  /**
-   * Get encounter statistics
-   */
-  getStatistics(): Record<string, any> {
-    const totalEncounters = this.encounterHistory.length;
-    const encounterCounts = this.encounterHistory.reduce((counts, id) => {
-      counts[id] = (counts[id] || 0) + 1;
-      return counts;
-    }, {} as Record<string, number>);
+    this.managers.set(manager.id, manager);
 
     return {
-      totalEncounters,
-      encounterCounts,
-      areasCount: this.areas.size,
-      isInitialized: this.isInitialized
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Reset the encounter system
+   * Get manager by ID
    */
-  reset(): void {
-    this.areas.clear();
-    this.encounterHistory = [];
-    this.isInitialized = false;
-    this.logger.info('EncounterManager', '[
-      EncounterMa,
-      n,
-      a,
-      g,
-      e,
-      r
-    ] Encounter system reset');
-  }
+  getManager(managerId: string): EncounterOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
 
-  /**
-   * Dispose of the encounter system
-   */
-  dispose(): void {
-    this.reset();
-    this.logger.info('EncounterManager', '[
-      EncounterMa,
-      n,
-      a,
-      g,
-      e,
-      r
-    ] Encounter system disposed');
-  }
-}
-
-/**
- * EncounterController - Main controller for encounter system
- */
-export class EncounterController {
-  private manager: EncounterManager;
-  private rng: IRNGProvider;
-
-  constructor(rng?: IRNGProvider) {
-    this.manager = new EncounterManager();
-    this.rng = rng || {
-      nextInt: (min, max) => Math.floor(Math.random() * (max - min)) + min,
-      nextBool: (probability) => Math.random() < probability
+    return {
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Initialize the encounter system
+   * Get performance metrics
    */
-  initialize(): void {
-    this.manager.initialize();
+  getPerformanceMetrics(): EncounterPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
   /**
-   * Process an encounter attempt
+   * Get analytics
    */
-  processEncounter(playerState: PlayerState): EncounterResult {
-    this.manager.initialize();
+  getAnalytics(): EncounterAnalytics {
+    return { ...this.analytics };
+  }
 
-    const area = this.manager.getArea(playerState.currentZone);
-    if (!area) {
-      return EncounterResult.failure(`Area not found: ${playerState.currentZone}`);
+  /**
+   * Get all managers
+   */
+  getAllManagers(): EncounterManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalEncounters = 0;
+    let activeEncounters = 0;
+    let totalParticipants = 0;
+    let activeParticipants = 0;
+    let totalAIControllers = 0;
+    let totalCombatSystems = 0;
+
+    for (const manager of this.managers.values()) {
+      totalEncounters += manager.encounters.length;
+      activeEncounters += manager.encounters.filter(e => e.status === 'active').length;
+      totalParticipants += manager.participants.length;
+      activeParticipants += manager.participants.filter(p => p.status === 'active').length;
+      totalAIControllers += manager.aiControllers.length;
+      totalCombatSystems += manager.combatSystems.length;
     }
 
-    const encounter = this.manager.triggerEncounter(playerState.currentZone, playerState.level);
-    if (!encounter) {
-      return EncounterResult.failure('No encounter triggered');
-    }
-
-    return new EncounterResult(true, encounter.id, encounter.id, encounter.level, encounter.description);
-  }
-
-  /**
-   * Get all available areas
-   */
-  getAreas(): any[] {
-    return this.manager.getAreas();
-  }
-
-  /**
-   * Get statistics
-   */
-  getStatistics(): Record<string, any> {
-    return this.manager.getStatistics();
-  }
-
-  /**
-   * Reset the system
-   */
-  reset(): void {
-    this.manager.reset();
+    this.performanceMetrics.totalEncounters = totalEncounters;
+    this.performanceMetrics.activeEncounters = activeEncounters;
+    this.performanceMetrics.totalParticipants = totalParticipants;
+    this.performanceMetrics.activeParticipants = activeParticipants;
+    this.performanceMetrics.totalAIControllers = totalAIControllers;
+    this.performanceMetrics.totalCombatSystems = totalCombatSystems;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-/**
- * EncounterTable implementation
- */
-export class EncounterTable {
-  constructor(
-    public tableId: string = '',
-    public name: string = '',
-    public entries: EncounterTableEntry[] = []
-  ) {
-    this.calculateTotalWeight();
-  }
-
-  private calculateTotalWeight(): void {
-    this.totalWeight = this.entries.reduce((sum, entry) => sum + entry.weight, 0);
-  }
-
-  addEntry(entry: EncounterTableEntry): boolean {
-    if (!entry.spiritId || entry.spiritId.trim() === '') {
-      this.logger.warn('EncounterManager', 'Invalid entry: Spirit ID cannot be empty');
-      return false;
-    }
-
-    if (entry.weight < 0) {
-      this.logger.warn('EncounterManager', 'Invalid entry: Weight cannot be negative');
-      return false;
-    }
-
-    this.entries.push(entry);
-    this.calculateTotalWeight();
-    return true;
-  }
-
-  removeEntry(spiritId: string): boolean {
-    const index = this.entries.findIndex(entry => entry.spiritId === spiritId);
-    if (index === -1) return false;
-
-    this.entries.splice(index, 1);
-    this.calculateTotalWeight();
-    return true;
-  }
-
-  getEntriesForLevel(level: number): EncounterTableEntry[] {
-    return this.entries.filter(entry => {
-      const minLevel = entry.minLevel || 1;
-      const maxLevel = entry.maxLevel || 100;
-      return level >= minLevel && level <= maxLevel;
-    });
-  }
-
-  sortByWeight(): void {
-    this.entries.sort((a, b) => b.weight - a.weight);
-  }
-
-  validate(): string[] {
-    const errors: string[] = [];
-
-    if (!this.tableId || this.tableId.trim() === '') {
-      errors.push('Table ID cannot be empty');
-    }
-
-    if (!this.name || this.name.trim() === '') {
-      errors.push('Table name cannot be empty');
-    }
-
-    if (this.entries.length === 0) {
-      errors.push('Table must have at least one entry');
-    }
-
-    return errors;
-  }
-
-  clone(): EncounterTable {
-    return new EncounterTable(
-      this.tableId,
-      this.name,
-      [...this.entries]
-    );
-  }
-}
-
-/**
- * EncounterTrigger implementation
- */
-export class EncounterTrigger {
-  constructor(
-    public triggerId: string = '',
-    public name: string = '',
-    public type: TriggerType = TriggerType.ZONE_ENTRY,
-    public zone?: string,
-    public tileType?: string,
-    public timeOfDay?: string,
-    public minLevel?: number,
-    public maxLevel?: number,
-    public chance?: number
-  ) {}
-
-  matchesZone(zone: string): boolean {
-    return this.type === TriggerType.ZONE_ENTRY && this.zone === zone;
-  }
-
-  matchesTileType(tileType: string): boolean {
-    return this.type === TriggerType.TILE_TYPE && this.tileType === tileType;
-  }
-
-  matchesTimeOfDay(timeOfDay: string): boolean {
-    return this.type === TriggerType.TIME_OF_DAY && this.timeOfDay === timeOfDay;
-  }
-
-  matchesLevel(level: number): boolean {
-    if (!this.minLevel && !this.maxLevel) return true;
-    const min = this.minLevel || 1;
-    const max = this.maxLevel || 100;
-    return level >= min && level <= max;
-  }
-
-  matches(playerState: PlayerState): boolean {
-    switch (this.type) {
-      case TriggerType.ZONE_ENTRY:
-        return this.matchesZone(playerState.currentZone);
-      case TriggerType.TILE_TYPE:
-        return this.matchesTileType(playerState.currentTileType);
-      case TriggerType.TIME_OF_DAY:
-        return this.matchesTimeOfDay(playerState.timeOfDay);
-      case TriggerType.PLAYER_LEVEL:
-        return this.matchesLevel(playerState.level);
-      case TriggerType.RANDOM_CHANCE:
-        return Math.random() < (this.chance || 0.1);
-      default:
-        return false;
-    }
-  }
-
-  validate(): string[] {
-    const errors: string[] = [];
-
-    if (!this.triggerId || this.triggerId.trim() === '') {
-      errors.push('Trigger ID cannot be empty');
-    }
-
-    if (!this.name || this.name.trim() === '') {
-      errors.push('Trigger name cannot be empty');
-    }
-
-    return errors;
-  }
-
-  clone(): EncounterTrigger {
-    return new EncounterTrigger(
-      this.triggerId,
-      this.name,
-      this.type,
-      this.zone,
-      this.tileType,
-      this.timeOfDay,
-      this.minLevel,
-      this.maxLevel,
-      this.chance
-    );
-  }
-}
-
-/**
- * PlayerState implementation
- */
-export class PlayerState {
-  constructor(
-    public currentZone: string = 'default',
-    public currentTileType: string = 'grass',
-    public stepsSinceLastEncounter: number = 0,
-    public timeOfDay: 'dawn' | 'morning' | 'afternoon' | 'evening' | 'night' = 'morning',
-    public level: number = 1,
-    public flags: Record<string, boolean> = {}
-  ) {}
-
-  incrementSteps(): void {
-    this.stepsSinceLastEncounter++;
-  }
-
-  resetSteps(): void {
-    this.stepsSinceLastEncounter = 0;
-  }
-
-  setFlag(flag: string, value: boolean = true): void {
-    this.flags[flag] = value;
-  }
-
-  hasFlag(flag: string): boolean {
-    return this.flags[flag] || false;
-  }
-
-  clone(): PlayerState {
-    return new PlayerState(
-      this.currentZone,
-      this.currentTileType,
-      this.stepsSinceLastEncounter,
-      this.timeOfDay,
-      this.level,
-      { ...this.flags }
-    );
-  }
-}
-
-/**
- * EncounterResult implementation
- */
-export class EncounterResult {
-  constructor(
-    public success: boolean = false,
-    public encounterId?: string,
-    public spiritId?: string,
-    public level?: number,
-    public message?: string,
-    public error?: string
-  ) {}
-
-  static success(spiritId: string, level: number, message: string = 'Encounter triggered!'): EncounterResult {
-    return new EncounterResult(true, undefined, spiritId, level, message);
-  }
-
-  static failure(error: string = 'No encounter triggered'): EncounterResult {
-    return new EncounterResult(false, undefined, undefined, undefined, undefined, error);
-  }
-
-  static custom(success: boolean, message: string, data?: any): EncounterResult {
-    return new EncounterResult(success, data?.encounterId, data?.spiritId, data?.level, message, data?.error);
-  }
-
-  clone(): EncounterResult {
-    return new EncounterResult(
-      this.success,
-      this.encounterId,
-      this.spiritId,
-      this.level,
-      this.message,
-      this.error
-    );
-  }
-}
-
-/**
- * EncounterUtils - Utility functions
- */
-export class EncounterUtils {
-  /**
-   * Create a standard encounter table
-   */
-  static createStandardTable(): EncounterTable {
-    const table = new EncounterTable('standard', 'Standard Encounters');
-
-    table.addEntry({
-      spiritId: 'fire_spirit',
-      name: 'Fire Spirit',
-      level: 5,
-      weight: 100;
-    });
-
-    table.addEntry({
-      spiritId: 'water_spirit',
-      name: 'Water Spirit',
-      level: 5,
-      weight: 100;
-    });
-
-    return table;
-  }
-
-  /**
-   * Create a tile-based trigger
-   */
-  static createTileTrigger(tileType: string, zone: string): EncounterTrigger {
-    return new EncounterTrigger(
-      `tile_${tileType}_${zone}`,
-      `Tile Trigger: ${tileType}`,
-      TriggerType.TILE_TYPE,
-      zone,
-      tileType
-    );
-  }
-
-  /**
-   * Create a time-based trigger
-   */
-  static createTimeTrigger(timeOfDay: string): EncounterTrigger {
-    return new EncounterTrigger(
-      `time_${timeOfDay}`,
-      `Time Trigger: ${timeOfDay}`,
-      TriggerType.TIME_OF_DAY,
-      undefined,
-      undefined,
-      timeOfDay
-    );
-  }
-
-  /**
-   * Create a zone-based trigger
-   */
-  static createZoneTrigger(zone: string): EncounterTrigger {
-    return new EncounterTrigger(
-      `zone_${zone}`,
-      `Zone Trigger: ${zone}`,
-      TriggerType.ZONE_ENTRY,
-      zone
-    );
-  }
-
-  /**
-   * Calculate encounter chance based on various factors
-   */
-  static calculateEncounterChance(
-    baseRate: number,
-    stepsSinceLast: number,
-    areaMultiplier: number = 1.0,
-    playerLevel: number = 1
-  ): number {
-    const stepMultiplier = Math.min(1.0, stepsSinceLast / 100);
-    const levelAdjustment = Math.max(0.5, 1.0 - (playerLevel * 0.01));
-    return Math.min(1.0, baseRate * stepMultiplier * areaMultiplier * levelAdjustment);
-  }
-
-  /**
-   * Validate player state
-   */
-  static validatePlayerState(state: PlayerState): string[] {
-    const errors: string[] = [];
-
-    if (!state.currentZone || state.currentZone.trim() === '') {
-      errors.push('Current zone cannot be empty');
-    }
-
-    if (!state.currentTileType || state.currentTileType.trim() === '') {
-      errors.push('Current tile type cannot be empty');
-    }
-
-    if (state.stepsSinceLastEncounter < 0) {
-      errors.push('Steps since last encounter cannot be negative');
-    }
-
-    if (state.level < 1) {
-      errors.push('Player level must be at least 1');
-    }
-
-    return errors;
-  }
-
-  /**
-   * Create default player state
-   */
-  static createDefaultPlayerState(): PlayerState {
-    return new PlayerState();
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.logger.info('EncounterManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
-  }
-}
-
-export default EncounterManager;

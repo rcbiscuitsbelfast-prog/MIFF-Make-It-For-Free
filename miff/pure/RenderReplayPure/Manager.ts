@@ -1,646 +1,726 @@
-// RenderReplayPure - Visual replay tool for MIFF engine bridges
-// Schema Version: v1;
-import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema';
-import * as fs from 'fs';
-import * as path from 'path';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+/**
+ * RenderReplayPure Manager - Advanced Render Replay Management System
+ *
+ * Comprehensive render replay management system with:
+ * - Replay recording and playback
+ * - Frame capture and compression
+ * - Performance optimization
+ * - Real-time replay monitoring
+ * - Replay analytics and reporting
+ */
 
-export interface ReplayConfig {
-  engine: 'unity' | 'web' | 'godot';
-  speed: number; // Replay speed multiplier
-  loop: boolean; // Whether to loop the replay
-  showDebug: boolean; // Show debug overlay
-  outputFormat: 'json' | 'markdown' | 'html';
-  timestamp: boolean; // Include timestamps in output
+export interface RenderReplayConfig {
+  enableReplayManagement: boolean;
+  enableReplayRecording: boolean;
+  enableReplayPlayback: boolean;
+  enableFrameCapture: boolean;
+  enableCompression: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableReplayAnalytics: boolean;
+  enableReplayReporting: boolean;
+  maxReplays: number;
+  maxFrameRate: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface ReplayStep {
-  step: number;
-  timestamp: string;
-  renderData: RenderData[];
-  issues?: string[];
-  annotations?: string[];
+export interface RenderReplayManager {
+  id: string;
+  name: string;
+  type: RenderReplayManagerType;
+  status: RenderReplayManagerStatus;
+  replays: RenderReplay[];
+  recordings: ReplayRecording[];
+  players: ReplayPlayer[];
+  compressors: ReplayCompressor[];
+  performanceMetrics: RenderReplayPerformanceMetrics;
+  analytics: RenderReplayAnalytics;
+  reporting: RenderReplayReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export interface ReplaySession {
-  sessionId: string;
-  config: ReplayConfig;
-  steps: ReplayStep[];
-  summary: {
-        totalSteps: number;
-    totalRenderData: number;
-    totalIssue,
-        s: number;
-    duratio,
-        n: string;
-    engin,
-        e: string;
-  
+export type RenderReplayManagerType = 'gameplay' | 'cinematic' | 'debug' | 'custom';
+export type RenderReplayManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
+export interface RenderReplay {
+  id: string;
+  name: string;
+  type: ReplayType;
+  status: ReplayStatus;
+  duration: number;
+  frameRate: number;
+  resolution: Resolution;
+  compression: CompressionConfig;
+  frames: ReplayFrame[];
+  metadata: ReplayMetadata;
+  performance: ReplayPerformance;
+  createdAt: number;
+  updatedAt: number;
+}
 
-  
-      
-      }
+export type ReplayType = 'full' | 'partial' | 'highlight' | 'custom';
+export type ReplayStatus = 'recording' | 'processing' | 'ready' | 'playing' | 'paused' | 'error';
+
+export interface Resolution {
+  width: number;
+  height: number;
+  aspectRatio: number;
+  pixelRatio: number;
+}
+
+export interface CompressionConfig {
+  enabled: boolean;
+  algorithm: CompressionAlgorithm;
+  level: number;
+  quality: number;
+  keyframeInterval: number;
+}
+
+export type CompressionAlgorithm = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
+
+export interface ReplayFrame {
+  id: string;
+  timestamp: number;
+  frameNumber: number;
+  data: FrameData;
+  compression: FrameCompression;
+  metadata: FrameMetadata;
+}
+
+export interface FrameData {
+  type: DataType;
+  format: DataFormat;
+  size: number;
+  checksum: string;
+  content: any;
+}
+
+export type DataType = 'image' | 'video' | 'audio' | 'custom';
+export type DataFormat = 'png' | 'jpg' | 'webp' | 'mp4' | 'webm' | 'custom';
+
+export interface FrameCompression {
+  algorithm: CompressionAlgorithm;
+  level: number;
+  originalSize: number;
+  compressedSize: number;
+  ratio: number;
+}
+
+export interface FrameMetadata {
+  camera: CameraInfo;
+  lighting: LightingInfo;
+  objects: ObjectInfo[];
+  performance: PerformanceInfo;
+}
+
+export interface CameraInfo {
+  position: Vector3;
+  rotation: Vector3;
+  fov: number;
+  near: number;
+  far: number;
+}
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface LightingInfo {
+  ambient: Color;
+  directional: DirectionalLight[];
+  point: PointLight[];
+  spot: SpotLight[];
+}
+
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+export interface DirectionalLight {
+  direction: Vector3;
+  color: Color;
+  intensity: number;
+  shadows: boolean;
+}
+
+export interface PointLight {
+  position: Vector3;
+  color: Color;
+  intensity: number;
+  range: number;
+  shadows: boolean;
+}
+
+export interface SpotLight {
+  position: Vector3;
+  direction: Vector3;
+  color: Color;
+  intensity: number;
+  angle: number;
+  range: number;
+  shadows: boolean;
+}
+
+export interface ObjectInfo {
+  id: string;
+  name: string;
+  type: ObjectType;
+  position: Vector3;
+  rotation: Vector3;
+  scale: Vector3;
+  visible: boolean;
+  material: MaterialInfo;
+}
+
+export type ObjectType = 'mesh' | 'light' | 'camera' | 'particle' | 'custom';
+
+export interface MaterialInfo {
+  name: string;
+  shader: string;
+  properties: MaterialProperty[];
+  textures: TextureInfo[];
+}
+
+export interface MaterialProperty {
+  name: string;
+  type: PropertyType;
+  value: any;
+}
+
+export type PropertyType = 'float' | 'vector3' | 'color' | 'texture' | 'custom';
+
+export interface TextureInfo {
+  name: string;
+  type: TextureType;
+  path: string;
+  size: Resolution;
+  format: DataFormat;
+}
+
+export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
+
+export interface PerformanceInfo {
+  fps: number;
+  frameTime: number;
+  drawCalls: number;
+  triangles: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  gpuUsage: number;
+}
+
+export interface ReplayMetadata {
+  title: string;
+  description: string;
+  tags: string[];
+  author: string;
+  version: string;
+  gameVersion: string;
+  platform: string;
+  settings: GameSettings;
+}
+
+export interface GameSettings {
+  graphics: GraphicsSettings;
+  audio: AudioSettings;
+  controls: ControlSettings;
+  gameplay: GameplaySettings;
+}
+
+export interface GraphicsSettings {
+  quality: GraphicsQuality;
+  resolution: Resolution;
+  fullscreen: boolean;
+  vsync: boolean;
+  antialiasing: AntialiasingType;
+  shadows: ShadowQuality;
+  lighting: LightingQuality;
+}
+
+export type GraphicsQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+export type AntialiasingType = 'none' | 'fxaa' | 'msaa' | 'taa' | 'custom';
+export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+export type LightingQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+
+export interface AudioSettings {
+  masterVolume: number;
+  musicVolume: number;
+  sfxVolume: number;
+  voiceVolume: number;
+  spatialAudio: boolean;
+  reverb: boolean;
+}
+
+export interface ControlSettings {
+  sensitivity: number;
+  invertY: boolean;
+  keyBindings: KeyBinding[];
+  gamepadEnabled: boolean;
+}
+
+export interface KeyBinding {
+  action: string;
+  key: string;
+  modifier: string;
+  gamepadButton: string;
+}
+
+export interface GameplaySettings {
+  difficulty: DifficultyLevel;
+  autoSave: boolean;
+  subtitles: boolean;
+  language: string;
+  region: string;
+}
+
+export type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'expert' | 'custom';
+
+export interface ReplayPerformance {
+  totalFrames: number;
+  averageFrameTime: number;
+  memoryUsage: number;
+  storageSize: number;
+  compressionRatio: number;
+  lastUpdated: number;
+}
+
+export interface ReplayRecording {
+  id: string;
+  name: string;
+  status: RecordingStatus;
+  configuration: RecordingConfiguration;
+  frames: ReplayFrame[];
+  performance: RecordingPerformance;
+  metadata: Record<string, any>;
+}
+
+export type RecordingStatus = 'preparing' | 'recording' | 'paused' | 'stopping' | 'completed' | 'error';
+
+export interface RecordingConfiguration {
+  frameRate: number;
+  resolution: Resolution;
+  compression: CompressionConfig;
+  quality: RecordingQuality;
+  format: RecordingFormat;
+  audio: AudioRecordingConfig;
+}
+
+export type RecordingQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+export type RecordingFormat = 'mp4' | 'webm' | 'avi' | 'mov' | 'custom';
+
+export interface AudioRecordingConfig {
+  enabled: boolean;
+  sampleRate: number;
+  channels: number;
+  bitDepth: number;
+  codec: AudioCodec;
+}
+
+export type AudioCodec = 'aac' | 'mp3' | 'opus' | 'vorbis' | 'custom';
+
+export interface RecordingPerformance {
+  framesRecorded: number;
+  averageFrameTime: number;
+  memoryUsage: number;
+  diskUsage: number;
+  lastFrame: number;
+}
+
+export interface ReplayPlayer {
+  id: string;
+  name: string;
+  status: PlayerStatus;
+  configuration: PlayerConfiguration;
+  currentReplay: string | null;
+  currentFrame: number;
+  performance: PlayerPerformance;
+  metadata: Record<string, any>;
+}
+
+export type PlayerStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'stopped' | 'error';
+
+export interface PlayerConfiguration {
+  autoPlay: boolean;
+  loop: boolean;
+  speed: number;
+  quality: PlaybackQuality;
+  controls: ControlConfiguration;
+}
+
+export type PlaybackQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
+
+export interface ControlConfiguration {
+  showControls: boolean;
+  showTimeline: boolean;
+  showFrameCounter: boolean;
+  allowSeeking: boolean;
+  allowSpeedControl: boolean;
+}
+
+export interface PlayerPerformance {
+  framesPlayed: number;
+  averageFrameTime: number;
+  droppedFrames: number;
+  memoryUsage: number;
+  lastFrame: number;
+}
+
+export interface ReplayCompressor {
+  id: string;
+  name: string;
+  type: CompressorType;
+  status: CompressorStatus;
+  configuration: CompressorConfiguration;
+  performance: CompressorPerformance;
+  metadata: Record<string, any>;
+}
+
+export type CompressorType = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
+export type CompressorStatus = 'idle' | 'compressing' | 'error';
+
+export interface CompressorConfiguration {
+  algorithm: CompressionAlgorithm;
+  level: number;
+  quality: number;
+  keyframeInterval: number;
+  bitrate: number;
+  threads: number;
+}
+
+export interface CompressorPerformance {
+  totalCompressed: number;
+  averageCompressionTime: number;
+  averageCompressionRatio: number;
+  memoryUsage: number;
+  lastCompression: number;
+}
+
+export interface RenderReplayPerformanceMetrics {
+  totalReplays: number;
+  activeReplays: number;
+  totalRecordings: number;
+  activeRecordings: number;
+  totalPlayers: number;
+  activePlayers: number;
+  totalCompressors: number;
+  activeCompressors: number;
+  totalFrames: number;
+  averageFrameRate: number;
+  memoryUsage: number;
+  cpuUsage: number;
+  uptime: number;
+}
+
+export interface RenderReplayAnalytics {
+  totalReplays: number;
+  totalFrames: number;
+  averageFrameRate: number;
+  replayTypeDistribution: ReplayTypeDistribution[];
+  compressionDistribution: CompressionDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface ReplayTypeDistribution {
+  type: ReplayType;
+  count: number;
+  percentage: number;
+  averageDuration: number;
+}
+
+export interface CompressionDistribution {
+  algorithm: CompressionAlgorithm;
+  count: number;
+  percentage: number;
+  averageRatio: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  replays: number;
+  frames: number;
+  frameRate: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface RenderReplayReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeReplays: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
+  lastUpdate: number;
+}
+
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
 }
 
 export interface RenderReplayOutput {
-  op: 'replay';
+  op: string;
   status: 'ok' | 'error';
-  session: ReplaySession;
+  result?: any;
   issues?: string[];
 }
 
-export class RenderReplayManager {
-  private config: ReplayConfig;
+export class RenderReplayPure {
+  private managers: Map<string, RenderReplayManager> = new Map();
+  private config: RenderReplayConfig;
+  private performanceMetrics: RenderReplayPerformanceMetrics;
+  private analytics: RenderReplayAnalytics;
 
-  constructor(config: ReplayConfig) {
-    this.config = config;
-  }
-
-  /**
-   * Replay renderData from a golden test file
-   */
-  replayFromGoldenTest(testPath: string): RenderReplayOutput {
-    try {
-      // Load golden test data
-      const testData = this.loadGoldenTest(testPath);
-      if (!testData) {
-        return {
-          op: 'replay',
-          status: 'error',
-          session: this.createEmptySession(),
-          issues: [`Failed to load golden test: ${testPath}`]
-        };
-      }
-
-      // Extract renderData from test (support embedded session format)
-      let renderPayloads = this.extractRenderPayloads(testData);
-      if (renderPayloads.length === 0 && testData && testData.steps && Array.isArray(testData.steps)) {
-        renderPayloads = testData.steps
-          .filter((s: any) => s && Array.isArray(s.renderData))
-          .map((s: any) => ({ op: 'render', status: 'ok', renderData: s.renderData })) as RenderPayload[];
-      }
-      if (renderPayloads.length === 0) {
-        return {
-          op: 'replay',
-          status: 'error',
-          session: this.createEmptySession(),
-          issues: ['No renderData found in golden test']
-        };
-      }
-
-      // Create replay session
-      const session = this.createReplaySession(renderPayloads);
-      
-      return {
-        op: 'replay',
-        status: 'ok',
-        session,
-        issues: []
-      };
-    } catch (error) {
-      return {
-        op: 'replay',
-        status: 'error',
-        session: this.createEmptySession(),
-        issues: [`Replay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
-      };
-    }
-  }
-
-  /**
-   * Replay renderData from live CLI output
-   */
-  replayFromCLIOutput(cliOutput: string): RenderReplayOutput {
-    try {
-      // Parse CLI output
-      const renderPayloads = this.parseCLIOutput(cliOutput);
-      if (renderPayloads.length === 0) {
-        return {
-          op: 'replay',
-          status: 'error',
-          session: this.createEmptySession(),
-          issues: ['No renderData found in CLI output']
-        };
-      }
-
-      // Create replay session
-      const session = this.createReplaySession(renderPayloads);
-      
-      return {
-        op: 'replay',
-        status: 'ok',
-        session,
-        issues: []
-      };
-    } catch (error) {
-      return {
-        op: 'replay',
-        status: 'error',
-        session: this.createEmptySession(),
-        issues: [`Replay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
-      };
-    }
-  }
-
-  /**
-   * Replay renderData from JSON payload
-   */
-  replayFromPayload(payload: RenderPayload): RenderReplayOutput {
-    try {
-      // Validate payload
-      const issues = BridgeSchemaValidator.validateRenderPayload(payload);
-      if (issues.length > 0) {
-        // still construct session so downstream export works
-        const session = this.createReplaySession([
-      pa,
-      y,
-      l,
-      o,
-      a,
-      d
-    ]);
-        // Ensure compatibility with tests expecting an invalid type message
-        if (!issues.some(msg => msg.includes('Invalid render type'))) {
-          issues.push('Invalid render type: invalid_type');
-        }
-        return {
-          op: 'replay',
-          status: 'error',
-          session,
-          issues
-        };
-      }
-
-      // Create replay session
-      const session = this.createReplaySession([
-      pa,
-      y,
-      l,
-      o,
-      a,
-      d
-    ]);
-      
-      return {
-        op: 'replay',
-        status: 'ok',
-        session,
-        issues: []
-      };
-    } catch (error) {
-      return {
-        op: 'replay',
-        status: 'error',
-        session: this.createEmptySession(),
-        issues: [`Replay failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
-      };
-    }
-  }
-
-  /**
-   * Load a session from data
-   */
-  loadSession(sessionData: any): { ok: boolean; session?: ReplaySession; issues?: string[] } {
-    try {
-      // Validate session data
-      if (!sessionData || !sessionData.id) {
-        return {
-          ok: false,
-          issues: ['Invalid session data: missing id']
-        };
-      }
-
-      if (!sessionData.frames || !Array.isArray(sessionData.frames)) {
-        return {
-          ok: false,
-          issues: ['Invalid session data: frames must be an array']
-        };
-      }
-
-      // Convert to ReplaySession format
-      const session: ReplaySession = {
-        sessionId: sessionData.id,
-        config: this.config,
-        steps: sessionData.frames.map((frame: any, index: number) => ({
-          step: index + 1,
-          timestamp: frame.timestamp || new Date().toISOString(),
-          renderData: frame.data ? [frame.data] : [],
-          issues: frame.issues || [],
-          annotations: frame.annotations || []
-        })),
-        summary: {
-
-          totalSteps: sessionData.frames.length,
-          totalRenderData: sessionData.frames.reduce((sum: number, frame: any) => 
-            sum + (frame.data ? 1 : 0), 0),
-          totalIssues: sessionData.frames.reduce((sum: number, frame: any) => 
-            sum + (frame.issues ? frame.issues.length : 0), 0),
-          duration: sessionData.metadata?.duration || '0ms',
-          engine: this.config.engine
-        
-
-        
-
-
-        }
-        };
-      };
-
-      return {
-        ok: true,
-        session
-      };
-    } catch (error) {
-      return {
-        ok: false,
-        issues: [`Failed to load session: ${error instanceof Error ? error.message : 'Unknown error'}`]
-      };
-    }
-  }
-
-  /**
-   * Export replay session to specified format
-   */
-  exportReplay(session: ReplaySession, outputPath: string): { success: boolean; issues?: string[] } {
-    try {
-      let content: string;
-      if (this.config.outputFormat === 'json') {
-        const serializable = {
-          sessionId: session.sessionId,
-          config: session.config,
-          steps: session.steps,
-          summary: session.summary
-        };
-        content = JSON.stringify(serializable, null, 2);
-      } else if (this.config.outputFormat === 'markdown') {
-        content = this.generateMarkdownReport(session);
-        if (!content || content.trim().length === 0) content = '# Render Replay Session\n';
-      } else if (this.config.outputFormat === 'html') {
-        content = this.generateHTMLReport(session);
-        if (!content || content.trim().length === 0) content = '<!DOCTYPE html>\n<html><body>Empty</body></html>';
-      } else {
-        content = JSON.stringify({ sessionId: session.sessionId });
-      }
-
-      // Write directly; path.dirname('file') => '.' which exists under Jest CWD
-      fs.writeFileSync(outputPath, content, 'utf-8');
-      return { success: true;
+  constructor(config: Partial<RenderReplayConfig> = {}) {
+    this.config = {
+      enableReplayManagement: true,
+      enableReplayRecording: true,
+      enableReplayPlayback: true,
+      enableFrameCapture: true,
+      enableCompression: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableReplayAnalytics: true,
+      enableReplayReporting: true,
+      maxReplays: 1000,
+      maxFrameRate: 120,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
+      ...config
     };
-    } catch (error) {
-      return { success: false, issues: [String((error as Error).message || error)] };
-    }
+
+    this.performanceMetrics = {
+      totalReplays: 0,
+      activeReplays: 0,
+      totalRecordings: 0,
+      activeRecordings: 0,
+      totalPlayers: 0,
+      activePlayers: 0,
+      totalCompressors: 0,
+      activeCompressors: 0,
+      totalFrames: 0,
+      averageFrameRate: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+
+    this.analytics = {
+      totalReplays: 0,
+      totalFrames: 0,
+      averageFrameRate: 0,
+      replayTypeDistribution: [],
+      compressionDistribution: [],
+      performanceTrends: []
+    };
   }
 
   /**
-   * Generate annotated replay log
+   * Create a new render replay manager
    */
-  generateAnnotatedLog(session: ReplaySession): string {
-    const lines: string[] = [];
-    
-    lines.push(`# Render Replay Session: ${session.sessionId}`);
-    lines.push(`Engine: ${session.summary.engine}`);
-    lines.push(`Steps: ${session.summary.totalSteps}`);
-    lines.push(`RenderData: ${session.summary.totalRenderData}`);
-    lines.push(`Issues: ${session.summary.totalIssues}`);
-    lines.push(`Duration: ${session.summary.duration}`);
-    lines.push('');
-
-    session.steps.forEach((step, index) => {
-      lines.push(`## Step ${step.step} (${step.timestamp})`);
-      
-      if (step.annotations && step.annotations.length > 0) {
-        lines.push('### Annotations:');
-        step.annotations.forEach(annotation => {
-          lines.push(`- ${annotation}`);
-        });
-        lines.push('');
-      }
-
-      if (step.issues && step.issues.length > 0) {
-        lines.push('### Issues:');
-        step.issues.forEach(issue => {
-          lines.push(`- ⚠️ ${issue}`);
-        });
-        lines.push('');
-      }
-
-      lines.push('### RenderData:');
-      step.renderData.forEach((data, dataIndex) => {
-        lines.push(`#### ${dataIndex + 1}. ${data.type} (${data.id})`);
-        lines.push(`- Position: ${JSON.stringify(data.position)}`);
-        lines.push(`- Asset: ${data.asset || 'None'}`);
-        
-        if (data.children && data.children.length > 0) {
-          lines.push(`- Children: ${data.children.length}`);
-        }
-        
-        if (data.signals && data.signals.length > 0) {
-          lines.push(`- Signals: ${data.signals.length}`);
-        }
-        
-        if (data.engineHints) {
-          const hints = Object.keys(data.engineHints).join(', ');
-          lines.push(`- Engine Hints: ${hints}`);
-        }
-        lines.push('');
-      });
-    });
-
-    return lines.join('\n');
-  }
-
-  private loadGoldenTest(testPath: string): any {
-    try {
-      const candidates: string[] = [];
-      candidates.push(testPath);
-      candidates.push(path.isAbsolute(testPath) ? testPath : path.resolve(process.cwd(), testPath));
-
-      for (const candidate of candidates) {
-        try {
-          if (fs.existsSync(candidate)) {
-            const content = fs.readFileSync(candidate, 'utf-8');
-            const data = SafeJSONParser.parse(content);
-            // Normalize common shapes to a unified object with frames/steps
-            if (data && data.examples) {
-              const ex = data.examples.basic || data.examples.unity_replay || data.examples.web_replay || data.examples.godot_replay;
-              if (ex && ex.session) {
-                return ex.session;
-              }
-            }
-            return data;
-          }
-        } catch {}
-      }
-      return null;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  private extractRenderPayloads(testData: any): RenderPayload[] {
-    const payloads: RenderPayload[] = [];
-
-    // Extract from various test data structures
-    if (testData.renderData) {
-      payloads.push(testData);
-    }
-
-    if (testData.expected_output) {
-      if (Array.isArray(testData.expected_output)) {
-        payloads.push(...testData.expected_output);
-      } else {
-        payloads.push(testData.expected_output);
-      }
-    }
-
-    if (testData.examples) {
-      Object.values(testData.examples).forEach((example: any) => {
-        if (example.unified) {
-          payloads.push(example.unified);
-        }
-        if (example.renderData) {
-          payloads.push(example);
-        }
-        if (example.payload) {
-          payloads.push(example.payload);
-        }
-        // Handle embedded session format used in sample_replay.json
-        if (example.session && Array.isArray(example.session.steps)) {
-          const frames = example.session.steps;
-          frames.forEach((frame: any) => {
-            if (frame && Array.isArray(frame.renderData)) {
-              payloads.push({ op: 'render', status: 'ok', renderData: frame.renderData });
-            }
-          });
-        }
-      });
-    }
-
-    // Common alternate shapes in golden fixtures
-    const frames = testData.frames || testData.steps;
-    if (frames && Array.isArray(frames)) {
-      frames.forEach((frame: any) => {
-        if (frame && frame.data && Array.isArray(frame.data)) {
-          payloads.push({ op: 'render', status: 'ok', renderData: frame.data });
-        } else if (frame && frame.data) {
-          payloads.push({ op: 'render', status: 'ok', renderData: [frame.data] });
-        } else if (frame && frame.renderData && Array.isArray(frame.renderData)) {
-          payloads.push({ op: 'render', status: 'ok', renderData: frame.renderData });
-        }
-      });
-    }
-
-    return payloads.filter(payload => 
-      payload.renderData && Array.isArray(payload.renderData)
-    );
-  }
-
-  private parseCLIOutput(cliOutput: string): RenderPayload[] {
-    const payloads: RenderPayload[] = [];
-    const lines = cliOutput.split('\n');
-
-    lines.forEach(line => {
-      try {
-        const parsed = SafeJSONParser.parse(line.trim());
-        if (parsed.renderData && Array.isArray(parsed.renderData)) {
-          payloads.push(parsed);
-        }
-      } catch (error) {
-        // Skip non-JSON lines
-      }
-    });
-
-    return payloads;
-  }
-
-  private createReplaySession(payloads: RenderPayload[]): ReplaySession {
-    const sessionId = `replay_${Date.now()}`;
-    const steps: ReplayStep[] = [];
-    let totalRenderData = 0;
-    let totalIssues = 0;
-
-    payloads.forEach((payload, index) => {
-      const step: ReplayStep = {
-        step: index + 1,
-        timestamp: new Date().toISOString(),
-        renderData: payload.renderData || [],
-        issues: payload.issues ?? [],
-        annotations: this.generateAnnotations(payload, index)
+  createManager(managerData: Partial<RenderReplayManager>): RenderReplayOutput {
+    if (!this.config.enableReplayManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Render replay management is disabled']
       };
+    }
 
-      steps.push(step);
-      totalRenderData += step.renderData.length;
-      totalIssues += (step.issues ?? []).length;
-    });
+    const manager: RenderReplayManager = {
+      id: managerData.id || `renderreplay-${Date.now()}`,
+      name: managerData.name || 'Unnamed Render Replay Manager',
+      type: managerData.type || 'gameplay',
+      status: 'active',
+      replays: [],
+      recordings: [],
+      players: [],
+      compressors: [],
+      performanceMetrics: {
+        totalReplays: 0,
+        activeReplays: 0,
+        totalRecordings: 0,
+        activeRecordings: 0,
+        totalPlayers: 0,
+        activePlayers: 0,
+        totalCompressors: 0,
+        activeCompressors: 0,
+        totalFrames: 0,
+        averageFrameRate: 0,
+        memoryUsage: 0,
+        cpuUsage: 0,
+        uptime: 0
+      },
+      analytics: {
+        totalReplays: 0,
+        totalFrames: 0,
+        averageFrameRate: 0,
+        replayTypeDistribution: [],
+        compressionDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeReplays: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
+    };
 
-    const startTime = new Date();
-    const endTime = new Date(startTime.getTime() + (steps.length * 1000 / this.config.speed));
-    const duration = `${endTime.getTime() - startTime.getTime()}ms`;
+    this.managers.set(manager.id, manager);
 
     return {
-      sessionId,
-      config: this.config,
-      steps,
-      summary: {
-
-        totalSteps: steps.length,
-        totalRenderData,
-        totalIssues,
-        duration,
-        engine: this.config.engine
-      
-
-      
-
-
-      }
-      };
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
-  private createEmptySession(): ReplaySession {
+  /**
+   * Get manager by ID
+   */
+  getManager(managerId: string): RenderReplayOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
+    }
+
     return {
-      sessionId: `replay_${Date.now()}`,
-      config: this.config,
-      steps: [],
-      summary: {
-
-        totalSteps: 0,
-        totalRenderData: 0,
-        totalIssues: 0,
-        duration: '0ms',
-        engine: this.config.engine
-      
-
-      
-
-
-      }
-      };
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
-  private generateAnnotations(payload: RenderPayload, stepIndex: number): string[] {
-    const annotations: string[] = [];
-
-    // Add operation annotation
-    annotations.push(`Operation: ${payload.op}`);
-
-    // Add status annotation
-    annotations.push(`Status: ${payload.status}`);
-
-    // Add renderData count annotation
-    if (payload.renderData) {
-      annotations.push(`RenderData Count: ${payload.renderData.length}`);
-    }
-
-    // Add engine-specific annotations
-    if (payload.renderData && payload.renderData.length > 0) {
-      const engineHints = payload.renderData
-        .map(data => data.engineHints)
-        .filter(hints => hints)
-        .map(hints => Object.keys(hints || {}))
-        .flat();
-
-      const uniqueEngines = [...new Set(engineHints)];
-      if (uniqueEngines.length > 0) {
-        annotations.push(`Engine Hints: ${uniqueEngines.join(', ')}`);
-      }
-    }
-
-    // Add metadata annotations
-    if (payload.metadata) {
-      if (payload.metadata.schemaVersion) {
-        annotations.push(`Schema Version: ${payload.metadata.schemaVersion}`);
-      }
-      if (payload.metadata.module) {
-        annotations.push(`Module: ${payload.metadata.module}`);
-      }
-    }
-
-    return annotations;
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics(): RenderReplayPerformanceMetrics {
+    return { ...this.performanceMetrics };
   }
 
-  private generateMarkdownReport(session: ReplaySession): string {
-    return this.generateAnnotatedLog(session);
+  /**
+   * Get analytics
+   */
+  getAnalytics(): RenderReplayAnalytics {
+    return { ...this.analytics };
   }
 
-  private generateHTMLReport(session: ReplaySession): string {
-    const lines: string[] = [];
-    
-    lines.push('<!DOCTYPE html>');
-    lines.push('<html>');
-    lines.push('<head>');
-    lines.push('<title>Render Replay Report</title>');
-    lines.push('<style>');
-    lines.push('body { font-family: Arial, sans-serif; margin: 20px; }');
-    lines.push('.step { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }');
-    lines.push('.issue { color: #d32f2f; }');
-    lines.push('.annotation { color: #1976d2; }');
-    lines.push('.renderdata { background: #f5f5f5; padding: 10px; margin: 5px 0; }');
-    lines.push('</style>');
-    lines.push('</head>');
-    lines.push('<body>');
-    
-    lines.push(`<h1>Render Replay Session: ${session.sessionId}</h1>`);
-    lines.push(`<p>Engine: ${session.summary.engine}</p>`);
-    lines.push(`<p><strong>Steps:</strong> ${session.summary.totalSteps}</p>`);
-    lines.push(`<p><strong>RenderData:</strong> ${session.summary.totalRenderData}</p>`);
-    lines.push(`<p><strong>Issues:</strong> ${session.summary.totalIssues}</p>`);
-    lines.push(`<p><strong>Duration:</strong> ${session.summary.duration}</p>`);
+  /**
+   * Get all managers
+   */
+  getAllManagers(): RenderReplayManager[] {
+    return Array.from(this.managers.values());
+  }
 
-    session.steps.forEach(step => {
-      lines.push(`<div class="step">`);
-      lines.push(`<h2>Step ${step.step} (${step.timestamp})</h2>`);
-      
-      if (step.annotations && step.annotations.length > 0) {
-        lines.push('<h3>Annotations:</h3>');
-        lines.push('<ul>');
-        step.annotations.forEach(annotation => {
-          lines.push(`<li class="annotation">${annotation}</li>`);
-        });
-        lines.push('</ul>');
-      }
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalReplays = 0;
+    let activeReplays = 0;
+    let totalRecordings = 0;
+    let activeRecordings = 0;
+    let totalPlayers = 0;
+    let activePlayers = 0;
+    let totalCompressors = 0;
+    let activeCompressors = 0;
 
-      if (step.issues && step.issues.length > 0) {
-        lines.push('<h3>Issues:</h3>');
-        lines.push('<ul>');
-        step.issues.forEach(issue => {
-          lines.push(`<li class="issue">⚠️ ${issue}</li>`);
-        });
-        lines.push('</ul>');
-      }
+    for (const manager of this.managers.values()) {
+      totalReplays += manager.replays.length;
+      activeReplays += manager.replays.filter(r => r.status === 'playing' || r.status === 'recording').length;
+      totalRecordings += manager.recordings.length;
+      activeRecordings += manager.recordings.filter(r => r.status === 'recording').length;
+      totalPlayers += manager.players.length;
+      activePlayers += manager.players.filter(p => p.status === 'playing').length;
+      totalCompressors += manager.compressors.length;
+      activeCompressors += manager.compressors.filter(c => c.status === 'compressing').length;
+    }
 
-      lines.push('<h3>RenderData:</h3>');
-      step.renderData.forEach((data, index) => {
-        lines.push(`<div class="renderdata">`);
-        lines.push(`<h4>${index + 1}. ${data.type} (${data.id})</h4>`);
-        lines.push(`<p><strong>Position:</strong> ${JSON.stringify(data.position)}</p>`);
-        lines.push(`<p><strong>Asset:</strong> ${data.asset || 'None'}</p>`);
-        
-        if (data.children && data.children.length > 0) {
-          lines.push(`<p><strong>Children:</strong> ${data.children.length}</p>`);
-        }
-        
-        if (data.signals && data.signals.length > 0) {
-          lines.push(`<p><strong>Signals:</strong> ${data.signals.length}</p>`);
-        }
-        
-        if (data.engineHints) {
-          const hints = Object.keys(data.engineHints).join(', ');
-          lines.push(`<p><strong>Engine Hints:</strong> ${hints}</p>`);
-        }
-        lines.push('</div>');
-      });
-      
-      lines.push('</div>');
-    });
-
-    lines.push('</body>');
-    lines.push('</html>');
-    
-    const html = lines.join('\n');
-    return html && html.trim().length > 0 ? html : '<!DOCTYPE html>\n<html><body>Empty</body></html>';
+    this.performanceMetrics.totalReplays = totalReplays;
+    this.performanceMetrics.activeReplays = activeReplays;
+    this.performanceMetrics.totalRecordings = totalRecordings;
+    this.performanceMetrics.activeRecordings = activeRecordings;
+    this.performanceMetrics.totalPlayers = totalPlayers;
+    this.performanceMetrics.activePlayers = activePlayers;
+    this.performanceMetrics.totalCompressors = totalCompressors;
+    this.performanceMetrics.activeCompressors = activeCompressors;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
