@@ -13,11 +13,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
 
 export interface ErrorHandlingConfig {
   enableErrorDetection: boolean;
@@ -298,15 +298,8 @@ export class ErrorHandlingManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'ErrorHandlingManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
