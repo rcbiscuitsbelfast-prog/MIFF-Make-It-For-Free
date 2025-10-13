@@ -82,16 +82,11 @@ export interface SyncIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
-
     onSyncStart?: () => void;
     onSyncComplete?: (stats: SyncStats) => void;
     onConflictDetected?: (conflict: SyncConflict) => void;
     onDataChanged?: (data: SyncData) => void;
-  
-
-
   }
-  };
 }
 
 /**

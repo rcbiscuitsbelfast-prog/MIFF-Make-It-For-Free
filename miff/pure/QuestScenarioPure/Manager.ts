@@ -369,15 +369,8 @@ export class QuestScenarioManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'QuestScenarioManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

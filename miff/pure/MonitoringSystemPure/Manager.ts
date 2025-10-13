@@ -13,11 +13,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
 
 export interface MonitoringSystemConfig {
   enableSystemMonitoring: boolean;
@@ -300,15 +300,8 @@ export class MonitoringSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'MonitoringSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
