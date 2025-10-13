@@ -1,39 +1,26 @@
 /**
  * StatusEffectsPure Manager - Advanced Status Effects Management System
  *
- * Comprehensive status effects system with:
- * - Effect creation and management
+ * Comprehensive status effects management system with:
+ * - Status effect creation and management
+ * - Effect application and removal
  * - Effect stacking and interaction
  * - Effect duration and persistence
- * - Effect visualization and feedback
- * - Effect balancing and tuning
- * - Effect networking and synchronization
- * - Effect analytics and monitoring
  * - Performance optimization
- *
- * @version 1.0.0
- * @author MIFF Framework
+ * - Real-time status effects monitoring
+ * - Status effects analytics and reporting
  */
 
-import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
-
 export interface StatusEffectsConfig {
-  enableEffectCreation: boolean;
-  enableEffectManagement: boolean;
+  enableStatusEffectsManagement: boolean;
+  enableEffectApplication: boolean;
   enableEffectStacking: boolean;
   enableEffectInteraction: boolean;
-  enableEffectDuration: boolean;
   enableEffectPersistence: boolean;
-  enableEffectVisualization: boolean;
-  enableEffectFeedback: boolean;
-  enableEffectBalancing: boolean;
-  enableEffectTuning: boolean;
-  enableEffectNetworking: boolean;
-  enableEffectSynchronization: boolean;
-  enableEffectAnalytics: boolean;
-  enableEffectMonitoring: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableStatusEffectsAnalytics: boolean;
+  enableStatusEffectsReporting: boolean;
   maxEffects: number;
   maxStacks: number;
   enableCloudSync: boolean;
@@ -41,699 +28,672 @@ export interface StatusEffectsConfig {
   enableVersioning: boolean;
 }
 
-export interface StatusEffects {
+export interface StatusEffectsManager {
   id: string;
   name: string;
-  type: EffectsType;
-  status: EffectsStatus;
-  effects: Effect[];
-  stacks: EffectStack[];
+  type: StatusEffectsManagerType;
+  status: StatusEffectsManagerStatus;
+  effects: StatusEffect[];
+  templates: EffectTemplate[];
   interactions: EffectInteraction[];
-  analytics: EffectsAnalytics;
-  metadata: EffectsMetadata;
-  version: string;
-  created: number;
-  modified: number;
+  rules: EffectRule[];
+  performanceMetrics: StatusEffectsPerformanceMetrics;
+  analytics: StatusEffectsAnalytics;
+  reporting: StatusEffectsReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any>;
+  createdAt: number;
+  updatedAt: number;
 }
 
-export enum EffectsType {
-  BUFF = 'buff',
-  DEBUFF = 'debuff',
-  NEUTRAL = 'neutral',
-  TEMPORARY = 'temporary',
-  PERMANENT = 'permanent',
-  CUSTOM = 'custom'
-}
+export type StatusEffectsManagerType = 'game' | 'simulation' | 'rpg' | 'strategy' | 'custom';
+export type StatusEffectsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
-export enum EffectsStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Effect {
+export interface StatusEffect {
   id: string;
   name: string;
   type: EffectType;
   status: EffectStatus;
-  category: EffectCategory;
   properties: EffectProperties;
-  duration: EffectDuration;
-  stacking: EffectStacking;
-  visualization: EffectVisualization;
-  metadata: Map<string, any>;
+  duration: DurationSettings;
+  stacking: StackingSettings;
+  application: ApplicationSettings;
+  removal: RemovalSettings;
+  metadata: Record<string, any>;
 }
 
-export enum EffectType {
-  STAT_MODIFIER = 'stat_modifier',
-  DAMAGE_OVER_TIME = 'damage_over_time',
-  HEAL_OVER_TIME = 'heal_over_time',
-  MOVEMENT_MODIFIER = 'movement_modifier',
-  ABILITY_MODIFIER = 'ability_modifier',
-  CUSTOM = 'custom'
-}
-
-export enum EffectStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  EXPIRED = 'expired',
-  REMOVED = 'removed',
-  CUSTOM = 'custom'
-}
-
-export enum EffectCategory {
-  COMBAT = 'combat',
-  MOVEMENT = 'movement',
-  UTILITY = 'utility',
-  SOCIAL = 'social',
-  ENVIRONMENTAL = 'environmental',
-  CUSTOM = 'custom'
-}
+export type EffectType = 'buff' | 'debuff' | 'dot' | 'hot' | 'shield' | 'custom';
+export type EffectStatus = 'active' | 'inactive' | 'expired' | 'removed' | 'error';
 
 export interface EffectProperties {
-  statModifiers: StatModifier[];
-  damageOverTime: DamageOverTime;
-  healOverTime: HealOverTime;
-  movementModifiers: MovementModifier[];
-  abilityModifiers: AbilityModifier[];
-  metadata: Map<string, any>;
+  category: EffectCategory;
+  magnitude: number;
+  attributes: AttributeModifier[];
+  triggers: EffectTrigger[];
+  conditions: EffectCondition[];
+  visual: VisualEffect;
+  audio: AudioEffect;
+  particle: ParticleEffect;
 }
 
-export interface StatModifier {
-  stat: StatType;
-  value: number;
+export type EffectCategory = 'damage' | 'healing' | 'defense' | 'offense' | 'utility' | 'custom';
+
+export interface AttributeModifier {
+  attribute: string;
   operation: ModifierOperation;
-  metadata: Map<string, any>;
-}
-
-export enum StatType {
-  HEALTH = 'health',
-  MANA = 'mana',
-  STAMINA = 'stamina',
-  STRENGTH = 'strength',
-  DEXTERITY = 'dexterity',
-  INTELLIGENCE = 'intelligence',
-  CUSTOM = 'custom'
-}
-
-export enum ModifierOperation {
-  ADD = 'add',
-  SUBTRACT = 'subtract',
-  MULTIPLY = 'multiply',
-  DIVIDE = 'divide',
-  SET = 'set',
-  CUSTOM = 'custom'
-}
-
-export interface DamageOverTime {
-  enabled: boolean;
-  damage: number;
-  interval: number;
-  type: DamageType;
-  metadata: Map<string, any>;
-}
-
-export enum DamageType {
-  PHYSICAL = 'physical',
-  MAGICAL = 'magical',
-  FIRE = 'fire',
-  ICE = 'ice',
-  LIGHTNING = 'lightning',
-  POISON = 'poison',
-  CUSTOM = 'custom'
-}
-
-export interface HealOverTime {
-  enabled: boolean;
-  healing: number;
-  interval: number;
-  type: HealType;
-  metadata: Map<string, any>;
-}
-
-export enum HealType {
-  HEALTH = 'health',
-  MANA = 'mana',
-  STAMINA = 'stamina',
-  CUSTOM = 'custom'
-}
-
-export interface MovementModifier {
-  type: MovementType;
   value: number;
-  operation: ModifierOperation;
-  metadata: Map<string, any>;
+  percentage: boolean;
+  temporary: boolean;
 }
 
-export enum MovementType {
-  SPEED = 'speed',
-  JUMP_HEIGHT = 'jump_height',
-  GRAVITY = 'gravity',
-  FRICTION = 'friction',
-  CUSTOM = 'custom'
-}
+export type ModifierOperation = 'add' | 'subtract' | 'multiply' | 'divide' | 'set' | 'custom';
 
-export interface AbilityModifier {
-  ability: string;
+export interface EffectTrigger {
+  id: string;
+  type: TriggerType;
+  condition: TriggerCondition;
+  action: TriggerAction;
   cooldown: number;
-  cost: number;
-  range: number;
-  metadata: Map<string, any>;
+  probability: number;
 }
 
-export interface EffectDuration {
+export type TriggerType = 'on_apply' | 'on_remove' | 'on_tick' | 'on_damage' | 'on_heal' | 'custom';
+
+export interface TriggerCondition {
+  field: string;
+  operator: ConditionOperator;
+  value: any;
+  logic: LogicOperator;
+}
+
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
+export type LogicOperator = 'and' | 'or' | 'not';
+
+export interface TriggerAction {
+  type: ActionType;
+  target: string;
+  parameters: Record<string, any>;
+  duration: number;
+}
+
+export type ActionType = 'damage' | 'heal' | 'modify' | 'apply_effect' | 'remove_effect' | 'custom';
+
+export interface EffectCondition {
+  id: string;
+  type: ConditionType;
+  parameters: Record<string, any>;
+  required: boolean;
+  message: string;
+}
+
+export type ConditionType = 'level' | 'class' | 'race' | 'item' | 'stat' | 'custom';
+
+export interface VisualEffect {
+  enabled: boolean;
+  type: VisualEffectType;
+  color: Color;
+  intensity: number;
+  scale: number;
+  animation: AnimationSettings;
+  overlay: OverlaySettings;
+}
+
+export type VisualEffectType = 'glow' | 'aura' | 'particle' | 'overlay' | 'screen' | 'custom';
+
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+export interface AnimationSettings {
+  type: AnimationType;
+  duration: number;
+  easing: EasingType;
+  loop: boolean;
+  direction: AnimationDirection;
+}
+
+export type AnimationType = 'fade' | 'pulse' | 'rotate' | 'scale' | 'move' | 'custom';
+export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
+export type AnimationDirection = 'forward' | 'reverse' | 'alternate' | 'custom';
+
+export interface OverlaySettings {
+  enabled: boolean;
+  texture: string;
+  opacity: number;
+  blendMode: BlendMode;
+  position: Position;
+}
+
+export type BlendMode = 'normal' | 'add' | 'multiply' | 'screen' | 'overlay' | 'custom';
+
+export interface Position {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface AudioEffect {
+  enabled: boolean;
+  type: AudioEffectType;
+  sound: SoundSettings;
+  music: MusicSettings;
+  voice: VoiceSettings;
+}
+
+export type AudioEffectType = 'sound' | 'music' | 'voice' | 'ambient' | 'custom';
+
+export interface SoundSettings {
+  file: string;
+  volume: number;
+  pitch: number;
+  loop: boolean;
+  fadeIn: number;
+  fadeOut: number;
+}
+
+export interface MusicSettings {
+  track: string;
+  volume: number;
+  crossfade: number;
+  loop: boolean;
+  priority: number;
+}
+
+export interface VoiceSettings {
+  text: string;
+  voice: string;
+  speed: number;
+  pitch: number;
+  volume: number;
+}
+
+export interface ParticleEffect {
+  enabled: boolean;
+  type: ParticleEffectType;
+  system: ParticleSystem;
+  emission: EmissionSettings;
+  movement: MovementSettings;
+  appearance: AppearanceSettings;
+}
+
+export type ParticleEffectType = 'fire' | 'ice' | 'lightning' | 'poison' | 'healing' | 'custom';
+
+export interface ParticleSystem {
+  maxParticles: number;
+  lifetime: number;
+  rate: number;
+  burst: BurstSettings;
+}
+
+export interface BurstSettings {
+  enabled: boolean;
+  count: number;
+  interval: number;
+  probability: number;
+}
+
+export interface EmissionSettings {
+  shape: EmissionShape;
+  size: number;
+  direction: Vector3;
+  spread: number;
+  speed: number;
+}
+
+export type EmissionShape = 'point' | 'line' | 'circle' | 'sphere' | 'box' | 'custom';
+
+export interface Vector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface MovementSettings {
+  type: MovementType;
+  gravity: number;
+  drag: number;
+  turbulence: number;
+  follow: boolean;
+}
+
+export type MovementType = 'linear' | 'curved' | 'spiral' | 'random' | 'custom';
+
+export interface AppearanceSettings {
+  texture: string;
+  color: Color;
+  size: number;
+  rotation: number;
+  alpha: number;
+  blendMode: BlendMode;
+}
+
+export interface DurationSettings {
   type: DurationType;
   value: number;
-  remaining: number;
-  paused: boolean;
-  metadata: Map<string, any>;
+  tickInterval: number;
+  persistent: boolean;
+  pauseOnCombat: boolean;
 }
 
-export enum DurationType {
-  INSTANT = 'instant',
-  TIMED = 'timed',
-  PERMANENT = 'permanent',
-  CONDITIONAL = 'conditional',
-  CUSTOM = 'custom'
-}
+export type DurationType = 'permanent' | 'temporary' | 'until_removed' | 'custom';
 
-export interface EffectStacking {
+export interface StackingSettings {
   enabled: boolean;
+  type: StackingType;
   maxStacks: number;
-  stackType: StackType;
-  refreshDuration: boolean;
-  metadata: Map<string, any>;
+  refresh: boolean;
+  override: boolean;
+  interaction: StackingInteraction;
 }
 
-export enum StackType {
-  ADDITIVE = 'additive',
-  MULTIPLICATIVE = 'multiplicative',
-  REPLACE = 'replace',
-  CUSTOM = 'custom'
+export type StackingType = 'additive' | 'multiplicative' | 'override' | 'custom';
+export type StackingInteraction = 'replace' | 'extend' | 'stack' | 'ignore' | 'custom';
+
+export interface ApplicationSettings {
+  target: ApplicationTarget;
+  method: ApplicationMethod;
+  priority: number;
+  resistance: ResistanceSettings;
+  immunity: ImmunitySettings;
 }
 
-export interface EffectVisualization {
-  icon: string;
-  color: string;
-  particleEffect: string;
-  soundEffect: string;
-  animation: string;
-  metadata: Map<string, any>;
+export type ApplicationTarget = 'self' | 'enemy' | 'ally' | 'all' | 'custom';
+export type ApplicationMethod = 'instant' | 'over_time' | 'on_hit' | 'on_kill' | 'custom';
+
+export interface ResistanceSettings {
+  enabled: boolean;
+  type: ResistanceType;
+  value: number;
+  duration: number;
 }
 
-export interface EffectStack {
+export type ResistanceType = 'damage' | 'duration' | 'magnitude' | 'custom';
+
+export interface ImmunitySettings {
+  enabled: boolean;
+  effects: string[];
+  duration: number;
+  message: string;
+}
+
+export interface RemovalSettings {
+  methods: RemovalMethod[];
+  conditions: RemovalCondition[];
+  priority: number;
+  message: string;
+}
+
+export interface RemovalMethod {
+  type: RemovalMethodType;
+  parameters: Record<string, any>;
+  probability: number;
+}
+
+export type RemovalMethodType = 'time' | 'damage' | 'heal' | 'item' | 'skill' | 'custom';
+
+export interface RemovalCondition {
+  type: ConditionType;
+  parameters: Record<string, any>;
+  required: boolean;
+  message: string;
+}
+
+export interface EffectTemplate {
   id: string;
-  effectId: string;
-  stacks: number;
-  duration: EffectDuration;
+  name: string;
+  type: EffectType;
+  category: EffectCategory;
   properties: EffectProperties;
-  metadata: Map<string, any>;
+  duration: DurationSettings;
+  stacking: StackingSettings;
+  application: ApplicationSettings;
+  removal: RemovalSettings;
+  metadata: Record<string, any>;
 }
 
 export interface EffectInteraction {
   id: string;
-  effectA: string;
-  effectB: string;
+  name: string;
+  effects: string[];
   type: InteractionType;
   result: InteractionResult;
-  metadata: Map<string, any>;
+  priority: number;
+  enabled: boolean;
 }
 
-export enum InteractionType {
-  STACK = 'stack',
-  REPLACE = 'replace',
-  CANCEL = 'cancel',
-  ENHANCE = 'enhance',
-  CUSTOM = 'custom'
-}
+export type InteractionType = 'cancel' | 'modify' | 'combine' | 'replace' | 'custom';
 
 export interface InteractionResult {
   type: ResultType;
-  effect: string;
-  properties: EffectProperties;
-  metadata: Map<string, any>;
+  parameters: Record<string, any>;
+  duration: number;
+  message: string;
 }
 
-export enum ResultType {
-  NEW_EFFECT = 'new_effect',
-  MODIFIED_EFFECT = 'modified_effect',
-  REMOVED_EFFECT = 'removed_effect',
-  NO_CHANGE = 'no_change',
-  CUSTOM = 'custom'
+export type ResultType = 'new_effect' | 'modified_effect' | 'removed_effect' | 'custom';
+
+export interface EffectRule {
+  id: string;
+  name: string;
+  condition: RuleCondition;
+  action: RuleAction;
+  priority: number;
+  enabled: boolean;
 }
 
-export interface EffectsAnalytics {
+export interface RuleCondition {
+  field: string;
+  operator: ConditionOperator;
+  value: any;
+  logic: LogicOperator;
+}
+
+export interface RuleAction {
+  type: ActionType;
+  target: string;
+  parameters: Record<string, any>;
+  duration: number;
+}
+
+export interface StatusEffectsPerformanceMetrics {
   totalEffects: number;
-  totalStacks: number;
+  activeEffects: number;
+  totalTemplates: number;
   totalInteractions: number;
-  averageDuration: number;
-  mostCommonEffect: string;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
+  totalRules: number;
+  averageEffectDuration: number;
+  averageStackCount: number;
   memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
+  cpuUsage: number;
+  uptime: number;
 }
 
-export interface EffectsMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface EffectsStats {
+export interface StatusEffectsAnalytics {
   totalEffects: number;
-  totalStacks: number;
-  totalInteractions: number;
+  activeEffects: number;
+  effectTypeDistribution: EffectTypeDistribution[];
+  categoryDistribution: CategoryDistribution[];
+  performanceTrends: PerformanceTrend[];
+}
+
+export interface EffectTypeDistribution {
+  type: EffectType;
+  count: number;
+  percentage: number;
   averageDuration: number;
-  mostCommonEffect: string;
+}
+
+export interface CategoryDistribution {
+  category: EffectCategory;
+  count: number;
+  percentage: number;
+  averageMagnitude: number;
+}
+
+export interface PerformanceTrend {
+  timestamp: number;
+  effects: number;
+  active: number;
+  templates: number;
+  interactions: number;
+  memory: number;
+  cpu: number;
+}
+
+export interface StatusEffectsReporting {
+  enabled: boolean;
+  interval: number;
+  format: 'json' | 'csv' | 'xml';
+  destination: string;
+  includeMetrics: boolean;
+  includeAnalytics: boolean;
+  includeEffects: boolean;
+  lastReport: number;
+}
+
+export interface CloudSyncConfig {
+  enabled: boolean;
+  provider: string;
+  region: string;
+  bucket: string;
+  interval: number;
+  lastSync: number;
+}
+
+export interface BackupConfig {
+  enabled: boolean;
+  interval: number;
+  retention: number;
+  destination: string;
+  lastBackup: number;
+}
+
+export interface VersioningConfig {
+  enabled: boolean;
+  currentVersion: string;
+  versions: Version[];
+  autoUpdate: boolean;
   lastUpdate: number;
 }
 
-export class StatusEffectsManager {
+export interface Version {
+  version: string;
+  timestamp: number;
+  changes: string[];
+  compatible: boolean;
+}
+
+export interface StatusEffectsOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: any;
+  issues?: string[];
+}
+
+export class StatusEffectsPure {
+  private managers: Map<string, StatusEffectsManager> = new Map();
   private config: StatusEffectsConfig;
-  private effects: Map<string, StatusEffects> = new Map();
-  private stats: EffectsStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceMetrics: StatusEffectsPerformanceMetrics;
+  private analytics: StatusEffectsAnalytics;
 
   constructor(config: Partial<StatusEffectsConfig> = {}) {
     this.config = {
-      enableEffectCreation: true,
-      enableEffectManagement: true,
+      enableStatusEffectsManagement: true,
+      enableEffectApplication: true,
       enableEffectStacking: true,
       enableEffectInteraction: true,
-      enableEffectDuration: true,
       enableEffectPersistence: true,
-      enableEffectVisualization: true,
-      enableEffectFeedback: true,
-      enableEffectBalancing: true,
-      enableEffectTuning: true,
-      enableEffectNetworking: true,
-      enableEffectSynchronization: true,
-      enableEffectAnalytics: true,
-      enableEffectMonitoring: true,
-      maxEffects: 10000,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableStatusEffectsAnalytics: true,
+      enableStatusEffectsReporting: true,
+      maxEffects: 100000,
       maxStacks: 100,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      enableCloudSync: false,
+      enableBackup: false,
+      enableVersioning: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-        'StatusEffectsManager': LogLevel.DEBUG
-      }
-    });
-
-    // Register with memory manager
-    this.memoryId = `StatusEffectsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'StatusEffectsManager');
-  }
-
-  /**
-   * Initialize status effects manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize status effects manager
-      await this.initializeStatusEffectsManager();
-      
-      // Load default status effects
-      await this.loadDefaultStatusEffects();
-      
-      this.isInitialized = true;
-      this.logger.info('StatusEffectsManager', 'Status effects manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('StatusEffectsManager', 'Failed to initialize status effects manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new status effects
-   */
-  createStatusEffects(effects: Partial<StatusEffects>): StatusEffects | null {
-    const newEffects: StatusEffects = {
-      id: `effects_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: effects.name || 'New Status Effects',
-      type: effects.type || EffectsType.BUFF,
-      status: EffectsStatus.ACTIVE,
-      effects: effects.effects || [],
-      stacks: effects.stacks || [],
-      interactions: effects.interactions || [],
-      analytics: effects.analytics || this.createDefaultAnalytics(),
-      metadata: effects.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
 
-    this.effects.set(newEffects.id, newEffects);
-    this.updateStats('create_effects', newEffects);
-
-    this.logger.info('StatusEffectsManager', `Created status effects: ${newEffects.name}`);
-    return newEffects;
-  }
-
-  /**
-   * Create effect
-   */
-  createEffect(effectsId: string, effect: Partial<Effect>): Effect | null {
-    const statusEffects = this.effects.get(effectsId);
-    if (!statusEffects) {
-      this.logger.warn('StatusEffectsManager', `Status effects ${effectsId} not found`);
-      return null;
-    }
-
-    if (statusEffects.effects.length >= this.config.maxEffects) {
-      this.logger.warn('StatusEffectsManager', 'Maximum number of effects reached');
-      return null;
-    }
-
-    try {
-      const newEffect: Effect = {
-        id: `effect_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: effect.name || 'New Effect',
-        type: effect.type || EffectType.STAT_MODIFIER,
-        status: EffectStatus.ACTIVE,
-        category: effect.category || EffectCategory.COMBAT,
-        properties: effect.properties || this.createDefaultEffectProperties(),
-        duration: effect.duration || this.createDefaultEffectDuration(),
-        stacking: effect.stacking || this.createDefaultEffectStacking(),
-        visualization: effect.visualization || this.createDefaultEffectVisualization(),
-        metadata: effect.metadata || new Map()
-      };
-
-      statusEffects.effects.push(newEffect);
-      statusEffects.modified = Date.now();
-
-      this.updateStats('create_effect', statusEffects);
-      this.logger.info('StatusEffectsManager', `Created effect: ${newEffect.name}`);
-      return newEffect;
-    } catch (error) {
-      this.logger.error('StatusEffectsManager', `Failed to create effect in status effects ${effectsId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Create effect stack
-   */
-  createEffectStack(effectsId: string, stack: Partial<EffectStack>): EffectStack | null {
-    const statusEffects = this.effects.get(effectsId);
-    if (!statusEffects) {
-      this.logger.warn('StatusEffectsManager', `Status effects ${effectsId} not found`);
-      return null;
-    }
-
-    if (statusEffects.stacks.length >= this.config.maxStacks) {
-      this.logger.warn('StatusEffectsManager', 'Maximum number of stacks reached');
-      return null;
-    }
-
-    try {
-      const newStack: EffectStack = {
-        id: `stack_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        effectId: stack.effectId || '',
-        stacks: stack.stacks || 1,
-        duration: stack.duration || this.createDefaultEffectDuration(),
-        properties: stack.properties || this.createDefaultEffectProperties(),
-        metadata: stack.metadata || new Map()
-      };
-
-      statusEffects.stacks.push(newStack);
-      statusEffects.modified = Date.now();
-
-      this.updateStats('create_stack', statusEffects);
-      this.logger.info('StatusEffectsManager', `Created effect stack: ${newStack.id}`);
-      return newStack;
-    } catch (error) {
-      this.logger.error('StatusEffectsManager', `Failed to create effect stack in status effects ${effectsId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Get status effects
-   */
-  getStatusEffects(effectsId: string): StatusEffects | null {
-    return this.effects.get(effectsId) || null;
-  }
-
-  /**
-   * Get all status effects
-   */
-  getStatusEffectsList(): StatusEffects[] {
-    return Array.from(this.effects.values());
-  }
-
-  /**
-   * Get status effects by type
-   */
-  getStatusEffectsByType(type: EffectsType): StatusEffects[] {
-    return Array.from(this.effects.values())
-      .filter(effects => effects.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): EffectsStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize status effects manager
-   */
-  private async initializeStatusEffectsManager(): Promise<void> {
-    this.logger.info('StatusEffectsManager', 'Initializing status effects manager...');
-  }
-
-  /**
-   * Load default status effects
-   */
-  private async loadDefaultStatusEffects(): Promise<void> {
-    // Load default status effects
-    const defaultEffects = [
-      this.createDefaultBuffs(),
-      this.createDefaultDebuffs(),
-      this.createDefaultNeutral()
-    ];
-
-    for (const effects of defaultEffects) {
-      if (effects) {
-        this.effects.set(effects.id, effects);
-      }
-    }
-
-    this.logger.info('StatusEffectsManager', `Loaded ${defaultEffects.length} default status effects`);
-  }
-
-  /**
-   * Create default effect properties
-   */
-  private createDefaultEffectProperties(): EffectProperties {
-    return {
-      statModifiers: [],
-      damageOverTime: {
-
-        enabled: false,
-        damage: 0,
-        interval: 1000,
-        type: DamageType.PHYSICAL,
-        metadata: new Map()
-
-      }
-      },
-      healOverTime: {
-
-        enabled: false,
-        healing: 0,
-        interval: 1000,
-        type: HealType.HEALTH,
-        metadata: new Map()
-
-      }
-      },
-      movementModifiers: [],
-      abilityModifiers: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default effect duration
-   */
-  private createDefaultEffectDuration(): EffectDuration {
-    return {
-      type: DurationType.TIMED,
-      value: 10000,
-      remaining: 10000,
-      paused: false,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default effect stacking
-   */
-  private createDefaultEffectStacking(): EffectStacking {
-    return {
-      enabled: true,
-      maxStacks: 5,
-      stackType: StackType.ADDITIVE,
-      refreshDuration: true,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default effect visualization
-   */
-  private createDefaultEffectVisualization(): EffectVisualization {
-    return {
-      icon: '',
-      color: '#ffffff',
-      particleEffect: '',
-      soundEffect: '',
-      animation: '',
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): EffectsAnalytics {
-    return {
+    this.performanceMetrics = {
       totalEffects: 0,
-      totalStacks: 0,
+      activeEffects: 0,
+      totalTemplates: 0,
       totalInteractions: 0,
-      averageDuration: 0,
-      mostCommonEffect: '',
-      performance: {
+      totalRules: 0,
+      averageEffectDuration: 0,
+      averageStackCount: 0,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
 
-        cpuUsage: 0,
+    this.analytics = {
+      totalEffects: 0,
+      activeEffects: 0,
+      effectTypeDistribution: [],
+      categoryDistribution: [],
+      performanceTrends: []
+    };
+  }
+
+  /**
+   * Create a new status effects manager
+   */
+  createManager(managerData: Partial<StatusEffectsManager>): StatusEffectsOutput {
+    if (!this.config.enableStatusEffectsManagement) {
+      return {
+        op: 'create-manager',
+        status: 'error',
+        issues: ['Status effects management is disabled']
+      };
+    }
+
+    const manager: StatusEffectsManager = {
+      id: managerData.id || `statuseffects-${Date.now()}`,
+      name: managerData.name || 'Unnamed Status Effects Manager',
+      type: managerData.type || 'game',
+      status: 'active',
+      effects: [],
+      templates: [],
+      interactions: [],
+      rules: [],
+      performanceMetrics: {
+        totalEffects: 0,
+        activeEffects: 0,
+        totalTemplates: 0,
+        totalInteractions: 0,
+        totalRules: 0,
+        averageEffectDuration: 0,
+        averageStackCount: 0,
         memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
+        cpuUsage: 0,
+        uptime: 0
       },
-      lastUpdate: Date.now(),
-      metadata: new Map()
+      analytics: {
+        totalEffects: 0,
+        activeEffects: 0,
+        effectTypeDistribution: [],
+        categoryDistribution: [],
+        performanceTrends: []
+      },
+      reporting: {
+        enabled: false,
+        interval: 300000, // 5 minutes
+        format: 'json',
+        destination: '',
+        includeMetrics: true,
+        includeAnalytics: true,
+        includeEffects: true,
+        lastReport: 0
+      },
+      cloudSync: {
+        enabled: false,
+        provider: '',
+        region: '',
+        bucket: '',
+        interval: 3600000, // 1 hour
+        lastSync: 0
+      },
+      backup: {
+        enabled: false,
+        interval: 86400000, // 24 hours
+        retention: 7,
+        destination: '',
+        lastBackup: 0
+      },
+      versioning: {
+        enabled: false,
+        currentVersion: '1.0.0',
+        versions: [],
+        autoUpdate: false,
+        lastUpdate: 0
+      },
+      metadata: {},
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...managerData
     };
-  }
 
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): EffectsMetadata {
+    this.managers.set(manager.id, manager);
+
     return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
+      op: 'create-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Create default buffs
+   * Get manager by ID
    */
-  private createDefaultBuffs(): StatusEffects {
-    return this.createStatusEffects({
-      name: 'Buffs',
-      type: EffectsType.BUFF,
-      description: 'Positive status effects'
-    });
-  }
-
-  /**
-   * Create default debuffs
-   */
-  private createDefaultDebuffs(): StatusEffects {
-    return this.createStatusEffects({
-      name: 'Debuffs',
-      type: EffectsType.DEBUFF,
-      description: 'Negative status effects'
-    });
-  }
-
-  /**
-   * Create default neutral
-   */
-  private createDefaultNeutral(): StatusEffects {
-    return this.createStatusEffects({
-      name: 'Neutral Effects',
-      type: EffectsType.NEUTRAL,
-      description: 'Neutral status effects'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, effects: StatusEffects): void {
-    switch (action) {
-      case 'create_effects':
-        this.stats.totalEffects += effects.effects.length;
-        this.stats.totalStacks += effects.stacks.length;
-        this.stats.totalInteractions += effects.interactions.length;
-        break;
-      case 'create_effect':
-        this.stats.totalEffects++;
-        break;
-      case 'create_stack':
-        this.stats.totalStacks++;
-        break;
+  getManager(managerId: string): StatusEffectsOutput {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      return {
+        op: 'get-manager',
+        status: 'error',
+        issues: [`Manager ${managerId} not found`]
+      };
     }
 
-    this.stats.lastUpdate = Date.now();
-  }
-
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): EffectsStats {
     return {
-      totalEffects: 0,
-      totalStacks: 0,
-      totalInteractions: 0,
-      averageDuration: 0,
-      mostCommonEffect: '',
-      lastUpdate: Date.now()
+      op: 'get-manager',
+      status: 'ok',
+      result: manager
     };
   }
 
   /**
-   * Cleanup resources
+   * Get performance metrics
    */
-  destroy(): void {
-    this.effects.clear();
-    this.stats = this.initializeStats();
-    this.isInitialized = false;
+  getPerformanceMetrics(): StatusEffectsPerformanceMetrics {
+    return { ...this.performanceMetrics };
+  }
+
+  /**
+   * Get analytics
+   */
+  getAnalytics(): StatusEffectsAnalytics {
+    return { ...this.analytics };
+  }
+
+  /**
+   * Get all managers
+   */
+  getAllManagers(): StatusEffectsManager[] {
+    return Array.from(this.managers.values());
+  }
+
+  /**
+   * Update performance metrics
+   */
+  updatePerformanceMetrics(): void {
+    const now = Date.now();
+    let totalEffects = 0;
+    let activeEffects = 0;
+    let totalTemplates = 0;
+    let totalInteractions = 0;
+    let totalRules = 0;
+
+    for (const manager of this.managers.values()) {
+      totalEffects += manager.effects.length;
+      activeEffects += manager.effects.filter(e => e.status === 'active').length;
+      totalTemplates += manager.templates.length;
+      totalInteractions += manager.interactions.length;
+      totalRules += manager.rules.length;
+    }
+
+    this.performanceMetrics.totalEffects = totalEffects;
+    this.performanceMetrics.activeEffects = activeEffects;
+    this.performanceMetrics.totalTemplates = totalTemplates;
+    this.performanceMetrics.totalInteractions = totalInteractions;
+    this.performanceMetrics.totalRules = totalRules;
+    this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
   }
 }
-
-// Export default instance
-export const defaultStatusEffectsManager = new StatusEffectsManager();
-export { StatusEffectsManager as default };
