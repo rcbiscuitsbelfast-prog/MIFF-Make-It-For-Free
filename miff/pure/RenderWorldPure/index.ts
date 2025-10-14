@@ -14,25 +14,15 @@ import {
 } from '../CombatPure/engine';
 
 import {
-  ItemEffectType,
-  ItemUsageManager,
-  IPlayerContext
-} from '../ItemsPure';
-
-import {
-  QuestsManager,
-  QuestReward
+  QuestsManager
 } from '../QuestsPure';
 
 import {
-  TeamManager,
-  TeamRules,
-  TeamUtils
+  TeamManager
 } from '../TeamsPure';
 
 import {
-  AIManager,
-  AIPolicy
+  AIManager
 } from '../AIPure';
 
 import {
@@ -50,11 +40,10 @@ import { EventBus } from '../EventBusPure/EventBusPure.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 import {
-  AvatarSystemPure
+  AvatarSystem
 } from '../AvatarSystemPure';
 
 import {
-  nextNode,
   type Node,
   type Dialogue
 } from '../DialogueSystemPure';

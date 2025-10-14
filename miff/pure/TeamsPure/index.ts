@@ -337,7 +337,6 @@ export class ValidationResult implements IValidationResult {
     warnings: string[] = [],
     errors: string[] = []
   ) {
-    this.logger = new StructuredLogger({ module: 'ValidationResult' });
     this.status = status;
     this.message = message;
     this.warnings = [...warnings];
@@ -410,10 +409,10 @@ export class ValidationResult implements IValidationResult {
    */
   static fromJSON(data: Record<string, any>): ValidationResult {
     return new ValidationResult(
-      data.status,
-      data.message,
-      data.warnings || [],
-      data.errors || []
+      data['status'],
+      data['message'],
+      data['warnings'] || [],
+      data['errors'] || []
     );
   }
 }
@@ -571,10 +570,10 @@ export class TeamSlot implements ITeamSlot {
    */
   static fromJSON(data: Record<string, any>): TeamSlot {
     const slot = new TeamSlot(
-      data.position,
-      data.requirements || [],
-      data.bonuses || [],
-      data.isLocked || false
+      data['position'],
+      data['requirements'] || [],
+      data['bonuses'] || [],
+      data['isLocked'] || false
     );
 
     if (data.spirit) {

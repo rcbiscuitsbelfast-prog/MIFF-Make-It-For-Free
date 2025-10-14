@@ -254,7 +254,6 @@ export class BattleEffect implements IBattleEffect {
     refreshOnStack: boolean = true,
     triggers: EffectTrigger = EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
   ) {
-    this.logger = new StructuredLogger({ module: 'BattleEffect' });
     this.effectId = effectId;
     this.name = name;
     this.description = description;
@@ -583,19 +582,19 @@ export class BattleEffect implements IBattleEffect {
    */
   static fromJSON(data: Record<string, any>): BattleEffect {
     return new BattleEffect(
-      data.effectId,
-      data.name,
-      data.description,
-      data.effectType || EffectType.STAT_MODIFIER,
-      data.targetStat || TargetStat.CUSTOM,
-      data.modifierType || ModifierType.FLAT,
-      data.value || 0,
-      data.durationSeconds || 0,
-      data.durationTurns || 0,
-      data.stackable !== false,
-      data.maxStacks || 5,
-      data.refreshOnStack !== false,
-      data.triggers || (EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE)
+      data['effectId'],
+      data['name'],
+      data['description'],
+      data['effectType'] || EffectType.STAT_MODIFIER,
+      data['targetStat'] || TargetStat.CUSTOM,
+      data['modifierType'] || ModifierType.FLAT,
+      data['value'] || 0,
+      data['durationSeconds'] || 0,
+      data['durationTurns'] || 0,
+      data['stackable'] !== false,
+      data['maxStacks'] || 5,
+      data['refreshOnStack'] !== false,
+      data['triggers'] || (EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE)
     );
   }
 }

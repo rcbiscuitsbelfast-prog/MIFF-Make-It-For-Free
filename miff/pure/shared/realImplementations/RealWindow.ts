@@ -1,4 +1,4 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../logging/StructuredLogger';
 /**
  * Real Window Implementation
  * 
@@ -57,7 +57,6 @@ export interface WindowEvent {
 }
 
 export class RealWindow {
-  private logger: StructuredLogger;
   private windows: Map<string, WindowInfo> = new Map();
   private eventHandlers: Map<string, Function[]> = new Map();
   private nextWindowId: number = 1;
@@ -79,17 +78,17 @@ export class RealWindow {
   /**
    * Create a new window
    */
-  createWindow(): string {
+  createWindow(config: Partial<WindowInfo> = {}): string {
     const windowId = `window_${this.nextWindowId++}`;
     
     const windowInfo: WindowInfo = {
       id: windowId,
-      title: config.title,
-      width: config.width,
-      height: config.height,
+      title: config.title || 'Window',
+      width: config.width || 800,
+      height: config.height || 600,
       x: config.x || 100,
       y: config.y || 100,
-      visible: config.show !== false,
+      visible: config.visible !== false,
       focused: false,
       minimized: false,
       maximized: false,

@@ -92,7 +92,7 @@ export class PathfindingManager {
   /**
    * Load a new grid
    */
-  loadGrid(): PathfindingOutput {
+  loadGrid(grid: Grid): PathfindingOutput {
     this.grid = {
       width: grid.width,
       height: grid.height,

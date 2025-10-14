@@ -243,7 +243,7 @@ export class BattleChallenge implements IBattleChallenge {
     this.priority = priority;
     this.tags = [...tags];
     this.requiredFlags = [...requiredFlags];
-    this.requiredLocationId = requiredLocationId;
+    this.requiredLocationId = requiredLocationId || '';
     this.loreFlagsToSet = [...loreFlagsToSet];
     this.syncBoosts = { ...syncBoosts };
   }
@@ -415,7 +415,7 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Check if challenge is available
    */
-  isAvailable(): boolean {
+  isAvailable(playerContext: any): boolean {
     // Check required flags
     for (const flag of this.requiredFlags) {
       if (!playerContext.hasQuestFlag(flag) && !playerContext.hasLoreFlag(flag)) {
@@ -563,14 +563,14 @@ export class BattleChallenge implements IBattleChallenge {
    * Create from JSON
    */
   static fromJSON(data: Record<string, any>): BattleChallenge {
-    const ruleset = ChallengeRuleset.fromJSON(data.ruleset);
+    const ruleset = ChallengeRuleset.fromJSON(data['ruleset']);
     const challenge = new BattleChallenge(
-      data.challengeId,
-      data.name,
-      data.description,
-      data.opponentTeam || [],
+      data['challengeId'],
+      data['name'],
+      data['description'],
+      data['opponentTeam'] || [],
       ruleset,
-      data.rewards || {},
+      data['rewards'] || {},
       data.category || ChallengeCategory.MAIN_STORY,
       data.difficulty || ChallengeDifficulty.MEDIUM,
       data.maxTurns || 0,

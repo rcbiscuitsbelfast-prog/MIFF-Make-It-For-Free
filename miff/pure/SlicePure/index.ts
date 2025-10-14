@@ -345,7 +345,6 @@ export class PlayerState implements IPlayerState {
     position: { x: number; y: number } = { x: 0, y: 0 },
     weather: string = 'clear'
   ) {
-    this.logger = new StructuredLogger({ module: 'PlayerState' });
     this.zoneId = zoneId;
     this.tileType = tileType;
     this.timeOfDay = timeOfDay;
@@ -371,7 +370,7 @@ export class PlayerState implements IPlayerState {
   /**
    * Move player to new position
    */
-  moveTo(): void {
+  moveTo(x: number, y: number): void {
     this.position.x = x;
     this.position.y = y;
     this.stepsSinceLastEncounter++;
@@ -380,14 +379,14 @@ export class PlayerState implements IPlayerState {
   /**
    * Set time of day
    */
-  setTimeOfDay(): void {
+  setTimeOfDay(timeOfDay: TimeOfDay): void {
     this.timeOfDay = timeOfDay;
   }
 
   /**
    * Set weather
    */
-  setWeather(): void {
+  setWeather(weather: string): void {
     this.weather = weather;
   }
 
@@ -424,12 +423,12 @@ export class PlayerState implements IPlayerState {
    */
   static fromJSON(data: Record<string, any>): PlayerState {
     return new PlayerState(
-      data.zoneId || 'newhaven',
-      data.tileType || 'grass',
-      data.timeOfDay || TimeOfDay.DAY,
-      data.stepsSinceLastEncounter || 0,
-      data.position || { x: 0, y: 0 },
-      data.weather || 'clear'
+      data['zoneId'] || 'newhaven',
+      data['tileType'] || 'grass',
+      data['timeOfDay'] || TimeOfDay.DAY,
+      data['stepsSinceLastEncounter'] || 0,
+      data['position'] || { x: 0, y: 0 },
+      data['weather'] || 'clear'
     );
   }
 

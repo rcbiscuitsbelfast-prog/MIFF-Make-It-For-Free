@@ -282,6 +282,10 @@ export class SaveSnapshot implements ISaveSnapshot {
       // Validate party members
       for (let i = 0; i < this.partyRoster.length; i++) {
         const member = this.partyRoster[i];
+        if (!member) {
+          warnings.push(`Party member ${i} is undefined`);
+          continue;
+        }
         if (!member.id || !member.name) {
           warnings.push(`Party member ${i} is missing required fields`);
         }
@@ -367,12 +371,12 @@ export class SaveSnapshot implements ISaveSnapshot {
    */
   static fromJSON(data: Record<string, any>): SaveSnapshot {
     const snapshot = new SaveSnapshot(
-      data.playerId || '',
-      data.zoneId || 'newhaven',
-      (data.version as SaveVersion) || 'v1'
+      data['playerId'] || '',
+      data['zoneId'] || 'newhaven',
+      (data['version'] as SaveVersion) || 'v1'
     );
 
-    snapshot.timestampUtc = data.timestampUtc || new Date().toISOString();
+    snapshot.timestampUtc = data['timestampUtc'] || new Date().toISOString();
     snapshot.checksum = data.checksum;
     snapshot.partyRoster = Array.isArray(data.partyRoster) ? data.partyRoster : [];
     snapshot.inventory = typeof data.inventory === 'object' && data.inventory ? data.inventory : {};

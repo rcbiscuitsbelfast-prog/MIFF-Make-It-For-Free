@@ -14,7 +14,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { TileManager } from '../TileMapPure/tileManager';
 import { TileType } from '../TileMapPure/tileTypes';
 import { getTileColor, getTileLabel } from '../TileMapPure/tileUtils';
-import { mainOrchestrator, GameState } from './mainOrchestrator';
+import { MainOrchestrator, GameState } from './mainOrchestrator';
 
 // Enhanced Tile Editor with orchestrator integration
 interface EnhancedTileEditorProps {
@@ -53,7 +53,7 @@ export const EnhancedTileEditor: React.FC<EnhancedTileEditorProps> = ({
 
   const grid = manager.getGrid();
   const gridWidth = grid[0]?.length || 0;
-  const gridHeight = grid.length;
+  const _gridHeight = grid.length;
 
   return (
     <div className="enhanced-tile-editor">

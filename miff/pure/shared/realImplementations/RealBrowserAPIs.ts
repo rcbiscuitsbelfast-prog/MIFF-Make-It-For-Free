@@ -1,4 +1,4 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../logging/StructuredLogger';
 /**
  * Real Browser APIs Implementation
  * 
@@ -65,7 +65,6 @@ export interface EventInfo {
 }
 
 export class RealBrowserAPIs {
-  private logger: StructuredLogger;
   private eventHandlers: Map<string, Function[]> = new Map();
   private domElements: Map<string, DOMElement> = new Map();
   private storageData: Map<string, any> = new Map();
@@ -158,7 +157,7 @@ export class RealBrowserAPIs {
   /**
    * Set localStorage item
    */
-  setLocalStorageItem(): boolean {
+  setLocalStorageItem(key: string, value: string): boolean {
     try {
       if (typeof Storage !== 'undefined') {
         localStorage.setItem(key, value);
@@ -190,7 +189,7 @@ export class RealBrowserAPIs {
   /**
    * Remove localStorage item
    */
-  removeLocalStorageItem(): boolean {
+  removeLocalStorageItem(key: string): boolean {
     try {
       if (typeof Storage !== 'undefined') {
         localStorage.removeItem(key);

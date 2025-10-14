@@ -42,8 +42,8 @@ export class ExportIntegration {
       name,
       format,
       rig: this.skeletonState.rig,
-      skin: this.skeletonState.skin,
-      face: this.skeletonState.face,
+      skin: this.skeletonState.skin || undefined,
+      face: this.skeletonState.face || undefined,
       animations: options.includeAnimations ? Object.values(this.skeletonState.animations) : [],
       metadata: {
         ...options.metadata,
@@ -81,7 +81,7 @@ export class ExportIntegration {
   /**
    * Export as GLTF format
    */
-  exportAsGLTF(): string {
+  exportAsGLTF(exportConfig: ExportConfig): string {
     const gltfData = {
       asset: {
         version: '2.0',
@@ -94,7 +94,7 @@ export class ExportIntegration {
       nodes: this.generateGLTFNodes(exportConfig),
       meshes: exportConfig.skin ? this.generateGLTFMeshes(exportConfig.skin) : [],
       materials: exportConfig.skin ? this.generateGLTFMaterials(exportConfig.skin) : [],
-      animations: exportConfig.animations.map(anim => this.generateGLTFAnimation(anim)),
+      animations: exportConfig.animations.map((anim: any) => this.generateGLTFAnimation(anim)),
       skins: exportConfig.skin ? this.generateGLTFSkins(exportConfig) : [],
       extensionsUsed: ['MIFF_creature_data'],
       extensions: {

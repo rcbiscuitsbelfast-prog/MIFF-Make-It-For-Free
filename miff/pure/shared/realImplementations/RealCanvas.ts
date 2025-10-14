@@ -1,4 +1,4 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from '../logging/StructuredLogger';
 /**
  * Real Canvas Implementation
  * 
@@ -46,7 +46,6 @@ export interface AnimationFrame {
 }
 
 export class RealCanvas {
-  private logger: StructuredLogger;
   private canvases: Map<string, CanvasInfo> = new Map();
   private contexts: Map<string, DrawingContext> = new Map();
   private animations: Map<number, AnimationFrame> = new Map();
@@ -71,7 +70,7 @@ export class RealCanvas {
   /**
    * Create a new canvas
    */
-  createCanvas(): string {
+  createCanvas(width: number = 800, height: number = 600, context: string = '2d'): string {
     const canvasId = `canvas_${this.nextCanvasId++}`;
     
     const canvasInfo: CanvasInfo = {
@@ -110,7 +109,7 @@ export class RealCanvas {
   /**
    * Get canvas information
    */
-  getCanvas(canvasId: string): CanvasInfo! {
+  getCanvas(canvasId: string): CanvasInfo | undefined {
     return this.canvases.get(canvasId);
   }
 
@@ -124,7 +123,7 @@ export class RealCanvas {
   /**
    * Update canvas properties
    */
-  updateCanvas(): boolean {
+  updateCanvas(canvasId: string, updates: Partial<CanvasInfo>): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
