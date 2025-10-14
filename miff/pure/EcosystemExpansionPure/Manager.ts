@@ -476,7 +476,7 @@ export class EcosystemExpansionPure {
   /**
    * Create a new ecosystem expansion manager
    */
-  createManager(managerData: Partial<EcosystemExpansionManager>): EcosystemExpansionOutput {
+  createManager(): EcosystemExpansionOutput {
     if (!this.config.enableEcosystemGrowth) {
       return {
         op: 'create-manager',
@@ -565,7 +565,7 @@ export class EcosystemExpansionPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): EcosystemExpansionOutput {
+  getManager(): EcosystemExpansionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -585,7 +585,7 @@ export class EcosystemExpansionPure {
   /**
    * Create partnership
    */
-  createPartnership(managerId: string, partnership: Partial<Partnership>): EcosystemExpansionOutput {
+  createPartnership(): EcosystemExpansionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -668,7 +668,7 @@ export class EcosystemExpansionPure {
   /**
    * Create integration
    */
-  createIntegration(managerId: string, integration: Partial<Integration>): EcosystemExpansionOutput {
+  createIntegration(): EcosystemExpansionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -747,7 +747,7 @@ export class EcosystemExpansionPure {
   /**
    * Create community
    */
-  createCommunity(managerId: string, community: Partial<Community>): EcosystemExpansionOutput {
+  createCommunity(): EcosystemExpansionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

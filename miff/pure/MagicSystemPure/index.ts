@@ -345,7 +345,7 @@ export class MagicSystemPure {
   /**
    * Create mana pool for an entity
    */
-  createManaPool(entityId: string, maxMana: number = 100): void {
+  createManaPool(): void {
     const manaPool: ManaPool = {
       current: maxMana,
       maximum: maxMana,
@@ -369,7 +369,7 @@ export class MagicSystemPure {
   /**
    * Update mana pool (regeneration, etc.)
    */
-  updateManaPool(entityId: string): void {
+  updateManaPool(): void {
     const manaPool = this.manaPools.get(entityId);
     if (!manaPool) return;
 
@@ -386,7 +386,7 @@ export class MagicSystemPure {
   /**
    * Cast a spell
    */
-  castSpell(casterId: string, spellId: string, targets: string[] = []): MagicCombatResult {
+  castSpell(): MagicCombatResult {
     const spellInstance = this.getSpellInstance(casterId, spellId);
     if (!spellInstance || !spellInstance.isUnlocked) {
       return {
@@ -566,7 +566,7 @@ export class MagicSystemPure {
   /**
    * Unlock spell for a caster
    */
-  unlockSpell(casterId: string, spellId: string): boolean {
+  unlockSpell(): boolean {
     const spellDef = this.spellDefinitions.get(spellId);
     if (!spellDef) return false;
 
@@ -662,7 +662,7 @@ export class MagicSystemPure {
   /**
    * Set elemental affinity for an entity
    */
-  setElementalAffinity(entityId: string, element: string, affinity: number): void {
+  setElementalAffinity(): void {
     const manaPool = this.manaPools.get(entityId);
     if (manaPool) {
       manaPool.elementalAffinities.set(element, Math.max(0.1, Math.min(2.0, affinity)));
@@ -672,7 +672,7 @@ export class MagicSystemPure {
   /**
    * Get elemental affinity for an entity
    */
-  getElementalAffinity(entityId: string, element: string): number {
+  getElementalAffinity(): number {
     const manaPool = this.manaPools.get(entityId);
     return manaPool?.elementalAffinities.get(element) || 1.0;
   }
@@ -680,7 +680,7 @@ export class MagicSystemPure {
   /**
    * Set spell school modifier for an entity
    */
-  setSpellSchoolModifier(entityId: string, school: string, modifier: number): void {
+  setSpellSchoolModifier(): void {
     const manaPool = this.manaPools.get(entityId);
     if (manaPool) {
       manaPool.modifiers.set(school, modifier);
@@ -690,7 +690,7 @@ export class MagicSystemPure {
   /**
    * Get spell school modifier for an entity
    */
-  getSpellSchoolModifier(entityId: string, school: string): number {
+  getSpellSchoolModifier(): number {
     const manaPool = this.manaPools.get(entityId);
     return manaPool?.modifiers.get(school) || 1.0;
   }

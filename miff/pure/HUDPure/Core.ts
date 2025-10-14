@@ -310,7 +310,7 @@ export class BattleHUDModel {
 }
 
 export class CLIHUDRenderer {
-  render(model: BattleHUDModel | null): string {
+  render(): string {
     if (!model) return '(no HUD)';
     const lines: string[] = [];
     lines.push('=== Player Spirits ===');
@@ -411,7 +411,7 @@ export class HUDManager {
 }
 
 /* export const HUDPureUtils = {
-  renderHealthBar(current: number, max: number, width: number): string {
+  renderHealthBar(): string {
     const filled = Math.floor((current / Math.max(1, max)) * width);*/
     return `[${'#'.repeat(filled)}${'-'.repeat(width - filled)}]`;
   },

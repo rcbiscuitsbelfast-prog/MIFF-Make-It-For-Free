@@ -108,7 +108,7 @@ export class CapabilityDiscovery {
   /**
    * Generate dynamic CLI help from capabilities
    */
-  generateDynamicCLIHelp(moduleId: string): string {
+  generateDynamicCLIHelp(): string {
     const result = this.discoveryResults.get(moduleId);
     if (!result || result.status !== 'success') {
       return `No capabilities found for module: ${moduleId}`;
@@ -162,7 +162,7 @@ export class CapabilityDiscovery {
   /**
    * Generate dynamic test templates from capabilities
    */
-  generateDynamicTestTemplates(moduleId: string): string {
+  generateDynamicTestTemplates(): string {
     const result = this.discoveryResults.get(moduleId);
     if (!result || result.status !== 'success') {
       return `// No capabilities found for module: ${moduleId}`;

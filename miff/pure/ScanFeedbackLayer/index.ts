@@ -75,7 +75,7 @@ export class ScanFeedbackManager {
   /**
    * Add a scan target
    */
-  addTarget(target: ScanTarget): void {
+  addTarget(): void {
     this.targets.set(target.id, target);
     this.updateTargetOverlays(target);
   }
@@ -83,7 +83,7 @@ export class ScanFeedbackManager {
   /**
    * Remove a scan target
    */
-  removeTarget(targetId: string): void {
+  removeTarget(): void {
     const target = this.targets.get(targetId);
     if (target) {
       this.clearTargetOverlays(target);
@@ -94,7 +94,7 @@ export class ScanFeedbackManager {
   /**
    * Start scanning a target
    */
-  startScan(targetId: string): boolean {
+  startScan(): boolean {
     const target = this.targets.get(targetId);
     if (!target || this.isScanning) return false;
 
@@ -111,7 +111,7 @@ export class ScanFeedbackManager {
   /**
    * Update scan progress
    */
-  updateScanProgress(progress: number): void {
+  updateScanProgress(): void {
     if (!this.isScanning || !this.currentScanTarget) return;
 
     const target = this.targets.get(this.currentScanTarget);
@@ -267,7 +267,7 @@ export class ScanFeedbackManager {
   /**
    * Update pulse animation
    */
-  updatePulse(deltaTime: number): void {
+  updatePulse(): void {
     if (!this.config.pulseEnabled) return;
 
     this.pulsePhase += deltaTime * 0.001; // Convert to seconds
@@ -334,7 +334,7 @@ export class ScanFeedbackManager {
   /**
    * Update configuration
    */
-  updateConfig(updates: Partial<ScanConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...updates };
   }
 
@@ -385,7 +385,7 @@ export class ScanFeedbackManager {
   /**
    * Import scan data from serialized data
    */
-  importScanData(data: Record<string, any>): void {
+  importScanData(): void {
     this.clearAllTargets();
     
     if (data.config) {

@@ -483,7 +483,7 @@ export class ResourceManagerPure {
   /**
    * Create a new resource manager
    */
-  createManager(managerData: Partial<ResourceManager>): ResourceManagerOutput {
+  createManager(): ResourceManagerOutput {
     if (!this.config.enableResourceManagement) {
       return {
         op: 'create-manager',
@@ -572,7 +572,7 @@ export class ResourceManagerPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ResourceManagerOutput {
+  getManager(): ResourceManagerOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

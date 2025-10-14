@@ -168,7 +168,7 @@ export class CacheManager {
   /**
    * Check if key exists and is valid
    */
-  has(key: string): boolean {
+  has(): boolean {
     const entry = this.cache.get(key);
     if (!entry) return false;
 
@@ -179,7 +179,7 @@ export class CacheManager {
   /**
    * Delete specific cache entry
    */
-  delete(key: string): boolean {
+  delete(): boolean {
     const deleted = this.cache.delete(key);
     if (deleted) {
       this.stats.deletes++;
@@ -511,7 +511,7 @@ export class CacheManager {
   /**
    * Preload frequently accessed items
    */
-  preload(items: Array<{ key: string; data: any; ttl?: number }>): void {
+  preload(): void {
     this.log(`Preloading ${items.length} items`);
     
     for (const item of items) {

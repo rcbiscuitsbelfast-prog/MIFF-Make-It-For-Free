@@ -75,35 +75,35 @@ export class RealConsole {
   /**
    * Log a debug message
    */
-  debug(message: string, metadata?: Record<string, any>, category?: string): void {
+  debug(): void {
     this.log('debug', message, metadata, category);
   }
 
   /**
    * Log an info message
    */
-  info(message: string, metadata?: Record<string, any>, category?: string): void {
+  info(): void {
     this.log('info', message, metadata, category);
   }
 
   /**
    * Log a warning message
    */
-  warn(message: string, metadata?: Record<string, any>, category?: string): void {
+  warn(): void {
     this.log('warn', message, metadata, category);
   }
 
   /**
    * Log an error message
    */
-  error(message: string, metadata?: Record<string, any>, category?: string): void {
+  error(): void {
     this.log('error', message, metadata, category);
   }
 
   /**
    * Log a fatal message
    */
-  fatal(message: string, metadata?: Record<string, any>, category?: string): void {
+  fatal(): void {
     this.log('fatal', message, metadata, category);
   }
 
@@ -254,14 +254,14 @@ export class RealConsole {
   /**
    * Add custom log destination
    */
-  addDestination(destination: LogDestination): void {
+  addDestination(): void {
     this.config.customDestinations.push(destination);
   }
 
   /**
    * Remove custom log destination
    */
-  removeDestination(name: string): boolean {
+  removeDestination(): boolean {
     const index = this.config.customDestinations.findIndex(dest => dest.name === name);
     if (index > -1) {
       this.config.customDestinations.splice(index, 1);
@@ -304,7 +304,7 @@ export class RealConsole {
   /**
    * Update configuration
    */
-  updateConfig(newConfig: Partial<ConsoleConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...newConfig };
   }
 
@@ -318,7 +318,7 @@ export class RealConsole {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

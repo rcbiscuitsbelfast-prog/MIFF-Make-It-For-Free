@@ -160,7 +160,7 @@ export class AdvancedInput {
   /**
    * Create a gesture
    */
-  createGesture(gesture: InputGesture): void {
+  createGesture(): void {
     this.gestures.set(gesture.id, gesture);
     this.gestureRecognition.registerGesture(gesture);
   }
@@ -168,7 +168,7 @@ export class AdvancedInput {
   /**
    * Update gesture
    */
-  updateGesture(gestureId: string, properties: Partial<InputGesture>): void {
+  updateGesture(): void {
     const gesture = this.gestures.get(gestureId);
     if (gesture) {
       Object.assign(gesture, properties);
@@ -179,7 +179,7 @@ export class AdvancedInput {
   /**
    * Remove gesture
    */
-  removeGesture(gestureId: string): void {
+  removeGesture(): void {
     this.gestures.delete(gestureId);
     this.gestureRecognition.unregisterGesture(gestureId);
   }
@@ -187,14 +187,14 @@ export class AdvancedInput {
   /**
    * Create haptic feedback
    */
-  createHapticFeedback(haptic: HapticFeedback): void {
+  createHapticFeedback(): void {
     this.hapticFeedbacks.set(haptic.id, haptic);
   }
 
   /**
    * Trigger haptic feedback
    */
-  triggerHapticFeedback(hapticId: string): void {
+  triggerHapticFeedback(): void {
     const haptic = this.hapticFeedbacks.get(hapticId);
     if (haptic && haptic.enabled) {
       this.hapticManager.trigger(haptic);
@@ -204,14 +204,14 @@ export class AdvancedInput {
   /**
    * Create input mapping
    */
-  createInputMapping(mapping: InputMapping): void {
+  createInputMapping(): void {
     this.inputMappings.set(mapping.id, mapping);
   }
 
   /**
    * Update input mapping
    */
-  updateInputMapping(mappingId: string, properties: Partial<InputMapping>): void {
+  updateInputMapping(): void {
     const mapping = this.inputMappings.get(mappingId);
     if (mapping) {
       Object.assign(mapping, properties);
@@ -221,21 +221,21 @@ export class AdvancedInput {
   /**
    * Remove input mapping
    */
-  removeInputMapping(mappingId: string): void {
+  removeInputMapping(): void {
     this.inputMappings.delete(mappingId);
   }
 
   /**
    * Create input profile
    */
-  createInputProfile(profile: InputProfile): void {
+  createInputProfile(): void {
     this.inputProfiles.set(profile.id, profile);
   }
 
   /**
    * Set active input profile
    */
-  setActiveProfile(profileId: string): void {
+  setActiveProfile(): void {
     if (this.inputProfiles.has(profileId)) {
       this.activeProfile = profileId;
     }
@@ -244,7 +244,7 @@ export class AdvancedInput {
   /**
    * Process input data
    */
-  processInput(input: InputData): void {
+  processInput(): void {
     // Add to input history
     this.inputHistory.push(input);
     if (this.inputHistory.length > this.maxHistorySize) {

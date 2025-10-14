@@ -348,7 +348,7 @@ export class TutorialScenarioPure {
   /**
    * Create a new tutorial scenario manager
    */
-  createManager(managerData: Partial<TutorialScenarioManager>): TutorialScenarioOutput {
+  createManager(): TutorialScenarioOutput {
     if (!this.config.enableTutorialManagement) {
       return {
         op: 'create-manager',
@@ -437,7 +437,7 @@ export class TutorialScenarioPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): TutorialScenarioOutput {
+  getManager(): TutorialScenarioOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

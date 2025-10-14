@@ -414,7 +414,7 @@ export class EvolutionPure {
   /**
    * Create a new evolution manager
    */
-  createManager(managerData: Partial<EvolutionManager>): EvolutionOutput {
+  createManager(): EvolutionOutput {
     if (!this.config.enableEvolutionManagement) {
       return {
         op: 'create-manager',
@@ -501,7 +501,7 @@ export class EvolutionPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): EvolutionOutput {
+  getManager(): EvolutionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

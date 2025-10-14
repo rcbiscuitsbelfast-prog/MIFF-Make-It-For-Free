@@ -176,7 +176,7 @@ export class SecurityHardening {
   /**
    * Check rate limit
    */
-  checkRateLimit(identifier: string, maxRequests: number = 100, windowMs: number = 60000): boolean {
+  checkRateLimit(): boolean {
     const now = Date.now();
     const window = Math.floor(now / windowMs);
     const key = `${identifier}:${window}`;
@@ -298,7 +298,7 @@ export class SecurityHardening {
   /**
    * Encrypt sensitive data
    */
-  encrypt(data: string): string {
+  encrypt(): string {
     const algorithm = 'aes-256-gcm';
     const key = Buffer.from(this.config.encryptionKey, 'hex');
     const iv = crypto.randomBytes(16);
@@ -314,7 +314,7 @@ export class SecurityHardening {
   /**
    * Decrypt sensitive data
    */
-  decrypt(encryptedData: string): string {
+  decrypt(): string {
     const algorithm = 'aes-256-gcm';
     const key = Buffer.from(this.config.encryptionKey, 'hex');
     const [ivHex, authTagHex, encrypted] = encryptedData.split(':');
@@ -334,14 +334,14 @@ export class SecurityHardening {
   /**
    * Generate secure token
    */
-  generateSecureToken(length: number = 32): string {
+  generateSecureToken(): string {
     return crypto.randomBytes(length).toString('hex');
   }
 
   /**
    * Hash password
    */
-  hashPassword(password: string): string {
+  hashPassword(): string {
     const salt = crypto.randomBytes(16).toString('hex');
     const hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
     return `${salt}:${hash}`;
@@ -350,7 +350,7 @@ export class SecurityHardening {
   /**
    * Verify password
    */
-  verifyPassword(password: string, hashedPassword: string): boolean {
+  verifyPassword(): boolean {
     const [salt, hash] = hashedPassword.split(':');
     const verifyHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
     return hash === verifyHash;
@@ -359,7 +359,7 @@ export class SecurityHardening {
   /**
    * Block IP address
    */
-  blockIP(ip: string, reason: string): void {
+  blockIP(): void {
     this.blockedIPs.add(ip);
     this.recordSecurityEvent({
       type: 'security_violation',
@@ -372,21 +372,21 @@ export class SecurityHardening {
   /**
    * Check if IP is blocked
    */
-  isIPBlocked(ip: string): boolean {
+  isIPBlocked(): boolean {
     return this.blockedIPs.has(ip);
   }
 
   /**
    * Unblock IP address
    */
-  unblockIP(ip: string): void {
+  unblockIP(): void {
     this.blockedIPs.delete(ip);
   }
 
   /**
    * Record security event
    */
-  recordSecurityEvent(event: Omit<SecurityEvent, 'id' | 'timestamp' | 'resolved'>): void {
+  recordSecurityEvent(): void {
     const securityEvent: SecurityEvent = {
       id: this.generateSecureToken(16),
       timestamp: new Date(),

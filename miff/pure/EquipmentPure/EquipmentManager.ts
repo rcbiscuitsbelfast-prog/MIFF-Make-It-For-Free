@@ -127,7 +127,7 @@ export class EquipmentManager {
   /**
    * Sync with inventory system
    */
-  syncInventory(port: InventoryPort): EquipmentOutput {
+  syncInventory(): EquipmentOutput {
     this.inventory = port;
     return {
       op: 'sync-inventory',
@@ -150,7 +150,7 @@ export class EquipmentManager {
   /**
    * Get equipped item in slot
    */
-  getEquipped(slot: string): EquipmentOutput {
+  getEquipped(): EquipmentOutput {
     const item = this.equipped.get(slot);
     if (!item) {
       return {
@@ -235,7 +235,7 @@ export class EquipmentManager {
   /**
    * Unequip item from slot
    */
-  unequip(slot: string): EquipmentOutput {
+  unequip(): EquipmentOutput {
     const prev = this.equipped.get(slot);
     if (!prev) {
       return {
@@ -261,7 +261,7 @@ export class EquipmentManager {
   /**
    * Add enchantment to item
    */
-  addEnchantment(slot: string, enchantment: Enchantment): EquipmentOutput {
+  addEnchantment(): EquipmentOutput {
     const item = this.equipped.get(slot);
     if (!item) {
       return {
@@ -287,7 +287,7 @@ export class EquipmentManager {
   /**
    * Remove enchantment from item
    */
-  removeEnchantment(slot: string, enchantmentId: string): EquipmentOutput {
+  removeEnchantment(): EquipmentOutput {
     const item = this.equipped.get(slot);
     if (!item) {
       return {
@@ -327,7 +327,7 @@ export class EquipmentManager {
   /**
    * Update item durability
    */
-  updateDurability(slot: string, durability: number): EquipmentOutput {
+  updateDurability(): EquipmentOutput {
     const item = this.equipped.get(slot);
     if (!item) {
       return {
@@ -406,7 +406,7 @@ export class EquipmentManager {
   /**
    * Add equipment set
    */
-  addEquipmentSet(set: EquipmentSet): EquipmentOutput {
+  addEquipmentSet(): EquipmentOutput {
     if (this.equipmentSets.has(set.id)) {
       return {
         op: 'add-equipment-set',
@@ -426,7 +426,7 @@ export class EquipmentManager {
   /**
    * Remove equipment set
    */
-  removeEquipmentSet(setId: string): EquipmentOutput {
+  removeEquipmentSet(): EquipmentOutput {
     if (!this.equipmentSets.has(setId)) {
       return {
         op: 'remove-equipment-set',
@@ -611,7 +611,7 @@ export class EquipmentManager {
   /**
    * Repair item durability
    */
-  repairItem(slot: string, amount?: number): EquipmentOutput {
+  repairItem(): EquipmentOutput {
     const item = this.equipped.get(slot);
     if (!item) {
       return {
@@ -647,7 +647,7 @@ export class EquipmentManager {
   /**
    * List equipped items with filter
    */
-  listEquipped(filter?: EquipmentFilter): EquipmentOutput {
+  listEquipped(): EquipmentOutput {
     let items = Array.from(this.equipped.values());
 
     if (filter) {
@@ -679,7 +679,7 @@ export class EquipmentManager {
   /**
    * Export equipment data
    */
-  exportEquipment(format: 'json' | 'manifest' | 'summary' | 'items' = 'json'): EquipmentOutput {
+  exportEquipment(): EquipmentOutput {
     const items = Array.from(this.equipped.values());
 
     switch (format) {

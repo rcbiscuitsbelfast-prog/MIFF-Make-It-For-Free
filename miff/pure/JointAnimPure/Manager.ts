@@ -326,7 +326,7 @@ export class JointAnimPure {
   /**
    * Create a new joint animation manager
    */
-  createManager(managerData: Partial<JointAnimManager>): JointAnimOutput {
+  createManager(): JointAnimOutput {
     if (!this.config.enableSkeletalAnimation) {
       return {
         op: 'create-manager',
@@ -411,7 +411,7 @@ export class JointAnimPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): JointAnimOutput {
+  getManager(): JointAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -431,7 +431,7 @@ export class JointAnimPure {
   /**
    * Create skeleton
    */
-  createSkeleton(managerId: string, skeleton: Partial<Skeleton>): JointAnimOutput {
+  createSkeleton(): JointAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -469,7 +469,7 @@ export class JointAnimPure {
   /**
    * Create animation
    */
-  createAnimation(managerId: string, animation: Partial<Animation>): JointAnimOutput {
+  createAnimation(): JointAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -562,7 +562,7 @@ export class JointAnimPure {
   /**
    * Stop animation
    */
-  stopAnimation(managerId: string, animationId: string): JointAnimOutput {
+  stopAnimation(): JointAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -323,7 +323,7 @@ export class SkeletonAnimatorPure {
   /**
    * Create a new skeleton animator manager
    */
-  createManager(managerData: Partial<SkeletonAnimatorManager>): SkeletonAnimatorOutput {
+  createManager(): SkeletonAnimatorOutput {
     if (!this.config.enableSkeletalAnimation) {
       return {
         op: 'create-manager',
@@ -408,7 +408,7 @@ export class SkeletonAnimatorPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SkeletonAnimatorOutput {
+  getManager(): SkeletonAnimatorOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -428,7 +428,7 @@ export class SkeletonAnimatorPure {
   /**
    * Create skeleton
    */
-  createSkeleton(managerId: string, skeleton: Partial<Skeleton>): SkeletonAnimatorOutput {
+  createSkeleton(): SkeletonAnimatorOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -466,7 +466,7 @@ export class SkeletonAnimatorPure {
   /**
    * Create animation
    */
-  createAnimation(managerId: string, animation: Partial<Animation>): SkeletonAnimatorOutput {
+  createAnimation(): SkeletonAnimatorOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -559,7 +559,7 @@ export class SkeletonAnimatorPure {
   /**
    * Stop animation
    */
-  stopAnimation(managerId: string, animationId: string): SkeletonAnimatorOutput {
+  stopAnimation(): SkeletonAnimatorOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

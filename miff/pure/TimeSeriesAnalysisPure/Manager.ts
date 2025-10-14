@@ -368,7 +368,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Create a new time series analysis manager
    */
-  createManager(managerData: Partial<TimeSeriesAnalysisManager>): TimeSeriesAnalysisOutput {
+  createManager(): TimeSeriesAnalysisOutput {
     if (!this.config.enableDataProcessing) {
       return {
         op: 'create-manager',
@@ -456,7 +456,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): TimeSeriesAnalysisOutput {
+  getManager(): TimeSeriesAnalysisOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -476,7 +476,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Create time series
    */
-  createTimeSeries(managerId: string, timeSeries: Partial<TimeSeries>): TimeSeriesAnalysisOutput {
+  createTimeSeries(): TimeSeriesAnalysisOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -521,7 +521,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Add data points to time series
    */
-  addDataPoints(managerId: string, timeSeriesId: string, dataPoints: DataPoint[]): TimeSeriesAnalysisOutput {
+  addDataPoints(): TimeSeriesAnalysisOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -565,7 +565,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Perform analysis
    */
-  performAnalysis(managerId: string, timeSeriesId: string, analysisType: AnalysisType, parameters?: AnalysisParameters): TimeSeriesAnalysisOutput {
+  performAnalysis(): TimeSeriesAnalysisOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -622,7 +622,7 @@ export class TimeSeriesAnalysisPure {
   /**
    * Create forecast
    */
-  createForecast(managerId: string, timeSeriesId: string, method: ForecastMethod, horizon: number): TimeSeriesAnalysisOutput {
+  createForecast(): TimeSeriesAnalysisOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -48,7 +48,7 @@ export class LazyLoader {
   /**
    * Register a module for lazy loading
    */
-  registerModule(moduleInfo: ModuleInfo): void {
+  registerModule(): void {
     this.moduleRegistry.set(moduleInfo.name, moduleInfo);
     this.log(`Registered module: ${moduleInfo.name} (${moduleInfo.priority} priority)`);
 

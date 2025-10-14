@@ -648,7 +648,7 @@ export class SessionManifestPure {
   /**
    * Create a new session manifest manager
    */
-  createManager(managerData: Partial<SessionManifestManager>): SessionManifestOutput {
+  createManager(): SessionManifestOutput {
     if (!this.config.enableManifestManagement) {
       return {
         op: 'create-manager',
@@ -737,7 +737,7 @@ export class SessionManifestPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SessionManifestOutput {
+  getManager(): SessionManifestOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -371,7 +371,7 @@ export class PlayerState implements IPlayerState {
   /**
    * Move player to new position
    */
-  moveTo(x: number, y: number): void {
+  moveTo(): void {
     this.position.x = x;
     this.position.y = y;
     this.stepsSinceLastEncounter++;
@@ -380,14 +380,14 @@ export class PlayerState implements IPlayerState {
   /**
    * Set time of day
    */
-  setTimeOfDay(timeOfDay: TimeOfDay): void {
+  setTimeOfDay(): void {
     this.timeOfDay = timeOfDay;
   }
 
   /**
    * Set weather
    */
-  setWeather(weather: string): void {
+  setWeather(): void {
     this.weather = weather;
   }
 
@@ -525,7 +525,7 @@ export class EncounterTableEntry implements IEncounterTableEntry {
   /**
    * Check if level is in range
    */
-  isLevelInRange(level: number): boolean {
+  isLevelInRange(): boolean {
     return level >= this.minLevel && level <= this.maxLevel;
   }
 
@@ -589,7 +589,7 @@ export class EncounterTable implements IEncounterTable {
   /**
    * Add entry
    */
-  addEntry(entry: IEncounterTableEntry): void {
+  addEntry(): void {
     this.entries.push(entry);
     this.totalWeight = this.calculateTotalWeight();
   }
@@ -597,7 +597,7 @@ export class EncounterTable implements IEncounterTable {
   /**
    * Remove entry
    */
-  removeEntry(spiritId: string): boolean {
+  removeEntry(): boolean {
     const index = this.entries.findIndex(entry => entry.spiritId === spiritId);
     if (index >= 0) {
       this.entries.splice(index, 1);
@@ -746,7 +746,7 @@ export class EncounterTrigger implements IEncounterTrigger {
   /**
    * Should trigger based on state and RNG
    */
-  shouldTrigger(state: IPlayerState, rng: IRNGProvider): boolean {
+  shouldTrigger(): boolean {
     switch (this.triggerType) {
       case TriggerType.TILE_TYPE:
         return state.tileType === this.triggerParams.tile;
@@ -918,7 +918,7 @@ export class RNGProvider implements IRNGProvider {
   /**
    * Generate next integer
    */
-  nextInt(min: number = 0, max: number = 100): number {
+  nextInt(): number {
     // Simple LCG (Linear Congruential Generator)
     this.seed = (this.seed * 9301 + 49297) % 233280;
     const rnd = this.seed / 233280;
@@ -928,7 +928,7 @@ export class RNGProvider implements IRNGProvider {
   /**
    * Generate next float
    */
-  nextFloat(min: number = 0, max: number = 1): number {
+  nextFloat(): number {
     this.seed = (this.seed * 9301 + 49297) % 233280;
     const rnd = this.seed / 233280;
     return rnd * (max - min) + min;
@@ -937,7 +937,7 @@ export class RNGProvider implements IRNGProvider {
   /**
    * Generate boolean
    */
-  nextBoolean(chance: number = 0.5): boolean {
+  nextBoolean(): boolean {
     return this.nextFloat() < chance;
   }
 
@@ -1061,7 +1061,7 @@ export class TypeEffectiveness implements ITypeEffectiveness {
   /**
    * Get effectiveness multiplier
    */
-  getMultiplier(attackingType: string, defendingType: string): number {
+  getMultiplier(): number {
     const typeMap = this.effectivenessMap.get(attackingType);
     if (typeMap) {
       return typeMap.get(defendingType) ?? 1.0;
@@ -1072,35 +1072,35 @@ export class TypeEffectiveness implements ITypeEffectiveness {
   /**
    * Check if super effective
    */
-  isSuperEffective(attackingType: string, defendingType: string): boolean {
+  isSuperEffective(): boolean {
     return this.getMultiplier(attackingType, defendingType) > 1.0;
   }
 
   /**
    * Check if not very effective
    */
-  isNotVeryEffective(attackingType: string, defendingType: string): boolean {
+  isNotVeryEffective(): boolean {
     return this.getMultiplier(attackingType, defendingType) < 1.0 && this.getMultiplier(attackingType, defendingType) > 0.0;
   }
 
   /**
    * Check if neutral
    */
-  isNeutral(attackingType: string, defendingType: string): boolean {
+  isNeutral(): boolean {
     return this.getMultiplier(attackingType, defendingType) === 1.0;
   }
 
   /**
    * Check if immune
    */
-  isImmune(attackingType: string, defendingType: string): boolean {
+  isImmune(): boolean {
     return this.getMultiplier(attackingType, defendingType) === 0.0;
   }
 
   /**
    * Get effectiveness description
    */
-  getEffectivenessDescription(attackingType: string, defendingType: string): string {
+  getEffectivenessDescription(): string {
     const multiplier = this.getMultiplier(attackingType, defendingType);
 
     if (multiplier === 0.0) return 'No effect';
@@ -1471,14 +1471,14 @@ export class OverworldBattleSliceTool {
   /**
    * Format battle result for display
    */
-  formatBattleResult(result: any): string {
+  formatBattleResult(): string {
     return `Battle completed: ${result.winner.name} defeated ${result.loser.name} in ${result.turns} turns`;
   },
 
   /**
    * Calculate encounter probability
    */
-  calculateEncounterProbability(state: IPlayerState, baseRate: number = 0.1): number {
+  calculateEncounterProbability(): number {
     let probability = baseRate;
 
     // Adjust based on tile type

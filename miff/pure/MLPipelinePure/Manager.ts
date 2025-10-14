@@ -1066,7 +1066,7 @@ export class MLPipelinePure {
   /**
    * Create a new ML pipeline manager
    */
-  createManager(managerData: Partial<MLPipelineManager>): MLPipelineOutput {
+  createManager(): MLPipelineOutput {
     if (!this.config.enablePipelineManagement) {
       return {
         op: 'create-manager',
@@ -1156,7 +1156,7 @@ export class MLPipelinePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): MLPipelineOutput {
+  getManager(): MLPipelineOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

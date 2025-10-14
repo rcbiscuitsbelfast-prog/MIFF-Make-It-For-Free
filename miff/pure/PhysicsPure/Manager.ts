@@ -320,7 +320,7 @@ export class PhysicsPure {
   /**
    * Create a new physics manager
    */
-  createManager(managerData: Partial<PhysicsManager>): PhysicsOutput {
+  createManager(): PhysicsOutput {
     if (!this.config.enableRigidBodyDynamics) {
       return {
         op: 'create-manager',
@@ -411,7 +411,7 @@ export class PhysicsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): PhysicsOutput {
+  getManager(): PhysicsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -431,7 +431,7 @@ export class PhysicsPure {
   /**
    * Add rigid body to manager
    */
-  addBody(managerId: string, body: Partial<RigidBody>): PhysicsOutput {
+  addBody(): PhysicsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -493,7 +493,7 @@ export class PhysicsPure {
   /**
    * Add constraint to manager
    */
-  addConstraint(managerId: string, constraint: Partial<Constraint>): PhysicsOutput {
+  addConstraint(): PhysicsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -546,7 +546,7 @@ export class PhysicsPure {
   /**
    * Add force to body
    */
-  addForce(managerId: string, force: Partial<Force>): PhysicsOutput {
+  addForce(): PhysicsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -582,7 +582,7 @@ export class PhysicsPure {
   /**
    * Simulate physics step
    */
-  simulate(managerId: string, deltaTime: number = this.timeStep): PhysicsOutput {
+  simulate(): PhysicsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -706,7 +706,7 @@ export class PhysicsPure {
   /**
    * Set gravity
    */
-  setGravity(gravity: Vector3): void {
+  setGravity(): void {
     this.gravity = gravity;
   }
 

@@ -428,7 +428,7 @@ export class EventSystemPure {
   /**
    * Create a new event system manager
    */
-  createManager(managerData: Partial<EventSystemManager>): EventSystemOutput {
+  createManager(): EventSystemOutput {
     if (!this.config.enableEventManagement) {
       return {
         op: 'create-manager',
@@ -516,7 +516,7 @@ export class EventSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): EventSystemOutput {
+  getManager(): EventSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -536,7 +536,7 @@ export class EventSystemPure {
   /**
    * Create event
    */
-  createEvent(managerId: string, event: Partial<Event>): EventSystemOutput {
+  createEvent(): EventSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

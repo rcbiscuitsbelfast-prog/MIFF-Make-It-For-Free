@@ -308,7 +308,7 @@ export class SkinMeshGenerator {
   /**
    * Add morph target for mesh deformation
    */
-  addMorphTarget(name: string, vertices: number[], weight: number = 1.0): SkinMeshGenerator {
+  addMorphTarget(): SkinMeshGenerator {
     const morphTarget: MorphTarget = {
       id: this.generateId(),
       name,
@@ -324,7 +324,7 @@ export class SkinMeshGenerator {
   /**
    * Apply morph target to mesh
    */
-  applyMorphTarget(morphTargetId: string, strength: number): SkinMeshGenerator {
+  applyMorphTarget(): SkinMeshGenerator {
     const morphTarget = this.skinConfig.morphTargets.find(mt => mt.id === morphTargetId);
     if (!morphTarget) throw new Error(`Morph target ${morphTargetId} not found`);
 
@@ -341,7 +341,7 @@ export class SkinMeshGenerator {
   /**
    * Add texture to material
    */
-  addTexture(materialId: string, texture: Omit<TextureConfig, 'id'>): SkinMeshGenerator {
+  addTexture(): SkinMeshGenerator {
     const material = this.skinConfig.materials.find(m => m.id === materialId);
     if (!material) throw new Error(`Material ${materialId} not found`);
 
@@ -357,7 +357,7 @@ export class SkinMeshGenerator {
   /**
    * Update material properties
    */
-  updateMaterialProperties(materialId: string, properties: Record<string, any>): SkinMeshGenerator {
+  updateMaterialProperties(): SkinMeshGenerator {
     const material = this.skinConfig.materials.find(m => m.id === materialId);
     if (!material) throw new Error(`Material ${materialId} not found`);
 

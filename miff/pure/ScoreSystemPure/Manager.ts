@@ -388,7 +388,7 @@ export class ScoreSystemPure {
   /**
    * Create a new score system manager
    */
-  createManager(managerData: Partial<ScoreSystemManager>): ScoreSystemOutput {
+  createManager(): ScoreSystemOutput {
     if (!this.config.enableScoreManagement) {
       return {
         op: 'create-manager',
@@ -477,7 +477,7 @@ export class ScoreSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ScoreSystemOutput {
+  getManager(): ScoreSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -304,7 +304,7 @@ export class LootTablesPure {
   /**
    * Create a new loot tables manager
    */
-  createManager(managerData: Partial<LootTablesManager>): LootTablesOutput {
+  createManager(): LootTablesOutput {
     if (!this.config.enableLootTableManagement) {
       return {
         op: 'create-manager',
@@ -387,7 +387,7 @@ export class LootTablesPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): LootTablesOutput {
+  getManager(): LootTablesOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -407,7 +407,7 @@ export class LootTablesPure {
   /**
    * Create loot table
    */
-  createLootTable(managerId: string, lootTable: Partial<LootTable>): LootTablesOutput {
+  createLootTable(): LootTablesOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -451,7 +451,7 @@ export class LootTablesPure {
   /**
    * Add item to loot table
    */
-  addItemToLootTable(managerId: string, lootTableId: string, item: Partial<LootTableItem>): LootTablesOutput {
+  addItemToLootTable(): LootTablesOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -494,7 +494,7 @@ export class LootTablesPure {
   /**
    * Roll loot from table
    */
-  rollLoot(managerId: string, lootTableId: string, playerId: string, context?: Record<string, any>): LootTablesOutput {
+  rollLoot(): LootTablesOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

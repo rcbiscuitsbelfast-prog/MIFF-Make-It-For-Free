@@ -40,7 +40,7 @@ export class MagicManager {
   /**
    * Create a new spell definition
    */
-  createSpellDefinition(spellData: Partial<SpellDefinition>): SpellDefinition {
+  createSpellDefinition(): SpellDefinition {
     const spell: SpellDefinition = {
       id: spellData.id || this.generateSpellId(),
       name: spellData.name || 'Unnamed Spell',
@@ -69,7 +69,7 @@ export class MagicManager {
   /**
    * Register a spell in the system
    */
-  registerSpell(spell: SpellDefinition): boolean {
+  registerSpell(): boolean {
     // Validate spell
     if (!this.validateSpellDefinition(spell)) {
       console.error('MagicSystemManager', `Invalid spell definition: ${spell.id}`);
@@ -83,7 +83,7 @@ export class MagicManager {
   /**
    * Cast spell with enhanced error handling
    */
-  castSpellEnhanced(casterId: string, spellId: string, targets: string[] = []): MagicCombatResult {
+  castSpellEnhanced(): MagicCombatResult {
     try {
       const result = this.magicSystem.castSpell(casterId, spellId, targets);
 
@@ -152,7 +152,7 @@ export class MagicManager {
   /**
    * Learn a new spell for a caster
    */
-  learnSpell(casterId: string, spellId: string): boolean {
+  learnSpell(): boolean {
     try {
       const success = this.magicSystem.unlockSpell(casterId, spellId);
       if (success) {
@@ -172,7 +172,7 @@ export class MagicManager {
   /**
    * Create a custom spell effect
    */
-  createSpellEffect(effectData: Partial<SpellEffect>): SpellEffect {
+  createSpellEffect(): SpellEffect {
     return {
       type: effectData.type || 'damage',
       magnitude: effectData.magnitude || 10,
@@ -188,7 +188,7 @@ export class MagicManager {
   /**
    * Get mana regeneration for an entity
    */
-  getManaRegeneration(entityId: string): number {
+  getManaRegeneration(): number {
     const manaPool = this.magicSystem.getManaPool(entityId);
     return manaPool?.regenerationRate || 0;
   }
@@ -196,7 +196,7 @@ export class MagicManager {
   /**
    * Set mana regeneration for an entity
    */
-  setManaRegeneration(entityId: string, rate: number): void {
+  setManaRegeneration(): void {
     const manaPool = this.magicSystem.getManaPool(entityId);
     if (manaPool) {
       manaPool.regenerationRate = Math.max(0, rate);
@@ -206,7 +206,7 @@ export class MagicManager {
   /**
    * Get elemental effectiveness between caster and target
    */
-  getElementalEffectiveness(casterId: string, targetId: string, element: string): number {
+  getElementalEffectiveness(): number {
     // This would integrate with a creature system to get target element
     const casterAffinity = this.magicSystem.getElementalAffinity(casterId, element);
 
@@ -271,7 +271,7 @@ export class MagicManager {
   /**
    * Upgrade a spell
    */
-  upgradeSpell(casterId: string, spellId: string): boolean {
+  upgradeSpell(): boolean {
     const spellInstance = this.magicSystem.getSpellInstance(casterId, spellId);
     if (!spellInstance) return false;
 
@@ -424,7 +424,7 @@ export class MagicManager {
   /**
    * Import magic system data
    */
-  importData(data: ReturnType<typeof this.exportData>): void {
+  importData(): void {
     // Import logic would go here
     console.info('MagicSystemManager', 'Magic system data imported');
   }

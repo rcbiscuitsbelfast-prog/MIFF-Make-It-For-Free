@@ -164,14 +164,14 @@ export class AdvancedRendering {
   /**
    * Create a light source
    */
-  createLight(light: LightSource): void {
+  createLight(): void {
     this.lights.set(light.id, light);
   }
 
   /**
    * Update light source
    */
-  updateLight(lightId: string, properties: Partial<LightSource>): void {
+  updateLight(): void {
     const light = this.lights.get(lightId);
     if (light) {
       Object.assign(light, properties);
@@ -181,14 +181,14 @@ export class AdvancedRendering {
   /**
    * Remove light source
    */
-  removeLight(lightId: string): void {
+  removeLight(): void {
     this.lights.delete(lightId);
   }
 
   /**
    * Create a shader program
    */
-  createShader(shader: ShaderProgram): void {
+  createShader(): void {
     this.shaders.set(shader.id, shader);
     this.compileShader(shader.id);
   }
@@ -196,7 +196,7 @@ export class AdvancedRendering {
   /**
    * Compile shader program
    */
-  compileShader(shaderId: string): boolean {
+  compileShader(): boolean {
     const shader = this.shaders.get(shaderId);
     if (!shader) return false;
 
@@ -214,14 +214,14 @@ export class AdvancedRendering {
   /**
    * Create a particle system
    */
-  createParticleSystem(system: ParticleSystem): void {
+  createParticleSystem(): void {
     this.particleSystems.set(system.id, system);
   }
 
   /**
    * Update particle system
    */
-  updateParticleSystem(systemId: string, properties: Partial<ParticleSystem>): void {
+  updateParticleSystem(): void {
     const system = this.particleSystems.get(systemId);
     if (system) {
       Object.assign(system, properties);
@@ -231,7 +231,7 @@ export class AdvancedRendering {
   /**
    * Emit particles
    */
-  emitParticles(systemId: string, count: number): void {
+  emitParticles(): void {
     const system = this.particleSystems.get(systemId);
     if (!system || !system.enabled) return;
 
@@ -242,21 +242,21 @@ export class AdvancedRendering {
   /**
    * Create a render layer
    */
-  createRenderLayer(layer: RenderLayer): void {
+  createRenderLayer(): void {
     this.renderLayers.set(layer.id, layer);
   }
 
   /**
    * Create a camera
    */
-  createCamera(camera: Camera): void {
+  createCamera(): void {
     this.cameras.set(camera.id, camera);
   }
 
   /**
    * Set active camera
    */
-  setActiveCamera(cameraId: string): void {
+  setActiveCamera(): void {
     if (this.cameras.has(cameraId)) {
       this.activeCamera = cameraId;
     }
@@ -265,7 +265,7 @@ export class AdvancedRendering {
   /**
    * Update camera
    */
-  updateCamera(cameraId: string, properties: Partial<Camera>): void {
+  updateCamera(): void {
     const camera = this.cameras.get(cameraId);
     if (camera) {
       Object.assign(camera, properties);
@@ -275,14 +275,14 @@ export class AdvancedRendering {
   /**
    * Create a render batch
    */
-  createRenderBatch(batch: RenderBatch): void {
+  createRenderBatch(): void {
     this.renderBatches.set(batch.id, batch);
   }
 
   /**
    * Add to render queue
    */
-  addToRenderQueue(batchId: string): void {
+  addToRenderQueue(): void {
     const batch = this.renderBatches.get(batchId);
     if (batch && batch.visible) {
       this.renderQueue.push(batch);

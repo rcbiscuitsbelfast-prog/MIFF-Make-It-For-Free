@@ -60,7 +60,7 @@ export class ExportIntegration {
   /**
    * Export as .gbpg format (MIFF Game Bundle Package)
    */
-  exportAsGbpkg(exportConfig: ExportConfig): string {
+  exportAsGbpkg(): string {
     const gbpkgData = {
       format: 'gbpkg-v1',
       version: '1.0.0',
@@ -81,7 +81,7 @@ export class ExportIntegration {
   /**
    * Export as GLTF format
    */
-  exportAsGLTF(exportConfig: ExportConfig): string {
+  exportAsGLTF(): string {
     const gltfData = {
       asset: {
         version: '2.0',
@@ -108,7 +108,7 @@ export class ExportIntegration {
   /**
    * Generate RenderWorldPure integration data
    */
-  generateRenderWorldIntegration(exportConfig: ExportConfig): any {
+  generateRenderWorldIntegration(): any {
     return {
       type: 'creature',
       id: exportConfig.id,
@@ -152,7 +152,7 @@ export class ExportIntegration {
   /**
    * Generate CombatCorePure integration data
    */
-  generateCombatCoreIntegration(exportConfig: ExportConfig): any {
+  generateCombatCoreIntegration(): any {
     return {
       type: 'combat_creature',
       id: exportConfig.id,
@@ -196,7 +196,7 @@ export class ExportIntegration {
   /**
    * Generate DialogueSystemPure integration data
    */
-  generateDialogueIntegration(exportConfig: ExportConfig): any {
+  generateDialogueIntegration(): any {
     return {
       type: 'dialogue_creature',
       id: exportConfig.id,
@@ -230,7 +230,7 @@ export class ExportIntegration {
   /**
    * Generate StartMenuPure integration data
    */
-  generateStartMenuIntegration(exportConfig: ExportConfig): any {
+  generateStartMenuIntegration(): any {
     return {
       type: 'character_preset',
       id: exportConfig.id,
@@ -257,7 +257,7 @@ export class ExportIntegration {
   /**
    * Generate SaveLoadModule integration data
    */
-  generateSaveLoadIntegration(exportConfig: ExportConfig): any {
+  generateSaveLoadIntegration(): any {
     return {
       type: 'creature_save',
       id: exportConfig.id,

@@ -336,7 +336,7 @@ export class WorldLayoutPure {
   /**
    * Create a new world layout manager
    */
-  createManager(managerData: Partial<WorldLayoutManager>): WorldLayoutOutput {
+  createManager(): WorldLayoutOutput {
     if (!this.config.enableLayoutManagement) {
       return {
         op: 'create-manager',
@@ -423,7 +423,7 @@ export class WorldLayoutPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): WorldLayoutOutput {
+  getManager(): WorldLayoutOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

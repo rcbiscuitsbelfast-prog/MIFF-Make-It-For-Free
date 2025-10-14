@@ -79,7 +79,7 @@ export class RealWindow {
   /**
    * Create a new window
    */
-  createWindow(config: WindowConfig): string {
+  createWindow(): string {
     const windowId = `window_${this.nextWindowId++}`;
     
     const windowInfo: WindowInfo = {
@@ -126,7 +126,7 @@ export class RealWindow {
   /**
    * Update window properties
    */
-  updateWindow(windowId: string, updates: Partial<WindowInfo>): boolean {
+  updateWindow(): boolean {
     const window = this.windows.get(windowId);
     if (!window) return false;
 
@@ -140,42 +140,42 @@ export class RealWindow {
   /**
    * Set window title
    */
-  setTitle(windowId: string, title: string): boolean {
+  setTitle(): boolean {
     return this.updateWindow(windowId, { title });
   }
 
   /**
    * Set window size
    */
-  setSize(windowId: string, width: number, height: number): boolean {
+  setSize(): boolean {
     return this.updateWindow(windowId, { width, height });
   }
 
   /**
    * Set window position
    */
-  setPosition(windowId: string, x: number, y: number): boolean {
+  setPosition(): boolean {
     return this.updateWindow(windowId, { x, y });
   }
 
   /**
    * Show window
    */
-  showWindow(windowId: string): boolean {
+  showWindow(): boolean {
     return this.updateWindow(windowId, { visible: true });
   }
 
   /**
    * Hide window
    */
-  hideWindow(windowId: string): boolean {
+  hideWindow(): boolean {
     return this.updateWindow(windowId, { visible: false });
   }
 
   /**
    * Focus window
    */
-  focusWindow(windowId: string): boolean {
+  focusWindow(): boolean {
     // Unfocus all other windows
     for (const [id, window] of this.windows) {
       if (id !== windowId) {
@@ -189,21 +189,21 @@ export class RealWindow {
   /**
    * Minimize window
    */
-  minimizeWindow(windowId: string): boolean {
+  minimizeWindow(): boolean {
     return this.updateWindow(windowId, { minimized: true, visible: false });
   }
 
   /**
    * Maximize window
    */
-  maximizeWindow(windowId: string): boolean {
+  maximizeWindow(): boolean {
     return this.updateWindow(windowId, { maximized: true });
   }
 
   /**
    * Restore window
    */
-  restoreWindow(windowId: string): boolean {
+  restoreWindow(): boolean {
     return this.updateWindow(windowId, { 
       minimized: false, 
       maximized: false, 
@@ -214,7 +214,7 @@ export class RealWindow {
   /**
    * Toggle fullscreen
    */
-  toggleFullscreen(windowId: string): boolean {
+  toggleFullscreen(): boolean {
     const window = this.windows.get(windowId);
     if (!window) return false;
 
@@ -224,7 +224,7 @@ export class RealWindow {
   /**
    * Close window
    */
-  closeWindow(windowId: string): boolean {
+  closeWindow(): boolean {
     const window = this.windows.get(windowId);
     if (!window) return false;
 
@@ -262,14 +262,14 @@ export class RealWindow {
   /**
    * Check if window exists
    */
-  hasWindow(windowId: string): boolean {
+  hasWindow(): boolean {
     return this.windows.has(windowId);
   }
 
   /**
    * Center window on screen
    */
-  centerWindow(windowId: string): boolean {
+  centerWindow(): boolean {
     const window = this.windows.get(windowId);
     if (!window) return false;
 
@@ -286,35 +286,35 @@ export class RealWindow {
   /**
    * Bring window to front
    */
-  bringToFront(windowId: string): boolean {
+  bringToFront(): boolean {
     return this.focusWindow(windowId);
   }
 
   /**
    * Send window to back
    */
-  sendToBack(windowId: string): boolean {
+  sendToBack(): boolean {
     return this.updateWindow(windowId, { focused: false });
   }
 
   /**
    * Set window always on top
    */
-  setAlwaysOnTop(windowId: string, alwaysOnTop: boolean): boolean {
+  setAlwaysOnTop(): boolean {
     return this.updateWindow(windowId, { alwaysOnTop });
   }
 
   /**
    * Set window transparency
    */
-  setTransparency(windowId: string, alpha: number): boolean {
+  setTransparency(): boolean {
     return this.updateWindow(windowId, { alpha: Math.max(0, Math.min(1, alpha)) });
   }
 
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

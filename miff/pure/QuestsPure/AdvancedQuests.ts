@@ -220,14 +220,14 @@ export class AdvancedQuests {
   /**
    * Create a dynamic quest
    */
-  createDynamicQuest(quest: DynamicQuest): void {
+  createDynamicQuest(): void {
     this.dynamicQuests.set(quest.id, quest);
   }
 
   /**
    * Generate a procedural quest from template
    */
-  generateProceduralQuest(templateId: string, player: any): DynamicQuest {
+  generateProceduralQuest(): DynamicQuest {
     const template = this.questTemplates.get(templateId);
     if (!template) {
       throw new Error(`Quest template ${templateId} not found`);
@@ -285,7 +285,7 @@ export class AdvancedQuests {
   /**
    * Start a quest
    */
-  startQuest(questId: string, player: any): boolean {
+  startQuest(): boolean {
     const quest = this.dynamicQuests.get(questId);
     if (!quest) return false;
 
@@ -308,7 +308,7 @@ export class AdvancedQuests {
   /**
    * Complete a quest step
    */
-  completeQuestStep(questId: string, stepId: string, player: any): boolean {
+  completeQuestStep(): boolean {
     const quest = this.dynamicQuests.get(questId);
     if (!quest) return false;
 
@@ -339,7 +339,7 @@ export class AdvancedQuests {
   /**
    * Complete a quest
    */
-  completeQuest(questId: string, player: any): boolean {
+  completeQuest(): boolean {
     const quest = this.dynamicQuests.get(questId);
     if (!quest) return false;
 
@@ -362,7 +362,7 @@ export class AdvancedQuests {
   /**
    * Fail a quest
    */
-  failQuest(questId: string, player: any, reason?: string): boolean {
+  failQuest(): boolean {
     const quest = this.dynamicQuests.get(questId);
     if (!quest) return false;
 

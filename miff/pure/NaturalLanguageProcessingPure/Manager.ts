@@ -256,7 +256,7 @@ export class NaturalLanguageProcessingPure {
   /**
    * Create a new NLP manager
    */
-  createManager(managerData: Partial<NLPManager>): NLPOutput {
+  createManager(): NLPOutput {
     if (!this.config.enableTextAnalysis) {
       return {
         op: 'create-manager',
@@ -341,7 +341,7 @@ export class NaturalLanguageProcessingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): NLPOutput {
+  getManager(): NLPOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -361,7 +361,7 @@ export class NaturalLanguageProcessingPure {
   /**
    * Analyze text sentiment
    */
-  analyzeSentiment(managerId: string, text: string): NLPOutput {
+  analyzeSentiment(): NLPOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -425,7 +425,7 @@ export class NaturalLanguageProcessingPure {
   /**
    * Detect language
    */
-  detectLanguage(managerId: string, text: string): NLPOutput {
+  detectLanguage(): NLPOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -483,7 +483,7 @@ export class NaturalLanguageProcessingPure {
   /**
    * Translate text
    */
-  translateText(managerId: string, text: string, targetLanguage: string, sourceLanguage?: string): NLPOutput {
+  translateText(): NLPOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

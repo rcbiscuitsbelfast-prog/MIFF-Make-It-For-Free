@@ -288,7 +288,7 @@ export class EnhancedEconomyManager {
   /**
    * Create a new price rule
    */
-  createRule(rule: PriceRule): EconomyOutput {
+  createRule(): EconomyOutput {
     if (this.rules.has(rule.id)) {
       return {
         op: 'create_rule',
@@ -310,7 +310,7 @@ export class EnhancedEconomyManager {
   /**
    * Create a new vendor
    */
-  createVendor(vendor: VendorState): EconomyOutput {
+  createVendor(): EconomyOutput {
     if (this.vendors.has(vendor.id)) {
       return {
         op: 'create_vendor',
@@ -332,7 +332,7 @@ export class EnhancedEconomyManager {
   /**
    * Calculate item price with all market factors
    */
-  calculatePrice(vendorId: string, itemId: string, quantity: number = 1): EconomyOutput {
+  calculatePrice(): EconomyOutput {
     const vendor = this.vendors.get(vendorId);
     if (!vendor) {
       return {
@@ -471,7 +471,7 @@ export class EnhancedEconomyManager {
   /**
    * Execute a trade transaction
    */
-  executeTrade(vendorId: string, itemId: string, quantity: number, type: 'buy' | 'sell', playerId?: string): EconomyOutput {
+  executeTrade(): EconomyOutput {
     const priceResult = this.calculatePrice(vendorId, itemId, quantity);
     if (priceResult.status === 'error') {
       return priceResult;
@@ -527,7 +527,7 @@ export class EnhancedEconomyManager {
   /**
    * Create economic event
    */
-  createEconomicEvent(event: EconomicEvent): EconomyOutput {
+  createEconomicEvent(): EconomyOutput {
     if (this.economicEvents.has(event.id)) {
       return {
         op: 'create_event',
@@ -547,7 +547,7 @@ export class EnhancedEconomyManager {
   /**
    * Get market data for item
    */
-  getMarketData(itemId: string): EconomyOutput {
+  getMarketData(): EconomyOutput {
     const marketData = this.marketData.get(itemId);
     if (!marketData) {
       return {
@@ -807,7 +807,7 @@ export class EnhancedEconomyManager {
   /**
    * Export economy data
    */
-  exportEconomy(format: 'json' | 'manifest' | 'summary' | 'transactions' = 'json'): EconomyOutput {
+  exportEconomy(): EconomyOutput {
     switch (format) {
       case 'json':
         return {

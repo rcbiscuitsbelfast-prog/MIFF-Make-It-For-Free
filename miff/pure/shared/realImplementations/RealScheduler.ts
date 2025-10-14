@@ -119,7 +119,7 @@ export class RealScheduler {
   /**
    * Add a task to the queue
    */
-  addTask(taskName: string, data?: any, options?: Partial<Task>): string {
+  addTask(): string {
     const taskId = `task_${this.nextTaskId++}`;
     const now = new Date();
 
@@ -169,7 +169,7 @@ export class RealScheduler {
   /**
    * Cancel a task
    */
-  cancelTask(taskId: string): boolean {
+  cancelTask(): boolean {
     const task = this.tasks.get(taskId);
     if (!task || task.status === 'completed') return false;
 
@@ -184,7 +184,7 @@ export class RealScheduler {
   /**
    * Retry a failed task
    */
-  retryTask(taskId: string): boolean {
+  retryTask(): boolean {
     const task = this.tasks.get(taskId);
     if (!task || task.status !== 'failed') return false;
 
@@ -206,7 +206,7 @@ export class RealScheduler {
   /**
    * Add a schedule rule
    */
-  addScheduleRule(rule: Omit<ScheduleRule, 'id' | 'lastRun' | 'nextRun'>): string {
+  addScheduleRule(): string {
     const ruleId = `rule_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const now = new Date();
 
@@ -225,7 +225,7 @@ export class RealScheduler {
   /**
    * Remove a schedule rule
    */
-  removeScheduleRule(ruleId: string): boolean {
+  removeScheduleRule(): boolean {
     const rule = this.scheduleRules.get(ruleId);
     if (!rule) return false;
 
@@ -392,7 +392,7 @@ export class RealScheduler {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

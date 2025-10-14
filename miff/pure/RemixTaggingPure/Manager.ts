@@ -420,7 +420,7 @@ export class RemixTaggingPure {
   /**
    * Create a new remix tagging manager
    */
-  createManager(managerData: Partial<RemixTaggingManager>): RemixTaggingOutput {
+  createManager(): RemixTaggingOutput {
     if (!this.config.enableTaggingManagement) {
       return {
         op: 'create-manager',
@@ -537,7 +537,7 @@ export class RemixTaggingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): RemixTaggingOutput {
+  getManager(): RemixTaggingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

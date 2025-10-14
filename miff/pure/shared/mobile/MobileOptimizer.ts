@@ -192,7 +192,7 @@ export class MobileOptimizer {
   /**
    * Update optimization configuration
    */
-  updateConfig(newConfig: Partial<MobileConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...newConfig };
     this.optimizeForPerformanceMode();
   }
@@ -200,7 +200,7 @@ export class MobileOptimizer {
   /**
    * Enable/disable specific optimizations
    */
-  setOptimizationEnabled(type: keyof MobileConfig, enabled: boolean): void {
+  setOptimizationEnabled(): void {
     if (type in this.config) {
       (this.config as any)[type] = enabled;
       this.log(`Mobile optimization ${type}: ${enabled ? 'enabled' : 'disabled'}`);
@@ -224,7 +224,7 @@ export class MobileOptimizer {
   /**
    * Add touch event listener
    */
-  addTouchEventListener(event: string, handler: Function): void {
+  addTouchEventListener(): void {
     if (typeof window !== 'undefined') {
       const listeners = this.touchEventListeners.get(event) || [];
       listeners.push(handler);
@@ -241,7 +241,7 @@ export class MobileOptimizer {
   /**
    * Remove touch event listener
    */
-  removeTouchEventListener(event: string, handler: Function): void {
+  removeTouchEventListener(): void {
     if (typeof window !== 'undefined') {
       const listeners = this.touchEventListeners.get(event) || [];
       const index = listeners.indexOf(handler);

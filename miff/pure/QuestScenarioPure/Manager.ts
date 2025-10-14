@@ -444,7 +444,7 @@ export class QuestScenarioPure {
   /**
    * Create a new quest scenario manager
    */
-  createManager(managerData: Partial<QuestScenarioManager>): QuestScenarioOutput {
+  createManager(): QuestScenarioOutput {
     if (!this.config.enableQuestManagement) {
       return {
         op: 'create-manager',
@@ -534,7 +534,7 @@ export class QuestScenarioPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): QuestScenarioOutput {
+  getManager(): QuestScenarioOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

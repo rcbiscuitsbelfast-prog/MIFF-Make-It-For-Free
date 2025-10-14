@@ -167,7 +167,7 @@ export class CPUOptimizer {
   /**
    * Cache a value
    */
-  cacheValue(key: string, value: any, ttl: number = 300000): void { // 5 minutes default
+  cacheValue(): void {
     if (!this.config.enableCaching) return;
 
     // Remove oldest entries if cache is full
@@ -287,7 +287,7 @@ export class CPUOptimizer {
   /**
    * Return resource to pool
    */
-  returnResource(poolId: string, resource: any): void {
+  returnResource(): void {
     const pool = this.resourcePools.get(poolId);
     if (!pool) return;
 

@@ -346,7 +346,7 @@ export class CraftingPure {
   /**
    * Create a new crafting manager
    */
-  createManager(managerData: Partial<CraftingManager>): CraftingOutput {
+  createManager(): CraftingOutput {
     if (!this.config.enableRecipeManagement) {
       return {
         op: 'create-manager',
@@ -434,7 +434,7 @@ export class CraftingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): CraftingOutput {
+  getManager(): CraftingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -454,7 +454,7 @@ export class CraftingPure {
   /**
    * Add recipe to manager
    */
-  addRecipe(managerId: string, recipe: Partial<Recipe>): CraftingOutput {
+  addRecipe(): CraftingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -509,7 +509,7 @@ export class CraftingPure {
   /**
    * Start crafting process
    */
-  startCraft(managerId: string, recipeId: string, stationId: string, crafterId: string): CraftingOutput {
+  startCraft(): CraftingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -613,7 +613,7 @@ export class CraftingPure {
   /**
    * Get active crafts
    */
-  getActiveCrafts(managerId: string): CraftingOutput {
+  getActiveCrafts(): CraftingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

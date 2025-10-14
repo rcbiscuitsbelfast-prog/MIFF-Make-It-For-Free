@@ -265,7 +265,7 @@ export class WebSocketServerPure {
   /**
    * Create a new WebSocket server
    */
-  createServer(serverData: Partial<WebSocketServer>): WebSocketServerOutput {
+  createServer(): WebSocketServerOutput {
     if (!this.config.enableServerCreation) {
       return {
         op: 'create-server',
@@ -366,7 +366,7 @@ export class WebSocketServerPure {
   /**
    * Get server by ID
    */
-  getServer(serverId: string): WebSocketServerOutput {
+  getServer(): WebSocketServerOutput {
     const server = this.servers.get(serverId);
     if (!server) {
       return {
@@ -386,7 +386,7 @@ export class WebSocketServerPure {
   /**
    * Update server
    */
-  updateServer(serverId: string, updates: Partial<WebSocketServer>): WebSocketServerOutput {
+  updateServer(): WebSocketServerOutput {
     const server = this.servers.get(serverId);
     if (!server) {
       return {
@@ -409,7 +409,7 @@ export class WebSocketServerPure {
   /**
    * Delete server
    */
-  deleteServer(serverId: string): WebSocketServerOutput {
+  deleteServer(): WebSocketServerOutput {
     const server = this.servers.get(serverId);
     if (!server) {
       return {
@@ -432,7 +432,7 @@ export class WebSocketServerPure {
   /**
    * Add connection to server
    */
-  addConnection(serverId: string, connection: Partial<WebSocketConnection>): WebSocketServerOutput {
+  addConnection(): WebSocketServerOutput {
     const server = this.servers.get(serverId);
     if (!server) {
       return {
@@ -479,7 +479,7 @@ export class WebSocketServerPure {
   /**
    * Remove connection from server
    */
-  removeConnection(connectionId: string): WebSocketServerOutput {
+  removeConnection(): WebSocketServerOutput {
     const connection = this.connections.get(connectionId);
     if (!connection) {
       return {
@@ -510,7 +510,7 @@ export class WebSocketServerPure {
   /**
    * Broadcast message to all connections
    */
-  broadcastMessage(serverId: string, message: any): WebSocketServerOutput {
+  broadcastMessage(): WebSocketServerOutput {
     const server = this.servers.get(serverId);
     if (!server) {
       return {

@@ -786,7 +786,7 @@ export class SecurityManager {
   /**
    * Encrypt data
    */
-  encrypt(data: string): string {
+  encrypt(): string {
     if (!this.config.enableEncryption) return data;
     
     const iv = crypto.randomBytes(16);
@@ -802,7 +802,7 @@ export class SecurityManager {
   /**
    * Decrypt data
    */
-  decrypt(encryptedData: string): string {
+  decrypt(): string {
     if (!this.config.enableEncryption) return encryptedData;
     
     const parts = encryptedData.split(':');
@@ -821,7 +821,7 @@ export class SecurityManager {
   /**
    * Hash data
    */
-  hash(data: string, salt?: string): string {
+  hash(): string {
     if (this.config.hashAlgorithm === HashAlgorithm.BCRYPT) {
       // In a real implementation, you would use bcrypt
       return crypto.createHash('sha256').update(data + (salt || '')).digest('hex');
@@ -833,7 +833,7 @@ export class SecurityManager {
   /**
    * Verify hash
    */
-  verifyHash(data: string, hash: string, salt?: string): boolean {
+  verifyHash(): boolean {
     const computedHash = this.hash(data, salt);
     return computedHash === hash;
   }
@@ -908,7 +908,7 @@ export class SecurityManager {
   /**
    * Acknowledge alert
    */
-  acknowledgeAlert(alertId: string, acknowledgedBy: string): boolean {
+  acknowledgeAlert(): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
     if (alert) {
       alert.acknowledged = true;
@@ -922,7 +922,7 @@ export class SecurityManager {
   /**
    * Resolve security event
    */
-  resolveSecurityEvent(eventId: string, resolvedBy: string): boolean {
+  resolveSecurityEvent(): boolean {
     const event = this.events.find(e => e.id === eventId);
     if (event) {
       event.resolved = true;
@@ -936,7 +936,7 @@ export class SecurityManager {
   /**
    * Update configuration
    */
-  updateConfig(config: Partial<SecurityConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...config };
   }
 

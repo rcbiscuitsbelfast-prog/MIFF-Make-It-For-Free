@@ -115,14 +115,14 @@ export class AdvancedCombat {
   /**
    * Create a new combo system
    */
-  createCombo(combo: ComboSystem): void {
+  createCombo(): void {
     this.combos.set(combo.id, combo);
   }
 
   /**
    * Check if a combo can be executed
    */
-  canExecuteCombo(comboId: string, context: ComboContext): boolean {
+  canExecuteCombo(): boolean {
     const combo = this.combos.get(comboId);
     if (!combo) return false;
 
@@ -161,14 +161,14 @@ export class AdvancedCombat {
   /**
    * Create an environmental effect
    */
-  createEnvironmentalEffect(effect: EnvironmentalEffect): void {
+  createEnvironmentalEffect(): void {
     this.environmentalEffects.set(effect.id, effect);
   }
 
   /**
    * Apply environmental effects to combatants
    */
-  applyEnvironmentalEffects(combatants: Combatant[]): void {
+  applyEnvironmentalEffects(): void {
     for (const [effectId, effect] of this.environmentalEffects) {
       for (const combatant of combatants) {
         if (this.isCombatantInRange(combatant, effect)) {
@@ -185,14 +185,14 @@ export class AdvancedCombat {
   /**
    * Create a tactical position
    */
-  createTacticalPosition(position: TacticalPosition): void {
+  createTacticalPosition(): void {
     this.tacticalPositions.set(position.id, position);
   }
 
   /**
    * Move combatant to tactical position
    */
-  moveToTacticalPosition(combatant: Combatant, positionId: string): boolean {
+  moveToTacticalPosition(): boolean {
     const position = this.tacticalPositions.get(positionId);
     if (!position) return false;
 
@@ -225,14 +225,14 @@ export class AdvancedCombat {
   /**
    * Create a battle phase
    */
-  createBattlePhase(phase: BattlePhase): void {
+  createBattlePhase(): void {
     this.battlePhases.set(phase.id, phase);
   }
 
   /**
    * Start a battle phase
    */
-  startBattlePhase(phaseId: string): void {
+  startBattlePhase(): void {
     const phase = this.battlePhases.get(phaseId);
     if (!phase) {
       throw new Error(`Battle phase ${phaseId} not found`);
@@ -280,7 +280,7 @@ export class AdvancedCombat {
   /**
    * Apply battle phase effects
    */
-  applyBattlePhaseEffects(combatants: Combatant[]): void {
+  applyBattlePhaseEffects(): void {
     if (!this.activePhase) return;
 
     const phase = this.battlePhases.get(this.activePhase);

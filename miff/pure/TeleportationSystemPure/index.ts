@@ -348,7 +348,7 @@ export class TeleportationSystemPure {
   /**
    * Request teleportation
    */
-  requestTeleportation(request: TeleportationRequest): TeleportationResult {
+  requestTeleportation(): TeleportationResult {
     const entityId = request.entityId;
     const destinationId = request.destinationId;
 
@@ -552,7 +552,7 @@ export class TeleportationSystemPure {
   /**
    * Update teleportation configuration
    */
-  updateConfig(newConfig: Partial<TeleportationConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...newConfig };
     console.info('Teleportation config updated');
   }
@@ -560,7 +560,7 @@ export class TeleportationSystemPure {
   /**
    * Add a zone
    */
-  addZone(zone: ZoneInfo): void {
+  addZone(): void {
     this.zones.set(zone.id, zone);
     console.info(`✅ Added teleportation zone: ${zone.name}`);
   }
@@ -568,7 +568,7 @@ export class TeleportationSystemPure {
   /**
    * Remove a zone
    */
-  removeZone(zoneId: string): boolean {
+  removeZone(): boolean {
     const zone = this.zones.get(zoneId);
     if (!zone) return false;
 

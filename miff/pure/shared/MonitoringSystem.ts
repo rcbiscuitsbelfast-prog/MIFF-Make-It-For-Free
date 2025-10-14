@@ -215,7 +215,7 @@ export class MonitoringSystem {
   /**
    * Record an error
    */
-  recordError(error: Error, context: any = {}, severity: 'low' | 'medium' | 'high' | 'critical' = 'medium'): void {
+  recordError(): void {
     const errorInfo: ErrorInfo = {
       id: this.generateId(),
       message: error.message,
@@ -243,7 +243,7 @@ export class MonitoringSystem {
   /**
    * Record a request
    */
-  recordRequest(successful: boolean, responseTime: number): void {
+  recordRequest(): void {
     // This would typically be called from middleware
     // For now, we'll simulate it in collectApplicationMetrics
   }
@@ -251,7 +251,7 @@ export class MonitoringSystem {
   /**
    * Create an alert
    */
-  createAlert(alert: Omit<Alert, 'id' | 'timestamp' | 'resolved'>): void {
+  createAlert(): void {
     const newAlert: Alert = {
       id: this.generateId(),
       timestamp: new Date(),
@@ -268,7 +268,7 @@ export class MonitoringSystem {
   /**
    * Resolve an alert
    */
-  resolveAlert(alertId: string): boolean {
+  resolveAlert(): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
     if (alert && !alert.resolved) {
       alert.resolved = true;

@@ -552,7 +552,7 @@ export class AssetPipeline {
   /**
    * Add custom export template
    */
-  addExportTemplate(template: ExportTemplate): void {
+  addExportTemplate(): void {
     this.templates.set(template.id, template);
     console.info(`📋 Added export template: ${template.name}`);
   }

@@ -85,7 +85,7 @@ export class AdvancedStatusEffects {
   /**
    * Create a new effect chain
    */
-  createEffectChain(chain: EffectChain): void {
+  createEffectChain(): void {
     this.effectChains.set(chain.id, chain);
   }
 
@@ -122,7 +122,7 @@ export class AdvancedStatusEffects {
   /**
    * Create an effect interaction
    */
-  createEffectInteraction(interaction: EffectInteraction): void {
+  createEffectInteraction(): void {
     const key = `${interaction.effect1}-${interaction.effect2}`;
     this.effectInteractions.set(key, interaction);
   }
@@ -154,7 +154,7 @@ export class AdvancedStatusEffects {
   /**
    * Apply effect interactions
    */
-  applyEffectInteractions(entity: StatusEntity, interactions: EffectInteraction[]): void {
+  applyEffectInteractions(): void {
     for (const interaction of interactions) {
       switch (interaction.interaction) {
         case 'synergy':
@@ -179,14 +179,14 @@ export class AdvancedStatusEffects {
   /**
    * Create an effect aura
    */
-  createEffectAura(aura: EffectAura): void {
+  createEffectAura(): void {
     this.effectAuras.set(aura.id, aura);
   }
 
   /**
    * Apply an effect aura
    */
-  applyEffectAura(auraId: string, centerEntity: StatusEntity, entities: StatusEntity[]): void {
+  applyEffectAura(): void {
     const aura = this.effectAuras.get(auraId);
     if (!aura) {
       throw new Error(`Effect aura ${auraId} not found`);

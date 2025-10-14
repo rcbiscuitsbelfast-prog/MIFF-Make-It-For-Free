@@ -583,7 +583,7 @@ export class ProductionMonitor {
   /**
    * Update monitoring configuration
    */
-  updateConfig(config: Partial<MonitoringConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...config };
     
     if (this.isInitialized) {

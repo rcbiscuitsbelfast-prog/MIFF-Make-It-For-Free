@@ -564,7 +564,7 @@ export class WorkflowEnginePure {
   /**
    * Create a new workflow engine manager
    */
-  createManager(managerData: Partial<WorkflowEngineManager>): WorkflowEngineOutput {
+  createManager(): WorkflowEngineOutput {
     if (!this.config.enableWorkflowManagement) {
       return {
         op: 'create-manager',
@@ -659,7 +659,7 @@ export class WorkflowEnginePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): WorkflowEngineOutput {
+  getManager(): WorkflowEngineOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

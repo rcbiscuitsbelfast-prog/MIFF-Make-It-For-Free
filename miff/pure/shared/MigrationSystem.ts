@@ -65,7 +65,7 @@ export class MigrationManager {
   /**
    * Register a migration step
    */
-  registerMigration(step: MigrationStep): void {
+  registerMigration(): void {
     this.migrations.set(step.id, step);
     this.updateMigrationPaths();
   }
@@ -156,7 +156,7 @@ export class MigrationManager {
   /**
    * Check version compatibility
    */
-  checkCompatibility(fromVersion: string, toVersion: string): VersionCompatibility {
+  checkCompatibility(): VersionCompatibility {
     const pathKey = `${fromVersion}->${toVersion}`;
     const migrationPath = this.migrationPaths.get(pathKey);
 

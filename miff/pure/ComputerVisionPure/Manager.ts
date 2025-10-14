@@ -699,7 +699,7 @@ export class ComputerVisionPure {
   /**
    * Create a new computer vision manager
    */
-  createManager(managerData: Partial<ComputerVisionManager>): ComputerVisionOutput {
+  createManager(): ComputerVisionOutput {
     if (!this.config.enableComputerVisionManagement) {
       return {
         op: 'create-manager',
@@ -789,7 +789,7 @@ export class ComputerVisionPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ComputerVisionOutput {
+  getManager(): ComputerVisionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -809,7 +809,7 @@ export class ComputerVisionPure {
   /**
    * Create vision model
    */
-  createModel(managerId: string, model: Partial<VisionModel>): ComputerVisionOutput {
+  createModel(): ComputerVisionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

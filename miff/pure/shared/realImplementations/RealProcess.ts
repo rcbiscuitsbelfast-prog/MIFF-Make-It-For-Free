@@ -124,7 +124,7 @@ export class RealProcess {
   /**
    * Set environment variable
    */
-  setEnv(key: string, value: string): void {
+  setEnv(): void {
     process.env[key] = value;
   }
 
@@ -236,7 +236,7 @@ export class RealProcess {
   /**
    * Exit process
    */
-  exit(code: number = 0): void {
+  exit(): void {
     this.cleanup();
     process.exit(code);
   }
@@ -244,7 +244,7 @@ export class RealProcess {
   /**
    * Kill process
    */
-  kill(signal: string = 'SIGTERM'): void {
+  kill(): void {
     this.cleanup();
     process.kill(process.pid, signal as any);
   }
@@ -266,7 +266,7 @@ export class RealProcess {
   /**
    * Set process title
    */
-  setTitle(title: string): void {
+  setTitle(): void {
     process.title = title;
   }
 
@@ -308,7 +308,7 @@ export class RealProcess {
   /**
    * Update configuration
    */
-  updateConfig(newConfig: Partial<ProcessConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...newConfig };
   }
 
@@ -322,7 +322,7 @@ export class RealProcess {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

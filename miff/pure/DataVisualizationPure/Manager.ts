@@ -625,7 +625,7 @@ export class DataVisualizationPure {
   /**
    * Create a new data visualization manager
    */
-  createManager(managerData: Partial<DataVisualizationManager>): DataVisualizationOutput {
+  createManager(): DataVisualizationOutput {
     if (!this.config.enableVisualizationManagement) {
       return {
         op: 'create-manager',
@@ -712,7 +712,7 @@ export class DataVisualizationPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DataVisualizationOutput {
+  getManager(): DataVisualizationOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -732,7 +732,7 @@ export class DataVisualizationPure {
   /**
    * Create chart
    */
-  createChart(managerId: string, chart: Partial<Chart>): DataVisualizationOutput {
+  createChart(): DataVisualizationOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

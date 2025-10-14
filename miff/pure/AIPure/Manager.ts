@@ -356,7 +356,7 @@ export class AIManager {
   /**
    * Make a decision for an AI instance
    */
-  makeDecision(instanceId: string, context: any): any {
+  makeDecision(): any {
     if (!this.isInitialized) {
       throw new Error('AI Manager not initialized');
     }

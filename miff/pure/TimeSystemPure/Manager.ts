@@ -105,7 +105,7 @@ export class TimeManagerPure {
   /**
    * Add timer
    */
-  addTimer(timer: Timer): TimeOutput {
+  addTimer(): TimeOutput {
     const newTimer = {
       ...timer,
       remaining: timer.duration,
@@ -126,7 +126,7 @@ export class TimeManagerPure {
   /**
    * Add cooldown
    */
-  addCooldown(cooldown: Cooldown): TimeOutput {
+  addCooldown(): TimeOutput {
     const newCooldown = {
       ...cooldown,
       remaining: cooldown.duration
@@ -146,7 +146,7 @@ export class TimeManagerPure {
   /**
    * Schedule event
    */
-  scheduleEvent(event: ScheduledEvent): TimeOutput {
+  scheduleEvent(): TimeOutput {
     this.scheduledEvents.set(event.id, event);
     this.stats.scheduledEvents++;
     
@@ -160,7 +160,7 @@ export class TimeManagerPure {
   /**
    * Add time scale
    */
-  addTimeScale(scale: TimeScale): TimeOutput {
+  addTimeScale(): TimeOutput {
     const newScale = {
       ...scale,
       startTime: this.time
@@ -179,7 +179,7 @@ export class TimeManagerPure {
   /**
    * Get remaining time for timer/cooldown
    */
-  getRemainingTime(id: string): TimeOutput {
+  getRemainingTime(): TimeOutput {
     const timer = this.timers.get(id);
     const cooldown = this.cooldowns.get(id);
     
@@ -217,7 +217,7 @@ export class TimeManagerPure {
   /**
    * Tick time forward
    */
-  tick(dt: number): TimeOutput {
+  tick(): TimeOutput {
     if (this.paused) {
       return {
         op: 'tick',

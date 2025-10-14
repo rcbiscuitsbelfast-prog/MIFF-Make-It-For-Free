@@ -212,7 +212,7 @@ export class RealModdingSystem {
   /**
    * Enable a mod
    */
-  enableMod(modId: string): boolean {
+  enableMod(): boolean {
     const mod = this.mods.get(modId);
     if (!mod) return false;
 
@@ -226,7 +226,7 @@ export class RealModdingSystem {
   /**
    * Disable a mod
    */
-  disableMod(modId: string): boolean {
+  disableMod(): boolean {
     const mod = this.mods.get(modId);
     if (!mod) return false;
 
@@ -275,7 +275,7 @@ export class RealModdingSystem {
   /**
    * Set mod load order
    */
-  setLoadOrder(modIds: string[]): boolean {
+  setLoadOrder(): boolean {
     // Validate all mod IDs exist
     for (const id of modIds) {
       if (!this.mods.has(id)) return false;
@@ -523,7 +523,7 @@ export class RealModdingSystem {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

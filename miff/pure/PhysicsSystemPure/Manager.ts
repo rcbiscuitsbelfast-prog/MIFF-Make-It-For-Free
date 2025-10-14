@@ -378,7 +378,7 @@ export class PhysicsSystemPure {
   /**
    * Create a new physics system manager
    */
-  createManager(managerData: Partial<PhysicsSystemManager>): PhysicsSystemOutput {
+  createManager(): PhysicsSystemOutput {
     if (!this.config.enablePhysicsManagement) {
       return {
         op: 'create-manager',
@@ -467,7 +467,7 @@ export class PhysicsSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): PhysicsSystemOutput {
+  getManager(): PhysicsSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -487,7 +487,7 @@ export class PhysicsSystemPure {
   /**
    * Create physics body
    */
-  createBody(managerId: string, body: Partial<PhysicsBody>): PhysicsSystemOutput {
+  createBody(): PhysicsSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -546,7 +546,7 @@ export class PhysicsSystemPure {
   /**
    * Create physics constraint
    */
-  createConstraint(managerId: string, constraint: Partial<PhysicsConstraint>): PhysicsSystemOutput {
+  createConstraint(): PhysicsSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -610,7 +610,7 @@ export class PhysicsSystemPure {
   /**
    * Create physics force
    */
-  createForce(managerId: string, force: Partial<PhysicsForce>): PhysicsSystemOutput {
+  createForce(): PhysicsSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -650,7 +650,7 @@ export class PhysicsSystemPure {
   /**
    * Create physics material
    */
-  createMaterial(managerId: string, material: Partial<PhysicsMaterial>): PhysicsSystemOutput {
+  createMaterial(): PhysicsSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -1122,7 +1122,7 @@ export class SportsSystemPure {
   /**
    * Create a new sports system manager
    */
-  createManager(managerData: Partial<SportsSystemManager>): SportsSystemOutput {
+  createManager(): SportsSystemOutput {
     if (!this.config.enableSportsManagement) {
       return {
         op: 'create-manager',
@@ -1214,7 +1214,7 @@ export class SportsSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SportsSystemOutput {
+  getManager(): SportsSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

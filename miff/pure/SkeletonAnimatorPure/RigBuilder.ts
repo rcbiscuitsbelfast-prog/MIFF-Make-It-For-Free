@@ -72,7 +72,7 @@ export class RigBuilder {
   /**
    * Create a new rig node
    */
-  createNode(id: string, name: string, type: RigNode['type'], transform: Transform, parentId?: string): RigNode {
+  createNode(): RigNode {
     const node: RigNode = {
       id,
       name,
@@ -98,7 +98,7 @@ export class RigBuilder {
   /**
    * Add snap points to a node
    */
-  addSnapPoints(nodeId: string, snapPoints: Omit<SnapPoint, 'id'>[]): RigBuilder {
+  addSnapPoints(): RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
@@ -118,7 +118,7 @@ export class RigBuilder {
   /**
    * Add constraints to a node
    */
-  addConstraints(nodeId: string, constraints: Omit<Constraint, 'id'>[]): RigBuilder {
+  addConstraints(): RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
@@ -138,7 +138,7 @@ export class RigBuilder {
   /**
    * Update node transform
    */
-  updateNodeTransform(nodeId: string, transform: Partial<Transform>): RigBuilder {
+  updateNodeTransform(): RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
@@ -152,7 +152,7 @@ export class RigBuilder {
   /**
    * Delete a node and all its children
    */
-  deleteNode(nodeId: string): RigBuilder {
+  deleteNode(): RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 

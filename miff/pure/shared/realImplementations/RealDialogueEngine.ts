@@ -188,7 +188,7 @@ export class RealDialogueEngine {
   /**
    * Add a dialogue tree
    */
-  addDialogueTree(treeId: string, nodes: DialogueNode[]): boolean {
+  addDialogueTree(): boolean {
     try {
       this.dialogueTrees.set(treeId, nodes);
       this.emit('dialogueTreeAdded', { treeId, nodeCount: nodes.length });
@@ -209,7 +209,7 @@ export class RealDialogueEngine {
   /**
    * Add a character
    */
-  addCharacter(character: Character): boolean {
+  addCharacter(): boolean {
     try {
       this.characters.set(character.id, character);
       this.emit('characterAdded', { characterId: character.id, character });
@@ -230,7 +230,7 @@ export class RealDialogueEngine {
   /**
    * Update character relationship
    */
-  updateRelationship(characterId: string, targetId: string, change: number): boolean {
+  updateRelationship(): boolean {
     const character = this.characters.get(characterId);
     if (!character) return false;
 
@@ -245,7 +245,7 @@ export class RealDialogueEngine {
   /**
    * Start a dialogue session
    */
-  startDialogueSession(treeId: string, participants: string[], context?: Partial<DialogueContext>): string {
+  startDialogueSession(): string {
     const sessionId = this.generateId();
     const tree = this.dialogueTrees.get(treeId);
     if (!tree) {
@@ -318,7 +318,7 @@ export class RealDialogueEngine {
   /**
    * Select a response
    */
-  selectResponse(sessionId: string, responseId: string): boolean {
+  selectResponse(): boolean {
     const session = this.activeSessions.get(sessionId);
     if (!session || !session.currentNodeId) return false;
 
@@ -498,7 +498,7 @@ export class RealDialogueEngine {
   /**
    * End a dialogue session
    */
-  endDialogueSession(sessionId: string): boolean {
+  endDialogueSession(): boolean {
     const session = this.activeSessions.get(sessionId);
     if (!session) return false;
 
@@ -535,7 +535,7 @@ export class RealDialogueEngine {
   /**
    * Generate dialogue based on character personality
    */
-  generateDialogue(characterId: string, context: string): string {
+  generateDialogue(): string {
     const character = this.characters.get(characterId);
     if (!character) return '';
 
@@ -575,7 +575,7 @@ export class RealDialogueEngine {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
@@ -627,7 +627,7 @@ export class RealDialogueEngine {
   /**
    * Cleanup old dialogue history
    */
-  cleanupDialogueHistory(maxHistory: number = 100): number {
+  cleanupDialogueHistory(): number {
     let cleanedCount = 0;
 
     this.characters.forEach(character => {

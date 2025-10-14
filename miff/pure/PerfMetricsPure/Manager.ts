@@ -385,7 +385,7 @@ export class PerfMetricsPure {
   /**
    * Create a new performance metrics manager
    */
-  createManager(managerData: Partial<PerfMetricsManager>): PerfMetricsOutput {
+  createManager(): PerfMetricsOutput {
     if (!this.config.enableMetricsManagement) {
       return {
         op: 'create-manager',
@@ -474,7 +474,7 @@ export class PerfMetricsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): PerfMetricsOutput {
+  getManager(): PerfMetricsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -487,7 +487,7 @@ export class DataWarehousePure {
   /**
    * Create a new data warehouse manager
    */
-  createManager(managerData: Partial<DataWarehouseManager>): DataWarehouseOutput {
+  createManager(): DataWarehouseOutput {
     if (!this.config.enableWarehouseManagement) {
       return {
         op: 'create-manager',
@@ -576,7 +576,7 @@ export class DataWarehousePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DataWarehouseOutput {
+  getManager(): DataWarehouseOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -596,7 +596,7 @@ export class DataWarehousePure {
   /**
    * Create database
    */
-  createDatabase(managerId: string, database: Partial<Database>): DataWarehouseOutput {
+  createDatabase(): DataWarehouseOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -666,7 +666,7 @@ export class DataWarehousePure {
   /**
    * Create table
    */
-  createTable(managerId: string, table: Partial<Table>): DataWarehouseOutput {
+  createTable(): DataWarehouseOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -727,7 +727,7 @@ export class DataWarehousePure {
   /**
    * Create ETL process
    */
-  createETLProcess(managerId: string, etlProcess: Partial<ETLProcess>): DataWarehouseOutput {
+  createETLProcess(): DataWarehouseOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

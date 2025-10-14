@@ -438,7 +438,7 @@ export class ARVRManager {
   /**
    * Get spatial mapping data
    */
-  getSpatialMapping(deviceId: string): any {
+  getSpatialMapping(): any {
     if (!this.isInitialized) {
       throw new Error('AR/VR Manager not initialized');
     }

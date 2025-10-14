@@ -557,7 +557,7 @@ export class SecuritySystemPure {
   /**
    * Create a new security system manager
    */
-  createManager(managerData: Partial<SecuritySystemManager>): SecuritySystemOutput {
+  createManager(): SecuritySystemOutput {
     if (!this.config.enableSecurityManagement) {
       return {
         op: 'create-manager',
@@ -650,7 +650,7 @@ export class SecuritySystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SecuritySystemOutput {
+  getManager(): SecuritySystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

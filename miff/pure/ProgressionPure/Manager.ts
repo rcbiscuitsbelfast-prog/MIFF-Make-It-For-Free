@@ -314,7 +314,7 @@ export class ProgressionPure {
   /**
    * Create a new progression manager
    */
-  createManager(managerData: Partial<ProgressionManager>): ProgressionOutput {
+  createManager(): ProgressionOutput {
     if (!this.config.enableProgressionManagement) {
       return {
         op: 'create-manager',
@@ -402,7 +402,7 @@ export class ProgressionPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ProgressionOutput {
+  getManager(): ProgressionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

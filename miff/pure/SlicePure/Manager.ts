@@ -456,7 +456,7 @@ export class SlicePure {
   /**
    * Create a new slice manager
    */
-  createManager(managerData: Partial<SliceManager>): SliceOutput {
+  createManager(): SliceOutput {
     if (!this.config.enableSliceManagement) {
       return {
         op: 'create-manager',
@@ -545,7 +545,7 @@ export class SlicePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SliceOutput {
+  getManager(): SliceOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

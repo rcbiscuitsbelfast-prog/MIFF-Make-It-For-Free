@@ -484,7 +484,7 @@ export class CloudGamingPure {
   /**
    * Create a new cloud gaming manager
    */
-  createManager(managerData: Partial<CloudGamingManager>): CloudGamingOutput {
+  createManager(): CloudGamingOutput {
     if (!this.config.enableGamingManagement) {
       return {
         op: 'create-manager',
@@ -575,7 +575,7 @@ export class CloudGamingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): CloudGamingOutput {
+  getManager(): CloudGamingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -470,7 +470,7 @@ export class GodotBridgePure {
   /**
    * Create a new Godot bridge manager
    */
-  createManager(managerData: Partial<GodotBridgeManager>): GodotBridgeOutput {
+  createManager(): GodotBridgeOutput {
     if (!this.config.enableBridgeManagement) {
       return {
         op: 'create-manager',
@@ -565,7 +565,7 @@ export class GodotBridgePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): GodotBridgeOutput {
+  getManager(): GodotBridgeOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -477,7 +477,7 @@ export class ButtonStyleManager {
   /**
    * Add a new theme
    */
-  addTheme(theme: ButtonTheme): void {
+  addTheme(): void {
     this.themes.set(theme.name, theme);
   }
 
@@ -491,7 +491,7 @@ export class ButtonStyleManager {
   /**
    * Set the current theme
    */
-  setCurrentTheme(name: string): boolean {
+  setCurrentTheme(): boolean {
     if (!this.themes.has(name)) return false;
     this.currentTheme = name;
     return true;
@@ -559,7 +559,7 @@ export class ButtonStyleManager {
   /**
    * Generate CSS string for a button style
    */
-  generateCSS(style: ButtonStyle): string {
+  generateCSS(): string {
     const css = `
       background-color: ${style.backgroundColor};
       color: ${style.textColor};
@@ -633,7 +633,7 @@ export class ButtonStyleManager {
   /**
    * Import theme configuration
    */
-  importTheme(themeJson: string): boolean {
+  importTheme(): boolean {
     try {
       const theme = SafeJSONParser.parse(themeJson) as ButtonTheme;
       this.addTheme(theme);

@@ -458,7 +458,7 @@ export class StartMenuPure {
   /**
    * Create a new start menu manager
    */
-  createManager(managerData: Partial<StartMenuManager>): StartMenuOutput {
+  createManager(): StartMenuOutput {
     if (!this.config.enableMenuManagement) {
       return {
         op: 'create-manager',
@@ -546,7 +546,7 @@ export class StartMenuPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): StartMenuOutput {
+  getManager(): StartMenuOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

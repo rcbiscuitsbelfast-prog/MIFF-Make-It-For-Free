@@ -154,7 +154,7 @@ export class AIProfileManager {
   /**
    * Load AI profiles from array
    */
-  loadProfiles(profiles: AIProfile[]): AIOutput {
+  loadProfiles(): AIOutput {
     this.profiles.clear();
     for (const profile of profiles) {
       this.profiles.set(profile.id, profile);
@@ -170,7 +170,7 @@ export class AIProfileManager {
   /**
    * Create a new AI profile
    */
-  createProfile(profile: AIProfile): AIOutput {
+  createProfile(): AIOutput {
     if (this.profiles.has(profile.id)) {
       return {
         op: 'create-profile',
@@ -191,7 +191,7 @@ export class AIProfileManager {
   /**
    * Get AI profile by ID
    */
-  getProfile(npcId: string): AIOutput {
+  getProfile(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -210,7 +210,7 @@ export class AIProfileManager {
   /**
    * Update AI profile
    */
-  updateProfile(npcId: string, updates: Partial<AIProfile>): AIOutput {
+  updateProfile(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -233,7 +233,7 @@ export class AIProfileManager {
   /**
    * Delete AI profile
    */
-  deleteProfile(npcId: string): AIOutput {
+  deleteProfile(): AIOutput {
     if (!this.profiles.has(npcId)) {
       return {
         op: 'delete-profile',
@@ -254,7 +254,7 @@ export class AIProfileManager {
   /**
    * List all profiles
    */
-  listProfiles(filter?: AIFilter): AIOutput {
+  listProfiles(): AIOutput {
     let profiles = Array.from(this.profiles.values());
 
     if (filter) {
@@ -290,7 +290,7 @@ export class AIProfileManager {
   /**
    * Assign role to NPC
    */
-  assignRole(npcId: string, role: Role): AIOutput {
+  assignRole(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -313,7 +313,7 @@ export class AIProfileManager {
   /**
    * Link dialog to NPC
    */
-  linkDialog(npcId: string, dialogId: string): AIOutput {
+  linkDialog(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -334,7 +334,7 @@ export class AIProfileManager {
   /**
    * Link quest to NPC
    */
-  linkQuest(npcId: string, questId: string): AIOutput {
+  linkQuest(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -355,7 +355,7 @@ export class AIProfileManager {
   /**
    * Get schedule for NPC
    */
-  getSchedule(npcId: string): AIOutput {
+  getSchedule(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -375,7 +375,7 @@ export class AIProfileManager {
   /**
    * Add schedule entry
    */
-  addScheduleEntry(npcId: string, entry: ScheduleEntry): AIOutput {
+  addScheduleEntry(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -401,7 +401,7 @@ export class AIProfileManager {
   /**
    * Update personality traits
    */
-  updatePersonality(npcId: string, traits: Partial<PersonalityTraits>): AIOutput {
+  updatePersonality(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -424,7 +424,7 @@ export class AIProfileManager {
   /**
    * Update skills
    */
-  updateSkills(npcId: string, skills: Partial<SkillSet>): AIOutput {
+  updateSkills(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -447,7 +447,7 @@ export class AIProfileManager {
   /**
    * Update relationship
    */
-  updateRelationship(npcId: string, targetId: string, relationship: any): AIOutput {
+  updateRelationship(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -473,7 +473,7 @@ export class AIProfileManager {
   /**
    * Simulate behavior for NPC
    */
-  simulateBehavior(npcId: string): AIOutput {
+  simulateBehavior(): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -558,7 +558,7 @@ export class AIProfileManager {
   /**
    * Export AI data
    */
-  exportAI(format: 'json' | 'manifest' | 'summary' | 'profiles' = 'json'): AIOutput {
+  exportAI(): AIOutput {
     const profiles = Array.from(this.profiles.values());
 
     switch (format) {

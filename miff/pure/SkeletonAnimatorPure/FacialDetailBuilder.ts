@@ -249,7 +249,7 @@ export class FacialDetailBuilder {
   /**
    * Update feature transform
    */
-  updateFeatureTransform(featureId: string, transform: Partial<Transform>): FacialDetailBuilder {
+  updateFeatureTransform(): FacialDetailBuilder {
     const feature = this.faceConfig.features.find(f => f.id === featureId);
     if (!feature) throw new Error(`Feature ${featureId} not found`);
 
@@ -282,7 +282,7 @@ export class FacialDetailBuilder {
   /**
    * Apply morph target to feature
    */
-  applyFeatureMorph(featureId: string, morphTargetId: string, strength: number): FacialDetailBuilder {
+  applyFeatureMorph(): FacialDetailBuilder {
     const feature = this.faceConfig.features.find(f => f.id === featureId);
     if (!feature) throw new Error(`Feature ${featureId} not found`);
 
@@ -299,7 +299,7 @@ export class FacialDetailBuilder {
   /**
    * Toggle symmetry
    */
-  toggleSymmetry(enabled: boolean): FacialDetailBuilder {
+  toggleSymmetry(): FacialDetailBuilder {
     this.faceConfig.symmetry = enabled;
 
     if (enabled) {
@@ -335,7 +335,7 @@ export class FacialDetailBuilder {
   /**
    * Delete feature
    */
-  deleteFeature(featureId: string): FacialDetailBuilder {
+  deleteFeature(): FacialDetailBuilder {
     const feature = this.faceConfig.features.find(f => f.id === featureId);
     if (!feature) throw new Error(`Feature ${featureId} not found`);
 

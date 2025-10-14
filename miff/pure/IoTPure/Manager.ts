@@ -595,7 +595,7 @@ export class IoTPure {
   /**
    * Create a new IoT manager
    */
-  createManager(managerData: Partial<IoTPureManager>): IoTPureOutput {
+  createManager(): IoTPureOutput {
     if (!this.config.enableIoTManagement) {
       return {
         op: 'create-manager',
@@ -684,7 +684,7 @@ export class IoTPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): IoTPureOutput {
+  getManager(): IoTPureOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -704,7 +704,7 @@ export class IoTPure {
   /**
    * Create IoT device
    */
-  createDevice(managerId: string, device: Partial<IoTDevice>): IoTPureOutput {
+  createDevice(): IoTPureOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

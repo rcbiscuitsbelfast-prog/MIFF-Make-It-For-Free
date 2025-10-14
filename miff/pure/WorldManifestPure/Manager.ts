@@ -631,7 +631,7 @@ export class WorldManifestPure {
   /**
    * Create a new world manifest manager
    */
-  createManager(managerData: Partial<WorldManifestManager>): WorldManifestOutput {
+  createManager(): WorldManifestOutput {
     if (!this.config.enableManifestManagement) {
       return {
         op: 'create-manager',
@@ -720,7 +720,7 @@ export class WorldManifestPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): WorldManifestOutput {
+  getManager(): WorldManifestOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

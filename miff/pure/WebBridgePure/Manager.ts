@@ -394,7 +394,7 @@ export class WebBridgePure {
   /**
    * Create a new web bridge manager
    */
-  createManager(managerData: Partial<WebBridgeManager>): WebBridgeOutput {
+  createManager(): WebBridgeOutput {
     if (!this.config.enableBridgeManagement) {
       return {
         op: 'create-manager',
@@ -483,7 +483,7 @@ export class WebBridgePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): WebBridgeOutput {
+  getManager(): WebBridgeOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -450,7 +450,7 @@ export class DeploymentSystemPure {
   /**
    * Create a new deployment manager
    */
-  createManager(managerData: Partial<DeploymentManager>): DeploymentOutput {
+  createManager(): DeploymentOutput {
     if (!this.config.enableApplicationDeployment) {
       return {
         op: 'create-manager',
@@ -541,7 +541,7 @@ export class DeploymentSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DeploymentOutput {
+  getManager(): DeploymentOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -561,7 +561,7 @@ export class DeploymentSystemPure {
   /**
    * Deploy application
    */
-  deployApplication(managerId: string, application: Partial<Application>, environmentId: string): DeploymentOutput {
+  deployApplication(): DeploymentOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

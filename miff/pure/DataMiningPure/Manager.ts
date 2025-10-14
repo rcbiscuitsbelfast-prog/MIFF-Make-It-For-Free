@@ -360,7 +360,7 @@ export class DataMiningPure {
   /**
    * Create a new data mining manager
    */
-  createManager(managerData: Partial<DataMiningManager>): DataMiningOutput {
+  createManager(): DataMiningOutput {
     if (!this.config.enableDataPreprocessing) {
       return {
         op: 'create-manager',
@@ -446,7 +446,7 @@ export class DataMiningPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DataMiningOutput {
+  getManager(): DataMiningOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -466,7 +466,7 @@ export class DataMiningPure {
   /**
    * Create dataset
    */
-  createDataset(managerId: string, dataset: Partial<Dataset>): DataMiningOutput {
+  createDataset(): DataMiningOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -523,7 +523,7 @@ export class DataMiningPure {
   /**
    * Train model
    */
-  trainModel(managerId: string, model: Partial<MiningModel>): DataMiningOutput {
+  trainModel(): DataMiningOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -617,7 +617,7 @@ export class DataMiningPure {
   /**
    * Discover patterns
    */
-  discoverPatterns(managerId: string, datasetId: string, minSupport: number = 0.1): DataMiningOutput {
+  discoverPatterns(): DataMiningOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

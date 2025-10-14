@@ -135,7 +135,7 @@ export class RealAISystem {
   /**
    * Add a new AI model
    */
-  addModel(model: AIModel): boolean {
+  addModel(): boolean {
     try {
       this.models.set(model.id, model);
       this.performanceMetrics.modelCount = this.models.size;
@@ -164,7 +164,7 @@ export class RealAISystem {
   /**
    * Update an existing model
    */
-  updateModel(modelId: string, updates: Partial<AIModel>): boolean {
+  updateModel(): boolean {
     const model = this.models.get(modelId);
     if (!model) return false;
 
@@ -182,7 +182,7 @@ export class RealAISystem {
   /**
    * Remove an AI model
    */
-  removeModel(modelId: string): boolean {
+  removeModel(): boolean {
     try {
       const model = this.models.get(modelId);
       if (!model) return false;
@@ -200,7 +200,7 @@ export class RealAISystem {
   /**
    * Create a new AI task
    */
-  createTask(task: Omit<AITask, 'id' | 'createdAt' | 'status'>): string {
+  createTask(): string {
     const taskId = this.generateId();
     const newTask: AITask = {
       ...task,
@@ -360,7 +360,7 @@ export class RealAISystem {
   /**
    * Start a learning session
    */
-  startLearningSession(session: Omit<AILearningSession, 'id' | 'startTime' | 'status'>): string {
+  startLearningSession(): string {
     const sessionId = this.generateId();
     const newSession: AILearningSession = {
       ...session,
@@ -468,7 +468,7 @@ export class RealAISystem {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

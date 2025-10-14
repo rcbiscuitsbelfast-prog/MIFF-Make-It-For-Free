@@ -197,7 +197,7 @@ export class IntegrationManager {
   /**
    * Register integration
    */
-  registerIntegration(config: IntegrationConfig): boolean {
+  registerIntegration(): boolean {
     try {
       // Validate configuration
       if (!this.validateConfig(config)) {
@@ -254,7 +254,7 @@ export class IntegrationManager {
   /**
    * Unregister integration
    */
-  unregisterIntegration(integrationId: string): boolean {
+  unregisterIntegration(): boolean {
     const config = this.integrations.get(integrationId);
     if (!config) {
       return false;
@@ -276,7 +276,7 @@ export class IntegrationManager {
   /**
    * Start integration
    */
-  startIntegration(integrationId: string): boolean {
+  startIntegration(): boolean {
     const config = this.integrations.get(integrationId);
     if (!config || !config.enabled) {
       return false;
@@ -304,7 +304,7 @@ export class IntegrationManager {
   /**
    * Stop integration
    */
-  stopIntegration(integrationId: string): boolean {
+  stopIntegration(): boolean {
     const health = this.healthStatus.get(integrationId);
     if (!health) {
       return false;
@@ -320,7 +320,7 @@ export class IntegrationManager {
   /**
    * Add integration hook
    */
-  addHook(hook: IntegrationHook): boolean {
+  addHook(): boolean {
     const hooks = this.hooks.get(hook.integrationId) || [];
     hooks.push(hook);
     hooks.sort((a, b) => b.priority - a.priority);
@@ -331,7 +331,7 @@ export class IntegrationManager {
   /**
    * Remove integration hook
    */
-  removeHook(integrationId: string, hookId: string): boolean {
+  removeHook(): boolean {
     const hooks = this.hooks.get(integrationId);
     if (!hooks) {
       return false;
@@ -349,7 +349,7 @@ export class IntegrationManager {
   /**
    * Process integration event
    */
-  processEvent(event: IntegrationEvent): void {
+  processEvent(): void {
     this.eventQueue.push(event);
     
     if (!this.isProcessing) {

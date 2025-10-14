@@ -272,7 +272,7 @@ export class DocumentationGenerator {
   /**
    * Generate documentation for a module
    */
-  generateModuleDocumentation(modulePath: string): ModuleDocumentation {
+  generateModuleDocumentation(): ModuleDocumentation {
     const moduleName = path.basename(modulePath, '.ts');
     const sourceCode = fs.readFileSync(modulePath, 'utf8');
     
@@ -302,7 +302,7 @@ export class DocumentationGenerator {
   /**
    * Generate all documentation
    */
-  generateAllDocumentation(modulePaths: string[]): void {
+  generateAllDocumentation(): void {
     // Generate module documentation
     for (const modulePath of modulePaths) {
       this.generateModuleDocumentation(modulePath);
@@ -320,7 +320,7 @@ export class DocumentationGenerator {
   /**
    * Generate documentation in specific format
    */
-  generateFormatDocumentation(format: DocumentationFormat): void {
+  generateFormatDocumentation(): void {
     switch (format) {
       case DocumentationFormat.MARKDOWN:
         this.generateMarkdownDocumentation();

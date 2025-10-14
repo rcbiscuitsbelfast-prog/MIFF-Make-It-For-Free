@@ -99,7 +99,7 @@ export class RitualManager {
   /**
    * Register a ritual in the system
    */
-  registerRitual(ritual: RitualDefinition): boolean {
+  registerRitual(): boolean {
     // Validate ritual
     if (!this.validateRitualDefinition(ritual)) {
       console.error('RitualSystemManager', `❌ Invalid ritual definition: ${ritual.id}`);
@@ -464,7 +464,7 @@ export class RitualManager {
   /**
    * Cancel ritual
    */
-  cancelRitual(ritualId: string): boolean {
+  cancelRitual(): boolean {
     return this.ritualSystem.cancelRitual(ritualId);
   }
 
@@ -520,7 +520,7 @@ export class RitualManager {
   /**
    * Import ritual system data
    */
-  importData(data: ReturnType<typeof this.exportData>): void {
+  importData(): void {
     // Import logic would go here
     console.info('RitualSystemManager', 'Ritual system data imported');
   }

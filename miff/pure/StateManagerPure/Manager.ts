@@ -473,7 +473,7 @@ export class StateManagerPure {
   /**
    * Create a new state manager
    */
-  createManager(managerData: Partial<StateManagerManager>): StateManagerOutput {
+  createManager(): StateManagerOutput {
     if (!this.config.enableStateManagement) {
       return {
         op: 'create-manager',
@@ -562,7 +562,7 @@ export class StateManagerPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): StateManagerOutput {
+  getManager(): StateManagerOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

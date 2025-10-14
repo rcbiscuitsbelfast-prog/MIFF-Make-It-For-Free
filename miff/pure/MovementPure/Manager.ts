@@ -225,7 +225,7 @@ export class MovementManager {
   /**
    * Create a new movement entity
    */
-  createEntity(id: string, position: Vector2, pattern: MovementPattern): MovementOutput {
+  createEntity(): MovementOutput {
     if (this.entities.has(id)) {
       return {
         op: 'create',
@@ -272,7 +272,7 @@ export class MovementManager {
   /**
    * Update entity movement pattern
    */
-  updatePattern(entityId: string, pattern: Partial<MovementPattern>): MovementOutput {
+  updatePattern(): MovementOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -302,7 +302,7 @@ export class MovementManager {
   /**
    * Set follow target
    */
-  setFollowTarget(entityId: string, targetId: string): MovementOutput {
+  setFollowTarget(): MovementOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -328,7 +328,7 @@ export class MovementManager {
   /**
    * Set waypoints for patrol
    */
-  setWaypoints(entityId: string, waypoints: Vector2[]): MovementOutput {
+  setWaypoints(): MovementOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -355,7 +355,7 @@ export class MovementManager {
   /**
    * Simulate movement for all entities
    */
-  simulateTick(deltaTime: number): MovementOutput {
+  simulateTick(): MovementOutput {
     const results: MovementResult[] = [];
     const currentTime = Date.now();
 

@@ -718,7 +718,7 @@ export class DialoguePure {
   /**
    * Create a new dialogue manager
    */
-  createManager(managerData: Partial<DialogueManager>): DialogueOutput {
+  createManager(): DialogueOutput {
     if (!this.config.enableDialogueManagement) {
       return {
         op: 'create-manager',
@@ -806,7 +806,7 @@ export class DialoguePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DialogueOutput {
+  getManager(): DialogueOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

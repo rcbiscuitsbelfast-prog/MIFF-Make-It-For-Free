@@ -308,7 +308,7 @@ export class MobilePerformanceOptimizer {
   /**
    * Update performance monitoring
    */
-  updatePerformance(deltaTime: number): void {
+  updatePerformance(): void {
     this.frameTimeHistory.push(deltaTime);
     if (this.frameTimeHistory.length > 60) {
       this.frameTimeHistory.shift();
@@ -399,7 +399,7 @@ export class MobilePerformanceOptimizer {
   /**
    * Set performance level manually
    */
-  setPerformanceLevel(level: PerformanceLevel): void {
+  setPerformanceLevel(): void {
     this.currentPerformanceLevel = level;
     this.config = this.generatePerformanceConfig();
   }

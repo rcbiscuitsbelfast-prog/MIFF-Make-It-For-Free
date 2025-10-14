@@ -440,7 +440,7 @@ export class IndustryLeadershipPure {
   /**
    * Create a new industry leadership manager
    */
-  createManager(managerData: Partial<IndustryLeadershipManager>): IndustryLeadershipOutput {
+  createManager(): IndustryLeadershipOutput {
     if (!this.config.enableIndustryAnalysis) {
       return {
         op: 'create-manager',
@@ -531,7 +531,7 @@ export class IndustryLeadershipPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): IndustryLeadershipOutput {
+  getManager(): IndustryLeadershipOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -551,7 +551,7 @@ export class IndustryLeadershipPure {
   /**
    * Add industry
    */
-  addIndustry(managerId: string, industry: Partial<Industry>): IndustryLeadershipOutput {
+  addIndustry(): IndustryLeadershipOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -609,7 +609,7 @@ export class IndustryLeadershipPure {
   /**
    * Add competitor
    */
-  addCompetitor(managerId: string, competitor: Partial<Competitor>): IndustryLeadershipOutput {
+  addCompetitor(): IndustryLeadershipOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -662,7 +662,7 @@ export class IndustryLeadershipPure {
   /**
    * Create strategy
    */
-  createStrategy(managerId: string, strategy: Partial<Strategy>): IndustryLeadershipOutput {
+  createStrategy(): IndustryLeadershipOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -701,7 +701,7 @@ export class IndustryLeadershipPure {
   /**
    * Create content
    */
-  createContent(managerId: string, content: Partial<Content>): IndustryLeadershipOutput {
+  createContent(): IndustryLeadershipOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -526,7 +526,7 @@ export class CutSceneEngine {
 }
 
 export class CutSceneWebBridge {
-  generateCutSceneScript(definition: CutSceneDefinition): string {
+  generateCutSceneScript(): string {
     return `
 function CutSceneWebBridge() {
   this.definition = ${JSON.stringify(definition, null, 2)};
@@ -568,7 +568,7 @@ CutSceneWebBridge.prototype.update = function() {
 }
 
 export class CutSceneUnityBridge {
-  generateCutSceneScript(definition: CutSceneDefinition): string {
+  generateCutSceneScript(): string {
     return `
 using UnityEngine;
 using UnityEngine.Playables;
@@ -591,7 +591,7 @@ public class CutScenePlayer : MonoBehaviour
 }
 
 export class CutSceneGodotBridge {
-  generateCutSceneScript(definition: CutSceneDefinition): string {
+  generateCutSceneScript(): string {
     return `
 extends Node
 
@@ -614,7 +614,7 @@ func play_cutscene():
 }
 
 export class CutSceneUnrealBridge {
-  generateCutSceneHeader(definition: CutSceneDefinition): string {
+  generateCutSceneHeader(): string {
     return `
 #pragma once
 

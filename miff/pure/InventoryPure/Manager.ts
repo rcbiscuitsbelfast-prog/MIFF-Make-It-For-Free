@@ -272,7 +272,7 @@ export class InventoryPure {
   /**
    * Create a new inventory manager
    */
-  createManager(managerData: Partial<InventoryManager>): InventoryOutput {
+  createManager(): InventoryOutput {
     if (!this.config.enableItemStorage) {
       return {
         op: 'create-manager',
@@ -361,7 +361,7 @@ export class InventoryPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): InventoryOutput {
+  getManager(): InventoryOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -381,7 +381,7 @@ export class InventoryPure {
   /**
    * Add item to inventory
    */
-  addItem(managerId: string, item: Partial<InventoryItem>): InventoryOutput {
+  addItem(): InventoryOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -447,7 +447,7 @@ export class InventoryPure {
   /**
    * Remove item from inventory
    */
-  removeItem(managerId: string, itemId: string, quantity?: number): InventoryOutput {
+  removeItem(): InventoryOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -498,7 +498,7 @@ export class InventoryPure {
   /**
    * Move item between slots
    */
-  moveItem(managerId: string, fromSlot: number, toSlot: number): InventoryOutput {
+  moveItem(): InventoryOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -600,7 +600,7 @@ export class InventoryPure {
   /**
    * Get item by ID
    */
-  getItem(managerId: string, itemId: string): InventoryOutput {
+  getItem(): InventoryOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

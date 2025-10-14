@@ -1226,7 +1226,7 @@ export class SkeletonAnimatorIntegrationTests {
   /**
    * Generate test report
    */
-  generateReport(suites: TestSuite[]): string {
+  generateReport(): string {
     const totalTests = suites.reduce((sum, suite) => sum + suite.tests.length, 0);
     const totalPassed = suites.reduce((sum, suite) => sum + suite.passed, 0);
     const totalFailed = suites.reduce((sum, suite) => sum + suite.failed, 0);

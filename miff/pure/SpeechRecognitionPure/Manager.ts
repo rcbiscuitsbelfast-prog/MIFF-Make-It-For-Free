@@ -321,7 +321,7 @@ export class SpeechRecognitionPure {
   /**
    * Create a new speech recognition manager
    */
-  createManager(managerData: Partial<SpeechRecognitionManager>): SpeechRecognitionOutput {
+  createManager(): SpeechRecognitionOutput {
     if (!this.config.enableSpeechToText) {
       return {
         op: 'create-manager',
@@ -409,7 +409,7 @@ export class SpeechRecognitionPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SpeechRecognitionOutput {
+  getManager(): SpeechRecognitionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -429,7 +429,7 @@ export class SpeechRecognitionPure {
   /**
    * Start recognition session
    */
-  startSession(managerId: string, userId: string, modelId: string, language: string): SpeechRecognitionOutput {
+  startSession(): SpeechRecognitionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -491,7 +491,7 @@ export class SpeechRecognitionPure {
   /**
    * Process audio
    */
-  processAudio(managerId: string, sessionId: string, audioData: AudioData): SpeechRecognitionOutput {
+  processAudio(): SpeechRecognitionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -555,7 +555,7 @@ export class SpeechRecognitionPure {
   /**
    * Add voice command
    */
-  addVoiceCommand(managerId: string, command: Partial<VoiceCommand>): SpeechRecognitionOutput {
+  addVoiceCommand(): SpeechRecognitionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -599,7 +599,7 @@ export class SpeechRecognitionPure {
   /**
    * Process voice command
    */
-  processVoiceCommand(managerId: string, sessionId: string, text: string): SpeechRecognitionOutput {
+  processVoiceCommand(): SpeechRecognitionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

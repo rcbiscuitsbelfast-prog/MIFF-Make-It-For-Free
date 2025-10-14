@@ -11,7 +11,7 @@ export interface UnityConvertedPayload {
 }
 
 export class ConvertToUnityManager {
-  convert(payload: RenderPayload): UnityConvertedPayload {
+  convert(): UnityConvertedPayload {
     const issues = BridgeSchemaValidator.validateRenderPayload(payload);
     const items = (payload.renderData || []).map((rd: RenderData) => BridgeSchemaValidator.convertToUnity(rd));
     return {

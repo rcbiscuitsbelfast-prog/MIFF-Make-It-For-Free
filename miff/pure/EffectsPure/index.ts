@@ -451,7 +451,7 @@ export class BattleEffect implements IBattleEffect {
   /**
    * Check if effect has specific trigger
    */
-  hasTrigger(trigger: EffectTrigger): boolean {
+  hasTrigger(): boolean {
     return (this.triggers & trigger) !== 0;
   }
 
@@ -671,7 +671,7 @@ export class ActiveEffect implements IActiveEffect {
   /**
    * Tick effect (update time-based duration)
    */
-  tick(deltaTime: number): void {
+  tick(): void {
     if (this.effect.durationSeconds > 0) {
       this.remainingSeconds = Math.max(0, this.remainingSeconds - deltaTime);
     }
@@ -794,7 +794,7 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   /**
    * Add modifier
    */
-  add(type: ModifierType, value: number, isMultiplicative: boolean): void {
+  add(): void {
     if (isMultiplicative) {
       this.multiplicative.push({ type, value });
     } else {
@@ -805,7 +805,7 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   /**
    * Apply modifiers to base value
    */
-  apply(baseValue: number): number {
+  apply(): number {
     // Apply additive modifiers first (flat + percent)
     let result = baseValue;
 
@@ -1022,28 +1022,28 @@ export class EffectResolution implements IEffectResolution {
   /**
    * Add resolved effect
    */
-  addResolvedEffect(effect: IActiveEffect): void {
+  addResolvedEffect(): void {
     this.resolvedEffects.push(effect);
   }
 
   /**
    * Add applied effect
    */
-  addAppliedEffect(effect: IActiveEffect, result: EffectApplicationResult): void {
+  addAppliedEffect(): void {
     this.appliedEffects.push({ effect, result });
   }
 
   /**
    * Add expired effect
    */
-  addExpiredEffect(effect: IActiveEffect, reason: EffectRemovalReason): void {
+  addExpiredEffect(): void {
     this.expiredEffects.push({ effect, reason });
   }
 
   /**
    * Add stat change
    */
-  addStatChange(stat: string, change: number): void {
+  addStatChange(): void {
     const current = this.statChanges.get(stat) || 0;
     this.statChanges.set(stat, current + change);
   }
@@ -1051,7 +1051,7 @@ export class EffectResolution implements IEffectResolution {
   /**
    * Add event
    */
-  addEvent(event: EffectEvent): void {
+  addEvent(): void {
     this.events.push(event);
   }
 
@@ -1190,7 +1190,7 @@ export class EffectResolver implements IEffectResolver {
   /**
    * Resolve effects with context
    */
-  resolveEffects(phase: EffectPhase, entityId: string, effects: IActiveEffect[], context: IEntityContext): EffectResolution {
+  resolveEffects(): EffectResolution {
     const resolution = EffectResolution.create();
     const resolvedEffects = this.resolveQueue(phase, effects, context.getEntityImmunities(entityId));
 
@@ -1299,7 +1299,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Apply effect to entity
    */
-  applyEffect(entityId: string, effect: IBattleEffect): EffectApplicationResult {
+  applyEffect(): EffectApplicationResult {
     if (!entityId || !effect) {
       return EffectApplicationResult.REJECTED;
     }
@@ -1334,7 +1334,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Remove effect from entity
    */
-  removeEffect(entityId: string, effectId: string, reason: EffectRemovalReason = EffectRemovalReason.REMOVED): boolean {
+  removeEffect(): boolean {
     if (!entityId || !effectId) {
       return false;
     }
@@ -1372,7 +1372,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Check if entity has effect
    */
-  hasEffect(entityId: string, effectId: string): boolean {
+  hasEffect(): boolean {
     const activeEffects = this.getActiveEffects(entityId);
     return activeEffects.some(effect => effect.effect.effectId === effectId);
   }
@@ -1380,7 +1380,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Update effects for all entities
    */
-  updateEffects(deltaTime: number, context: IEntityContext): IEffectResolution {
+  updateEffects(): IEffectResolution {
     const resolution = EffectResolution.create();
     const entitiesToRemove: string[] = [];
 
@@ -1475,7 +1475,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Clear effects for entity
    */
-  clearEffects(entityId: string): void {
+  clearEffects(): void {
     const activeEffects = this.entityEffects.get(entityId);
     if (activeEffects) {
       for (const effect of activeEffects) {
@@ -1500,7 +1500,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Get effect count for entity
    */
-  getEffectCount(entityId: string): number {
+  getEffectCount(): number {
     return this.getActiveEffects(entityId).length;
   }
 
@@ -1597,7 +1597,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Calculate effect duration in milliseconds
    */
-  calculateEffectDuration(effect: IBattleEffect): number {
+  calculateEffectDuration(): number {
     const seconds = effect.durationSeconds > 0 ? effect.durationSeconds * 1000 : 0;
     const turns = effect.durationTurns > 0 ? effect.durationTurns * 2000 : 0; // Assume 2 seconds per turn
     return Math.max(seconds, turns);
@@ -1606,7 +1606,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Check if effect should trigger on phase
    */
-  shouldTriggerOnPhase(effect: IBattleEffect, phase: EffectPhase): boolean {
+  shouldTriggerOnPhase(): boolean {
     switch (phase) {
       case EffectPhase.PRE_TURN:
         return effect.hasTrigger(EffectTrigger.ON_APPLY);
@@ -1624,7 +1624,7 @@ export class EffectManager implements IEffectManager {
   /**
    * Get effect priority (higher = more important)
    */
-  getEffectPriority(effect: IBattleEffect): number {
+  getEffectPriority(): number {
     // Base priority on effect type
     switch (effect.effectType) {
       case EffectType.STUN:

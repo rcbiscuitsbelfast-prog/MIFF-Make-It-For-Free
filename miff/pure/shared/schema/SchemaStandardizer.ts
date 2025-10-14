@@ -101,7 +101,7 @@ export class SchemaStandardizer {
   /**
    * Register a schema definition
    */
-  registerSchema(schema: SchemaDefinition): void {
+  registerSchema(): void {
     this.schemas.set(schema.id, schema);
     console.info('Schema registered', { schemaId: schema.id, module: schema.module });
   }
@@ -109,7 +109,7 @@ export class SchemaStandardizer {
   /**
    * Validate data against a schema
    */
-  validateData(data: any, schemaId: string): SchemaValidationResult {
+  validateData(): SchemaValidationResult {
     const schema = this.schemas.get(schemaId);
     if (!schema) {
       return {
@@ -202,7 +202,7 @@ export class SchemaStandardizer {
   /**
    * Standardize data across modules
    */
-  standardizeData(data: any, module: string): any {
+  standardizeData(): any {
     const moduleSchemas = Array.from(this.schemas.values())
       .filter(schema => schema.module === module);
 

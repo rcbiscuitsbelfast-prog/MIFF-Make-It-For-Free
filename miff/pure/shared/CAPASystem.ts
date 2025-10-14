@@ -126,7 +126,7 @@ export class CAPAManager {
   /**
    * Create a new CAPA entry
    */
-  createEntry(entry: Omit<CAPAEntry, 'id' | 'discoveredAt' | 'status'>): CAPAEntry {
+  createEntry(): CAPAEntry {
     const id = this.generateId();
     const capaEntry: CAPAEntry = {
       ...entry,
@@ -145,7 +145,7 @@ export class CAPAManager {
   /**
    * Update CAPA entry status
    */
-  updateStatus(id: string, status: CAPAStatus, resolution?: string): boolean {
+  updateStatus(): boolean {
     const entry = this.registry.entries.get(id);
     if (!entry) return false;
 
@@ -165,7 +165,7 @@ export class CAPAManager {
   /**
    * Add corrective or preventive action
    */
-  addAction(capaId: string, action: Omit<CAPAAction, 'id'>): boolean {
+  addAction(): boolean {
     const entry = this.registry.entries.get(capaId);
     if (!entry) return false;
 
@@ -242,7 +242,7 @@ export class CAPAManager {
   /**
    * Generate CAPA impact statement for PR
    */
-  generateImpactStatement(module: string, changes: string[]): string {
+  generateImpactStatement(): string {
     const relatedEntries = this.getEntries({ module });
     const openEntries = relatedEntries.filter(e => e.status === CAPAStatus.OPEN);
 

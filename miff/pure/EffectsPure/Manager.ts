@@ -578,7 +578,7 @@ export class EffectsPure {
   /**
    * Create a new effects manager
    */
-  createManager(managerData: Partial<EffectsManager>): EffectsOutput {
+  createManager(): EffectsOutput {
     if (!this.config.enableEffectsManagement) {
       return {
         op: 'create-manager',
@@ -666,7 +666,7 @@ export class EffectsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): EffectsOutput {
+  getManager(): EffectsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -1016,7 +1016,7 @@ export class RitualSystemPure {
   /**
    * Cancel a ritual
    */
-  cancelRitual(ritualId: string): boolean {
+  cancelRitual(): boolean {
     const ritual = this.activeRituals.get(ritualId);
     if (!ritual) return false;
 
@@ -1035,7 +1035,7 @@ export class RitualSystemPure {
   /**
    * Update ritual configuration
    */
-  updateConfig(newConfig: Partial<RitualConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...newConfig };
     console.info('Ritual configuration updated');
   }

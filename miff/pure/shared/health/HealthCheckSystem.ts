@@ -965,7 +965,7 @@ export class HealthCheckSystem {
   /**
    * Update health check configuration
    */
-  updateHealthCheckConfig(name: string, config: HealthCheckConfig): void {
+  updateHealthCheckConfig(): void {
     this.registry.checks.set(name, config);
   }
 

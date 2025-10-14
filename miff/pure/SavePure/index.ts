@@ -378,7 +378,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Add party member
    */
-  addPartyMember(entity: IGameEntity): void {
+  addPartyMember(): void {
     this.partyRoster.push({ ...entity });
     this.updateTimestamp();
     this.computeChecksum();
@@ -387,7 +387,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Remove party member
    */
-  removePartyMember(entityId: string): boolean {
+  removePartyMember(): boolean {
     const index = this.partyRoster.findIndex(member => member.id === entityId);
     if (index >= 0) {
       this.partyRoster.splice(index, 1);
@@ -401,7 +401,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Update party member
    */
-  updatePartyMember(entityId: string, updates: Partial<IGameEntity>): boolean {
+  updatePartyMember(): boolean {
     const member = this.partyRoster.find(m => m.id === entityId);
     if (member) {
       // Optimized: Use PerformanceOptimizer.optimizeObjectMerging
@@ -417,7 +417,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Add inventory item
    */
-  addInventoryItem(itemId: string, quantity: number = 1): void {
+  addInventoryItem(): void {
     this.inventory[itemId] = (this.inventory[itemId] || 0) + quantity;
     if (this.inventory[itemId] <= 0) {
       delete this.inventory[itemId];
@@ -429,7 +429,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Remove inventory item
    */
-  removeInventoryItem(itemId: string, quantity: number = 1): boolean {
+  removeInventoryItem(): boolean {
     const currentQuantity = this.inventory[itemId] || 0;
     if (currentQuantity >= quantity) {
       this.inventory[itemId] -= quantity;
@@ -446,7 +446,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Set quest flag
    */
-  setQuestFlag(flagId: string, value: boolean): void {
+  setQuestFlag(): void {
     this.questFlags[flagId] = value;
     this.updateTimestamp();
     this.computeChecksum();
@@ -455,7 +455,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Unlock content
    */
-  unlockContent(contentId: string): void {
+  unlockContent(): void {
     if (!this.unlockedContent.includes(contentId)) {
       this.unlockedContent.push(contentId);
       this.updateTimestamp();
@@ -466,14 +466,14 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Check if content is unlocked
    */
-  isContentUnlocked(contentId: string): boolean {
+  isContentUnlocked(): boolean {
     return this.unlockedContent.includes(contentId);
   }
 
   /**
    * Update game statistics
    */
-  updateStatistic(statId: string, value: number): void {
+  updateStatistic(): void {
     this.statistics[statId] = value;
     this.updateTimestamp();
     this.computeChecksum();
@@ -482,14 +482,14 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Get game statistic
    */
-  getStatistic(statId: string): number {
+  getStatistic(): number {
     return this.statistics[statId] || 0;
   }
 
   /**
    * Set game setting
    */
-  setGameSetting(settingId: string, value: any): void {
+  setGameSetting(): void {
     this.gameSettings[settingId] = value;
     this.updateTimestamp();
     this.computeChecksum();
@@ -498,14 +498,14 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Get game setting
    */
-  getGameSetting(settingId: string): any {
+  getGameSetting(): any {
     return this.gameSettings[settingId];
   }
 
   /**
    * Add metadata
    */
-  addMetadata(key: string, value: any): void {
+  addMetadata(): void {
     this.metadata[key] = value;
     this.updateTimestamp();
     this.computeChecksum();
@@ -514,7 +514,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Get metadata
    */
-  getMetadata(key: string): any {
+  getMetadata(): any {
     return this.metadata[key];
   }
 
@@ -550,7 +550,7 @@ export class SaveValidator implements ISaveValidator {
   /**
    * Validate save snapshot
    */
-  validate(snapshot: ISaveSnapshot): SaveValidationResult {
+  validate(): SaveValidationResult {
     const warnings: string[] = [];
     const errors: string[] = [];
 
@@ -628,7 +628,7 @@ export class SaveValidator implements ISaveValidator {
   /**
    * Validate specific field
    */
-  validateField(fieldName: string, value: any): boolean {
+  validateField(): boolean {
     switch (fieldName) {
       case 'playerId':
       case 'zoneId':
@@ -657,14 +657,14 @@ export class SaveValidator implements ISaveValidator {
   /**
    * Validate version string
    */
-  validateVersion(version: string): boolean {
+  validateVersion(): boolean {
     return this.supportedVersions.has(version as SaveVersion);
   }
 
   /**
    * Validate checksum
    */
-  validateChecksum(snapshot: ISaveSnapshot): boolean {
+  validateChecksum(): boolean {
     if (!snapshot.checksum) return false;
 
     const expectedChecksum = snapshot.computeChecksum();
@@ -699,14 +699,14 @@ export class SaveValidator implements ISaveValidator {
   /**
    * Add supported version
    */
-  addSupportedVersion(version: SaveVersion): void {
+  addSupportedVersion(): void {
     this.supportedVersions.add(version);
   }
 
   /**
    * Remove supported version
    */
-  removeSupportedVersion(version: SaveVersion): void {
+  removeSupportedVersion(): void {
     this.supportedVersions.delete(version);
   }
 }
@@ -804,7 +804,7 @@ export class SaveMigrator implements ISaveMigrator {
   /**
    * Migrate save snapshot to target version
    */
-  migrate(snapshot: ISaveSnapshot, targetVersion?: SaveVersion): SaveMigrationResult {
+  migrate(): SaveMigrationResult {
     if (!snapshot) {
       return {
         snapshot: SaveSnapshot.create(),
@@ -871,7 +871,7 @@ export class SaveMigrator implements ISaveMigrator {
   /**
    * Check if migration is possible
    */
-  canMigrate(fromVersion: string, toVersion: string): boolean {
+  canMigrate(): boolean {
     const migrationPath = this.getMigrationPath(fromVersion, toVersion);
     return migrationPath.length > 1;
   }
@@ -935,7 +935,7 @@ export class SaveMigrator implements ISaveMigrator {
   /**
    * Remove migration step
    */
-  removeMigrationStep(fromVersion: string, toVersion: string): void {
+  removeMigrationStep(): void {
     this.migrationSteps.delete(`${fromVersion}->${toVersion}`);
   }
 }
@@ -1071,14 +1071,14 @@ export class SaveManager implements ISaveManager {
   /**
    * Validate save snapshot
    */
-  validateSnapshot(snapshot: ISaveSnapshot): SaveValidationResult {
+  validateSnapshot(): SaveValidationResult {
     return this.validator.validate(snapshot);
   }
 
   /**
    * Migrate save snapshot
    */
-  migrateSnapshot(snapshot: ISaveSnapshot, targetVersion?: SaveVersion): SaveMigrationResult {
+  migrateSnapshot(): SaveMigrationResult {
     return this.migrator.migrate(snapshot, targetVersion);
   }
 
@@ -1243,7 +1243,7 @@ export const SaveUtils = {
   /**
    * Generate unique save file name
    */
-  generateSaveFileName(playerId: string, timestamp?: string): string {
+  generateSaveFileName(): string {
     const date = timestamp ? new Date(timestamp) : new Date();
     const formattedDate = date.toISOString().replace(/[:.]/g, '-').substr(0, 19);
     return `save_${playerId}_${formattedDate}.json`;
@@ -1252,7 +1252,7 @@ export const SaveUtils = {
   /**
    * Validate file path
    */
-  validateFilePath(filePath: string): boolean {
+  validateFilePath(): boolean {
     if (!filePath || filePath.trim() === '') {
       return false;
     }
@@ -1274,7 +1274,7 @@ export const SaveUtils = {
   /**
    * Sanitize file path
    */
-  sanitizeFilePath(filePath: string): string {
+  sanitizeFilePath(): string {
     return filePath
       .replace(/[<>:"|?*\x00-\x1f]/g, '_')
       .replace(/\.\./g, '.')
@@ -1285,14 +1285,14 @@ export const SaveUtils = {
   /**
    * Calculate save file size
    */
-  calculateSaveSize(snapshot: ISaveSnapshot): number {
+  calculateSaveSize(): number {
     return snapshot.getEstimatedSize();
   },
 
   /**
    * Format file size for display
    */
-  formatFileSize(bytes: number): string {
+  formatFileSize(): string {
     const sizes = ['B', 'KB', 'MB', 'GB'];
     if (bytes === 0) return '0 B';
     const i = Math.floor(Math.log(bytes) / Math.log(1024));

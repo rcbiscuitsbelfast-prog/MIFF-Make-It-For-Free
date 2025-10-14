@@ -340,7 +340,7 @@ export class SettingsPure {
   /**
    * Create a new settings manager
    */
-  createManager(managerData: Partial<SettingsManager>): SettingsOutput {
+  createManager(): SettingsOutput {
     if (!this.config.enableSettingsManagement) {
       return {
         op: 'create-manager',
@@ -426,7 +426,7 @@ export class SettingsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SettingsOutput {
+  getManager(): SettingsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -446,7 +446,7 @@ export class SettingsPure {
   /**
    * Create setting
    */
-  createSetting(managerId: string, setting: Partial<Setting>): SettingsOutput {
+  createSetting(): SettingsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -515,7 +515,7 @@ export class SettingsPure {
   /**
    * Update setting value
    */
-  updateSetting(managerId: string, settingId: string, value: any): SettingsOutput {
+  updateSetting(): SettingsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -576,7 +576,7 @@ export class SettingsPure {
   /**
    * Get setting value
    */
-  getSetting(managerId: string, settingId: string): SettingsOutput {
+  getSetting(): SettingsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -611,7 +611,7 @@ export class SettingsPure {
   /**
    * Create setting category
    */
-  createCategory(managerId: string, category: Partial<SettingCategory>): SettingsOutput {
+  createCategory(): SettingsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

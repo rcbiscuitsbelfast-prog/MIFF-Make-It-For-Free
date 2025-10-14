@@ -1364,7 +1364,7 @@ export class RenderWorldPure {
   /**
    * Switch lens mode
    */
-  switchLensMode(mode: LensMode): boolean {
+  switchLensMode(): boolean {
     const success = this.engines.lensMode.switchToMode(mode);
     if (success) {
       this.state.world.gameplay.lensMode = mode;
@@ -1377,7 +1377,7 @@ export class RenderWorldPure {
   /**
    * Handle interaction with an object
    */
-  interactWithObject(objectId: string, behavior: InteractionBehavior): any {
+  interactWithObject(): any {
     const result = this.engines.interactables.interact(objectId, behavior);
     
     if (result.success) {
@@ -1431,7 +1431,7 @@ export class RenderWorldPure {
   /**
    * Update gameplay systems
    */
-  updateGameplaySystems(deltaTime: number): void {
+  updateGameplaySystems(): void {
     // Update mobile performance monitoring
     this.engines.mobilePerformance.updatePerformance(deltaTime);
     
@@ -1460,7 +1460,7 @@ export class RenderWorldPure {
   /**
    * Handle keyboard input for gameplay systems
    */
-  handleGameplayInput(key: string): boolean {
+  handleGameplayInput(): boolean {
     // Handle lens mode switching
     if (this.engines.lensMode.handleKeyPress(key)) {
       return true;
@@ -1540,7 +1540,7 @@ export class RenderWorldPure {
   /**
    * Set mobile performance level
    */
-  setMobilePerformanceLevel(level: PerformanceLevel): void {
+  setMobilePerformanceLevel(): void {
     this.engines.mobilePerformance.setPerformanceLevel(level);
   }
 

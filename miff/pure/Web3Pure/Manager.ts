@@ -321,7 +321,7 @@ export class Web3Pure {
   /**
    * Create a new Web3 manager
    */
-  createManager(managerData: Partial<Web3Manager>): Web3Output {
+  createManager(): Web3Output {
     if (!this.config.enableBlockchainConnection) {
       return {
         op: 'create-manager',
@@ -417,7 +417,7 @@ export class Web3Pure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): Web3Output {
+  getManager(): Web3Output {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -437,7 +437,7 @@ export class Web3Pure {
   /**
    * Add blockchain to manager
    */
-  addBlockchain(managerId: string, blockchain: Partial<Blockchain>): Web3Output {
+  addBlockchain(): Web3Output {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -478,7 +478,7 @@ export class Web3Pure {
   /**
    * Add wallet to manager
    */
-  addWallet(managerId: string, wallet: Partial<Wallet>): Web3Output {
+  addWallet(): Web3Output {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -523,7 +523,7 @@ export class Web3Pure {
   /**
    * Deploy smart contract
    */
-  deployContract(managerId: string, contract: Partial<SmartContract>): Web3Output {
+  deployContract(): Web3Output {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -568,7 +568,7 @@ export class Web3Pure {
   /**
    * Send transaction
    */
-  sendTransaction(managerId: string, transaction: Partial<Transaction>): Web3Output {
+  sendTransaction(): Web3Output {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

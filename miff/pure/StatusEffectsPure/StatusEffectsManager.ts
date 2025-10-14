@@ -131,7 +131,7 @@ export class StatusEffectsManager {
   /**
    * Create a new status entity
    */
-  createEntity(id: string, maxHp: number, effects: StatusEffect[] = []): StatusOutput {
+  createEntity(): StatusOutput {
     if (this.entities.has(id)) {
       return {
         op: 'create',
@@ -161,7 +161,7 @@ export class StatusEffectsManager {
   /**
    * Apply status effect to entity
    */
-  applyEffect(entityId: string, effect: Omit<StatusEffect, 'appliedAt' | 'expiresAt' | 'currentStacks'>): StatusOutput {
+  applyEffect(): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -245,7 +245,7 @@ export class StatusEffectsManager {
   /**
    * Remove status effect from entity
    */
-  removeEffect(entityId: string, effectId: string): StatusOutput {
+  removeEffect(): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -279,7 +279,7 @@ export class StatusEffectsManager {
   /**
    * Simulate status effects for an entity
    */
-  simulateEntity(entityId: string): StatusOutput {
+  simulateEntity(): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -318,7 +318,7 @@ export class StatusEffectsManager {
   /**
    * Process effects for a specific entity
    */
-  processEffects(entityId: string): StatusOutput {
+  processEffects(): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -424,7 +424,7 @@ export class StatusEffectsManager {
   /**
    * Get entity by ID
    */
-  getEntity(entityId: string): StatusOutput {
+  getEntity(): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -444,7 +444,7 @@ export class StatusEffectsManager {
   /**
    * List all entities
    */
-  listEntities(filter?: StatusFilter): StatusOutput {
+  listEntities(): StatusOutput {
     let entities = Array.from(this.entities.values());
 
     if (filter) {
@@ -514,7 +514,7 @@ export class StatusEffectsManager {
   /**
    * Add immunity to entity
    */
-  addImmunity(entityId: string, category: string): StatusOutput {
+  addImmunity(): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -539,7 +539,7 @@ export class StatusEffectsManager {
   /**
    * Add resistance to entity
    */
-  addResistance(entityId: string, category: string, percentage: number): StatusOutput {
+  addResistance(): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -562,7 +562,7 @@ export class StatusEffectsManager {
   /**
    * Export status data
    */
-  exportStatus(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): StatusOutput {
+  exportStatus(): StatusOutput {
     const entities = Array.from(this.entities.values());
 
     switch (format) {

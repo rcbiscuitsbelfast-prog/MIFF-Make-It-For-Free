@@ -40,7 +40,7 @@ function rgbToHex(r: number, g: number, b: number): string {
 function lerp(a: number, b: number, t: number): number { return a + (b - a) * t; }
 
 export const AdvancedRenderingPure = {
-	applyOutline(matrix: PixelMatrix, options: OutlineOptions): PixelMatrix {
+	applyOutline(): PixelMatrix {
 		const h = matrix.length;
 		const w = matrix[0]?.length || 0;
 		const result: PixelMatrix = matrix.map(row => row.slice());

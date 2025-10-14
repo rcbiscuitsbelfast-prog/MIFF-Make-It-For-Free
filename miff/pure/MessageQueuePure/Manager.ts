@@ -476,7 +476,7 @@ export class MessageQueuePure {
   /**
    * Create a new message queue manager
    */
-  createManager(managerData: Partial<MessageQueueManager>): MessageQueueOutput {
+  createManager(): MessageQueueOutput {
     if (!this.config.enableQueueManagement) {
       return {
         op: 'create-manager',
@@ -572,7 +572,7 @@ export class MessageQueuePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): MessageQueueOutput {
+  getManager(): MessageQueueOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

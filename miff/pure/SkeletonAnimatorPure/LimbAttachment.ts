@@ -292,7 +292,7 @@ export class LimbAttachment {
   /**
    * Add wings
    */
-  addWings(attachmentPointId: string): LimbAttachment {
+  addWings(): LimbAttachment {
     // Left wing
     this.addLimb('Left Wing', 'wing', attachmentPointId, [
       {
@@ -400,7 +400,7 @@ export class LimbAttachment {
   /**
    * Add tail
    */
-  addTail(attachmentPointId: string, segments: number = 5): LimbAttachment {
+  addTail(): LimbAttachment {
     const tailSegments: Omit<LimbSegment, 'id' | 'parent' | 'children'>[] = [];
     
     for (let i = 0; i < segments; i++) {
@@ -494,7 +494,7 @@ export class LimbAttachment {
   /**
    * Update limb segment transform
    */
-  updateLimbSegmentTransform(limbId: string, segmentId: string, transform: Partial<Transform>): LimbAttachment {
+  updateLimbSegmentTransform(): LimbAttachment {
     const limb = this.limbs.get(limbId);
     if (!limb) throw new Error(`Limb ${limbId} not found`);
 
@@ -517,7 +517,7 @@ export class LimbAttachment {
   /**
    * Delete limb
    */
-  deleteLimb(limbId: string): LimbAttachment {
+  deleteLimb(): LimbAttachment {
     const limb = this.limbs.get(limbId);
     if (!limb) throw new Error(`Limb ${limbId} not found`);
 

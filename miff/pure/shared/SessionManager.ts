@@ -353,7 +353,7 @@ export class SessionManager {
   /**
    * Check if session is valid
    */
-  isSessionValid(sessionId: string): boolean {
+  isSessionValid(): boolean {
     const session = this.getSession(sessionId);
     if (!session || !session.isActive) {
       return false;

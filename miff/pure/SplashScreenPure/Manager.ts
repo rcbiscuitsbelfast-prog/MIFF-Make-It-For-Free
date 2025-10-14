@@ -355,7 +355,7 @@ export class SplashScreenPure {
   /**
    * Create a new splash screen manager
    */
-  createManager(managerData: Partial<SplashScreenManager>): SplashScreenOutput {
+  createManager(): SplashScreenOutput {
     if (!this.config.enableSplashManagement) {
       return {
         op: 'create-manager',
@@ -442,7 +442,7 @@ export class SplashScreenPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SplashScreenOutput {
+  getManager(): SplashScreenOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

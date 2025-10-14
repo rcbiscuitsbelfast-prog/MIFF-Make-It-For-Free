@@ -978,7 +978,7 @@ export class TestRunner {
   /**
    * Update configuration
    */
-  updateConfig(config: Partial<TestConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...config };
   }
 

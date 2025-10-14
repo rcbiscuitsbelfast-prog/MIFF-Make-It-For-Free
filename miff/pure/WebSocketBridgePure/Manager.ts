@@ -266,7 +266,7 @@ export class WebSocketBridgePure {
   /**
    * Create a new WebSocket bridge
    */
-  createBridge(bridgeData: Partial<WebSocketBridge>): WebSocketBridgeOutput {
+  createBridge(): WebSocketBridgeOutput {
     if (!this.config.enableBridgeCreation) {
       return {
         op: 'create-bridge',
@@ -380,7 +380,7 @@ export class WebSocketBridgePure {
   /**
    * Get bridge by ID
    */
-  getBridge(bridgeId: string): WebSocketBridgeOutput {
+  getBridge(): WebSocketBridgeOutput {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
       return {
@@ -400,7 +400,7 @@ export class WebSocketBridgePure {
   /**
    * Update bridge
    */
-  updateBridge(bridgeId: string, updates: Partial<WebSocketBridge>): WebSocketBridgeOutput {
+  updateBridge(): WebSocketBridgeOutput {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
       return {
@@ -423,7 +423,7 @@ export class WebSocketBridgePure {
   /**
    * Delete bridge
    */
-  deleteBridge(bridgeId: string): WebSocketBridgeOutput {
+  deleteBridge(): WebSocketBridgeOutput {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
       return {
@@ -446,7 +446,7 @@ export class WebSocketBridgePure {
   /**
    * Add connection to bridge
    */
-  addConnection(bridgeId: string, connection: Partial<BridgeConnection>): WebSocketBridgeOutput {
+  addConnection(): WebSocketBridgeOutput {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
       return {
@@ -494,7 +494,7 @@ export class WebSocketBridgePure {
   /**
    * Remove connection from bridge
    */
-  removeConnection(connectionId: string): WebSocketBridgeOutput {
+  removeConnection(): WebSocketBridgeOutput {
     const connection = this.connections.get(connectionId);
     if (!connection) {
       return {
@@ -525,7 +525,7 @@ export class WebSocketBridgePure {
   /**
    * Route message through bridge
    */
-  routeMessage(bridgeId: string, message: any): WebSocketBridgeOutput {
+  routeMessage(): WebSocketBridgeOutput {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
       return {

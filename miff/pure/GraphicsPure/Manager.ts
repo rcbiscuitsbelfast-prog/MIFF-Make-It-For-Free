@@ -671,7 +671,7 @@ export class GraphicsPure {
   /**
    * Create a new graphics manager
    */
-  createManager(managerData: Partial<GraphicsManager>): GraphicsOutput {
+  createManager(): GraphicsOutput {
     if (!this.config.enableGraphicsManagement) {
       return {
         op: 'create-manager',
@@ -767,7 +767,7 @@ export class GraphicsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): GraphicsOutput {
+  getManager(): GraphicsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -574,7 +574,7 @@ export class LicenseAuditPure {
   /**
    * Create a new license audit manager
    */
-  createManager(managerData: Partial<LicenseAuditManager>): LicenseAuditOutput {
+  createManager(): LicenseAuditOutput {
     if (!this.config.enableAuditManagement) {
       return {
         op: 'create-manager',
@@ -663,7 +663,7 @@ export class LicenseAuditPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): LicenseAuditOutput {
+  getManager(): LicenseAuditOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

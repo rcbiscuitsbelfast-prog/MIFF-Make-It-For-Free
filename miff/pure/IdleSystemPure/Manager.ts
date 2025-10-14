@@ -382,7 +382,7 @@ export class IdleSystemPure {
   /**
    * Create a new idle system manager
    */
-  createManager(managerData: Partial<IdleSystemManager>): IdleSystemOutput {
+  createManager(): IdleSystemOutput {
     if (!this.config.enableIdleManagement) {
       return {
         op: 'create-manager',
@@ -482,7 +482,7 @@ export class IdleSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): IdleSystemOutput {
+  getManager(): IdleSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

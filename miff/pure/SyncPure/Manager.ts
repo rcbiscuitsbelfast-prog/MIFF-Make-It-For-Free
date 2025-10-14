@@ -276,7 +276,7 @@ export class SyncPure {
   /**
    * Create a new sync manager
    */
-  createManager(managerData: Partial<SyncManager>): SyncOutput {
+  createManager(): SyncOutput {
     if (!this.config.enableDataSynchronization) {
       return {
         op: 'create-manager',
@@ -365,7 +365,7 @@ export class SyncPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SyncOutput {
+  getManager(): SyncOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -385,7 +385,7 @@ export class SyncPure {
   /**
    * Register device
    */
-  registerDevice(managerId: string, device: Partial<SyncDevice>): SyncOutput {
+  registerDevice(): SyncOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -430,7 +430,7 @@ export class SyncPure {
   /**
    * Add sync item
    */
-  addSyncItem(managerId: string, item: Partial<SyncItem>): SyncOutput {
+  addSyncItem(): SyncOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -476,7 +476,7 @@ export class SyncPure {
   /**
    * Sync items
    */
-  syncItems(managerId: string, deviceId: string): SyncOutput {
+  syncItems(): SyncOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -576,7 +576,7 @@ export class SyncPure {
   /**
    * Resolve conflict
    */
-  resolveConflict(managerId: string, conflictId: string, resolution: ConflictResolution): SyncOutput {
+  resolveConflict(): SyncOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

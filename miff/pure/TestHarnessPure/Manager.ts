@@ -323,7 +323,7 @@ export class TestHarnessPure {
   /**
    * Create a new test harness manager
    */
-  createManager(managerData: Partial<TestHarnessManager>): TestHarnessOutput {
+  createManager(): TestHarnessOutput {
     if (!this.config.enableTestHarnessManagement) {
       return {
         op: 'create-manager',
@@ -411,7 +411,7 @@ export class TestHarnessPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): TestHarnessOutput {
+  getManager(): TestHarnessOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -477,7 +477,7 @@ export class HUDPure {
   /**
    * Create a new HUD manager
    */
-  createManager(managerData: Partial<HUDManager>): HUDOutput {
+  createManager(): HUDOutput {
     if (!this.config.enableElementManagement) {
       return {
         op: 'create-manager',
@@ -562,7 +562,7 @@ export class HUDPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): HUDOutput {
+  getManager(): HUDOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -582,7 +582,7 @@ export class HUDPure {
   /**
    * Create HUD element
    */
-  createElement(managerId: string, element: Partial<HUDElement>): HUDOutput {
+  createElement(): HUDOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -651,7 +651,7 @@ export class HUDPure {
   /**
    * Create HUD layer
    */
-  createLayer(managerId: string, layer: Partial<HUDLayer>): HUDOutput {
+  createLayer(): HUDOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -696,7 +696,7 @@ export class HUDPure {
   /**
    * Update element data
    */
-  updateElementData(managerId: string, elementId: string, data: any): HUDOutput {
+  updateElementData(): HUDOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -733,7 +733,7 @@ export class HUDPure {
   /**
    * Show/hide element
    */
-  setElementVisibility(managerId: string, elementId: string, visible: boolean): HUDOutput {
+  setElementVisibility(): HUDOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

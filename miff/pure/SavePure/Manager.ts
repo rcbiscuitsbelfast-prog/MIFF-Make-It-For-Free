@@ -383,7 +383,7 @@ export class SavePure {
   /**
    * Create a new save manager
    */
-  createManager(managerData: Partial<SaveManager>): SaveOutput {
+  createManager(): SaveOutput {
     if (!this.config.enableSaveManagement) {
       return {
         op: 'create-manager',
@@ -471,7 +471,7 @@ export class SavePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SaveOutput {
+  getManager(): SaveOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -491,7 +491,7 @@ export class SavePure {
   /**
    * Create save file
    */
-  createSave(managerId: string, save: Partial<SaveFile>): SaveOutput {
+  createSave(): SaveOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -573,7 +573,7 @@ export class SavePure {
   /**
    * Load save file
    */
-  loadSave(managerId: string, saveId: string): SaveOutput {
+  loadSave(): SaveOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -622,7 +622,7 @@ export class SavePure {
   /**
    * Create backup
    */
-  createBackup(managerId: string, saveId: string, backupType: BackupType = 'manual'): SaveOutput {
+  createBackup(): SaveOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

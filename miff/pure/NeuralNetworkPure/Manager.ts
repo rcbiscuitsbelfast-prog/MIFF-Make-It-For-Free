@@ -544,7 +544,7 @@ export class NeuralNetworkPure {
   /**
    * Create a new neural network manager
    */
-  createManager(managerData: Partial<NeuralNetworkManager>): NeuralNetworkOutput {
+  createManager(): NeuralNetworkOutput {
     if (!this.config.enableNeuralNetworkManagement) {
       return {
         op: 'create-manager',
@@ -632,7 +632,7 @@ export class NeuralNetworkPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): NeuralNetworkOutput {
+  getManager(): NeuralNetworkOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -652,7 +652,7 @@ export class NeuralNetworkPure {
   /**
    * Create neural network model
    */
-  createModel(managerId: string, model: Partial<NeuralNetworkModel>): NeuralNetworkOutput {
+  createModel(): NeuralNetworkOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

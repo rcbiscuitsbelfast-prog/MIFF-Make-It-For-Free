@@ -699,7 +699,7 @@ export class CutScenePure {
   /**
    * Create a new cut scene manager
    */
-  createManager(managerData: Partial<CutSceneManager>): CutSceneOutput {
+  createManager(): CutSceneOutput {
     if (!this.config.enableCutSceneManagement) {
       return {
         op: 'create-manager',
@@ -791,7 +791,7 @@ export class CutScenePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): CutSceneOutput {
+  getManager(): CutSceneOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

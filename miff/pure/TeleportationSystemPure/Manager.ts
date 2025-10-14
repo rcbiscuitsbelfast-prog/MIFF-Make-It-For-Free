@@ -510,7 +510,7 @@ export class TeleportationSystemPure {
   /**
    * Create a new teleportation system manager
    */
-  createManager(managerData: Partial<TeleportationSystemManager>): TeleportationSystemOutput {
+  createManager(): TeleportationSystemOutput {
     if (!this.config.enableTeleportationManagement) {
       return {
         op: 'create-manager',
@@ -598,7 +598,7 @@ export class TeleportationSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): TeleportationSystemOutput {
+  getManager(): TeleportationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -618,7 +618,7 @@ export class TeleportationSystemPure {
   /**
    * Create portal
    */
-  createPortal(managerId: string, portal: Partial<Portal>): TeleportationSystemOutput {
+  createPortal(): TeleportationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -726,7 +726,7 @@ export class TeleportationSystemPure {
   /**
    * Create gateway
    */
-  createGateway(managerId: string, gateway: Partial<Gateway>): TeleportationSystemOutput {
+  createGateway(): TeleportationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

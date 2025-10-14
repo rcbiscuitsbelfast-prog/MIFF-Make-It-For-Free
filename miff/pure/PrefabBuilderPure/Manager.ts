@@ -530,7 +530,7 @@ export class PrefabBuilderPure {
   /**
    * Create a new prefab builder manager
    */
-  createManager(managerData: Partial<PrefabBuilderManager>): PrefabBuilderOutput {
+  createManager(): PrefabBuilderOutput {
     if (!this.config.enablePrefabManagement) {
       return {
         op: 'create-manager',
@@ -619,7 +619,7 @@ export class PrefabBuilderPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): PrefabBuilderOutput {
+  getManager(): PrefabBuilderOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

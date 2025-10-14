@@ -230,7 +230,7 @@ export class StandardErrorHandler {
   /**
    * Add a recovery strategy
    */
-  addRecoveryStrategy(code: ErrorCode, strategy: ErrorRecoveryStrategy): void {
+  addRecoveryStrategy(): void {
     if (!this.recoveryStrategies.has(code)) {
       this.recoveryStrategies.set(code, []);
     }

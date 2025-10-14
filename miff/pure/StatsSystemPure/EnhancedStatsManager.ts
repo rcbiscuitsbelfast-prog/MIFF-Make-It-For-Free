@@ -168,7 +168,7 @@ export class EnhancedStatsManager {
   /**
    * Create entity with stats
    */
-  createEntity(id: string, stats: Stat[] = []): StatsOutput {
+  createEntity(): StatsOutput {
     if (this.entities.has(id)) {
       return {
         op: 'create_entity',
@@ -198,7 +198,7 @@ export class EnhancedStatsManager {
   /**
    * Add or update stat
    */
-  setStat(entityId: string, statKey: string, baseValue: number, category: string = 'misc', description?: string): StatsOutput {
+  setStat(): StatsOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -248,7 +248,7 @@ export class EnhancedStatsManager {
   /**
    * Add modifier to entity
    */
-  addModifier(entityId: string, modifier: StatModifier): StatsOutput {
+  addModifier(): StatsOutput {
     if (!this.config.enableModifiers) {
       return {
         op: 'add_modifier',
@@ -294,7 +294,7 @@ export class EnhancedStatsManager {
   /**
    * Remove modifier
    */
-  removeModifier(entityId: string, modifierId: string): StatsOutput {
+  removeModifier(): StatsOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -326,7 +326,7 @@ export class EnhancedStatsManager {
   /**
    * Add stat dependency
    */
-  addDependency(entityId: string, dependency: StatDependency): StatsOutput {
+  addDependency(): StatsOutput {
     if (!this.config.enableDependencies) {
       return {
         op: 'add_dependency',
@@ -377,7 +377,7 @@ export class EnhancedStatsManager {
   /**
    * Calculate all stats for entity
    */
-  calculateStats(entityId: string): StatsOutput {
+  calculateStats(): StatsOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -506,7 +506,7 @@ export class EnhancedStatsManager {
   /**
    * Get entity stats
    */
-  getEntityStats(entityId: string): StatsOutput {
+  getEntityStats(): StatsOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
@@ -539,7 +539,7 @@ export class EnhancedStatsManager {
   /**
    * Get stat progression
    */
-  getStatProgression(entityId: string, statKey: string): StatsOutput {
+  getStatProgression(): StatsOutput {
     if (!this.config.enableProgression) {
       return {
         op: 'get_progression',
@@ -690,7 +690,7 @@ export class EnhancedStatsManager {
   /**
    * Export stats data
    */
-  exportStats(format: 'json' | 'manifest' | 'summary' | 'analytics' = 'json'): StatsOutput {
+  exportStats(): StatsOutput {
     const entities = Array.from(this.entities.values());
 
     switch (format) {

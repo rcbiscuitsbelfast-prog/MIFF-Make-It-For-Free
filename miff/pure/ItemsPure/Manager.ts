@@ -460,7 +460,7 @@ export class ItemsPure {
   /**
    * Create a new items manager
    */
-  createManager(managerData: Partial<ItemsManager>): ItemsOutput {
+  createManager(): ItemsOutput {
     if (!this.config.enableItemManagement) {
       return {
         op: 'create-manager',
@@ -547,7 +547,7 @@ export class ItemsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ItemsOutput {
+  getManager(): ItemsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -567,7 +567,7 @@ export class ItemsPure {
   /**
    * Create item
    */
-  createItem(managerId: string, item: Partial<Item>): ItemsOutput {
+  createItem(): ItemsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -635,7 +635,7 @@ export class ItemsPure {
   /**
    * Create inventory
    */
-  createInventory(managerId: string, inventory: Partial<Inventory>): ItemsOutput {
+  createInventory(): ItemsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -684,7 +684,7 @@ export class ItemsPure {
   /**
    * Add item to inventory
    */
-  addItemToInventory(managerId: string, inventoryId: string, itemId: string, quantity: number): ItemsOutput {
+  addItemToInventory(): ItemsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -820,7 +820,7 @@ export class ItemsPure {
   /**
    * Create recipe
    */
-  createRecipe(managerId: string, recipe: Partial<Recipe>): ItemsOutput {
+  createRecipe(): ItemsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

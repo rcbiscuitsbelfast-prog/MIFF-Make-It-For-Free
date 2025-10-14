@@ -61,7 +61,7 @@ export class RealQuestSystem {
   /**
    * Add a new quest to the system
    */
-  addQuest(quest: Quest): boolean {
+  addQuest(): boolean {
     try {
       if (this.quests.has(quest.id)) {
         console.warn(`Quest ${quest.id} already exists`);
@@ -93,7 +93,7 @@ export class RealQuestSystem {
   /**
    * Start a quest for a player
    */
-  startQuest(questId: string, playerId: string): boolean {
+  startQuest(): boolean {
     try {
       const quest = this.quests.get(questId);
       if (!quest) {
@@ -143,7 +143,7 @@ export class RealQuestSystem {
   /**
    * Complete a quest
    */
-  completeQuest(questId: string, playerId: string): boolean {
+  completeQuest(): boolean {
     try {
       const progressKey = `${playerId}:${questId}`;
       const progress = this.activeQuests.get(progressKey);
@@ -183,7 +183,7 @@ export class RealQuestSystem {
   /**
    * Update quest objective progress
    */
-  updateObjective(questId: string, playerId: string, objectiveId: string, progress: number): boolean {
+  updateObjective(): boolean {
     try {
       const progressKey = `${playerId}:${questId}`;
       const questProgress = this.activeQuests.get(progressKey);
@@ -271,7 +271,7 @@ export class RealQuestSystem {
   /**
    * Event system for quest events
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.questEvents.has(event)) {
       this.questEvents.set(event, []);
     }
@@ -281,7 +281,7 @@ export class RealQuestSystem {
   /**
    * Remove event handler
    */
-  off(event: string, handler: Function): void {
+  off(): void {
     const handlers = this.questEvents.get(event);
     if (handlers) {
       const index = handlers.indexOf(handler);

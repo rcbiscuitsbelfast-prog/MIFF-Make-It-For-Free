@@ -188,7 +188,7 @@ export class PlatformBridge {
   /**
    * Destroy render target
    */
-  destroyRenderTarget(id: string): boolean {
+  destroyRenderTarget(): boolean {
     const target = this.renderTargets.get(id);
     if (!target) {
       return false;
@@ -217,7 +217,7 @@ export class PlatformBridge {
   /**
    * Register input device
    */
-  registerInputDevice(device: InputDevice): void {
+  registerInputDevice(): void {
     this.inputDevices.set(device.id, device);
     console.info(`🎮 Input device registered: ${device.name} (${device.type})`);
   }
@@ -225,7 +225,7 @@ export class PlatformBridge {
   /**
    * Unregister input device
    */
-  unregisterInputDevice(deviceId: string): boolean {
+  unregisterInputDevice(): boolean {
     const device = this.inputDevices.get(deviceId);
     if (!device) {
       return false;
@@ -290,7 +290,7 @@ export class PlatformBridge {
   /**
    * Stop audio
    */
-  stopAudio(audioId: string): boolean {
+  stopAudio(): boolean {
     if (!this.audioBackend) {
       return false;
     }
@@ -384,7 +384,7 @@ export class PlatformBridge {
   /**
    * Check if feature is supported
    */
-  isFeatureSupported(feature: string): boolean {
+  isFeatureSupported(): boolean {
     return this.capabilities.features.includes(feature);
   }
 
@@ -398,7 +398,7 @@ export class PlatformBridge {
   /**
    * Update platform configuration
    */
-  updateConfig(updates: Partial<PlatformConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...updates };
     console.info('⚙️  Platform configuration updated');
   }

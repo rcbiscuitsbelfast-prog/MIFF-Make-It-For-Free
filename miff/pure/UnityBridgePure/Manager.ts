@@ -426,7 +426,7 @@ export class UnityBridgePure {
   /**
    * Create a new Unity bridge manager
    */
-  createManager(managerData: Partial<UnityBridgeManager>): UnityBridgeOutput {
+  createManager(): UnityBridgeOutput {
     if (!this.config.enableBridgeManagement) {
       return {
         op: 'create-manager',
@@ -515,7 +515,7 @@ export class UnityBridgePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): UnityBridgeOutput {
+  getManager(): UnityBridgeOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

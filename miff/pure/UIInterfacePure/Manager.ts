@@ -608,7 +608,7 @@ export class UIInterfacePure {
   /**
    * Create a new UI interface manager
    */
-  createManager(managerData: Partial<UIInterfaceManager>): UIInterfaceOutput {
+  createManager(): UIInterfaceOutput {
     if (!this.config.enableUIManagement) {
       return {
         op: 'create-manager',
@@ -695,7 +695,7 @@ export class UIInterfacePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): UIInterfaceOutput {
+  getManager(): UIInterfaceOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -715,7 +715,7 @@ export class UIInterfacePure {
   /**
    * Create UI component
    */
-  createComponent(managerId: string, component: Partial<UIComponent>): UIInterfaceOutput {
+  createComponent(): UIInterfaceOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -871,7 +871,7 @@ export class UIInterfacePure {
   /**
    * Create UI layout
    */
-  createLayout(managerId: string, layout: Partial<UILayout>): UIInterfaceOutput {
+  createLayout(): UIInterfaceOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

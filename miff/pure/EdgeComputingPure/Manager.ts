@@ -508,7 +508,7 @@ export class EdgeComputingPure {
   /**
    * Create a new edge computing manager
    */
-  createManager(managerData: Partial<EdgeComputingManager>): EdgeComputingOutput {
+  createManager(): EdgeComputingOutput {
     if (!this.config.enableNodeManagement) {
       return {
         op: 'create-manager',
@@ -597,7 +597,7 @@ export class EdgeComputingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): EdgeComputingOutput {
+  getManager(): EdgeComputingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -617,7 +617,7 @@ export class EdgeComputingPure {
   /**
    * Add edge node
    */
-  addNode(managerId: string, node: Partial<EdgeNode>): EdgeComputingOutput {
+  addNode(): EdgeComputingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -707,7 +707,7 @@ export class EdgeComputingPure {
   /**
    * Create edge task
    */
-  createTask(managerId: string, task: Partial<EdgeTask>): EdgeComputingOutput {
+  createTask(): EdgeComputingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -775,7 +775,7 @@ export class EdgeComputingPure {
   /**
    * Execute task
    */
-  executeTask(managerId: string, taskId: string): EdgeComputingOutput {
+  executeTask(): EdgeComputingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

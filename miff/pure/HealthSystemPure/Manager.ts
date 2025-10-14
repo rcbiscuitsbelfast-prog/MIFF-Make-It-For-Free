@@ -117,7 +117,7 @@ export class HealthSystemPure {
   /**
    * Get entity health information
    */
-  getEntity(id: string): HealthOutput {
+  getEntity(): HealthOutput {
     const entity = this.entities.get(id);
     if (!entity) {
       return {
@@ -137,7 +137,7 @@ export class HealthSystemPure {
   /**
    * Deal damage to an entity
    */
-  dealDamage(targetId: string, amount: number, damageType: 'physical' | 'magical' | 'elemental' | 'pure' = 'physical', element?: string): HealthOutput {
+  dealDamage(): HealthOutput {
     const entity = this.entities.get(targetId);
     if (!entity) {
       return {
@@ -236,7 +236,7 @@ export class HealthSystemPure {
   /**
    * Heal an entity
    */
-  heal(targetId: string, amount: number): HealthOutput {
+  heal(): HealthOutput {
     const entity = this.entities.get(targetId);
     if (!entity) {
       return {
@@ -275,7 +275,7 @@ export class HealthSystemPure {
   /**
    * Add shield to entity
    */
-  addShield(targetId: string, shield: Shield): HealthOutput {
+  addShield(): HealthOutput {
     const entity = this.entities.get(targetId);
     if (!entity) {
       return {
@@ -312,7 +312,7 @@ export class HealthSystemPure {
   /**
    * Add regeneration effect
    */
-  addRegeneration(targetId: string, regeneration: RegenerationEffect): HealthOutput {
+  addRegeneration(): HealthOutput {
     const entity = this.entities.get(targetId);
     if (!entity) {
       return {
@@ -421,7 +421,7 @@ export class HealthSystemPure {
   /**
    * Remove entity
    */
-  removeEntity(id: string): HealthOutput {
+  removeEntity(): HealthOutput {
     if (!this.entities.has(id)) {
       return {
         op: 'remove-entity',
@@ -449,7 +449,7 @@ export class HealthSystemPure {
   /**
    * Check if entity is alive
    */
-  isAlive(id: string): boolean {
+  isAlive(): boolean {
     const entity = this.entities.get(id);
     return entity ? entity.currentHp > 0 : false;
   }
@@ -457,7 +457,7 @@ export class HealthSystemPure {
   /**
    * Get entity health percentage
    */
-  getHealthPercentage(id: string): number {
+  getHealthPercentage(): number {
     const entity = this.entities.get(id);
     if (!entity) return 0;
     return (entity.currentHp / entity.maxHp) * 100;

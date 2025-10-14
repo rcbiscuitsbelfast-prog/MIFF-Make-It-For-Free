@@ -600,7 +600,7 @@ export class SceneBuilderPure {
   /**
    * Create a new scene builder manager
    */
-  createManager(managerData: Partial<SceneBuilderManager>): SceneBuilderOutput {
+  createManager(): SceneBuilderOutput {
     if (!this.config.enableSceneManagement) {
       return {
         op: 'create-manager',
@@ -689,7 +689,7 @@ export class SceneBuilderPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SceneBuilderOutput {
+  getManager(): SceneBuilderOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -709,7 +709,7 @@ export class SceneBuilderPure {
   /**
    * Create scene
    */
-  createScene(managerId: string, scene: Partial<Scene>): SceneBuilderOutput {
+  createScene(): SceneBuilderOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -813,7 +813,7 @@ export class SceneBuilderPure {
   /**
    * Create scene object
    */
-  createObject(managerId: string, object: Partial<SceneObject>): SceneBuilderOutput {
+  createObject(): SceneBuilderOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -561,7 +561,7 @@ export class NPCsPure {
   /**
    * Create a new NPCs manager
    */
-  createManager(managerData: Partial<NPCsManager>): NPCsOutput {
+  createManager(): NPCsOutput {
     if (!this.config.enableNPCManagement) {
       return {
         op: 'create-manager',
@@ -650,7 +650,7 @@ export class NPCsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): NPCsOutput {
+  getManager(): NPCsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -670,7 +670,7 @@ export class NPCsPure {
   /**
    * Create NPC
    */
-  createNPC(managerId: string, npc: Partial<NPC>): NPCsOutput {
+  createNPC(): NPCsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -777,7 +777,7 @@ export class NPCsPure {
   /**
    * Create quest
    */
-  createQuest(managerId: string, quest: Partial<Quest>): NPCsOutput {
+  createQuest(): NPCsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -837,7 +837,7 @@ export class NPCsPure {
   /**
    * Create dialogue
    */
-  createDialogue(managerId: string, dialogue: Partial<Dialogue>): NPCsOutput {
+  createDialogue(): NPCsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

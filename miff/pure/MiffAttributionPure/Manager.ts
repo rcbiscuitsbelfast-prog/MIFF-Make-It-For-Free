@@ -431,7 +431,7 @@ export class MiffAttributionPure {
   /**
    * Create a new miff attribution manager
    */
-  createManager(managerData: Partial<MiffAttributionManager>): MiffAttributionOutput {
+  createManager(): MiffAttributionOutput {
     if (!this.config.enableAttributionManagement) {
       return {
         op: 'create-manager',
@@ -519,7 +519,7 @@ export class MiffAttributionPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): MiffAttributionOutput {
+  getManager(): MiffAttributionOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

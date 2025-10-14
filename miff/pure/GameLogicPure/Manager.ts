@@ -613,7 +613,7 @@ export class GameLogicPure {
   /**
    * Create a new game logic manager
    */
-  createManager(managerData: Partial<GameLogicManager>): GameLogicOutput {
+  createManager(): GameLogicOutput {
     if (!this.config.enableGameLogicManagement) {
       return {
         op: 'create-manager',
@@ -706,7 +706,7 @@ export class GameLogicPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): GameLogicOutput {
+  getManager(): GameLogicOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

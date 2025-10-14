@@ -307,7 +307,7 @@ export class AIProfileIntegrationManager {
   /**
    * Calculate behavior influence based on traits and preferences
    */
-  calculateBehaviorInfluence(profile: AIProfile, action: string): number {
+  calculateBehaviorInfluence(): number {
     if (!this.isInitialized) {
       throw new Error('AI Profile Integration Manager not initialized');
     }

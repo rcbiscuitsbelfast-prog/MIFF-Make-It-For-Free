@@ -564,7 +564,7 @@ export const EvolutionPureCLIUtils = {
   /**
    * Register evolution from CLI arguments
    */
-  registerEvolutionFromArgs(manager: EvolutionManager, args: string[]): boolean {
+  registerEvolutionFromArgs(): boolean {
     if (args.length < 2) {
       console.error('❌ Usage: --register-evolution <species> <target> [condition_type] [value]');
       return false;
@@ -618,7 +618,7 @@ export const EvolutionPureCLIUtils = {
   /**
    * Test evolution from CLI arguments
    */
-  testEvolutionFromArgs(manager: EvolutionManager, args: string[]): void {
+  testEvolutionFromArgs(): void {
     if (args.length < 1) {
       console.error('❌ Usage: --test-evolution <species_id>');
       return;

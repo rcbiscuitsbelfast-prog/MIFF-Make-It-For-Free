@@ -759,7 +759,7 @@ export class CombatPure {
   /**
    * Create a new combat manager
    */
-  createManager(managerData: Partial<CombatManager>): CombatOutput {
+  createManager(): CombatOutput {
     if (!this.config.enableCombatManagement) {
       return {
         op: 'create-manager',
@@ -850,7 +850,7 @@ export class CombatPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): CombatOutput {
+  getManager(): CombatOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

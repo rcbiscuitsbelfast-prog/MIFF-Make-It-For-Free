@@ -751,7 +751,7 @@ export class TopplerDemoPure {
   /**
    * Create a new toppler demo manager
    */
-  createManager(managerData: Partial<TopplerDemoManager>): TopplerDemoOutput {
+  createManager(): TopplerDemoOutput {
     if (!this.config.enableTopplerManagement) {
       return {
         op: 'create-manager',
@@ -839,7 +839,7 @@ export class TopplerDemoPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): TopplerDemoOutput {
+  getManager(): TopplerDemoOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

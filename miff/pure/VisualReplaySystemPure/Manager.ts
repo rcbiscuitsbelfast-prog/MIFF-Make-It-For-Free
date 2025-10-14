@@ -514,7 +514,7 @@ export class VisualReplaySystemPure {
   /**
    * Create a new visual replay system manager
    */
-  createManager(managerData: Partial<VisualReplaySystemManager>): VisualReplaySystemOutput {
+  createManager(): VisualReplaySystemOutput {
     if (!this.config.enableReplayManagement) {
       return {
         op: 'create-manager',
@@ -605,7 +605,7 @@ export class VisualReplaySystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): VisualReplaySystemOutput {
+  getManager(): VisualReplaySystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

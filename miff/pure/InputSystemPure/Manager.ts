@@ -369,7 +369,7 @@ export class InputSystemPure {
   /**
    * Create a new input system manager
    */
-  createManager(managerData: Partial<InputSystemManager>): InputSystemOutput {
+  createManager(): InputSystemOutput {
     if (!this.config.enableInputManagement) {
       return {
         op: 'create-manager',
@@ -457,7 +457,7 @@ export class InputSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): InputSystemOutput {
+  getManager(): InputSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -477,7 +477,7 @@ export class InputSystemPure {
   /**
    * Register input device
    */
-  registerDevice(managerId: string, device: Partial<InputDevice>): InputSystemOutput {
+  registerDevice(): InputSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -537,7 +537,7 @@ export class InputSystemPure {
   /**
    * Create input mapping
    */
-  createMapping(managerId: string, mapping: Partial<InputMapping>): InputSystemOutput {
+  createMapping(): InputSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -601,7 +601,7 @@ export class InputSystemPure {
   /**
    * Process input event
    */
-  processEvent(managerId: string, event: Partial<InputEvent>): InputSystemOutput {
+  processEvent(): InputSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -680,7 +680,7 @@ export class InputSystemPure {
   /**
    * Create input filter
    */
-  createFilter(managerId: string, filter: Partial<InputFilter>): InputSystemOutput {
+  createFilter(): InputSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

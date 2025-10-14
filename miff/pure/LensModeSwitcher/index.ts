@@ -151,7 +151,7 @@ export class LensModeSwitcher {
   /**
    * Switch to a specific lens mode
    */
-  switchToMode(mode: LensMode): boolean {
+  switchToMode(): boolean {
     if (!this.config.availableModes.includes(mode)) {
       console.warn(`Lens mode ${mode} is not available`);
       return false;
@@ -191,7 +191,7 @@ export class LensModeSwitcher {
   /**
    * Toggle between current mode and a specific mode
    */
-  toggleMode(mode: LensMode): boolean {
+  toggleMode(): boolean {
     if (this.config.currentMode === mode) {
       return this.switchToMode(LensMode.NORMAL);
     } else {
@@ -378,7 +378,7 @@ export class LensModeSwitcher {
   /**
    * Update transition progress
    */
-  updateTransition(deltaTime: number): void {
+  updateTransition(): void {
     if (!this.isTransitioning || !this.transitionStartTime) return;
     
     const elapsed = Date.now() - this.transitionStartTime;
@@ -393,7 +393,7 @@ export class LensModeSwitcher {
   /**
    * Handle keyboard input
    */
-  handleKeyPress(key: string): boolean {
+  handleKeyPress(): boolean {
     for (const [mode, hotkey] of Object.entries(this.config.hotkeys)) {
       if (key === hotkey) {
         return this.switchToMode(mode as LensMode);
@@ -426,7 +426,7 @@ export class LensModeSwitcher {
   /**
    * Update configuration
    */
-  updateConfig(updates: Partial<LensModeConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...updates };
   }
 
@@ -440,7 +440,7 @@ export class LensModeSwitcher {
   /**
    * Enable/disable a mode
    */
-  setModeEnabled(mode: LensMode, enabled: boolean): void {
+  setModeEnabled(): void {
     if (this.config.modeSettings[mode]) {
       this.config.modeSettings[mode].enabled = enabled;
     }
@@ -449,7 +449,7 @@ export class LensModeSwitcher {
   /**
    * Update mode settings
    */
-  updateModeSettings(mode: LensMode, settings: Partial<ModeSettings>): void {
+  updateModeSettings(): void {
     if (this.config.modeSettings[mode]) {
       this.config.modeSettings[mode] = { ...this.config.modeSettings[mode], ...settings };
     }

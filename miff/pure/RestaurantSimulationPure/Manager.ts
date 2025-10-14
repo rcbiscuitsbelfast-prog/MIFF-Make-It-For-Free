@@ -957,7 +957,7 @@ export class RestaurantSimulationPure {
   /**
    * Create a new restaurant simulation manager
    */
-  createManager(managerData: Partial<RestaurantSimulationManager>): RestaurantSimulationOutput {
+  createManager(): RestaurantSimulationOutput {
     if (!this.config.enableRestaurantManagement) {
       return {
         op: 'create-manager',
@@ -1046,7 +1046,7 @@ export class RestaurantSimulationPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): RestaurantSimulationOutput {
+  getManager(): RestaurantSimulationOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

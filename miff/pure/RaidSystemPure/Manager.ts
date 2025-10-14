@@ -708,7 +708,7 @@ export class RaidSystemPure {
   /**
    * Create a new raid system manager
    */
-  createManager(managerData: Partial<RaidSystemManager>): RaidSystemOutput {
+  createManager(): RaidSystemOutput {
     if (!this.config.enableRaidManagement) {
       return {
         op: 'create-manager',
@@ -797,7 +797,7 @@ export class RaidSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): RaidSystemOutput {
+  getManager(): RaidSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

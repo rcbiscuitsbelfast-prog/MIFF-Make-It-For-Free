@@ -380,14 +380,14 @@ export class ValidationResult implements IValidationResult {
   /**
    * Add warning
    */
-  addWarning(warning: string): void {
+  addWarning(): void {
     this.warnings.push(warning);
   }
 
   /**
    * Add error
    */
-  addError(error: string): void {
+  addError(): void {
     this.errors.push(error);
     this.isValid = false;
   }
@@ -504,7 +504,7 @@ export class TeamSlot implements ITeamSlot {
   /**
    * Check if spirit can be accepted
    */
-  canAcceptSpirit(spirit: ISpiritInstance): boolean {
+  canAcceptSpirit(): boolean {
     if (this.isLocked && !this.spirit) {
       return false;
     }
@@ -761,7 +761,7 @@ export class TeamRules implements ITeamRules {
   /**
    * Validate team
    */
-  validateTeam(team: ITeam, spiritSync?: Map<string, number>): IValidationResult {
+  validateTeam(): IValidationResult {
     const spirits = team.spirits;
     const warnings: string[] = [];
     const errors: string[] = [];
@@ -1084,7 +1084,7 @@ export class Team implements ITeam {
   /**
    * Add spirit to team
    */
-  addSpirit(spirit: ISpiritInstance): TeamOperationResult {
+  addSpirit(): TeamOperationResult {
     // Check if spirit already exists (by instanceId)
     if (this.spirits.some(s => s.instanceId === spirit.instanceId)) {
       return TeamOperationResult.DUPLICATE_SPIRIT;
@@ -1124,7 +1124,7 @@ export class Team implements ITeam {
   /**
    * Remove spirit from team
    */
-  removeSpirit(spiritId: string): TeamOperationResult {
+  removeSpirit(): TeamOperationResult {
     // Try to remove from active team
     const activeIndex = this.spirits.findIndex(s => s.instanceId === spiritId);
     if (activeIndex >= 0) {
@@ -1154,7 +1154,7 @@ export class Team implements ITeam {
   /**
    * Swap team members
    */
-  swapSpirits(indexA: number, indexB: number): TeamOperationResult {
+  swapSpirits(): TeamOperationResult {
     if (indexA < 0 || indexA >= this.spirits.length ||
         indexB < 0 || indexB >= this.spirits.length) {
       return TeamOperationResult.INVALID_INPUT;
@@ -1168,7 +1168,7 @@ export class Team implements ITeam {
   /**
    * Move spirit to reserve
    */
-  moveSpiritToReserve(spiritId: string): TeamOperationResult {
+  moveSpiritToReserve(): TeamOperationResult {
     const index = this.spirits.findIndex(s => s.instanceId === spiritId);
     if (index >= 0) {
       const spirit = this.spirits.splice(index, 1)[0];
@@ -1182,7 +1182,7 @@ export class Team implements ITeam {
   /**
    * Move spirit from reserve to active team
    */
-  moveSpiritFromReserve(spiritId: string): TeamOperationResult {
+  moveSpiritFromReserve(): TeamOperationResult {
     const index = this.reserves.findIndex(s => s.instanceId === spiritId);
     if (index >= 0 && this.spirits.length < this.maxSize) {
       const spirit = this.reserves.splice(index, 1)[0];
@@ -1254,7 +1254,7 @@ export class Team implements ITeam {
   /**
    * Get average sync
    */
-  getAverageSync(syncMap?: Map<string, number>): number {
+  getAverageSync(): number {
     if (this.spirits.length === 0) return 0;
 
     let totalSync = 0;
@@ -1272,7 +1272,7 @@ export class Team implements ITeam {
   /**
    * Calculate synergy
    */
-  calculateSynergy(syncMap?: Map<string, number>): number {
+  calculateSynergy(): number {
     if (this.spirits.length <= 1) return 100; // Perfect synergy with 1 or 0 spirits
 
     // Type synergy (0-100)
@@ -1316,7 +1316,7 @@ export class Team implements ITeam {
   /**
    * Import team
    */
-  importTeam(data: Record<string, any>): void {
+  importTeam(): void {
     this.teamId = data.teamId || this.teamId;
     this.name = data.name || this.name;
     this.description = data.description || this.description;
@@ -1577,7 +1577,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Create team
    */
-  createTeam(teamName: string, maxSize?: number): ITeam {
+  createTeam(): ITeam {
     const teamId = `team_${this.nextTeamId++}`;
     const team = new Team(teamId, teamName, '', maxSize);
     this.teams.set(teamId, team);
@@ -1587,7 +1587,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Delete team
    */
-  deleteTeam(teamId: string): boolean {
+  deleteTeam(): boolean {
     return this.teams.delete(teamId);
   }
 
@@ -1608,7 +1608,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Add spirit to team
    */
-  addSpiritToTeam(teamId: string, spirit: ISpiritInstance): TeamOperationResult {
+  addSpiritToTeam(): TeamOperationResult {
     const team = this.getTeam(teamId);
     if (!team) {
       return TeamOperationResult.INVALID_INPUT;
@@ -1620,7 +1620,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Remove spirit from team
    */
-  removeSpiritFromTeam(teamId: string, spiritId: string): TeamOperationResult {
+  removeSpiritFromTeam(): TeamOperationResult {
     const team = this.getTeam(teamId);
     if (!team) {
       return TeamOperationResult.INVALID_INPUT;
@@ -1632,7 +1632,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Swap team members
    */
-  swapTeamMembers(teamId: string, indexA: number, indexB: number): TeamOperationResult {
+  swapTeamMembers(): TeamOperationResult {
     const team = this.getTeam(teamId);
     if (!team) {
       return TeamOperationResult.INVALID_INPUT;
@@ -1644,7 +1644,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Move spirit to reserve
    */
-  moveSpiritToReserve(teamId: string, spiritId: string): TeamOperationResult {
+  moveSpiritToReserve(): TeamOperationResult {
     const team = this.getTeam(teamId);
     if (!team) {
       return TeamOperationResult.INVALID_INPUT;
@@ -1656,7 +1656,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Move spirit from reserve
    */
-  moveSpiritFromReserve(teamId: string, spiritId: string): TeamOperationResult {
+  moveSpiritFromReserve(): TeamOperationResult {
     const team = this.getTeam(teamId);
     if (!team) {
       return TeamOperationResult.INVALID_INPUT;
@@ -1684,7 +1684,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Set max team size
    */
-  setMaxTeamSize(teamId: string, maxSize: number): boolean {
+  setMaxTeamSize(): boolean {
     const team = this.getTeam(teamId);
     if (!team || maxSize <= 0 || maxSize > 10) {
       return false;
@@ -1697,7 +1697,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Validate team
    */
-  validateTeam(teamId: string): IValidationResult {
+  validateTeam(): IValidationResult {
     const team = this.getTeam(teamId);
     if (!team) {
       return new ValidationResult(ValidationStatus.INVALID_SYNERGY, 'Team not found');
@@ -1741,7 +1741,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Import team
    */
-  importTeam(teamId: string, data: Record<string, any>): TeamOperationResult {
+  importTeam(): TeamOperationResult {
     const team = this.getTeam(teamId);
     if (!team) {
       return TeamOperationResult.INVALID_INPUT;
@@ -1758,7 +1758,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Get strategic analysis for team
    */
-  getStrategicAnalysis(teamId: string): IStrategicAnalysis {
+  getStrategicAnalysis(): IStrategicAnalysis {
     const team = this.getTeam(teamId);
     if (!team) {
       throw new Error('Team not found');
@@ -1770,7 +1770,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Get optimal team composition
    */
-  getOptimalTeamComposition(teamId: string, availableSpirits: ISpiritInstance[]): ITeamCompositionRecommendation {
+  getOptimalTeamComposition(): ITeamCompositionRecommendation {
     const team = this.getTeam(teamId);
     if (!team) {
       throw new Error('Team not found');
@@ -1782,7 +1782,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Analyze threats against enemy teams
    */
-  analyzeThreats(teamId: string, enemyTeams: ITeam[]): IThreatAnalysis {
+  analyzeThreats(): IThreatAnalysis {
     const team = this.getTeam(teamId);
     if (!team) {
       throw new Error('Team not found');
@@ -1844,28 +1844,28 @@ export class TeamManager implements ITeamManager {
   /**
    * Create team with balanced composition
    */
-  createBalancedTeam(teamName: string): ITeam {
+  createBalancedTeam(): ITeam {
     return Team.create(teamName, teamName, 'Balanced team composition', 6, TeamRules.balanced());*/
   },
 
   /**
    * Create competitive team
    */
-  createCompetitiveTeam(teamName: string): ITeam {
+  createCompetitiveTeam(): ITeam {
     return Team.create(teamName, teamName, 'Competitive team composition', 6, TeamRules.competitive());
   },
 
   /**
    * Create casual team
    */
-  createCasualTeam(teamName: string): ITeam {
+  createCasualTeam(): ITeam {
     return Team.create(teamName, teamName, 'Casual team composition', 8, TeamRules.casual());
   },
 
   /**
    * Calculate team power rating
    */
-  calculateTeamPowerRating(team: ITeam, syncMap?: Map<string, number>): number {
+  calculateTeamPowerRating(): number {
     const spirits = team.spirits;
     if (spirits.length === 0) return 0;
 
@@ -1885,7 +1885,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Get recommended team for spirits
    */
-  getRecommendedTeamForSpirits(spirits: ISpiritInstance[]): ITeam {
+  getRecommendedTeamForSpirits(): ITeam {
     // Create team with relaxed rules for testing purposes
     const team = Team.create('recommended', 'Recommended team', '', 6, TeamRules.casual());
 
@@ -1915,7 +1915,7 @@ export class TeamManager implements ITeamManager {
   /**
    * Validate team composition
    */
-  validateTeamComposition(team: ITeam): IValidationResult {
+  validateTeamComposition(): IValidationResult {
     return team.validate();
   },
 

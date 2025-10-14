@@ -11,7 +11,7 @@ export interface WebConvertedPayload {
 }
 
 export class ConvertToWebManager {
-  convert(payload: RenderPayload): WebConvertedPayload {
+  convert(): WebConvertedPayload {
     const issues = BridgeSchemaValidator.validateRenderPayload(payload);
     const items = (payload.renderData || []).map((rd: RenderData) => BridgeSchemaValidator.convertToWeb(rd));
     return {

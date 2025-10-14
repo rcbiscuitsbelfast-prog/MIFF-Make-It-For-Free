@@ -399,7 +399,7 @@ export class ValidationPure {
   /**
    * Create a new validation manager
    */
-  createManager(managerData: Partial<ValidationManager>): ValidationOutput {
+  createManager(): ValidationOutput {
     if (!this.config.enableValidationManagement) {
       return {
         op: 'create-manager',
@@ -489,7 +489,7 @@ export class ValidationPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ValidationOutput {
+  getManager(): ValidationOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

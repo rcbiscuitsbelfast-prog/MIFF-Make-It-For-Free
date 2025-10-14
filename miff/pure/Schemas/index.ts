@@ -266,7 +266,7 @@ export class SchemaValidator {
   /**
    * Create a string field definition
    */
-  stringField(required: boolean = false, description?: string): FieldDefinition {
+  stringField(): FieldDefinition {
     return {
       type: 'string',
       required,
@@ -277,7 +277,7 @@ export class SchemaValidator {
   /**
    * Create a number field definition
    */
-  numberField(required: boolean = false, description?: string): FieldDefinition {
+  numberField(): FieldDefinition {
     return {
       type: 'number',
       required,
@@ -288,7 +288,7 @@ export class SchemaValidator {
   /**
    * Create a boolean field definition
    */
-  booleanField(required: boolean = false, description?: string): FieldDefinition {
+  booleanField(): FieldDefinition {
     return {
       type: 'boolean',
       required,
@@ -299,7 +299,7 @@ export class SchemaValidator {
   /**
    * Create an object field definition
    */
-  objectField(properties: Record<string, FieldDefinition>, required: boolean = false, description?: string): FieldDefinition {
+  objectField(): FieldDefinition {
     return {
       type: 'object',
       required,
@@ -311,7 +311,7 @@ export class SchemaValidator {
   /**
    * Create an array field definition
    */
-  arrayField(itemType: FieldDefinition, required: boolean = false, description?: string): FieldDefinition {
+  arrayField(): FieldDefinition {
     return {
       type: 'array',
       required,

@@ -576,7 +576,7 @@ export class TestingSystemPure {
   /**
    * Create a new testing system manager
    */
-  createManager(managerData: Partial<TestingSystemManager>): TestingSystemOutput {
+  createManager(): TestingSystemOutput {
     if (!this.config.enableTestingManagement) {
       return {
         op: 'create-manager',
@@ -668,7 +668,7 @@ export class TestingSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): TestingSystemOutput {
+  getManager(): TestingSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

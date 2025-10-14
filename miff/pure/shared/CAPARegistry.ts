@@ -164,7 +164,7 @@ export class CAPARegistryManager {
   /**
    * Generate CAPA impact statement for PR
    */
-  generateImpactStatement(module: string, changes: string[]): string {
+  generateImpactStatement(): string {
     const relatedEntries = this.getEntries({ module });
     const openEntries = relatedEntries.filter(e => e.status === CAPAStatus.OPEN);
 

@@ -707,7 +707,7 @@ export class EncounterPure {
   /**
    * Create a new encounter manager
    */
-  createManager(managerData: Partial<EncounterManager>): EncounterOutput {
+  createManager(): EncounterOutput {
     if (!this.config.enableEncounterManagement) {
       return {
         op: 'create-manager',
@@ -796,7 +796,7 @@ export class EncounterPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): EncounterOutput {
+  getManager(): EncounterOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

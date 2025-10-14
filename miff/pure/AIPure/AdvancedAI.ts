@@ -63,7 +63,7 @@ export class AdvancedAI {
   /**
    * Create a new behavior tree
    */
-  createBehaviorTree(id: string, name: string, root: BehaviorNode): AIBehaviorTree {
+  createBehaviorTree(): AIBehaviorTree {
     const tree: AIBehaviorTree = {
       id,
       name,
@@ -232,7 +232,7 @@ export class AdvancedAI {
   /**
    * Learn from experience
    */
-  learnFromExperience(aiId: string, experience: AIExperience): void {
+  learnFromExperience(): void {
     let memory = this.memories.get(aiId);
     if (!memory) {
       memory = {
@@ -318,7 +318,7 @@ export class AdvancedAI {
   /**
    * Train neural network
    */
-  trainNeuralNetwork(aiId: string, inputs: number[], expectedOutputs: number[]): void {
+  trainNeuralNetwork(): void {
     const network = this.neuralNetworks.get(aiId);
     if (!network) {
       throw new Error(`Neural network for AI ${aiId} not found`);
@@ -441,14 +441,14 @@ export class AdvancedAI {
   /**
    * Clear AI memory
    */
-  clearMemory(aiId: string): void {
+  clearMemory(): void {
     this.memories.delete(aiId);
   }
 
   /**
    * Get AI statistics
    */
-  getAIStatistics(aiId: string): any {
+  getAIStatistics(): any {
     const memory = this.memories.get(aiId);
     if (!memory) {
       return {

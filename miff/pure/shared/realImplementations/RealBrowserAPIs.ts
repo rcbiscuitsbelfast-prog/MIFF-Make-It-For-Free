@@ -158,7 +158,7 @@ export class RealBrowserAPIs {
   /**
    * Set localStorage item
    */
-  setLocalStorageItem(key: string, value: string): boolean {
+  setLocalStorageItem(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
         localStorage.setItem(key, value);
@@ -190,7 +190,7 @@ export class RealBrowserAPIs {
   /**
    * Remove localStorage item
    */
-  removeLocalStorageItem(key: string): boolean {
+  removeLocalStorageItem(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
         localStorage.removeItem(key);
@@ -224,7 +224,7 @@ export class RealBrowserAPIs {
   /**
    * Set sessionStorage item
    */
-  setSessionStorageItem(key: string, value: string): boolean {
+  setSessionStorageItem(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
         sessionStorage.setItem(key, value);
@@ -256,7 +256,7 @@ export class RealBrowserAPIs {
   /**
    * Remove sessionStorage item
    */
-  removeSessionStorageItem(key: string): boolean {
+  removeSessionStorageItem(): boolean {
     try {
       if (typeof Storage !== 'undefined') {
         sessionStorage.removeItem(key);
@@ -290,7 +290,7 @@ export class RealBrowserAPIs {
   /**
    * Create DOM element
    */
-  createElement(tagName: string, attributes: Record<string, string> = {}): DOMElement {
+  createElement(): DOMElement {
     const element: DOMElement = {
       id: this.generateId(),
       tagName: tagName.toLowerCase(),
@@ -336,7 +336,7 @@ export class RealBrowserAPIs {
   /**
    * Set element attribute
    */
-  setAttribute(elementId: string, name: string, value: string): boolean {
+  setAttribute(): boolean {
     const element = this.domElements.get(elementId);
     if (!element) return false;
 
@@ -358,7 +358,7 @@ export class RealBrowserAPIs {
   /**
    * Set element text content
    */
-  setTextContent(elementId: string, text: string): boolean {
+  setTextContent(): boolean {
     const element = this.domElements.get(elementId);
     if (!element) return false;
 
@@ -370,7 +370,7 @@ export class RealBrowserAPIs {
   /**
    * Set element inner HTML
    */
-  setInnerHTML(elementId: string, html: string): boolean {
+  setInnerHTML(): boolean {
     const element = this.domElements.get(elementId);
     if (!element) return false;
 
@@ -382,7 +382,7 @@ export class RealBrowserAPIs {
   /**
    * Append child element
    */
-  appendChild(parentId: string, childId: string): boolean {
+  appendChild(): boolean {
     const parent = this.domElements.get(parentId);
     const child = this.domElements.get(childId);
     
@@ -397,7 +397,7 @@ export class RealBrowserAPIs {
   /**
    * Remove child element
    */
-  removeChild(parentId: string, childId: string): boolean {
+  removeChild(): boolean {
     const parent = this.domElements.get(parentId);
     if (!parent) return false;
 
@@ -414,7 +414,7 @@ export class RealBrowserAPIs {
   /**
    * Add event listener
    */
-  addEventListener(elementId: string, eventType: string, handler: Function): boolean {
+  addEventListener(): boolean {
     const element = this.domElements.get(elementId);
     if (!element) return false;
 
@@ -431,7 +431,7 @@ export class RealBrowserAPIs {
   /**
    * Remove event listener
    */
-  removeEventListener(elementId: string, eventType: string, handler: Function): boolean {
+  removeEventListener(): boolean {
     const eventKey = `${elementId}:${eventType}`;
     const handlers = this.eventHandlers.get(eventKey);
     
@@ -448,7 +448,7 @@ export class RealBrowserAPIs {
   /**
    * Trigger event
    */
-  triggerEvent(elementId: string, eventType: string, eventData: any = {}): boolean {
+  triggerEvent(): boolean {
     const eventKey = `${elementId}:${eventType}`;
     const handlers = this.eventHandlers.get(eventKey);
     
@@ -489,7 +489,7 @@ export class RealBrowserAPIs {
   /**
    * Remove element
    */
-  removeElement(elementId: string): boolean {
+  removeElement(): boolean {
     const element = this.domElements.get(elementId);
     if (!element) return false;
 
@@ -511,7 +511,7 @@ export class RealBrowserAPIs {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

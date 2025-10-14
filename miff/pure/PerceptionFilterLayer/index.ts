@@ -90,7 +90,7 @@ export class PerceptionFilterManager {
   /**
    * Set the current perception mode
    */
-  setMode(mode: PerceptionMode): void {
+  setMode(): void {
     this.currentMode = mode;
     this.config.mode = mode;
     this.applyModeEffects();
@@ -106,7 +106,7 @@ export class PerceptionFilterManager {
   /**
    * Update player position for proximity calculations
    */
-  updatePlayerPosition(position: { x: number; y: number; z: number }): void {
+  updatePlayerPosition(): void {
     this.playerPosition = position;
     this.updateContextualOverlays();
   }
@@ -114,7 +114,7 @@ export class PerceptionFilterManager {
   /**
    * Add an NPC to the perception system
    */
-  addNPC(npc: NPCInfo): void {
+  addNPC(): void {
     this.npcs.set(npc.id, npc);
     this.updateContextualOverlays();
   }
@@ -122,7 +122,7 @@ export class PerceptionFilterManager {
   /**
    * Remove an NPC from the perception system
    */
-  removeNPC(npcId: string): void {
+  removeNPC(): void {
     this.npcs.delete(npcId);
     this.overlayManager.removeEffect(`npc_aura_${npcId}`, OverlayEffectType.VIGNETTE);
     this.updateContextualOverlays();
@@ -131,7 +131,7 @@ export class PerceptionFilterManager {
   /**
    * Add an interactable object
    */
-  addInteractable(interactable: InteractableInfo): void {
+  addInteractable(): void {
     this.interactables.set(interactable.id, interactable);
     this.updateContextualOverlays();
   }
@@ -139,7 +139,7 @@ export class PerceptionFilterManager {
   /**
    * Remove an interactable object
    */
-  removeInteractable(interactableId: string): void {
+  removeInteractable(): void {
     this.interactables.delete(interactableId);
     this.overlayManager.removeEffect(`interactable_${interactableId}`, OverlayEffectType.CHROMATIC_ABERRATION);
     this.updateContextualOverlays();
@@ -148,7 +148,7 @@ export class PerceptionFilterManager {
   /**
    * Set combat state
    */
-  setCombatState(inCombat: boolean): void {
+  setCombatState(): void {
     this.isInCombat = inCombat;
     this.updateContextualOverlays();
   }
@@ -156,7 +156,7 @@ export class PerceptionFilterManager {
   /**
    * Add active quest
    */
-  addActiveQuest(questId: string): void {
+  addActiveQuest(): void {
     this.activeQuests.add(questId);
     this.updateContextualOverlays();
   }
@@ -164,7 +164,7 @@ export class PerceptionFilterManager {
   /**
    * Remove active quest
    */
-  removeActiveQuest(questId: string): void {
+  removeActiveQuest(): void {
     this.activeQuests.delete(questId);
     this.updateContextualOverlays();
   }
@@ -377,7 +377,7 @@ export class PerceptionFilterManager {
   /**
    * Update configuration
    */
-  updateConfig(updates: Partial<PerceptionConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...updates };
     this.applyModeEffects();
   }

@@ -654,7 +654,7 @@ export class ProductionDeployment {
   /**
    * Update deployment configuration
    */
-  updateDeploymentConfig(config: Partial<DeploymentConfig>): void {
+  updateDeploymentConfig(): void {
     this.config = { ...this.config, ...config };
   }
 

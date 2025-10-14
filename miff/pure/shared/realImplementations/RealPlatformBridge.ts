@@ -652,14 +652,14 @@ export class RealPlatformBridge {
   /**
    * Check if feature is supported
    */
-  isFeatureSupported(feature: string): boolean {
+  isFeatureSupported(): boolean {
     return this.platformInfo.features.includes(feature);
   }
 
   /**
    * Check if capability is available
    */
-  isCapabilityAvailable(capability: string): boolean {
+  isCapabilityAvailable(): boolean {
     const parts = capability.split('.');
     let current: any = this.platformInfo.capabilities;
     
@@ -728,7 +728,7 @@ export class RealPlatformBridge {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

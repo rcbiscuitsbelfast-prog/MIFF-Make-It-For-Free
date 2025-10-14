@@ -92,7 +92,7 @@ export class PathfindingManager {
   /**
    * Load a new grid
    */
-  loadGrid(grid: Grid): PathfindingOutput {
+  loadGrid(): PathfindingOutput {
     this.grid = {
       width: grid.width,
       height: grid.height,
@@ -121,7 +121,7 @@ export class PathfindingManager {
   /**
    * Add dynamic obstacle
    */
-  addDynamicObstacle(x: number, y: number, duration: number = 5000): PathfindingOutput {
+  addDynamicObstacle(): PathfindingOutput {
     if (!this.inBounds(x, y)) {
       return {
         op: 'add-obstacle',
@@ -165,7 +165,7 @@ export class PathfindingManager {
   /**
    * Check if position is blocked
    */
-  isBlocked(x: number, y: number): boolean {
+  isBlocked(): boolean {
     // Check static blocks
     if (this.grid.blocks.some(b => b.x === x && b.y === y)) {
       return true;
@@ -185,14 +185,14 @@ export class PathfindingManager {
   /**
    * Check if position is in bounds
    */
-  inBounds(x: number, y: number): boolean {
+  inBounds(): boolean {
     return x >= 0 && y >= 0 && x < this.grid.width && y < this.grid.height;
   }
 
   /**
    * Get movement cost for a position
    */
-  getCost(x: number, y: number): number {
+  getCost(): number {
     if (this.grid.costs) {
       const costEntry = this.grid.costs.find(c => c.x === x && c.y === y);
       if (costEntry) {
@@ -605,7 +605,7 @@ export class PathfindingManager {
   /**
    * Export pathfinding data
    */
-  exportPathfinding(format: 'json' | 'manifest' | 'summary' | 'results' = 'json'): PathfindingOutput {
+  exportPathfinding(): PathfindingOutput {
     switch (format) {
       case 'json':
         return {

@@ -832,7 +832,7 @@ export class CameraSystemPure {
   /**
    * Update camera system
    */
-  updateCameraSystem(deltaTime: number): void {
+  updateCameraSystem(): void {
     const startTime = performance.now();
 
     // Update all active cameras
@@ -1233,7 +1233,7 @@ export class CameraSystemPure {
   /**
    * Switch camera mode
    */
-  switchCameraMode(cameraId: string, mode: string, duration?: number): boolean {
+  switchCameraMode(): boolean {
     const camera = this.activeCameras.get(cameraId);
     if (camera) {
       // This would switch the camera mode
@@ -1252,7 +1252,7 @@ export class CameraSystemPure {
   /**
    * Set main camera
    */
-  setMainCamera(cameraId: string): boolean {
+  setMainCamera(): boolean {
     if (this.activeCameras.has(cameraId)) {
       this.mainCamera = cameraId;
       return true;

@@ -370,7 +370,7 @@ export class VisualItemEventPure {
   /**
    * Create a new visual item event manager
    */
-  createManager(managerData: Partial<VisualItemEventManager>): VisualItemEventOutput {
+  createManager(): VisualItemEventOutput {
     if (!this.config.enableEventManagement) {
       return {
         op: 'create-manager',
@@ -459,7 +459,7 @@ export class VisualItemEventPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): VisualItemEventOutput {
+  getManager(): VisualItemEventOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

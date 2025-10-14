@@ -323,7 +323,7 @@ export class TimelineSystemPure {
   /**
    * Create a new timeline system manager
    */
-  createManager(managerData: Partial<TimelineSystemManager>): TimelineSystemOutput {
+  createManager(): TimelineSystemOutput {
     if (!this.config.enableTimelineManagement) {
       return {
         op: 'create-manager',
@@ -412,7 +412,7 @@ export class TimelineSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): TimelineSystemOutput {
+  getManager(): TimelineSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

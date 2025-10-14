@@ -725,7 +725,7 @@ export class ProceduralWorldPure {
   /**
    * Create a new procedural world manager
    */
-  createManager(managerData: Partial<ProceduralWorldManager>): ProceduralWorldOutput {
+  createManager(): ProceduralWorldOutput {
     if (!this.config.enableWorldManagement) {
       return {
         op: 'create-manager',
@@ -810,7 +810,7 @@ export class ProceduralWorldPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ProceduralWorldOutput {
+  getManager(): ProceduralWorldOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

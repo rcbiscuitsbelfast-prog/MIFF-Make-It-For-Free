@@ -131,7 +131,7 @@ export class TestCoverageAnalyzer {
   /**
    * Export coverage data to various formats
    */
-  exportCoverage(format: 'json' | 'html' | 'csv'): string {
+  exportCoverage(): string {
     const modules = this.getAllModuleCoverages();
     
     switch (format) {

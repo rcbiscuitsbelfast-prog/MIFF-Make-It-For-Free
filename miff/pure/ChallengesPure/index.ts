@@ -415,7 +415,7 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Check if challenge is available
    */
-  isAvailable(playerContext: IPlayerContext): boolean {
+  isAvailable(): boolean {
     // Check required flags
     for (const flag of this.requiredFlags) {
       if (!playerContext.hasQuestFlag(flag) && !playerContext.hasLoreFlag(flag)) {
@@ -600,28 +600,28 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Check if challenge has tag
    */
-  hasTag(tag: string): boolean {
+  hasTag(): boolean {
     return this.tags.includes(tag);
   }
 
   /**
    * Check if challenge matches all tags
    */
-  hasAllTags(tags: string[]): boolean {
+  hasAllTags(): boolean {
     return tags.every(tag => this.tags.includes(tag));
   }
 
   /**
    * Check if challenge matches any tags
    */
-  hasAnyTag(tags: string[]): boolean {
+  hasAnyTag(): boolean {
     return tags.some(tag => this.tags.includes(tag));
   }
 
   /**
    * Add tag to challenge
    */
-  addTag(tag: string): void {
+  addTag(): void {
     if (!this.tags.includes(tag)) {
       this.tags.push(tag);
     }
@@ -630,7 +630,7 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Remove tag from challenge
    */
-  removeTag(tag: string): boolean {
+  removeTag(): boolean {
     const index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);
@@ -723,7 +723,7 @@ export class ChallengeRuleset implements IChallengeRuleset {
   /**
    * Check if party complies with rules
    */
-  isCompliant(partySpiritTypes: string[], items: string[]): boolean {
+  isCompliant(): boolean {
     // Check spirit type restrictions
     if (this.allowedSpiritTypes.length > 0) {
       for (const spiritType of partySpiritTypes) {
@@ -1041,7 +1041,7 @@ export class ChallengeManager implements IChallengeManager {
   /**
    * Register challenge
    */
-  registerChallenge(challenge: IBattleChallenge): boolean {
+  registerChallenge(): boolean {
     if (!challenge || !challenge.challengeId || challenge.challengeId.trim() === '') {
       console.warn('Invalid challenge registration: missing or empty challenge ID');
       return false;
@@ -1154,7 +1154,7 @@ export class ChallengeManager implements IChallengeManager {
   /**
    * Start challenge
    */
-  startChallenge(challengeId: string): boolean {
+  startChallenge(): boolean {
     const challenge = this.availableChallenges.get(challengeId);
     if (!challenge) {
       return false;
@@ -1169,7 +1169,7 @@ export class ChallengeManager implements IChallengeManager {
   /**
    * Complete challenge
    */
-  completeChallenge(challengeId: string, result: IChallengeResult): boolean {
+  completeChallenge(): boolean {
     const challenge = this.availableChallenges.get(challengeId);
     if (!challenge || !this.inProgressChallenges.has(challengeId)) {
       return false;
@@ -1185,14 +1185,14 @@ export class ChallengeManager implements IChallengeManager {
   /**
    * Check if challenge is completed
    */
-  isChallengeCompleted(challengeId: string): boolean {
+  isChallengeCompleted(): boolean {
     return this.completedChallenges.has(challengeId);
   }
 
   /**
    * Get challenge status
    */
-  getChallengeStatus(challengeId: string): ChallengeStatus {
+  getChallengeStatus(): ChallengeStatus {
     const challenge = this.availableChallenges.get(challengeId);
     if (!challenge) {
       return ChallengeStatus.LOCKED;
@@ -1308,7 +1308,7 @@ export class ChallengeManager implements IChallengeManager {
 /**
  * Utility functions for challenge operations
  */
-/* export const ChallengeUtils = {
+export const ChallengeUtils = {
   /**
    * Create default player context for testing
    */
@@ -1322,7 +1322,7 @@ export class ChallengeManager implements IChallengeManager {
       getUnlockedLocations: () => [],
       getCapturedSpirits: () => [],
       hasVisitedLocation: (locationId: string) => false
-    };*/
+    };
   },
 
   /**
@@ -1438,7 +1438,7 @@ export class ChallengeManager implements IChallengeManager {
   /**
    * Get difficulty level for comparison
    */
-  getDifficultyLevel(difficulty: ChallengeDifficulty): number {
+  getDifficultyLevel(): number {
     const levels = {
       [ChallengeDifficulty.EASY]: 1,
       [ChallengeDifficulty.MEDIUM]: 2,

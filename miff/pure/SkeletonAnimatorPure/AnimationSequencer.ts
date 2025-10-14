@@ -52,7 +52,7 @@ export class AnimationSequencer {
   /**
    * Generate walk animation
    */
-  generateWalkAnimation(speed: number = 1.0): AnimationSequencer {
+  generateWalkAnimation(): AnimationSequencer {
     const duration = 2000 / speed; // 2 seconds base duration
     const keyframes: Omit<Keyframe, 'time'>[] = [];
 
@@ -229,7 +229,7 @@ export class AnimationSequencer {
   /**
    * Generate attack animation
    */
-  generateAttackAnimation(attackType: 'punch' | 'kick' | 'slash' = 'punch'): AnimationSequencer {
+  generateAttackAnimation(): AnimationSequencer {
     const duration = 800; // 0.8 seconds
     const keyframes: Omit<Keyframe, 'time'>[] = [];
 
@@ -338,7 +338,7 @@ export class AnimationSequencer {
   /**
    * Generate emote animation
    */
-  generateEmoteAnimation(emoteType: 'wave' | 'nod' | 'shake' | 'dance' = 'wave'): AnimationSequencer {
+  generateEmoteAnimation(): AnimationSequencer {
     const duration = 2000; // 2 seconds
     const keyframes: Omit<Keyframe, 'time'>[] = [];
 
@@ -509,7 +509,7 @@ export class AnimationSequencer {
   /**
    * Add keyframe to animation
    */
-  addKeyframe(animationId: string, keyframe: Omit<Keyframe, 'time'>, time: number): AnimationSequencer {
+  addKeyframe(): AnimationSequencer {
     const animation = this.animations.get(animationId);
     if (!animation) throw new Error(`Animation ${animationId} not found`);
 
@@ -527,7 +527,7 @@ export class AnimationSequencer {
   /**
    * Remove keyframe from animation
    */
-  removeKeyframe(animationId: string, keyframeIndex: number): AnimationSequencer {
+  removeKeyframe(): AnimationSequencer {
     const animation = this.animations.get(animationId);
     if (!animation) throw new Error(`Animation ${animationId} not found`);
 
@@ -562,7 +562,7 @@ export class AnimationSequencer {
   /**
    * Delete animation
    */
-  deleteAnimation(animationId: string): AnimationSequencer {
+  deleteAnimation(): AnimationSequencer {
     this.animations.delete(animationId);
     return this;
   }

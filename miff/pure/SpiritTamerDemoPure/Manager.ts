@@ -451,7 +451,7 @@ export class SpiritTamerDemoPure {
   /**
    * Create a new spirit tamer demo manager
    */
-  createManager(managerData: Partial<SpiritTamerDemoManager>): SpiritTamerDemoOutput {
+  createManager(): SpiritTamerDemoOutput {
     if (!this.config.enableSpiritManagement) {
       return {
         op: 'create-manager',
@@ -539,7 +539,7 @@ export class SpiritTamerDemoPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SpiritTamerDemoOutput {
+  getManager(): SpiritTamerDemoOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -559,7 +559,7 @@ export class SpiritTamerDemoPure {
   /**
    * Create spirit
    */
-  createSpirit(managerId: string, spirit: Partial<Spirit>): SpiritTamerDemoOutput {
+  createSpirit(): SpiritTamerDemoOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -614,7 +614,7 @@ export class SpiritTamerDemoPure {
   /**
    * Create tamer
    */
-  createTamer(managerId: string, tamer: Partial<Tamer>): SpiritTamerDemoOutput {
+  createTamer(): SpiritTamerDemoOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -673,7 +673,7 @@ export class SpiritTamerDemoPure {
   /**
    * Start battle
    */
-  startBattle(managerId: string, tamerId: string, opponentId: string, type: BattleType): SpiritTamerDemoOutput {
+  startBattle(): SpiritTamerDemoOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

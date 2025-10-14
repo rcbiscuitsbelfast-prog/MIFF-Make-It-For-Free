@@ -410,7 +410,7 @@ export class DebuggingPure {
   /**
    * Create a new debugging manager
    */
-  createManager(managerData: Partial<DebuggingManager>): DebuggingOutput {
+  createManager(): DebuggingOutput {
     if (!this.config.enableDebugManagement) {
       return {
         op: 'create-manager',
@@ -498,7 +498,7 @@ export class DebuggingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DebuggingOutput {
+  getManager(): DebuggingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

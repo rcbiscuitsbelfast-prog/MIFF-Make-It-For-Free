@@ -369,7 +369,7 @@ export class CollisionSystemPure {
   /**
    * Create a new collision system manager
    */
-  createManager(managerData: Partial<CollisionSystemManager>): CollisionSystemOutput {
+  createManager(): CollisionSystemOutput {
     if (!this.config.enableCollisionManagement) {
       return {
         op: 'create-manager',
@@ -457,7 +457,7 @@ export class CollisionSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): CollisionSystemOutput {
+  getManager(): CollisionSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -477,7 +477,7 @@ export class CollisionSystemPure {
   /**
    * Create collider
    */
-  createCollider(managerId: string, collider: Partial<Collider>): CollisionSystemOutput {
+  createCollider(): CollisionSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -549,7 +549,7 @@ export class CollisionSystemPure {
   /**
    * Create collision layer
    */
-  createLayer(managerId: string, layer: Partial<CollisionLayer>): CollisionSystemOutput {
+  createLayer(): CollisionSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

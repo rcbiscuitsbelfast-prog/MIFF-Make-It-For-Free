@@ -482,7 +482,7 @@ export class DrivingSystemPure {
   /**
    * Create a new driving system manager
    */
-  createManager(managerData: Partial<DrivingSystemManager>): DrivingSystemOutput {
+  createManager(): DrivingSystemOutput {
     if (!this.config.enableVehiclePhysics) {
       return {
         op: 'create-manager',
@@ -604,7 +604,7 @@ export class DrivingSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DrivingSystemOutput {
+  getManager(): DrivingSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -624,7 +624,7 @@ export class DrivingSystemPure {
   /**
    * Create vehicle
    */
-  createVehicle(managerId: string, vehicle: Partial<Vehicle>): DrivingSystemOutput {
+  createVehicle(): DrivingSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -695,7 +695,7 @@ export class DrivingSystemPure {
   /**
    * Create road
    */
-  createRoad(managerId: string, road: Partial<Road>): DrivingSystemOutput {
+  createRoad(): DrivingSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -739,7 +739,7 @@ export class DrivingSystemPure {
   /**
    * Update vehicle physics
    */
-  updateVehiclePhysics(managerId: string, vehicleId: string, deltaTime: number): DrivingSystemOutput {
+  updateVehiclePhysics(): DrivingSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -802,7 +802,7 @@ export class DrivingSystemPure {
   /**
    * Set vehicle AI behavior
    */
-  setVehicleAIBehavior(managerId: string, vehicleId: string, behavior: AIBehavior, target?: Vector3): DrivingSystemOutput {
+  setVehicleAIBehavior(): DrivingSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

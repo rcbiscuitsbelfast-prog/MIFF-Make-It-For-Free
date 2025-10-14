@@ -662,7 +662,7 @@ export class MonitoringSystemPure {
   /**
    * Create a new monitoring system manager
    */
-  createManager(managerData: Partial<MonitoringSystemManager>): MonitoringSystemOutput {
+  createManager(): MonitoringSystemOutput {
     if (!this.config.enableMonitoringManagement) {
       return {
         op: 'create-manager',
@@ -756,7 +756,7 @@ export class MonitoringSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): MonitoringSystemOutput {
+  getManager(): MonitoringSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

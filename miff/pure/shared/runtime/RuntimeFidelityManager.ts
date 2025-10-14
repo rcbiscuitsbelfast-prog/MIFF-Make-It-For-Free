@@ -184,7 +184,7 @@ export class RuntimeFidelityManager {
   /**
    * Unregister a bridge from monitoring
    */
-  unregisterBridge(bridgeId: string): void {
+  unregisterBridge(): void {
     if (!this.isInitialized) {
       return;
     }
@@ -199,7 +199,7 @@ export class RuntimeFidelityManager {
   /**
    * Update bridge performance metrics
    */
-  updateBridgeMetrics(bridgeId: string, metrics: Partial<BridgeRuntimeInfo['performance']>): void {
+  updateBridgeMetrics(): void {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
       console.warn('Bridge not found for metrics update', { bridgeId });
@@ -215,7 +215,7 @@ export class RuntimeFidelityManager {
   /**
    * Record bridge operation result
    */
-  recordBridgeOperation(bridgeId: string, success: boolean): void {
+  recordBridgeOperation(): void {
     const bridge = this.bridges.get(bridgeId);
     if (!bridge) {
       return;

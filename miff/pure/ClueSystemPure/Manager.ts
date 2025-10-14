@@ -222,7 +222,7 @@ export class ClueSystemManager {
   /**
    * Delete item
    */
-  deleteItem(itemId: string): boolean {
+  deleteItem(): boolean {
     const item = this.items.get(itemId);
     if (!item) {
       const error = this.errorHandler.createError(

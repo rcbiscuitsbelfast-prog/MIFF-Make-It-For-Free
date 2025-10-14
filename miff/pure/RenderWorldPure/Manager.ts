@@ -583,7 +583,7 @@ export class RenderWorldPure {
   /**
    * Create a new render world manager
    */
-  createManager(managerData: Partial<RenderWorldManager>): RenderWorldOutput {
+  createManager(): RenderWorldOutput {
     if (!this.config.enableRenderManagement) {
       return {
         op: 'create-manager',
@@ -674,7 +674,7 @@ export class RenderWorldPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): RenderWorldOutput {
+  getManager(): RenderWorldOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

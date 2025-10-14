@@ -548,7 +548,7 @@ export class NetworkPure {
   /**
    * Create a new network manager
    */
-  createManager(managerData: Partial<NetworkManager>): NetworkOutput {
+  createManager(): NetworkOutput {
     if (!this.config.enableNetworkManagement) {
       return {
         op: 'create-manager',
@@ -640,7 +640,7 @@ export class NetworkPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): NetworkOutput {
+  getManager(): NetworkOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

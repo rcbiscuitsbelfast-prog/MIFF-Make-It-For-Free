@@ -465,7 +465,7 @@ export class LoggingSystemPure {
   /**
    * Create a new logging system manager
    */
-  createManager(managerData: Partial<LoggingSystemManager>): LoggingSystemOutput {
+  createManager(): LoggingSystemOutput {
     if (!this.config.enableLoggingManagement) {
       return {
         op: 'create-manager',
@@ -557,7 +557,7 @@ export class LoggingSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): LoggingSystemOutput {
+  getManager(): LoggingSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

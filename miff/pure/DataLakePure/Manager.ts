@@ -862,7 +862,7 @@ export class DataLakePure {
   /**
    * Create a new data lake manager
    */
-  createManager(managerData: Partial<DataLakeManager>): DataLakeOutput {
+  createManager(): DataLakeOutput {
     if (!this.config.enableDataLakeManagement) {
       return {
         op: 'create-manager',
@@ -990,7 +990,7 @@ export class DataLakePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DataLakeOutput {
+  getManager(): DataLakeOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

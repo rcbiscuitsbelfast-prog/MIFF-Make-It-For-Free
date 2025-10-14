@@ -447,7 +447,7 @@ export class DatabasePure {
   /**
    * Create a new database manager
    */
-  createManager(managerData: Partial<DatabaseManager>): DatabaseOutput {
+  createManager(): DatabaseOutput {
     if (!this.config.enableDatabaseManagement) {
       return {
         op: 'create-manager',
@@ -540,7 +540,7 @@ export class DatabasePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DatabaseOutput {
+  getManager(): DatabaseOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

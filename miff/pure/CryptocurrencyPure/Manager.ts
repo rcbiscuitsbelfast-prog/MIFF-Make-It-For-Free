@@ -296,7 +296,7 @@ export class CryptocurrencyPure {
   /**
    * Create a new cryptocurrency manager
    */
-  createManager(managerData: Partial<CryptocurrencyManager>): CryptocurrencyOutput {
+  createManager(): CryptocurrencyOutput {
     if (!this.config.enableWalletManagement) {
       return {
         op: 'create-manager',
@@ -384,7 +384,7 @@ export class CryptocurrencyPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): CryptocurrencyOutput {
+  getManager(): CryptocurrencyOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -404,7 +404,7 @@ export class CryptocurrencyPure {
   /**
    * Create wallet
    */
-  createWallet(managerId: string, wallet: Partial<CryptoWallet>): CryptocurrencyOutput {
+  createWallet(): CryptocurrencyOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -451,7 +451,7 @@ export class CryptocurrencyPure {
   /**
    * Send transaction
    */
-  sendTransaction(managerId: string, fromWallet: string, toWallet: string, amount: number, currency: string): CryptocurrencyOutput {
+  sendTransaction(): CryptocurrencyOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -522,7 +522,7 @@ export class CryptocurrencyPure {
   /**
    * Create portfolio
    */
-  createPortfolio(managerId: string, portfolio: Partial<Portfolio>): CryptocurrencyOutput {
+  createPortfolio(): CryptocurrencyOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

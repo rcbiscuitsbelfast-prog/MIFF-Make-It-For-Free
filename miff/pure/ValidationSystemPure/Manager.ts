@@ -469,7 +469,7 @@ export class ValidationSystemPure {
   /**
    * Create a new validation system manager
    */
-  createManager(managerData: Partial<ValidationSystemManager>): ValidationSystemOutput {
+  createManager(): ValidationSystemOutput {
     if (!this.config.enableValidationManagement) {
       return {
         op: 'create-manager',
@@ -559,7 +559,7 @@ export class ValidationSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ValidationSystemOutput {
+  getManager(): ValidationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -415,7 +415,7 @@ export class PixelAnimPure {
   /**
    * Create a new pixel animation manager
    */
-  createManager(managerData: Partial<PixelAnimManager>): PixelAnimOutput {
+  createManager(): PixelAnimOutput {
     if (!this.config.enableAnimationManagement) {
       return {
         op: 'create-manager',
@@ -501,7 +501,7 @@ export class PixelAnimPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): PixelAnimOutput {
+  getManager(): PixelAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -521,7 +521,7 @@ export class PixelAnimPure {
   /**
    * Create pixel animation
    */
-  createAnimation(managerId: string, animation: Partial<PixelAnimation>): PixelAnimOutput {
+  createAnimation(): PixelAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -586,7 +586,7 @@ export class PixelAnimPure {
   /**
    * Create pixel sprite
    */
-  createSprite(managerId: string, sprite: Partial<PixelSprite>): PixelAnimOutput {
+  createSprite(): PixelAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -640,7 +640,7 @@ export class PixelAnimPure {
   /**
    * Create sprite sheet
    */
-  createSpriteSheet(managerId: string, spriteSheet: Partial<SpriteSheet>): PixelAnimOutput {
+  createSpriteSheet(): PixelAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -687,7 +687,7 @@ export class PixelAnimPure {
   /**
    * Create color palette
    */
-  createPalette(managerId: string, palette: Partial<ColorPalette>): PixelAnimOutput {
+  createPalette(): PixelAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -720,7 +720,7 @@ export class PixelAnimPure {
   /**
    * Play animation
    */
-  playAnimation(managerId: string, animationId: string): PixelAnimOutput {
+  playAnimation(): PixelAnimOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

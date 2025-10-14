@@ -163,7 +163,7 @@ export class ConsolidatedSchemaManager {
   /**
    * Register a schema definition
    */
-  registerSchema(id: string, schema: SchemaDefinition): void {
+  registerSchema(): void {
     this.schemas.set(id, {
       ...schema,
       version: schema.version || 'v1',
@@ -205,7 +205,7 @@ export class ConsolidatedSchemaManager {
   /**
    * Validate data against a schema
    */
-  validate(data: any, schemaId: string): ValidationResult {
+  validate(): ValidationResult {
     const cacheKey = `${schemaId}:${JSON.stringify(data)}`;
     
     // Check cache first
@@ -239,7 +239,7 @@ export class ConsolidatedSchemaManager {
   /**
    * Migrate data from one schema version to another
    */
-  migrate(data: any, fromVersion: SchemaVersion, toVersion: SchemaVersion): any {
+  migrate(): any {
     if (fromVersion === toVersion) return data;
 
     const migrationKey = `${fromVersion}->${toVersion}`;
@@ -255,7 +255,7 @@ export class ConsolidatedSchemaManager {
   /**
    * Check if migration is available
    */
-  canMigrate(fromVersion: SchemaVersion, toVersion: SchemaVersion): boolean {
+  canMigrate(): boolean {
     if (fromVersion === toVersion) return true;
     const migrationKey = `${fromVersion}->${toVersion}`;
     return this.migrations.has(migrationKey);

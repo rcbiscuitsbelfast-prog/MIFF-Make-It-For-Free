@@ -618,7 +618,7 @@ export class DataPipelinePure {
   /**
    * Create a new data pipeline manager
    */
-  createManager(managerData: Partial<DataPipelineManager>): DataPipelineOutput {
+  createManager(): DataPipelineOutput {
     if (!this.config.enablePipelineManagement) {
       return {
         op: 'create-manager',
@@ -711,7 +711,7 @@ export class DataPipelinePure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): DataPipelineOutput {
+  getManager(): DataPipelineOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

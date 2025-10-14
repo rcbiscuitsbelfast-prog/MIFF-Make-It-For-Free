@@ -674,7 +674,7 @@ export class QuantumComputingPure {
   /**
    * Create a new quantum computing manager
    */
-  createManager(managerData: Partial<QuantumComputingManager>): QuantumComputingOutput {
+  createManager(): QuantumComputingOutput {
     if (!this.config.enableQuantumManagement) {
       return {
         op: 'create-manager',
@@ -764,7 +764,7 @@ export class QuantumComputingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): QuantumComputingOutput {
+  getManager(): QuantumComputingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

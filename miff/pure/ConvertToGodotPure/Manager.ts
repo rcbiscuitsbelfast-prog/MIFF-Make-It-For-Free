@@ -482,7 +482,7 @@ export class ConvertToGodotPure {
   /**
    * Create a new convert to Godot manager
    */
-  createManager(managerData: Partial<ConvertToGodotManager>): ConvertToGodotOutput {
+  createManager(): ConvertToGodotOutput {
     if (!this.config.enableProjectConversion) {
       return {
         op: 'create-manager',
@@ -572,7 +572,7 @@ export class ConvertToGodotPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ConvertToGodotOutput {
+  getManager(): ConvertToGodotOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -592,7 +592,7 @@ export class ConvertToGodotPure {
   /**
    * Create conversion project
    */
-  createProject(managerId: string, project: Partial<ConversionProject>): ConvertToGodotOutput {
+  createProject(): ConvertToGodotOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -699,7 +699,7 @@ export class ConvertToGodotPure {
   /**
    * Start project conversion
    */
-  startConversion(managerId: string, projectId: string): ConvertToGodotOutput {
+  startConversion(): ConvertToGodotOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -757,7 +757,7 @@ export class ConvertToGodotPure {
   /**
    * Create conversion asset
    */
-  createAsset(managerId: string, asset: Partial<ConversionAsset>): ConvertToGodotOutput {
+  createAsset(): ConvertToGodotOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

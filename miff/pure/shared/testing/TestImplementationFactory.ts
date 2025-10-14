@@ -91,7 +91,7 @@ export class TestImplementationFactory {
   /**
    * Create a realistic test entity
    */
-  createTestEntity(options: Partial<TestEntity> = {}): TestEntity {
+  createTestEntity(): TestEntity {
     const entity: TestEntity = {
       id: options.id || `entity_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: options.name || 'Test Entity',
@@ -120,7 +120,7 @@ export class TestImplementationFactory {
   /**
    * Create a realistic test spirit
    */
-  createTestSpirit(options: Partial<TestSpirit> = {}): TestSpirit {
+  createTestSpirit(): TestSpirit {
     const spirit: TestSpirit = {
       ...this.createTestEntity(options),
       speciesId: options.speciesId || 'test_spirit',
@@ -137,7 +137,7 @@ export class TestImplementationFactory {
   /**
    * Create a realistic test player
    */
-  createTestPlayer(options: Partial<TestPlayer> = {}): TestPlayer {
+  createTestPlayer(): TestPlayer {
     const player: TestPlayer = {
       ...this.createTestEntity(options),
       energy: options.energy || 100,

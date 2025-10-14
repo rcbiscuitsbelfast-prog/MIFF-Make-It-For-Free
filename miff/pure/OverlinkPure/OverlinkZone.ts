@@ -7,7 +7,7 @@ import { RemixLineageTracker, RemixOrigin, AssetLineage } from './RemixLineageTr
 import { AudioManager } from './AudioManager';
 // BadgeSystem and CreditsRenderer - minimal stub classes for typing/constructability
 class BadgeSystem {
-  assignBadge(_assignment: any): void {}
+  assignBadge(): void {
   getContributorBadges(_contributorId: string): any[] { return []; }
   displayBadges(_contributorId?: string, _options?: any): any[] { return []; }
   getCLIPreview(_contributorId?: string): string { return ''; }

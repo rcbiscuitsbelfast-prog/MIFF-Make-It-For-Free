@@ -71,7 +71,7 @@ export class RealCanvas {
   /**
    * Create a new canvas
    */
-  createCanvas(width: number, height: number, context: string = '2d'): string {
+  createCanvas(): string {
     const canvasId = `canvas_${this.nextCanvasId++}`;
     
     const canvasInfo: CanvasInfo = {
@@ -124,7 +124,7 @@ export class RealCanvas {
   /**
    * Update canvas properties
    */
-  updateCanvas(canvasId: string, updates: Partial<CanvasInfo>): boolean {
+  updateCanvas(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -138,35 +138,35 @@ export class RealCanvas {
   /**
    * Set canvas size
    */
-  setCanvasSize(canvasId: string, width: number, height: number): boolean {
+  setCanvasSize(): boolean {
     return this.updateCanvas(canvasId, { width, height });
   }
 
   /**
    * Set canvas background color
    */
-  setBackgroundColor(canvasId: string, color: string): boolean {
+  setBackgroundColor(): boolean {
     return this.updateCanvas(canvasId, { backgroundColor: color });
   }
 
   /**
    * Show canvas
    */
-  showCanvas(canvasId: string): boolean {
+  showCanvas(): boolean {
     return this.updateCanvas(canvasId, { isVisible: true });
   }
 
   /**
    * Hide canvas
    */
-  hideCanvas(canvasId: string): boolean {
+  hideCanvas(): boolean {
     return this.updateCanvas(canvasId, { isVisible: false });
   }
 
   /**
    * Activate canvas
    */
-  activateCanvas(canvasId: string): boolean {
+  activateCanvas(): boolean {
     // Deactivate all other canvases
     for (const [id, canvas] of this.canvases) {
       if (id !== canvasId) {
@@ -187,7 +187,7 @@ export class RealCanvas {
   /**
    * Set drawing context property
    */
-  setContextProperty(canvasId: string, property: keyof DrawingContext, value: any): boolean {
+  setContextProperty(): boolean {
     const context = this.contexts.get(canvasId);
     if (!context) return false;
 
@@ -199,7 +199,7 @@ export class RealCanvas {
   /**
    * Clear canvas
    */
-  clearCanvas(canvasId: string): boolean {
+  clearCanvas(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -210,7 +210,7 @@ export class RealCanvas {
   /**
    * Draw rectangle
    */
-  drawRect(canvasId: string, x: number, y: number, width: number, height: number, filled: boolean = true): boolean {
+  drawRect(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -221,7 +221,7 @@ export class RealCanvas {
   /**
    * Draw circle
    */
-  drawCircle(canvasId: string, x: number, y: number, radius: number, filled: boolean = true): boolean {
+  drawCircle(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -232,7 +232,7 @@ export class RealCanvas {
   /**
    * Draw line
    */
-  drawLine(canvasId: string, x1: number, y1: number, x2: number, y2: number): boolean {
+  drawLine(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -243,7 +243,7 @@ export class RealCanvas {
   /**
    * Draw text
    */
-  drawText(canvasId: string, text: string, x: number, y: number): boolean {
+  drawText(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -254,7 +254,7 @@ export class RealCanvas {
   /**
    * Draw image
    */
-  drawImage(canvasId: string, imageData: ImageData, x: number, y: number, width?: number, height?: number): boolean {
+  drawImage(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -265,7 +265,7 @@ export class RealCanvas {
   /**
    * Save canvas state
    */
-  saveState(canvasId: string): boolean {
+  saveState(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -276,7 +276,7 @@ export class RealCanvas {
   /**
    * Restore canvas state
    */
-  restoreState(canvasId: string): boolean {
+  restoreState(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -287,7 +287,7 @@ export class RealCanvas {
   /**
    * Transform canvas
    */
-  transform(canvasId: string, matrix: number[]): boolean {
+  transform(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -316,7 +316,7 @@ export class RealCanvas {
   /**
    * Put image data
    */
-  putImageData(canvasId: string, imageData: ImageData, x: number, y: number): boolean {
+  putImageData(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -355,7 +355,7 @@ export class RealCanvas {
   /**
    * Stop animation
    */
-  stopAnimation(animationId: number): boolean {
+  stopAnimation(): boolean {
     const animation = this.animations.get(animationId);
     if (!animation) return false;
 
@@ -395,14 +395,14 @@ export class RealCanvas {
   /**
    * Check if canvas exists
    */
-  hasCanvas(canvasId: string): boolean {
+  hasCanvas(): boolean {
     return this.canvases.has(canvasId);
   }
 
   /**
    * Remove canvas
    */
-  removeCanvas(canvasId: string): boolean {
+  removeCanvas(): boolean {
     const canvas = this.canvases.get(canvasId);
     if (!canvas) return false;
 
@@ -422,7 +422,7 @@ export class RealCanvas {
   /**
    * Event handling
    */
-  on(event: string, handler: Function): void {
+  on(): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }

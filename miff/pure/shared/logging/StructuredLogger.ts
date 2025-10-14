@@ -69,42 +69,42 @@ export class StructuredLogger {
   /**
    * Log an error message
    */
-  error(module: string, message: string, context?: Record<string, any>, error?: Error): void {
+  error(): void {
     this.log(LogLevel.ERROR, module, message, context, error);
   }
 
   /**
    * Log a warning message
    */
-  warn(module: string, message: string, context?: Record<string, any>): void {
+  warn(): void {
     this.log(LogLevel.WARN, module, message, context);
   }
 
   /**
    * Log an info message
    */
-  info(module: string, message: string, context?: Record<string, any>): void {
+  info(): void {
     this.log(LogLevel.INFO, module, message, context);
   }
 
   /**
    * Log a debug message
    */
-  debug(module: string, message: string, context?: Record<string, any>): void {
+  debug(): void {
     this.log(LogLevel.DEBUG, module, message, context);
   }
 
   /**
    * Log a trace message
    */
-  trace(module: string, message: string, context?: Record<string, any>): void {
+  trace(): void {
     this.log(LogLevel.TRACE, module, message, context);
   }
 
   /**
    * Start a performance timer
    */
-  startTimer(module: string, operation: string): string {
+  startTimer(): string {
     const timerId = `${module}:${operation}:${Date.now()}`;
     this.timers.set(timerId, performance.now());
     return timerId;
@@ -113,7 +113,7 @@ export class StructuredLogger {
   /**
    * End a performance timer and log the duration
    */
-  endTimer(timerId: string, context?: Record<string, any>): number {
+  endTimer(): number {
     const startTime = this.timers.get(timerId);
     if (!startTime) {
       this.warn('StructuredLogger', `Timer not found: ${timerId}`);
@@ -148,7 +148,7 @@ export class StructuredLogger {
   /**
    * Log performance metrics
    */
-  logPerformance(module: string, operation: string, duration: number, context?: Record<string, any>): void {
+  logPerformance(): void {
     this.debug(module, `Performance: ${operation}`, {
       ...context,
       duration: Math.round(duration * 100) / 100,
@@ -370,7 +370,7 @@ export class StructuredLogger {
   /**
    * Update configuration
    */
-  updateConfig(newConfig: Partial<LoggerConfig>): void {
+  updateConfig(): void {
     this.config = { ...this.config, ...newConfig };
     this.startFlushTimer();
   }

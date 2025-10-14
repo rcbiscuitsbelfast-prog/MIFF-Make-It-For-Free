@@ -82,35 +82,35 @@ class MockGameEntity implements IGameEntity {
   /**
    * Take damage
    */
-  takeDamage(amount: number): void {
+  takeDamage(): void {
     this.hp = Math.max(0, this.hp - amount);
   }
 
   /**
    * Heal
    */
-  heal(amount: number): void {
+  heal(): void {
     this.hp = Math.min(this.maxHp, this.hp + amount);
   }
 
   /**
    * Get stat value
    */
-  getStat(stat: string): number {
+  getStat(): number {
     return this.stats[stat] || 0;
   }
 
   /**
    * Set stat value
    */
-  setStat(stat: string, value: number): void {
+  setStat(): void {
     this.stats[stat] = value;
   }
 
   /**
    * Add status effect
    */
-  addStatusEffect(effect: string): void {
+  addStatusEffect(): void {
     if (!this.statusEffects.includes(effect)) {
       this.statusEffects.push(effect);
     }
@@ -119,7 +119,7 @@ class MockGameEntity implements IGameEntity {
   /**
    * Remove status effect
    */
-  removeStatusEffect(effect: string): boolean {
+  removeStatusEffect(): boolean {
     const index = this.statusEffects.indexOf(effect);
     if (index >= 0) {
       this.statusEffects.splice(index, 1);

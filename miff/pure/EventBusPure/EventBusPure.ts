@@ -177,7 +177,7 @@ export class EventBus {
   /**
    * Unsubscribe from an event type
    */
-  unsubscribe(subscriptionId: string): boolean {
+  unsubscribe(): boolean {
     const subscription = this.subscriptions.get(subscriptionId);
     if (!subscription) {
       return false;
@@ -351,7 +351,7 @@ export class EventBus {
   /**
    * Unregister network callback
    */
-  unregisterNetworkCallback(id: string): boolean {
+  unregisterNetworkCallback(): boolean {
     return this.networkCallbacks.delete(id);
   }
 
@@ -374,7 +374,7 @@ export class EventBus {
   /**
    * Clear old events
    */
-  clearOldEvents(maxAge: number = 60000): number {
+  clearOldEvents(): number {
     const cutoff = Date.now() - maxAge;
     const initialCount = this.events.length;
     
@@ -413,7 +413,7 @@ export class EventBus {
   /**
    * Get subscription count by event type
    */
-  getSubscriptionCount(eventType?: string): number {
+  getSubscriptionCount(): number {
     if (eventType) {
       return this.handlers.get(eventType)?.length || 0;
     }
@@ -466,14 +466,14 @@ export class EventRouter {
   /**
    * Add a route from source event type to target event types
    */
-  addRoute(sourceType: string, targetTypes: string[]): void {
+  addRoute(): void {
     this.routes.set(sourceType, targetTypes);
   }
 
   /**
    * Remove a route
    */
-  removeRoute(sourceType: string): boolean {
+  removeRoute(): boolean {
     return this.routes.delete(sourceType);
   }
 
@@ -521,14 +521,14 @@ export class EventFilter {
   /**
    * Remove a filter
    */
-  removeFilter(name: string): boolean {
+  removeFilter(): boolean {
     return this.filters.delete(name);
   }
 
   /**
    * Check if event passes all filters
    */
-  passesFilters(event: Event): boolean {
+  passesFilters(): boolean {
     for (const filter of Array.from(this.filters.values())) {
       if (!filter(event)) {
         return false;
@@ -561,21 +561,21 @@ export class EventReplicator {
   /**
    * Add replication rule
    */
-  addReplicationRule(eventType: string, rule: ReplicationRule): void {
+  addReplicationRule(): void {
     this.replicationRules.set(eventType, rule);
   }
 
   /**
    * Remove replication rule
    */
-  removeReplicationRule(eventType: string): boolean {
+  removeReplicationRule(): boolean {
     return this.replicationRules.delete(eventType);
   }
 
   /**
    * Check if event should be replicated
    */
-  shouldReplicate(event: Event): boolean {
+  shouldReplicate(): boolean {
     const rule = this.replicationRules.get(event.type);
     if (!rule) {
       return false;
@@ -587,7 +587,7 @@ export class EventReplicator {
   /**
    * Transform event for replication
    */
-  transformForReplication(event: Event): Event {
+  transformForReplication(): Event {
     const rule = this.replicationRules.get(event.type);
     if (!rule) {
       return event;
@@ -684,7 +684,7 @@ export class EventScheduler {
   /**
    * Cancel a scheduled event
    */
-  cancelScheduled(eventId: string): boolean {
+  cancelScheduled(): boolean {
     return this.scheduledEvents.delete(eventId);
   }
 

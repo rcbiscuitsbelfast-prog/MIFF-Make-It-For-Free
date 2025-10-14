@@ -128,7 +128,7 @@ export class CLIInterfaceStandardizer {
   /**
    * Parse command line arguments
    */
-  parseArguments(argv: string[]): CLIParseResult {
+  parseArguments(): CLIParseResult {
     if (!this.isInitialized) {
       throw new Error('CLI interface standardizer not initialized');
     }
@@ -220,7 +220,7 @@ export class CLIInterfaceStandardizer {
   /**
    * Generate help information
    */
-  generateHelp(command?: string): CLIHelpInfo {
+  generateHelp(): CLIHelpInfo {
     const help: CLIHelpInfo = {
       moduleName: this.config.moduleName,
       version: this.config.version,

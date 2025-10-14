@@ -544,7 +544,7 @@ export class NotificationSystemPure {
   /**
    * Create a new notification system manager
    */
-  createManager(managerData: Partial<NotificationSystemManager>): NotificationSystemOutput {
+  createManager(): NotificationSystemOutput {
     if (!this.config.enableNotificationManagement) {
       return {
         op: 'create-manager',
@@ -635,7 +635,7 @@ export class NotificationSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): NotificationSystemOutput {
+  getManager(): NotificationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

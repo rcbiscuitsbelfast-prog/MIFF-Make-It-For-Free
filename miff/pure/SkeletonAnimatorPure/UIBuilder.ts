@@ -70,7 +70,7 @@ export class UIBuilder {
   /**
    * Handle UI action
    */
-  handleAction(action: Omit<UIAction, 'id' | 'timestamp'>): UIBuilder {
+  handleAction(): UIBuilder {
     const fullAction: UIAction = {
       ...action,
       id: this.generateActionId(),
@@ -423,7 +423,7 @@ export class UIBuilder {
   /**
    * Set UI mode
    */
-  setMode(mode: UIState['mode']): UIBuilder {
+  setMode(): UIBuilder {
     this.uiState.mode = mode;
     return this;
   }
@@ -431,7 +431,7 @@ export class UIBuilder {
   /**
    * Set selected tool
    */
-  setTool(tool: string): UIBuilder {
+  setTool(): UIBuilder {
     this.uiState.selectedTool = tool;
     return this;
   }
@@ -439,7 +439,7 @@ export class UIBuilder {
   /**
    * Update viewport camera
    */
-  updateCamera(position: Vec3, target: Vec3, fov?: number): UIBuilder {
+  updateCamera(): UIBuilder {
     this.uiState.viewport.camera.position = { ...position };
     this.uiState.viewport.camera.target = { ...target };
     if (fov !== undefined) {
@@ -467,7 +467,7 @@ export class UIBuilder {
   /**
    * Add panel
    */
-  addPanel(panel: Omit<PanelState, 'id'>): UIBuilder {
+  addPanel(): UIBuilder {
     const newPanel: PanelState = {
       ...panel,
       id: this.generatePanelId()
@@ -479,7 +479,7 @@ export class UIBuilder {
   /**
    * Remove panel
    */
-  removePanel(panelId: string): UIBuilder {
+  removePanel(): UIBuilder {
     this.uiState.panels = this.uiState.panels.filter(p => p.id !== panelId);
     return this;
   }
@@ -487,7 +487,7 @@ export class UIBuilder {
   /**
    * Update panel position
    */
-  updatePanelPosition(panelId: string, position: { x: number; y: number }): UIBuilder {
+  updatePanelPosition(): UIBuilder {
     const panel = this.uiState.panels.find(p => p.id === panelId);
     if (panel) {
       panel.position = { ...position };
@@ -498,7 +498,7 @@ export class UIBuilder {
   /**
    * Update panel size
    */
-  updatePanelSize(panelId: string, size: { width: number; height: number }): UIBuilder {
+  updatePanelSize(): UIBuilder {
     const panel = this.uiState.panels.find(p => p.id === panelId);
     if (panel) {
       panel.size = { ...size };
@@ -509,7 +509,7 @@ export class UIBuilder {
   /**
    * Toggle panel visibility
    */
-  togglePanel(panelId: string): UIBuilder {
+  togglePanel(): UIBuilder {
     const panel = this.uiState.panels.find(p => p.id === panelId);
     if (panel) {
       panel.visible = !panel.visible;
@@ -582,7 +582,7 @@ export class UIBuilder {
   /**
    * Import UI state
    */
-  importUIState(json: string): UIBuilder {
+  importUIState(): UIBuilder {
     const importData = SafeJSONParser.parse(json);
     this.uiState = importData.uiState;
     this.skeletonState = importData.skeletonState;

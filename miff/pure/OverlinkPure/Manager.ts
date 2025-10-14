@@ -483,7 +483,7 @@ export class OverlinkPure {
   /**
    * Create a new overlink manager
    */
-  createManager(managerData: Partial<OverlinkManager>): OverlinkOutput {
+  createManager(): OverlinkOutput {
     if (!this.config.enableOverlinkManagement) {
       return {
         op: 'create-manager',
@@ -574,7 +574,7 @@ export class OverlinkPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): OverlinkOutput {
+  getManager(): OverlinkOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

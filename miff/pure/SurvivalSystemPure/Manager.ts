@@ -351,7 +351,7 @@ export class SurvivalSystemPure {
   /**
    * Create a new survival system manager
    */
-  createManager(managerData: Partial<SurvivalSystemManager>): SurvivalSystemOutput {
+  createManager(): SurvivalSystemOutput {
     if (!this.config.enableSurvivalManagement) {
       return {
         op: 'create-manager',
@@ -439,7 +439,7 @@ export class SurvivalSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): SurvivalSystemOutput {
+  getManager(): SurvivalSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

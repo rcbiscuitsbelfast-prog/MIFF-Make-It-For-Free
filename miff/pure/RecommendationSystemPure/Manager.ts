@@ -439,7 +439,7 @@ export class RecommendationSystemPure {
   /**
    * Create a new recommendation system manager
    */
-  createManager(managerData: Partial<RecommendationSystemManager>): RecommendationSystemOutput {
+  createManager(): RecommendationSystemOutput {
     if (!this.config.enableRecommendationManagement) {
       return {
         op: 'create-manager',
@@ -528,7 +528,7 @@ export class RecommendationSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): RecommendationSystemOutput {
+  getManager(): RecommendationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -548,7 +548,7 @@ export class RecommendationSystemPure {
   /**
    * Create recommendation model
    */
-  createModel(managerId: string, model: Partial<RecommendationModel>): RecommendationSystemOutput {
+  createModel(): RecommendationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -626,7 +626,7 @@ export class RecommendationSystemPure {
   /**
    * Create user
    */
-  createUser(managerId: string, user: Partial<User>): RecommendationSystemOutput {
+  createUser(): RecommendationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -701,7 +701,7 @@ export class RecommendationSystemPure {
   /**
    * Create item
    */
-  createItem(managerId: string, item: Partial<Item>): RecommendationSystemOutput {
+  createItem(): RecommendationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -750,7 +750,7 @@ export class RecommendationSystemPure {
   /**
    * Record interaction
    */
-  recordInteraction(managerId: string, interaction: Partial<Interaction>): RecommendationSystemOutput {
+  recordInteraction(): RecommendationSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

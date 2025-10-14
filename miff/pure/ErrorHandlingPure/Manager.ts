@@ -563,7 +563,7 @@ export class ErrorHandlingPure {
   /**
    * Create a new error handling manager
    */
-  createManager(managerData: Partial<ErrorHandlingManager>): ErrorHandlingOutput {
+  createManager(): ErrorHandlingOutput {
     if (!this.config.enableErrorHandlingManagement) {
       return {
         op: 'create-manager',
@@ -656,7 +656,7 @@ export class ErrorHandlingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ErrorHandlingOutput {
+  getManager(): ErrorHandlingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

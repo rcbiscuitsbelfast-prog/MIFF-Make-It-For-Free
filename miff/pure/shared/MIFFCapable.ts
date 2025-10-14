@@ -504,7 +504,7 @@ export class CapabilityManager {
   /**
    * Register a module's capabilities
    */
-  registerModule(module: MIFFCapable): void {
+  registerModule(): void {
     this.registry.modules.set(module.moduleId, module);
     this.registry.capabilities.set(module.moduleId, module.capabilities);
     this.registry.schemas.set(module.moduleId, module.schemas);
@@ -577,7 +577,7 @@ export class CapabilityManager {
   /**
    * Generate dynamic CLI help
    */
-  generateCLIHelp(moduleId: string): string {
+  generateCLIHelp(): string {
     const module = this.registry.modules.get(moduleId);
     if (!module) return 'Module not found';
 

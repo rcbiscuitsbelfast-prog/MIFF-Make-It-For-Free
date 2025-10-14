@@ -559,7 +559,7 @@ export class RenderReplayPure {
   /**
    * Create a new render replay manager
    */
-  createManager(managerData: Partial<RenderReplayManager>): RenderReplayOutput {
+  createManager(): RenderReplayOutput {
     if (!this.config.enableReplayManagement) {
       return {
         op: 'create-manager',
@@ -650,7 +650,7 @@ export class RenderReplayPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): RenderReplayOutput {
+  getManager(): RenderReplayOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

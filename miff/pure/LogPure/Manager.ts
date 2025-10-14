@@ -345,7 +345,7 @@ export class LogPure {
   /**
    * Create a new log manager
    */
-  createManager(managerData: Partial<LogManager>): LogOutput {
+  createManager(): LogOutput {
     if (!this.config.enableLogManagement) {
       return {
         op: 'create-manager',
@@ -433,7 +433,7 @@ export class LogPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): LogOutput {
+  getManager(): LogOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

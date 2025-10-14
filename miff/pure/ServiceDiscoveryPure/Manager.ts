@@ -918,7 +918,7 @@ export class ServiceDiscoveryPure {
   /**
    * Create a new service discovery manager
    */
-  createManager(managerData: Partial<ServiceDiscoveryManager>): ServiceDiscoveryOutput {
+  createManager(): ServiceDiscoveryOutput {
     if (!this.config.enableServiceDiscovery) {
       return {
         op: 'create-manager',
@@ -1008,7 +1008,7 @@ export class ServiceDiscoveryPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): ServiceDiscoveryOutput {
+  getManager(): ServiceDiscoveryOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -665,7 +665,7 @@ export class EventBusPure {
   /**
    * Create a new event bus manager
    */
-  createManager(managerData: Partial<EventBusManager>): EventBusOutput {
+  createManager(): EventBusOutput {
     if (!this.config.enableEventBusManagement) {
       return {
         op: 'create-manager',
@@ -758,7 +758,7 @@ export class EventBusPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): EventBusOutput {
+  getManager(): EventBusOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -545,7 +545,7 @@ export class StatusEffectsPure {
   /**
    * Create a new status effects manager
    */
-  createManager(managerData: Partial<StatusEffectsManager>): StatusEffectsOutput {
+  createManager(): StatusEffectsOutput {
     if (!this.config.enableStatusEffectsManagement) {
       return {
         op: 'create-manager',
@@ -632,7 +632,7 @@ export class StatusEffectsPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): StatusEffectsOutput {
+  getManager(): StatusEffectsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

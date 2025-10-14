@@ -541,7 +541,7 @@ export class WitcherExplorerDemoPure {
   /**
    * Create a new Witcher Explorer Demo manager
    */
-  createManager(managerData: Partial<WitcherExplorerDemoManager>): WitcherExplorerDemoOutput {
+  createManager(): WitcherExplorerDemoOutput {
     if (!this.config.enableDemoManagement) {
       return {
         op: 'create-manager',
@@ -634,7 +634,7 @@ export class WitcherExplorerDemoPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): WitcherExplorerDemoOutput {
+  getManager(): WitcherExplorerDemoOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

@@ -365,7 +365,7 @@ export class XPLevelingPure {
   /**
    * Create a new XP leveling manager
    */
-  createManager(managerData: Partial<XPLevelingManager>): XPLevelingOutput {
+  createManager(): XPLevelingOutput {
     if (!this.config.enableXPCalculation) {
       return {
         op: 'create-manager',
@@ -453,7 +453,7 @@ export class XPLevelingPure {
   /**
    * Get manager by ID
    */
-  getManager(managerId: string): XPLevelingOutput {
+  getManager(): XPLevelingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -473,7 +473,7 @@ export class XPLevelingPure {
   /**
    * Create player
    */
-  createPlayer(managerId: string, player: Partial<Player>): XPLevelingOutput {
+  createPlayer(): XPLevelingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -527,7 +527,7 @@ export class XPLevelingPure {
   /**
    * Add XP to player
    */
-  addXP(managerId: string, playerId: string, xp: number, source?: string): XPLevelingOutput {
+  addXP(): XPLevelingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
@@ -583,7 +583,7 @@ export class XPLevelingPure {
   /**
    * Add skill to player
    */
-  addSkill(managerId: string, playerId: string, skillId: string, xp: number): XPLevelingOutput {
+  addSkill(): XPLevelingOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {
