@@ -10,7 +10,6 @@
  */
 
 export interface TimelineSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface TimelineSystemConfig {
 }
 
 export interface TimelineSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface TimelineSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TimelineSystemManagerType;
   status: TimelineSystemManagerStatus;
   timelines: Timeline[];
@@ -64,16 +60,12 @@ export interface TimelineSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type TimelineSystemManagerType = 'linear' | 'parallel' | 'hierarchical' | 'custom';
 export type TimelineSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Timeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,21 +77,17 @@ export interface Timeline {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TimelineType;
   status: TimelineStatus;
   events: string[];
   configuration: TimelineConfiguration;
   performance: TimelinePerformance;
-  metadata: Record<string, any>;
 }
 
 export type TimelineType = 'linear' | 'parallel' | 'hierarchical' | 'custom';
 export type TimelineStatus = 'draft' | 'active' | 'paused' | 'completed' | 'error';
 
 export interface TimelineConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +111,6 @@ export type TimelineDirection = 'forward' | 'backward' | 'ping_pong' | 'custom';
 export type EasingFunction = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
 
 export interface TimelinePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -142,7 +129,6 @@ export interface TimelinePerformance {
 }
 
 export interface TimelineEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -154,8 +140,6 @@ export interface TimelineEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EventType;
   status: EventStatus;
   timeline: string;
@@ -163,14 +147,12 @@ export interface TimelineEvent {
   duration: number;
   configuration: EventConfiguration;
   performance: EventPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'action' | 'animation' | 'sound' | 'custom';
 export type EventStatus = 'pending' | 'active' | 'completed' | 'cancelled';
 
 export interface EventConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,7 +174,6 @@ export interface EventConfiguration {
 }
 
 export interface EventPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -212,7 +193,6 @@ export interface EventPerformance {
 }
 
 export interface EventScheduler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -224,21 +204,17 @@ export interface EventScheduler {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SchedulerType;
   status: SchedulerStatus;
   events: string[];
   configuration: SchedulerConfiguration;
   performance: SchedulerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SchedulerType = 'time_based' | 'event_based' | 'priority_based' | 'custom';
 export type SchedulerStatus = 'active' | 'inactive' | 'error';
 
 export interface SchedulerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,7 +234,6 @@ export interface SchedulerConfiguration {
 }
 
 export interface SchedulerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,7 +253,6 @@ export interface SchedulerPerformance {
 }
 
 export interface EventExecutor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -290,21 +264,17 @@ export interface EventExecutor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ExecutorType;
   status: ExecutorStatus;
   events: string[];
   configuration: ExecutorConfiguration;
   performance: ExecutorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ExecutorType = 'immediate' | 'deferred' | 'batch' | 'custom';
 export type ExecutorStatus = 'active' | 'inactive' | 'error';
 
 export interface ExecutorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +294,6 @@ export interface ExecutorConfiguration {
 }
 
 export interface ExecutorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -344,7 +313,6 @@ export interface ExecutorPerformance {
 }
 
 export interface TimelineSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +338,6 @@ export interface TimelineSystemPerformanceMetrics {
 }
 
 export interface TimelineSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,7 +358,6 @@ export interface TimelineSystemAnalytics {
 }
 
 export interface TimelineTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -410,7 +376,6 @@ export interface TimelineTypeDistribution {
 }
 
 export interface EventTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -429,7 +394,6 @@ export interface EventTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -441,7 +405,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   timelines: number;
   events: number;
   executionTime: number;
@@ -451,7 +414,6 @@ export interface PerformanceTrend {
 }
 
 export interface TimelineSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -474,7 +436,6 @@ export interface TimelineSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,7 +456,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -515,7 +475,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -535,7 +494,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -548,13 +506,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface TimelineSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

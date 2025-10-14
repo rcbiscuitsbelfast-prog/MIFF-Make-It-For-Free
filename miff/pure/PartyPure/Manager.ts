@@ -5,7 +5,6 @@ import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface PartyPureConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,7 +29,6 @@ export interface PartyPureConfig {
 
 // Main item interface
 export interface PartyPureItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,13 +40,10 @@ export interface PartyPureItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: string;
   status: 'active' | 'inactive' | 'pending' | 'error';
   createdAt: Date;
   updatedAt: Date;
-  metadata: Record<string, any>;
   properties: Record<string, any>;
   tags: string[];
   priority: number;
@@ -57,7 +52,6 @@ export interface PartyPureItem {
 
 // Analytics interface
 export interface PartyPureAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,7 +75,6 @@ export interface PartyPureAnalytics {
 
 // Manager statistics
 export interface PartyPureStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

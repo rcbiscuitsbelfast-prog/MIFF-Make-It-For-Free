@@ -17,7 +17,6 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface WeatherSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface WeatherSystemConfig {
 }
 
 export interface WeatherData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -63,11 +61,9 @@ export interface WeatherData {
   visibility: number;
   uvIndex: number;
   airQuality: AirQualityData;
-  timestamp: number;
 }
 
 export interface PrecipitationData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,7 +85,6 @@ export interface PrecipitationData {
 }
 
 export interface CloudData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -111,7 +106,6 @@ export interface CloudData {
 }
 
 export interface AirQualityData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,7 +128,6 @@ export interface AirQualityData {
 }
 
 export interface WeatherZone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,8 +139,6 @@ export interface WeatherZone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   bounds: WeatherBounds;
   weather: WeatherData;
   effects: WeatherEffect[];
@@ -157,7 +148,6 @@ export interface WeatherZone {
 }
 
 export interface WeatherBounds {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,7 +168,6 @@ export interface WeatherBounds {
 }
 
 export interface WeatherEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -190,7 +179,6 @@ export interface WeatherEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   intensity: number;
   duration: number;
@@ -201,7 +189,6 @@ export interface WeatherEffect {
 }
 
 export interface WeatherTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -213,7 +200,6 @@ export interface WeatherTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   fromWeather: WeatherData;
   toWeather: WeatherData;
   duration: number;
@@ -225,7 +211,6 @@ export interface WeatherTransition {
 }
 
 export interface WeatherForecast {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

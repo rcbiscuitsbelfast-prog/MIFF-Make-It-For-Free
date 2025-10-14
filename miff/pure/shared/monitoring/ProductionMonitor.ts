@@ -8,7 +8,6 @@ import { HealthCheckSystem, HealthStatus } from '../health/HealthCheckSystem';
  */
 
 export interface MonitoringConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -29,7 +28,6 @@ export interface MonitoringConfig {
 }
 
 export interface AlertingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +46,6 @@ export interface AlertingConfig {
 }
 
 export interface AlertChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,7 +63,6 @@ export interface AlertChannel {
 }
 
 export interface AlertThresholds {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,7 +82,6 @@ export interface AlertThresholds {
 }
 
 export interface MetricsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -105,7 +100,6 @@ export interface MetricsConfig {
 }
 
 export interface LoggingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +118,6 @@ export interface LoggingConfig {
 }
 
 export interface MonitoringMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +137,6 @@ export interface MonitoringMetrics {
 }
 
 export interface SystemMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,7 +174,6 @@ export interface SystemMetrics {
 }
 
 export interface ApplicationMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +208,6 @@ export interface ApplicationMetrics {
 }
 
 export interface PerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,7 +239,6 @@ export interface PerformanceMetrics {
 }
 
 export interface ErrorMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,7 +258,6 @@ export interface ErrorMetrics {
 }
 
 export interface ErrorEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

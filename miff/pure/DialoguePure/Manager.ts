@@ -12,7 +12,6 @@
  */
 
 export interface DialogueConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface DialogueConfig {
 }
 
 export interface DialogueManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface DialogueManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DialogueManagerType;
   status: DialogueManagerStatus;
   dialogues: Dialogue[];
@@ -67,16 +63,12 @@ export interface DialogueManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DialogueManagerType = 'game' | 'visual_novel' | 'interactive_fiction' | 'educational' | 'custom';
 export type DialogueManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Dialogue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Dialogue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DialogueType;
   status: DialogueStatus;
   content: DialogueContent;
@@ -98,14 +88,12 @@ export interface Dialogue {
   voiceActing: VoiceActingSettings;
   audio: AudioSettings;
   performance: DialoguePerformance;
-  metadata: Record<string, any>;
 }
 
 export type DialogueType = 'conversation' | 'monologue' | 'narration' | 'instruction' | 'custom';
 export type DialogueStatus = 'draft' | 'review' | 'approved' | 'published' | 'archived';
 
 export interface DialogueContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface DialogueContent {
 }
 
 export interface TranslationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,7 +132,6 @@ export interface TranslationSettings {
 }
 
 export interface FormattingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -165,7 +151,6 @@ export interface FormattingSettings {
 }
 
 export interface FontSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +169,6 @@ export interface FontSettings {
 }
 
 export interface ColorSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -203,7 +187,6 @@ export interface ColorSettings {
 }
 
 export interface SizeSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -222,7 +205,6 @@ export interface SizeSettings {
 }
 
 export interface AlignmentSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,7 +225,6 @@ export type HorizontalAlignment = 'left' | 'center' | 'right' | 'justify';
 export type VerticalAlignment = 'top' | 'middle' | 'bottom';
 
 export interface TextEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -263,7 +244,6 @@ export interface TextEffect {
 export type TextEffectType = 'fade' | 'typewriter' | 'highlight' | 'glow' | 'custom';
 
 export interface ValidationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,7 +261,6 @@ export interface ValidationSettings {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -301,7 +280,6 @@ export interface ValidationRule {
 export type ValidationType = 'length' | 'format' | 'content' | 'custom';
 
 export interface DialogueStructure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +302,6 @@ export interface DialogueStructure {
 export type StructureType = 'linear' | 'tree' | 'graph' | 'custom';
 
 export interface DialogueNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,7 +313,6 @@ export interface DialogueNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: NodeType;
   content: string;
   character: string;
@@ -344,13 +320,11 @@ export interface DialogueNode {
   properties: NodeProperties;
   conditions: NodeCondition[];
   actions: NodeAction[];
-  metadata: Record<string, any>;
 }
 
 export type NodeType = 'speech' | 'choice' | 'condition' | 'action' | 'custom';
 
 export interface NodePosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -368,7 +342,6 @@ export interface NodePosition {
 }
 
 export interface NodeProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -388,7 +361,6 @@ export interface NodeProperties {
 }
 
 export interface NodeCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -400,7 +372,6 @@ export interface NodeCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   parameters: Record<string, any>;
   required: boolean;
@@ -410,7 +381,6 @@ export interface NodeCondition {
 export type ConditionType = 'variable' | 'flag' | 'item' | 'level' | 'custom';
 
 export interface NodeAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +392,6 @@ export interface NodeAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   parameters: Record<string, any>;
   immediate: boolean;
@@ -432,7 +401,6 @@ export interface NodeAction {
 export type ActionType = 'set_variable' | 'set_flag' | 'give_item' | 'change_scene' | 'custom';
 
 export interface DialogueConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -444,20 +412,17 @@ export interface DialogueConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   from: string;
   to: string;
   type: ConnectionType;
   label: string;
   conditions: ConnectionCondition[];
   actions: ConnectionAction[];
-  metadata: Record<string, any>;
 }
 
 export type ConnectionType = 'next' | 'choice' | 'condition' | 'action' | 'custom';
 
 export interface ConnectionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -469,14 +434,12 @@ export interface ConnectionCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   parameters: Record<string, any>;
   required: boolean;
 }
 
 export interface ConnectionAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -488,14 +451,12 @@ export interface ConnectionAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   parameters: Record<string, any>;
   immediate: boolean;
 }
 
 export interface BranchingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -517,7 +478,6 @@ export interface BranchingSettings {
 export type BranchingType = 'simple' | 'complex' | 'conditional' | 'custom';
 
 export interface VoiceActingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,7 +500,6 @@ export interface VoiceActingSettings {
 }
 
 export interface AudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -564,7 +523,6 @@ export type AudioFormat = 'wav' | 'mp3' | 'ogg' | 'aac' | 'custom';
 export type AudioQuality = 'low' | 'medium' | 'high' | 'lossless';
 
 export interface CompressionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -585,7 +543,6 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'mp3' | 'aac' | 'ogg' | 'custom';
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -605,7 +562,6 @@ export interface AudioEffect {
 export type AudioEffectType = 'reverb' | 'echo' | 'distortion' | 'filter' | 'custom';
 
 export interface DialoguePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -629,7 +585,6 @@ export type ComplexityLevel = 'simple' | 'moderate' | 'complex' | 'expert';
 export type ReadabilityScore = 'easy' | 'medium' | 'hard' | 'expert';
 
 export interface DialogueCharacter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -641,22 +596,18 @@ export interface DialogueCharacter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CharacterType;
   status: CharacterStatus;
   profile: CharacterProfile;
   voice: VoiceProfile;
   appearance: AppearanceSettings;
   behavior: BehaviorSettings;
-  metadata: Record<string, any>;
 }
 
 export type CharacterType = 'protagonist' | 'antagonist' | 'supporting' | 'npc' | 'custom';
 export type CharacterStatus = 'active' | 'inactive' | 'archived' | 'error';
 
 export interface CharacterProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -678,7 +629,6 @@ export interface CharacterProfile {
 }
 
 export interface PersonalityTraits {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -697,7 +647,6 @@ export interface PersonalityTraits {
 }
 
 export interface PersonalityTrait {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -709,13 +658,11 @@ export interface PersonalityTrait {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: number;
   description: string;
 }
 
 export interface CharacterRelationship {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -736,7 +683,6 @@ export interface CharacterRelationship {
 export type RelationshipType = 'friend' | 'enemy' | 'family' | 'romantic' | 'custom';
 
 export interface VoiceProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -758,7 +704,6 @@ export interface VoiceProfile {
 }
 
 export interface VoiceCharacteristic {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,7 +723,6 @@ export interface VoiceCharacteristic {
 export type VoiceCharacteristicType = 'deep' | 'high' | 'raspy' | 'smooth' | 'custom';
 
 export interface AppearanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -798,7 +742,6 @@ export interface AppearanceSettings {
 }
 
 export interface CharacterAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -810,8 +753,6 @@ export interface CharacterAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   file: string;
   duration: number;
@@ -821,7 +762,6 @@ export interface CharacterAnimation {
 export type AnimationType = 'idle' | 'talking' | 'emotion' | 'action' | 'custom';
 
 export interface CharacterExpression {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -833,15 +773,12 @@ export interface CharacterExpression {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   emotion: string;
   intensity: number;
   file: string;
 }
 
 export interface CharacterCostume {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -853,8 +790,6 @@ export interface CharacterCostume {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CostumeType;
   file: string;
   unlocked: boolean;
@@ -863,7 +798,6 @@ export interface CharacterCostume {
 export type CostumeType = 'default' | 'casual' | 'formal' | 'special' | 'custom';
 
 export interface BehaviorSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -882,7 +816,6 @@ export interface BehaviorSettings {
 }
 
 export interface SpeechPatterns {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -903,7 +836,6 @@ export interface SpeechPatterns {
 export type FormalityLevel = 'casual' | 'formal' | 'polite' | 'rude';
 
 export interface ReactionPatterns {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -921,7 +853,6 @@ export interface ReactionPatterns {
 }
 
 export interface EmotionalReaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -940,7 +871,6 @@ export interface EmotionalReaction {
 }
 
 export interface ReactionTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -960,7 +890,6 @@ export interface ReactionTrigger {
 export type TriggerType = 'dialogue' | 'action' | 'event' | 'custom';
 
 export interface ReactionResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -981,7 +910,6 @@ export interface ReactionResponse {
 export type ResponseType = 'dialogue' | 'animation' | 'sound' | 'custom';
 
 export interface CharacterPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1000,7 +928,6 @@ export interface CharacterPreferences {
 }
 
 export interface Conversation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1012,8 +939,6 @@ export interface Conversation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConversationType;
   status: ConversationStatus;
   participants: string[];
@@ -1021,14 +946,12 @@ export interface Conversation {
   context: ConversationContext;
   settings: ConversationSettings;
   performance: ConversationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ConversationType = 'story' | 'quest' | 'tutorial' | 'random' | 'custom';
 export type ConversationStatus = 'draft' | 'active' | 'completed' | 'archived';
 
 export interface ConversationContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1049,7 +972,6 @@ export interface ConversationContext {
 }
 
 export interface ConversationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1069,7 +991,6 @@ export interface ConversationSettings {
 }
 
 export interface ConversationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1091,7 +1012,6 @@ export interface ConversationPerformance {
 export type EngagementScore = 'low' | 'medium' | 'high' | 'very_high';
 
 export interface VoiceActor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1103,22 +1023,18 @@ export interface VoiceActor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: VoiceActorType;
   status: VoiceActorStatus;
   profile: VoiceActorProfile;
   skills: VoiceActorSkill[];
   availability: AvailabilitySettings;
   performance: VoiceActorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type VoiceActorType = 'professional' | 'amateur' | 'ai' | 'custom';
 export type VoiceActorStatus = 'available' | 'busy' | 'unavailable' | 'retired';
 
 export interface VoiceActorProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1139,7 +1055,6 @@ export interface VoiceActorProfile {
 }
 
 export interface VoiceActorSkill {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1160,7 +1075,6 @@ export type SkillType = 'acting' | 'singing' | 'accent' | 'emotion' | 'custom';
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 
 export interface AvailabilitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1179,7 +1093,6 @@ export interface AvailabilitySettings {
 }
 
 export interface ScheduleSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1197,7 +1110,6 @@ export interface ScheduleSettings {
 }
 
 export interface TimeRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1214,7 +1126,6 @@ export interface TimeRange {
 }
 
 export interface BreakSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1234,7 +1145,6 @@ export interface BreakSettings {
 export type BreakType = 'lunch' | 'rest' | 'personal' | 'custom';
 
 export interface RateSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1253,7 +1163,6 @@ export interface RateSettings {
 }
 
 export interface ActorPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1272,7 +1181,6 @@ export interface ActorPreferences {
 }
 
 export interface VoiceActorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1292,7 +1200,6 @@ export interface VoiceActorPerformance {
 }
 
 export interface DialoguePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1317,7 +1224,6 @@ export interface DialoguePerformanceMetrics {
 }
 
 export interface DialogueAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1338,7 +1244,6 @@ export interface DialogueAnalytics {
 }
 
 export interface DialogueTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1357,7 +1262,6 @@ export interface DialogueTypeDistribution {
 }
 
 export interface CharacterTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1376,7 +1280,6 @@ export interface CharacterTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1388,7 +1291,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   dialogues: number;
   conversations: number;
   characters: number;
@@ -1398,7 +1300,6 @@ export interface PerformanceTrend {
 }
 
 export interface DialogueReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1421,7 +1322,6 @@ export interface DialogueReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1442,7 +1342,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1462,7 +1361,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1482,7 +1380,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1495,13 +1392,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface DialogueOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

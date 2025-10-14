@@ -13,7 +13,6 @@
  */
 
 export interface IndustryLeadershipConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface IndustryLeadershipConfig {
 }
 
 export interface IndustryLeadershipManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface IndustryLeadershipManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: IndustryLeadershipManagerType;
   status: IndustryLeadershipManagerStatus;
   industries: Industry[];
@@ -69,16 +65,12 @@ export interface IndustryLeadershipManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type IndustryLeadershipManagerType = 'startup' | 'growth' | 'enterprise' | 'custom';
 export type IndustryLeadershipManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Industry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,8 +82,6 @@ export interface Industry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   size: IndustrySize;
   growth: IndustryGrowth;
@@ -100,11 +90,9 @@ export interface Industry {
   threats: Threat[];
   keyPlayers: KeyPlayer[];
   regulations: Regulation[];
-  metadata: Record<string, any>;
 }
 
 export interface IndustrySize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +112,6 @@ export interface IndustrySize {
 }
 
 export interface IndustryGrowth {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -143,7 +130,6 @@ export interface IndustryGrowth {
 }
 
 export interface GrowthData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -161,7 +147,6 @@ export interface GrowthData {
 }
 
 export interface Trend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,20 +158,16 @@ export interface Trend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   impact: TrendImpact;
   timeline: string;
   confidence: number;
   source: string;
-  metadata: Record<string, any>;
 }
 
 export type TrendImpact = 'low' | 'medium' | 'high' | 'critical';
 
 export interface Opportunity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,8 +179,6 @@ export interface Opportunity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   marketSize: number;
   probability: number;
@@ -207,13 +186,11 @@ export interface Opportunity {
   value: number;
   timeline: string;
   priority: Priority;
-  metadata: Record<string, any>;
 }
 
 export type Priority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface Threat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,20 +202,16 @@ export interface Threat {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   probability: number;
   impact: number;
   severity: ThreatSeverity;
   mitigation: string[];
-  metadata: Record<string, any>;
 }
 
 export type ThreatSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface KeyPlayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -250,20 +223,16 @@ export interface KeyPlayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PlayerType;
   marketShare: number;
   strength: number;
   weakness: string[];
   strategy: string;
-  metadata: Record<string, any>;
 }
 
 export type PlayerType = 'incumbent' | 'challenger' | 'niche' | 'emerging';
 
 export interface Regulation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,21 +244,17 @@ export interface Regulation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   authority: string;
   status: RegulationStatus;
   impact: RegulationImpact;
   compliance: ComplianceRequirement[];
-  metadata: Record<string, any>;
 }
 
 export type RegulationStatus = 'proposed' | 'draft' | 'active' | 'amended' | 'repealed';
 export type RegulationImpact = 'low' | 'medium' | 'high' | 'critical';
 
 export interface ComplianceRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -308,7 +273,6 @@ export interface ComplianceRequirement {
 }
 
 export interface Competitor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -320,8 +284,6 @@ export interface Competitor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   industry: string;
   size: CompetitorSize;
   position: MarketPosition;
@@ -330,14 +292,12 @@ export interface Competitor {
   strategies: string[];
   financials: FinancialData;
   products: Product[];
-  metadata: Record<string, any>;
 }
 
 export type CompetitorSize = 'startup' | 'small' | 'medium' | 'large' | 'enterprise';
 export type MarketPosition = 'leader' | 'challenger' | 'follower' | 'niche';
 
 export interface FinancialData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +317,6 @@ export interface FinancialData {
 }
 
 export interface Product {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -369,7 +328,6 @@ export interface Product {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   category: string;
   features: string[];
   pricing: PricingModel;
@@ -377,7 +335,6 @@ export interface Product {
 }
 
 export interface PricingModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -395,7 +352,6 @@ export interface PricingModel {
 }
 
 export interface Strategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -407,8 +363,6 @@ export interface Strategy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StrategyType;
   objective: string;
   description: string;
@@ -417,14 +371,12 @@ export interface Strategy {
   resources: Resource[];
   milestones: Milestone[];
   status: StrategyStatus;
-  metadata: Record<string, any>;
 }
 
 export type StrategyType = 'market_penetration' | 'product_development' | 'market_development' | 'diversification';
 export type StrategyStatus = 'planning' | 'active' | 'paused' | 'completed' | 'cancelled';
 
 export interface Resource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -437,7 +389,6 @@ export interface Resource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ResourceType;
-  name: string;
   quantity: number;
   cost: number;
   availability: number;
@@ -446,7 +397,6 @@ export interface Resource {
 export type ResourceType = 'human' | 'financial' | 'technological' | 'physical';
 
 export interface Milestone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -458,8 +408,6 @@ export interface Milestone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   targetDate: number;
   status: MilestoneStatus;
@@ -470,7 +418,6 @@ export interface Milestone {
 export type MilestoneStatus = 'not_started' | 'in_progress' | 'completed' | 'delayed' | 'cancelled';
 
 export interface Content {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -482,7 +429,6 @@ export interface Content {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   type: ContentType;
   topic: string;
@@ -490,7 +436,6 @@ export interface Content {
   format: ContentFormat;
   status: ContentStatus;
   performance: ContentPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ContentType = 'article' | 'whitepaper' | 'case_study' | 'video' | 'podcast' | 'presentation';
@@ -498,7 +443,6 @@ export type ContentFormat = 'text' | 'video' | 'audio' | 'interactive' | 'mixed'
 export type ContentStatus = 'draft' | 'review' | 'published' | 'archived';
 
 export interface ContentPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -519,7 +463,6 @@ export interface ContentPerformance {
 }
 
 export interface Partnership {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -531,8 +474,6 @@ export interface Partnership {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PartnershipType;
   partner: string;
   industry: string;
@@ -541,14 +482,12 @@ export interface Partnership {
   objectives: string[];
   benefits: string[];
   timeline: string;
-  metadata: Record<string, any>;
 }
 
 export type PartnershipType = 'strategic' | 'commercial' | 'technical' | 'research' | 'distribution';
 export type PartnershipStatus = 'proposal' | 'negotiation' | 'active' | 'completed' | 'terminated';
 
 export interface IndustryLeadershipPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -576,7 +515,6 @@ export interface IndustryLeadershipPerformanceMetrics {
 }
 
 export interface IndustryLeadershipAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -596,7 +534,6 @@ export interface IndustryLeadershipAnalytics {
 }
 
 export interface IndustryCoverage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -615,7 +552,6 @@ export interface IndustryCoverage {
 }
 
 export interface CompetitivePosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -634,7 +570,6 @@ export interface CompetitivePosition {
 }
 
 export interface StrategyEffectiveness {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +588,6 @@ export interface StrategyEffectiveness {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,7 +599,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   marketShare: number;
   thoughtLeadership: number;
   content: number;
@@ -674,7 +607,6 @@ export interface PerformanceTrend {
 }
 
 export interface IndustryLeadershipReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -697,7 +629,6 @@ export interface IndustryLeadershipReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -718,7 +649,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -738,7 +668,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -758,7 +687,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -771,13 +699,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface IndustryLeadershipOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

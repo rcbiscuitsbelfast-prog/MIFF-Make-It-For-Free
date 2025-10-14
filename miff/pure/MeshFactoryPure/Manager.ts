@@ -1,5 +1,4 @@
 export interface MeshData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -16,7 +15,6 @@ export interface MeshData {
   metadata?: { type: string; seed: number; }
 }
 export interface TreeParams {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

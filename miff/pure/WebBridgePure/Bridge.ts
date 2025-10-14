@@ -7,7 +7,6 @@ import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
 
 export interface WebEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface WebEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'sprite' | 'text' | 'group' | 'container';
   x: number;
   y: number;
@@ -30,7 +28,6 @@ export interface WebEntity {
 }
 
 export interface WebComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +45,6 @@ export interface WebComponent {
 }
 
 export interface WebRenderData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,7 +65,6 @@ export interface WebRenderData {
 }
 
 export interface WebBridgeOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,7 +83,6 @@ export interface WebBridgeOperation {
 }
 
 export interface WebBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +103,6 @@ export interface WebBridgeConfig {
 }
 
 export interface WebBridgeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

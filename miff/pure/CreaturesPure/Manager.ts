@@ -5,7 +5,6 @@ import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface CreaturesPureConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,7 +29,6 @@ export interface CreaturesPureConfig {
 
 // Main item interface
 export interface CreaturesPureItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,13 +40,10 @@ export interface CreaturesPureItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: string;
   status: 'active' | 'inactive' | 'pending' | 'error';
   createdAt: Date;
   updatedAt: Date;
-  metadata: Record<string, any>;
   properties: Record<string, any>;
   tags: string[];
   priority: number;
@@ -57,7 +52,6 @@ export interface CreaturesPureItem {
 
 // Analytics interface
 export interface CreaturesPureAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,7 +75,6 @@ export interface CreaturesPureAnalytics {
 
 // Manager statistics
 export interface CreaturesPureStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

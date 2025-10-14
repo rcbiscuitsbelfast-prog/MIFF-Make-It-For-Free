@@ -10,7 +10,6 @@
  */
 
 export interface EffectsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface EffectsConfig {
 }
 
 export interface EffectsManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface EffectsManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectsManagerType;
   status: EffectsManagerStatus;
   effects: Effect[];
@@ -64,16 +60,12 @@ export interface EffectsManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type EffectsManagerType = 'visual' | 'audio' | 'particle' | 'custom';
 export type EffectsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Effect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +77,6 @@ export interface Effect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   status: EffectStatus;
   properties: EffectProperties;
@@ -94,14 +84,12 @@ export interface Effect {
   animations: string[];
   materials: string[];
   performance: EffectPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EffectType = 'fire' | 'smoke' | 'explosion' | 'magic' | 'custom';
 export type EffectStatus = 'idle' | 'playing' | 'paused' | 'stopped' | 'error';
 
 export interface EffectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface EffectProperties {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -143,7 +130,6 @@ export interface Vector3 {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface Color {
 export type BlendMode = 'normal' | 'add' | 'multiply' | 'screen' | 'custom';
 
 export interface Particle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -176,22 +161,18 @@ export interface Particle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParticleType;
   status: ParticleStatus;
   properties: ParticleProperties;
   physics: ParticlePhysics;
   rendering: ParticleRendering;
   performance: ParticlePerformance;
-  metadata: Record<string, any>;
 }
 
 export type ParticleType = 'point' | 'sprite' | 'mesh' | 'custom';
 export type ParticleStatus = 'idle' | 'active' | 'dying' | 'dead';
 
 export interface ParticleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -216,7 +197,6 @@ export interface ParticleProperties {
 }
 
 export interface ParticlePhysics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,7 +217,6 @@ export interface ParticlePhysics {
 }
 
 export interface CollisionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -259,7 +238,6 @@ export type CollisionType = 'sphere' | 'box' | 'plane' | 'custom';
 export type CollisionResponse = 'bounce' | 'stick' | 'destroy' | 'custom';
 
 export interface Force {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -282,7 +260,6 @@ export type ForceType = 'gravity' | 'wind' | 'magnetic' | 'custom';
 export type FalloffType = 'linear' | 'quadratic' | 'exponential' | 'custom';
 
 export interface ParticleRendering {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,7 +281,6 @@ export interface ParticleRendering {
 }
 
 export interface ColorOverLifetime {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -321,7 +297,6 @@ export interface ColorOverLifetime {
 }
 
 export interface ColorGradient {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -338,7 +313,6 @@ export interface ColorGradient {
 }
 
 export interface ColorStop {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +331,6 @@ export interface ColorStop {
 export type GradientMode = 'linear' | 'radial' | 'custom';
 
 export interface SizeOverLifetime {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -374,7 +347,6 @@ export interface SizeOverLifetime {
 }
 
 export interface AnimationCurve {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,7 +363,6 @@ export interface AnimationCurve {
 }
 
 export interface AnimationKey {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -412,7 +383,6 @@ export interface AnimationKey {
 export type CurveMode = 'linear' | 'bezier' | 'hermite' | 'custom';
 
 export interface ParticlePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +402,6 @@ export interface ParticlePerformance {
 }
 
 export interface ParticleSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -444,8 +413,6 @@ export interface ParticleSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParticleSystemType;
   status: ParticleSystemStatus;
   particles: string[];
@@ -453,14 +420,12 @@ export interface ParticleSystem {
   updater: ParticleUpdater;
   renderer: ParticleRenderer;
   performance: ParticleSystemPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ParticleSystemType = 'continuous' | 'burst' | 'trail' | 'custom';
 export type ParticleSystemStatus = 'idle' | 'emitting' | 'paused' | 'stopped' | 'error';
 
 export interface ParticleEmitter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -481,7 +446,6 @@ export interface ParticleEmitter {
 export type EmitterType = 'point' | 'line' | 'circle' | 'box' | 'custom';
 
 export interface EmitterProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -501,7 +465,6 @@ export interface EmitterProperties {
 }
 
 export interface EmitterShape {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -522,7 +485,6 @@ export interface EmitterShape {
 export type ShapeType = 'point' | 'line' | 'circle' | 'box' | 'sphere' | 'custom';
 
 export interface EmissionRate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,7 +502,6 @@ export interface EmissionRate {
 }
 
 export interface BurstConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -559,7 +520,6 @@ export interface BurstConfig {
 }
 
 export interface OverTimeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -577,7 +537,6 @@ export interface OverTimeConfig {
 }
 
 export interface ParticleUpdater {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -597,7 +556,6 @@ export interface ParticleUpdater {
 export type UpdaterType = 'cpu' | 'gpu' | 'hybrid' | 'custom';
 
 export interface UpdaterProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -616,7 +574,6 @@ export interface UpdaterProperties {
 }
 
 export interface SortingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -636,7 +593,6 @@ export interface SortingConfig {
 export type SortingMode = 'distance' | 'age' | 'size' | 'custom';
 
 export interface UpdateModule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -648,7 +604,6 @@ export interface UpdateModule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ModuleType;
   enabled: boolean;
   properties: Record<string, any>;
@@ -657,7 +612,6 @@ export interface UpdateModule {
 export type ModuleType = 'velocity' | 'force' | 'color' | 'size' | 'custom';
 
 export interface ParticleRenderer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -678,7 +632,6 @@ export interface ParticleRenderer {
 export type RendererType = 'billboard' | 'mesh' | 'trail' | 'custom';
 
 export interface RendererProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -699,7 +652,6 @@ export interface RendererProperties {
 export type SortMode = 'none' | 'distance' | 'oldest' | 'youngest' | 'custom';
 
 export interface ParticleSystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -721,7 +673,6 @@ export interface ParticleSystemPerformance {
 }
 
 export interface EffectAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -733,22 +684,18 @@ export interface EffectAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   status: AnimationStatus;
   duration: number;
   curves: AnimationCurve[];
   events: AnimationEvent[];
   performance: AnimationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AnimationType = 'position' | 'rotation' | 'scale' | 'color' | 'custom';
 export type AnimationStatus = 'idle' | 'playing' | 'paused' | 'stopped' | 'error';
 
 export interface AnimationEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -768,7 +715,6 @@ export interface AnimationEvent {
 export type EventType = 'callback' | 'sound' | 'particle' | 'custom';
 
 export interface AnimationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -788,7 +734,6 @@ export interface AnimationPerformance {
 }
 
 export interface EffectMaterial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -800,22 +745,18 @@ export interface EffectMaterial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MaterialType;
   status: MaterialStatus;
   properties: MaterialProperties;
   shaders: MaterialShader[];
   textures: MaterialTexture[];
   performance: MaterialPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MaterialType = 'unlit' | 'lit' | 'transparent' | 'custom';
 export type MaterialStatus = 'active' | 'inactive' | 'error';
 
 export interface MaterialProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -837,7 +778,6 @@ export interface MaterialProperties {
 }
 
 export interface Vector2 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -854,7 +794,6 @@ export interface Vector2 {
 }
 
 export interface MaterialShader {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -866,8 +805,6 @@ export interface MaterialShader {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ShaderType;
   source: string;
   uniforms: ShaderUniform[];
@@ -876,7 +813,6 @@ export interface MaterialShader {
 export type ShaderType = 'vertex' | 'fragment' | 'geometry' | 'custom';
 
 export interface ShaderUniform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -888,7 +824,6 @@ export interface ShaderUniform {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: UniformType;
   value: any;
   location: number;
@@ -897,7 +832,6 @@ export interface ShaderUniform {
 export type UniformType = 'float' | 'int' | 'vec2' | 'vec3' | 'vec4' | 'mat3' | 'mat4' | 'sampler2d' | 'custom';
 
 export interface MaterialTexture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -909,8 +843,6 @@ export interface MaterialTexture {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TextureType;
   path: string;
   properties: TextureProperties;
@@ -919,7 +851,6 @@ export interface MaterialTexture {
 export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
 
 export interface TextureProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -943,7 +874,6 @@ export type TextureWrap = 'repeat' | 'clamp' | 'mirror' | 'custom';
 export type TextureFilter = 'nearest' | 'linear' | 'mipmap' | 'custom';
 
 export interface MaterialPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -962,7 +892,6 @@ export interface MaterialPerformance {
 }
 
 export interface EffectsPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -987,7 +916,6 @@ export interface EffectsPerformanceMetrics {
 }
 
 export interface EffectsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1008,7 +936,6 @@ export interface EffectsAnalytics {
 }
 
 export interface EffectTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1027,7 +954,6 @@ export interface EffectTypeDistribution {
 }
 
 export interface ParticleTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1046,7 +972,6 @@ export interface ParticleTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1058,7 +983,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   effects: number;
   particles: number;
   fps: number;
@@ -1067,7 +991,6 @@ export interface PerformanceTrend {
 }
 
 export interface EffectsReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1090,7 +1013,6 @@ export interface EffectsReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1111,7 +1033,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1131,7 +1052,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1151,7 +1071,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1164,13 +1083,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface EffectsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

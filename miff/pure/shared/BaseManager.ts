@@ -10,7 +10,6 @@ import { MIFFCapable } from './MIFFCapable.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,8 +21,6 @@ export interface ManagerConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   enableLogging?: boolean;
   enableEvents?: boolean;
@@ -33,7 +30,6 @@ export interface ManagerConfig {
 }
 
 export interface ManagerState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,7 +51,6 @@ export interface ManagerState {
 }
 
 export interface ManagerMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -76,7 +71,6 @@ export interface ManagerMetrics {
 }
 
 export interface ManagerOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +82,6 @@ export interface ManagerOperation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   startTime: Date;
   endTime?: Date;
   success?: boolean;
@@ -475,7 +467,6 @@ export abstract class BaseManager extends EventEmitter {
  * Interface for managers that support MIFFCapable introspection
  */
 export interface CapableManager extends BaseManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -12,7 +12,6 @@
  */
 
 export interface RestaurantSimulationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface RestaurantSimulationConfig {
 }
 
 export interface RestaurantSimulationManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface RestaurantSimulationManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RestaurantSimulationManagerType;
   status: RestaurantSimulationManagerStatus;
   restaurants: Restaurant[];
@@ -68,16 +64,12 @@ export interface RestaurantSimulationManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type RestaurantSimulationManagerType = 'casual' | 'fine_dining' | 'fast_food' | 'cafe' | 'custom';
 export type RestaurantSimulationManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Restaurant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface Restaurant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RestaurantType;
   status: RestaurantStatus;
   location: Location;
@@ -98,14 +88,12 @@ export interface Restaurant {
   layout: RestaurantLayout;
   operations: OperationsSettings;
   finances: FinancialSettings;
-  metadata: Record<string, any>;
 }
 
 export type RestaurantType = 'casual' | 'fine_dining' | 'fast_food' | 'cafe' | 'buffet' | 'custom';
 export type RestaurantStatus = 'open' | 'closed' | 'maintenance' | 'error';
 
 export interface Location {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +115,6 @@ export interface Location {
 }
 
 export interface Coordinates {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +131,6 @@ export interface Coordinates {
 }
 
 export interface CapacitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface CapacitySettings {
 }
 
 export interface RestaurantLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +170,6 @@ export interface RestaurantLayout {
 }
 
 export interface Table {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -197,7 +181,6 @@ export interface Table {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   number: string;
   capacity: number;
   type: TableType;
@@ -210,7 +193,6 @@ export type TableType = 'booth' | 'table' | 'bar' | 'outdoor' | 'private' | 'cus
 export type TableStatus = 'available' | 'occupied' | 'reserved' | 'cleaning' | 'out_of_order';
 
 export interface TableLocation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -230,7 +212,6 @@ export interface TableLocation {
 }
 
 export interface Reservation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -242,7 +223,6 @@ export interface Reservation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   customerId: string;
   date: number;
   time: number;
@@ -255,7 +235,6 @@ export interface Reservation {
 export type ReservationStatus = 'confirmed' | 'pending' | 'cancelled' | 'completed' | 'no_show';
 
 export interface KitchenLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,7 +252,6 @@ export interface KitchenLayout {
 }
 
 export interface KitchenStation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -285,8 +263,6 @@ export interface KitchenStation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StationType;
   capacity: number;
   equipment: string[];
@@ -298,7 +274,6 @@ export type StationType = 'prep' | 'cooking' | 'grill' | 'salad' | 'dessert' | '
 export type StationStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Equipment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -310,8 +285,6 @@ export interface Equipment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EquipmentType;
   status: EquipmentStatus;
   capacity: number;
@@ -323,7 +296,6 @@ export type EquipmentType = 'oven' | 'stove' | 'grill' | 'fryer' | 'refrigerator
 export type EquipmentStatus = 'operational' | 'maintenance' | 'broken' | 'idle';
 
 export interface MaintenanceSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -342,7 +314,6 @@ export interface MaintenanceSchedule {
 }
 
 export interface WorkflowStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -354,8 +325,6 @@ export interface WorkflowStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   station: string;
   order: number;
   duration: number;
@@ -363,7 +332,6 @@ export interface WorkflowStep {
 }
 
 export interface BarLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -381,7 +349,6 @@ export interface BarLayout {
 }
 
 export interface BarSeat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -393,7 +360,6 @@ export interface BarSeat {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   number: string;
   status: SeatStatus;
   customerId: string;
@@ -402,7 +368,6 @@ export interface BarSeat {
 export type SeatStatus = 'available' | 'occupied' | 'reserved' | 'cleaning';
 
 export interface BarInventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +387,6 @@ export interface BarInventory {
 }
 
 export interface WaitingArea {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -440,7 +404,6 @@ export interface WaitingArea {
 }
 
 export interface WaitingSeat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -452,13 +415,11 @@ export interface WaitingSeat {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   status: SeatStatus;
 }
 
 export interface EntertainmentItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -470,14 +431,10 @@ export interface EntertainmentItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
-  name: string;
-  status: string;
 }
 
 export interface Restroom {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -489,7 +446,6 @@ export interface Restroom {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RestroomType;
   capacity: number;
   status: RestroomStatus;
@@ -500,7 +456,6 @@ export type RestroomType = 'men' | 'women' | 'unisex' | 'family' | 'custom';
 export type RestroomStatus = 'available' | 'occupied' | 'cleaning' | 'out_of_order';
 
 export interface StorageArea {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -512,8 +467,6 @@ export interface StorageArea {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StorageType;
   capacity: number;
   temperature: number;
@@ -524,7 +477,6 @@ export interface StorageArea {
 export type StorageType = 'dry' | 'cold' | 'frozen' | 'wine' | 'custom';
 
 export interface StorageInventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +496,6 @@ export interface StorageInventory {
 }
 
 export interface OperationsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -563,7 +514,6 @@ export interface OperationsSettings {
 }
 
 export interface OperatingHours {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -585,7 +535,6 @@ export interface OperatingHours {
 }
 
 export interface DayHours {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -603,7 +552,6 @@ export interface DayHours {
 }
 
 export interface RestaurantPolicies {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -623,7 +571,6 @@ export interface RestaurantPolicies {
 }
 
 export interface ReservationPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -643,7 +590,6 @@ export interface ReservationPolicy {
 }
 
 export interface CancellationPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -662,7 +608,6 @@ export interface CancellationPolicy {
 }
 
 export interface DressCodePolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -680,7 +625,6 @@ export interface DressCodePolicy {
 }
 
 export interface ChildrenPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -699,7 +643,6 @@ export interface ChildrenPolicy {
 }
 
 export interface PetPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -717,7 +660,6 @@ export interface PetPolicy {
 }
 
 export interface Procedure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -729,8 +671,6 @@ export interface Procedure {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   steps: ProcedureStep[];
   duration: number;
@@ -738,7 +678,6 @@ export interface Procedure {
 }
 
 export interface ProcedureStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -750,7 +689,6 @@ export interface ProcedureStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   order: number;
   duration: number;
@@ -758,7 +696,6 @@ export interface ProcedureStep {
 }
 
 export interface QualityStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -777,7 +714,6 @@ export interface QualityStandards {
 }
 
 export interface FoodStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -796,7 +732,6 @@ export interface FoodStandards {
 }
 
 export interface TemperatureStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -814,7 +749,6 @@ export interface TemperatureStandards {
 }
 
 export interface PresentationStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -832,7 +766,6 @@ export interface PresentationStandards {
 }
 
 export interface TasteStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -850,7 +783,6 @@ export interface TasteStandards {
 }
 
 export interface NutritionStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -868,7 +800,6 @@ export interface NutritionStandards {
 }
 
 export interface ServiceStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -887,7 +818,6 @@ export interface ServiceStandards {
 }
 
 export interface TimingStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -906,7 +836,6 @@ export interface TimingStandards {
 }
 
 export interface CleanlinessStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -925,7 +854,6 @@ export interface CleanlinessStandards {
 }
 
 export interface SafetyStandards {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -944,7 +872,6 @@ export interface SafetyStandards {
 }
 
 export interface FinancialSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -963,7 +890,6 @@ export interface FinancialSettings {
 }
 
 export interface RevenueSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -981,7 +907,6 @@ export interface RevenueSettings {
 }
 
 export interface RevenueSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -993,8 +918,6 @@ export interface RevenueSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RevenueType;
   percentage: number;
 }
@@ -1002,7 +925,6 @@ export interface RevenueSource {
 export type RevenueType = 'food' | 'beverage' | 'alcohol' | 'service' | 'custom';
 
 export interface RevenueTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1020,7 +942,6 @@ export interface RevenueTarget {
 }
 
 export interface RevenueTracking {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1039,7 +960,6 @@ export interface RevenueTracking {
 }
 
 export interface CostSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1057,7 +977,6 @@ export interface CostSettings {
 }
 
 export interface CostCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1069,8 +988,6 @@ export interface CostCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CostType;
   percentage: number;
 }
@@ -1078,7 +995,6 @@ export interface CostCategory {
 export type CostType = 'food' | 'labor' | 'rent' | 'utilities' | 'marketing' | 'custom';
 
 export interface Budget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1096,7 +1012,6 @@ export interface Budget {
 }
 
 export interface CostControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1115,7 +1030,6 @@ export interface CostControl {
 }
 
 export interface PricingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1134,7 +1048,6 @@ export interface PricingSettings {
 }
 
 export interface PricingStrategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1153,7 +1066,6 @@ export interface PricingStrategy {
 export type StrategyType = 'cost_plus' | 'competitive' | 'value_based' | 'dynamic' | 'custom';
 
 export interface MarginSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1172,7 +1084,6 @@ export interface MarginSettings {
 }
 
 export interface DiscountSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1190,7 +1101,6 @@ export interface DiscountSettings {
 }
 
 export interface DiscountType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1202,15 +1112,12 @@ export interface DiscountType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   percentage: number;
   fixed: number;
   conditions: string[];
 }
 
 export interface DiscountLimit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1228,7 +1135,6 @@ export interface DiscountLimit {
 }
 
 export interface DiscountCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1246,7 +1152,6 @@ export interface DiscountCondition {
 }
 
 export interface PromotionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1264,7 +1169,6 @@ export interface PromotionSettings {
 }
 
 export interface PromotionType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1276,15 +1180,12 @@ export interface PromotionType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   discount: number;
   conditions: string[];
 }
 
 export interface PromotionSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1303,7 +1204,6 @@ export interface PromotionSchedule {
 }
 
 export interface PromotionTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1321,7 +1221,6 @@ export interface PromotionTarget {
 }
 
 export interface ReportingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1340,7 +1239,6 @@ export interface ReportingSettings {
 }
 
 export interface Customer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1352,21 +1250,17 @@ export interface Customer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CustomerType;
   status: CustomerStatus;
   profile: CustomerProfile;
   preferences: CustomerPreferences;
   history: CustomerHistory;
-  metadata: Record<string, any>;
 }
 
 export type CustomerType = 'regular' | 'vip' | 'new' | 'group' | 'custom';
 export type CustomerStatus = 'active' | 'inactive' | 'banned' | 'error';
 
 export interface CustomerProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1388,7 +1282,6 @@ export interface CustomerProfile {
 }
 
 export interface CustomerPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1408,7 +1301,6 @@ export interface CustomerPreferences {
 }
 
 export interface PriceRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1426,7 +1318,6 @@ export interface PriceRange {
 }
 
 export interface CustomerHistory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1446,7 +1337,6 @@ export interface CustomerHistory {
 }
 
 export interface Visit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1458,7 +1348,6 @@ export interface Visit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   date: number;
   duration: number;
   partySize: number;
@@ -1468,7 +1357,6 @@ export interface Visit {
 }
 
 export interface Order {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1480,7 +1368,6 @@ export interface Order {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   customerId: string;
   tableId: string;
   items: OrderItem[];
@@ -1488,14 +1375,11 @@ export interface Order {
   total: number;
   tax: number;
   tip: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'served' | 'paid' | 'cancelled';
 
 export interface OrderItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1507,7 +1391,6 @@ export interface OrderItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   menuItemId: string;
   quantity: number;
   price: number;
@@ -1516,7 +1399,6 @@ export interface OrderItem {
 }
 
 export interface Review {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1528,7 +1410,6 @@ export interface Review {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   rating: number;
   comment: string;
   categories: ReviewCategory[];
@@ -1537,7 +1418,6 @@ export interface Review {
 }
 
 export interface ReviewCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1554,7 +1434,6 @@ export interface ReviewCategory {
 }
 
 export interface Complaint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1566,7 +1445,6 @@ export interface Complaint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ComplaintType;
   description: string;
   severity: ComplaintSeverity;
@@ -1580,7 +1458,6 @@ export type ComplaintSeverity = 'low' | 'medium' | 'high' | 'critical';
 export type ComplaintStatus = 'open' | 'investigating' | 'resolved' | 'closed';
 
 export interface Reward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1592,7 +1469,6 @@ export interface Reward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RewardType;
   value: number;
   description: string;
@@ -1604,7 +1480,6 @@ export interface Reward {
 export type RewardType = 'points' | 'discount' | 'free_item' | 'custom';
 
 export interface Staff {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1616,21 +1491,17 @@ export interface Staff {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StaffType;
   status: StaffStatus;
   profile: StaffProfile;
   schedule: WorkSchedule;
   performance: StaffPerformance;
-  metadata: Record<string, any>;
 }
 
 export type StaffType = 'manager' | 'server' | 'chef' | 'host' | 'bartender' | 'custom';
 export type StaffStatus = 'active' | 'inactive' | 'on_break' | 'off_duty' | 'error';
 
 export interface StaffProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1651,7 +1522,6 @@ export interface StaffProfile {
 }
 
 export interface WorkSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1669,7 +1539,6 @@ export interface WorkSchedule {
 }
 
 export interface Shift {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1681,7 +1550,6 @@ export interface Shift {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   date: number;
   start: string;
   end: string;
@@ -1692,7 +1560,6 @@ export interface Shift {
 export type ShiftStatus = 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
 
 export interface Availability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1711,7 +1578,6 @@ export interface Availability {
 }
 
 export interface SchedulePreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1730,7 +1596,6 @@ export interface SchedulePreferences {
 }
 
 export interface StaffPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1749,7 +1614,6 @@ export interface StaffPerformance {
 }
 
 export interface PerformanceMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1761,14 +1625,12 @@ export interface PerformanceMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: number;
   target: number;
   period: string;
 }
 
 export interface PerformanceReview {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1780,7 +1642,6 @@ export interface PerformanceReview {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   date: number;
   rating: number;
   comments: string;
@@ -1788,7 +1649,6 @@ export interface PerformanceReview {
 }
 
 export interface TrainingRecord {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1800,7 +1660,6 @@ export interface TrainingRecord {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   course: string;
   date: number;
   score: number;
@@ -1808,7 +1667,6 @@ export interface TrainingRecord {
 }
 
 export interface Menu {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1820,21 +1678,17 @@ export interface Menu {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MenuType;
   status: MenuStatus;
   items: MenuItem[];
   categories: MenuCategory[];
   pricing: PricingSettings;
-  metadata: Record<string, any>;
 }
 
 export type MenuType = 'breakfast' | 'lunch' | 'dinner' | 'brunch' | 'happy_hour' | 'custom';
 export type MenuStatus = 'active' | 'inactive' | 'draft' | 'error';
 
 export interface MenuItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1846,8 +1700,6 @@ export interface MenuItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: string;
   price: number;
@@ -1860,7 +1712,6 @@ export interface MenuItem {
 }
 
 export interface NutritionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1882,7 +1733,6 @@ export interface NutritionInfo {
 }
 
 export interface AvailabilitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1901,7 +1751,6 @@ export interface AvailabilitySettings {
 }
 
 export interface TimeRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1918,7 +1767,6 @@ export interface TimeRange {
 }
 
 export interface MenuCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1930,15 +1778,12 @@ export interface MenuCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   order: number;
   items: string[];
 }
 
 export interface RestaurantSimulationPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1963,7 +1808,6 @@ export interface RestaurantSimulationPerformanceMetrics {
 }
 
 export interface RestaurantSimulationAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1984,7 +1828,6 @@ export interface RestaurantSimulationAnalytics {
 }
 
 export interface RestaurantTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2003,7 +1846,6 @@ export interface RestaurantTypeDistribution {
 }
 
 export interface CustomerTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2022,7 +1864,6 @@ export interface CustomerTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2034,7 +1875,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   restaurants: number;
   customers: number;
   orders: number;
@@ -2045,7 +1885,6 @@ export interface PerformanceTrend {
 }
 
 export interface RestaurantSimulationReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2068,7 +1907,6 @@ export interface RestaurantSimulationReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2089,7 +1927,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2109,7 +1946,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2129,7 +1965,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2142,13 +1977,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface RestaurantSimulationOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

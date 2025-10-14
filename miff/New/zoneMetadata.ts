@@ -1,5 +1,4 @@
 export interface ZoneMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -11,7 +10,6 @@ export interface ZoneMetadata {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   ambientSound?: string;
   recommendedLevel?: number;

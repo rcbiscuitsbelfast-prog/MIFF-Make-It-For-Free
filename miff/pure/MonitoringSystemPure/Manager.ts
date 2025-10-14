@@ -12,7 +12,6 @@
  */
 
 export interface MonitoringSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface MonitoringSystemConfig {
 }
 
 export interface MonitoringSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface MonitoringSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MonitoringSystemManagerType;
   status: MonitoringSystemManagerStatus;
   metrics: Metric[];
@@ -69,16 +65,12 @@ export interface MonitoringSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type MonitoringSystemManagerType = 'system' | 'application' | 'infrastructure' | 'log' | 'custom';
 export type MonitoringSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Metric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,22 +82,18 @@ export interface Metric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MetricType;
   status: MetricStatus;
   definition: MetricDefinition;
   collection: MetricCollection;
   storage: MetricStorage;
   performance: MetricPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MetricType = 'counter' | 'gauge' | 'histogram' | 'summary' | 'custom';
 export type MetricStatus = 'active' | 'inactive' | 'error';
 
 export interface MetricDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface MetricDefinition {
 }
 
 export interface MetricLabel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,7 +124,6 @@ export interface MetricLabel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: string;
   description: string;
 }
@@ -146,7 +132,6 @@ export type AggregationType = 'sum' | 'avg' | 'min' | 'max' | 'count' | 'custom'
 export type RetentionPolicy = '1h' | '24h' | '7d' | '30d' | '90d' | 'custom';
 
 export interface MetricCollection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +151,6 @@ export interface MetricCollection {
 }
 
 export interface CollectionSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,7 +171,6 @@ export interface CollectionSource {
 export type SourceType = 'api' | 'database' | 'file' | 'log' | 'custom';
 
 export interface Credentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -209,7 +192,6 @@ export interface Credentials {
 export type CredentialType = 'basic' | 'bearer' | 'certificate' | 'custom';
 
 export interface MetricStorage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -230,7 +212,6 @@ export interface MetricStorage {
 export type StorageType = 'memory' | 'disk' | 'database' | 'cloud' | 'custom';
 
 export interface StorageConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,7 +230,6 @@ export interface StorageConfiguration {
 }
 
 export interface ShardingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,7 +250,6 @@ export interface ShardingConfig {
 export type ShardingStrategy = 'hash' | 'range' | 'round_robin' | 'custom';
 
 export interface ReplicationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -290,7 +269,6 @@ export interface ReplicationConfig {
 export type ReplicationStrategy = 'master_slave' | 'master_master' | 'custom';
 
 export interface MetricPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,7 +289,6 @@ export interface MetricPerformance {
 }
 
 export interface Alert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -323,22 +300,18 @@ export interface Alert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AlertType;
   status: AlertStatus;
   condition: AlertCondition;
   action: AlertAction;
   escalation: AlertEscalation;
   performance: AlertPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AlertType = 'threshold' | 'anomaly' | 'pattern' | 'custom';
 export type AlertStatus = 'active' | 'inactive' | 'firing' | 'resolved';
 
 export interface AlertCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -361,7 +334,6 @@ export interface AlertCondition {
 export type ConditionOperator = 'greater_than' | 'less_than' | 'equals' | 'not_equals' | 'custom';
 
 export interface AlertAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -382,7 +354,6 @@ export interface AlertAction {
 export type ActionType = 'email' | 'sms' | 'webhook' | 'slack' | 'custom';
 
 export interface ActionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -403,7 +374,6 @@ export interface ActionConfiguration {
 }
 
 export interface AlertEscalation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -421,7 +391,6 @@ export interface AlertEscalation {
 }
 
 export interface EscalationLevel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -440,7 +409,6 @@ export interface EscalationLevel {
 }
 
 export interface AlertPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -459,7 +427,6 @@ export interface AlertPerformance {
 }
 
 export interface Dashboard {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -471,22 +438,18 @@ export interface Dashboard {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DashboardType;
   status: DashboardStatus;
   layout: DashboardLayout;
   widgets: Widget[];
   filters: DashboardFilter[];
   performance: DashboardPerformance;
-  metadata: Record<string, any>;
 }
 
 export type DashboardType = 'system' | 'application' | 'business' | 'custom';
 export type DashboardStatus = 'active' | 'inactive' | 'draft';
 
 export interface DashboardLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -505,7 +468,6 @@ export interface DashboardLayout {
 }
 
 export interface GridLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -522,7 +484,6 @@ export interface GridLayout {
 }
 
 export interface WidgetPosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -542,7 +503,6 @@ export interface WidgetPosition {
 }
 
 export interface Breakpoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -554,13 +514,11 @@ export interface Breakpoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   width: number;
   layout: WidgetPosition[];
 }
 
 export interface Widget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -572,8 +530,6 @@ export interface Widget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WidgetType;
   configuration: WidgetConfiguration;
   data: WidgetData;
@@ -583,7 +539,6 @@ export interface Widget {
 export type WidgetType = 'chart' | 'table' | 'gauge' | 'text' | 'custom';
 
 export interface WidgetConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -604,7 +559,6 @@ export interface WidgetConfiguration {
 }
 
 export interface TimeRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -623,7 +577,6 @@ export interface TimeRange {
 }
 
 export interface WidgetData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -638,11 +591,9 @@ export interface WidgetData {
   values: DataPoint[];
   labels: string[];
   series: DataSeries[];
-  metadata: Record<string, any>;
 }
 
 export interface DataPoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,13 +605,11 @@ export interface DataPoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   value: number;
   labels: Record<string, string>;
 }
 
 export interface DataSeries {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -672,7 +621,6 @@ export interface DataSeries {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   data: DataPoint[];
   color: string;
   type: SeriesType;
@@ -681,7 +629,6 @@ export interface DataSeries {
 export type SeriesType = 'line' | 'bar' | 'area' | 'scatter' | 'custom';
 
 export interface WidgetPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -699,7 +646,6 @@ export interface WidgetPerformance {
 }
 
 export interface DashboardFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -711,8 +657,6 @@ export interface DashboardFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FilterType;
   field: string;
   operator: ConditionOperator;
@@ -723,7 +667,6 @@ export interface DashboardFilter {
 export type FilterType = 'time' | 'metric' | 'label' | 'custom';
 
 export interface DashboardPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -742,7 +685,6 @@ export interface DashboardPerformance {
 }
 
 export interface MonitoringReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -754,21 +696,17 @@ export interface MonitoringReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ReportType;
   status: ReportStatus;
   configuration: ReportConfiguration;
   content: ReportContent;
   generatedAt: number;
-  metadata: Record<string, any>;
 }
 
 export type ReportType = 'summary' | 'detailed' | 'trend' | 'custom';
 export type ReportStatus = 'generating' | 'completed' | 'failed';
 
 export interface ReportConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -790,7 +728,6 @@ export interface ReportConfiguration {
 export type ReportFormat = 'pdf' | 'html' | 'csv' | 'json' | 'custom';
 
 export interface ReportContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -809,7 +746,6 @@ export interface ReportContent {
 }
 
 export interface ReportSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -828,7 +764,6 @@ export interface ReportSummary {
 }
 
 export interface TrendInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -849,7 +784,6 @@ export interface TrendInfo {
 export type TrendDirection = 'up' | 'down' | 'stable' | 'custom';
 
 export interface ReportChart {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -870,7 +804,6 @@ export interface ReportChart {
 export type ChartType = 'line' | 'bar' | 'pie' | 'scatter' | 'custom';
 
 export interface ReportTable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -889,7 +822,6 @@ export interface ReportTable {
 }
 
 export interface TableRow {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -902,11 +834,9 @@ export interface TableRow {
   updatedAt?: number;
   metadata?: Record<string, any>;
   cells: TableCell[];
-  metadata: Record<string, any>;
 }
 
 export interface TableCell {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -927,7 +857,6 @@ export type CellFormat = 'number' | 'text' | 'date' | 'custom';
 export type CellStyle = 'normal' | 'bold' | 'italic' | 'custom';
 
 export interface TableSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -945,7 +874,6 @@ export interface TableSummary {
 }
 
 export interface ReportInsight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -967,7 +895,6 @@ export interface ReportInsight {
 export type InsightType = 'anomaly' | 'trend' | 'correlation' | 'custom';
 
 export interface MonitoringAgent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -979,21 +906,17 @@ export interface MonitoringAgent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AgentType;
   status: AgentStatus;
   configuration: AgentConfiguration;
   capabilities: AgentCapabilities;
   performance: AgentPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AgentType = 'system' | 'application' | 'log' | 'custom';
 export type AgentStatus = 'online' | 'offline' | 'error';
 
 export interface AgentConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1014,7 +937,6 @@ export interface AgentConfiguration {
 }
 
 export interface AgentFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1034,7 +956,6 @@ export interface AgentFilter {
 }
 
 export interface AgentCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1053,7 +974,6 @@ export interface AgentCapabilities {
 }
 
 export interface AgentPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1072,7 +992,6 @@ export interface AgentPerformance {
 }
 
 export interface DataCollector {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1084,21 +1003,17 @@ export interface DataCollector {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CollectorType;
   status: CollectorStatus;
   configuration: CollectorConfiguration;
   sources: CollectionSource[];
   performance: CollectorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type CollectorType = 'pull' | 'push' | 'stream' | 'custom';
 export type CollectorStatus = 'active' | 'inactive' | 'error';
 
 export interface CollectorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1118,7 +1033,6 @@ export interface CollectorConfiguration {
 }
 
 export interface BufferConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1137,7 +1051,6 @@ export interface BufferConfiguration {
 }
 
 export interface CollectorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1157,7 +1070,6 @@ export interface CollectorPerformance {
 }
 
 export interface MonitoringSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1186,7 +1098,6 @@ export interface MonitoringSystemPerformanceMetrics {
 }
 
 export interface MonitoringSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1207,7 +1118,6 @@ export interface MonitoringSystemAnalytics {
 }
 
 export interface MetricTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1226,7 +1136,6 @@ export interface MetricTypeDistribution {
 }
 
 export interface AlertTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1245,7 +1154,6 @@ export interface AlertTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1257,7 +1165,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   metrics: number;
   alerts: number;
   collectionTime: number;
@@ -1266,7 +1173,6 @@ export interface PerformanceTrend {
 }
 
 export interface MonitoringSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1289,7 +1195,6 @@ export interface MonitoringSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1310,7 +1215,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1330,7 +1234,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1350,7 +1253,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1363,13 +1265,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface MonitoringSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

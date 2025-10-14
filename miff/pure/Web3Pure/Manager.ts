@@ -14,7 +14,6 @@
  */
 
 export interface Web3Config {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +45,6 @@ export interface Web3Config {
 }
 
 export interface Web3Manager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -58,8 +56,6 @@ export interface Web3Manager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: Web3ManagerType;
   status: Web3ManagerStatus;
   blockchains: Blockchain[];
@@ -76,16 +72,12 @@ export interface Web3Manager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type Web3ManagerType = 'ethereum' | 'polygon' | 'binance' | 'avalanche' | 'arbitrum' | 'optimism' | 'multi-chain';
 export type Web3ManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Blockchain {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -97,8 +89,6 @@ export interface Blockchain {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   chainId: number;
   rpcUrl: string;
   explorerUrl: string;
@@ -106,11 +96,9 @@ export interface Blockchain {
   status: 'connected' | 'disconnected' | 'error';
   lastBlock: number;
   gasPrice: number;
-  metadata: Record<string, any>;
 }
 
 export interface Currency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,14 +110,12 @@ export interface Currency {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   symbol: string;
   decimals: number;
   address?: string;
 }
 
 export interface Wallet {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -141,19 +127,15 @@ export interface Wallet {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   address: string;
   type: 'ethereum' | 'bitcoin' | 'multi-sig' | 'hardware';
   blockchain: string;
   balance: number;
   nonce: number;
   isActive: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface SmartContract {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -165,19 +147,15 @@ export interface SmartContract {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   address: string;
   abi: any[];
   blockchain: string;
   bytecode?: string;
   deployedAt: number;
   gasUsed: number;
-  metadata: Record<string, any>;
 }
 
 export interface Transaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +167,6 @@ export interface Transaction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   hash: string;
   from: string;
   to: string;
@@ -200,12 +177,9 @@ export interface Transaction {
   nonce: number;
   status: 'pending' | 'confirmed' | 'failed';
   blockNumber?: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export interface NFT {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,18 +191,14 @@ export interface NFT {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   contractAddress: string;
   tokenId: string;
   owner: string;
   metadata: NFTMetadata;
   blockchain: string;
-  createdAt: number;
-  metadata: Record<string, any>;
 }
 
 export interface NFTMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,14 +210,12 @@ export interface NFTMetadata {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   image: string;
   attributes: NFTAttribute[];
 }
 
 export interface NFTAttribute {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,7 +232,6 @@ export interface NFTAttribute {
 }
 
 export interface Token {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,19 +243,15 @@ export interface Token {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   contractAddress: string;
-  name: string;
   symbol: string;
   decimals: number;
   totalSupply: number;
   owner: string;
   blockchain: string;
-  metadata: Record<string, any>;
 }
 
 export interface DeFiProtocol {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,19 +263,15 @@ export interface DeFiProtocol {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'dex' | 'lending' | 'yield-farming' | 'staking' | 'liquidity-mining';
   contractAddress: string;
   blockchain: string;
   tvl: number;
   apy: number;
   isActive: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface CrossChainBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,19 +283,15 @@ export interface CrossChainBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   sourceChain: string;
   targetChain: string;
   contractAddress: string;
   status: 'active' | 'inactive' | 'error';
   totalVolume: number;
   fees: number;
-  metadata: Record<string, any>;
 }
 
 export interface Web3PerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -361,7 +316,6 @@ export interface Web3PerformanceMetrics {
 }
 
 export interface Web3Analytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -386,7 +340,6 @@ export interface Web3Analytics {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -398,7 +351,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   transactions: number;
   gasPrice: number;
   successRate: number;
@@ -406,7 +358,6 @@ export interface PerformanceTrend {
 }
 
 export interface Web3Reporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -429,7 +380,6 @@ export interface Web3Reporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -450,7 +400,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -470,7 +419,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +438,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -503,13 +450,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface Web3Output {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

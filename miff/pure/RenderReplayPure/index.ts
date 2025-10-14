@@ -10,7 +10,6 @@
  */
 
 export interface RenderReplayConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -28,7 +27,6 @@ export interface RenderReplayConfig {
 }
 
 export interface RenderFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,12 +39,10 @@ export interface RenderFrame {
   updatedAt?: number;
   metadata?: Record<string, any>;
   frameNumber: number;
-  timestamp: number;
   data: Record<string, unknown>;
 }
 
 export interface ReplaySession {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -58,7 +54,6 @@ export interface ReplaySession {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   frames: RenderFrame[];
   metadata: Record<string, unknown>;
 }

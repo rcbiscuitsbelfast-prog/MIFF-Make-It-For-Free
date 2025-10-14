@@ -45,7 +45,6 @@ export enum AuditCategory {
 }
 
 export interface AuditIssue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,7 +56,6 @@ export interface AuditIssue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   category: AuditCategory;
   level: AuditLevel;
   title: string;
@@ -78,7 +76,6 @@ export interface AuditIssue {
 }
 
 export interface AuditComment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,7 +87,6 @@ export interface AuditComment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   author: string;
   content: string;
   createdAt: Date;
@@ -98,7 +94,6 @@ export interface AuditComment {
 }
 
 export interface AuditMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +122,6 @@ export interface AuditMetrics {
 }
 
 export interface AuditConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -152,7 +146,6 @@ export interface AuditConfig {
 }
 
 export interface CustomRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,8 +157,6 @@ export interface CustomRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: AuditCategory;
   level: AuditLevel;
@@ -176,7 +167,6 @@ export interface CustomRule {
 }
 
 export interface AuditReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -188,7 +178,6 @@ export interface AuditReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   timestamp: Date;
   config: AuditConfig;
   metrics: AuditMetrics;
@@ -201,7 +190,6 @@ export interface AuditReport {
 }
 
 export interface AuditSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,7 +214,6 @@ export interface AuditSummary {
 }
 
 export interface AuditRecommendation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,7 +225,6 @@ export interface AuditRecommendation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   priority: 'high' | 'medium' | 'low';
   category: AuditCategory;
   title: string;
@@ -252,7 +238,6 @@ export interface AuditRecommendation {
 }
 
 export interface AuditTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,7 +257,6 @@ export interface AuditTrend {
 }
 
 export interface AuditSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

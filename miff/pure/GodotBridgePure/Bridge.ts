@@ -7,7 +7,6 @@ import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
 
 export interface GodotNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,9 +18,7 @@ export interface GodotNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'Node2D' | 'Sprite' | 'Label' | 'Control' | 'AnimationPlayer' | 'Area2D';
-  name: string;
   position: { x: number; y: number };
   scale?: { x: number; y: number };
   rotation?: number;
@@ -31,7 +28,6 @@ export interface GodotNode {
 }
 
 export interface GodotSignal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,13 +39,11 @@ export interface GodotSignal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: string[];
   connectedTo: string[];
 }
 
 export interface GodotResource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -63,11 +57,9 @@ export interface GodotResource {
   metadata?: Record<string, any>;
   type: string;
   path: string;
-  data: any;
 }
 
 export interface GodotRenderData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,7 +80,6 @@ export interface GodotRenderData {
 }
 
 export interface GodotBridgeOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -107,7 +98,6 @@ export interface GodotBridgeOperation {
 }
 
 export interface GodotBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,7 +120,6 @@ export interface GodotBridgeConfig {
 }
 
 export interface GodotBridgeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

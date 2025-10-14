@@ -9,7 +9,6 @@
  */
 
 export interface PerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,7 +29,6 @@ export interface PerformanceMetrics {
 }
 
 export interface OptimizationResult<T = any> {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

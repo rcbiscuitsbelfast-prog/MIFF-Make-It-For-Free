@@ -6,7 +6,6 @@ import { StructuredLogger } from '../logging/StructuredLogger';
  */
 
 export interface Capability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -18,8 +17,6 @@ export interface Capability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   version: string;
   type: 'core' | 'feature' | 'integration' | 'utility';
@@ -30,14 +27,12 @@ export interface Capability {
   methods: CapabilityMethod[];
   properties: CapabilityProperty[];
   events: CapabilityEvent[];
-  metadata: Record<string, any>;
   status: 'active' | 'deprecated' | 'experimental' | 'disabled';
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface CapabilityMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -49,7 +44,6 @@ export interface CapabilityMethod {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   parameters: CapabilityParameter[];
   returnType: string;
@@ -59,7 +53,6 @@ export interface CapabilityMethod {
 }
 
 export interface CapabilityParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -71,7 +64,6 @@ export interface CapabilityParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   required: boolean;
   description: string;
@@ -79,7 +71,6 @@ export interface CapabilityParameter {
 }
 
 export interface CapabilityProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +82,6 @@ export interface CapabilityProperty {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   description: string;
   readOnly: boolean;
@@ -99,7 +89,6 @@ export interface CapabilityProperty {
 }
 
 export interface CapabilityEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -111,14 +100,12 @@ export interface CapabilityEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   payload: string;
   isAsync: boolean;
 }
 
 export interface CapabilityDiscovery {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,11 +121,9 @@ export interface CapabilityDiscovery {
   capabilities: Capability[];
   interfaces: string[];
   dependencies: string[];
-  metadata: Record<string, any>;
 }
 
 export interface CapabilityRegistry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

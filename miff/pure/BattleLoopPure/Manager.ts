@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BattleLoopConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface BattleLoopConfig {
 }
 
 export interface BattleLoop {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface BattleLoop {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LoopType;
   status: LoopStatus;
   battles: Battle[];
@@ -66,14 +62,12 @@ export interface BattleLoop {
   state: BattleState;
   performance: LoopPerformance;
   analytics: LoopAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Battle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +79,6 @@ export interface Battle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BattleType;
   status: BattleStatus;
   participants: BattleParticipant[];
@@ -96,11 +88,9 @@ export interface Battle {
   startTime: Date;
   endTime?: Date;
   winner?: string;
-  metadata: Record<string, any>;
 }
 
 export interface BattleEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -112,18 +102,15 @@ export interface BattleEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
   timestamp: Date;
   source: string;
   target?: string;
   data: EventData;
   processed: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface BattleState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,11 +127,9 @@ export interface BattleState {
   turnOrder: string[];
   phaseStartTime: Date;
   phaseDuration: number; // seconds
-  metadata: Record<string, any>;
 }
 
 export interface BattleParticipant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,8 +141,6 @@ export interface BattleParticipant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParticipantType;
   team: string;
   health: number;
@@ -167,11 +150,9 @@ export interface BattleParticipant {
   position: Position3D;
   abilities: Ability[];
   status: ParticipantStatus;
-  metadata: Record<string, any>;
 }
 
 export interface Ability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,19 +164,15 @@ export interface Ability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AbilityType;
   cost: number;
   cooldown: number; // seconds
   range: number;
   damage: number;
   effects: AbilityEffect[];
-  metadata: Record<string, any>;
 }
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,16 +184,13 @@ export interface AbilityEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   duration: number; // seconds
   value: number;
   target: string;
-  metadata: Record<string, any>;
 }
 
 export interface EventData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -231,11 +205,9 @@ export interface EventData {
   action: string;
   parameters: Record<string, any>;
   result: EventResult;
-  metadata: Record<string, any>;
 }
 
 export interface EventResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -252,11 +224,9 @@ export interface EventResult {
   healing?: number;
   effects?: string[];
   message: string;
-  metadata: Record<string, any>;
 }
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,7 +244,6 @@ export interface Position3D {
 }
 
 export interface LoopPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -291,11 +260,9 @@ export interface LoopPerformance {
   eventProcessingTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface LoopAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

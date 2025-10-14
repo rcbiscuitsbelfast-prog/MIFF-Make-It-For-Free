@@ -10,7 +10,6 @@ import { SafeJSONParser } from '../security/SafeJSONParser';
  */
 
 export interface AssetValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,8 +21,6 @@ export interface AssetValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   validator: (asset: AssetInfo) => ValidationResult;
   severity: 'error' | 'warning' | 'info';
@@ -31,7 +28,6 @@ export interface AssetValidationRule {
 }
 
 export interface AssetInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,16 +40,13 @@ export interface AssetInfo {
   updatedAt?: number;
   metadata?: Record<string, any>;
   path: string;
-  name: string;
   extension: string;
   size: number;
   lastModified: Date;
-  metadata: Record<string, any>;
   bridge: 'unity' | 'godot' | 'unreal' | 'web';
 }
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,14 +59,11 @@ export interface ValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: string[];
   warnings: string[];
   suggestions: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AssetPipelineConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,7 +83,6 @@ export interface AssetPipelineConfig {
 }
 
 export interface ValidationReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -6,7 +6,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface BundleConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,7 +31,6 @@ export interface BundleConfig {
 }
 
 export interface BundleStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,7 +59,6 @@ export interface BundleStats {
 }
 
 export interface OptimizationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -77,7 +74,6 @@ export interface OptimizationResult {
   bundlePath: string;
   stats: BundleStats;
   warnings: string[];
-  errors: string[];
 }
 
 export class BundleOptimizer {
@@ -593,7 +589,6 @@ export class BundleOptimizer {
 
 // Supporting interfaces and classes
 interface ModuleAnalysis {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

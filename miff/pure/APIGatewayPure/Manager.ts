@@ -21,7 +21,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface APIGatewayConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,7 +50,6 @@ export interface APIGatewayConfig {
 }
 
 export interface APIGateway {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -63,21 +61,17 @@ export interface APIGateway {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GatewayType;
   status: GatewayStatus;
   routes: APIRoute[];
   policies: APIPolicy[];
   analytics: GatewayAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface APIRoute {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,7 +83,6 @@ export interface APIRoute {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   path: string;
   method: HTTPMethod;
   handler: string;
@@ -102,7 +95,6 @@ export interface APIRoute {
 }
 
 export interface APIPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,8 +106,6 @@ export interface APIPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   rules: PolicyRule[];
   priority: number;
@@ -124,7 +114,6 @@ export interface APIPolicy {
 }
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -136,14 +125,12 @@ export interface PolicyRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   condition: string;
   action: PolicyAction;
   parameters: Record<string, any>;
 }
 
 export interface RateLimit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -163,7 +150,6 @@ export interface RateLimit {
 }
 
 export interface AuthenticationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +167,6 @@ export interface AuthenticationConfig {
 }
 
 export interface AuthorizationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -200,7 +185,6 @@ export interface AuthorizationConfig {
 }
 
 export interface CachingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +203,6 @@ export interface CachingConfig {
 }
 
 export interface GatewayAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -700,7 +683,6 @@ export class APIGatewayManager {
 
 // Additional interfaces for request/response
 export interface APIRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -721,7 +703,6 @@ export interface APIRequest {
 }
 
 export interface APIResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

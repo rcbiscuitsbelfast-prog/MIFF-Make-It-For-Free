@@ -1,5 +1,4 @@
 export interface Quest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -11,7 +10,6 @@ export interface Quest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   completed: boolean;
 }

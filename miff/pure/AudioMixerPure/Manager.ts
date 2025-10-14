@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioMixerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +45,6 @@ export interface AudioMixerConfig {
 }
 
 export interface AudioMixer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -58,8 +56,6 @@ export interface AudioMixer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MixerType;
   status: MixerStatus;
   channels: AudioChannel[];
@@ -68,14 +64,12 @@ export interface AudioMixer {
   routing: AudioRouting;
   performance: MixerPerformance;
   analytics: MixerAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AudioChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +81,6 @@ export interface AudioChannel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChannelType;
   status: ChannelStatus;
   input: ChannelInput;
@@ -98,11 +90,9 @@ export interface AudioChannel {
   pan: number; // -1 to 1
   mute: boolean;
   solo: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,18 +104,14 @@ export interface AudioEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   status: EffectStatus;
   parameters: EffectParameters;
   enabled: boolean;
   bypass: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface AudioBus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,18 +123,14 @@ export interface AudioBus {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BusType;
   status: BusStatus;
   channels: string[];
   effects: string[];
   volume: number; // 0 to 1
-  metadata: Record<string, any>;
 }
 
 export interface AudioRouting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +149,6 @@ export interface AudioRouting {
 }
 
 export interface ChannelInput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,7 +168,6 @@ export interface ChannelInput {
 }
 
 export interface ChannelOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +187,6 @@ export interface ChannelOutput {
 }
 
 export interface EffectParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +202,6 @@ export interface EffectParameters {
 }
 
 export interface RoutingNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -235,14 +213,11 @@ export interface RoutingNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NodeType;
   position: { x: number; y: number };
 }
 
 export interface RoutingConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -254,7 +229,6 @@ export interface RoutingConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   source: string;
   destination: string;
   gain: number; // 0 to 1
@@ -262,7 +236,6 @@ export interface RoutingConnection {
 }
 
 export interface RoutingMatrix {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,7 +253,6 @@ export interface RoutingMatrix {
 }
 
 export interface MixerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,7 +272,6 @@ export interface MixerPerformance {
 }
 
 export interface MixerAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

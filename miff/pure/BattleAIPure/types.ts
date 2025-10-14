@@ -15,7 +15,6 @@ export enum ThreatLevel {
 }
 
 export interface ISpiritInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,8 +26,6 @@ export interface ISpiritInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   typeTag: string;
   maxHP: number;
@@ -43,7 +40,6 @@ export interface ISpiritInstance {
 }
 
 export interface IMoveData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,7 +52,6 @@ export interface IMoveData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   moveId: string;
-  name: string;
   category: MoveCategory | string;
   power: number;
   accuracy: number;
@@ -67,7 +62,6 @@ export interface IMoveData {
 }
 
 export interface IAIDecisionProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,7 +87,6 @@ export interface IAIDecisionProfile {
 }
 
 export interface IBattleAIController {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,7 +112,6 @@ export interface IBattleAIController {
 }
 
 export interface IAIControllerManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

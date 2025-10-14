@@ -11,7 +11,6 @@
  */
 
 export interface GameLogicConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface GameLogicConfig {
 }
 
 export interface GameLogicManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface GameLogicManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GameLogicManagerType;
   status: GameLogicManagerStatus;
   gameStates: GameState[];
@@ -66,16 +62,12 @@ export interface GameLogicManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type GameLogicManagerType = 'singleplayer' | 'multiplayer' | 'coop' | 'competitive' | 'custom';
 export type GameLogicManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface GameState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,22 +79,18 @@ export interface GameState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GameStateType;
   status: GameStateStatus;
   data: GameStateData;
   transitions: StateTransition[];
   rules: string[];
   performance: GameStatePerformance;
-  metadata: Record<string, any>;
 }
 
 export type GameStateType = 'menu' | 'playing' | 'paused' | 'game_over' | 'custom';
 export type GameStateStatus = 'active' | 'inactive' | 'transitioning' | 'error';
 
 export interface GameStateData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,7 +110,6 @@ export interface GameStateData {
 }
 
 export interface GameStateSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +131,6 @@ export interface GameStateSchema {
 export type SchemaType = 'object' | 'array' | 'primitive' | 'custom';
 
 export interface PropertyDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,7 +157,6 @@ export interface PropertyDefinition {
 export type DataType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'null' | 'custom';
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +179,6 @@ export type ConstraintType = 'required' | 'type' | 'format' | 'range' | 'length'
 export type ConstraintOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'not_contains' | 'custom';
 
 export interface StateTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,18 +190,14 @@ export interface StateTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   from: string;
   to: string;
   condition: TransitionCondition;
   action: TransitionAction;
   performance: TransitionPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface TransitionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,7 +218,6 @@ export interface TransitionCondition {
 export type ConditionOperator = 'and' | 'or' | 'not' | 'equals' | 'custom';
 
 export interface TransitionAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -259,7 +238,6 @@ export interface TransitionAction {
 export type ActionType = 'transform' | 'validate' | 'notify' | 'persist' | 'custom';
 
 export interface TransitionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,7 +256,6 @@ export interface TransitionPerformance {
 }
 
 export interface GameStatePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -297,7 +274,6 @@ export interface GameStatePerformance {
 }
 
 export interface Player {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -309,8 +285,6 @@ export interface Player {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   status: PlayerStatus;
   profile: PlayerProfile;
   stats: PlayerStats;
@@ -318,13 +292,11 @@ export interface Player {
   achievements: Achievement[];
   progression: PlayerProgression;
   performance: PlayerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PlayerStatus = 'online' | 'offline' | 'away' | 'banned';
 
 export interface PlayerProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -347,7 +319,6 @@ export interface PlayerProfile {
 }
 
 export interface PlayerPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +337,6 @@ export interface PlayerPreferences {
 }
 
 export interface NotificationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,7 +357,6 @@ export type NotificationType = 'achievement' | 'level_up' | 'message' | 'custom'
 export type NotificationFrequency = 'immediate' | 'daily' | 'weekly' | 'never';
 
 export interface PrivacySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -407,7 +376,6 @@ export interface PrivacySettings {
 export type VisibilityLevel = 'public' | 'friends' | 'private';
 
 export interface PlayerStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +400,6 @@ export interface PlayerStats {
 }
 
 export interface PlayerInventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -452,7 +419,6 @@ export interface PlayerInventory {
 }
 
 export interface InventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -464,7 +430,6 @@ export interface InventoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   item: Item;
   quantity: number;
   slot: number;
@@ -472,7 +437,6 @@ export interface InventoryItem {
 }
 
 export interface Item {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -484,8 +448,6 @@ export interface Item {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemType;
   description: string;
   value: number;
@@ -500,7 +462,6 @@ export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'custom'
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface ItemEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -520,7 +481,6 @@ export interface ItemEffect {
 export type EffectType = 'damage' | 'healing' | 'buff' | 'debuff' | 'custom';
 
 export interface Achievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -532,8 +492,6 @@ export interface Achievement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: AchievementType;
   status: AchievementStatus;
@@ -547,7 +505,6 @@ export type AchievementType = 'combat' | 'exploration' | 'social' | 'custom';
 export type AchievementStatus = 'locked' | 'in_progress' | 'completed';
 
 export interface AchievementReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -569,7 +526,6 @@ export interface AchievementReward {
 export type RewardType = 'item' | 'gold' | 'experience' | 'title' | 'custom';
 
 export interface PlayerProgression {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -591,7 +547,6 @@ export interface PlayerProgression {
 }
 
 export interface Quest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -603,8 +558,6 @@ export interface Quest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: QuestType;
   status: QuestStatus;
@@ -618,7 +571,6 @@ export type QuestType = 'main' | 'side' | 'daily' | 'weekly' | 'custom';
 export type QuestStatus = 'available' | 'active' | 'completed' | 'failed';
 
 export interface QuestObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -630,7 +582,6 @@ export interface QuestObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   type: ObjectiveType;
   target: string;
@@ -643,7 +594,6 @@ export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'explore' | 'custom
 export type ObjectiveStatus = 'incomplete' | 'complete';
 
 export interface QuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -663,7 +613,6 @@ export interface QuestReward {
 }
 
 export interface PlayerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -685,7 +634,6 @@ export interface PlayerPerformance {
 }
 
 export interface GameMechanic {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -697,21 +645,17 @@ export interface GameMechanic {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MechanicType;
   status: MechanicStatus;
   configuration: MechanicConfiguration;
   rules: string[];
   performance: MechanicPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MechanicType = 'combat' | 'movement' | 'inventory' | 'crafting' | 'custom';
 export type MechanicStatus = 'active' | 'inactive' | 'error';
 
 export interface MechanicConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -730,7 +674,6 @@ export interface MechanicConfiguration {
 }
 
 export interface MechanicLimits {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -748,7 +691,6 @@ export interface MechanicLimits {
 }
 
 export interface CooldownConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -766,7 +708,6 @@ export interface CooldownConfig {
 }
 
 export interface MechanicPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -785,7 +726,6 @@ export interface MechanicPerformance {
 }
 
 export interface GameRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -797,22 +737,18 @@ export interface GameRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   status: RuleStatus;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
   performance: RulePerformance;
-  metadata: Record<string, any>;
 }
 
 export type RuleType = 'validation' | 'transformation' | 'enforcement' | 'custom';
 export type RuleStatus = 'active' | 'inactive' | 'error';
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -834,7 +770,6 @@ export interface RuleCondition {
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -855,7 +790,6 @@ export interface RuleAction {
 export type ActionSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface RulePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -874,7 +808,6 @@ export interface RulePerformance {
 }
 
 export interface GameEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -886,22 +819,17 @@ export interface GameEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EventType;
   status: EventStatus;
   data: EventData;
-  timestamp: number;
   source: EventSource;
   performance: EventPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'player_action' | 'system_event' | 'game_state_change' | 'custom';
 export type EventStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export interface EventData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -919,7 +847,6 @@ export interface EventData {
 }
 
 export interface EventContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -934,11 +861,9 @@ export interface EventContext {
   player: string | null;
   gameState: string | null;
   location: string | null;
-  timestamp: number;
 }
 
 export interface EventSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -951,14 +876,11 @@ export interface EventSource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SourceType;
-  id: string;
-  name: string;
 }
 
 export type SourceType = 'player' | 'system' | 'external' | 'custom';
 
 export interface EventPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -976,7 +898,6 @@ export interface EventPerformance {
 }
 
 export interface GameLogicPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1005,7 +926,6 @@ export interface GameLogicPerformanceMetrics {
 }
 
 export interface GameLogicAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1026,7 +946,6 @@ export interface GameLogicAnalytics {
 }
 
 export interface GameStateTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1045,7 +964,6 @@ export interface GameStateTypeDistribution {
 }
 
 export interface PlayerStatusDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1064,7 +982,6 @@ export interface PlayerStatusDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1076,7 +993,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   gameStates: number;
   players: number;
   events: number;
@@ -1086,7 +1002,6 @@ export interface PerformanceTrend {
 }
 
 export interface GameLogicReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1109,7 +1024,6 @@ export interface GameLogicReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1130,7 +1044,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1150,7 +1063,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1170,7 +1082,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1183,13 +1094,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface GameLogicOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

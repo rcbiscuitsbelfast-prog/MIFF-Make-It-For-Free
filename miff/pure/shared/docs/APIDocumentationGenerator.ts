@@ -17,7 +17,6 @@ import * as path from 'path';
 import { StructuredLogger, LogLevel } from '../logging/StructuredLogger';
 
 export interface ModuleInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -29,7 +28,6 @@ export interface ModuleInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   path: string;
   description: string;
   version: string;
@@ -42,7 +40,6 @@ export interface ModuleInfo {
 }
 
 export interface ExportInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,14 +51,12 @@ export interface ExportInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'class' | 'interface' | 'enum' | 'function' | 'type' | 'const' | 'default';
   description?: string;
   source: string;
 }
 
 export interface InterfaceInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -73,7 +68,6 @@ export interface InterfaceInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   properties: PropertyInfo[];
   extends?: string[];
@@ -82,7 +76,6 @@ export interface InterfaceInfo {
 }
 
 export interface ClassInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -94,7 +87,6 @@ export interface ClassInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   methods: MethodInfo[];
   properties: PropertyInfo[];
@@ -106,7 +98,6 @@ export interface ClassInfo {
 }
 
 export interface EnumInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -118,14 +109,12 @@ export interface EnumInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   values: EnumValueInfo[];
   source: string;
 }
 
 export interface FunctionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,7 +126,6 @@ export interface FunctionInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   parameters: ParameterInfo[];
   returnType: string;
@@ -146,7 +134,6 @@ export interface FunctionInfo {
 }
 
 export interface TypeInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,7 +145,6 @@ export interface TypeInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   definition: string;
   generics?: string[];
@@ -166,7 +152,6 @@ export interface TypeInfo {
 }
 
 export interface MethodInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,7 +163,6 @@ export interface MethodInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   parameters: ParameterInfo[];
   returnType: string;
@@ -190,7 +174,6 @@ export interface MethodInfo {
 }
 
 export interface PropertyInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,7 +185,6 @@ export interface PropertyInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   type: string;
   optional: boolean;
@@ -213,7 +195,6 @@ export interface PropertyInfo {
 }
 
 export interface ParameterInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,7 +206,6 @@ export interface ParameterInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description?: string;
   type: string;
   optional: boolean;
@@ -234,7 +214,6 @@ export interface ParameterInfo {
 }
 
 export interface EnumValueInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,14 +225,12 @@ export interface EnumValueInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: string | number;
   description?: string;
   source: string;
 }
 
 export interface DocumentationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

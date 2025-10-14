@@ -6,7 +6,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface CacheEntry<T = any> {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -20,7 +19,6 @@ export interface CacheEntry<T = any> {
   metadata?: Record<string, any>;
   key: string;
   data: T;
-  timestamp: number;
   ttl: number;
   size: number;
   accessCount: number;
@@ -29,7 +27,6 @@ export interface CacheEntry<T = any> {
 }
 
 export interface CacheStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,7 +48,6 @@ export interface CacheStats {
 }
 
 export interface CacheConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

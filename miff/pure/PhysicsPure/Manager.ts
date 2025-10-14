@@ -14,7 +14,6 @@
  */
 
 export interface PhysicsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface PhysicsConfig {
 }
 
 export interface PhysicsManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface PhysicsManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PhysicsManagerType;
   status: PhysicsManagerStatus;
   bodies: RigidBody[];
@@ -72,16 +68,12 @@ export interface PhysicsManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type PhysicsManagerType = '2d' | '3d' | 'hybrid' | 'custom';
 export type PhysicsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface RigidBody {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,8 +85,6 @@ export interface RigidBody {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BodyType;
   position: Vector3;
   rotation: Quaternion;
@@ -109,13 +99,11 @@ export interface RigidBody {
   shape: Shape;
   forces: Vector3[];
   torques: Vector3[];
-  metadata: Record<string, any>;
 }
 
 export type BodyType = 'dynamic' | 'static' | 'kinematic';
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -133,7 +121,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -152,7 +139,6 @@ export interface Quaternion {
 }
 
 export interface Matrix3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -170,7 +156,6 @@ export interface Matrix3 {
 }
 
 export interface Shape {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -193,7 +178,6 @@ export interface Shape {
 export type ShapeType = 'box' | 'sphere' | 'cylinder' | 'capsule' | 'mesh' | 'plane';
 
 export interface Constraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,8 +189,6 @@ export interface Constraint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConstraintType;
   bodyA: string;
   bodyB: string;
@@ -216,13 +198,11 @@ export interface Constraint {
   stiffness: number;
   damping: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export type ConstraintType = 'hinge' | 'ball' | 'slider' | 'fixed' | 'spring' | 'rope';
 
 export interface ConstraintLimits {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,7 +220,6 @@ export interface ConstraintLimits {
 }
 
 export interface Force {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -252,21 +231,17 @@ export interface Force {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ForceType;
   bodyId: string;
   force: Vector3;
   point: Vector3;
   duration: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export type ForceType = 'constant' | 'impulse' | 'spring' | 'drag' | 'gravity' | 'wind';
 
 export interface Particle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,7 +253,6 @@ export interface Particle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: Vector3;
   velocity: Vector3;
   acceleration: Vector3;
@@ -287,11 +261,9 @@ export interface Particle {
   age: number;
   color: Color;
   size: number;
-  metadata: Record<string, any>;
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -310,7 +282,6 @@ export interface Color {
 }
 
 export interface Fluid {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -322,8 +293,6 @@ export interface Fluid {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FluidType;
   density: number;
   viscosity: number;
@@ -331,13 +300,11 @@ export interface Fluid {
   temperature: number;
   particles: Particle[];
   boundaries: Vector3[];
-  metadata: Record<string, any>;
 }
 
 export type FluidType = 'water' | 'air' | 'oil' | 'gas' | 'custom';
 
 export interface PhysicsPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,7 +330,6 @@ export interface PhysicsPerformanceMetrics {
 }
 
 export interface PhysicsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -385,7 +351,6 @@ export interface PhysicsAnalytics {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -397,7 +362,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   stepTime: number;
   bodies: number;
   constraints: number;
@@ -406,7 +370,6 @@ export interface PerformanceTrend {
 }
 
 export interface PhysicsReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -429,7 +392,6 @@ export interface PhysicsReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -450,7 +412,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -470,7 +431,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +450,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -503,13 +462,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface PhysicsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

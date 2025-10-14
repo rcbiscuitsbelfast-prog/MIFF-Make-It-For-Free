@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CharacterCustomizationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CharacterCustomizationConfig {
 }
 
 export interface CharacterCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface CharacterCustomization {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   characters: Character[];
@@ -64,14 +60,12 @@ export interface CharacterCustomization {
   assets: CustomizationAsset[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Character {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,17 +77,13 @@ export interface Character {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CharacterType;
   status: CharacterStatus;
   appearance: CharacterAppearance;
   customization: CharacterCustomizationData;
-  metadata: Record<string, any>;
 }
 
 export interface CharacterAppearance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,11 +104,9 @@ export interface CharacterAppearance {
   eyeColor: Color;
   bodyType: BodyType;
   faceShape: FaceShape;
-  metadata: Record<string, any>;
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,7 +125,6 @@ export interface Color {
 }
 
 export interface CharacterCustomizationData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -153,11 +140,9 @@ export interface CharacterCustomizationData {
   body: BodyCustomization;
   clothing: ClothingCustomization;
   accessories: AccessoryCustomization;
-  metadata: Record<string, any>;
 }
 
 export interface HeadCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -175,11 +160,9 @@ export interface HeadCustomization {
   mouth: MouthCustomization;
   nose: NoseCustomization;
   ears: EarCustomization;
-  metadata: Record<string, any>;
 }
 
 export interface HairCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -195,11 +178,9 @@ export interface HairCustomization {
   color: Color;
   length: number;
   texture: string;
-  metadata: Record<string, any>;
 }
 
 export interface FaceCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -215,11 +196,9 @@ export interface FaceCustomization {
   skinTone: Color;
   age: number;
   wrinkles: number;
-  metadata: Record<string, any>;
 }
 
 export interface EyeCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -235,11 +214,9 @@ export interface EyeCustomization {
   shape: string;
   size: number;
   spacing: number;
-  metadata: Record<string, any>;
 }
 
 export interface MouthCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,11 +232,9 @@ export interface MouthCustomization {
   size: number;
   lipColor: Color;
   thickness: number;
-  metadata: Record<string, any>;
 }
 
 export interface NoseCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,11 +250,9 @@ export interface NoseCustomization {
   size: number;
   width: number;
   height: number;
-  metadata: Record<string, any>;
 }
 
 export interface EarCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -294,11 +267,9 @@ export interface EarCustomization {
   shape: string;
   size: number;
   position: number;
-  metadata: Record<string, any>;
 }
 
 export interface BodyCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -317,11 +288,9 @@ export interface BodyCustomization {
   chest: number;
   waist: number;
   hips: number;
-  metadata: Record<string, any>;
 }
 
 export interface ClothingCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -337,11 +306,9 @@ export interface ClothingCustomization {
   bottom: ClothingItem;
   shoes: ClothingItem;
   outerwear: ClothingItem;
-  metadata: Record<string, any>;
 }
 
 export interface ClothingItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -353,17 +320,13 @@ export interface ClothingItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ClothingType;
   color: Color;
   size: string;
   texture: string;
-  metadata: Record<string, any>;
 }
 
 export interface AccessoryCustomization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -379,11 +342,9 @@ export interface AccessoryCustomization {
   glasses: AccessoryItem[];
   jewelry: AccessoryItem[];
   bags: AccessoryItem[];
-  metadata: Record<string, any>;
 }
 
 export interface AccessoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -395,18 +356,14 @@ export interface AccessoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AccessoryType;
   color: Color;
   position: Vector3;
   rotation: Vector3;
   scale: Vector3;
-  metadata: Record<string, any>;
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -424,7 +381,6 @@ export interface Vector3 {
 }
 
 export interface CustomizationPreset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -436,16 +392,12 @@ export interface CustomizationPreset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PresetType;
   description: string;
   customization: CharacterCustomizationData;
-  metadata: Record<string, any>;
 }
 
 export interface CustomizationAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -457,17 +409,13 @@ export interface CustomizationAsset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssetType;
   category: AssetCategory;
   path: string;
   size: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -485,11 +433,9 @@ export interface SystemPerformance {
   averageRenderTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

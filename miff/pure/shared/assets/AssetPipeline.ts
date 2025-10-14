@@ -6,7 +6,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface AssetConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,7 +31,6 @@ export interface AssetConfig {
 }
 
 export interface AssetInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +42,6 @@ export interface AssetInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   path: string;
   type: string;
   size: number;
@@ -52,13 +49,11 @@ export interface AssetInfo {
   compressedSize: number;
   loadTime: number;
   dependencies: string[];
-  metadata: Record<string, any>;
   processed: boolean;
   cached: boolean;
 }
 
 export interface PipelineStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,7 +77,6 @@ export interface PipelineStats {
 }
 
 export interface ProcessingTask {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -785,7 +779,6 @@ export class AssetPipeline {
 }
 
 interface Worker {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

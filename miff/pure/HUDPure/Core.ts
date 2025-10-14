@@ -2,7 +2,6 @@ export type HealthStatus = 'full' | 'high' | 'medium' | 'low' | 'critical' | 'ko
 
 export class SpiritHUDState {
   spiritId: string;
-  name: string;
   currentHP: number;
   maxHP: number;
   statusEffects: string[];
@@ -345,7 +344,6 @@ export enum HUDUpdateType {
 }
 
 export interface IHUDUpdateEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

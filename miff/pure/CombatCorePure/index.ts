@@ -54,7 +54,6 @@ export enum CombatResult {
 }
 
 export interface CombatEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,8 +65,6 @@ export interface CombatEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   health: number;
   maxHealth: number;
@@ -95,7 +92,6 @@ export interface CombatEntity {
 }
 
 export interface CombatStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,7 +116,6 @@ export interface CombatStats {
 }
 
 export interface DamageResistances {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,7 +140,6 @@ export interface DamageResistances {
 }
 
 export interface StatusEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,8 +151,6 @@ export interface StatusEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: 'buff' | 'debuff' | 'neutral';
   duration: number;      // turns remaining
@@ -172,7 +164,6 @@ export interface StatusEffect {
 }
 
 export interface StatModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,7 +183,6 @@ export interface StatModifier {
 }
 
 export interface CombatAbility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,8 +194,6 @@ export interface CombatAbility {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: CombatType;
   damageType: DamageType;
@@ -224,7 +212,6 @@ export interface CombatAbility {
 }
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +233,6 @@ export interface AbilityEffect {
 }
 
 export interface AbilityRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +251,6 @@ export interface AbilityRequirement {
 }
 
 export interface EquipmentSlots {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -289,7 +274,6 @@ export interface EquipmentSlots {
 }
 
 export interface EquipmentItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -301,8 +285,6 @@ export interface EquipmentItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'weapon' | 'armor' | 'accessory';
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
   level: number;
@@ -314,7 +296,6 @@ export interface EquipmentItem {
 }
 
 export interface Enchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -326,8 +307,6 @@ export interface Enchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   effects: StatModifier[];
   level: number;
@@ -335,7 +314,6 @@ export interface Enchantment {
 }
 
 export interface AICombatProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +335,6 @@ export interface AICombatProfile {
 }
 
 export interface AIBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -377,7 +354,6 @@ export interface AIBehavior {
 }
 
 export interface CombatAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -389,18 +365,14 @@ export interface CombatAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   entityId: string;
   abilityId: string;
   targetIds: string[];
   position?: { x: number; y: number; z?: number };
-  metadata: Record<string, any>;
-  timestamp: number;
   state: CombatState;
 }
 
 export interface DamageCalculation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +394,6 @@ export interface DamageCalculation {
 }
 
 export interface DamageModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -441,7 +412,6 @@ export interface DamageModifier {
 }
 
 export interface CombatEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -453,9 +423,7 @@ export interface CombatEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'action' | 'damage' | 'heal' | 'status' | 'turn' | 'phase' | 'victory' | 'defeat';
-  timestamp: number;
   sourceEntityId?: string;
   targetEntityIds: string[];
   data: Record<string, any>;
@@ -463,7 +431,6 @@ export interface CombatEvent {
 }
 
 export interface CombatScenario {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -475,8 +442,6 @@ export interface CombatScenario {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   entities: CombatEntity[];
   environment: CombatEnvironment;
@@ -489,7 +454,6 @@ export interface CombatScenario {
 }
 
 export interface CombatEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -511,7 +475,6 @@ export interface CombatEnvironment {
 }
 
 export interface TerrainFeature {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -523,7 +486,6 @@ export interface TerrainFeature {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   position: { x: number; y: number; z?: number };
   radius: number;
@@ -531,7 +493,6 @@ export interface TerrainFeature {
 }
 
 export interface Hazard {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -543,7 +504,6 @@ export interface Hazard {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'fire' | 'poison' | 'lightning' | 'ice' | 'darkness' | 'custom';
   position: { x: number; y: number; z?: number };
   radius: number;
@@ -553,7 +513,6 @@ export interface Hazard {
 }
 
 export interface EnvironmentModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -572,7 +531,6 @@ export interface EnvironmentModifier {
 }
 
 export interface CombatRules {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -622,7 +580,6 @@ export interface CombatRules {
 }
 
 export interface VictoryCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -641,7 +598,6 @@ export interface VictoryCondition {
 }
 
 export interface DefeatCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -660,7 +616,6 @@ export interface DefeatCondition {
 }
 
 export interface CombatSession {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -672,7 +627,6 @@ export interface CombatSession {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   scenarioId: string;
   startTime: number;
   endTime?: number;
@@ -689,7 +643,6 @@ export interface CombatSession {
 }
 
 export interface CombatStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1510,7 +1463,6 @@ export class CombatCore {
 
 // Supporting interfaces and types
 export interface CombatPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1534,7 +1486,6 @@ export interface CombatPerformanceMetrics {
 }
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

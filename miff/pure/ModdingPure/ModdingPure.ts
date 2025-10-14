@@ -18,7 +18,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface PluginManifest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,8 +29,6 @@ export interface PluginManifest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   description: string;
   author: string;
@@ -39,11 +36,9 @@ export interface PluginManifest {
   dependencies: string[];
   entryPoint: string;
   assets: string[];
-  metadata: Record<string, any>;
 }
 
 export interface PluginConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,14 +50,12 @@ export interface PluginConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   enabled: boolean;
   loadOrder: number;
   settings: Record<string, any>;
 }
 
 export interface PluginInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -74,7 +67,6 @@ export interface PluginInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   manifest: PluginManifest;
   config: PluginConfig;
   entryPoint: any;
@@ -85,7 +77,6 @@ export interface PluginInstance {
 }
 
 export interface ModdingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,7 +97,6 @@ export interface ModdingConfig {
 }
 
 export interface AssetBundle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -118,16 +108,12 @@ export interface AssetBundle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   assets: Map<string, any>;
-  metadata: Record<string, any>;
   size: number;
   checksum: string;
 }
 
 export interface ExportTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,8 +125,6 @@ export interface ExportTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   platform: string;
   target: string;
   config: Record<string, any>;

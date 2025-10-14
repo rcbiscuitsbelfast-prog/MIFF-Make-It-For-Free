@@ -8,7 +8,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PixelGenOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

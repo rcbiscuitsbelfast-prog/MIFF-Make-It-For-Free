@@ -10,7 +10,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Task {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,8 +21,6 @@ export interface Task {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   priority: number;
   status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
   createdAt: Date;
@@ -39,7 +36,6 @@ export interface Task {
 }
 
 export interface ScheduleRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +47,6 @@ export interface ScheduleRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   cronExpression: string;
   taskName: string;
   priority: number;
@@ -63,7 +57,6 @@ export interface ScheduleRule {
 }
 
 export interface SchedulerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,7 +77,6 @@ export interface SchedulerConfig {
 }
 
 export interface SchedulerMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

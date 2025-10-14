@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ButtonStyleConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface ButtonStyleConfig {
 }
 
 export interface ButtonStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface ButtonStyle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StyleType;
   status: StyleStatus;
   definition: StyleDefinition;
@@ -66,14 +62,12 @@ export interface ButtonStyle {
   animation: StyleAnimation;
   performance: StylePerformance;
   analytics: StyleAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface StyleDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,16 +79,13 @@ export interface StyleDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   properties: StyleProperties;
   states: StyleState[];
   variants: StyleVariant[];
-  metadata: Record<string, any>;
 }
 
 export interface StyleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,11 +110,9 @@ export interface StyleProperties {
   textAlign: TextAlign;
   cursor: CursorType;
   opacity: number;
-  metadata: Record<string, any>;
 }
 
 export interface StyleState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -135,14 +124,11 @@ export interface StyleState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   properties: Partial<StyleProperties>;
   transitions: StyleTransition[];
-  metadata: Record<string, any>;
 }
 
 export interface StyleVariant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -154,14 +140,11 @@ export interface StyleVariant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   properties: Partial<StyleProperties>;
   conditions: StyleCondition[];
-  metadata: Record<string, any>;
 }
 
 export interface StyleTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,11 +160,9 @@ export interface StyleTransition {
   duration: number; // milliseconds
   easing: EasingType;
   delay: number; // milliseconds
-  metadata: Record<string, any>;
 }
 
 export interface StyleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,11 +177,9 @@ export interface StyleCondition {
   type: ConditionType;
   value: any;
   operator: ComparisonOperator;
-  metadata: Record<string, any>;
 }
 
 export interface StyleTheme {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -212,15 +191,12 @@ export interface StyleTheme {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   colors: ThemeColors;
   typography: ThemeTypography;
   spacing: ThemeSpacing;
-  metadata: Record<string, any>;
 }
 
 export interface ThemeColors {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,11 +214,9 @@ export interface ThemeColors {
   background: string;
   surface: string;
   text: string;
-  metadata: Record<string, any>;
 }
 
 export interface ThemeTypography {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -259,11 +233,9 @@ export interface ThemeTypography {
   fontWeight: string;
   lineHeight: number;
   letterSpacing: number;
-  metadata: Record<string, any>;
 }
 
 export interface ThemeSpacing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,11 +252,9 @@ export interface ThemeSpacing {
   md: number;
   lg: number;
   xl: number;
-  metadata: Record<string, any>;
 }
 
 export interface StyleAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,11 +270,9 @@ export interface StyleAnimation {
   effects: AnimationEffect[];
   duration: number; // milliseconds
   easing: EasingType;
-  metadata: Record<string, any>;
 }
 
 export interface AnimationEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,16 +284,13 @@ export interface AnimationEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: EffectType;
   properties: Record<string, any>;
   duration: number; // milliseconds
   easing: EasingType;
-  metadata: Record<string, any>;
 }
 
 export interface StylePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -341,11 +306,9 @@ export interface StylePerformance {
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
   cacheHitRate: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface StyleAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +329,6 @@ export interface StyleAnalytics {
 }
 
 export interface Padding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -385,7 +347,6 @@ export interface Padding {
 }
 
 export interface Margin {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

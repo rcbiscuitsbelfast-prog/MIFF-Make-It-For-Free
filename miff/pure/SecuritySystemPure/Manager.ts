@@ -12,7 +12,6 @@
  */
 
 export interface SecuritySystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface SecuritySystemConfig {
 }
 
 export interface SecuritySystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface SecuritySystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SecuritySystemManagerType;
   status: SecuritySystemManagerStatus;
   users: User[];
@@ -70,16 +66,12 @@ export interface SecuritySystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type SecuritySystemManagerType = 'local' | 'ldap' | 'oauth' | 'saml' | 'custom';
 export type SecuritySystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface User {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +83,6 @@ export interface User {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   username: string;
   email: string;
   status: UserStatus;
@@ -101,13 +92,11 @@ export interface User {
   permissions: string[];
   sessions: string[];
   security: UserSecurity;
-  metadata: Record<string, any>;
 }
 
 export type UserStatus = 'active' | 'inactive' | 'locked' | 'suspended' | 'pending';
 
 export interface UserProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +118,6 @@ export interface UserProfile {
 }
 
 export interface UserPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +136,6 @@ export interface UserPreferences {
 }
 
 export interface NotificationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +156,6 @@ export interface NotificationSettings {
 export type NotificationFrequency = 'immediate' | 'daily' | 'weekly' | 'never';
 
 export interface PrivacySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +175,6 @@ export interface PrivacySettings {
 export type VisibilityLevel = 'public' | 'friends' | 'private';
 
 export interface SecuritySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -208,7 +193,6 @@ export interface SecuritySettings {
 }
 
 export interface UserCredentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,7 +211,6 @@ export interface UserCredentials {
 }
 
 export interface PasswordInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -250,7 +233,6 @@ export interface PasswordInfo {
 export type HashAlgorithm = 'bcrypt' | 'scrypt' | 'argon2' | 'pbkdf2' | 'custom';
 
 export interface TwoFactorInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,7 +254,6 @@ export interface TwoFactorInfo {
 export type TwoFactorMethod = 'totp' | 'sms' | 'email' | 'app' | 'custom';
 
 export interface BiometricInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,7 +274,6 @@ export interface BiometricInfo {
 export type BiometricType = 'fingerprint' | 'face' | 'voice' | 'iris' | 'custom';
 
 export interface SocialLoginInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,7 +286,6 @@ export interface SocialLoginInfo {
   updatedAt?: number;
   metadata?: Record<string, any>;
   provider: SocialProvider;
-  id: string;
   email: string;
   connected: number;
 }
@@ -314,7 +293,6 @@ export interface SocialLoginInfo {
 export type SocialProvider = 'google' | 'facebook' | 'twitter' | 'linkedin' | 'github' | 'custom';
 
 export interface UserSecurity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,7 +314,6 @@ export interface UserSecurity {
 }
 
 export interface DeviceInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -348,8 +325,6 @@ export interface DeviceInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   os: string;
   browser: string;
@@ -361,7 +336,6 @@ export interface DeviceInfo {
 export type DeviceType = 'desktop' | 'mobile' | 'tablet' | 'custom';
 
 export interface SecurityFlag {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -376,7 +350,6 @@ export interface SecurityFlag {
   type: FlagType;
   severity: FlagSeverity;
   description: string;
-  timestamp: number;
   resolved: boolean;
 }
 
@@ -384,7 +357,6 @@ export type FlagType = 'suspicious_login' | 'unusual_activity' | 'password_breac
 export type FlagSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface Session {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -396,7 +368,6 @@ export interface Session {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   userId: string;
   status: SessionStatus;
   startTime: number;
@@ -407,13 +378,11 @@ export interface Session {
   userAgent: string;
   location: LocationInfo;
   security: SessionSecurity;
-  metadata: Record<string, any>;
 }
 
 export type SessionStatus = 'active' | 'expired' | 'terminated' | 'suspended';
 
 export interface LocationInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -433,7 +402,6 @@ export interface LocationInfo {
 }
 
 export interface Coordinates {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -450,7 +418,6 @@ export interface Coordinates {
 }
 
 export interface SessionSecurity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -472,7 +439,6 @@ export interface SessionSecurity {
 export type SecurityProtocol = 'tls' | 'ssl' | 'https' | 'custom';
 
 export interface CipherInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -491,7 +457,6 @@ export interface CipherInfo {
 }
 
 export interface CertificateInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -511,7 +476,6 @@ export interface CertificateInfo {
 }
 
 export interface Role {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -523,20 +487,16 @@ export interface Role {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   status: RoleStatus;
   permissions: string[];
   users: string[];
   hierarchy: RoleHierarchy;
-  metadata: Record<string, any>;
 }
 
 export type RoleStatus = 'active' | 'inactive' | 'deprecated';
 
 export interface RoleHierarchy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -555,7 +515,6 @@ export interface RoleHierarchy {
 }
 
 export interface Permission {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -567,19 +526,15 @@ export interface Permission {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   resource: string;
   action: PermissionAction;
   conditions: PermissionCondition[];
-  metadata: Record<string, any>;
 }
 
 export type PermissionAction = 'read' | 'write' | 'delete' | 'execute' | 'admin' | 'custom';
 
 export interface PermissionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -601,7 +556,6 @@ export type ConditionType = 'time' | 'location' | 'device' | 'ip' | 'custom';
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface SecurityPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -613,20 +567,16 @@ export interface SecurityPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   status: PolicyStatus;
   rules: PolicyRule[];
   enforcement: PolicyEnforcement;
-  metadata: Record<string, any>;
 }
 
 export type PolicyType = 'password' | 'session' | 'access' | 'data' | 'custom';
 export type PolicyStatus = 'active' | 'inactive' | 'draft';
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -638,8 +588,6 @@ export interface PolicyRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -647,7 +595,6 @@ export interface PolicyRule {
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -669,7 +616,6 @@ export interface RuleCondition {
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -690,7 +636,6 @@ export type ActionType = 'allow' | 'deny' | 'warn' | 'log' | 'custom';
 export type ActionSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface PolicyEnforcement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -711,7 +656,6 @@ export interface PolicyEnforcement {
 export type EnforcementMode = 'strict' | 'permissive' | 'warning' | 'custom';
 
 export interface EscalationInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -730,7 +674,6 @@ export interface EscalationInfo {
 }
 
 export interface SecurityThreat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -742,7 +685,6 @@ export interface SecurityThreat {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ThreatType;
   severity: ThreatSeverity;
   status: ThreatStatus;
@@ -750,7 +692,6 @@ export interface SecurityThreat {
   target: ThreatTarget;
   detection: ThreatDetection;
   response: ThreatResponse;
-  metadata: Record<string, any>;
 }
 
 export type ThreatType = 'malware' | 'phishing' | 'brute_force' | 'ddos' | 'custom';
@@ -758,7 +699,6 @@ export type ThreatSeverity = 'low' | 'medium' | 'high' | 'critical';
 export type ThreatStatus = 'detected' | 'investigating' | 'contained' | 'resolved';
 
 export interface ThreatSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,7 +718,6 @@ export interface ThreatSource {
 }
 
 export interface ThreatTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -797,7 +736,6 @@ export interface ThreatTarget {
 }
 
 export interface ThreatDetection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -811,14 +749,12 @@ export interface ThreatDetection {
   metadata?: Record<string, any>;
   method: DetectionMethod;
   confidence: number;
-  timestamp: number;
   indicators: ThreatIndicator[];
 }
 
 export type DetectionMethod = 'signature' | 'behavioral' | 'anomaly' | 'custom';
 
 export interface ThreatIndicator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -839,7 +775,6 @@ export interface ThreatIndicator {
 export type IndicatorType = 'ip' | 'domain' | 'hash' | 'pattern' | 'custom';
 
 export interface ThreatResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -852,7 +787,6 @@ export interface ThreatResponse {
   updatedAt?: number;
   metadata?: Record<string, any>;
   action: ResponseAction;
-  timestamp: number;
   automated: boolean;
   result: ResponseResult;
 }
@@ -861,7 +795,6 @@ export type ResponseAction = 'block' | 'quarantine' | 'alert' | 'investigate' | 
 export type ResponseResult = 'success' | 'partial' | 'failed' | 'pending';
 
 export interface SecuritySystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -889,7 +822,6 @@ export interface SecuritySystemPerformanceMetrics {
 }
 
 export interface SecuritySystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -910,7 +842,6 @@ export interface SecuritySystemAnalytics {
 }
 
 export interface UserStatusDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -928,7 +859,6 @@ export interface UserStatusDistribution {
 }
 
 export interface ThreatTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -947,7 +877,6 @@ export interface ThreatTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -959,7 +888,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   users: number;
   sessions: number;
   threats: number;
@@ -969,7 +897,6 @@ export interface PerformanceTrend {
 }
 
 export interface SecuritySystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -992,7 +919,6 @@ export interface SecuritySystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1013,7 +939,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1033,7 +958,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1053,7 +977,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1066,13 +989,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SecuritySystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

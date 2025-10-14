@@ -1,5 +1,4 @@
 export interface StatusEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -11,8 +10,6 @@ export interface StatusEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   duration: number;
   impact: string;
 }

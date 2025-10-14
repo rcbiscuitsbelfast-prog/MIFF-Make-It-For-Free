@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface DocumentationTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface DocumentationTarget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   type: 'api' | 'guide' | 'tutorial' | 'example' | 'reference';
   priority: 'critical' | 'high' | 'medium' | 'low';
@@ -32,7 +30,6 @@ export interface DocumentationTarget {
 }
 
 export interface APIDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,7 +50,6 @@ export interface APIDocumentation {
 }
 
 export interface APIClass {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -65,7 +61,6 @@ export interface APIClass {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   methods: APIMethod[];
   properties: APIProperty[];
@@ -75,7 +70,6 @@ export interface APIClass {
 }
 
 export interface APIInterface {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,7 +81,6 @@ export interface APIInterface {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   properties: APIProperty[];
   methods: APIMethod[];
@@ -96,7 +89,6 @@ export interface APIInterface {
 }
 
 export interface APIFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,7 +100,6 @@ export interface APIFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   parameters: APIParameter[];
   returnType: string;
@@ -117,7 +108,6 @@ export interface APIFunction {
 }
 
 export interface APIType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,14 +119,12 @@ export interface APIType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   definition: string;
   examples: string[];
 }
 
 export interface APIMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +136,6 @@ export interface APIMethod {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   parameters: APIParameter[];
   returnType: string;
@@ -157,7 +144,6 @@ export interface APIMethod {
 }
 
 export interface APIProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +155,6 @@ export interface APIProperty {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   type: string;
   optional: boolean;
@@ -177,7 +162,6 @@ export interface APIProperty {
 }
 
 export interface APIParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +173,6 @@ export interface APIParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   type: string;
   optional: boolean;
@@ -197,7 +180,6 @@ export interface APIParameter {
 }
 
 export interface APIExample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +199,6 @@ export interface APIExample {
 }
 
 export interface ContributorGuide {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +210,6 @@ export interface ContributorGuide {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   sections: GuideSection[];
@@ -239,7 +219,6 @@ export interface ContributorGuide {
 }
 
 export interface GuideSection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -259,7 +238,6 @@ export interface GuideSection {
 }
 
 export interface Tutorial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -271,7 +249,6 @@ export interface Tutorial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   steps: TutorialStep[];
@@ -282,7 +259,6 @@ export interface Tutorial {
 }
 
 export interface TutorialStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +279,6 @@ export interface TutorialStep {
 }
 
 export interface CodeExample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -315,7 +290,6 @@ export interface CodeExample {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   code: string;
@@ -327,7 +301,6 @@ export interface CodeExample {
 }
 
 export interface DocumentationStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

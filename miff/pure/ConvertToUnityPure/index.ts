@@ -61,7 +61,6 @@ export enum UnityCompressionMethod {
 }
 
 export interface UnityProjectSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -131,7 +130,6 @@ export interface UnityProjectSettings {
 }
 
 export interface UnityRenderSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,7 +169,6 @@ export interface UnityRenderSettings {
 }
 
 export interface UnityQualitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -228,7 +225,6 @@ export interface UnityQualitySettings {
 }
 
 export interface UnityPhysicsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,7 +266,6 @@ export interface UnityPhysicsSettings {
 }
 
 export interface UnityTimeSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -305,7 +300,6 @@ export interface UnityTimeSettings {
 }
 
 export interface UnityAudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -338,7 +332,6 @@ export interface UnityAudioSettings {
 }
 
 export interface UnityPlayerSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +476,6 @@ export interface UnityPlayerSettings {
 }
 
 export interface UnityEditorSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -567,7 +559,6 @@ export interface UnityEditorSettings {
 }
 
 export interface UnityExportConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -597,7 +588,6 @@ export interface UnityExportConfiguration {
 }
 
 export interface UnityBuildOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -706,7 +696,6 @@ export interface UnityBuildOptions {
 }
 
 export interface UnityBuildReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -846,7 +835,6 @@ export interface UnityBuildReport {
 }
 
 export interface UnityBuildSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -986,7 +974,6 @@ export interface UnityBuildSummary {
 }
 
 export interface UnityBuildFile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1004,11 +991,9 @@ export interface UnityBuildFile {
   type: string;
   compressed: boolean;
   encrypted: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UnityBuildDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1020,16 +1005,13 @@ export interface UnityBuildDependency {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   version: string;
   type: string;
   size: number;
   dependencies: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnityBuildStrippingInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1211,7 +1193,6 @@ export interface UnityBuildStrippingInfo {
 }
 
 export interface UnityBuildStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1223,7 +1204,6 @@ export interface UnityBuildStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   duration: number;
   depth: number;
   startTime: number;
@@ -1231,12 +1211,9 @@ export interface UnityBuildStep {
   result: string;
   messages: string[];
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnityConversionReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1258,11 +1235,9 @@ export interface UnityConversionReport {
   convertedAssets: UnityAssetConversion[];
   conversionErrors: UnityConversionError[];
   conversionWarnings: UnityConversionWarning[];
-  metadata: Record<string, any>;
 }
 
 export interface UnityAssetConversion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1282,11 +1257,9 @@ export interface UnityAssetConversion {
   compressionRatio: number;
   quality: number;
   dependencies: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnityConversionError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1302,7 +1275,6 @@ export interface UnityConversionError {
   errorCode: string;
   errorMessage: string;
   stackTrace: string;
-  timestamp: number;
   severity: 'low' | 'medium' | 'high' | 'critical';
   category: string;
   retryable: boolean;
@@ -1310,7 +1282,6 @@ export interface UnityConversionError {
 }
 
 export interface UnityConversionWarning {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1325,7 +1296,6 @@ export interface UnityConversionWarning {
   sourcePath: string;
   warningCode: string;
   warningMessage: string;
-  timestamp: number;
   severity: 'low' | 'medium' | 'high' | 'critical';
   category: string;
   suggestion: string;

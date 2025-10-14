@@ -15,7 +15,6 @@ import { ExportIntegration } from './ExportIntegration';
 import { UIBuilder } from './UIBuilder';
 
 export interface CLICommand {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,7 +26,6 @@ export interface CLICommand {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   args: string[];
   execute: (args: string[]) => Promise<string>;

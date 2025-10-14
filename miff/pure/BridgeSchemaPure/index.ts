@@ -10,7 +10,6 @@
  */
 
 export interface BridgeSchemaConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -28,7 +27,6 @@ export interface BridgeSchemaConfig {
 }
 
 export interface SchemaValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +39,6 @@ export interface SchemaValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: string[];
   warnings: string[];
 }
 

@@ -34,7 +34,6 @@ export type QuestRef = { questId: string };
 export type RenderDataType = 'sprite' | 'text' | 'sound' | 'animation' | 'node' | 'component' | 'resource' | 'scene' | 'input';
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,7 +51,6 @@ export interface Position3D {
 }
 
 export interface EngineHints {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +89,6 @@ export interface EngineHints {
 }
 
 export interface RenderData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,7 +100,6 @@ export interface RenderData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RenderDataType;
   name?: string;
   position?: Position3D;
@@ -118,7 +114,6 @@ export interface RenderData {
 }
 
 export interface RenderSignal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,14 +125,12 @@ export interface RenderSignal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters?: string[];
   target?: string;
   event?: string;
 }
 
 export interface RenderPayload {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -161,7 +154,6 @@ export interface RenderPayload {
 // ============================================================================
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -174,12 +166,10 @@ export interface ValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   isValid: boolean;
-  errors: string[];
   warnings: string[];
 }
 
 export interface FieldDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,7 +194,6 @@ export interface FieldDefinition {
 }
 
 export interface SchemaDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -230,7 +219,6 @@ export interface SchemaDefinition {
 // ============================================================================
 
 export interface SchemaStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,7 +239,6 @@ export interface SchemaStats {
 }
 
 export interface SchemaMigration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +290,6 @@ export class ConsolidatedSchemaManager {
    * List all schemas with optional filtering
    */
   listSchemas(engine?: SchemaEngine, category?: SchemaCategory): {
-    ok: boolean;
     schemas: Array<{ id: string; schema: SchemaDefinition }>;
     total: number;
   } {

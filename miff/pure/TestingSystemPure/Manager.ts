@@ -11,7 +11,6 @@
  */
 
 export interface TestingSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface TestingSystemConfig {
 }
 
 export interface TestingSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface TestingSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TestingSystemManagerType;
   status: TestingSystemManagerStatus;
   testSuites: TestSuite[];
@@ -66,16 +62,12 @@ export interface TestingSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type TestingSystemManagerType = 'unit' | 'integration' | 'e2e' | 'performance' | 'custom';
 export type TestingSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TestSuite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +79,6 @@ export interface TestSuite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TestSuiteType;
   status: TestSuiteStatus;
   description: string;
@@ -96,14 +86,12 @@ export interface TestSuite {
   configuration: TestSuiteConfiguration;
   execution: TestSuiteExecution;
   performance: TestSuitePerformance;
-  metadata: Record<string, any>;
 }
 
 export type TestSuiteType = 'unit' | 'integration' | 'e2e' | 'performance' | 'smoke' | 'regression' | 'custom';
 export type TestSuiteStatus = 'draft' | 'ready' | 'running' | 'completed' | 'failed' | 'paused';
 
 export interface TestSuiteConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface TestSuiteConfiguration {
 }
 
 export interface TestData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,8 +124,6 @@ export interface TestData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataType;
   values: Record<string, any>;
   enabled: boolean;
@@ -147,7 +132,6 @@ export interface TestData {
 export type DataType = 'static' | 'dynamic' | 'generated' | 'external' | 'custom';
 
 export interface TestSuiteExecution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -170,7 +154,6 @@ export interface TestSuiteExecution {
 export type ExecutionStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled' | 'paused';
 
 export interface TestResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +177,6 @@ export interface TestResult {
 export type TestStatus = 'passed' | 'failed' | 'skipped' | 'pending' | 'error';
 
 export interface TestError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -215,7 +197,6 @@ export interface TestError {
 export type ErrorType = 'assertion' | 'timeout' | 'network' | 'system' | 'custom';
 
 export interface TestLog {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,16 +208,13 @@ export interface TestLog {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   level: LogLevel;
   message: string;
-  data: any;
 }
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
 export interface TestSuitePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,7 +236,6 @@ export interface TestSuitePerformance {
 }
 
 export interface TestCase {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,8 +247,6 @@ export interface TestCase {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TestCaseType;
   status: TestCaseStatus;
   description: string;
@@ -281,14 +256,12 @@ export interface TestCase {
   teardown: TestTeardown[];
   data: TestData[];
   performance: TestCasePerformance;
-  metadata: Record<string, any>;
 }
 
 export type TestCaseType = 'unit' | 'integration' | 'e2e' | 'performance' | 'api' | 'ui' | 'custom';
 export type TestCaseStatus = 'draft' | 'ready' | 'running' | 'completed' | 'failed' | 'skipped';
 
 export interface TestStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,8 +273,6 @@ export interface TestStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StepType;
   action: string;
   parameters: Record<string, any>;
@@ -314,7 +285,6 @@ export interface TestStep {
 export type StepType = 'action' | 'assertion' | 'wait' | 'input' | 'click' | 'navigate' | 'custom';
 
 export interface TestAssertion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -326,8 +296,6 @@ export interface TestAssertion {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssertionType;
   expression: string;
   expected: any;
@@ -341,7 +309,6 @@ export type AssertionType = 'equals' | 'not_equals' | 'contains' | 'not_contains
 export type AssertionOperator = '===' | '!==' | '>' | '<' | '>=' | '<=' | 'includes' | 'custom';
 
 export interface TestSetup {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -353,8 +320,6 @@ export interface TestSetup {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SetupType;
   action: string;
   parameters: Record<string, any>;
@@ -365,7 +330,6 @@ export interface TestSetup {
 export type SetupType = 'database' | 'api' | 'file' | 'environment' | 'custom';
 
 export interface TestTeardown {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -377,8 +341,6 @@ export interface TestTeardown {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TeardownType;
   action: string;
   parameters: Record<string, any>;
@@ -389,7 +351,6 @@ export interface TestTeardown {
 export type TeardownType = 'cleanup' | 'reset' | 'delete' | 'restore' | 'custom';
 
 export interface TestCasePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -410,7 +371,6 @@ export interface TestCasePerformance {
 }
 
 export interface TestRun {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,8 +382,6 @@ export interface TestRun {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TestRunType;
   status: TestRunStatus;
   testSuite: string;
@@ -432,14 +390,12 @@ export interface TestRun {
   execution: TestRunExecution;
   results: TestRunResults;
   performance: TestRunPerformance;
-  metadata: Record<string, any>;
 }
 
 export type TestRunType = 'manual' | 'scheduled' | 'triggered' | 'continuous' | 'custom';
 export type TestRunStatus = 'queued' | 'running' | 'completed' | 'failed' | 'cancelled';
 
 export interface TestRunConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -461,7 +417,6 @@ export interface TestRunConfiguration {
 }
 
 export interface TestRunExecution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +438,6 @@ export interface TestRunExecution {
 }
 
 export interface TestRunResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -506,7 +460,6 @@ export interface TestRunResults {
 }
 
 export interface TestCoverage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -526,7 +479,6 @@ export interface TestCoverage {
 }
 
 export interface TestRunPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -547,7 +499,6 @@ export interface TestRunPerformance {
 }
 
 export interface TestReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -559,15 +510,12 @@ export interface TestReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ReportType;
   status: ReportStatus;
   testRun: string;
   format: ReportFormat;
   content: ReportContent;
   generatedAt: number;
-  metadata: Record<string, any>;
 }
 
 export type ReportType = 'summary' | 'detailed' | 'coverage' | 'performance' | 'custom';
@@ -575,7 +523,6 @@ export type ReportStatus = 'generating' | 'completed' | 'failed';
 export type ReportFormat = 'html' | 'pdf' | 'json' | 'xml' | 'csv' | 'custom';
 
 export interface ReportContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -594,7 +541,6 @@ export interface ReportContent {
 }
 
 export interface ReportSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -616,7 +562,6 @@ export interface ReportSummary {
 }
 
 export interface ReportDetails {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -635,7 +580,6 @@ export interface ReportDetails {
 }
 
 export interface TestSuiteDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -647,8 +591,6 @@ export interface TestSuiteDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   status: TestSuiteStatus;
   duration: number;
   testCount: number;
@@ -657,7 +599,6 @@ export interface TestSuiteDetail {
 }
 
 export interface TestCaseDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -669,8 +610,6 @@ export interface TestCaseDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   status: TestStatus;
   duration: number;
   error: TestError | null;
@@ -678,7 +617,6 @@ export interface TestCaseDetail {
 }
 
 export interface TestStepDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -690,15 +628,12 @@ export interface TestStepDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   status: TestStatus;
   duration: number;
   error: TestError | null;
 }
 
 export interface ErrorDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -717,7 +652,6 @@ export interface ErrorDetail {
 }
 
 export interface PerformanceDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -737,7 +671,6 @@ export interface PerformanceDetail {
 }
 
 export interface ReportChart {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -751,14 +684,12 @@ export interface ReportChart {
   metadata?: Record<string, any>;
   type: ChartType;
   title: string;
-  data: any;
   configuration: Record<string, any>;
 }
 
 export type ChartType = 'line' | 'bar' | 'pie' | 'scatter' | 'custom';
 
 export interface ReportAttachment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -770,7 +701,6 @@ export interface ReportAttachment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: AttachmentType;
   path: string;
   size: number;
@@ -779,7 +709,6 @@ export interface ReportAttachment {
 export type AttachmentType = 'screenshot' | 'log' | 'video' | 'data' | 'custom';
 
 export interface TestEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -791,21 +720,17 @@ export interface TestEnvironment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EnvironmentType;
   status: EnvironmentStatus;
   configuration: EnvironmentConfiguration;
   resources: EnvironmentResource[];
   performance: EnvironmentPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EnvironmentType = 'local' | 'staging' | 'production' | 'cloud' | 'custom';
 export type EnvironmentStatus = 'available' | 'busy' | 'maintenance' | 'error';
 
 export interface EnvironmentConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -827,7 +752,6 @@ export interface EnvironmentConfiguration {
 }
 
 export interface EnvironmentResource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -840,7 +764,6 @@ export interface EnvironmentResource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ResourceType;
-  name: string;
   configuration: Record<string, any>;
   status: ResourceStatus;
 }
@@ -849,7 +772,6 @@ export type ResourceType = 'database' | 'api' | 'file' | 'network' | 'custom';
 export type ResourceStatus = 'available' | 'busy' | 'error';
 
 export interface EnvironmentPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -868,7 +790,6 @@ export interface EnvironmentPerformance {
 }
 
 export interface TestingSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -895,7 +816,6 @@ export interface TestingSystemPerformanceMetrics {
 }
 
 export interface TestingSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -917,7 +837,6 @@ export interface TestingSystemAnalytics {
 }
 
 export interface TestSuiteTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -936,7 +855,6 @@ export interface TestSuiteTypeDistribution {
 }
 
 export interface TestCaseTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -955,7 +873,6 @@ export interface TestCaseTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -967,7 +884,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   testSuites: number;
   testCases: number;
   testRuns: number;
@@ -978,7 +894,6 @@ export interface PerformanceTrend {
 }
 
 export interface TestingSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1001,7 +916,6 @@ export interface TestingSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1022,7 +936,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1042,7 +955,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1062,7 +974,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1075,13 +986,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface TestingSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

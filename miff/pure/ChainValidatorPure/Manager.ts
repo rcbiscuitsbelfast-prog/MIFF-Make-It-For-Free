@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface ChainValidatorConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface ChainValidatorConfig {
 }
 
 export interface ChainValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface ChainValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   status: ValidatorStatus;
   chains: Chain[];
@@ -64,14 +60,12 @@ export interface ChainValidator {
   policies: ValidationPolicy[];
   performance: ValidatorPerformance;
   analytics: ValidatorAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Chain {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,17 +77,13 @@ export interface Chain {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChainType;
   status: ChainStatus;
   blocks: ChainBlock[];
   validation: ChainValidation;
-  metadata: Record<string, any>;
 }
 
 export interface ChainBlock {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -105,17 +95,13 @@ export interface ChainBlock {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   index: number;
-  data: any;
   hash: string;
   previousHash: string;
   timestamp: Date;
-  metadata: Record<string, any>;
 }
 
 export interface ChainValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -131,11 +117,9 @@ export interface ChainValidation {
   errors: ValidationError[];
   warnings: ValidationWarning[];
   score: number; // 0-100
-  metadata: Record<string, any>;
 }
 
 export interface ValidationError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,16 +131,13 @@ export interface ValidationError {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ErrorType;
   severity: ErrorSeverity;
   message: string;
   blockId?: string;
-  metadata: Record<string, any>;
 }
 
 export interface ValidationWarning {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,15 +149,12 @@ export interface ValidationWarning {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: WarningType;
   message: string;
   blockId?: string;
-  metadata: Record<string, any>;
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -188,17 +166,13 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   enabled: boolean;
   conditions: RuleCondition[];
   actions: RuleAction[];
-  metadata: Record<string, any>;
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,15 +184,12 @@ export interface RuleCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   operator: ConditionOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -230,14 +201,11 @@ export interface RuleAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface ValidationPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,16 +217,12 @@ export interface ValidationPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   rules: string[]; // Rule IDs
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface ValidatorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,11 +238,9 @@ export interface ValidatorPerformance {
   validatedChains: number;
   averageValidationTime: number; // milliseconds
   successRate: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface ValidatorAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

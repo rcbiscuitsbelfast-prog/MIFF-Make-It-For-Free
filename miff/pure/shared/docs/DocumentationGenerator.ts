@@ -39,7 +39,6 @@ export enum DocumentationType {
 }
 
 export interface DocumentationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -74,7 +73,6 @@ export interface DocumentationConfig {
 }
 
 export interface ModuleDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,7 +84,6 @@ export interface ModuleDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   path: string;
   description: string;
   version: string;
@@ -102,7 +99,6 @@ export interface ModuleDocumentation {
 }
 
 export interface ExportDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,7 +110,6 @@ export interface ExportDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'class' | 'interface' | 'enum' | 'function' | 'type' | 'const';
   description: string;
   exported: boolean;
@@ -122,7 +117,6 @@ export interface ExportDocumentation {
 }
 
 export interface ClassDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,7 +128,6 @@ export interface ClassDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   extends?: string;
   implements: string[];
@@ -148,7 +141,6 @@ export interface ClassDocumentation {
 }
 
 export interface InterfaceDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -160,7 +152,6 @@ export interface InterfaceDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   extends: string[];
   properties: PropertyDocumentation[];
@@ -170,7 +161,6 @@ export interface InterfaceDocumentation {
 }
 
 export interface EnumDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,7 +172,6 @@ export interface EnumDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   values: EnumValueDocumentation[];
   numeric: boolean;
@@ -191,7 +180,6 @@ export interface EnumDocumentation {
 }
 
 export interface FunctionDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -203,7 +191,6 @@ export interface FunctionDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   parameters: ParameterDocumentation[];
   returnType: string;
@@ -219,7 +206,6 @@ export interface FunctionDocumentation {
 }
 
 export interface MethodDocumentation extends FunctionDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,7 +223,6 @@ export interface MethodDocumentation extends FunctionDocumentation {
 }
 
 export interface PropertyDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,7 +234,6 @@ export interface PropertyDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   type: string;
   optional: boolean;
@@ -261,7 +245,6 @@ export interface PropertyDocumentation {
 }
 
 export interface ConstructorDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,7 +263,6 @@ export interface ConstructorDocumentation {
 }
 
 export interface ParameterDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +274,6 @@ export interface ParameterDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   type: string;
   optional: boolean;
@@ -302,7 +283,6 @@ export interface ParameterDocumentation {
 }
 
 export interface GenericDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -314,14 +294,12 @@ export interface GenericDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   extends?: string;
   default?: string;
 }
 
 export interface IndexSignatureDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -339,7 +317,6 @@ export interface IndexSignatureDocumentation {
 }
 
 export interface EnumValueDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -351,13 +328,11 @@ export interface EnumValueDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: string | number;
   description: string;
 }
 
 export interface ExampleDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -378,7 +353,6 @@ export interface ExampleDocumentation {
 }
 
 export interface TestDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -390,7 +364,6 @@ export interface TestDocumentation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   code: string;
   expected: string;
@@ -398,7 +371,6 @@ export interface TestDocumentation {
 }
 
 export interface ChangelogEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -419,7 +391,6 @@ export interface ChangelogEntry {
 }
 
 export interface NavigationItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -439,7 +410,6 @@ export interface NavigationItem {
 }
 
 export interface SearchIndex {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

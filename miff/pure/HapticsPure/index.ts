@@ -55,7 +55,6 @@ export enum HapticTarget {
 }
 
 export interface HapticDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -67,8 +66,6 @@ export interface HapticDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HapticDeviceType;
   capabilities: HapticCapabilities;
   isConnected: boolean;
@@ -77,11 +74,9 @@ export interface HapticDevice {
   supportedPatterns: HapticPatternType[];
   maxAmplitude: number;
   maxFrequency: number;
-  metadata: Record<string, any>;
 }
 
 export interface HapticCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -105,7 +100,6 @@ export interface HapticCapabilities {
 }
 
 export interface HapticPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,8 +111,6 @@ export interface HapticPattern {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HapticPatternType;
   description: string;
   duration: number; // milliseconds
@@ -131,11 +123,9 @@ export interface HapticPattern {
   cooldown: number; // milliseconds
   reusable: boolean;
   tags: string[];
-  metadata: Record<string, any>;
 }
 
 export interface HapticSequenceItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,7 +146,6 @@ export interface HapticSequenceItem {
 }
 
 export interface HapticEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +157,6 @@ export interface HapticEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   patternId: string;
   instanceId: string;
   deviceId: string;
@@ -180,11 +168,9 @@ export interface HapticEffect {
   priority: HapticPriority;
   status: 'pending' | 'playing' | 'completed' | 'cancelled' | 'failed';
   progress: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface HapticEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,8 +182,6 @@ export interface HapticEnvironment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'game' | 'menu' | 'loading' | 'cutscene' | 'combat' | 'exploration' | 'custom';
   devices: string[];
   patterns: HapticPattern[];
@@ -207,7 +191,6 @@ export interface HapticEnvironment {
 }
 
 export interface HapticEnvironmentSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -232,7 +215,6 @@ export interface HapticEnvironmentSettings {
 }
 
 export interface HapticEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -244,9 +226,7 @@ export interface HapticEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'pattern' | 'sequence' | 'effect' | 'device' | 'environment' | 'system';
-  timestamp: number;
   source: string;
   target: string;
   data: Record<string, any>;
@@ -255,7 +235,6 @@ export interface HapticEvent {
 }
 
 export interface HapticGesture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -267,8 +246,6 @@ export interface HapticGesture {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'tap' | 'swipe' | 'pinch' | 'rotate' | 'long_press' | 'multi_touch' | 'custom';
   duration: number;
   intensity: number;
@@ -278,7 +255,6 @@ export interface HapticGesture {
 }
 
 export interface GestureRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -297,7 +273,6 @@ export interface GestureRequirement {
 }
 
 export interface HapticFeedback {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -317,7 +292,6 @@ export interface HapticFeedback {
 }
 
 export interface HapticProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -329,8 +303,6 @@ export interface HapticProfile {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   deviceType: HapticDeviceType;
   settings: HapticProfileSettings;
@@ -341,7 +313,6 @@ export interface HapticProfile {
 }
 
 export interface HapticProfileSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +337,6 @@ export interface HapticProfileSettings {
 }
 
 export interface HapticStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -388,12 +358,10 @@ export interface HapticStatistics {
   deviceUsage: Map<string, number>;
   patternUsage: Map<string, number>;
   environmentUsage: Map<string, number>;
-  errors: string[];
   performanceScore: number;
 }
 
 export interface HapticConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -415,7 +383,6 @@ export interface HapticConfiguration {
 }
 
 export interface HapticGlobalSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,7 +409,6 @@ export interface HapticGlobalSettings {
 }
 
 export interface HapticResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,16 +420,13 @@ export interface HapticResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   effectId: string;
   deviceId: string;
-  timestamp: number;
   success: boolean;
   error?: string;
   duration: number;
   amplitude: number;
   frequency: number;
-  metadata: Record<string, any>;
 }
 
 export class HapticEngine {
@@ -1296,7 +1259,6 @@ export class HapticEngine {
 
 // Supporting interfaces and types
 export interface PlayOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1316,7 +1278,6 @@ export interface PlayOptions {
 }
 
 export interface GestureInput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1333,11 +1294,9 @@ export interface GestureInput {
   duration: number;
   velocity: number;
   pressure: number;
-  metadata: Record<string, any>;
 }
 
 export interface TouchPoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1349,15 +1308,12 @@ export interface TouchPoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   x: number;
   y: number;
   pressure: number;
-  timestamp: number;
 }
 
 export interface HapticPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

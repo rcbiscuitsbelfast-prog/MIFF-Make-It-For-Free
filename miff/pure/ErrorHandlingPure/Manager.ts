@@ -11,7 +11,6 @@
  */
 
 export interface ErrorHandlingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface ErrorHandlingConfig {
 }
 
 export interface ErrorHandlingManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface ErrorHandlingManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ErrorHandlingManagerType;
   status: ErrorHandlingManagerStatus;
   errors: Error[];
@@ -67,16 +63,12 @@ export interface ErrorHandlingManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ErrorHandlingManagerType = 'system' | 'application' | 'network' | 'database' | 'custom';
 export type ErrorHandlingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Error {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Error {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ErrorType;
   severity: ErrorSeverity;
   status: ErrorStatus;
@@ -99,7 +89,6 @@ export interface Error {
   classification: ErrorClassification;
   recovery: ErrorRecovery;
   performance: ErrorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ErrorType = 'syntax' | 'runtime' | 'logic' | 'network' | 'database' | 'custom';
@@ -107,7 +96,6 @@ export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
 export type ErrorStatus = 'new' | 'acknowledged' | 'investigating' | 'resolved' | 'ignored';
 
 export interface ErrorContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +115,6 @@ export interface ErrorContext {
 }
 
 export interface ErrorSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +135,6 @@ export interface ErrorSource {
 }
 
 export interface ErrorEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +155,6 @@ export interface ErrorEnvironment {
 }
 
 export interface ErrorUser {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,15 +166,12 @@ export interface ErrorUser {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   email: string;
   role: string;
   permissions: string[];
 }
 
 export interface ErrorSession {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -201,7 +183,6 @@ export interface ErrorSession {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   startTime: number;
   duration: number;
   ipAddress: string;
@@ -210,7 +191,6 @@ export interface ErrorSession {
 }
 
 export interface ErrorClassification {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -232,7 +212,6 @@ export interface ErrorClassification {
 export type ErrorCategory = 'input' | 'processing' | 'output' | 'system' | 'custom';
 
 export interface ErrorRecovery {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,7 +234,6 @@ export interface ErrorRecovery {
 export type RecoveryStrategy = 'retry' | 'fallback' | 'ignore' | 'escalate' | 'custom';
 
 export interface RecoveryAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,14 +248,12 @@ export interface RecoveryAction {
   type: ActionType;
   parameters: Record<string, any>;
   success: boolean;
-  timestamp: number;
   duration: number;
 }
 
 export type ActionType = 'retry' | 'fallback' | 'notify' | 'log' | 'custom';
 
 export interface ErrorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -297,7 +273,6 @@ export interface ErrorPerformance {
 }
 
 export interface ErrorHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -309,21 +284,17 @@ export interface ErrorHandler {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HandlerType;
   status: HandlerStatus;
   configuration: HandlerConfiguration;
   rules: HandlerRule[];
   performance: HandlerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type HandlerType = 'catch' | 'finally' | 'global' | 'custom';
 export type HandlerStatus = 'active' | 'inactive' | 'error';
 
 export interface HandlerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -344,7 +315,6 @@ export interface HandlerConfiguration {
 }
 
 export interface HandlerFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -367,7 +337,6 @@ export type FilterType = 'error_type' | 'severity' | 'source' | 'custom';
 export type FilterOperator = 'equals' | 'not_equals' | 'contains' | 'starts_with' | 'custom';
 
 export interface HandlerRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -379,8 +348,6 @@ export interface HandlerRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -388,7 +355,6 @@ export interface HandlerRule {
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -411,7 +377,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +397,6 @@ export interface RuleAction {
 export type ActionSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface HandlerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -451,7 +415,6 @@ export interface HandlerPerformance {
 }
 
 export interface ErrorPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -463,21 +426,17 @@ export interface ErrorPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   status: PolicyStatus;
   rules: PolicyRule[];
   enforcement: PolicyEnforcement;
   performance: PolicyPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PolicyType = 'prevention' | 'detection' | 'response' | 'custom';
 export type PolicyStatus = 'active' | 'inactive' | 'draft';
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -489,8 +448,6 @@ export interface PolicyRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -498,7 +455,6 @@ export interface PolicyRule {
 }
 
 export interface PolicyEnforcement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -519,7 +475,6 @@ export interface PolicyEnforcement {
 export type EnforcementMode = 'strict' | 'permissive' | 'warning' | 'custom';
 
 export interface EscalationInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -538,7 +493,6 @@ export interface EscalationInfo {
 }
 
 export interface PolicyPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -557,7 +511,6 @@ export interface PolicyPerformance {
 }
 
 export interface ErrorReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -569,22 +522,17 @@ export interface ErrorReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ReportType;
   status: ReportStatus;
-  errors: string[];
   summary: ReportSummary;
   details: ReportDetails;
   generatedAt: number;
-  metadata: Record<string, any>;
 }
 
 export type ReportType = 'summary' | 'detailed' | 'trend' | 'custom';
 export type ReportStatus = 'generating' | 'completed' | 'failed';
 
 export interface ReportSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -605,7 +553,6 @@ export interface ReportSummary {
 }
 
 export interface TrendInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -626,7 +573,6 @@ export interface TrendInfo {
 export type TrendDirection = 'up' | 'down' | 'stable' | 'custom';
 
 export interface ReportDetails {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -645,7 +591,6 @@ export interface ReportDetails {
 }
 
 export interface ErrorDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -657,7 +602,6 @@ export interface ErrorDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ErrorType;
   severity: ErrorSeverity;
   count: number;
@@ -667,7 +611,6 @@ export interface ErrorDetail {
 }
 
 export interface HandlerDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -679,8 +622,6 @@ export interface HandlerDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HandlerType;
   handled: number;
   successRate: number;
@@ -688,7 +629,6 @@ export interface HandlerDetail {
 }
 
 export interface PolicyDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -700,8 +640,6 @@ export interface PolicyDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   evaluations: number;
   successRate: number;
@@ -709,7 +647,6 @@ export interface PolicyDetail {
 }
 
 export interface PerformanceDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -729,7 +666,6 @@ export interface PerformanceDetail {
 }
 
 export interface ErrorMonitor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -741,22 +677,18 @@ export interface ErrorMonitor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MonitorType;
   status: MonitorStatus;
   configuration: MonitorConfiguration;
   metrics: MonitorMetric[];
   alerts: MonitorAlert[];
   performance: MonitorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MonitorType = 'error_rate' | 'resolution_time' | 'error_pattern' | 'custom';
 export type MonitorStatus = 'active' | 'inactive' | 'error';
 
 export interface MonitorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -775,7 +707,6 @@ export interface MonitorConfiguration {
 }
 
 export interface MonitorFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -795,7 +726,6 @@ export interface MonitorFilter {
 }
 
 export interface MonitorMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -807,18 +737,15 @@ export interface MonitorMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: MetricType;
   value: number;
   unit: string;
-  timestamp: number;
   tags: Record<string, string>;
 }
 
 export type MetricType = 'counter' | 'gauge' | 'histogram' | 'custom';
 
 export interface MonitorAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -830,8 +757,6 @@ export interface MonitorAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: AlertCondition;
   severity: AlertSeverity;
   enabled: boolean;
@@ -839,7 +764,6 @@ export interface MonitorAlert {
 }
 
 export interface AlertCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -858,7 +782,6 @@ export interface AlertCondition {
 }
 
 export interface MonitorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -877,7 +800,6 @@ export interface MonitorPerformance {
 }
 
 export interface ErrorHandlingPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -906,7 +828,6 @@ export interface ErrorHandlingPerformanceMetrics {
 }
 
 export interface ErrorHandlingAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -927,7 +848,6 @@ export interface ErrorHandlingAnalytics {
 }
 
 export interface ErrorTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -946,7 +866,6 @@ export interface ErrorTypeDistribution {
 }
 
 export interface ErrorSeverityDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -965,7 +884,6 @@ export interface ErrorSeverityDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -977,7 +895,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   errors: number;
   handlers: number;
   resolutionTime: number;
@@ -987,7 +904,6 @@ export interface PerformanceTrend {
 }
 
 export interface ErrorHandlingReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1010,7 +926,6 @@ export interface ErrorHandlingReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1031,7 +946,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1051,7 +965,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1071,7 +984,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1084,13 +996,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ErrorHandlingOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

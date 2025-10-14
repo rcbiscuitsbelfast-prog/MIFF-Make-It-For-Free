@@ -12,7 +12,6 @@
  */
 
 export interface StatusEffectsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface StatusEffectsConfig {
 }
 
 export interface StatusEffectsManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface StatusEffectsManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StatusEffectsManagerType;
   status: StatusEffectsManagerStatus;
   effects: StatusEffect[];
@@ -67,16 +63,12 @@ export interface StatusEffectsManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type StatusEffectsManagerType = 'game' | 'simulation' | 'rpg' | 'strategy' | 'custom';
 export type StatusEffectsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface StatusEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface StatusEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   status: EffectStatus;
   properties: EffectProperties;
@@ -97,14 +87,12 @@ export interface StatusEffect {
   stacking: StackingSettings;
   application: ApplicationSettings;
   removal: RemovalSettings;
-  metadata: Record<string, any>;
 }
 
 export type EffectType = 'buff' | 'debuff' | 'dot' | 'hot' | 'shield' | 'custom';
 export type EffectStatus = 'active' | 'inactive' | 'expired' | 'removed' | 'error';
 
 export interface EffectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +117,6 @@ export interface EffectProperties {
 export type EffectCategory = 'damage' | 'healing' | 'defense' | 'offense' | 'utility' | 'custom';
 
 export interface AttributeModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -151,7 +138,6 @@ export interface AttributeModifier {
 export type ModifierOperation = 'add' | 'subtract' | 'multiply' | 'divide' | 'set' | 'custom';
 
 export interface EffectTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -163,7 +149,6 @@ export interface EffectTrigger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TriggerType;
   condition: TriggerCondition;
   action: TriggerAction;
@@ -174,7 +159,6 @@ export interface EffectTrigger {
 export type TriggerType = 'on_apply' | 'on_remove' | 'on_tick' | 'on_damage' | 'on_heal' | 'custom';
 
 export interface TriggerCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,7 +180,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface TriggerAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +200,6 @@ export interface TriggerAction {
 export type ActionType = 'damage' | 'heal' | 'modify' | 'apply_effect' | 'remove_effect' | 'custom';
 
 export interface EffectCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +211,6 @@ export interface EffectCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   parameters: Record<string, any>;
   required: boolean;
@@ -239,7 +220,6 @@ export interface EffectCondition {
 export type ConditionType = 'level' | 'class' | 'race' | 'item' | 'stat' | 'custom';
 
 export interface VisualEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -263,7 +243,6 @@ export interface VisualEffect {
 export type VisualEffectType = 'glow' | 'aura' | 'particle' | 'overlay' | 'screen' | 'custom';
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -282,7 +261,6 @@ export interface Color {
 }
 
 export interface AnimationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,7 +284,6 @@ export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'cu
 export type AnimationDirection = 'forward' | 'reverse' | 'alternate' | 'custom';
 
 export interface OverlaySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -328,7 +305,6 @@ export interface OverlaySettings {
 export type BlendMode = 'normal' | 'add' | 'multiply' | 'screen' | 'overlay' | 'custom';
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -346,7 +322,6 @@ export interface Position {
 }
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -368,7 +343,6 @@ export interface AudioEffect {
 export type AudioEffectType = 'sound' | 'music' | 'voice' | 'ambient' | 'custom';
 
 export interface SoundSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -389,7 +363,6 @@ export interface SoundSettings {
 }
 
 export interface MusicSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -409,7 +382,6 @@ export interface MusicSettings {
 }
 
 export interface VoiceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -429,7 +401,6 @@ export interface VoiceSettings {
 }
 
 export interface ParticleEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -452,7 +423,6 @@ export interface ParticleEffect {
 export type ParticleEffectType = 'fire' | 'ice' | 'lightning' | 'poison' | 'healing' | 'custom';
 
 export interface ParticleSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -471,7 +441,6 @@ export interface ParticleSystem {
 }
 
 export interface BurstSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +459,6 @@ export interface BurstSettings {
 }
 
 export interface EmissionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -512,7 +480,6 @@ export interface EmissionSettings {
 export type EmissionShape = 'point' | 'line' | 'circle' | 'sphere' | 'box' | 'custom';
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -530,7 +497,6 @@ export interface Vector3 {
 }
 
 export interface MovementSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -552,7 +518,6 @@ export interface MovementSettings {
 export type MovementType = 'linear' | 'curved' | 'spiral' | 'random' | 'custom';
 
 export interface AppearanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -573,7 +538,6 @@ export interface AppearanceSettings {
 }
 
 export interface DurationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -595,7 +559,6 @@ export interface DurationSettings {
 export type DurationType = 'permanent' | 'temporary' | 'until_removed' | 'custom';
 
 export interface StackingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -619,7 +582,6 @@ export type StackingType = 'additive' | 'multiplicative' | 'override' | 'custom'
 export type StackingInteraction = 'replace' | 'extend' | 'stack' | 'ignore' | 'custom';
 
 export interface ApplicationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -642,7 +604,6 @@ export type ApplicationTarget = 'self' | 'enemy' | 'ally' | 'all' | 'custom';
 export type ApplicationMethod = 'instant' | 'over_time' | 'on_hit' | 'on_kill' | 'custom';
 
 export interface ResistanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -663,7 +624,6 @@ export interface ResistanceSettings {
 export type ResistanceType = 'damage' | 'duration' | 'magnitude' | 'custom';
 
 export interface ImmunitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -682,7 +642,6 @@ export interface ImmunitySettings {
 }
 
 export interface RemovalSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -701,7 +660,6 @@ export interface RemovalSettings {
 }
 
 export interface RemovalMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -721,7 +679,6 @@ export interface RemovalMethod {
 export type RemovalMethodType = 'time' | 'damage' | 'heal' | 'item' | 'skill' | 'custom';
 
 export interface RemovalCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -740,7 +697,6 @@ export interface RemovalCondition {
 }
 
 export interface EffectTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -752,8 +708,6 @@ export interface EffectTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   category: EffectCategory;
   properties: EffectProperties;
@@ -761,11 +715,9 @@ export interface EffectTemplate {
   stacking: StackingSettings;
   application: ApplicationSettings;
   removal: RemovalSettings;
-  metadata: Record<string, any>;
 }
 
 export interface EffectInteraction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -777,8 +729,6 @@ export interface EffectInteraction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   effects: string[];
   type: InteractionType;
   result: InteractionResult;
@@ -789,7 +739,6 @@ export interface EffectInteraction {
 export type InteractionType = 'cancel' | 'modify' | 'combine' | 'replace' | 'custom';
 
 export interface InteractionResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -810,7 +759,6 @@ export interface InteractionResult {
 export type ResultType = 'new_effect' | 'modified_effect' | 'removed_effect' | 'custom';
 
 export interface EffectRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -822,8 +770,6 @@ export interface EffectRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -831,7 +777,6 @@ export interface EffectRule {
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -850,7 +795,6 @@ export interface RuleCondition {
 }
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -869,7 +813,6 @@ export interface RuleAction {
 }
 
 export interface StatusEffectsPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -894,7 +837,6 @@ export interface StatusEffectsPerformanceMetrics {
 }
 
 export interface StatusEffectsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -914,7 +856,6 @@ export interface StatusEffectsAnalytics {
 }
 
 export interface EffectTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -933,7 +874,6 @@ export interface EffectTypeDistribution {
 }
 
 export interface CategoryDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -952,7 +892,6 @@ export interface CategoryDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -964,7 +903,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   effects: number;
   active: number;
   templates: number;
@@ -974,7 +912,6 @@ export interface PerformanceTrend {
 }
 
 export interface StatusEffectsReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -997,7 +934,6 @@ export interface StatusEffectsReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1018,7 +954,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1038,7 +973,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1058,7 +992,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1071,13 +1004,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface StatusEffectsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -18,7 +18,6 @@ export type GamePhase = 'lobby' | 'role_assignment' | 'discussion' | 'voting' | 
 export type VoteType = 'skip' | 'accuse' | 'defend' | 'special';
 
 export interface GamePlayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,8 +29,6 @@ export interface GamePlayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   role: GameRole;
   isAlive: boolean;
   votes: number;
@@ -43,7 +40,6 @@ export interface GamePlayer {
 }
 
 export interface GameVote {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,11 +55,9 @@ export interface GameVote {
   targetId: string;
   voteType: VoteType;
   reason?: string;
-  timestamp: number;
 }
 
 export interface DiscussionRound {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -75,7 +69,6 @@ export interface DiscussionRound {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   phase: GamePhase;
   startTime: number;
   endTime: number;
@@ -84,7 +77,6 @@ export interface DiscussionRound {
 }
 
 export interface GameMessage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -98,12 +90,10 @@ export interface GameMessage {
   metadata?: Record<string, any>;
   playerId: string;
   message: string;
-  timestamp: number;
   messageType: 'normal' | 'whisper' | 'system' | 'emergency';
 }
 
 export interface VotingResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,7 +112,6 @@ export interface VotingResults {
 }
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

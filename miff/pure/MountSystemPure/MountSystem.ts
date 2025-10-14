@@ -28,7 +28,6 @@ export enum MountAttribute {
 }
 
 export interface MountStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,7 +51,6 @@ export interface MountStats {
 }
 
 export interface MountEquipment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -72,7 +70,6 @@ export interface MountEquipment {
 }
 
 export interface MountSkills {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,7 +87,6 @@ export interface MountSkills {
 }
 
 export interface MountInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -102,8 +98,6 @@ export interface MountInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MountType;
   rarity: MountRarity;
   species: string;
@@ -129,7 +123,6 @@ export interface MountInstance {
 }
 
 export interface MountState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,8 +138,6 @@ export interface MountState {
   mounted: Record<string, string>; // rider -> mount
   market: {
     availableMounts: Array<{
-      id: string;
-      name: string;
       type: MountType;
       rarity: MountRarity;
       price: number;
@@ -162,7 +153,6 @@ export interface MountState {
 }
 
 export interface MountEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,7 +173,6 @@ export interface MountEvent {
 }
 
 export interface MountSystemResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

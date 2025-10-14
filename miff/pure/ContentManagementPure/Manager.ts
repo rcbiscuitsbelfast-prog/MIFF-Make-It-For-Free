@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ContentManagementConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface ContentManagementConfig {
 }
 
 export interface ContentManagement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface ContentManagement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   contents: Content[];
@@ -64,14 +60,12 @@ export interface ContentManagement {
   tags: ContentTag[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Content {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,8 +77,6 @@ export interface Content {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ContentType;
   status: ContentStatus;
   category: string; // Category ID
@@ -95,11 +87,9 @@ export interface Content {
   created: Date;
   modified: Date;
   published?: Date;
-  metadata: Record<string, any>;
 }
 
 export interface ContentData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,11 +106,9 @@ export interface ContentData {
   body: string;
   media: ContentMedia[];
   properties: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface ContentMedia {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,7 +120,6 @@ export interface ContentMedia {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: MediaType;
   url: string;
   alt: string;
@@ -140,11 +127,9 @@ export interface ContentMedia {
   size: number; // bytes
   width?: number;
   height?: number;
-  metadata: Record<string, any>;
 }
 
 export interface ContentCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,17 +141,13 @@ export interface ContentCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   parent?: string; // Parent category ID
   children: string[]; // Child category IDs
   contents: string[]; // Content IDs
-  metadata: Record<string, any>;
 }
 
 export interface ContentTag {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,16 +159,12 @@ export interface ContentTag {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   color: string;
   contents: string[]; // Content IDs
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,11 +182,9 @@ export interface SystemPerformance {
   averageSearchTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

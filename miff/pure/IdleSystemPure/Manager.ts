@@ -12,7 +12,6 @@
  */
 
 export interface IdleSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface IdleSystemConfig {
 }
 
 export interface IdleSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface IdleSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: IdleSystemManagerType;
   status: IdleSystemManagerStatus;
   sessions: IdleSession[];
@@ -68,16 +64,12 @@ export interface IdleSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type IdleSystemManagerType = 'desktop' | 'mobile' | 'server' | 'embedded' | 'custom';
 export type IdleSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface IdleSession {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,7 +81,6 @@ export interface IdleSession {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   userId: string;
   startTime: number;
   endTime: number | null;
@@ -99,14 +90,12 @@ export interface IdleSession {
   activities: string[];
   idlePeriods: IdlePeriod[];
   performance: SessionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SessionType = 'user' | 'system' | 'background' | 'custom';
 export type SessionStatus = 'active' | 'idle' | 'suspended' | 'terminated';
 
 export interface IdlePeriod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,7 +119,6 @@ export type IdleType = 'user' | 'system' | 'power' | 'network' | 'custom';
 export type IdleReason = 'no_input' | 'low_activity' | 'power_save' | 'network_idle' | 'custom';
 
 export interface IdleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -143,7 +131,6 @@ export interface IdleAction {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ActionType;
-  timestamp: number;
   parameters: Record<string, any>;
   success: boolean;
 }
@@ -151,7 +138,6 @@ export interface IdleAction {
 export type ActionType = 'suspend' | 'hibernate' | 'power_off' | 'network_disconnect' | 'custom';
 
 export interface SessionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +158,6 @@ export interface SessionPerformance {
 }
 
 export interface Activity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,8 +169,6 @@ export interface Activity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ActivityType;
   status: ActivityStatus;
   startTime: number;
@@ -193,7 +176,6 @@ export interface Activity {
   duration: number;
   intensity: ActivityIntensity;
   resources: ResourceUsage;
-  metadata: Record<string, any>;
 }
 
 export type ActivityType = 'user_input' | 'system_process' | 'network_activity' | 'file_operation' | 'custom';
@@ -201,7 +183,6 @@ export type ActivityStatus = 'active' | 'paused' | 'completed' | 'cancelled';
 export type ActivityIntensity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface ResourceUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -221,7 +202,6 @@ export interface ResourceUsage {
 }
 
 export interface IdlePolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,20 +213,16 @@ export interface IdlePolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   enabled: boolean;
   conditions: PolicyCondition[];
   actions: PolicyAction[];
   priority: number;
-  metadata: Record<string, any>;
 }
 
 export type PolicyType = 'power' | 'performance' | 'security' | 'custom';
 
 export interface PolicyCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,7 +245,6 @@ export type ConditionType = 'idle_time' | 'cpu_usage' | 'memory_usage' | 'power_
 export type ConditionOperator = 'equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface PolicyAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -288,7 +263,6 @@ export interface PolicyAction {
 }
 
 export interface IdleMonitor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,21 +274,17 @@ export interface IdleMonitor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MonitorType;
   status: MonitorStatus;
   configuration: MonitorConfiguration;
   metrics: MonitorMetrics;
   alerts: MonitorAlert[];
-  metadata: Record<string, any>;
 }
 
 export type MonitorType = 'input' | 'process' | 'network' | 'power' | 'custom';
 export type MonitorStatus = 'active' | 'inactive' | 'error';
 
 export interface MonitorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -334,7 +304,6 @@ export interface MonitorConfiguration {
 }
 
 export interface MonitorFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +324,6 @@ export interface MonitorFilter {
 export type FilterType = 'process' | 'user' | 'time' | 'resource' | 'custom';
 
 export interface MonitorMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -378,7 +346,6 @@ export interface MonitorMetrics {
 export type TrendDirection = 'increasing' | 'decreasing' | 'stable' | 'volatile';
 
 export interface MonitorAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -390,10 +357,8 @@ export interface MonitorAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AlertType;
   message: string;
-  timestamp: number;
   severity: AlertSeverity;
   acknowledged: boolean;
   resolved: boolean;
@@ -403,7 +368,6 @@ export type AlertType = 'threshold_exceeded' | 'anomaly_detected' | 'system_erro
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface PowerSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -428,7 +392,6 @@ export interface PowerSettings {
 export type PowerMode = 'performance' | 'balanced' | 'power_saver' | 'custom';
 
 export interface IdleSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,7 +417,6 @@ export interface IdleSystemPerformanceMetrics {
 }
 
 export interface IdleSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -476,7 +438,6 @@ export interface IdleSystemAnalytics {
 }
 
 export interface SessionTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,7 +456,6 @@ export interface SessionTypeDistribution {
 }
 
 export interface ActivityTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -514,7 +474,6 @@ export interface ActivityTypeDistribution {
 }
 
 export interface IdlePatternAnalysis {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -534,7 +493,6 @@ export interface IdlePatternAnalysis {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -546,7 +504,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   sessions: number;
   activities: number;
   idleTime: number;
@@ -556,7 +513,6 @@ export interface PerformanceTrend {
 }
 
 export interface IdleSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -579,7 +535,6 @@ export interface IdleSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -600,7 +555,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -620,7 +574,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -640,7 +593,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,13 +605,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface IdleSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

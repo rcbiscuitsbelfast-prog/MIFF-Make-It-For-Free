@@ -12,7 +12,6 @@
  */
 
 export interface LootTablesConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface LootTablesConfig {
 }
 
 export interface LootTablesManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface LootTablesManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LootTablesManagerType;
   status: LootTablesManagerStatus;
   lootTables: LootTable[];
@@ -65,16 +61,12 @@ export interface LootTablesManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type LootTablesManagerType = 'basic' | 'advanced' | 'master' | 'custom';
 export type LootTablesManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface LootTable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,20 +78,16 @@ export interface LootTable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: LootTableCategory;
   items: LootTableItem[];
   conditions: LootCondition[];
   dropRates: DropRate[];
-  metadata: Record<string, any>;
 }
 
 export type LootTableCategory = 'monster' | 'chest' | 'quest' | 'event' | 'boss' | 'custom';
 
 export interface LootTableItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,13 +105,11 @@ export interface LootTableItem {
   maxQuantity: number;
   rarity: ItemRarity;
   conditions: ItemCondition[];
-  metadata: Record<string, any>;
 }
 
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface ItemCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +130,6 @@ export type ConditionType = 'level' | 'class' | 'faction' | 'time' | 'weather' |
 export type ConditionOperator = 'equals' | 'not-equals' | 'greater' | 'less' | 'greater-equals' | 'less-equals' | 'contains';
 
 export interface LootCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,16 +141,13 @@ export interface LootCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   value: any;
   operator: ConditionOperator;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface DropRate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +166,6 @@ export interface DropRate {
 }
 
 export interface DropRateModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,7 +185,6 @@ export interface DropRateModifier {
 export type ModifierType = 'additive' | 'multiplicative' | 'exponential';
 
 export interface LootItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -216,8 +196,6 @@ export interface LootItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: ItemType;
   rarity: ItemRarity;
@@ -226,13 +204,11 @@ export interface LootItem {
   stackable: boolean;
   maxStack: number;
   properties: ItemProperties;
-  metadata: Record<string, any>;
 }
 
 export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'currency' | 'misc';
 
 export interface ItemProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,7 +227,6 @@ export interface ItemProperties {
 }
 
 export interface Enchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -263,14 +238,11 @@ export interface Enchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   effect: string;
 }
 
 export interface ItemStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -290,7 +262,6 @@ export interface ItemStats {
 }
 
 export interface LootDrop {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -302,17 +273,13 @@ export interface LootDrop {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   lootTableId: string;
   playerId: string;
-  timestamp: number;
   items: DroppedItem[];
   totalValue: number;
-  metadata: Record<string, any>;
 }
 
 export interface DroppedItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -328,11 +295,9 @@ export interface DroppedItem {
   quantity: number;
   rarity: ItemRarity;
   value: number;
-  metadata: Record<string, any>;
 }
 
 export interface LootTablesPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +320,6 @@ export interface LootTablesPerformanceMetrics {
 }
 
 export interface LootTablesAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -374,7 +338,6 @@ export interface LootTablesAnalytics {
 }
 
 export interface ItemDropStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,14 +350,12 @@ export interface ItemDropStats {
   updatedAt?: number;
   metadata?: Record<string, any>;
   itemId: string;
-  name: string;
   dropCount: number;
   totalQuantity: number;
   averageValue: number;
 }
 
 export interface RarityDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -412,7 +373,6 @@ export interface RarityDistribution {
 }
 
 export interface ValueDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -430,7 +390,6 @@ export interface ValueDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,14 +401,12 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   drops: number;
   averageValue: number;
   dropRate: number;
 }
 
 export interface LootTablesReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -472,7 +429,6 @@ export interface LootTablesReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -493,7 +449,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +468,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -533,7 +487,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -546,13 +499,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface LootTablesOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

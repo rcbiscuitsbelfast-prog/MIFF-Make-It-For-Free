@@ -12,7 +12,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface DialogueNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -24,7 +23,6 @@ export interface DialogueNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   text: string;
   speaker: string;
   emotion?: 'happy' | 'sad' | 'angry' | 'neutral' | 'excited' | 'worried';
@@ -35,7 +33,6 @@ export interface DialogueNode {
 }
 
 export interface DialogueResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +44,6 @@ export interface DialogueResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   text: string;
   nextNodeId?: string;
   conditions?: DialogueCondition[];
@@ -56,7 +52,6 @@ export interface DialogueResponse {
 }
 
 export interface DialogueCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -76,7 +71,6 @@ export interface DialogueCondition {
 }
 
 export interface DialogueAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -95,7 +89,6 @@ export interface DialogueAction {
 }
 
 export interface Character {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -107,8 +100,6 @@ export interface Character {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   personality: PersonalityTraits;
   relationships: Map<string, number>; // characterId -> relationship value (-100 to 100)
   dialogueHistory: string[];
@@ -118,7 +109,6 @@ export interface Character {
 }
 
 export interface PersonalityTraits {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -141,7 +131,6 @@ export interface PersonalityTraits {
 }
 
 export interface VoiceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +151,6 @@ export interface VoiceSettings {
 }
 
 export interface DialogueContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,7 +175,6 @@ export interface DialogueContext {
 }
 
 export interface DialogueSession {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +186,6 @@ export interface DialogueSession {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   participants: string[];
   currentNodeId?: string;
   context: DialogueContext;

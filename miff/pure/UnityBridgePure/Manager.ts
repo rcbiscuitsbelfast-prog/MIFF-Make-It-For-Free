@@ -10,7 +10,6 @@
  */
 
 export interface UnityBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface UnityBridgeConfig {
 }
 
 export interface UnityBridgeManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface UnityBridgeManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: UnityBridgeManagerType;
   status: UnityBridgeManagerStatus;
   bridges: UnityBridge[];
@@ -64,16 +60,12 @@ export interface UnityBridgeManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type UnityBridgeManagerType = 'editor' | 'runtime' | 'build' | 'custom';
 export type UnityBridgeManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface UnityBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +77,6 @@ export interface UnityBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BridgeType;
   status: BridgeStatus;
   configuration: BridgeConfiguration;
@@ -94,14 +84,12 @@ export interface UnityBridge {
   scenes: string[];
   objects: string[];
   performance: BridgePerformance;
-  metadata: Record<string, any>;
 }
 
 export type BridgeType = 'http' | 'websocket' | 'tcp' | 'custom';
 export type BridgeStatus = 'active' | 'inactive' | 'error';
 
 export interface BridgeConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface BridgeConfiguration {
 export type Protocol = 'http' | 'https' | 'ws' | 'wss' | 'tcp' | 'custom';
 
 export interface AuthConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +133,6 @@ export interface AuthConfig {
 export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface Credentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -165,7 +151,6 @@ export interface Credentials {
 }
 
 export interface SSLConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +170,6 @@ export interface SSLConfig {
 }
 
 export interface BridgePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +189,6 @@ export interface BridgePerformance {
 }
 
 export interface BridgeConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,21 +200,17 @@ export interface BridgeConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConnectionType;
   status: ConnectionStatus;
   bridge: string;
   configuration: ConnectionConfiguration;
   performance: ConnectionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ConnectionType = 'persistent' | 'temporary' | 'pooled' | 'custom';
 export type ConnectionStatus = 'connected' | 'disconnected' | 'connecting' | 'error';
 
 export interface ConnectionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -250,7 +229,6 @@ export interface ConnectionConfiguration {
 }
 
 export interface ConnectionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,7 +247,6 @@ export interface ConnectionPerformance {
 }
 
 export interface UnityScene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,22 +258,18 @@ export interface UnityScene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SceneType;
   status: SceneStatus;
   bridge: string;
   objects: string[];
   configuration: SceneConfiguration;
   performance: ScenePerformance;
-  metadata: Record<string, any>;
 }
 
 export type SceneType = 'main' | 'ui' | 'background' | 'custom';
 export type SceneStatus = 'loading' | 'ready' | 'active' | 'error';
 
 export interface SceneConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +289,6 @@ export interface SceneConfiguration {
 }
 
 export interface PhysicsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,7 +307,6 @@ export interface PhysicsConfig {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +326,6 @@ export interface Vector3 {
 export type PhysicsSolver = 'default' | 'box2d' | 'bullet' | 'custom';
 
 export interface RenderingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -378,7 +348,6 @@ export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra';
 export type LightingQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface ShadowConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -397,7 +366,6 @@ export interface ShadowConfig {
 }
 
 export interface LightingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -416,7 +384,6 @@ export interface LightingConfig {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -435,7 +402,6 @@ export interface Color {
 }
 
 export interface DirectionalLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,7 +420,6 @@ export interface DirectionalLight {
 }
 
 export interface PointLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -474,7 +439,6 @@ export interface PointLight {
 }
 
 export interface ScenePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -494,7 +458,6 @@ export interface ScenePerformance {
 }
 
 export interface UnityObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -506,8 +469,6 @@ export interface UnityObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectType;
   status: ObjectStatus;
   scene: string;
@@ -515,14 +476,12 @@ export interface UnityObject {
   properties: ObjectProperties;
   components: ObjectComponent[];
   performance: ObjectPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ObjectType = 'gameobject' | 'component' | 'prefab' | 'custom';
 export type ObjectStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface ObjectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +503,6 @@ export interface ObjectProperties {
 }
 
 export interface ObjectComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -556,8 +514,6 @@ export interface ObjectComponent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ComponentType;
   enabled: boolean;
   properties: ComponentProperties;
@@ -566,7 +522,6 @@ export interface ObjectComponent {
 export type ComponentType = 'transform' | 'renderer' | 'collider' | 'custom';
 
 export interface ComponentProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -584,7 +539,6 @@ export interface ComponentProperties {
 }
 
 export interface ObjectPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -603,7 +557,6 @@ export interface ObjectPerformance {
 }
 
 export interface UnityBridgePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -629,7 +582,6 @@ export interface UnityBridgePerformanceMetrics {
 }
 
 export interface UnityBridgeAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -650,7 +602,6 @@ export interface UnityBridgeAnalytics {
 }
 
 export interface BridgeTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -669,7 +620,6 @@ export interface BridgeTypeDistribution {
 }
 
 export interface SceneTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -688,7 +638,6 @@ export interface SceneTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -700,7 +649,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   bridges: number;
   connections: number;
   responseTime: number;
@@ -710,7 +658,6 @@ export interface PerformanceTrend {
 }
 
 export interface UnityBridgeReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -733,7 +680,6 @@ export interface UnityBridgeReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -754,7 +700,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -774,7 +719,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -794,7 +738,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -807,13 +750,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface UnityBridgeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

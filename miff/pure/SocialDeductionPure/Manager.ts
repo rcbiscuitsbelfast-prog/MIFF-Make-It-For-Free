@@ -38,7 +38,6 @@ export enum GameRole {
 }
 
 export interface GamePlayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +49,6 @@ export interface GamePlayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   role: GameRole;
   isAlive: boolean;
   isVoted: boolean;
@@ -64,7 +61,6 @@ export interface GamePlayer {
 }
 
 export interface GameVote {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,7 +80,6 @@ export interface GameVote {
 }
 
 export interface DiscussionRound {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -96,7 +91,6 @@ export interface DiscussionRound {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   phase: GamePhase;
   duration: number;
   startTime: Date;
@@ -107,7 +101,6 @@ export interface DiscussionRound {
 }
 
 export interface GameMessage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,7 +112,6 @@ export interface GameMessage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   playerId: string;
   content: string;
   timestamp: Date;
@@ -129,7 +121,6 @@ export interface GameMessage {
 }
 
 export interface VotingResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +141,6 @@ export interface VotingResults {
 }
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +152,6 @@ export interface AbilityEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   playerId: string;
   targetId?: string;
   ability: string;
@@ -173,7 +162,6 @@ export interface AbilityEffect {
 }
 
 export interface SocialDeductionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,7 +184,6 @@ export interface SocialDeductionConfig {
 }
 
 export interface GameStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -218,7 +205,6 @@ export interface GameStats {
 }
 
 export interface SocialOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,7 +219,6 @@ export interface SocialOutput {
   success: boolean;
   message: string;
   data?: any;
-  timestamp: number;
 }
 
 // Local minimal stub to avoid missing dependency issues

@@ -20,7 +20,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AvatarRendererWebConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface AvatarRendererWebConfig {
 }
 
 export interface AvatarRendererWeb {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,8 +58,6 @@ export interface AvatarRendererWeb {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RendererType;
   status: RendererStatus;
   avatars: WebAvatar[];
@@ -70,14 +66,12 @@ export interface AvatarRendererWeb {
   lodSystem: LODSystem;
   performance: RendererPerformance;
   analytics: RendererAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface WebAvatar {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +83,6 @@ export interface WebAvatar {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AvatarType;
   status: AvatarStatus;
   mesh: WebMesh;
@@ -98,11 +90,9 @@ export interface WebAvatar {
   animations: WebAnimation[];
   lodLevels: LODLevel[];
   transform: Transform3D;
-  metadata: Record<string, any>;
 }
 
 export interface WebMaterial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,17 +104,13 @@ export interface WebMaterial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MaterialType;
   shader: string;
   properties: MaterialProperties;
   textures: WebTexture[];
-  metadata: Record<string, any>;
 }
 
 export interface WebShader {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -136,17 +122,13 @@ export interface WebShader {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ShaderType;
   vertexCode: string;
   fragmentCode: string;
   uniforms: ShaderUniform[];
-  metadata: Record<string, any>;
 }
 
 export interface WebMesh {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,18 +140,14 @@ export interface WebMesh {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   vertices: number[];
   normals: number[];
   uvs: number[];
   indices: number[];
   submeshes: Submesh[];
-  metadata: Record<string, any>;
 }
 
 export interface WebAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,16 +159,12 @@ export interface WebAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   duration: number; // seconds
   tracks: AnimationTrack[];
-  metadata: Record<string, any>;
 }
 
 export interface LODSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,7 +184,6 @@ export interface LODSystem {
 }
 
 export interface LODLevel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -222,17 +195,14 @@ export interface LODLevel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   level: number;
   distance: number;
   mesh: string;
   materials: string[];
   quality: QualityLevel;
-  metadata: Record<string, any>;
 }
 
 export interface WebTexture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -244,17 +214,13 @@ export interface WebTexture {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TextureType;
   path: string;
   size: { width: number; height: number };
   format: TextureFormat;
-  metadata: Record<string, any>;
 }
 
 export interface Submesh {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,14 +232,11 @@ export interface Submesh {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   material: string;
   indices: number[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -285,15 +248,12 @@ export interface AnimationTrack {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TrackType;
   property: string;
   keyframes: Keyframe[];
-  metadata: Record<string, any>;
 }
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -308,11 +268,9 @@ export interface Keyframe {
   time: number; // seconds
   value: any;
   interpolation: InterpolationType;
-  metadata: Record<string, any>;
 }
 
 export interface MaterialProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -328,7 +286,6 @@ export interface MaterialProperties {
 }
 
 export interface ShaderUniform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -340,14 +297,11 @@ export interface ShaderUniform {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: UniformType;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface Transform3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -365,7 +319,6 @@ export interface Transform3D {
 }
 
 export interface RendererPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -386,7 +339,6 @@ export interface RendererPerformance {
 }
 
 export interface RendererAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

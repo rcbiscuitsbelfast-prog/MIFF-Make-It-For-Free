@@ -18,7 +18,6 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface ProfilerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface ProfilerConfig {
 }
 
 export interface AlertThresholds {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -70,7 +68,6 @@ export interface AlertThresholds {
 }
 
 export interface ProfilerStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,11 +85,9 @@ export interface ProfilerStats {
   gpu: GPUStats;
   network: NetworkStats;
   custom: Map<string, CustomMetric>;
-  timestamp: number;
 }
 
 export interface FrameRateStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,7 +109,6 @@ export interface FrameRateStats {
 }
 
 export interface MemoryStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -136,7 +130,6 @@ export interface MemoryStats {
 }
 
 export interface MemoryHeapStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,7 +151,6 @@ export interface MemoryHeapStats {
 }
 
 export interface MemoryNativeStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,7 +170,6 @@ export interface MemoryNativeStats {
 }
 
 export interface MemoryGPUStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,7 +189,6 @@ export interface MemoryGPUStats {
 }
 
 export interface CPUStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +209,6 @@ export interface CPUStats {
 }
 
 export interface ProcessStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -232,14 +221,12 @@ export interface ProcessStats {
   updatedAt?: number;
   metadata?: Record<string, any>;
   pid: number;
-  name: string;
   cpuUsage: number;
   memoryUsage: number;
   priority: number;
 }
 
 export interface GPUStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -261,7 +248,6 @@ export interface GPUStats {
 }
 
 export interface NetworkStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -284,7 +270,6 @@ export interface NetworkStats {
 }
 
 export interface CustomMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -296,15 +281,12 @@ export interface CustomMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: number;
   unit: string;
-  timestamp: number;
   tags: Map<string, string>;
 }
 
 export interface ProfilerAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,18 +298,15 @@ export interface ProfilerAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
   threshold: number;
   currentValue: number;
-  timestamp: number;
   resolved: boolean;
 }
 
 export interface ProfilerReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -339,7 +318,6 @@ export interface ProfilerReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   startTime: number;

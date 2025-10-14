@@ -14,7 +14,6 @@
  */
 
 export interface DeploymentConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface DeploymentConfig {
 }
 
 export interface DeploymentManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface DeploymentManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeploymentManagerType;
   status: DeploymentManagerStatus;
   applications: Application[];
@@ -74,16 +70,12 @@ export interface DeploymentManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DeploymentManagerType = 'kubernetes' | 'docker' | 'serverless' | 'vm' | 'hybrid';
 export type DeploymentManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Application {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -95,8 +87,6 @@ export interface Application {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   type: ApplicationType;
   status: ApplicationStatus;
@@ -107,16 +97,12 @@ export interface Application {
   resources: ResourceRequirements;
   healthCheck: HealthCheckConfig;
   scaling: ScalingConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ApplicationType = 'web' | 'api' | 'database' | 'cache' | 'queue' | 'worker';
 export type ApplicationStatus = 'running' | 'stopped' | 'deploying' | 'failed' | 'scaling';
 
 export interface Port {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +114,6 @@ export interface Port {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   port: number;
   targetPort: number;
   protocol: 'TCP' | 'UDP';
@@ -136,7 +121,6 @@ export interface Port {
 }
 
 export interface ResourceRequirements {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -154,7 +138,6 @@ export interface ResourceRequirements {
 }
 
 export interface ResourceSpec {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +155,6 @@ export interface ResourceSpec {
 }
 
 export interface HealthCheckConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +176,6 @@ export interface HealthCheckConfig {
 }
 
 export interface ScalingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -216,7 +197,6 @@ export interface ScalingConfig {
 }
 
 export interface Environment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -228,8 +208,6 @@ export interface Environment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EnvironmentType;
   status: EnvironmentStatus;
   region: string;
@@ -237,16 +215,12 @@ export interface Environment {
   cluster: string;
   namespace: string;
   config: EnvironmentConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type EnvironmentType = 'development' | 'staging' | 'production' | 'testing';
 export type EnvironmentStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface EnvironmentConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,7 +240,6 @@ export interface EnvironmentConfig {
 }
 
 export interface NetworkingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -284,7 +257,6 @@ export interface NetworkingConfig {
 }
 
 export interface IngressConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +275,6 @@ export interface IngressConfig {
 }
 
 export interface EgressConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -321,7 +292,6 @@ export interface EgressConfig {
 }
 
 export interface DNSConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -339,7 +309,6 @@ export interface DNSConfig {
 }
 
 export interface TLSConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +326,6 @@ export interface TLSConfig {
 }
 
 export interface SecurityConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +343,6 @@ export interface SecurityConfig {
 }
 
 export interface SecurityPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,13 +354,11 @@ export interface SecurityPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'network' | 'pod' | 'ingress';
   rules: PolicyRule[];
 }
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -413,7 +378,6 @@ export interface PolicyRule {
 }
 
 export interface RBACConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -431,7 +395,6 @@ export interface RBACConfig {
 }
 
 export interface Role {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -443,12 +406,10 @@ export interface Role {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   permissions: Permission[];
 }
 
 export interface Permission {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -465,7 +426,6 @@ export interface Permission {
 }
 
 export interface RoleBinding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -482,7 +442,6 @@ export interface RoleBinding {
 }
 
 export interface Deployment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -494,7 +453,6 @@ export interface Deployment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   applicationId: string;
   environmentId: string;
   version: string;
@@ -502,16 +460,12 @@ export interface Deployment {
   strategy: DeploymentStrategy;
   replicas: number;
   progress: DeploymentProgress;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DeploymentStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 export type DeploymentStrategy = 'rolling' | 'recreate' | 'blue-green' | 'canary';
 
 export interface DeploymentProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -530,7 +484,6 @@ export interface DeploymentProgress {
 }
 
 export interface Rollback {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -542,20 +495,16 @@ export interface Rollback {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   deploymentId: string;
   fromVersion: string;
   toVersion: string;
   status: RollbackStatus;
   reason: string;
-  metadata: Record<string, any>;
-  createdAt: number;
 }
 
 export type RollbackStatus = 'pending' | 'running' | 'completed' | 'failed';
 
 export interface HealthCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -567,21 +516,18 @@ export interface HealthCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   applicationId: string;
   type: HealthCheckType;
   status: HealthStatus;
   lastCheck: number;
   responseTime: number;
   message: string;
-  metadata: Record<string, any>;
 }
 
 export type HealthCheckType = 'http' | 'tcp' | 'grpc' | 'exec';
 export type HealthStatus = 'healthy' | 'unhealthy' | 'unknown';
 
 export interface LoadBalancer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -593,14 +539,11 @@ export interface LoadBalancer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LoadBalancerType;
   status: LoadBalancerStatus;
   applications: string[];
   algorithm: LoadBalancingAlgorithm;
   healthCheck: HealthCheckConfig;
-  metadata: Record<string, any>;
 }
 
 export type LoadBalancerType = 'internal' | 'external' | 'gateway';
@@ -608,7 +551,6 @@ export type LoadBalancerStatus = 'active' | 'inactive' | 'error';
 export type LoadBalancingAlgorithm = 'round-robin' | 'least-connections' | 'ip-hash' | 'weighted';
 
 export interface Scaler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -620,21 +562,17 @@ export interface Scaler {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScalerType;
   status: ScalerStatus;
   applicationId: string;
   config: ScalingConfig;
   metrics: ScalingMetrics;
-  metadata: Record<string, any>;
 }
 
 export type ScalerType = 'horizontal' | 'vertical' | 'cluster';
 export type ScalerStatus = 'active' | 'inactive' | 'error';
 
 export interface ScalingMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +591,6 @@ export interface ScalingMetrics {
 }
 
 export interface DeploymentPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -678,7 +615,6 @@ export interface DeploymentPerformanceMetrics {
 }
 
 export interface DeploymentAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -699,7 +635,6 @@ export interface DeploymentAnalytics {
 }
 
 export interface ApplicationDeployment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -712,13 +647,11 @@ export interface ApplicationDeployment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   applicationId: string;
-  name: string;
   deploymentCount: number;
   lastDeployment: number;
 }
 
 export interface EnvironmentDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -736,7 +669,6 @@ export interface EnvironmentDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -748,7 +680,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   deployments: number;
   successRate: number;
   averageTime: number;
@@ -756,7 +687,6 @@ export interface PerformanceTrend {
 }
 
 export interface DeploymentReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -779,7 +709,6 @@ export interface DeploymentReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -800,7 +729,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -820,7 +748,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -840,7 +767,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -853,13 +779,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface DeploymentOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -20,7 +20,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AIConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface AIConfig {
 }
 
 export interface AIInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,22 +58,18 @@ export interface AIInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AIType;
   status: AIStatus;
   behavior: AIBehavior;
   learning: AILearning;
   performance: AIPerformance;
   analytics: AIAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AIBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -96,7 +90,6 @@ export interface AIBehavior {
 }
 
 export interface BehaviorPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,8 +101,6 @@ export interface BehaviorPattern {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   frequency: number; // 0 to 1
   intensity: number; // 0 to 1
   conditions: BehaviorCondition[];
@@ -117,7 +108,6 @@ export interface BehaviorPattern {
 }
 
 export interface BehaviorTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,8 +119,6 @@ export interface BehaviorTrigger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TriggerType;
   threshold: number; // 0 to 1
   response: string;
@@ -138,7 +126,6 @@ export interface BehaviorTrigger {
 }
 
 export interface BehaviorResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,8 +137,6 @@ export interface BehaviorResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ResponseType;
   probability: number; // 0 to 1
   duration: number; // milliseconds
@@ -159,7 +144,6 @@ export interface BehaviorResponse {
 }
 
 export interface AILearning {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -180,7 +164,6 @@ export interface AILearning {
 }
 
 export interface KnowledgeItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,7 +175,6 @@ export interface KnowledgeItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: KnowledgeType;
   content: any;
   confidence: number; // 0 to 1
@@ -201,7 +183,6 @@ export interface KnowledgeItem {
 }
 
 export interface ExperienceItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -213,7 +194,6 @@ export interface ExperienceItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ExperienceType;
   context: any;
   outcome: any;
@@ -222,7 +202,6 @@ export interface ExperienceItem {
 }
 
 export interface AIPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,7 +222,6 @@ export interface AIPerformance {
 }
 
 export interface AIAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,7 +242,6 @@ export interface AIAnalytics {
 }
 
 export interface BehaviorCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

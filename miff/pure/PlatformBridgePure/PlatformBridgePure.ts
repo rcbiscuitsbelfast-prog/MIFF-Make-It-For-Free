@@ -40,7 +40,6 @@ export enum InputType {
 }
 
 export interface PlatformConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,7 +65,6 @@ export interface PlatformConfig {
 }
 
 export interface RenderTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -78,7 +76,6 @@ export interface RenderTarget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'canvas' | 'texture' | 'framebuffer';
   width: number;
   height: number;
@@ -88,7 +85,6 @@ export interface RenderTarget {
 }
 
 export interface InputDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -100,16 +96,12 @@ export interface InputDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: InputType;
-  name: string;
   connected: boolean;
   capabilities: string[];
-  data: any;
 }
 
 export interface PlatformCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,7 +124,6 @@ export interface PlatformCapabilities {
 }
 
 export interface PlatformStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

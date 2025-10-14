@@ -12,7 +12,6 @@
  */
 
 export interface DataVisualizationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface DataVisualizationConfig {
 }
 
 export interface DataVisualizationManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface DataVisualizationManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataVisualizationManagerType;
   status: DataVisualizationManagerStatus;
   charts: Chart[];
@@ -67,16 +63,12 @@ export interface DataVisualizationManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DataVisualizationManagerType = 'business' | 'scientific' | 'educational' | 'custom';
 export type DataVisualizationManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Chart {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,22 +80,18 @@ export interface Chart {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChartType;
   status: ChartStatus;
   data: ChartData;
   configuration: ChartConfiguration;
   styling: ChartStyling;
   interactions: ChartInteractions;
-  metadata: Record<string, any>;
 }
 
 export type ChartType = 'line' | 'bar' | 'pie' | 'scatter' | 'area' | 'histogram' | 'heatmap' | 'custom';
 export type ChartStatus = 'draft' | 'published' | 'archived' | 'error';
 
 export interface ChartData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +112,6 @@ export interface ChartData {
 }
 
 export interface DataSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,7 +134,6 @@ export interface DataSource {
 export type SourceType = 'database' | 'file' | 'api' | 'stream' | 'custom';
 
 export interface DataColumn {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,19 +145,15 @@ export interface DataColumn {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ColumnType;
   format: ColumnFormat;
   description: string;
-  metadata: Record<string, any>;
 }
 
 export type ColumnType = 'string' | 'number' | 'date' | 'boolean' | 'object' | 'array' | 'custom';
 export type ColumnFormat = 'text' | 'number' | 'currency' | 'percentage' | 'date' | 'time' | 'custom';
 
 export interface DataRow {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,13 +165,10 @@ export interface DataRow {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   values: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface DataFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -201,7 +180,6 @@ export interface DataFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   column: string;
   operator: FilterOperator;
   value: any;
@@ -211,7 +189,6 @@ export interface DataFilter {
 export type FilterOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'starts_with' | 'ends_with' | 'between' | 'in' | 'not_in';
 
 export interface DataAggregation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +200,6 @@ export interface DataAggregation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   column: string;
   function: AggregationFunction;
   alias: string;
@@ -233,7 +209,6 @@ export interface DataAggregation {
 export type AggregationFunction = 'sum' | 'avg' | 'count' | 'min' | 'max' | 'median' | 'mode' | 'std' | 'var' | 'custom';
 
 export interface DataTransformation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -245,7 +220,6 @@ export interface DataTransformation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TransformationType;
   parameters: Record<string, any>;
   order: number;
@@ -254,7 +228,6 @@ export interface DataTransformation {
 export type TransformationType = 'sort' | 'group' | 'pivot' | 'join' | 'merge' | 'split' | 'custom';
 
 export interface ChartConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,7 +249,6 @@ export interface ChartConfiguration {
 }
 
 export interface AxesConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -294,7 +266,6 @@ export interface AxesConfiguration {
 }
 
 export interface AxisConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -320,7 +291,6 @@ export type AxisType = 'linear' | 'logarithmic' | 'time' | 'category' | 'custom'
 export type ScaleType = 'linear' | 'log' | 'sqrt' | 'pow' | 'custom';
 
 export interface TickConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -340,7 +310,6 @@ export interface TickConfiguration {
 }
 
 export interface GridConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -361,7 +330,6 @@ export interface GridConfiguration {
 export type LineStyle = 'solid' | 'dashed' | 'dotted' | 'custom';
 
 export interface LabelConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -382,7 +350,6 @@ export interface LabelConfiguration {
 }
 
 export interface LegendConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -407,7 +374,6 @@ export type LegendPosition = 'top' | 'bottom' | 'left' | 'right' | 'custom';
 export type LegendOrientation = 'horizontal' | 'vertical';
 
 export interface TooltipConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +398,6 @@ export interface TooltipConfiguration {
 export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'custom';
 
 export interface AnimationConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,7 +419,6 @@ export interface AnimationConfiguration {
 export type EasingType = 'linear' | 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'bounce' | 'elastic' | 'custom';
 
 export interface ResponsiveConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -472,7 +436,6 @@ export interface ResponsiveConfiguration {
 }
 
 export interface ResponsiveBreakpoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -484,14 +447,12 @@ export interface ResponsiveBreakpoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   minWidth: number;
   maxWidth: number;
   properties: Partial<ChartConfiguration>;
 }
 
 export interface ResponsiveRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -508,7 +469,6 @@ export interface ResponsiveRule {
 }
 
 export interface ChartStyling {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -529,7 +489,6 @@ export interface ChartStyling {
 }
 
 export interface ColorPalette {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -551,7 +510,6 @@ export interface ColorPalette {
 }
 
 export interface FontConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,7 +532,6 @@ export type FontWeight = 'normal' | 'bold' | 'bolder' | 'lighter' | '100' | '200
 export type FontStyle = 'normal' | 'italic' | 'oblique';
 
 export interface SpacingConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -592,7 +549,6 @@ export interface SpacingConfiguration {
 }
 
 export interface Spacing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -611,7 +567,6 @@ export interface Spacing {
 }
 
 export interface BorderConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -633,7 +588,6 @@ export interface BorderConfiguration {
 export type BorderStyle = 'solid' | 'dashed' | 'dotted' | 'double' | 'none' | 'custom';
 
 export interface ShadowConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,7 +608,6 @@ export interface ShadowConfiguration {
 }
 
 export interface BackgroundConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -673,7 +626,6 @@ export interface BackgroundConfiguration {
 }
 
 export interface GradientConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -696,7 +648,6 @@ export type GradientType = 'linear' | 'radial' | 'conic' | 'custom';
 export type GradientDirection = 'to-right' | 'to-left' | 'to-top' | 'to-bottom' | 'to-top-right' | 'to-top-left' | 'to-bottom-right' | 'to-bottom-left' | 'custom';
 
 export interface GradientStop {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -713,7 +664,6 @@ export interface GradientStop {
 }
 
 export interface ChartInteractions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -734,7 +684,6 @@ export interface ChartInteractions {
 }
 
 export interface ZoomConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -756,7 +705,6 @@ export interface ZoomConfiguration {
 export type ZoomType = 'wheel' | 'pinch' | 'double-click' | 'custom';
 
 export interface PanConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -777,7 +725,6 @@ export interface PanConfiguration {
 export type PanType = 'drag' | 'touch' | 'keyboard' | 'custom';
 
 export interface BoundsConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -797,7 +744,6 @@ export interface BoundsConfiguration {
 }
 
 export interface BrushConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -819,7 +765,6 @@ export interface BrushConfiguration {
 export type BrushType = 'rect' | 'circle' | 'polygon' | 'custom';
 
 export interface SelectionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -841,7 +786,6 @@ export interface SelectionConfiguration {
 export type SelectionType = 'point' | 'line' | 'area' | 'custom';
 
 export interface HoverConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -860,7 +804,6 @@ export interface HoverConfiguration {
 }
 
 export interface HighlightConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -879,7 +822,6 @@ export interface HighlightConfiguration {
 }
 
 export interface ClickConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -899,7 +841,6 @@ export interface ClickConfiguration {
 export type ClickAction = 'drill-down' | 'filter' | 'navigate' | 'custom';
 
 export interface Dataset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -911,18 +852,14 @@ export interface Dataset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   source: DataSource;
   schema: DatasetSchema;
   size: number;
   lastUpdated: number;
-  metadata: Record<string, any>;
 }
 
 export interface DatasetSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -941,7 +878,6 @@ export interface DatasetSchema {
 }
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -962,7 +898,6 @@ export interface SchemaConstraint {
 export type ConstraintType = 'not_null' | 'unique' | 'primary_key' | 'foreign_key' | 'check' | 'custom';
 
 export interface SchemaIndex {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -977,13 +912,11 @@ export interface SchemaIndex {
   columns: string[];
   type: IndexType;
   unique: boolean;
-  name: string;
 }
 
 export type IndexType = 'btree' | 'hash' | 'bitmap' | 'gin' | 'gist' | 'custom';
 
 export interface SchemaRelationship {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1005,7 +938,6 @@ export type RelationshipType = 'one_to_one' | 'one_to_many' | 'many_to_one' | 'm
 export type Cardinality = '1' | '0..1' | '1..*' | '0..*';
 
 export interface VisualizationTheme {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1017,8 +949,6 @@ export interface VisualizationTheme {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ThemeType;
   colors: ColorPalette;
   fonts: FontConfiguration;
@@ -1026,13 +956,11 @@ export interface VisualizationTheme {
   borders: BorderConfiguration;
   shadows: ShadowConfiguration;
   background: BackgroundConfiguration;
-  metadata: Record<string, any>;
 }
 
 export type ThemeType = 'light' | 'dark' | 'colorful' | 'minimal' | 'custom';
 
 export interface ChartTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1044,8 +972,6 @@ export interface ChartTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChartType;
   category: string;
   configuration: ChartConfiguration;
@@ -1053,11 +979,9 @@ export interface ChartTemplate {
   interactions: ChartInteractions;
   description: string;
   tags: string[];
-  metadata: Record<string, any>;
 }
 
 export interface DataVisualizationPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1081,7 +1005,6 @@ export interface DataVisualizationPerformanceMetrics {
 }
 
 export interface DataVisualizationAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1102,7 +1025,6 @@ export interface DataVisualizationAnalytics {
 }
 
 export interface ChartTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1121,7 +1043,6 @@ export interface ChartTypeDistribution {
 }
 
 export interface DatasetSizeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1140,7 +1061,6 @@ export interface DatasetSizeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1152,7 +1072,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   charts: number;
   datasets: number;
   renderTime: number;
@@ -1162,7 +1081,6 @@ export interface PerformanceTrend {
 }
 
 export interface DataVisualizationReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1185,7 +1103,6 @@ export interface DataVisualizationReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1206,7 +1123,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1226,7 +1142,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1246,7 +1161,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1259,13 +1173,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface DataVisualizationOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

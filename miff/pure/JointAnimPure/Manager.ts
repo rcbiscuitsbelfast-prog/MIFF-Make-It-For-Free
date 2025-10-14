@@ -13,7 +13,6 @@
  */
 
 export interface JointAnimConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface JointAnimConfig {
 }
 
 export interface JointAnimManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface JointAnimManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: JointAnimManagerType;
   status: JointAnimManagerStatus;
   skeletons: Skeleton[];
@@ -67,16 +63,12 @@ export interface JointAnimManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type JointAnimManagerType = '2d' | '3d' | 'hybrid' | 'custom';
 export type JointAnimManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Skeleton {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,16 +80,12 @@ export interface Skeleton {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   joints: Joint[];
   rootJoint: string;
   bindPose: Pose;
-  metadata: Record<string, any>;
 }
 
 export interface Joint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,18 +97,14 @@ export interface Joint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   parent?: string;
   children: string[];
   transform: Transform;
   bindTransform: Transform;
   isRoot: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface Transform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,7 +122,6 @@ export interface Transform {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,7 +139,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -175,7 +157,6 @@ export interface Quaternion {
 }
 
 export interface Pose {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -188,11 +169,9 @@ export interface Pose {
   updatedAt?: number;
   metadata?: Record<string, any>;
   joints: Record<string, Transform>;
-  timestamp: number;
 }
 
 export interface Animation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,18 +183,14 @@ export interface Animation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   duration: number;
   tracks: AnimationTrack[];
   events: AnimationEvent[];
   looping: boolean;
   speed: number;
-  metadata: Record<string, any>;
 }
 
 export interface AnimationTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,7 +202,6 @@ export interface AnimationTrack {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   jointId: string;
   property: TrackProperty;
   keyframes: Keyframe[];
@@ -237,7 +211,6 @@ export interface AnimationTrack {
 export type TrackProperty = 'position' | 'rotation' | 'scale' | 'visibility';
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,7 +231,6 @@ export interface Keyframe {
 export type InterpolationType = 'linear' | 'bezier' | 'step' | 'cubic';
 
 export interface AnimationEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,17 +242,13 @@ export interface AnimationEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   time: number;
   type: EventType;
-  data: any;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'sound' | 'effect' | 'callback' | 'custom';
 
 export interface AnimationStateMachine {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,17 +260,13 @@ export interface AnimationStateMachine {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   states: AnimationState[];
   transitions: AnimationTransition[];
   currentState: string;
   parameters: AnimationParameter[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -314,17 +278,13 @@ export interface AnimationState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   animationId: string;
   speed: number;
   looping: boolean;
   transitions: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,17 +296,14 @@ export interface AnimationTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   fromState: string;
   toState: string;
   conditions: TransitionCondition[];
   duration: number;
   offset: number;
-  metadata: Record<string, any>;
 }
 
 export interface TransitionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +323,6 @@ export interface TransitionCondition {
 export type ConditionOperator = 'equals' | 'not-equals' | 'greater' | 'less' | 'greater-equals' | 'less-equals';
 
 export interface AnimationParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -378,18 +334,14 @@ export interface AnimationParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParameterType;
   value: any;
   defaultValue: any;
-  metadata: Record<string, any>;
 }
 
 export type ParameterType = 'bool' | 'int' | 'float' | 'trigger';
 
 export interface JointAnimPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -413,7 +365,6 @@ export interface JointAnimPerformanceMetrics {
 }
 
 export interface JointAnimAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -433,7 +384,6 @@ export interface JointAnimAnalytics {
 }
 
 export interface AnimationUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -446,14 +396,12 @@ export interface AnimationUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   animationId: string;
-  name: string;
   playCount: number;
   totalDuration: number;
   lastPlayed: number;
 }
 
 export interface JointUsageDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -466,13 +414,11 @@ export interface JointUsageDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   jointId: string;
-  name: string;
   usageCount: number;
   percentage: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -484,7 +430,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   frameTime: number;
   joints: number;
   animations: number;
@@ -492,7 +437,6 @@ export interface PerformanceTrend {
 }
 
 export interface JointAnimReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -515,7 +459,6 @@ export interface JointAnimReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -536,7 +479,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -556,7 +498,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -576,7 +517,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -589,13 +529,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface JointAnimOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -21,7 +21,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AIProfileConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -49,7 +48,6 @@ export interface AIProfileConfig {
 }
 
 export interface AIProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,22 +59,18 @@ export interface AIProfile {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProfileType;
   status: ProfileStatus;
   traits: PersonalityTrait[];
   behaviors: BehaviorModifier[];
   preferences: AIPreference[];
   analytics: ProfileAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface PersonalityTrait {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,15 +82,12 @@ export interface PersonalityTrait {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   value: number; // -1 to 1
   weight: number; // 0 to 1
   description: string;
 }
 
 export interface BehaviorModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,8 +99,6 @@ export interface BehaviorModifier {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'aggression' | 'cooperation' | 'caution' | 'curiosity' | 'loyalty' | 'independence';
   value: number; // -1 to 1
   conditions: BehaviorCondition[];
@@ -117,7 +106,6 @@ export interface BehaviorModifier {
 }
 
 export interface BehaviorCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -136,7 +124,6 @@ export interface BehaviorCondition {
 }
 
 export interface AIPreference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,8 +135,6 @@ export interface AIPreference {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'combat_style' | 'exploration_style' | 'social_style' | 'resource_management';
   value: any;
   weight: number;
@@ -157,7 +142,6 @@ export interface AIPreference {
 }
 
 export interface ProfileAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

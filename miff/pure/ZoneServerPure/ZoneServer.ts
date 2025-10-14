@@ -4,7 +4,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Mock WebSocketBridgePure interface for ZoneServerPure
 interface WebSocketBridgePure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,7 +21,6 @@ interface WebSocketBridgePure {
 
 // Mock NetworkBridgePure interface for ZoneServerPure
 interface NetworkBridgePure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -64,7 +62,6 @@ export enum LoadBalanceStrategy {
 }
 
 export interface ZoneServerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,7 +84,6 @@ export interface ZoneServerConfig {
 }
 
 export interface ZoneMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +105,6 @@ export interface ZoneMetrics {
 }
 
 export interface ZoneTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,12 +120,10 @@ export interface ZoneTransition {
   fromZone: string;
   toZone: string;
   transitionType: 'teleport' | 'walk' | 'portal' | 'death';
-  timestamp: number;
   position: { x: number; y: number; z: number };
 }
 
 export interface ZoneConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +143,6 @@ export interface ZoneConnection {
 }
 
 export interface ZoneEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +154,6 @@ export interface ZoneEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   description: string;
   startTime: number;

@@ -8,7 +8,6 @@
 import { StatusEffect, StatusEntity, StatusEvent } from './StatusEffectsManager';
 
 export interface EffectChain {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -20,8 +19,6 @@ export interface EffectChain {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   effects: string[];
   triggers: EffectTrigger[];
   conditions: EffectCondition[];
@@ -29,7 +26,6 @@ export interface EffectChain {
 }
 
 export interface EffectTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +37,6 @@ export interface EffectTrigger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'on_apply' | 'on_tick' | 'on_remove' | 'on_damage' | 'on_heal' | 'on_kill' | 'on_death';
   condition: (context: EffectContext) => boolean;
   action: (context: EffectContext) => void;
@@ -49,7 +44,6 @@ export interface EffectTrigger {
 }
 
 export interface EffectCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,7 +55,6 @@ export interface EffectCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'health_threshold' | 'effect_count' | 'time_elapsed' | 'damage_dealt' | 'custom';
   value: any;
   operator: 'equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal';
@@ -69,7 +62,6 @@ export interface EffectCondition {
 }
 
 export interface EffectReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,7 +73,6 @@ export interface EffectReward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'stat_boost' | 'effect_immunity' | 'damage_reduction' | 'healing' | 'custom';
   magnitude: number;
   duration?: number;
@@ -89,7 +80,6 @@ export interface EffectReward {
 }
 
 export interface EffectContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,12 +96,10 @@ export interface EffectContext {
   allEffects: StatusEffect[];
   damage?: number;
   healing?: number;
-  timestamp: number;
   metadata?: any;
 }
 
 export interface EffectInteraction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +111,6 @@ export interface EffectInteraction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   effect1: string;
   effect2: string;
   interaction: 'synergy' | 'conflict' | 'cancellation' | 'enhancement' | 'transformation';
@@ -132,7 +119,6 @@ export interface EffectInteraction {
 }
 
 export interface EffectAura {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,8 +130,6 @@ export interface EffectAura {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   radius: number;
   effects: StatusEffect[];
   conditions: EffectCondition[];

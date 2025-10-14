@@ -34,7 +34,6 @@ export enum SceneExportFormat {
 }
 
 export interface SceneBuildConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +45,6 @@ export interface SceneBuildConfiguration {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   dimensions: { width: number; height: number; depth?: number };
   layers: SceneLayer[];
@@ -72,7 +70,6 @@ export interface SceneBuildConfiguration {
 }
 
 export interface SceneNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,8 +81,6 @@ export interface SceneNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   layer: SceneLayer;
   type: 'mesh' | 'sprite' | 'light' | 'camera' | 'audio' | 'particle' | 'animation' | 'trigger' | 'collider' | 'custom';
   position: { x: number; y: number; z?: number };
@@ -94,7 +89,6 @@ export interface SceneNode {
   parent?: string;
   children: string[];
   components: SceneComponent[];
-  metadata: Record<string, any>;
   tags: string[];
   visible: boolean;
   enabled: boolean;
@@ -104,7 +98,6 @@ export interface SceneNode {
 }
 
 export interface SceneComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +116,6 @@ export interface SceneComponent {
 }
 
 export interface SceneAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -135,15 +127,12 @@ export interface SceneAsset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'texture' | 'mesh' | 'material' | 'shader' | 'audio' | 'animation' | 'prefab' | 'script' | 'font' | 'particle';
   path: string;
   size: number;
   format: string;
   compression: 'none' | 'gzip' | 'lz4' | 'lzma';
   quality: 'low' | 'medium' | 'high' | 'ultra';
-  metadata: Record<string, any>;
   dependencies: string[];
   tags: string[];
   loadPriority: number;
@@ -152,7 +141,6 @@ export interface SceneAsset {
 }
 
 export interface SceneLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +152,6 @@ export interface SceneLight {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'directional' | 'point' | 'spot' | 'area' | 'ambient';
   color: { r: number; g: number; b: number; a?: number };
   intensity: number;
@@ -181,7 +168,6 @@ export interface SceneLight {
 }
 
 export interface SceneCamera {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -193,7 +179,6 @@ export interface SceneCamera {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'perspective' | 'orthographic';
   fov: number;
   nearClip: number;
@@ -211,7 +196,6 @@ export interface SceneCamera {
 }
 
 export interface SceneAudio {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +207,6 @@ export interface SceneAudio {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'source' | 'listener' | 'reverb_zone' | 'audio_clip';
   clip?: string;
   volume: number;
@@ -239,7 +222,6 @@ export interface SceneAudio {
 }
 
 export interface SceneAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,7 +233,6 @@ export interface SceneAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   target: string;
   clip: string;
   speed: number;
@@ -264,7 +245,6 @@ export interface SceneAnimation {
 }
 
 export interface SceneAnimationEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +263,6 @@ export interface SceneAnimationEvent {
 }
 
 export interface SceneParticleSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -295,7 +274,6 @@ export interface SceneParticleSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   emitterShape: 'sphere' | 'box' | 'cone' | 'circle' | 'edge' | 'mesh';
   startSpeed: number;
   startSize: number;
@@ -318,7 +296,6 @@ export interface SceneParticleSystem {
 }
 
 export interface SceneTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -330,7 +307,6 @@ export interface SceneTrigger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   shape: 'box' | 'sphere' | 'capsule' | 'mesh';
   size: { x: number; y: number; z: number };
   center: { x: number; y: number; z: number };
@@ -340,7 +316,6 @@ export interface SceneTrigger {
 }
 
 export interface SceneTriggerEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -361,7 +336,6 @@ export interface SceneTriggerEvent {
 }
 
 export interface SceneCollider {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -373,7 +347,6 @@ export interface SceneCollider {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'box' | 'sphere' | 'capsule' | 'mesh' | 'terrain';
   center: { x: number; y: number; z: number };
   size: { x: number; y: number; z: number };
@@ -389,7 +362,6 @@ export interface SceneCollider {
 }
 
 export interface ScenePhysicsMaterial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -401,8 +373,6 @@ export interface ScenePhysicsMaterial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   dynamicFriction: number;
   staticFriction: number;
   bounciness: number;
@@ -411,7 +381,6 @@ export interface ScenePhysicsMaterial {
 }
 
 export interface ScenePostProcessing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -423,14 +392,12 @@ export interface ScenePostProcessing {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   effects: ScenePostProcessingEffect[];
   enabled: boolean;
   priority: number;
 }
 
 export interface ScenePostProcessingEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -448,7 +415,6 @@ export interface ScenePostProcessingEffect {
 }
 
 export interface SceneBuildResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -469,12 +435,9 @@ export interface SceneBuildResult {
   optimizationStats: SceneOptimizationStats;
   exportPaths: Record<SceneExportFormat, string>;
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface SceneOptimizationStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,7 +465,6 @@ export interface SceneOptimizationStats {
 }
 
 export interface SceneValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -515,7 +477,6 @@ export interface SceneValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: string[];
   warnings: string[];
   suggestions: string[];
   performanceScore: number;
@@ -523,7 +484,6 @@ export interface SceneValidationResult {
 }
 
 export interface SceneTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -535,8 +495,6 @@ export interface SceneTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: string;
   thumbnail?: string;
@@ -544,11 +502,9 @@ export interface SceneTemplate {
   nodes: SceneNode[];
   assets: SceneAsset[];
   tags: string[];
-  metadata: Record<string, any>;
 }
 
 export interface SceneBuilderProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -10,7 +10,6 @@
  */
 
 export interface WorldLayoutConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface WorldLayoutConfig {
 }
 
 export interface WorldLayoutManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface WorldLayoutManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WorldLayoutManagerType;
   status: WorldLayoutManagerStatus;
   layouts: WorldLayout[];
@@ -64,16 +60,12 @@ export interface WorldLayoutManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type WorldLayoutManagerType = '2d' | '3d' | 'isometric' | 'custom';
 export type WorldLayoutManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface WorldLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +77,6 @@ export interface WorldLayout {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LayoutType;
   status: LayoutStatus;
   dimensions: LayoutDimensions;
@@ -94,14 +84,12 @@ export interface WorldLayout {
   objects: string[];
   constraints: string[];
   performance: LayoutPerformance;
-  metadata: Record<string, any>;
 }
 
 export type LayoutType = 'grid' | 'freeform' | 'hierarchical' | 'custom';
 export type LayoutStatus = 'draft' | 'active' | 'archived' | 'error';
 
 export interface LayoutDimensions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,7 +110,6 @@ export interface LayoutDimensions {
 export type UnitType = 'pixels' | 'meters' | 'inches' | 'custom';
 
 export interface LayoutRegion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,22 +121,18 @@ export interface LayoutRegion {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RegionType;
   status: RegionStatus;
   bounds: RegionBounds;
   properties: RegionProperties;
   objects: string[];
   performance: RegionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type RegionType = 'zone' | 'area' | 'room' | 'custom';
 export type RegionStatus = 'active' | 'inactive' | 'locked' | 'error';
 
 export interface RegionBounds {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +150,6 @@ export interface RegionBounds {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +167,6 @@ export interface Vector3 {
 }
 
 export interface RegionProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +186,6 @@ export interface RegionProperties {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -224,7 +204,6 @@ export interface Color {
 }
 
 export interface RegionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -242,7 +221,6 @@ export interface RegionPerformance {
 }
 
 export interface LayoutObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -254,8 +232,6 @@ export interface LayoutObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectType;
   status: ObjectStatus;
   position: Vector3;
@@ -264,14 +240,12 @@ export interface LayoutObject {
   properties: ObjectProperties;
   constraints: string[];
   performance: ObjectPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ObjectType = 'static' | 'dynamic' | 'interactive' | 'custom';
 export type ObjectStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface ObjectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +266,6 @@ export interface ObjectProperties {
 }
 
 export interface ObjectPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -310,7 +283,6 @@ export interface ObjectPerformance {
 }
 
 export interface LayoutConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -322,21 +294,17 @@ export interface LayoutConstraint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConstraintType;
   status: ConstraintStatus;
   objects: string[];
   parameters: ConstraintParameters;
   performance: ConstraintPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ConstraintType = 'position' | 'rotation' | 'scale' | 'custom';
 export type ConstraintStatus = 'active' | 'inactive' | 'error';
 
 export interface ConstraintParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +323,6 @@ export interface ConstraintParameters {
 }
 
 export interface LockConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -373,7 +340,6 @@ export interface LockConfig {
 }
 
 export interface ConstraintPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,7 +357,6 @@ export interface ConstraintPerformance {
 }
 
 export interface LayoutPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -411,7 +376,6 @@ export interface LayoutPerformance {
 }
 
 export interface WorldLayoutPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -435,7 +399,6 @@ export interface WorldLayoutPerformanceMetrics {
 }
 
 export interface WorldLayoutAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -456,7 +419,6 @@ export interface WorldLayoutAnalytics {
 }
 
 export interface LayoutTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -475,7 +437,6 @@ export interface LayoutTypeDistribution {
 }
 
 export interface ObjectTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -494,7 +455,6 @@ export interface ObjectTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -506,7 +466,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   layouts: number;
   objects: number;
   memory: number;
@@ -514,7 +473,6 @@ export interface PerformanceTrend {
 }
 
 export interface WorldLayoutReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -537,7 +495,6 @@ export interface WorldLayoutReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -558,7 +515,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -578,7 +534,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -598,7 +553,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -611,13 +565,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface WorldLayoutOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

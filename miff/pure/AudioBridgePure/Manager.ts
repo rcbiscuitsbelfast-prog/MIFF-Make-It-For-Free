@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +45,6 @@ export interface AudioBridgeConfig {
 }
 
 export interface AudioBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -58,8 +56,6 @@ export interface AudioBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BridgeType;
   status: BridgeStatus;
   devices: AudioDevice[];
@@ -67,14 +63,12 @@ export interface AudioBridge {
   format: AudioFormat;
   performance: AudioPerformance;
   analytics: BridgeAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AudioDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,17 +80,13 @@ export interface AudioDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   status: DeviceStatus;
   capabilities: DeviceCapabilities;
   settings: DeviceSettings;
-  metadata: Record<string, any>;
 }
 
 export interface AudioStream {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,19 +98,15 @@ export interface AudioStream {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StreamType;
   status: StreamStatus;
   source: string;
   destination: string;
   format: AudioFormat;
   buffer: AudioBuffer;
-  metadata: Record<string, any>;
 }
 
 export interface AudioFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,7 +126,6 @@ export interface AudioFormat {
 }
 
 export interface AudioBuffer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -160,7 +145,6 @@ export interface AudioBuffer {
 }
 
 export interface DeviceCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -180,7 +164,6 @@ export interface DeviceCapabilities {
 }
 
 export interface DeviceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +182,6 @@ export interface DeviceSettings {
 }
 
 export interface AudioPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +201,6 @@ export interface AudioPerformance {
 }
 
 export interface BridgeAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

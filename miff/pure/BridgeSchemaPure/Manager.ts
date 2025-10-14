@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface BridgeSchemaConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +43,6 @@ export interface BridgeSchemaConfig {
 }
 
 export interface BridgeSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,8 +54,6 @@ export interface BridgeSchema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SchemaType;
   status: SchemaStatus;
   version: string;
@@ -66,18 +62,14 @@ export interface BridgeSchema {
   compatibility: SchemaCompatibility;
   performance: SchemaPerformance;
   analytics: SchemaAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   
   // Missing properties that are being accessed
-  ok: boolean;
   schema: SchemaDefinition;
-  errors: string[];
 }
 
 export interface SchemaDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,21 +81,17 @@ export interface SchemaDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   fields: SchemaField[];
   rules: SchemaRule[];
   constraints: SchemaConstraint[];
-  metadata: Record<string, any>;
   
   // Missing properties that are being accessed
-  id: string;
   engine: string;
   version: string;
 }
 
 export interface SchemaField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -115,16 +103,13 @@ export interface SchemaField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: FieldType;
   required: boolean;
   defaultValue?: any;
   validation: FieldValidation;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -136,16 +121,13 @@ export interface SchemaRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: RuleType;
   condition: string;
   action: string;
   priority: number;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,15 +139,12 @@ export interface SchemaConstraint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: ConstraintType;
   field: string;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface FieldValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,11 +162,9 @@ export interface FieldValidation {
   maxValue?: number;
   pattern?: string;
   custom?: string;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -203,11 +180,9 @@ export interface SchemaValidation {
   strict: boolean;
   errors: ValidationError[];
   warnings: ValidationWarning[];
-  metadata: Record<string, any>;
 }
 
 export interface ValidationError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,16 +194,13 @@ export interface ValidationError {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   field: string;
   message: string;
   severity: ErrorSeverity;
   timestamp: Date;
-  metadata: Record<string, any>;
 }
 
 export interface ValidationWarning {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,16 +212,13 @@ export interface ValidationWarning {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   field: string;
   message: string;
   severity: WarningSeverity;
   timestamp: Date;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaCompatibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,11 +233,9 @@ export interface SchemaCompatibility {
   platforms: Platform[];
   versions: VersionCompatibility[];
   requirements: CompatibilityRequirement[];
-  metadata: Record<string, any>;
 }
 
 export interface Platform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,15 +247,12 @@ export interface Platform {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   version: string;
   supported: boolean;
   features: string[];
-  metadata: Record<string, any>;
 }
 
 export interface VersionCompatibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,11 +268,9 @@ export interface VersionCompatibility {
   compatible: boolean;
   changes: string[];
   migration: MigrationPath;
-  metadata: Record<string, any>;
 }
 
 export interface MigrationPath {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -323,11 +285,9 @@ export interface MigrationPath {
   from: string;
   to: string;
   steps: MigrationStep[];
-  metadata: Record<string, any>;
 }
 
 export interface MigrationStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -339,15 +299,12 @@ export interface MigrationStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: MigrationType;
   description: string;
   action: string;
-  metadata: Record<string, any>;
 }
 
 export interface CompatibilityRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -359,15 +316,12 @@ export interface CompatibilityRequirement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: RequirementType;
   value: any;
   optional: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -383,11 +337,9 @@ export interface SchemaPerformance {
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
   cacheHitRate: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SchemaAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -874,7 +826,6 @@ export class BridgeSchemaManager {
 }
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -9,7 +9,6 @@ import * as path from 'path';
  */
 
 export interface ModuleInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -21,7 +20,6 @@ export interface ModuleInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   path: string;
   hasManager: boolean;
   hasCLI: boolean;

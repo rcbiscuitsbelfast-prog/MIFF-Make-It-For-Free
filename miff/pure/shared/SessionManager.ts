@@ -9,7 +9,6 @@ import { AuthenticationSystem, Session } from './AuthenticationSystem.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SessionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,7 +31,6 @@ export interface SessionConfig {
 }
 
 export interface SessionStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,7 +52,6 @@ export interface SessionStats {
 }
 
 export interface SessionEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,7 +63,6 @@ export interface SessionEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   sessionId: string;
   userId: string;
   eventType: 'created' | 'updated' | 'expired' | 'deleted' | 'refreshed';
@@ -75,7 +71,6 @@ export interface SessionEvent {
 }
 
 export interface SessionMonitor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

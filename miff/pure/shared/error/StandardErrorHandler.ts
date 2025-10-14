@@ -56,7 +56,6 @@ export enum ErrorSeverity {
 }
 
 export interface ErrorContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -70,7 +69,6 @@ export interface ErrorContext {
   metadata?: Record<string, any>;
   module: string;
   operation: string;
-  timestamp: number;
   userId?: string;
   sessionId?: string;
   requestId?: string;
@@ -78,7 +76,6 @@ export interface ErrorContext {
 }
 
 export interface StandardError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -102,7 +99,6 @@ export interface StandardError {
 }
 
 export interface ErrorRecoveryStrategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

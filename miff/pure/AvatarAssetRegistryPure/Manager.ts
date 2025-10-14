@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AvatarAssetRegistryConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface AvatarAssetRegistryConfig {
 }
 
 export interface AvatarAssetRegistry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface AvatarAssetRegistry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RegistryType;
   status: RegistryStatus;
   assets: AvatarAsset[];
@@ -66,7 +62,6 @@ export interface AvatarAssetRegistry {
   categories: AssetCategory[];
   tags: AssetTag[];
   analytics: RegistryAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
@@ -76,7 +71,6 @@ export interface AvatarAssetRegistry {
 }
 
 export interface AvatarAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +82,6 @@ export interface AvatarAsset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssetType;
   category: string;
   tags: string[];
@@ -104,7 +96,6 @@ export interface AvatarAsset {
 }
 
 export interface AssetDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,17 +107,14 @@ export interface AssetDependency {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   assetId: string;
   dependencyId: string;
   type: DependencyType;
   required: boolean;
   version: string;
-  metadata: Record<string, any>;
 }
 
 export interface AssetCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,16 +126,12 @@ export interface AssetCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   parentCategory?: string;
   assets: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AssetTag {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,16 +143,12 @@ export interface AssetTag {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   color: string;
   assets: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AssetMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -193,7 +173,6 @@ export interface AssetMetadata {
 }
 
 export interface RegistryAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

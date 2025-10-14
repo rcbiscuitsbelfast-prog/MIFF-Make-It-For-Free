@@ -12,7 +12,6 @@
  */
 
 export interface PixelAnimConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface PixelAnimConfig {
 }
 
 export interface PixelAnimManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface PixelAnimManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PixelAnimManagerType;
   status: PixelAnimManagerStatus;
   animations: PixelAnimation[];
@@ -66,16 +62,12 @@ export interface PixelAnimManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type PixelAnimManagerType = 'game' | 'art' | 'animation' | 'custom';
 export type PixelAnimManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface PixelAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +79,6 @@ export interface PixelAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: AnimationType;
   frames: AnimationFrame[];
@@ -97,14 +87,12 @@ export interface PixelAnimation {
   interpolation: InterpolationSettings;
   effects: AnimationEffect[];
   status: AnimationStatus;
-  metadata: Record<string, any>;
 }
 
 export type AnimationType = 'idle' | 'walk' | 'run' | 'jump' | 'attack' | 'death' | 'custom';
 export type AnimationStatus = 'playing' | 'paused' | 'stopped' | 'completed' | 'error';
 
 export interface AnimationFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,7 +104,6 @@ export interface AnimationFrame {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   spriteId: string;
   duration: number;
   offset: Position;
@@ -124,11 +111,9 @@ export interface AnimationFrame {
   rotation: number;
   alpha: number;
   effects: FrameEffect[];
-  metadata: Record<string, any>;
 }
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +131,6 @@ export interface Position {
 }
 
 export interface Scale {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +148,6 @@ export interface Scale {
 }
 
 export interface FrameEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,7 +169,6 @@ export type EffectType = 'fade' | 'scale' | 'rotate' | 'move' | 'color' | 'custo
 export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bounce' | 'elastic' | 'custom';
 
 export interface AnimationTiming {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +189,6 @@ export interface AnimationTiming {
 }
 
 export interface LoopSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,7 +208,6 @@ export interface LoopSettings {
 }
 
 export interface InterpolationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -248,7 +228,6 @@ export interface InterpolationSettings {
 export type InterpolationType = 'linear' | 'bezier' | 'cubic' | 'spline' | 'custom';
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -268,7 +247,6 @@ export interface Keyframe {
 }
 
 export interface AnimationEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,7 +258,6 @@ export interface AnimationEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   enabled: boolean;
   parameters: EffectParameters;
@@ -289,7 +266,6 @@ export interface AnimationEffect {
 }
 
 export interface EffectParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -310,7 +286,6 @@ export interface EffectParameters {
 }
 
 export interface EffectTiming {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -330,7 +305,6 @@ export interface EffectTiming {
 }
 
 export interface EffectTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -343,7 +317,6 @@ export interface EffectTarget {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TargetType;
-  id: string;
   property: string;
   value: any;
 }
@@ -351,7 +324,6 @@ export interface EffectTarget {
 export type TargetType = 'frame' | 'sprite' | 'animation' | 'global' | 'custom';
 
 export interface PixelSprite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,18 +335,14 @@ export interface PixelSprite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   size: SpriteSize;
   data: PixelData;
   palette: string;
   transparency: TransparencySettings;
-  metadata: Record<string, any>;
 }
 
 export interface SpriteSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -392,7 +360,6 @@ export interface SpriteSize {
 }
 
 export interface PixelData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -414,7 +381,6 @@ export type PixelFormat = 'rgba' | 'rgb' | 'palette' | 'grayscale' | 'custom';
 export type CompressionType = 'none' | 'rle' | 'lz4' | 'zlib' | 'custom';
 
 export interface TransparencySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -433,7 +399,6 @@ export interface TransparencySettings {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -452,7 +417,6 @@ export interface Color {
 }
 
 export interface SpriteSheet {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -464,17 +428,13 @@ export interface SpriteSheet {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   sprites: string[];
   layout: SpriteLayout;
   atlas: AtlasSettings;
-  metadata: Record<string, any>;
 }
 
 export interface SpriteLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -496,7 +456,6 @@ export interface SpriteLayout {
 export type LayoutType = 'grid' | 'packed' | 'custom';
 
 export interface Spacing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +472,6 @@ export interface Spacing {
 }
 
 export interface Padding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -532,7 +490,6 @@ export interface Padding {
 }
 
 export interface AtlasSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -554,7 +511,6 @@ export interface AtlasSettings {
 export type PackingAlgorithm = 'max_rects' | 'bin_packing' | 'skyline' | 'custom';
 
 export interface ColorPalette {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -566,16 +522,12 @@ export interface ColorPalette {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   colors: PaletteColor[];
   type: PaletteType;
-  metadata: Record<string, any>;
 }
 
 export interface PaletteColor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -587,8 +539,6 @@ export interface PaletteColor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   color: Color;
   index: number;
   usage: number;
@@ -597,7 +547,6 @@ export interface PaletteColor {
 export type PaletteType = 'default' | 'custom' | 'imported' | 'generated';
 
 export interface PixelAnimPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -621,7 +570,6 @@ export interface PixelAnimPerformanceMetrics {
 }
 
 export interface PixelAnimAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -641,7 +589,6 @@ export interface PixelAnimAnalytics {
 }
 
 export interface AnimationTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -660,7 +607,6 @@ export interface AnimationTypeDistribution {
 }
 
 export interface SpriteUsageDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -673,14 +619,12 @@ export interface SpriteUsageDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   spriteId: string;
-  name: string;
   usage: number;
   animations: number;
   averageUsage: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -692,7 +636,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   animations: number;
   sprites: number;
   fps: number;
@@ -702,7 +645,6 @@ export interface PerformanceTrend {
 }
 
 export interface PixelAnimReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -725,7 +667,6 @@ export interface PixelAnimReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -746,7 +687,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -766,7 +706,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -786,7 +725,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -799,13 +737,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface PixelAnimOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

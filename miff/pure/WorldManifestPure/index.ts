@@ -1,5 +1,4 @@
 export interface WorldTile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -18,7 +17,6 @@ export interface WorldTile {
 }
 
 export interface WorldZone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,8 +28,6 @@ export interface WorldZone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-	id: string;
-	name: string;
 	width: number;
 	height: number;
 	tiles: WorldTile[];
@@ -43,7 +39,6 @@ export interface WorldZone {
 }
 
 export interface WorldManifest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

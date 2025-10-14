@@ -8,7 +8,6 @@ import { EventBus } from '../../EventBusPure/index';
  */
 
 export interface RuntimeFidelityConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,7 +29,6 @@ export interface RuntimeFidelityConfig {
 }
 
 export interface BridgeRuntimeInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,7 +57,6 @@ export interface BridgeRuntimeInfo {
 }
 
 export interface RuntimeFidelityReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,7 +85,6 @@ export interface RuntimeFidelityReport {
 }
 
 export interface StandardizedBridgeInterface {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

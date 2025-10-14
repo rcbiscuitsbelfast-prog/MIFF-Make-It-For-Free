@@ -10,7 +10,6 @@
  */
 
 export interface ProgressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface ProgressionConfig {
 }
 
 export interface ProgressionManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface ProgressionManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProgressionManagerType;
   status: ProgressionManagerStatus;
   progressions: Progression[];
@@ -64,16 +60,12 @@ export interface ProgressionManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ProgressionManagerType = 'player' | 'character' | 'skill' | 'custom';
 export type ProgressionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Progression {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +77,6 @@ export interface Progression {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProgressionType;
   status: ProgressionStatus;
   currentLevel: number;
@@ -96,14 +86,12 @@ export interface Progression {
   milestones: Milestone[];
   rewards: Reward[];
   performance: ProgressionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ProgressionType = 'level' | 'skill' | 'achievement' | 'custom';
 export type ProgressionStatus = 'active' | 'paused' | 'completed' | 'reset';
 
 export interface ProgressInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +111,6 @@ export interface ProgressInfo {
 }
 
 export interface Milestone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -135,8 +122,6 @@ export interface Milestone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MilestoneType;
   level: number;
   experience: number;
@@ -148,7 +133,6 @@ export interface Milestone {
 export type MilestoneType = 'level' | 'experience' | 'achievement' | 'custom';
 
 export interface Reward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -160,8 +144,6 @@ export interface Reward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RewardType;
   value: number;
   description: string;
@@ -172,7 +154,6 @@ export interface Reward {
 export type RewardType = 'experience' | 'level' | 'item' | 'ability' | 'custom';
 
 export interface ProgressionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,7 +173,6 @@ export interface ProgressionPerformance {
 }
 
 export interface Level {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,19 +184,15 @@ export interface Level {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   number: number;
   experience: number;
   rewards: Reward[];
   requirements: LevelRequirement[];
   benefits: LevelBenefit[];
   performance: LevelPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface LevelRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -236,7 +212,6 @@ export interface LevelRequirement {
 export type RequirementType = 'experience' | 'level' | 'achievement' | 'custom';
 
 export interface LevelBenefit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -256,7 +231,6 @@ export interface LevelBenefit {
 export type BenefitType = 'stat' | 'ability' | 'item' | 'custom';
 
 export interface LevelPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,7 +248,6 @@ export interface LevelPerformance {
 }
 
 export interface Experience {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -286,20 +259,16 @@ export interface Experience {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ExperienceType;
   value: number;
   source: ExperienceSource;
   multiplier: number;
   performance: ExperiencePerformance;
-  metadata: Record<string, any>;
 }
 
 export type ExperienceType = 'combat' | 'exploration' | 'quest' | 'custom';
 
 export interface ExperienceSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,8 +280,6 @@ export interface ExperienceSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SourceType;
   description: string;
 }
@@ -320,7 +287,6 @@ export interface ExperienceSource {
 export type SourceType = 'enemy' | 'quest' | 'exploration' | 'custom';
 
 export interface ExperiencePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -338,7 +304,6 @@ export interface ExperiencePerformance {
 }
 
 export interface ProgressionPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,7 +328,6 @@ export interface ProgressionPerformanceMetrics {
 }
 
 export interface ProgressionAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -384,7 +348,6 @@ export interface ProgressionAnalytics {
 }
 
 export interface ProgressionTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -403,7 +366,6 @@ export interface ProgressionTypeDistribution {
 }
 
 export interface LevelDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +384,6 @@ export interface LevelDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -434,7 +395,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   progressions: number;
   levels: number;
   experience: number;
@@ -443,7 +403,6 @@ export interface PerformanceTrend {
 }
 
 export interface ProgressionReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -466,7 +425,6 @@ export interface ProgressionReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -487,7 +445,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -507,7 +464,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -527,7 +483,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,13 +495,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ProgressionOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

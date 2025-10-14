@@ -62,7 +62,6 @@ export type HapticPattern =
   | { type: 'adaptive'; basePattern: HapticPattern; modifiers: HapticModifier[] };
 
 export interface HapticModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,7 +81,6 @@ export interface HapticModifier {
 }
 
 export interface HapticRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -94,7 +92,6 @@ export interface HapticRequest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   pattern: HapticPattern;
   at?: number; // epoch ms to trigger
   device?: HapticDeviceType;
@@ -104,7 +101,6 @@ export interface HapticRequest {
 }
 
 export interface HapticResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,7 +112,6 @@ export interface HapticResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   status: 'scheduled' | 'played' | 'skipped' | 'error' | 'cancelled' | 'delayed';
   reason?: string;
   actualDuration?: number;
@@ -126,7 +121,6 @@ export interface HapticResult {
 }
 
 export interface HapticDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,9 +132,7 @@ export interface HapticDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: HapticDeviceType;
-  name: string;
   capabilities: HapticCapabilities;
   connected: boolean;
   batteryLevel?: number;
@@ -151,7 +143,6 @@ export interface HapticDevice {
 }
 
 export interface HapticCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -175,7 +166,6 @@ export interface HapticCapabilities {
 }
 
 export interface HapticSequence {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,8 +177,6 @@ export interface HapticSequence {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HapticSequenceType;
   patterns: HapticPattern[];
   timing: number[];
@@ -198,7 +186,6 @@ export interface HapticSequence {
 }
 
 export interface HapticRhythmEngine {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,8 +197,6 @@ export interface HapticRhythmEngine {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   bpm: number;
   timeSignature: [number, number];
   patterns: Map<string, HapticPattern[]>;
@@ -223,7 +208,6 @@ export interface HapticRhythmEngine {
 }
 
 export interface HapticEnvironmentalResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,7 +227,6 @@ export interface HapticEnvironmentalResponse {
 }
 
 export interface HapticsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

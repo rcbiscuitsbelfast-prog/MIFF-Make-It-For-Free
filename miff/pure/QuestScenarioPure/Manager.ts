@@ -11,7 +11,6 @@
  */
 
 export interface QuestScenarioConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface QuestScenarioConfig {
 }
 
 export interface QuestScenarioManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface QuestScenarioManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: QuestScenarioManagerType;
   status: QuestScenarioManagerStatus;
   quests: Quest[];
@@ -65,16 +61,12 @@ export interface QuestScenarioManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type QuestScenarioManagerType = 'main' | 'side' | 'daily' | 'event' | 'custom';
 export type QuestScenarioManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Quest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,8 +78,6 @@ export interface Quest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: QuestType;
   status: QuestStatus;
   description: string;
@@ -97,14 +87,12 @@ export interface Quest {
   scenarios: string[];
   progression: QuestProgressionInfo;
   performance: QuestPerformance;
-  metadata: Record<string, any>;
 }
 
 export type QuestType = 'main' | 'side' | 'daily' | 'weekly' | 'event' | 'custom';
 export type QuestStatus = 'draft' | 'active' | 'completed' | 'failed' | 'expired';
 
 export interface QuestObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,8 +104,6 @@ export interface QuestObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectiveType;
   description: string;
   target: ObjectiveTarget;
@@ -130,7 +116,6 @@ export interface QuestObjective {
 export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'explore' | 'talk' | 'custom';
 
 export interface ObjectiveTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -143,8 +128,6 @@ export interface ObjectiveTarget {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TargetType;
-  id: string;
-  name: string;
   quantity: number;
   location: Vector3;
   radius: number;
@@ -153,7 +136,6 @@ export interface ObjectiveTarget {
 export type TargetType = 'enemy' | 'item' | 'npc' | 'location' | 'custom';
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,7 +153,6 @@ export interface Vector3 {
 }
 
 export interface ObjectiveProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,7 +172,6 @@ export interface ObjectiveProgress {
 }
 
 export interface QuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -203,7 +183,6 @@ export interface QuestReward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RewardType;
   itemId: string;
   quantity: number;
@@ -216,7 +195,6 @@ export interface QuestReward {
 export type RewardType = 'item' | 'experience' | 'gold' | 'reputation' | 'unlock' | 'custom';
 
 export interface ReputationReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,7 +211,6 @@ export interface ReputationReward {
 }
 
 export interface UnlockReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,14 +223,11 @@ export interface UnlockReward {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: UnlockType;
-  id: string;
-  name: string;
 }
 
 export type UnlockType = 'quest' | 'area' | 'ability' | 'item' | 'custom';
 
 export interface QuestRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +239,6 @@ export interface QuestRequirement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RequirementType;
   target: string;
   value: number;
@@ -277,7 +250,6 @@ export type RequirementType = 'level' | 'quest' | 'item' | 'reputation' | 'custo
 export type RequirementOperator = 'equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'custom';
 
 export interface ObjectiveCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -289,7 +261,6 @@ export interface ObjectiveCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   field: string;
   operator: ConditionOperator;
@@ -301,7 +272,6 @@ export type ConditionType = 'stat' | 'item' | 'quest' | 'location' | 'custom';
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface QuestProgressionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -322,7 +292,6 @@ export interface QuestProgressionInfo {
 }
 
 export interface QuestPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -341,7 +310,6 @@ export interface QuestPerformance {
 }
 
 export interface QuestScenario {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -353,8 +321,6 @@ export interface QuestScenario {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScenarioType;
   status: ScenarioStatus;
   questId: string;
@@ -363,14 +329,12 @@ export interface QuestScenario {
   conditions: ScenarioCondition[];
   actions: ScenarioAction[];
   performance: ScenarioPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ScenarioType = 'dialogue' | 'combat' | 'exploration' | 'puzzle' | 'custom';
 export type ScenarioStatus = 'draft' | 'ready' | 'active' | 'completed' | 'failed';
 
 export interface ScenarioCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -382,7 +346,6 @@ export interface ScenarioCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   field: string;
   operator: ConditionOperator;
@@ -391,7 +354,6 @@ export interface ScenarioCondition {
 }
 
 export interface ScenarioAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -403,7 +365,6 @@ export interface ScenarioAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   target: string;
   parameters: Record<string, any>;
@@ -414,7 +375,6 @@ export interface ScenarioAction {
 export type ActionType = 'spawn' | 'despawn' | 'move' | 'dialogue' | 'reward' | 'custom';
 
 export interface ScenarioPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -433,7 +393,6 @@ export interface ScenarioPerformance {
 }
 
 export interface QuestScript {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -445,8 +404,6 @@ export interface QuestScript {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScriptType;
   status: ScriptStatus;
   language: ScriptLanguage;
@@ -454,7 +411,6 @@ export interface QuestScript {
   functions: ScriptFunction[];
   variables: ScriptVariable[];
   performance: ScriptPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ScriptType = 'quest' | 'objective' | 'scenario' | 'custom';
@@ -463,7 +419,6 @@ export type ScriptStatus = 'draft' | 'ready' | 'active' | 'error';
 export type ScriptLanguage = 'javascript' | 'lua' | 'python' | 'custom';
 
 export interface ScriptFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -475,14 +430,12 @@ export interface ScriptFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: ScriptParameter[];
   returnType: string;
   description: string;
 }
 
 export interface ScriptParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -494,14 +447,12 @@ export interface ScriptParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   required: boolean;
   defaultValue: any;
 }
 
 export interface ScriptVariable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +464,6 @@ export interface ScriptVariable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   value: any;
   scope: VariableScope;
@@ -522,7 +472,6 @@ export interface ScriptVariable {
 export type VariableScope = 'global' | 'quest' | 'scenario' | 'local';
 
 export interface ScriptPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -541,7 +490,6 @@ export interface ScriptPerformance {
 }
 
 export interface QuestProgression {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -553,7 +501,6 @@ export interface QuestProgression {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   questId: string;
   playerId: string;
   status: ProgressionStatus;
@@ -562,13 +509,11 @@ export interface QuestProgression {
   progress: ProgressionProgress;
   rewards: QuestReward[];
   performance: ProgressionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ProgressionStatus = 'not_started' | 'in_progress' | 'completed' | 'failed' | 'abandoned';
 
 export interface ProgressionProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -589,7 +534,6 @@ export interface ProgressionProgress {
 }
 
 export interface ProgressionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -608,7 +552,6 @@ export interface ProgressionPerformance {
 }
 
 export interface QuestScenarioPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -635,7 +578,6 @@ export interface QuestScenarioPerformanceMetrics {
 }
 
 export interface QuestScenarioAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -656,7 +598,6 @@ export interface QuestScenarioAnalytics {
 }
 
 export interface QuestTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -675,7 +616,6 @@ export interface QuestTypeDistribution {
 }
 
 export interface ScenarioTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -694,7 +634,6 @@ export interface ScenarioTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -706,7 +645,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   quests: number;
   scenarios: number;
   completions: number;
@@ -715,7 +653,6 @@ export interface PerformanceTrend {
 }
 
 export interface QuestScenarioReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -738,7 +675,6 @@ export interface QuestScenarioReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -759,7 +695,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -779,7 +714,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -799,7 +733,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -812,13 +745,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface QuestScenarioOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

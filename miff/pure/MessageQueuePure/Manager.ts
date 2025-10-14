@@ -11,7 +11,6 @@
  */
 
 export interface MessageQueueConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface MessageQueueConfig {
 }
 
 export interface MessageQueueManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface MessageQueueManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MessageQueueManagerType;
   status: MessageQueueManagerStatus;
   queues: Queue[];
@@ -66,16 +62,12 @@ export interface MessageQueueManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type MessageQueueManagerType = 'fifo' | 'priority' | 'topic' | 'stream' | 'custom';
 export type MessageQueueManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Queue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +79,6 @@ export interface Queue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: QueueType;
   status: QueueStatus;
   configuration: QueueConfiguration;
@@ -96,14 +86,12 @@ export interface Queue {
   consumers: string[];
   producers: string[];
   performance: QueuePerformance;
-  metadata: Record<string, any>;
 }
 
 export type QueueType = 'fifo' | 'priority' | 'topic' | 'stream' | 'custom';
 export type QueueStatus = 'active' | 'inactive' | 'paused' | 'error';
 
 export interface QueueConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface QueueConfiguration {
 }
 
 export interface EncryptionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +133,6 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +153,6 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
 export interface PartitioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -188,7 +173,6 @@ export interface PartitioningConfig {
 export type PartitioningStrategy = 'hash' | 'range' | 'round_robin' | 'custom';
 
 export interface QueuePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -209,7 +193,6 @@ export interface QueuePerformance {
 }
 
 export interface Message {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -221,7 +204,6 @@ export interface Message {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   queue: string;
   type: MessageType;
   status: MessageStatus;
@@ -236,7 +218,6 @@ export type MessageType = 'text' | 'json' | 'binary' | 'xml' | 'custom';
 export type MessageStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'dead_letter';
 
 export interface MessageContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,7 +239,6 @@ export interface MessageContent {
 export type ContentFormat = 'string' | 'json' | 'xml' | 'binary' | 'custom';
 
 export interface MessageHeaders {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,14 +253,12 @@ export interface MessageHeaders {
   contentType: string;
   encoding: string;
   priority: number;
-  timestamp: number;
   correlationId: string;
   replyTo: string;
   custom: Record<string, any>;
 }
 
 export interface MessageMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -301,7 +279,6 @@ export interface MessageMetadata {
 }
 
 export interface DeliveryInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -321,7 +298,6 @@ export interface DeliveryInfo {
 }
 
 export interface MessagePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -341,7 +317,6 @@ export interface MessagePerformance {
 }
 
 export interface Consumer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -353,21 +328,17 @@ export interface Consumer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConsumerType;
   status: ConsumerStatus;
   queues: string[];
   configuration: ConsumerConfiguration;
   performance: ConsumerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ConsumerType = 'pull' | 'push' | 'stream' | 'custom';
 export type ConsumerStatus = 'active' | 'inactive' | 'error';
 
 export interface ConsumerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -388,7 +359,6 @@ export interface ConsumerConfiguration {
 }
 
 export interface ConsumerFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -411,7 +381,6 @@ export type FilterType = 'header' | 'content' | 'metadata' | 'custom';
 export type FilterOperator = 'equals' | 'contains' | 'starts_with' | 'ends_with' | 'custom';
 
 export interface ConsumerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +401,6 @@ export interface ConsumerPerformance {
 }
 
 export interface Producer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -444,21 +412,17 @@ export interface Producer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProducerType;
   status: ProducerStatus;
   queues: string[];
   configuration: ProducerConfiguration;
   performance: ProducerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ProducerType = 'sync' | 'async' | 'batch' | 'custom';
 export type ProducerStatus = 'active' | 'inactive' | 'error';
 
 export interface ProducerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -479,7 +443,6 @@ export interface ProducerConfiguration {
 }
 
 export interface ProducerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -500,7 +463,6 @@ export interface ProducerPerformance {
 }
 
 export interface MessageRouter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -512,21 +474,17 @@ export interface MessageRouter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RouterType;
   status: RouterStatus;
   configuration: RouterConfiguration;
   rules: RoutingRule[];
   performance: RouterPerformance;
-  metadata: Record<string, any>;
 }
 
 export type RouterType = 'content_based' | 'header_based' | 'priority_based' | 'custom';
 export type RouterStatus = 'active' | 'inactive' | 'error';
 
 export interface RouterConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -548,7 +506,6 @@ export interface RouterConfiguration {
 export type RoutingStrategy = 'round_robin' | 'least_connections' | 'weighted' | 'custom';
 
 export interface LoadBalancingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -568,7 +525,6 @@ export interface LoadBalancingConfig {
 export type LoadBalancingAlgorithm = 'round_robin' | 'least_connections' | 'weighted' | 'custom';
 
 export interface RoutingRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -580,8 +536,6 @@ export interface RoutingRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -589,7 +543,6 @@ export interface RoutingRule {
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -612,7 +565,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -633,7 +585,6 @@ export interface RuleAction {
 export type ActionType = 'route' | 'transform' | 'filter' | 'custom';
 
 export interface RouterPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +604,6 @@ export interface RouterPerformance {
 }
 
 export interface MessageQueuePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -685,7 +635,6 @@ export interface MessageQueuePerformanceMetrics {
 }
 
 export interface MessageQueueAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -706,7 +655,6 @@ export interface MessageQueueAnalytics {
 }
 
 export interface QueueTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -725,7 +673,6 @@ export interface QueueTypeDistribution {
 }
 
 export interface MessageTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -744,7 +691,6 @@ export interface MessageTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -756,7 +702,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   queues: number;
   messages: number;
   processingTime: number;
@@ -766,7 +711,6 @@ export interface PerformanceTrend {
 }
 
 export interface MessageQueueReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -789,7 +733,6 @@ export interface MessageQueueReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -810,7 +753,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -830,7 +772,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -850,7 +791,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -863,13 +803,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface MessageQueueOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

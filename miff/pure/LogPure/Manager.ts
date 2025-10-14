@@ -11,7 +11,6 @@
  */
 
 export interface LogConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface LogConfig {
 }
 
 export interface LogManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface LogManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LogManagerType;
   status: LogManagerStatus;
   logs: LogEntry[];
@@ -65,16 +61,12 @@ export interface LogManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type LogManagerType = 'file' | 'database' | 'stream' | 'cloud' | 'custom';
 export type LogManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface LogEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,21 +78,17 @@ export interface LogEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  timestamp: number;
   level: LogLevel;
   category: string;
   message: string;
   context: LogContext;
   source: LogSource;
   tags: string[];
-  metadata: Record<string, any>;
 }
 
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
 export interface LogContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +111,6 @@ export interface LogContext {
 }
 
 export interface LogSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +131,6 @@ export interface LogSource {
 }
 
 export interface LogCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,18 +142,14 @@ export interface LogCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   level: LogLevel;
   enabled: boolean;
   filters: string[];
   outputs: string[];
-  metadata: Record<string, any>;
 }
 
 export interface LogFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -179,19 +161,15 @@ export interface LogFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FilterType;
   conditions: FilterCondition[];
   enabled: boolean;
   actions: FilterAction[];
-  metadata: Record<string, any>;
 }
 
 export type FilterType = 'level' | 'category' | 'message' | 'context' | 'custom';
 
 export interface FilterCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -212,7 +190,6 @@ export interface FilterCondition {
 export type FilterOperator = 'equals' | 'contains' | 'starts_with' | 'ends_with' | 'regex' | 'custom';
 
 export interface FilterAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -232,7 +209,6 @@ export interface FilterAction {
 export type ActionType = 'include' | 'exclude' | 'transform' | 'route' | 'custom';
 
 export interface LogOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -244,20 +220,16 @@ export interface LogOutput {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: OutputType;
   configuration: OutputConfiguration;
   enabled: boolean;
   filters: string[];
   performance: OutputPerformance;
-  metadata: Record<string, any>;
 }
 
 export type OutputType = 'file' | 'database' | 'console' | 'syslog' | 'elasticsearch' | 'custom';
 
 export interface OutputConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,7 +252,6 @@ export interface OutputConfiguration {
 }
 
 export interface LogFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,7 +275,6 @@ export interface LogFormat {
 export type FormatType = 'json' | 'text' | 'xml' | 'csv' | 'custom';
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +294,6 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
 export interface RotationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -346,7 +315,6 @@ export interface RotationConfig {
 export type RotationStrategy = 'size' | 'time' | 'both' | 'custom';
 
 export interface RetentionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +334,6 @@ export interface RetentionConfig {
 }
 
 export interface OutputPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -386,7 +353,6 @@ export interface OutputPerformance {
 }
 
 export interface LogPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -411,7 +377,6 @@ export interface LogPerformanceMetrics {
 }
 
 export interface LogAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +397,6 @@ export interface LogAnalytics {
 }
 
 export interface LevelDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -451,7 +415,6 @@ export interface LevelDistribution {
 }
 
 export interface CategoryDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -470,7 +433,6 @@ export interface CategoryDistribution {
 }
 
 export interface SourceDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -489,7 +451,6 @@ export interface SourceDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -501,7 +462,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   logs: number;
   throughput: number;
   latency: number;
@@ -510,7 +470,6 @@ export interface PerformanceTrend {
 }
 
 export interface LogReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -533,7 +492,6 @@ export interface LogReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -554,7 +512,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,7 +531,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -594,7 +550,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -607,13 +562,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface LogOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AssetValidatorConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface AssetValidatorConfig {
 }
 
 export interface AssetValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,21 +55,17 @@ export interface AssetValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   status: ValidatorStatus;
   rules: ValidationRule[];
   results: ValidationResult[];
   analytics: ValidatorAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,8 +77,6 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   condition: string;
   severity: RuleSeverity;
@@ -94,7 +86,6 @@ export interface ValidationRule {
 }
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,7 +97,6 @@ export interface ValidationResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   assetId: string;
   ruleId: string;
   status: ValidationStatus;
@@ -117,7 +107,6 @@ export interface ValidationResult {
 }
 
 export interface ValidatorAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

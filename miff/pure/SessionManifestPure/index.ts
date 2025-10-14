@@ -1,5 +1,4 @@
 export interface SessionPlayerRef {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface SessionPlayerRef {
 }
 
 export interface SessionManifest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -31,7 +29,6 @@ export interface SessionManifest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   zone: string;
   players: SessionPlayerRef[];
   seed?: number;

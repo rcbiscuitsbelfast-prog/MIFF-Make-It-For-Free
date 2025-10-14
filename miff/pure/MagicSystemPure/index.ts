@@ -15,7 +15,6 @@ type RNGPure = any;
 
 // Core interfaces and types
 export interface SpellElement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,7 +26,6 @@ export interface SpellElement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   color: string;
   description: string;
   strengths: string[]; // Elements this is strong against
@@ -36,7 +34,6 @@ export interface SpellElement {
 }
 
 export interface SpellEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,7 +56,6 @@ export interface SpellEffect {
 }
 
 export interface SpellDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -71,8 +67,6 @@ export interface SpellDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   manaCost: number;
   cooldown: number;
@@ -93,7 +87,6 @@ export interface SpellDefinition {
 }
 
 export interface ManaPool {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,7 +107,6 @@ export interface ManaPool {
 }
 
 export interface SpellInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,7 +129,6 @@ export interface SpellInstance {
 }
 
 export interface MagicCombatResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +153,6 @@ export interface MagicCombatResult {
 }
 
 export interface SpellSchool {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -174,7 +164,6 @@ export interface SpellSchool {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   color: string;
   icon: string;

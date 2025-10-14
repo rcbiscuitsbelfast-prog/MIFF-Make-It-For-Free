@@ -6,7 +6,6 @@
  */
 
 export interface Vec3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -24,7 +23,6 @@ export interface Vec3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +41,6 @@ export interface Quaternion {
 }
 
 export interface Transform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,7 +58,6 @@ export interface Transform {
 }
 
 export interface RigNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -73,17 +69,13 @@ export interface RigNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'head' | 'neck' | 'torso' | 'limb' | 'joint';
   transform: Transform;
   parent?: string;
   children: string[];
-  metadata: Record<string, any>;
 }
 
 export interface RigConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -95,12 +87,9 @@ export interface RigConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   nodes: Record<string, RigNode>;
   rootNode: string;
-  metadata: Record<string, any>;
 }
 
 export class SimpleRigBuilder {

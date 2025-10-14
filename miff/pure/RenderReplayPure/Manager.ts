@@ -10,7 +10,6 @@
  */
 
 export interface RenderReplayConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface RenderReplayConfig {
 }
 
 export interface RenderReplayManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface RenderReplayManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RenderReplayManagerType;
   status: RenderReplayManagerStatus;
   replays: RenderReplay[];
@@ -65,16 +61,12 @@ export interface RenderReplayManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type RenderReplayManagerType = 'gameplay' | 'cinematic' | 'debug' | 'custom';
 export type RenderReplayManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface RenderReplay {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,8 +78,6 @@ export interface RenderReplay {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ReplayType;
   status: ReplayStatus;
   duration: number;
@@ -97,15 +87,12 @@ export interface RenderReplay {
   frames: ReplayFrame[];
   metadata: ReplayMetadata;
   performance: ReplayPerformance;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ReplayType = 'full' | 'partial' | 'highlight' | 'custom';
 export type ReplayStatus = 'recording' | 'processing' | 'ready' | 'playing' | 'paused' | 'error';
 
 export interface Resolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +111,6 @@ export interface Resolution {
 }
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +132,6 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
 
 export interface ReplayFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,8 +143,6 @@ export interface ReplayFrame {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  timestamp: number;
   frameNumber: number;
   data: FrameData;
   compression: FrameCompression;
@@ -167,7 +150,6 @@ export interface ReplayFrame {
 }
 
 export interface FrameData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -190,7 +172,6 @@ export type DataType = 'image' | 'video' | 'audio' | 'custom';
 export type DataFormat = 'png' | 'jpg' | 'webp' | 'mp4' | 'webm' | 'custom';
 
 export interface FrameCompression {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,7 +191,6 @@ export interface FrameCompression {
 }
 
 export interface FrameMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +209,6 @@ export interface FrameMetadata {
 }
 
 export interface CameraInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,7 +228,6 @@ export interface CameraInfo {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -267,7 +245,6 @@ export interface Vector3 {
 }
 
 export interface LightingInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -286,7 +263,6 @@ export interface LightingInfo {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -305,7 +281,6 @@ export interface Color {
 }
 
 export interface DirectionalLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +299,6 @@ export interface DirectionalLight {
 }
 
 export interface PointLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -344,7 +318,6 @@ export interface PointLight {
 }
 
 export interface SpotLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +339,6 @@ export interface SpotLight {
 }
 
 export interface ObjectInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -378,8 +350,6 @@ export interface ObjectInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectType;
   position: Vector3;
   rotation: Vector3;
@@ -391,7 +361,6 @@ export interface ObjectInfo {
 export type ObjectType = 'mesh' | 'light' | 'camera' | 'particle' | 'custom';
 
 export interface MaterialInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -403,14 +372,12 @@ export interface MaterialInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   shader: string;
   properties: MaterialProperty[];
   textures: TextureInfo[];
 }
 
 export interface MaterialProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +389,6 @@ export interface MaterialProperty {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: PropertyType;
   value: any;
 }
@@ -430,7 +396,6 @@ export interface MaterialProperty {
 export type PropertyType = 'float' | 'vector3' | 'color' | 'texture' | 'custom';
 
 export interface TextureInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,7 +407,6 @@ export interface TextureInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: TextureType;
   path: string;
   size: Resolution;
@@ -452,7 +416,6 @@ export interface TextureInfo {
 export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
 
 export interface PerformanceInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -474,7 +437,6 @@ export interface PerformanceInfo {
 }
 
 export interface ReplayMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -497,7 +459,6 @@ export interface ReplayMetadata {
 }
 
 export interface GameSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -516,7 +477,6 @@ export interface GameSettings {
 }
 
 export interface GraphicsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -543,7 +503,6 @@ export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 export type LightingQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface AudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -564,7 +523,6 @@ export interface AudioSettings {
 }
 
 export interface ControlSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -583,7 +541,6 @@ export interface ControlSettings {
 }
 
 export interface KeyBinding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -602,7 +559,6 @@ export interface KeyBinding {
 }
 
 export interface GameplaySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -624,7 +580,6 @@ export interface GameplaySettings {
 export type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'expert' | 'custom';
 
 export interface ReplayPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -645,7 +600,6 @@ export interface ReplayPerformance {
 }
 
 export interface ReplayRecording {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -657,19 +611,15 @@ export interface ReplayRecording {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   status: RecordingStatus;
   configuration: RecordingConfiguration;
   frames: ReplayFrame[];
   performance: RecordingPerformance;
-  metadata: Record<string, any>;
 }
 
 export type RecordingStatus = 'preparing' | 'recording' | 'paused' | 'stopping' | 'completed' | 'error';
 
 export interface RecordingConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -693,7 +643,6 @@ export type RecordingQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 export type RecordingFormat = 'mp4' | 'webm' | 'avi' | 'mov' | 'custom';
 
 export interface AudioRecordingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -715,7 +664,6 @@ export interface AudioRecordingConfig {
 export type AudioCodec = 'aac' | 'mp3' | 'opus' | 'vorbis' | 'custom';
 
 export interface RecordingPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -735,7 +683,6 @@ export interface RecordingPerformance {
 }
 
 export interface ReplayPlayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -747,20 +694,16 @@ export interface ReplayPlayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   status: PlayerStatus;
   configuration: PlayerConfiguration;
   currentReplay: string | null;
   currentFrame: number;
   performance: PlayerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PlayerStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'stopped' | 'error';
 
 export interface PlayerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -782,7 +725,6 @@ export interface PlayerConfiguration {
 export type PlaybackQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface ControlConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -802,7 +744,6 @@ export interface ControlConfiguration {
 }
 
 export interface PlayerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -822,7 +763,6 @@ export interface PlayerPerformance {
 }
 
 export interface ReplayCompressor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -834,20 +774,16 @@ export interface ReplayCompressor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CompressorType;
   status: CompressorStatus;
   configuration: CompressorConfiguration;
   performance: CompressorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type CompressorType = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
 export type CompressorStatus = 'idle' | 'compressing' | 'error';
 
 export interface CompressorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -868,7 +804,6 @@ export interface CompressorConfiguration {
 }
 
 export interface CompressorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -888,7 +823,6 @@ export interface CompressorPerformance {
 }
 
 export interface RenderReplayPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -916,7 +850,6 @@ export interface RenderReplayPerformanceMetrics {
 }
 
 export interface RenderReplayAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -937,7 +870,6 @@ export interface RenderReplayAnalytics {
 }
 
 export interface ReplayTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -956,7 +888,6 @@ export interface ReplayTypeDistribution {
 }
 
 export interface CompressionDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -975,7 +906,6 @@ export interface CompressionDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -987,7 +917,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   replays: number;
   frames: number;
   frameRate: number;
@@ -996,7 +925,6 @@ export interface PerformanceTrend {
 }
 
 export interface RenderReplayReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1019,7 +947,6 @@ export interface RenderReplayReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1040,7 +967,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1060,7 +986,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1080,7 +1005,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1093,13 +1017,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface RenderReplayOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -6,7 +6,6 @@
  */
 
 export interface Grid {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -26,7 +25,6 @@ export interface Grid {
 }
 
 export interface Node {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +45,6 @@ export interface Node {
 }
 
 export interface PathfindingRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,7 +56,6 @@ export interface PathfindingRequest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   start: Node;
   goal: Node;
   algorithm: 'astar' | 'dijkstra' | 'bfs' | 'dfs';
@@ -67,11 +63,9 @@ export interface PathfindingRequest {
   maxIterations?: number;
   allowDiagonal?: boolean;
   priority?: number;
-  timestamp: number;
 }
 
 export interface PathfindingResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,12 +84,10 @@ export interface PathfindingResult {
   success: boolean;
   algorithm: string;
   heuristic?: string;
-  timestamp: number;
   metadata?: Record<string, any>;
 }
 
 export interface PathfindingStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +115,6 @@ export interface PathfindingStats {
 }
 
 export interface PathfindingFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,7 +136,6 @@ export interface PathfindingFilter {
 }
 
 export interface PathfindingOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

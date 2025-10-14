@@ -62,7 +62,6 @@ export enum HashAlgorithm {
 }
 
 export interface SecurityConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,7 +102,6 @@ export interface SecurityConfig {
 }
 
 export interface SecurityEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -115,7 +113,6 @@ export interface SecurityEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   timestamp: Date;
   type: ThreatType;
   level: SecurityLevel;
@@ -129,7 +126,6 @@ export interface SecurityEvent {
 }
 
 export interface SecurityAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -141,7 +137,6 @@ export interface SecurityAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   eventId: string;
   timestamp: Date;
   level: SecurityLevel;
@@ -153,7 +148,6 @@ export interface SecurityAlert {
 }
 
 export interface SecurityAudit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -165,7 +159,6 @@ export interface SecurityAudit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   timestamp: Date;
   action: string;
   userId?: string;
@@ -178,7 +171,6 @@ export interface SecurityAudit {
 }
 
 export interface VulnerabilityReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -190,7 +182,6 @@ export interface VulnerabilityReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   timestamp: Date;
   severity: SecurityLevel;
   title: string;
@@ -205,7 +196,6 @@ export interface VulnerabilityReport {
 }
 
 export interface ComplianceReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +207,6 @@ export interface ComplianceReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   timestamp: Date;
   standard: string;
   status: 'compliant' | 'non_compliant' | 'partial';
@@ -228,7 +217,6 @@ export interface ComplianceReport {
 }
 
 export interface ComplianceFinding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,7 +228,6 @@ export interface ComplianceFinding {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   requirement: string;
   status: 'pass' | 'fail' | 'warning';
   description: string;
@@ -249,7 +236,6 @@ export interface ComplianceFinding {
 }
 
 export interface SecurityMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

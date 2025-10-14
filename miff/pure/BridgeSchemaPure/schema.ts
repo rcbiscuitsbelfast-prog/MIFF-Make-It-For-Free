@@ -4,7 +4,6 @@
 export type RenderDataType = 'sprite' | 'text' | 'sound' | 'animation' | 'node' | 'component' | 'resource' | 'scene' | 'input';
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,7 +21,6 @@ export interface Position3D {
 }
 
 export interface EngineHints {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,7 +53,6 @@ export interface EngineHints {
 }
 
 export interface RenderData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -67,7 +64,6 @@ export interface RenderData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RenderDataType;
   name?: string;
   position?: Position3D;
@@ -82,7 +78,6 @@ export interface RenderData {
 }
 
 export interface RenderSignal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -94,14 +89,12 @@ export interface RenderSignal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters?: string[];
   connectedTo?: string[];
   engine?: 'unity' | 'web' | 'godot';
 }
 
 export interface RenderPayload {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +121,6 @@ export interface RenderPayload {
 }
 
 export interface BridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

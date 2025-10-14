@@ -9,7 +9,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PixelAnimOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

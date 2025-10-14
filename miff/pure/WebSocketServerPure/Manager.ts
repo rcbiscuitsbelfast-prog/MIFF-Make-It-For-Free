@@ -13,7 +13,6 @@
  */
 
 export interface WebSocketServerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +45,6 @@ export interface WebSocketServerConfig {
 }
 
 export interface WebSocketServer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -58,8 +56,6 @@ export interface WebSocketServer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WebSocketServerType;
   status: WebSocketServerStatus;
   servers: Server[];
@@ -72,16 +68,12 @@ export interface WebSocketServer {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type WebSocketServerType = 'ws' | 'wss' | 'http' | 'https' | 'tcp' | 'udp';
 export type WebSocketServerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Server {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,8 +85,6 @@ export interface Server {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   host: string;
   port: number;
   protocol: string;
@@ -103,11 +93,9 @@ export interface Server {
   maxConnections: number;
   uptime: number;
   lastActivity: number;
-  metadata: Record<string, any>;
 }
 
 export interface WebSocketConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,7 +107,6 @@ export interface WebSocketConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   serverId: string;
   clientId: string;
   status: 'connected' | 'disconnected' | 'connecting';
@@ -128,11 +115,9 @@ export interface WebSocketConnection {
   messageCount: number;
   bytesReceived: number;
   bytesSent: number;
-  metadata: Record<string, any>;
 }
 
 export interface ServerCluster {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,18 +129,14 @@ export interface ServerCluster {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   servers: string[];
   loadBalancer: string;
   healthCheck: HealthCheckConfig;
   autoScaling: AutoScalingConfig;
   status: 'active' | 'inactive' | 'error';
-  metadata: Record<string, any>;
 }
 
 export interface LoadBalancer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,17 +148,13 @@ export interface LoadBalancer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   algorithm: 'round-robin' | 'least-connections' | 'ip-hash' | 'weighted';
   servers: string[];
   healthCheck: HealthCheckConfig;
   status: 'active' | 'inactive' | 'error';
-  metadata: Record<string, any>;
 }
 
 export interface HealthCheckConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -197,7 +174,6 @@ export interface HealthCheckConfig {
 }
 
 export interface AutoScalingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -218,7 +194,6 @@ export interface AutoScalingConfig {
 }
 
 export interface WebSocketServerPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,7 +218,6 @@ export interface WebSocketServerPerformanceMetrics {
 }
 
 export interface WebSocketServerAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -268,7 +242,6 @@ export interface WebSocketServerAnalytics {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,7 +253,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   connections: number;
   messages: number;
   responseTime: number;
@@ -288,7 +260,6 @@ export interface PerformanceTrend {
 }
 
 export interface WebSocketServerReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,7 +282,6 @@ export interface WebSocketServerReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -332,7 +302,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -352,7 +321,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -372,7 +340,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -385,13 +352,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface WebSocketServerOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

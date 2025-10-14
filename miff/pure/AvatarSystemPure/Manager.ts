@@ -20,7 +20,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AvatarSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +46,6 @@ export interface AvatarSystemConfig {
 }
 
 export interface AvatarSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,8 +57,6 @@ export interface AvatarSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   avatars: Avatar[];
@@ -69,14 +65,12 @@ export interface AvatarSystem {
   customization: CustomizationOptions;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Avatar {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,19 +82,15 @@ export interface Avatar {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AvatarType;
   status: AvatarStatus;
   appearance: Appearance;
   animations: string[];
   currentState: string;
   transform: Transform3D;
-  metadata: Record<string, any>;
 }
 
 export interface Appearance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -112,8 +102,6 @@ export interface Appearance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   gender: Gender;
   race: Race;
   skinColor: string;
@@ -124,11 +112,9 @@ export interface Appearance {
   features: AppearanceFeature[];
   clothing: ClothingItem[];
   accessories: AccessoryItem[];
-  metadata: Record<string, any>;
 }
 
 export interface Animation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,18 +126,14 @@ export interface Animation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   duration: number; // seconds
   loop: boolean;
   speed: number;
   tracks: AnimationTrack[];
-  metadata: Record<string, any>;
 }
 
 export interface AvatarState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -163,17 +145,13 @@ export interface AvatarState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StateType;
   active: boolean;
   properties: StateProperties;
   transitions: StateTransition[];
-  metadata: Record<string, any>;
 }
 
 export interface CustomizationOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,7 +176,6 @@ export interface CustomizationOptions {
 }
 
 export interface AppearanceFeature {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,16 +187,12 @@ export interface AppearanceFeature {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FeatureType;
   category: string;
   options: FeatureOption[];
-  metadata: Record<string, any>;
 }
 
 export interface ClothingItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -231,18 +204,14 @@ export interface ClothingItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ClothingType;
   category: string;
   gender: Gender[];
   race: Race[];
   colorable: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface AccessoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -254,17 +223,13 @@ export interface AccessoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AccessoryType;
   category: string;
   gender: Gender[];
   race: Race[];
-  metadata: Record<string, any>;
 }
 
 export interface FeatureOption {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,14 +241,10 @@ export interface FeatureOption {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface AnimationTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -295,15 +256,12 @@ export interface AnimationTrack {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TrackType;
   property: string;
   keyframes: Keyframe[];
-  metadata: Record<string, any>;
 }
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -318,11 +276,9 @@ export interface Keyframe {
   time: number; // seconds
   value: any;
   interpolation: InterpolationType;
-  metadata: Record<string, any>;
 }
 
 export interface StateProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -338,7 +294,6 @@ export interface StateProperties {
 }
 
 export interface StateTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -350,15 +305,12 @@ export interface StateTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   fromState: string;
   toState: string;
   condition: string;
-  metadata: Record<string, any>;
 }
 
 export interface Transform3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -376,7 +328,6 @@ export interface Transform3D {
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -397,7 +348,6 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

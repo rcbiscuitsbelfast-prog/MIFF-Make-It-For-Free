@@ -12,7 +12,6 @@
  */
 
 export interface ServiceDiscoveryConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface ServiceDiscoveryConfig {
 }
 
 export interface ServiceDiscoveryManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface ServiceDiscoveryManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ServiceDiscoveryManagerType;
   status: ServiceDiscoveryManagerStatus;
   services: Service[];
@@ -68,16 +64,12 @@ export interface ServiceDiscoveryManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ServiceDiscoveryManagerType = 'microservices' | 'monolith' | 'serverless' | 'hybrid' | 'custom';
 export type ServiceDiscoveryManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Service {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface Service {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ServiceType;
   status: ServiceStatus;
   definition: ServiceDefinition;
@@ -98,14 +88,12 @@ export interface Service {
   dependencies: ServiceDependency[];
   configuration: ServiceConfiguration;
   performance: ServicePerformance;
-  metadata: Record<string, any>;
 }
 
 export type ServiceType = 'api' | 'database' | 'cache' | 'queue' | 'storage' | 'custom';
 export type ServiceStatus = 'active' | 'inactive' | 'maintenance' | 'deprecated' | 'error';
 
 export interface ServiceDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +114,6 @@ export interface ServiceDefinition {
 }
 
 export interface ServiceEndpoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,7 +125,6 @@ export interface ServiceEndpoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   path: string;
   method: HttpMethod;
   parameters: EndpointParameter[];
@@ -150,7 +136,6 @@ export interface ServiceEndpoint {
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
 
 export interface EndpointParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +147,6 @@ export interface EndpointParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: ParameterType;
   required: boolean;
   description: string;
@@ -172,7 +156,6 @@ export interface EndpointParameter {
 export type ParameterType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'custom';
 
 export interface ParameterValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,7 +175,6 @@ export interface ParameterValidation {
 }
 
 export interface EndpointResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -211,7 +193,6 @@ export interface EndpointResponse {
 }
 
 export interface ResponseSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +210,6 @@ export interface ResponseSchema {
 }
 
 export interface ResponseHeader {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -241,14 +221,12 @@ export interface ResponseHeader {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   description: string;
   required: boolean;
 }
 
 export interface AuthenticationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,7 +247,6 @@ export interface AuthenticationSettings {
 export type AuthenticationType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface RateLimitSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -289,7 +266,6 @@ export interface RateLimitSettings {
 }
 
 export interface ServiceSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -301,8 +277,6 @@ export interface ServiceSchema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SchemaType;
   definition: Record<string, any>;
   version: string;
@@ -312,7 +286,6 @@ export interface ServiceSchema {
 export type SchemaType = 'json' | 'xml' | 'protobuf' | 'avro' | 'custom';
 
 export interface SchemaValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -330,7 +303,6 @@ export interface SchemaValidation {
 }
 
 export interface ServiceDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -349,7 +321,6 @@ export interface ServiceDocumentation {
 }
 
 export interface DocumentationExample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -361,14 +332,12 @@ export interface DocumentationExample {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   request: ExampleRequest;
   response: ExampleResponse;
 }
 
 export interface ExampleRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,7 +356,6 @@ export interface ExampleRequest {
 }
 
 export interface ExampleResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -405,7 +373,6 @@ export interface ExampleResponse {
 }
 
 export interface DocumentationTutorial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -417,7 +384,6 @@ export interface DocumentationTutorial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   steps: TutorialStep[];
@@ -425,7 +391,6 @@ export interface DocumentationTutorial {
 }
 
 export interface TutorialStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -437,7 +402,6 @@ export interface TutorialStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   code: string;
@@ -445,7 +409,6 @@ export interface TutorialStep {
 }
 
 export interface ApiDocumentation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -464,7 +427,6 @@ export interface ApiDocumentation {
 }
 
 export interface ServiceDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -486,7 +448,6 @@ export interface ServiceDependency {
 export type DependencyType = 'hard' | 'soft' | 'optional' | 'custom';
 
 export interface DependencyConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -505,7 +466,6 @@ export interface DependencyConfiguration {
 }
 
 export interface CircuitBreakerSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -524,7 +484,6 @@ export interface CircuitBreakerSettings {
 }
 
 export interface FallbackSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +503,6 @@ export interface FallbackSettings {
 export type FallbackStrategy = 'default' | 'cached' | 'alternative' | 'custom';
 
 export interface ServiceConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -564,7 +522,6 @@ export interface ServiceConfiguration {
 }
 
 export interface EnvironmentSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -582,7 +539,6 @@ export interface EnvironmentSettings {
 }
 
 export interface SecretSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -594,7 +550,6 @@ export interface SecretSettings {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: SecretType;
   encrypted: boolean;
   rotation: SecretRotation;
@@ -603,7 +558,6 @@ export interface SecretSettings {
 export type SecretType = 'password' | 'token' | 'certificate' | 'key' | 'custom';
 
 export interface SecretRotation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -623,7 +577,6 @@ export interface SecretRotation {
 export type RotationMethod = 'automatic' | 'manual' | 'scheduled' | 'custom';
 
 export interface ConfigMapSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -635,13 +588,11 @@ export interface ConfigMapSettings {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   data: Record<string, string>;
   immutable: boolean;
 }
 
 export interface ScalingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -662,7 +613,6 @@ export interface ScalingSettings {
 }
 
 export interface ScalingMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -684,7 +634,6 @@ export type MetricType = 'cpu' | 'memory' | 'requests' | 'custom';
 export type ComparisonOperator = 'greater_than' | 'less_than' | 'equals' | 'custom';
 
 export interface ScalingPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -704,7 +653,6 @@ export interface ScalingPolicy {
 export type PolicyType = 'horizontal' | 'vertical' | 'custom';
 
 export interface SecuritySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -724,7 +672,6 @@ export interface SecuritySettings {
 }
 
 export interface AuthorizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -745,7 +692,6 @@ export interface AuthorizationSettings {
 export type AuthorizationType = 'rbac' | 'abac' | 'custom';
 
 export interface AuthorizationPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -757,8 +703,6 @@ export interface AuthorizationPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   rules: PolicyRule[];
   effect: PolicyEffect;
 }
@@ -766,7 +710,6 @@ export interface AuthorizationPolicy {
 export type PolicyEffect = 'allow' | 'deny';
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -784,7 +727,6 @@ export interface PolicyRule {
 }
 
 export interface PolicyCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -802,7 +744,6 @@ export interface PolicyCondition {
 }
 
 export interface Role {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -814,14 +755,11 @@ export interface Role {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   permissions: string[];
   description: string;
 }
 
 export interface EncryptionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -841,7 +779,6 @@ export interface EncryptionSettings {
 }
 
 export interface KeyManagementSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -859,7 +796,6 @@ export interface KeyManagementSettings {
 }
 
 export interface NetworkSecuritySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -878,7 +814,6 @@ export interface NetworkSecuritySettings {
 }
 
 export interface FirewallSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -898,7 +833,6 @@ export interface FirewallSettings {
 export type FirewallAction = 'allow' | 'deny';
 
 export interface FirewallRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -910,7 +844,6 @@ export interface FirewallRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   direction: RuleDirection;
   protocol: string;
   port: number;
@@ -922,7 +855,6 @@ export interface FirewallRule {
 export type RuleDirection = 'inbound' | 'outbound';
 
 export interface VpnSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -942,7 +874,6 @@ export interface VpnSettings {
 export type VpnType = 'ipsec' | 'openvpn' | 'wireguard' | 'custom';
 
 export interface ProxySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -962,7 +893,6 @@ export interface ProxySettings {
 export type ProxyType = 'http' | 'socks' | 'transparent' | 'custom';
 
 export interface MonitoringSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -981,7 +911,6 @@ export interface MonitoringSettings {
 }
 
 export interface MetricsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1001,7 +930,6 @@ export interface MetricsSettings {
 }
 
 export interface TracingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1020,7 +948,6 @@ export interface TracingSettings {
 }
 
 export interface SamplingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1040,7 +967,6 @@ export interface SamplingSettings {
 export type SamplingStrategy = 'fixed' | 'adaptive' | 'custom';
 
 export interface SamplingRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1058,7 +984,6 @@ export interface SamplingRule {
 }
 
 export interface AlertingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1077,7 +1002,6 @@ export interface AlertingSettings {
 }
 
 export interface AlertRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1089,8 +1013,6 @@ export interface AlertRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: string;
   severity: AlertSeverity;
   actions: AlertAction[];
@@ -1099,7 +1021,6 @@ export interface AlertRule {
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface AlertAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1119,7 +1040,6 @@ export interface AlertAction {
 export type ActionType = 'email' | 'sms' | 'webhook' | 'custom';
 
 export interface AlertChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1131,8 +1051,6 @@ export interface AlertChannel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChannelType;
   configuration: Record<string, any>;
   enabled: boolean;
@@ -1141,7 +1059,6 @@ export interface AlertChannel {
 export type ChannelType = 'email' | 'slack' | 'teams' | 'custom';
 
 export interface EscalationPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1159,7 +1076,6 @@ export interface EscalationPolicy {
 }
 
 export interface EscalationLevel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1178,7 +1094,6 @@ export interface EscalationLevel {
 }
 
 export interface LoggingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1200,7 +1115,6 @@ export interface LoggingSettings {
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
 export interface LogFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1222,7 +1136,6 @@ export interface LogFormat {
 export type FormatType = 'json' | 'text' | 'xml' | 'custom';
 
 export interface LogDestination {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1242,7 +1155,6 @@ export interface LogDestination {
 export type DestinationType = 'file' | 'database' | 'cloud' | 'custom';
 
 export interface LogRotation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1261,7 +1173,6 @@ export interface LogRotation {
 }
 
 export interface LogRetention {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1282,7 +1193,6 @@ export interface LogRetention {
 export type RetentionPolicy = 'time_based' | 'size_based' | 'count_based' | 'custom';
 
 export interface ServicePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1303,7 +1213,6 @@ export interface ServicePerformance {
 }
 
 export interface ServiceInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1315,20 +1224,17 @@ export interface ServiceInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   serviceId: string;
   status: InstanceStatus;
   endpoint: ServiceEndpoint;
   health: HealthStatus;
   metrics: InstanceMetrics;
-  metadata: Record<string, any>;
 }
 
 export type InstanceStatus = 'starting' | 'running' | 'stopping' | 'stopped' | 'error';
 export type HealthStatus = 'healthy' | 'unhealthy' | 'degraded' | 'unknown';
 
 export interface InstanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1348,7 +1254,6 @@ export interface InstanceMetrics {
 }
 
 export interface NetworkMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1368,7 +1273,6 @@ export interface NetworkMetrics {
 }
 
 export interface ServiceRegistry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1380,21 +1284,17 @@ export interface ServiceRegistry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RegistryType;
   status: RegistryStatus;
   configuration: RegistryConfiguration;
   services: string[];
   performance: RegistryPerformance;
-  metadata: Record<string, any>;
 }
 
 export type RegistryType = 'consul' | 'etcd' | 'zookeeper' | 'eureka' | 'custom';
 export type RegistryStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface RegistryConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1415,7 +1315,6 @@ export interface RegistryConfiguration {
 }
 
 export interface ClusteringSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1434,7 +1333,6 @@ export interface ClusteringSettings {
 }
 
 export interface ClusterNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1446,7 +1344,6 @@ export interface ClusterNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   host: string;
   port: number;
   role: NodeRole;
@@ -1457,7 +1354,6 @@ export type NodeRole = 'master' | 'slave' | 'replica' | 'observer';
 export type NodeStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ReplicationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1479,7 +1375,6 @@ export type ReplicationStrategy = 'synchronous' | 'asynchronous' | 'semi_synchro
 export type ConsistencyLevel = 'strong' | 'eventual' | 'weak';
 
 export interface PersistenceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1498,7 +1393,6 @@ export interface PersistenceSettings {
 }
 
 export interface StorageSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1519,7 +1413,6 @@ export interface StorageSettings {
 export type StorageType = 'file' | 'database' | 'cloud' | 'memory' | 'custom';
 
 export interface BackupSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1539,7 +1432,6 @@ export interface BackupSettings {
 }
 
 export interface RecoverySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1560,7 +1452,6 @@ export interface RecoverySettings {
 export type RecoveryStrategy = 'automatic' | 'manual' | 'scheduled' | 'custom';
 
 export interface RegistryPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1580,7 +1471,6 @@ export interface RegistryPerformance {
 }
 
 export interface LoadBalancer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1592,21 +1482,17 @@ export interface LoadBalancer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LoadBalancerType;
   status: LoadBalancerStatus;
   configuration: LoadBalancerConfiguration;
   services: string[];
   performance: LoadBalancerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type LoadBalancerType = 'round_robin' | 'least_connections' | 'weighted' | 'ip_hash' | 'custom';
 export type LoadBalancerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface LoadBalancerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1628,7 +1514,6 @@ export interface LoadBalancerConfiguration {
 export type LoadBalancingAlgorithm = 'round_robin' | 'least_connections' | 'weighted' | 'ip_hash' | 'custom';
 
 export interface HealthCheckSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1648,7 +1533,6 @@ export interface HealthCheckSettings {
 }
 
 export interface StickySessionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1669,7 +1553,6 @@ export interface StickySessionSettings {
 export type StickyMethod = 'cookie' | 'ip' | 'header' | 'custom';
 
 export interface CookieSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1681,7 +1564,6 @@ export interface CookieSettings {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   domain: string;
   path: string;
   secure: boolean;
@@ -1689,7 +1571,6 @@ export interface CookieSettings {
 }
 
 export interface SslSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1709,7 +1590,6 @@ export interface SslSettings {
 }
 
 export interface TimeoutSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1728,7 +1608,6 @@ export interface TimeoutSettings {
 }
 
 export interface LoadBalancerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1748,7 +1627,6 @@ export interface LoadBalancerPerformance {
 }
 
 export interface HealthCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1760,21 +1638,17 @@ export interface HealthCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HealthCheckType;
   status: HealthCheckStatus;
   configuration: HealthCheckConfiguration;
   targets: string[];
   results: HealthCheckResult[];
-  metadata: Record<string, any>;
 }
 
 export type HealthCheckType = 'http' | 'tcp' | 'udp' | 'grpc' | 'custom';
 export type HealthCheckStatus = 'active' | 'inactive' | 'error';
 
 export interface HealthCheckConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1794,7 +1668,6 @@ export interface HealthCheckConfiguration {
 }
 
 export interface HealthCheckResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1809,12 +1682,10 @@ export interface HealthCheckResult {
   target: string;
   status: HealthStatus;
   responseTime: number;
-  timestamp: number;
   details: Record<string, any>;
 }
 
 export interface ServiceDiscoveryPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1840,7 +1711,6 @@ export interface ServiceDiscoveryPerformanceMetrics {
 }
 
 export interface ServiceDiscoveryAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1861,7 +1731,6 @@ export interface ServiceDiscoveryAnalytics {
 }
 
 export interface ServiceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1880,7 +1749,6 @@ export interface ServiceTypeDistribution {
 }
 
 export interface RegistryTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1899,7 +1767,6 @@ export interface RegistryTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1911,7 +1778,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   services: number;
   instances: number;
   responseTime: number;
@@ -1921,7 +1787,6 @@ export interface PerformanceTrend {
 }
 
 export interface ServiceDiscoveryReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1944,7 +1809,6 @@ export interface ServiceDiscoveryReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1965,7 +1829,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1985,7 +1848,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2005,7 +1867,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -2018,13 +1879,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ServiceDiscoveryOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

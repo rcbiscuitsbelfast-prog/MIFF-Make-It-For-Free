@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BattleAIConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface BattleAIConfig {
 }
 
 export interface BattleAI {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface BattleAI {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AIType;
   status: AIStatus;
   units: AIUnit[];
@@ -66,14 +62,12 @@ export interface BattleAI {
   behaviors: AIBehavior[];
   performance: AIPerformance;
   analytics: AIAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AIUnit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +79,6 @@ export interface AIUnit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: UnitType;
   status: UnitStatus;
   health: number;
@@ -98,11 +90,9 @@ export interface AIUnit {
   abilities: Ability[];
   equipment: Equipment[];
   aiState: AIState;
-  metadata: Record<string, any>;
 }
 
 export interface AIStrategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,18 +104,14 @@ export interface AIStrategy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StrategyType;
   priority: number;
   conditions: StrategyCondition[];
   actions: StrategyAction[];
   successRate: number;
-  metadata: Record<string, any>;
 }
 
 export interface AIBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,17 +123,13 @@ export interface AIBehavior {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BehaviorType;
   triggers: BehaviorTrigger[];
   responses: BehaviorResponse[];
   cooldown: number; // seconds
-  metadata: Record<string, any>;
 }
 
 export interface Ability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,19 +141,15 @@ export interface Ability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AbilityType;
   cost: number;
   cooldown: number; // seconds
   range: number;
   damage: number;
   effects: AbilityEffect[];
-  metadata: Record<string, any>;
 }
 
 export interface Equipment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,16 +161,12 @@ export interface Equipment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EquipmentType;
   stats: EquipmentStats;
   abilities: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AIState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,11 +184,9 @@ export interface AIState {
   lastAction: string;
   actionQueue: string[];
   memory: AIMemory;
-  metadata: Record<string, any>;
 }
 
 export interface AIMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -230,11 +202,9 @@ export interface AIMemory {
   allies: AllyMemory[];
   locations: LocationMemory[];
   events: EventMemory[];
-  metadata: Record<string, any>;
 }
 
 export interface EnemyMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,18 +216,14 @@ export interface EnemyMemory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   lastSeen: Date;
   lastPosition: Position3D;
   health: number;
   abilities: string[];
   threatLevel: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface AllyMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,18 +235,14 @@ export interface AllyMemory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   lastSeen: Date;
   lastPosition: Position3D;
   health: number;
   abilities: string[];
   reliability: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface LocationMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,17 +254,13 @@ export interface LocationMemory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   position: Position3D;
   type: LocationType;
   importance: number; // 0-1
   lastVisited: Date;
-  metadata: Record<string, any>;
 }
 
 export interface EventMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -314,16 +272,13 @@ export interface EventMemory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
   timestamp: Date;
   description: string;
   importance: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface StrategyCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,16 +290,13 @@ export interface StrategyCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   parameter: string;
   operator: ComparisonOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface StrategyAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -356,15 +308,12 @@ export interface StrategyAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   target: string;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface BehaviorTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -376,14 +325,11 @@ export interface BehaviorTrigger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TriggerType;
   condition: string;
-  metadata: Record<string, any>;
 }
 
 export interface BehaviorResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -395,15 +341,12 @@ export interface BehaviorResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ResponseType;
   action: string;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -415,15 +358,12 @@ export interface AbilityEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   duration: number; // seconds
   value: number;
-  metadata: Record<string, any>;
 }
 
 export interface EquipmentStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -441,11 +381,9 @@ export interface EquipmentStats {
   defense: number;
   speed: number;
   accuracy: number;
-  metadata: Record<string, any>;
 }
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -463,7 +401,6 @@ export interface Position3D {
 }
 
 export interface Rotation3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -482,7 +419,6 @@ export interface Rotation3D {
 }
 
 export interface AIPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -499,11 +435,9 @@ export interface AIPerformance {
   efficiency: number; // 0-1
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface AIAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

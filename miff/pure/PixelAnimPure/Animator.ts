@@ -1,5 +1,4 @@
 export interface AnimationFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -16,7 +15,6 @@ export interface AnimationFrame {
 }
 
 export interface Animation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -28,8 +26,6 @@ export interface Animation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   frames: AnimationFrame[];
   duration: number;
   loop: boolean;

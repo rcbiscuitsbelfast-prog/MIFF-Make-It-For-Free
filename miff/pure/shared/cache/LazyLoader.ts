@@ -8,7 +8,6 @@ import { CacheManager } from './CacheManager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ModuleInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -20,7 +19,6 @@ export interface ModuleInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   path: string;
   dependencies: string[];
   priority: 'critical' | 'high' | 'medium' | 'low';
@@ -31,7 +29,6 @@ export interface ModuleInfo {
 }
 
 export interface LoadingStrategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +40,6 @@ export interface LoadingStrategy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   modules: string[];
   trigger: 'immediate' | 'interaction' | 'idle' | 'manual';
   priority: number;

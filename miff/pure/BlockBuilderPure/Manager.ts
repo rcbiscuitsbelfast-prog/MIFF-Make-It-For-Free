@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BlockBuilderConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +43,6 @@ export interface BlockBuilderConfig {
 }
 
 export interface BlockBuilder {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,8 +54,6 @@ export interface BlockBuilder {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BuilderType;
   status: BuilderStatus;
   blocks: Block[];
@@ -65,14 +61,12 @@ export interface BlockBuilder {
   physics: PhysicsConfig;
   performance: BuilderPerformance;
   analytics: BuilderAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Block {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,19 +78,15 @@ export interface Block {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BlockType;
   position: Position3D;
   rotation: Rotation3D;
   scale: Scale3D;
   material: Material;
   physics: BlockPhysics;
-  metadata: Record<string, any>;
 }
 
 export interface Building {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,17 +98,13 @@ export interface Building {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BuildingType;
   blocks: string[];
   structure: BuildingStructure;
   physics: BuildingPhysics;
-  metadata: Record<string, any>;
 }
 
 export interface Material {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,16 +116,12 @@ export interface Material {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MaterialType;
   properties: MaterialProperties;
   textures: Texture[];
-  metadata: Record<string, any>;
 }
 
 export interface BlockPhysics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,11 +139,9 @@ export interface BlockPhysics {
   density: number;
   isStatic: boolean;
   collider: Collider;
-  metadata: Record<string, any>;
 }
 
 export interface BuildingStructure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,11 +157,9 @@ export interface BuildingStructure {
   walls: string[];
   roof: string[];
   supports: string[];
-  metadata: Record<string, any>;
 }
 
 export interface BuildingPhysics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,11 +174,9 @@ export interface BuildingPhysics {
   stability: number; // 0-1
   centerOfMass: Position3D;
   momentOfInertia: number;
-  metadata: Record<string, any>;
 }
 
 export interface PhysicsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -216,11 +192,9 @@ export interface PhysicsConfig {
   airResistance: number;
   collisionDetection: boolean;
   continuousCollision: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface Texture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -232,16 +206,12 @@ export interface Texture {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TextureType;
   path: string;
   size: { width: number; height: number };
-  metadata: Record<string, any>;
 }
 
 export interface Collider {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -256,11 +226,9 @@ export interface Collider {
   type: ColliderType;
   size: Scale3D;
   offset: Position3D;
-  metadata: Record<string, any>;
 }
 
 export interface MaterialProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -277,11 +245,9 @@ export interface MaterialProperties {
   roughness: number; // 0-1
   emission: number; // 0-1
   transparency: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -299,7 +265,6 @@ export interface Position3D {
 }
 
 export interface Rotation3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -318,7 +283,6 @@ export interface Rotation3D {
 }
 
 export interface Scale3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,7 +300,6 @@ export interface Scale3D {
 }
 
 export interface BuilderPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -353,11 +316,9 @@ export interface BuilderPerformance {
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
   gpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface BuilderAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

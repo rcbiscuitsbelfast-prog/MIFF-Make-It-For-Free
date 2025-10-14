@@ -12,7 +12,6 @@
  */
 
 export interface EdgeComputingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface EdgeComputingConfig {
 }
 
 export interface EdgeComputingManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface EdgeComputingManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EdgeComputingManagerType;
   status: EdgeComputingManagerStatus;
   nodes: EdgeNode[];
@@ -66,16 +62,12 @@ export interface EdgeComputingManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type EdgeComputingManagerType = 'iot' | 'mobile' | 'industrial' | 'custom';
 export type EdgeComputingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface EdgeNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +79,6 @@ export interface EdgeNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NodeType;
   status: NodeStatus;
   location: NodeLocation;
@@ -96,14 +86,12 @@ export interface EdgeNode {
   resources: NodeResources;
   performance: NodePerformance;
   health: NodeHealth;
-  metadata: Record<string, any>;
 }
 
 export type NodeType = 'gateway' | 'sensor' | 'processor' | 'storage' | 'actuator' | 'hybrid';
 export type NodeStatus = 'online' | 'offline' | 'maintenance' | 'error' | 'overloaded';
 
 export interface NodeLocation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +112,6 @@ export interface NodeLocation {
 }
 
 export interface NodeCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,7 +132,6 @@ export interface NodeCapabilities {
 }
 
 export interface ComputeCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface ComputeCapability {
 }
 
 export interface CPUSpec {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,7 +168,6 @@ export interface CPUSpec {
 }
 
 export interface MemorySpec {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,7 +186,6 @@ export interface MemorySpec {
 }
 
 export interface GPUSpec {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -221,7 +204,6 @@ export interface GPUSpec {
 }
 
 export interface AcceleratorSpec {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -239,7 +221,6 @@ export interface AcceleratorSpec {
 }
 
 export interface StorageCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -261,7 +242,6 @@ export interface StorageCapability {
 export type StorageType = 'ssd' | 'hdd' | 'nvme' | 'emmc' | 'sd' | 'usb';
 
 export interface NetworkCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,7 +261,6 @@ export interface NetworkCapability {
 }
 
 export interface NetworkInterface {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,16 +272,13 @@ export interface NetworkInterface {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: InterfaceType;
   speed: number;
-  status: string;
 }
 
 export type InterfaceType = 'ethernet' | 'wifi' | 'cellular' | 'bluetooth' | 'zigbee' | 'lora';
 
 export interface PowerCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +300,6 @@ export interface PowerCapability {
 export type PowerSource = 'battery' | 'solar' | 'grid' | 'generator' | 'hybrid';
 
 export interface SensorCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -346,7 +321,6 @@ export interface SensorCapability {
 export type SensorType = 'temperature' | 'humidity' | 'pressure' | 'motion' | 'light' | 'sound' | 'custom';
 
 export interface SensorRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -364,7 +338,6 @@ export interface SensorRange {
 }
 
 export interface ActuatorCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -386,7 +359,6 @@ export interface ActuatorCapability {
 export type ActuatorType = 'motor' | 'servo' | 'relay' | 'valve' | 'display' | 'speaker' | 'custom';
 
 export interface ActuatorRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -404,7 +376,6 @@ export interface ActuatorRange {
 }
 
 export interface NodeResources {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -424,7 +395,6 @@ export interface NodeResources {
 }
 
 export interface ResourceUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -444,7 +414,6 @@ export interface ResourceUsage {
 }
 
 export interface NodePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -465,7 +434,6 @@ export interface NodePerformance {
 }
 
 export interface NodeHealth {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -487,7 +455,6 @@ export interface NodeHealth {
 export type HealthStatus = 'healthy' | 'warning' | 'critical' | 'unknown';
 
 export interface HealthIssue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,7 +469,6 @@ export interface HealthIssue {
   type: IssueType;
   severity: IssueSeverity;
   description: string;
-  timestamp: number;
   resolved: boolean;
 }
 
@@ -510,7 +476,6 @@ export type IssueType = 'hardware' | 'software' | 'network' | 'power' | 'perform
 export type IssueSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface EdgeTask {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -522,8 +487,6 @@ export interface EdgeTask {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TaskType;
   priority: TaskPriority;
   status: TaskStatus;
@@ -532,10 +495,8 @@ export interface EdgeTask {
   input: TaskData;
   output: TaskData;
   progress: number;
-  createdAt: number;
   startedAt?: number;
   completedAt?: number;
-  metadata: Record<string, any>;
 }
 
 export type TaskType = 'compute' | 'storage' | 'network' | 'sensor' | 'actuator' | 'custom';
@@ -543,7 +504,6 @@ export type TaskPriority = 'low' | 'normal' | 'high' | 'critical';
 export type TaskStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 
 export interface TaskRequirements {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -565,7 +525,6 @@ export interface TaskRequirements {
 }
 
 export interface TaskData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -587,7 +546,6 @@ export interface TaskData {
 export type DataFormat = 'json' | 'xml' | 'csv' | 'binary' | 'text' | 'custom';
 
 export interface EdgeCluster {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -599,20 +557,16 @@ export interface EdgeCluster {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   nodes: string[];
   coordinator: string;
   strategy: ClusterStrategy;
   loadBalancer: LoadBalancer;
   health: ClusterHealth;
-  metadata: Record<string, any>;
 }
 
 export type ClusterStrategy = 'round_robin' | 'least_loaded' | 'geographic' | 'capability' | 'custom';
 
 export interface LoadBalancer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -633,7 +587,6 @@ export interface LoadBalancer {
 export type LoadBalancingAlgorithm = 'round_robin' | 'weighted' | 'least_connections' | 'ip_hash' | 'custom';
 
 export interface LoadBalancingThresholds {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -652,7 +605,6 @@ export interface LoadBalancingThresholds {
 }
 
 export interface HealthCheckConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -672,7 +624,6 @@ export interface HealthCheckConfig {
 }
 
 export interface ClusterHealth {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -691,7 +642,6 @@ export interface ClusterHealth {
 }
 
 export interface EdgePolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -703,21 +653,17 @@ export interface EdgePolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   scope: PolicyScope;
   rules: PolicyRule[];
   actions: PolicyAction[];
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export type PolicyType = 'resource' | 'security' | 'performance' | 'compliance' | 'custom';
 export type PolicyScope = 'global' | 'cluster' | 'node' | 'task' | 'user';
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -736,7 +682,6 @@ export interface PolicyRule {
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -757,7 +702,6 @@ export type ConditionType = 'metric' | 'attribute' | 'status' | 'custom';
 export type RuleOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'regex';
 
 export interface PolicyAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -779,7 +723,6 @@ export type ActionType = 'alert' | 'scale' | 'migrate' | 'pause' | 'terminate' |
 export type ActionSeverity = 'info' | 'warning' | 'error' | 'critical';
 
 export interface EdgeComputingPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -805,7 +748,6 @@ export interface EdgeComputingPerformanceMetrics {
 }
 
 export interface EdgeComputingAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -826,7 +768,6 @@ export interface EdgeComputingAnalytics {
 }
 
 export interface NodeUtilization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -839,7 +780,6 @@ export interface NodeUtilization {
   updatedAt?: number;
   metadata?: Record<string, any>;
   nodeId: string;
-  name: string;
   cpu: number;
   memory: number;
   storage: number;
@@ -848,7 +788,6 @@ export interface NodeUtilization {
 }
 
 export interface TaskDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -867,7 +806,6 @@ export interface TaskDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -879,7 +817,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   nodes: number;
   tasks: number;
   latency: number;
@@ -888,7 +825,6 @@ export interface PerformanceTrend {
 }
 
 export interface EdgeComputingReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -911,7 +847,6 @@ export interface EdgeComputingReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -932,7 +867,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -952,7 +886,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -972,7 +905,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -985,13 +917,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface EdgeComputingOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

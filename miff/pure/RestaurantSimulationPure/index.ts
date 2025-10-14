@@ -61,7 +61,6 @@ export type SatisfactionLevel = 'very_dissatisfied' | 'dissatisfied' | 'neutral'
  * Restaurant facility definition
  */
 export interface RestaurantFacility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -73,8 +72,6 @@ export interface RestaurantFacility {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: RestaurantType;
   baseCost: number;
@@ -98,7 +95,6 @@ export interface RestaurantFacility {
  * Menu item definition
  */
 export interface MenuItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -110,8 +106,6 @@ export interface MenuItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: MenuCategory;
   price: number;
@@ -132,7 +126,6 @@ export interface MenuItem {
  * Ingredient requirement for menu items
  */
 export interface IngredientRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -154,7 +147,6 @@ export interface IngredientRequirement {
  * Cooking method for menu items
  */
 export interface CookingMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,7 +169,6 @@ export interface CookingMethod {
  * Customer order definition
  */
 export interface CustomerOrder {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +180,6 @@ export interface CustomerOrder {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   customerId: string;
   customerType: CustomerType;
   items: OrderItem[];
@@ -210,7 +200,6 @@ export interface CustomerOrder {
  * Order item from menu
  */
 export interface OrderItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,7 +222,6 @@ export interface OrderItem {
  * Staff member in restaurant
  */
 export interface RestaurantStaff {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -245,8 +233,6 @@ export interface RestaurantStaff {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   role: RestaurantRole;
   facilityId: string;
   skill: number;              // 0-100 skill level
@@ -266,7 +252,6 @@ export interface RestaurantStaff {
  * Ingredient inventory item
  */
 export interface Ingredient {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,8 +263,6 @@ export interface Ingredient {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   quality: IngredientQuality;
   basePrice: number;
@@ -300,7 +283,6 @@ export interface Ingredient {
  * Kitchen equipment
  */
 export interface KitchenEquipment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -312,8 +294,6 @@ export interface KitchenEquipment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: string;
   efficiency: number;         // 0-1 operational efficiency
@@ -330,7 +310,6 @@ export interface KitchenEquipment {
  * Customer in restaurant
  */
 export interface RestaurantCustomer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -342,8 +321,6 @@ export interface RestaurantCustomer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CustomerType;
   satisfaction: number;       // 0-100 current satisfaction
   patience: number;           // 0-100 patience level
@@ -361,7 +338,6 @@ export interface RestaurantCustomer {
  * Restaurant statistics
  */
 export interface RestaurantStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -392,7 +368,6 @@ export interface RestaurantStats {
  * Restaurant system configuration
  */
 export interface RestaurantSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -420,7 +395,6 @@ export interface RestaurantSystemConfig {
  * Integration hooks for other systems
  */
 export interface RestaurantIntegration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -106,7 +106,6 @@ export enum UnrealAssetType {
 }
 
 export interface PayloadConversionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +167,6 @@ export interface PayloadConversionConfiguration {
 }
 
 export interface UnrealPayloadConversionResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,12 +187,9 @@ export interface UnrealPayloadConversionResult {
   convertedComponents: UnrealComponentBridge[];
   convertedScenes: UnrealSceneBridge[];
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealMeshConversionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -235,7 +230,6 @@ export interface UnrealMeshConversionOptions {
 }
 
 export interface UnrealMaterialConversionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,7 +275,6 @@ export interface UnrealMaterialConversionOptions {
 }
 
 export interface UnrealAnimationConversionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +309,6 @@ export interface UnrealAnimationConversionOptions {
 }
 
 export interface UnrealAudioConversionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -354,7 +346,6 @@ export interface UnrealAudioConversionOptions {
 }
 
 export interface UnrealTextureConversionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

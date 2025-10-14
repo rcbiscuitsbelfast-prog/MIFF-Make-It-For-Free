@@ -7,7 +7,6 @@ import { SafeJSONParser } from '../security/SafeJSONParser';
  */
 
 export interface SchemaDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,8 +18,6 @@ export interface SchemaDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   module: string;
   fields: SchemaField[];
@@ -30,7 +27,6 @@ export interface SchemaDefinition {
 }
 
 export interface SchemaField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +38,6 @@ export interface SchemaField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'string' | 'number' | 'boolean' | 'object' | 'array' | 'date';
   required: boolean;
   defaultValue?: any;
@@ -51,7 +46,6 @@ export interface SchemaField {
 }
 
 export interface FieldValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -73,7 +67,6 @@ export interface FieldValidation {
 }
 
 export interface SchemaValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +84,6 @@ export interface SchemaValidation {
 }
 
 export interface SchemaMigration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +101,6 @@ export interface SchemaMigration {
 }
 
 export interface MigrationStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +119,6 @@ export interface MigrationStep {
 }
 
 export interface SchemaValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -141,7 +131,6 @@ export interface SchemaValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: string[];
   warnings: string[];
   suggestions: string[];
 }
@@ -375,7 +364,6 @@ export class SchemaStandardizer {
    */
   private validateField(value: any, field: SchemaField): {
     valid: boolean;
-    errors: string[];
     warnings: string[];
   } {
     const result = {
@@ -431,7 +419,6 @@ export class SchemaStandardizer {
    */
   private validateFieldConstraints(value: any, validation: FieldValidation): {
     valid: boolean;
-    errors: string[];
     warnings: string[];
   } {
     const result = {

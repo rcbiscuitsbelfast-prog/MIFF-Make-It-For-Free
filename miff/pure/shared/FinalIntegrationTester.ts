@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface TestSuite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,8 +18,6 @@ export interface TestSuite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'end_to_end' | 'integration' | 'performance' | 'security' | 'user_acceptance';
   description: string;
   status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
@@ -32,7 +29,6 @@ export interface TestSuite {
 }
 
 export interface TestCase {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,8 +40,6 @@ export interface TestCase {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   steps: TestStep[];
   expectedResult: string;
@@ -58,7 +52,6 @@ export interface TestCase {
 }
 
 export interface TestStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -70,7 +63,6 @@ export interface TestStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   action: string;
   expected: string;
@@ -81,7 +73,6 @@ export interface TestStep {
 }
 
 export interface TestResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,7 +94,6 @@ export interface TestResult {
 }
 
 export interface TestMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +114,6 @@ export interface TestMetrics {
 }
 
 export interface IntegrationTest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -136,8 +125,6 @@ export interface IntegrationTest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   modules: string[];
   description: string;
   testData: any;
@@ -149,7 +136,6 @@ export interface IntegrationTest {
 }
 
 export interface PerformanceTest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -161,8 +147,6 @@ export interface PerformanceTest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'load' | 'stress' | 'spike' | 'volume' | 'endurance';
   description: string;
   configuration: PerformanceTestConfiguration;
@@ -172,7 +156,6 @@ export interface PerformanceTest {
 }
 
 export interface PerformanceTestConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +177,6 @@ export interface PerformanceTestConfiguration {
 }
 
 export interface PerformanceTestResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -221,7 +203,6 @@ export interface PerformanceTestResults {
 }
 
 export interface SecurityTest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,8 +214,6 @@ export interface SecurityTest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'vulnerability' | 'penetration' | 'authentication' | 'authorization' | 'encryption';
   description: string;
   target: string;
@@ -245,7 +224,6 @@ export interface SecurityTest {
 }
 
 export interface SecurityFinding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -257,7 +235,6 @@ export interface SecurityFinding {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   severity: 'critical' | 'high' | 'medium' | 'low' | 'info';
   title: string;
   description: string;
@@ -267,7 +244,6 @@ export interface SecurityFinding {
 }
 
 export interface UserAcceptanceTest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -279,8 +255,6 @@ export interface UserAcceptanceTest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   userStory: string;
   acceptanceCriteria: string[];
   testSteps: string[];
@@ -293,7 +267,6 @@ export interface UserAcceptanceTest {
 }
 
 export interface FinalValidationReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -12,7 +12,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface PlatformInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -24,17 +23,14 @@ export interface PlatformInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   version: string;
   architecture: string;
   capabilities: PlatformCapabilities;
   features: string[];
   limitations: string[];
-  metadata: Record<string, any>;
 }
 
 export interface PlatformCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,7 +52,6 @@ export interface PlatformCapabilities {
 }
 
 export interface GraphicsCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,7 +76,6 @@ export interface GraphicsCapabilities {
 }
 
 export interface AudioCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,7 +97,6 @@ export interface AudioCapabilities {
 }
 
 export interface InputCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +119,6 @@ export interface InputCapabilities {
 }
 
 export interface StorageCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +140,6 @@ export interface StorageCapabilities {
 }
 
 export interface NetworkCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -170,7 +161,6 @@ export interface NetworkCapabilities {
 }
 
 export interface SensorCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,7 +182,6 @@ export interface SensorCapabilities {
 }
 
 export interface SecurityCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -214,7 +203,6 @@ export interface SecurityCapabilities {
 }
 
 export interface DeviceInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -248,7 +236,6 @@ export interface DeviceInfo {
 }
 
 export interface PlatformEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -261,13 +248,11 @@ export interface PlatformEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: string;
-  data: any;
   timestamp: Date;
   source: string;
 }
 
 export interface PerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

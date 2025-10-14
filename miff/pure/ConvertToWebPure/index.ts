@@ -39,7 +39,6 @@ export enum WebBuildType {
 }
 
 export interface WebProject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -68,7 +67,6 @@ export interface WebProject {
 }
 
 export interface WebScene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -80,8 +78,6 @@ export interface WebScene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   htmlFile: string;
   cssFile?: string;
   javascriptFile: string;
@@ -99,11 +95,9 @@ export interface WebScene {
   gameObjects: WebGameObject[];
   systems: WebSystem[];
   events: WebEvent[];
-  metadata: Record<string, any>;
 }
 
 export interface WebGameObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -115,8 +109,6 @@ export interface WebGameObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'sprite' | 'container' | 'text' | 'graphics' | 'animated_sprite' | 'particle_emitter' | 'tilemap' | 'custom';
   x: number;
   y: number;
@@ -141,7 +133,6 @@ export interface WebGameObject {
 }
 
 export interface WebComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -153,7 +144,6 @@ export interface WebComponent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'renderer' | 'audio' | 'input' | 'physics' | 'animation' | 'particle' | 'custom';
   enabled: boolean;
   properties: Record<string, any>;
@@ -162,7 +152,6 @@ export interface WebComponent {
 }
 
 export interface WebEventHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,7 +172,6 @@ export interface WebEventHandler {
 }
 
 export interface WebAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -195,8 +183,6 @@ export interface WebAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   frames: WebAnimationFrame[];
   frameRate: number;
   loop: boolean;
@@ -209,7 +195,6 @@ export interface WebAnimation {
 }
 
 export interface WebAnimationFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,7 +222,6 @@ export interface WebAnimationFrame {
 }
 
 export interface WebSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,7 +233,6 @@ export interface WebSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'rendering' | 'audio' | 'input' | 'physics' | 'animation' | 'network' | 'storage' | 'custom';
   priority: number;
   enabled: boolean;
@@ -259,7 +242,6 @@ export interface WebSystem {
 }
 
 export interface WebAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -271,8 +253,6 @@ export interface WebAsset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'image' | 'audio' | 'video' | 'font' | 'json' | 'xml' | 'text' | 'binary' | 'atlas' | 'spritesheet';
   url: string;
   path: string;
@@ -281,12 +261,10 @@ export interface WebAsset {
   compression: 'none' | 'gzip' | 'brotli' | 'deflate';
   preload: boolean;
   cache: boolean;
-  metadata: Record<string, any>;
   dependencies: string[];
 }
 
 export interface WebScript {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -298,8 +276,6 @@ export interface WebScript {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'javascript' | 'typescript';
   source: string;
   compiled: string;
@@ -309,11 +285,9 @@ export interface WebScript {
   entryPoint: boolean;
   loadOrder: number;
   executionEnvironment: 'main' | 'worker' | 'shared_worker';
-  metadata: Record<string, any>;
 }
 
 export interface WebStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -325,8 +299,6 @@ export interface WebStyle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'css' | 'scss' | 'sass' | 'less';
   source: string;
   compiled: string;
@@ -337,7 +309,6 @@ export interface WebStyle {
 }
 
 export interface WebMediaQuery {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -354,7 +325,6 @@ export interface WebMediaQuery {
 }
 
 export interface WebSelector {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +345,6 @@ export interface WebSelector {
 }
 
 export interface WebConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +452,6 @@ export interface WebConfiguration {
 }
 
 export interface WebProjectMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -518,7 +486,6 @@ export interface WebProjectMetadata {
 }
 
 export interface WebBuildResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,13 +507,10 @@ export interface WebBuildResult {
     hash: string;
   };
   warnings: string[];
-  errors: string[];
   statistics: WebBuildStatistics;
-  metadata: Record<string, any>;
 }
 
 export interface WebBuildStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -576,7 +540,6 @@ export interface WebBuildStatistics {
 }
 
 export interface WebEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -588,9 +551,7 @@ export interface WebEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'load' | 'update' | 'render' | 'input' | 'audio' | 'network' | 'error' | 'custom';
-  timestamp: number;
   source: string;
   target: string;
   data: Record<string, any>;
@@ -1569,7 +1530,6 @@ self.addEventListener('fetch', (event) => {
 
 // Supporting interfaces and types
 export interface ConversionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1597,7 +1557,6 @@ export interface ConversionOptions {
 }
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

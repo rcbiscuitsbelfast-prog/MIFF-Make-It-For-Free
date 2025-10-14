@@ -16,7 +16,6 @@ import { EventBus } from '../EventBusPure/EventBusPure.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface IntegrationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -36,7 +35,6 @@ interface IntegrationConfig {
 }
 
 interface CLICommand {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,14 +46,12 @@ interface CLICommand {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   flags: CLIFlag[];
   handler: (flags: Record<string, any>) => Promise<any>;
 }
 
 interface CLIFlag {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -67,7 +63,6 @@ interface CLIFlag {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   shortName?: string;
   description: string;
   type: 'boolean' | 'string' | 'number';

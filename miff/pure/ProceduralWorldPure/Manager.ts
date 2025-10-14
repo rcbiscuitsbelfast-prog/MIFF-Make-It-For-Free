@@ -10,7 +10,6 @@
  */
 
 export interface ProceduralWorldConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface ProceduralWorldConfig {
 }
 
 export interface ProceduralWorldManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface ProceduralWorldManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProceduralWorldManagerType;
   status: ProceduralWorldManagerStatus;
   worlds: ProceduralWorld[];
@@ -63,16 +59,12 @@ export interface ProceduralWorldManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ProceduralWorldManagerType = 'terrain' | 'dungeon' | 'city' | 'custom';
 export type ProceduralWorldManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ProceduralWorld {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,8 +76,6 @@ export interface ProceduralWorld {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WorldType;
   status: WorldStatus;
   seed: number;
@@ -95,14 +85,12 @@ export interface ProceduralWorld {
   properties: WorldProperties;
   regions: WorldRegion[];
   performance: WorldPerformance;
-  metadata: Record<string, any>;
 }
 
 export type WorldType = 'overworld' | 'dungeon' | 'city' | 'island' | 'custom';
 export type WorldStatus = 'generating' | 'ready' | 'updating' | 'error';
 
 export interface WorldSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -121,7 +109,6 @@ export interface WorldSize {
 }
 
 export interface ChunkSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,7 +126,6 @@ export interface ChunkSize {
 }
 
 export interface WorldProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,7 +145,6 @@ export interface WorldProperties {
 }
 
 export interface BiomeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +166,6 @@ export interface BiomeConfig {
 export type BiomeType = 'desert' | 'forest' | 'plains' | 'mountains' | 'ocean' | 'custom';
 
 export interface VegetationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +183,6 @@ export interface VegetationConfig {
 }
 
 export interface VegetationType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -211,15 +194,12 @@ export interface VegetationType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   probability: number;
   size: Vector3;
   properties: VegetationProperties;
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,7 +217,6 @@ export interface Vector3 {
 }
 
 export interface VegetationProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -256,7 +235,6 @@ export interface VegetationProperties {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,7 +253,6 @@ export interface Color {
 }
 
 export interface AnimalConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,7 +270,6 @@ export interface AnimalConfig {
 }
 
 export interface AnimalType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -305,15 +281,12 @@ export interface AnimalType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   probability: number;
   size: Vector3;
   properties: AnimalProperties;
 }
 
 export interface AnimalProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -332,7 +305,6 @@ export interface AnimalProperties {
 }
 
 export interface BehaviorConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -350,7 +322,6 @@ export interface BehaviorConfig {
 }
 
 export interface MovementConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +341,6 @@ export interface MovementConfig {
 export type MovementPattern = 'random' | 'patrol' | 'follow' | 'custom';
 
 export interface InteractionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -388,7 +358,6 @@ export interface InteractionConfig {
 }
 
 export interface ReproductionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -408,7 +377,6 @@ export interface ReproductionConfig {
 export type SeasonType = 'spring' | 'summer' | 'autumn' | 'winter' | 'custom';
 
 export interface ReproductionRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -428,7 +396,6 @@ export interface ReproductionRequirement {
 export type RequirementType = 'food' | 'water' | 'shelter' | 'mate' | 'custom';
 
 export interface ClimateConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -447,7 +414,6 @@ export interface ClimateConfig {
 }
 
 export interface TemperatureConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -466,7 +432,6 @@ export interface TemperatureConfig {
 }
 
 export interface AltitudeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +448,6 @@ export interface AltitudeConfig {
 }
 
 export interface LatitudeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -501,7 +465,6 @@ export interface LatitudeConfig {
 }
 
 export interface PrecipitationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -520,7 +483,6 @@ export interface PrecipitationConfig {
 }
 
 export interface SeasonalityConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -538,7 +500,6 @@ export interface SeasonalityConfig {
 }
 
 export interface WindConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -557,7 +518,6 @@ export interface WindConfig {
 }
 
 export interface WindPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -569,8 +529,6 @@ export interface WindPattern {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   probability: number;
   speed: number;
   direction: Vector3;
@@ -578,7 +536,6 @@ export interface WindPattern {
 }
 
 export interface SeasonConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -596,7 +553,6 @@ export interface SeasonConfig {
 }
 
 export interface SeasonEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -617,7 +573,6 @@ export interface SeasonEffect {
 export type EffectType = 'temperature' | 'precipitation' | 'wind' | 'custom';
 
 export interface AreaOfEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -638,7 +593,6 @@ export type AOEType = 'none' | 'circle' | 'cone' | 'line' | 'custom';
 export type AOEShape = 'circle' | 'square' | 'triangle' | 'custom';
 
 export interface ResourceConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -656,7 +610,6 @@ export interface ResourceConfig {
 }
 
 export interface ResourceType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -668,8 +621,6 @@ export interface ResourceType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ResourceTypeType;
   rarity: Rarity;
   properties: ResourceProperties;
@@ -679,7 +630,6 @@ export type ResourceTypeType = 'mineral' | 'organic' | 'energy' | 'custom';
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'custom';
 
 export interface ResourceProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -698,7 +648,6 @@ export interface ResourceProperties {
 }
 
 export interface DistributionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -718,7 +667,6 @@ export interface DistributionConfig {
 export type DistributionType = 'uniform' | 'gaussian' | 'poisson' | 'custom';
 
 export interface ClusteringConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -737,7 +685,6 @@ export interface ClusteringConfig {
 }
 
 export interface RegenerationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -755,7 +702,6 @@ export interface RegenerationConfig {
 }
 
 export interface RegenerationCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -776,7 +722,6 @@ export type ConditionType = 'time' | 'temperature' | 'humidity' | 'custom';
 export type ConditionOperator = 'equals' | 'greater_than' | 'less_than' | 'custom';
 
 export interface StructureConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -794,7 +739,6 @@ export interface StructureConfig {
 }
 
 export interface StructureType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -806,8 +750,6 @@ export interface StructureType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StructureTypeType;
   size: Vector3;
   probability: number;
@@ -817,7 +759,6 @@ export interface StructureType {
 export type StructureTypeType = 'building' | 'ruin' | 'monument' | 'custom';
 
 export interface StructureRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -835,7 +776,6 @@ export interface StructureRequirement {
 }
 
 export interface PlacementConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -855,7 +795,6 @@ export interface PlacementConfig {
 export type PlacementAlgorithm = 'random' | 'grid' | 'cluster' | 'custom';
 
 export interface PlacementConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -874,7 +813,6 @@ export interface PlacementConstraint {
 export type ConstraintType = 'terrain' | 'water' | 'vegetation' | 'custom';
 
 export interface SpacingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -894,7 +832,6 @@ export interface SpacingConfig {
 export type SpacingPattern = 'uniform' | 'clustered' | 'random' | 'custom';
 
 export interface GenerationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -914,7 +851,6 @@ export interface GenerationConfig {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface LightingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -933,7 +869,6 @@ export interface LightingConfig {
 }
 
 export interface AmbientLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -950,7 +885,6 @@ export interface AmbientLight {
 }
 
 export interface DirectionalLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -969,7 +903,6 @@ export interface DirectionalLight {
 }
 
 export interface PointLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -990,7 +923,6 @@ export interface PointLight {
 }
 
 export interface SpotLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1014,7 +946,6 @@ export interface SpotLight {
 }
 
 export interface WorldRegion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1026,8 +957,6 @@ export interface WorldRegion {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RegionType;
   bounds: RegionBounds;
   properties: RegionProperties;
@@ -1037,7 +966,6 @@ export interface WorldRegion {
 export type RegionType = 'overworld' | 'nether' | 'end' | 'custom';
 
 export interface RegionBounds {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1055,7 +983,6 @@ export interface RegionBounds {
 }
 
 export interface RegionProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1074,7 +1001,6 @@ export interface RegionProperties {
 }
 
 export interface Chunk {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1086,7 +1012,6 @@ export interface Chunk {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: Vector3;
   size: ChunkSize;
   data: ChunkData;
@@ -1095,7 +1020,6 @@ export interface Chunk {
 }
 
 export interface ChunkData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1110,11 +1034,9 @@ export interface ChunkData {
   blocks: BlockData[];
   entities: EntityData[];
   structures: StructureData[];
-  metadata: Record<string, any>;
 }
 
 export interface BlockData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1126,7 +1048,6 @@ export interface BlockData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: Vector3;
   type: BlockType;
   properties: BlockProperties;
@@ -1135,7 +1056,6 @@ export interface BlockData {
 export type BlockType = 'air' | 'stone' | 'dirt' | 'grass' | 'water' | 'custom';
 
 export interface BlockProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1155,7 +1075,6 @@ export interface BlockProperties {
 }
 
 export interface EntityData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1167,7 +1086,6 @@ export interface EntityData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: Vector3;
   type: EntityType;
   properties: EntityProperties;
@@ -1176,7 +1094,6 @@ export interface EntityData {
 export type EntityType = 'player' | 'npc' | 'animal' | 'monster' | 'custom';
 
 export interface EntityProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1196,7 +1113,6 @@ export interface EntityProperties {
 }
 
 export interface StructureData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1208,7 +1124,6 @@ export interface StructureData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: Vector3;
   type: StructureType;
   blocks: BlockData[];
@@ -1216,7 +1131,6 @@ export interface StructureData {
 }
 
 export interface WorldPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1235,7 +1149,6 @@ export interface WorldPerformance {
 }
 
 export interface GenerationAlgorithm {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1247,20 +1160,16 @@ export interface GenerationAlgorithm {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AlgorithmType;
   status: AlgorithmStatus;
   parameters: AlgorithmParameters;
   performance: AlgorithmPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AlgorithmType = 'noise' | 'cellular' | 'fractal' | 'custom';
 export type AlgorithmStatus = 'active' | 'inactive' | 'error';
 
 export interface AlgorithmParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1281,7 +1190,6 @@ export interface AlgorithmParameters {
 }
 
 export interface AlgorithmPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1300,7 +1208,6 @@ export interface AlgorithmPerformance {
 }
 
 export interface WorldGenerator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1312,21 +1219,17 @@ export interface WorldGenerator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GeneratorType;
   status: GeneratorStatus;
   algorithm: string;
   configuration: GeneratorConfiguration;
   performance: GeneratorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type GeneratorType = 'terrain' | 'dungeon' | 'city' | 'custom';
 export type GeneratorStatus = 'idle' | 'generating' | 'error';
 
 export interface GeneratorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1344,7 +1247,6 @@ export interface GeneratorConfiguration {
 }
 
 export interface OptimizationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1364,7 +1266,6 @@ export interface OptimizationConfig {
 export type OptimizationLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface OptimizationTechnique {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1384,7 +1285,6 @@ export interface OptimizationTechnique {
 export type TechniqueType = 'lod' | 'culling' | 'instancing' | 'custom';
 
 export interface CachingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1405,7 +1305,6 @@ export interface CachingConfig {
 export type CachingStrategy = 'lru' | 'lfu' | 'fifo' | 'custom';
 
 export interface GeneratorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1425,7 +1324,6 @@ export interface GeneratorPerformance {
 }
 
 export interface ProceduralWorldPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1448,7 +1346,6 @@ export interface ProceduralWorldPerformanceMetrics {
 }
 
 export interface ProceduralWorldAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1469,7 +1366,6 @@ export interface ProceduralWorldAnalytics {
 }
 
 export interface WorldTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1488,7 +1384,6 @@ export interface WorldTypeDistribution {
 }
 
 export interface AlgorithmTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1507,7 +1402,6 @@ export interface AlgorithmTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1519,7 +1413,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   worlds: number;
   algorithms: number;
   generationTime: number;
@@ -1528,7 +1421,6 @@ export interface PerformanceTrend {
 }
 
 export interface ProceduralWorldReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1551,7 +1443,6 @@ export interface ProceduralWorldReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1572,7 +1463,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1592,7 +1482,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1612,7 +1501,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1625,13 +1513,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ProceduralWorldOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

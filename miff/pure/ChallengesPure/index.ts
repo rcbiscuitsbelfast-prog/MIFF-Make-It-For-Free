@@ -70,7 +70,6 @@ export enum ChallengeDifficulty {
  * Player context interface (dependency)
  */
 export interface IPlayerContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -97,7 +96,6 @@ export interface IPlayerContext {
  * Challenge ruleset interface
  */
 export interface IChallengeRuleset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +121,6 @@ export interface IChallengeRuleset {
  * Challenge result interface
  */
 export interface IChallengeResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +146,6 @@ export interface IChallengeResult {
  * Challenge filter interface
  */
 export interface IChallengeFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +177,6 @@ export interface IChallengeFilter {
  * Challenge statistics interface
  */
 export interface IChallengeStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,7 +205,6 @@ export interface IChallengeStatistics {
  * Battle challenge interface
  */
 export interface IBattleChallenge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +217,6 @@ export interface IBattleChallenge {
   updatedAt?: number;
   metadata?: Record<string, any>;
   challengeId: string;
-  name: string;
   description: string;
   opponentTeam: string[];
   ruleset: IChallengeRuleset;
@@ -250,7 +243,6 @@ export interface IBattleChallenge {
  * Challenge manager interface
  */
 export interface IChallengeManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

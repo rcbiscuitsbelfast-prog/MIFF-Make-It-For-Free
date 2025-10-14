@@ -12,7 +12,6 @@
  */
 
 export interface XPLevelingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface XPLevelingConfig {
 }
 
 export interface XPLevelingManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface XPLevelingManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: XPLevelingManagerType;
   status: XPLevelingManagerStatus;
   players: Player[];
@@ -67,16 +63,12 @@ export interface XPLevelingManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type XPLevelingManagerType = 'game' | 'education' | 'training' | 'custom';
 export type XPLevelingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Player {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Player {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   xp: number;
   totalXP: number;
@@ -98,11 +88,9 @@ export interface Player {
   rewards: PlayerReward[];
   stats: PlayerStats;
   preferences: PlayerPreferences;
-  metadata: Record<string, any>;
 }
 
 export interface PlayerSkill {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +111,6 @@ export interface PlayerSkill {
 }
 
 export interface PlayerAchievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -143,7 +130,6 @@ export interface PlayerAchievement {
 }
 
 export interface PlayerReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +148,6 @@ export interface PlayerReward {
 }
 
 export interface PlayerStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +170,6 @@ export interface PlayerStats {
 }
 
 export interface PlayerPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +189,6 @@ export interface PlayerPreferences {
 }
 
 export interface Skill {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,8 +200,6 @@ export interface Skill {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: SkillCategory;
   maxLevel: number;
@@ -226,13 +207,11 @@ export interface Skill {
   prerequisites: SkillPrerequisite[];
   effects: SkillEffect[];
   cost: SkillCost;
-  metadata: Record<string, any>;
 }
 
 export type SkillCategory = 'combat' | 'crafting' | 'social' | 'exploration' | 'magic' | 'technology';
 
 export interface SkillPrerequisite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -252,7 +231,6 @@ export interface SkillPrerequisite {
 export type PrerequisiteType = 'level' | 'achievement' | 'quest' | 'item';
 
 export interface SkillEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,7 +251,6 @@ export interface SkillEffect {
 export type EffectType = 'damage' | 'defense' | 'speed' | 'health' | 'mana' | 'luck' | 'experience' | 'custom';
 
 export interface SkillCost {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +269,6 @@ export interface SkillCost {
 }
 
 export interface CostItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -309,7 +285,6 @@ export interface CostItem {
 }
 
 export interface Achievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -321,8 +296,6 @@ export interface Achievement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: AchievementCategory;
   type: AchievementType;
@@ -330,14 +303,12 @@ export interface Achievement {
   rewards: AchievementReward[];
   hidden: boolean;
   points: number;
-  metadata: Record<string, any>;
 }
 
 export type AchievementCategory = 'combat' | 'exploration' | 'social' | 'crafting' | 'collection' | 'special';
 export type AchievementType = 'single' | 'progressive' | 'series' | 'daily' | 'weekly' | 'monthly';
 
 export interface AchievementRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -360,7 +331,6 @@ export type RequirementType = 'level' | 'xp' | 'skill' | 'item' | 'quest' | 'tim
 export type Operator = 'equals' | 'greater' | 'less' | 'greater_equal' | 'less_equal' | 'contains';
 
 export interface AchievementReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -381,7 +351,6 @@ export interface AchievementReward {
 export type RewardType = 'xp' | 'gold' | 'item' | 'skill_point' | 'title' | 'custom';
 
 export interface Reward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -393,8 +362,6 @@ export interface Reward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: RewardType;
   value: number;
@@ -402,13 +369,11 @@ export interface Reward {
   requirements: RewardRequirement[];
   stackable: boolean;
   maxStack: number;
-  metadata: Record<string, any>;
 }
 
 export type RewardRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface RewardRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -426,7 +391,6 @@ export interface RewardRequirement {
 }
 
 export interface XPLevelingPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -451,7 +415,6 @@ export interface XPLevelingPerformanceMetrics {
 }
 
 export interface XPLevelingAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -472,7 +435,6 @@ export interface XPLevelingAnalytics {
 }
 
 export interface SkillDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -485,14 +447,12 @@ export interface SkillDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   skillId: string;
-  name: string;
   players: number;
   averageLevel: number;
   popularity: number;
 }
 
 export interface AchievementCompletion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -505,14 +465,12 @@ export interface AchievementCompletion {
   updatedAt?: number;
   metadata?: Record<string, any>;
   achievementId: string;
-  name: string;
   completed: number;
   total: number;
   completionRate: number;
 }
 
 export interface RewardClaiming {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -525,14 +483,12 @@ export interface RewardClaiming {
   updatedAt?: number;
   metadata?: Record<string, any>;
   rewardId: string;
-  name: string;
   claimed: number;
   total: number;
   claimRate: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +500,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   players: number;
   levelUps: number;
   xpGained: number;
@@ -553,7 +508,6 @@ export interface PerformanceTrend {
 }
 
 export interface XPLevelingReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -576,7 +530,6 @@ export interface XPLevelingReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -597,7 +550,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -617,7 +569,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -637,7 +588,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -650,13 +600,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface XPLevelingOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

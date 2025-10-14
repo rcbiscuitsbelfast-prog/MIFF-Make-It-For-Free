@@ -1,7 +1,6 @@
 // RenderPayloadPure - GameState -> frame-by-frame render payload (engine-agnostic)
 
 export interface EntityState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -13,7 +12,6 @@ export interface EntityState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   x: number;
   y: number;
   layer?: number;
@@ -21,7 +19,6 @@ export interface EntityState {
 }
 
 export interface CameraState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +36,6 @@ export interface CameraState {
 }
 
 export interface FrameState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,7 +53,6 @@ export interface FrameState {
 }
 
 export interface GameState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -73,7 +68,6 @@ export interface GameState {
 }
 
 export interface RenderSprite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,14 +79,12 @@ export interface RenderSprite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   x: number;
   y: number;
   layer?: number;
 }
 
 export interface RenderFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

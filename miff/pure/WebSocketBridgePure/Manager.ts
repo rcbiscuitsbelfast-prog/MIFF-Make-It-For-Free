@@ -13,7 +13,6 @@
  */
 
 export interface WebSocketBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +43,6 @@ export interface WebSocketBridgeConfig {
 }
 
 export interface WebSocketBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,8 +54,6 @@ export interface WebSocketBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WebSocketBridgeType;
   status: WebSocketBridgeStatus;
   sourceEndpoint: BridgeEndpoint;
@@ -71,16 +67,12 @@ export interface WebSocketBridge {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type WebSocketBridgeType = 'ws-to-ws' | 'ws-to-http' | 'http-to-ws' | 'ws-to-tcp' | 'tcp-to-ws';
 export type WebSocketBridgeStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface BridgeEndpoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -92,7 +84,6 @@ export interface BridgeEndpoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'websocket' | 'http' | 'tcp' | 'udp';
   host: string;
   port: number;
@@ -100,11 +91,9 @@ export interface BridgeEndpoint {
   protocol?: string;
   authentication?: AuthenticationConfig;
   headers?: Record<string, string>;
-  metadata: Record<string, any>;
 }
 
 export interface AuthenticationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -121,7 +110,6 @@ export interface AuthenticationConfig {
 }
 
 export interface BridgeConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -133,7 +121,6 @@ export interface BridgeConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   bridgeId: string;
   sourceConnectionId: string;
   targetConnectionId: string;
@@ -143,11 +130,9 @@ export interface BridgeConnection {
   messageCount: number;
   bytesReceived: number;
   bytesSent: number;
-  metadata: Record<string, any>;
 }
 
 export interface MessageTranslator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,17 +144,13 @@ export interface MessageTranslator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   sourceFormat: string;
   targetFormat: string;
   transformation: TransformationRule[];
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface TransformationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +162,6 @@ export interface TransformationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   sourcePath: string;
   targetPath: string;
   transformation: 'copy' | 'map' | 'transform' | 'filter';
@@ -190,7 +170,6 @@ export interface TransformationRule {
 }
 
 export interface ProtocolConverter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,17 +181,13 @@ export interface ProtocolConverter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   sourceProtocol: string;
   targetProtocol: string;
   conversion: ConversionRule[];
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface ConversionRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -224,7 +199,6 @@ export interface ConversionRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   sourceType: string;
   targetType: string;
   conversion: 'direct' | 'mapped' | 'transformed';
@@ -233,7 +207,6 @@ export interface ConversionRule {
 }
 
 export interface WebSocketBridgePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,7 +231,6 @@ export interface WebSocketBridgePerformanceMetrics {
 }
 
 export interface WebSocketBridgeAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +255,6 @@ export interface WebSocketBridgeAnalytics {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -295,7 +266,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   connections: number;
   messages: number;
   responseTime: number;
@@ -303,7 +273,6 @@ export interface PerformanceTrend {
 }
 
 export interface WebSocketBridgeReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -326,7 +295,6 @@ export interface WebSocketBridgeReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -347,7 +315,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -367,7 +334,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,7 +353,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -400,13 +365,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface WebSocketBridgeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

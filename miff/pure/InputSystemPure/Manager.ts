@@ -12,7 +12,6 @@
  */
 
 export interface InputSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface InputSystemConfig {
 }
 
 export interface InputSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface InputSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: InputSystemManagerType;
   status: InputSystemManagerStatus;
   devices: InputDevice[];
@@ -67,16 +63,12 @@ export interface InputSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type InputSystemManagerType = 'game' | 'application' | 'simulation' | 'custom';
 export type InputSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface InputDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,21 +80,17 @@ export interface InputDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   status: DeviceStatus;
   capabilities: DeviceCapabilities;
   properties: DeviceProperties;
   mapping: string;
-  metadata: Record<string, any>;
 }
 
 export type DeviceType = 'keyboard' | 'mouse' | 'gamepad' | 'touch' | 'vr' | 'ar' | 'custom';
 export type DeviceStatus = 'connected' | 'disconnected' | 'error' | 'maintenance';
 
 export interface DeviceCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +112,6 @@ export interface DeviceCapabilities {
 }
 
 export interface DeviceProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,7 +132,6 @@ export interface DeviceProperties {
 }
 
 export interface InputMapping {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,8 +143,6 @@ export interface InputMapping {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   deviceId: string;
   type: MappingType;
   source: InputSource;
@@ -166,13 +150,11 @@ export interface InputMapping {
   modifiers: InputModifier[];
   conditions: InputCondition[];
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export type MappingType = 'button' | 'axis' | 'hat' | 'key' | 'gesture' | 'custom';
 
 export interface InputSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +176,6 @@ export interface InputSource {
 export type SourceType = 'button' | 'axis' | 'hat' | 'key' | 'gesture' | 'custom';
 
 export interface InputTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -214,7 +195,6 @@ export interface InputTarget {
 }
 
 export interface ClampSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,7 +213,6 @@ export interface ClampSettings {
 }
 
 export interface InputModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -254,7 +233,6 @@ export type ModifierType = 'scale' | 'offset' | 'deadzone' | 'sensitivity' | 'cu
 export type ModifierOperation = 'add' | 'multiply' | 'divide' | 'power' | 'custom';
 
 export interface InputCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -277,7 +255,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | '
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface InputEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -289,20 +266,16 @@ export interface InputEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
   deviceId: string;
   mappingId: string;
   data: EventData;
-  timestamp: number;
   processed: boolean;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'pressed' | 'released' | 'moved' | 'held' | 'gesture' | 'custom';
 
 export interface EventData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -323,7 +296,6 @@ export interface EventData {
 }
 
 export interface InputFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,18 +307,14 @@ export interface InputFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FilterType;
   enabled: boolean;
   settings: FilterSettings;
-  metadata: Record<string, any>;
 }
 
 export type FilterType = 'deadzone' | 'smoothing' | 'threshold' | 'noise' | 'custom';
 
 export interface FilterSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -365,7 +333,6 @@ export interface FilterSettings {
 }
 
 export interface DeadzoneSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -385,7 +352,6 @@ export interface DeadzoneSettings {
 export type DeadzoneType = 'circular' | 'square' | 'cross' | 'custom';
 
 export interface SmoothingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -405,7 +371,6 @@ export interface SmoothingSettings {
 export type SmoothingMethod = 'linear' | 'exponential' | 'gaussian' | 'custom';
 
 export interface ThresholdSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -423,7 +388,6 @@ export interface ThresholdSettings {
 }
 
 export interface NoiseSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -441,7 +405,6 @@ export interface NoiseSettings {
 }
 
 export interface InputSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -466,7 +429,6 @@ export interface InputSystemPerformanceMetrics {
 }
 
 export interface InputSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -487,7 +449,6 @@ export interface InputSystemAnalytics {
 }
 
 export interface DeviceUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -500,7 +461,6 @@ export interface DeviceUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   deviceId: string;
-  name: string;
   type: DeviceType;
   events: number;
   usage: number;
@@ -508,7 +468,6 @@ export interface DeviceUsage {
 }
 
 export interface MappingUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -521,7 +480,6 @@ export interface MappingUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   mappingId: string;
-  name: string;
   type: MappingType;
   events: number;
   usage: number;
@@ -529,7 +487,6 @@ export interface MappingUsage {
 }
 
 export interface EventDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -548,7 +505,6 @@ export interface EventDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -560,7 +516,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   devices: number;
   events: number;
   latency: number;
@@ -569,7 +524,6 @@ export interface PerformanceTrend {
 }
 
 export interface InputSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -592,7 +546,6 @@ export interface InputSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -613,7 +566,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -633,7 +585,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +604,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -666,13 +616,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface InputSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

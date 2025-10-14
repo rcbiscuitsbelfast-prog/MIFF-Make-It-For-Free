@@ -13,7 +13,6 @@
  */
 
 export interface CryptocurrencyConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CryptocurrencyConfig {
 }
 
 export interface CryptocurrencyManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface CryptocurrencyManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CryptocurrencyManagerType;
   status: CryptocurrencyManagerStatus;
   wallets: CryptoWallet[];
@@ -70,16 +66,12 @@ export interface CryptocurrencyManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type CryptocurrencyManagerType = 'personal' | 'business' | 'trading' | 'custom';
 export type CryptocurrencyManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface CryptoWallet {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,8 +83,6 @@ export interface CryptoWallet {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WalletType;
   address: string;
   currency: string;
@@ -100,13 +90,11 @@ export interface CryptoWallet {
   publicKey: string;
   privateKey?: string; // Encrypted
   isActive: boolean;
-  metadata: Record<string, any>;
 }
 
 export type WalletType = 'hot' | 'cold' | 'hardware' | 'paper' | 'multi-sig';
 
 export interface CryptoTransaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -118,7 +106,6 @@ export interface CryptoTransaction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   hash: string;
   fromWallet: string;
   toWallet: string;
@@ -126,16 +113,13 @@ export interface CryptoTransaction {
   currency: string;
   fee: number;
   status: TransactionStatus;
-  timestamp: number;
   blockNumber?: number;
   confirmations: number;
-  metadata: Record<string, any>;
 }
 
 export type TransactionStatus = 'pending' | 'confirmed' | 'failed' | 'cancelled';
 
 export interface Portfolio {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,19 +131,15 @@ export interface Portfolio {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   wallets: string[];
   totalValue: number;
   totalValueUSD: number;
   assets: PortfolioAsset[];
   performance: PortfolioPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface PortfolioAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,7 +162,6 @@ export interface PortfolioAsset {
 }
 
 export interface PortfolioPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +184,6 @@ export interface PortfolioPerformance {
 }
 
 export interface PriceAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +195,6 @@ export interface PriceAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   currency: string;
   condition: AlertCondition;
   targetPrice: number;
@@ -225,11 +202,9 @@ export interface PriceAlert {
   isActive: boolean;
   triggered: boolean;
   triggeredAt?: number;
-  metadata: Record<string, any>;
 }
 
 export interface AlertCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +221,6 @@ export interface AlertCondition {
 }
 
 export interface Exchange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,22 +232,18 @@ export interface Exchange {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ExchangeType;
   status: ExchangeStatus;
   apiKey?: string; // Encrypted
   apiSecret?: string; // Encrypted
   supportedCurrencies: string[];
   tradingFees: TradingFees;
-  metadata: Record<string, any>;
 }
 
 export type ExchangeType = 'centralized' | 'decentralized' | 'hybrid';
 export type ExchangeStatus = 'active' | 'inactive' | 'error' | 'maintenance';
 
 export interface TradingFees {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +262,6 @@ export interface TradingFees {
 }
 
 export interface CryptocurrencyPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +285,6 @@ export interface CryptocurrencyPerformanceMetrics {
 }
 
 export interface CryptocurrencyAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -337,7 +305,6 @@ export interface CryptocurrencyAnalytics {
 }
 
 export interface CurrencyStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -356,7 +323,6 @@ export interface CurrencyStats {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -368,7 +334,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   totalValue: number;
   transactions: number;
   fees: number;
@@ -376,7 +341,6 @@ export interface PerformanceTrend {
 }
 
 export interface CryptocurrencyReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -399,7 +363,6 @@ export interface CryptocurrencyReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -420,7 +383,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -440,7 +402,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -460,7 +421,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -473,13 +433,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface CryptocurrencyOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

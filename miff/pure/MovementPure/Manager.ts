@@ -10,7 +10,6 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface Vector2 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,7 +26,6 @@ export interface Vector2 {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +43,6 @@ export interface Vector3 {
 }
 
 export interface MovementPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,7 +54,6 @@ export interface MovementPattern {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'idle' | 'patrol' | 'follow' | 'flee' | 'wander' | 'seek' | 'pursue' | 'evade';
   speed: number;
   acceleration: number;
@@ -70,7 +66,6 @@ export interface MovementPattern {
 }
 
 export interface MovementBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +86,6 @@ export interface MovementBehavior {
 }
 
 export interface MovementEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,7 +97,6 @@ export interface MovementEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: Vector2;
   velocity: Vector2;
   acceleration: Vector2;
@@ -115,7 +108,6 @@ export interface MovementEntity {
 }
 
 export interface MovementState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,7 +129,6 @@ export interface MovementState {
 }
 
 export interface MovementResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,7 +150,6 @@ export interface MovementResult {
 }
 
 export interface MovementEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,12 +163,10 @@ export interface MovementEvent {
   metadata?: Record<string, any>;
   type: 'started' | 'stopped' | 'turned' | 'collided' | 'reached_waypoint' | 'stuck' | 'unstuck';
   entityId: string;
-  timestamp: number;
   data?: Record<string, any>;
 }
 
 export interface MovementStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -200,7 +188,6 @@ export interface MovementStats {
 }
 
 export interface MovementFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -220,7 +207,6 @@ export interface MovementFilter {
 }
 
 export interface MovementOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -239,7 +225,6 @@ export interface MovementOutput {
 }
 
 export interface MovementConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

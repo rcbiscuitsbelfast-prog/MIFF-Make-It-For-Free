@@ -12,7 +12,6 @@
  */
 
 export interface TeleportationSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface TeleportationSystemConfig {
 }
 
 export interface TeleportationSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface TeleportationSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TeleportationSystemManagerType;
   status: TeleportationSystemManagerStatus;
   portals: Portal[];
@@ -67,16 +63,12 @@ export interface TeleportationSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type TeleportationSystemManagerType = 'game' | 'simulation' | 'vr' | 'ar' | 'custom';
 export type TeleportationSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Portal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Portal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PortalType;
   status: PortalStatus;
   position: Position;
@@ -97,14 +87,12 @@ export interface Portal {
   properties: PortalProperties;
   effects: PortalEffect[];
   restrictions: PortalRestriction[];
-  metadata: Record<string, any>;
 }
 
 export type PortalType = 'one_way' | 'two_way' | 'multi_way' | 'temporary' | 'permanent' | 'custom';
 export type PortalStatus = 'active' | 'inactive' | 'charging' | 'error';
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface Position {
 }
 
 export interface PortalDestination {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +133,6 @@ export interface PortalDestination {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface Vector3 {
 }
 
 export interface PortalProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +170,6 @@ export interface PortalProperties {
 }
 
 export interface PortalSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -203,7 +187,6 @@ export interface PortalSize {
 }
 
 export interface EnergyProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +206,6 @@ export interface EnergyProperties {
 }
 
 export interface CapacityProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -244,7 +226,6 @@ export interface CapacityProperties {
 }
 
 export interface SecurityProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +246,6 @@ export interface SecurityProperties {
 export type AccessLevel = 'public' | 'private' | 'restricted' | 'admin' | 'custom';
 
 export interface Permission {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -284,7 +264,6 @@ export interface Permission {
 }
 
 export interface EncryptionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +282,6 @@ export interface EncryptionSettings {
 }
 
 export interface AuthenticationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -323,7 +301,6 @@ export interface AuthenticationSettings {
 }
 
 export interface PortalEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,7 +312,6 @@ export interface PortalEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   properties: EffectProperties;
   duration: number;
@@ -346,7 +322,6 @@ export interface PortalEffect {
 export type EffectType = 'visual' | 'audio' | 'particle' | 'light' | 'distortion' | 'custom';
 
 export interface EffectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -367,7 +342,6 @@ export interface EffectProperties {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -386,7 +360,6 @@ export interface Color {
 }
 
 export interface PortalRestriction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -407,7 +380,6 @@ export interface PortalRestriction {
 export type RestrictionType = 'level' | 'item' | 'quest' | 'time' | 'location' | 'custom';
 
 export interface RestrictionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -429,7 +401,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | '
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface RestrictionAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -450,7 +421,6 @@ export interface RestrictionAction {
 export type ActionType = 'block' | 'redirect' | 'message' | 'custom';
 
 export interface Gateway {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -462,22 +432,18 @@ export interface Gateway {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GatewayType;
   status: GatewayStatus;
   position: Position;
   connections: GatewayConnection[];
   properties: GatewayProperties;
   effects: GatewayEffect[];
-  metadata: Record<string, any>;
 }
 
 export type GatewayType = 'hub' | 'spoke' | 'mesh' | 'star' | 'custom';
 export type GatewayStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface GatewayConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -497,7 +463,6 @@ export interface GatewayConnection {
 }
 
 export interface GatewayProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -517,7 +482,6 @@ export interface GatewayProperties {
 }
 
 export interface MaintenanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -536,7 +500,6 @@ export interface MaintenanceSettings {
 }
 
 export interface GatewayEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -548,7 +511,6 @@ export interface GatewayEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   properties: EffectProperties;
   duration: number;
@@ -557,7 +519,6 @@ export interface GatewayEffect {
 }
 
 export interface TeleportationPoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -569,21 +530,17 @@ export interface TeleportationPoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TeleportationPointType;
   status: TeleportationPointStatus;
   position: Position;
   properties: TeleportationPointProperties;
   connections: TeleportationConnection[];
-  metadata: Record<string, any>;
 }
 
 export type TeleportationPointType = 'spawn' | 'checkpoint' | 'waypoint' | 'destination' | 'custom';
 export type TeleportationPointStatus = 'active' | 'inactive' | 'locked' | 'error';
 
 export interface TeleportationPointProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -604,7 +561,6 @@ export interface TeleportationPointProperties {
 }
 
 export interface ActivationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -624,7 +580,6 @@ export interface ActivationSettings {
 export type ActivationMethod = 'touch' | 'proximity' | 'interaction' | 'command' | 'custom';
 
 export interface ActivationRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -644,7 +599,6 @@ export interface ActivationRequirement {
 export type RequirementType = 'level' | 'item' | 'quest' | 'energy' | 'custom';
 
 export interface ActivationCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,7 +619,6 @@ export interface ActivationCondition {
 export type ConditionType = 'time' | 'weather' | 'event' | 'custom';
 
 export interface TeleportationConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -685,7 +638,6 @@ export interface TeleportationConnection {
 }
 
 export interface TeleportationRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -704,7 +656,6 @@ export interface TeleportationRequirement {
 }
 
 export interface TeleportationEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -716,20 +667,16 @@ export interface TeleportationEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TeleportationEffectType;
   properties: TeleportationEffectProperties;
   duration: number;
   intensity: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export type TeleportationEffectType = 'fade' | 'flash' | 'particle' | 'sound' | 'screen' | 'custom';
 
 export interface TeleportationEffectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -752,7 +699,6 @@ export interface TeleportationEffectProperties {
 }
 
 export interface SoundProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -773,7 +719,6 @@ export interface SoundProperties {
 }
 
 export interface ParticleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -794,7 +739,6 @@ export interface ParticleProperties {
 }
 
 export interface TeleportationSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -820,7 +764,6 @@ export interface TeleportationSystemPerformanceMetrics {
 }
 
 export interface TeleportationSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -840,7 +783,6 @@ export interface TeleportationSystemAnalytics {
 }
 
 export interface PortalUsageDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -853,14 +795,12 @@ export interface PortalUsageDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   portalId: string;
-  name: string;
   usage: number;
   averageTime: number;
   energyConsumption: number;
 }
 
 export interface GatewayUsageDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -873,14 +813,12 @@ export interface GatewayUsageDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   gatewayId: string;
-  name: string;
   usage: number;
   averageLatency: number;
   throughput: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -892,7 +830,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   portals: number;
   gateways: number;
   teleportations: number;
@@ -902,7 +839,6 @@ export interface PerformanceTrend {
 }
 
 export interface TeleportationSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -925,7 +861,6 @@ export interface TeleportationSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -946,7 +881,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -966,7 +900,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -986,7 +919,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -999,13 +931,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface TeleportationSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

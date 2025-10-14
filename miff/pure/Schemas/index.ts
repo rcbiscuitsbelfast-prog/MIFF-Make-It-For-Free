@@ -18,7 +18,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
  * Validation result interface
  */
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -33,7 +32,6 @@ export interface ValidationResult {
   /** Whether validation passed */
   isValid: boolean;
   /** List of validation errors */
-  errors: string[];
   /** List of warnings */
   warnings: string[];
 }
@@ -42,7 +40,6 @@ export interface ValidationResult {
  * Schema definition interface
  */
 export interface SchemaDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -67,7 +64,6 @@ export interface SchemaDefinition {
  * Field type definition
  */
 export interface FieldDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

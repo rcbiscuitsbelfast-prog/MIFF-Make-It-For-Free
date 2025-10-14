@@ -14,7 +14,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Event {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -26,13 +25,9 @@ export interface Event {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
-  data: any;
-  timestamp: number;
   source: string;
   priority: EventPriority;
-  metadata: Record<string, any>;
   
   // Missing properties that are being accessed
   amount?: number;
@@ -49,7 +44,6 @@ export enum EventPriority {
 }
 
 export interface EventHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,7 +55,6 @@ export interface EventHandler {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   eventType: string;
   handler: (event: Event) => void | Promise<void>;
   priority: EventPriority;
@@ -70,7 +63,6 @@ export interface EventHandler {
 }
 
 export interface EventBusConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +83,6 @@ export interface EventBusConfig {
 }
 
 export interface NetworkMessage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,15 +94,12 @@ export interface NetworkMessage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   event: Event;
   target: string | 'broadcast';
   reliable: boolean;
-  timestamp: number;
 }
 
 export interface EventSubscription {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,14 +111,12 @@ export interface EventSubscription {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   eventType: string;
   handler: EventHandler;
   active: boolean;
 }
 
 export interface EventStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -676,7 +662,6 @@ export class EventReplicator {
 }
 
 export interface ReplicationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -855,7 +840,6 @@ export class EventScheduler {
 }
 
 export interface ScheduledEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -867,9 +851,7 @@ export interface ScheduledEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   eventType: string;
-  data: any;
   options: any;
   executeAt: number;
   recurring: boolean;

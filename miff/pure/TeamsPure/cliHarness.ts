@@ -34,7 +34,6 @@ Examples:
 }
 
 interface TeamOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,7 +55,6 @@ interface TeamOperation {
 }
 
 interface SpiritInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,7 +67,6 @@ interface SpiritInstance {
   updatedAt?: number;
   metadata?: Record<string, any>;
   instanceId: string;
-  name: string;
   level: number;
   type: string;
   stats: {

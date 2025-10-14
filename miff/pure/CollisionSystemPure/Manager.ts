@@ -12,7 +12,6 @@
  */
 
 export interface CollisionSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface CollisionSystemConfig {
 }
 
 export interface CollisionSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface CollisionSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CollisionSystemManagerType;
   status: CollisionSystemManagerStatus;
   colliders: Collider[];
@@ -67,16 +63,12 @@ export interface CollisionSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type CollisionSystemManagerType = 'game' | 'simulation' | 'vr' | 'ar' | 'custom';
 export type CollisionSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Collider {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Collider {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ColliderType;
   status: ColliderStatus;
   shape: CollisionShape;
@@ -98,14 +88,12 @@ export interface Collider {
   layer: string;
   triggers: string[];
   events: CollisionEventHandler[];
-  metadata: Record<string, any>;
 }
 
 export type ColliderType = 'box' | 'sphere' | 'capsule' | 'mesh' | 'terrain' | 'custom';
 export type ColliderStatus = 'active' | 'inactive' | 'sleeping' | 'error';
 
 export interface CollisionShape {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,7 +118,6 @@ export interface CollisionShape {
 export type ShapeType = 'box' | 'sphere' | 'capsule' | 'cylinder' | 'mesh' | 'plane' | 'custom';
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +135,6 @@ export interface Vector3 {
 }
 
 export interface Face {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +152,6 @@ export interface Face {
 }
 
 export interface Transform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +170,6 @@ export interface Transform {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,7 +188,6 @@ export interface Quaternion {
 }
 
 export interface Matrix4 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +206,6 @@ export interface Matrix4 {
 }
 
 export interface PhysicsProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +228,6 @@ export interface PhysicsProperties {
 }
 
 export interface PhysicsConstraints {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +246,6 @@ export interface PhysicsConstraints {
 }
 
 export interface CollisionLayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -277,17 +257,13 @@ export interface CollisionLayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   index: number;
   mask: number;
   interactions: LayerInteraction[];
   properties: LayerProperties;
-  metadata: Record<string, any>;
 }
 
 export interface LayerInteraction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,7 +282,6 @@ export interface LayerInteraction {
 }
 
 export interface LayerProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -325,7 +300,6 @@ export interface LayerProperties {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -344,7 +318,6 @@ export interface Color {
 }
 
 export interface Trigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -356,8 +329,6 @@ export interface Trigger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TriggerType;
   status: TriggerStatus;
   shape: CollisionShape;
@@ -365,14 +336,12 @@ export interface Trigger {
   layer: string;
   events: TriggerEventHandler[];
   conditions: TriggerCondition[];
-  metadata: Record<string, any>;
 }
 
 export type TriggerType = 'enter' | 'exit' | 'stay' | 'custom';
 export type TriggerStatus = 'active' | 'inactive' | 'error';
 
 export interface TriggerEventHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -393,7 +362,6 @@ export interface TriggerEventHandler {
 export type TriggerEventType = 'on_enter' | 'on_exit' | 'on_stay' | 'custom';
 
 export interface TriggerCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -417,7 +385,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | '
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface CollisionEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -429,7 +396,6 @@ export interface CollisionEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: CollisionEventType;
   colliderA: string;
   colliderB: string;
@@ -437,14 +403,11 @@ export interface CollisionEvent {
   normal: Vector3;
   impulse: Vector3;
   relativeVelocity: Vector3;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export type CollisionEventType = 'enter' | 'exit' | 'stay' | 'custom';
 
 export interface CollisionEventHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -463,7 +426,6 @@ export interface CollisionEventHandler {
 }
 
 export interface CollisionSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -488,7 +450,6 @@ export interface CollisionSystemPerformanceMetrics {
 }
 
 export interface CollisionSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -509,7 +470,6 @@ export interface CollisionSystemAnalytics {
 }
 
 export interface ColliderTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -528,7 +488,6 @@ export interface ColliderTypeDistribution {
 }
 
 export interface LayerDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -547,7 +506,6 @@ export interface LayerDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -559,7 +517,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   colliders: number;
   events: number;
   detectionTime: number;
@@ -569,7 +526,6 @@ export interface PerformanceTrend {
 }
 
 export interface CollisionSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -592,7 +548,6 @@ export interface CollisionSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -613,7 +568,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -633,7 +587,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +606,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -666,13 +618,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface CollisionSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

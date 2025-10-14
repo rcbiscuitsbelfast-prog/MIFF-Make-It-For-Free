@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CloudStorageConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CloudStorageConfig {
 }
 
 export interface CloudStorage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface CloudStorage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StorageType;
   status: StorageStatus;
   providers: StorageProvider[];
@@ -64,14 +60,12 @@ export interface CloudStorage {
   buckets: StorageBucket[];
   performance: StoragePerformance;
   analytics: StorageAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface StorageProvider {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,17 +77,13 @@ export interface StorageProvider {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProviderType;
   status: ProviderStatus;
   credentials: ProviderCredentials;
   settings: ProviderSettings;
-  metadata: Record<string, any>;
 }
 
 export interface ProviderCredentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,11 +99,9 @@ export interface ProviderCredentials {
   secretKey: string;
   region: string;
   endpoint?: string;
-  metadata: Record<string, any>;
 }
 
 export interface ProviderSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,11 +117,9 @@ export interface ProviderSettings {
   allowedFileTypes: string[];
   compressionEnabled: boolean;
   encryptionEnabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface StorageFile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,8 +131,6 @@ export interface StorageFile {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   path: string;
   size: number; // bytes
   type: FileType;
@@ -156,11 +140,9 @@ export interface StorageFile {
   checksum: string;
   uploadedAt: Date;
   lastModified: Date;
-  metadata: Record<string, any>;
 }
 
 export interface StorageBucket {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,18 +154,14 @@ export interface StorageBucket {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   provider: string; // Provider ID
   region: string;
   status: BucketStatus;
   files: string[]; // File IDs
   settings: BucketSettings;
-  metadata: Record<string, any>;
 }
 
 export interface BucketSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,11 +176,9 @@ export interface BucketSettings {
   public: boolean;
   versioning: boolean;
   lifecycle: LifecycleRule[];
-  metadata: Record<string, any>;
 }
 
 export interface LifecycleRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -214,16 +190,12 @@ export interface LifecycleRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   enabled: boolean;
   conditions: LifecycleCondition[];
   actions: LifecycleAction[];
-  metadata: Record<string, any>;
 }
 
 export interface LifecycleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,11 +209,9 @@ export interface LifecycleCondition {
   metadata?: Record<string, any>;
   type: ConditionType;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface LifecycleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,11 +225,9 @@ export interface LifecycleAction {
   metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface StoragePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,11 +244,9 @@ export interface StoragePerformance {
   averageUploadTime: number; // milliseconds
   averageDownloadTime: number; // milliseconds
   successRate: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface StorageAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

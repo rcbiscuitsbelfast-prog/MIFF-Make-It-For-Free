@@ -12,7 +12,6 @@
  */
 
 export interface ComputerVisionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface ComputerVisionConfig {
 }
 
 export interface ComputerVisionManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface ComputerVisionManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ComputerVisionManagerType;
   status: ComputerVisionManagerStatus;
   models: VisionModel[];
@@ -68,16 +64,12 @@ export interface ComputerVisionManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ComputerVisionManagerType = 'research' | 'production' | 'surveillance' | 'medical' | 'custom';
 export type ComputerVisionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface VisionModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,22 +81,18 @@ export interface VisionModel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ModelType;
   status: ModelStatus;
   architecture: ModelArchitecture;
   parameters: ModelParameters;
   training: TrainingConfiguration;
   performance: ModelPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ModelType = 'classification' | 'detection' | 'segmentation' | 'tracking' | 'recognition' | 'custom';
 export type ModelStatus = 'draft' | 'training' | 'trained' | 'deployed' | 'archived' | 'error';
 
 export interface ModelArchitecture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +112,6 @@ export interface ModelArchitecture {
 }
 
 export interface BackboneNetwork {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,7 +124,6 @@ export interface BackboneNetwork {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BackboneType;
-  name: string;
   parameters: Record<string, any>;
   pretrained: boolean;
   frozen: boolean;
@@ -146,7 +132,6 @@ export interface BackboneNetwork {
 export type BackboneType = 'resnet' | 'vgg' | 'densenet' | 'efficientnet' | 'mobilenet' | 'custom';
 
 export interface NeckNetwork {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +151,6 @@ export interface NeckNetwork {
 export type NeckType = 'fpn' | 'pan' | 'bifpn' | 'nas_fpn' | 'custom';
 
 export interface HeadNetwork {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,7 +170,6 @@ export interface HeadNetwork {
 export type HeadType = 'classification' | 'detection' | 'segmentation' | 'keypoint' | 'custom';
 
 export interface Connection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +190,6 @@ export interface Connection {
 export type ConnectionType = 'skip' | 'concat' | 'add' | 'multiply' | 'custom';
 
 export interface OutputConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,7 +208,6 @@ export interface OutputConfiguration {
 }
 
 export interface Anchor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -245,7 +226,6 @@ export interface Anchor {
 }
 
 export interface LossFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +245,6 @@ export interface LossFunction {
 export type LossType = 'cross_entropy' | 'focal_loss' | 'smooth_l1' | 'iou_loss' | 'dice_loss' | 'custom';
 
 export interface OptimizerSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -287,7 +266,6 @@ export interface OptimizerSettings {
 export type OptimizerType = 'adam' | 'sgd' | 'adamw' | 'rmsprop' | 'custom';
 
 export interface ModelParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -309,7 +287,6 @@ export interface ModelParameters {
 }
 
 export interface ImageSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -327,7 +304,6 @@ export interface ImageSize {
 }
 
 export interface TrainingConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -348,7 +324,6 @@ export interface TrainingConfiguration {
 }
 
 export interface LearningRateSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +345,6 @@ export interface LearningRateSchedule {
 export type ScheduleType = 'constant' | 'step' | 'exponential' | 'cosine' | 'custom';
 
 export interface AugmentationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -389,7 +363,6 @@ export interface AugmentationSettings {
 }
 
 export interface AugmentationTechnique {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -409,7 +382,6 @@ export interface AugmentationTechnique {
 export type AugmentationType = 'rotation' | 'flip' | 'crop' | 'resize' | 'color' | 'noise' | 'blur' | 'custom';
 
 export interface ValidationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -428,7 +400,6 @@ export interface ValidationSettings {
 }
 
 export interface Callback {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -448,7 +419,6 @@ export interface Callback {
 export type CallbackType = 'early_stopping' | 'model_checkpoint' | 'reduce_lr' | 'tensorboard' | 'custom';
 
 export interface ModelPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -473,7 +443,6 @@ export interface ModelPerformance {
 }
 
 export interface ImageData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -485,22 +454,18 @@ export interface ImageData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ImageType;
   status: ImageStatus;
   data: ImageBuffer;
   metadata: ImageMetadata;
   annotations: Annotation[];
   processing: ProcessingHistory[];
-  metadata: Record<string, any>;
 }
 
 export type ImageType = 'rgb' | 'grayscale' | 'depth' | 'thermal' | 'multispectral' | 'custom';
 export type ImageStatus = 'raw' | 'processed' | 'annotated' | 'error';
 
 export interface ImageBuffer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -522,7 +487,6 @@ export type ImageFormat = 'jpeg' | 'png' | 'bmp' | 'tiff' | 'webp' | 'raw' | 'cu
 export type CompressionType = 'none' | 'lossless' | 'lossy' | 'custom';
 
 export interface ImageMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,11 +504,9 @@ export interface ImageMetadata {
   bitDepth: number;
   colorSpace: string;
   exif: ExifData;
-  timestamp: number;
 }
 
 export interface ExifData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -564,7 +526,6 @@ export interface ExifData {
 }
 
 export interface CameraSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -584,7 +545,6 @@ export interface CameraSettings {
 }
 
 export interface LocationData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -603,7 +563,6 @@ export interface LocationData {
 }
 
 export interface Annotation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -615,7 +574,6 @@ export interface Annotation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AnnotationType;
   label: string;
   confidence: number;
@@ -628,7 +586,6 @@ export interface Annotation {
 export type AnnotationType = 'bounding_box' | 'polygon' | 'keypoint' | 'mask' | 'custom';
 
 export interface BoundingBox {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -647,7 +604,6 @@ export interface BoundingBox {
 }
 
 export interface Point {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -664,7 +620,6 @@ export interface Point {
 }
 
 export interface Keypoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -676,7 +631,6 @@ export interface Keypoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   point: Point;
   visibility: VisibilityType;
   confidence: number;
@@ -685,7 +639,6 @@ export interface Keypoint {
 export type VisibilityType = 'visible' | 'occluded' | 'not_visible';
 
 export interface ProcessingHistory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -697,15 +650,12 @@ export interface ProcessingHistory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   operation: string;
   parameters: Record<string, any>;
-  timestamp: number;
   result: ProcessingResult;
 }
 
 export interface ProcessingResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -724,7 +674,6 @@ export interface ProcessingResult {
 }
 
 export interface VideoData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -736,22 +685,18 @@ export interface VideoData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: VideoType;
   status: VideoStatus;
   data: VideoBuffer;
   metadata: VideoMetadata;
   frames: FrameData[];
   tracks: TrackData[];
-  metadata: Record<string, any>;
 }
 
 export type VideoType = 'mp4' | 'avi' | 'mov' | 'mkv' | 'webm' | 'custom';
 export type VideoStatus = 'raw' | 'processed' | 'tracked' | 'error';
 
 export interface VideoBuffer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -772,7 +717,6 @@ export interface VideoBuffer {
 export type VideoFormat = 'mp4' | 'avi' | 'mov' | 'mkv' | 'webm' | 'raw' | 'custom';
 
 export interface VideoMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -790,11 +734,9 @@ export interface VideoMetadata {
   duration: number;
   bitrate: number;
   codec: string;
-  timestamp: number;
 }
 
 export interface FrameData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -806,15 +748,12 @@ export interface FrameData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   index: number;
-  timestamp: number;
   image: ImageData;
   annotations: Annotation[];
 }
 
 export interface TrackData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -826,7 +765,6 @@ export interface TrackData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   objectId: string;
   frames: number[];
   trajectory: Point[];
@@ -835,7 +773,6 @@ export interface TrackData {
 }
 
 export interface ProcessingPipeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -847,20 +784,16 @@ export interface ProcessingPipeline {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PipelineType;
   status: PipelineStatus;
   steps: ProcessingStep[];
   configuration: PipelineConfiguration;
-  metadata: Record<string, any>;
 }
 
 export type PipelineType = 'preprocessing' | 'inference' | 'postprocessing' | 'custom';
 export type PipelineStatus = 'active' | 'inactive' | 'error';
 
 export interface ProcessingStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -872,8 +805,6 @@ export interface ProcessingStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StepType;
   parameters: Record<string, any>;
   order: number;
@@ -883,7 +814,6 @@ export interface ProcessingStep {
 export type StepType = 'resize' | 'normalize' | 'augment' | 'detect' | 'classify' | 'track' | 'custom';
 
 export interface PipelineConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -903,7 +833,6 @@ export interface PipelineConfiguration {
 }
 
 export interface InputConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -922,7 +851,6 @@ export interface InputConfiguration {
 }
 
 export interface OutputConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -941,7 +869,6 @@ export interface OutputConfiguration {
 }
 
 export interface PreprocessingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -959,7 +886,6 @@ export interface PreprocessingSettings {
 }
 
 export interface ResizeSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -980,7 +906,6 @@ export interface ResizeSettings {
 export type ResizeMethod = 'bilinear' | 'nearest' | 'bicubic' | 'lanczos' | 'custom';
 
 export interface NormalizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1001,7 +926,6 @@ export interface NormalizationSettings {
 export type NormalizationMethod = 'z_score' | 'min_max' | 'unit_vector' | 'custom';
 
 export interface PostprocessingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1019,7 +943,6 @@ export interface PostprocessingSettings {
 }
 
 export interface NMSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1039,7 +962,6 @@ export interface NMSettings {
 export type NMMethod = 'greedy' | 'soft' | 'weighted' | 'custom';
 
 export interface FilteringSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1057,7 +979,6 @@ export interface FilteringSettings {
 }
 
 export interface SizeFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1076,7 +997,6 @@ export interface SizeFilter {
 }
 
 export interface FormattingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1094,7 +1014,6 @@ export interface FormattingSettings {
 }
 
 export interface OptimizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1112,7 +1031,6 @@ export interface OptimizationSettings {
 }
 
 export interface QuantizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1133,7 +1051,6 @@ export interface QuantizationSettings {
 export type QuantizationMethod = 'int8' | 'int16' | 'dynamic' | 'static' | 'custom';
 
 export interface CalibrationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1151,7 +1068,6 @@ export interface CalibrationSettings {
 }
 
 export interface PruningSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1172,7 +1088,6 @@ export interface PruningSettings {
 export type PruningMethod = 'magnitude' | 'gradient' | 'random' | 'custom';
 
 export interface DistillationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1191,7 +1106,6 @@ export interface DistillationSettings {
 }
 
 export interface ObjectDetector {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1203,21 +1117,17 @@ export interface ObjectDetector {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DetectorType;
   status: DetectorStatus;
   model: string;
   configuration: DetectorConfiguration;
   performance: DetectorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type DetectorType = 'yolo' | 'rcnn' | 'ssd' | 'retinanet' | 'efficientdet' | 'custom';
 export type DetectorStatus = 'active' | 'inactive' | 'training' | 'error';
 
 export interface DetectorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1237,7 +1147,6 @@ export interface DetectorConfiguration {
 }
 
 export interface DetectorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1259,7 +1168,6 @@ export interface DetectorPerformance {
 }
 
 export interface ComputerVisionPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1285,7 +1193,6 @@ export interface ComputerVisionPerformanceMetrics {
 }
 
 export interface ComputerVisionAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1306,7 +1213,6 @@ export interface ComputerVisionAnalytics {
 }
 
 export interface ModelTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1325,7 +1231,6 @@ export interface ModelTypeDistribution {
 }
 
 export interface ImageTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1344,7 +1249,6 @@ export interface ImageTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1356,7 +1260,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   models: number;
   images: number;
   processingTime: number;
@@ -1366,7 +1269,6 @@ export interface PerformanceTrend {
 }
 
 export interface ComputerVisionReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1389,7 +1291,6 @@ export interface ComputerVisionReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1410,7 +1311,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1430,7 +1330,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1450,7 +1349,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1463,13 +1361,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ComputerVisionOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

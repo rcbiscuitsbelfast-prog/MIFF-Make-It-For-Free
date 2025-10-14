@@ -17,7 +17,6 @@ export enum LogLevel {
 }
 
 export interface LogEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface LogEntry {
 }
 
 export interface LoggerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

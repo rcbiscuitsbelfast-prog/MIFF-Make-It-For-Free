@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Mutation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface Mutation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: MutationType;
   description: string;
   originalCode: string;
@@ -43,7 +41,6 @@ export enum MutationType {
 }
 
 export interface MutationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -63,7 +60,6 @@ export interface MutationResult {
 }
 
 export interface TestResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,7 +78,6 @@ export interface TestResult {
 }
 
 export interface MutationStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -458,7 +453,6 @@ export class MutationTester {
  * Test Runner Interface
  */
 export interface TestRunner {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

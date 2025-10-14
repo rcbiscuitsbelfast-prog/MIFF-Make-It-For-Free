@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ChatSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface ChatSystemConfig {
 }
 
 export interface ChatSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface ChatSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   channels: ChatChannel[];
@@ -65,14 +61,12 @@ export interface ChatSystem {
   moderation: ModerationSettings;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface ChatChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,18 +78,14 @@ export interface ChatChannel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChannelType;
   status: ChannelStatus;
   users: string[]; // User IDs
   messages: ChatMessage[];
   settings: ChannelSettings;
-  metadata: Record<string, any>;
 }
 
 export interface ChannelSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -112,11 +102,9 @@ export interface ChannelSettings {
   requireModeration: boolean;
   allowFileUploads: boolean;
   maxMessageLength: number;
-  metadata: Record<string, any>;
 }
 
 export interface ChatUser {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,17 +116,13 @@ export interface ChatUser {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: UserType;
   status: UserStatus;
   permissions: UserPermissions;
   profile: UserProfile;
-  metadata: Record<string, any>;
 }
 
 export interface UserPermissions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -155,11 +139,9 @@ export interface UserPermissions {
   canModerate: boolean;
   canUploadFiles: boolean;
   canDeleteMessages: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UserProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,13 +155,10 @@ export interface UserProfile {
   metadata?: Record<string, any>;
   avatar: string;
   displayName: string;
-  status: string;
   lastSeen: Date;
-  metadata: Record<string, any>;
 }
 
 export interface ChatMessage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,7 +170,6 @@ export interface ChatMessage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   channelId: string;
   userId: string;
   content: string;
@@ -201,11 +179,9 @@ export interface ChatMessage {
   editedAt?: Date;
   replyTo?: string; // Message ID
   attachments: MessageAttachment[];
-  metadata: Record<string, any>;
 }
 
 export interface MessageAttachment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,16 +193,12 @@ export interface MessageAttachment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AttachmentType;
   size: number; // bytes
   url: string;
-  metadata: Record<string, any>;
 }
 
 export interface ModerationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,11 +215,9 @@ export interface ModerationSettings {
   profanityFilter: boolean;
   spamFilter: boolean;
   rateLimit: number; // messages per minute
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -267,11 +237,9 @@ export interface SystemPerformance {
   averageLatency: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

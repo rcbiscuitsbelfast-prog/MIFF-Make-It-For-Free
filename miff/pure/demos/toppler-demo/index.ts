@@ -26,7 +26,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Game Types and Interfaces
 interface Vector2D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ interface Vector2D {
 }
 
 interface GameObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,7 +53,6 @@ interface GameObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: Vector2D;
   velocity: Vector2D;
   size: Vector2D;
@@ -74,7 +71,6 @@ interface GameObject {
 }
 
 interface Level {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,8 +82,6 @@ interface Level {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   width: number;
   height: number;
@@ -102,7 +96,6 @@ interface Level {
 }
 
 interface Player {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +122,6 @@ interface Player {
 }
 
 interface GameState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,7 +148,6 @@ interface GameState {
 }
 
 interface InputState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

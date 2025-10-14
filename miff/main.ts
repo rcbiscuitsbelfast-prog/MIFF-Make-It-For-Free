@@ -5,7 +5,6 @@ import { validateOverlinkZone, checkOverlinkZoneHealth, safeOverlinkZoneCall } f
 
 // Browser-safe interface for OverlinkZone (avoids Node.js dependencies)
 interface BrowserOverlinkZone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -17,7 +16,6 @@ interface BrowserOverlinkZone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   mount: (container: HTMLElement) => void;
   unmount: () => void;
   activateTheme: (theme: string) => void;
@@ -37,7 +35,6 @@ interface BrowserOverlinkZone {
 
 // Game state
 interface GameState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

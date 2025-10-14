@@ -9,7 +9,6 @@
  */
 
 export interface MemoryStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -25,11 +24,9 @@ export interface MemoryStats {
   heapTotal: number;
   external: number;
   rss: number;
-  timestamp: number;
 }
 
 export interface MemoryLeakDetection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +45,6 @@ export interface MemoryLeakDetection {
 }
 
 export interface ObjectLifecycle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,7 +56,6 @@ export interface ObjectLifecycle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   created: number;
   lastAccessed: number;

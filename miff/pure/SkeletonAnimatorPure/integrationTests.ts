@@ -15,7 +15,6 @@ import { ExportIntegration } from './ExportIntegration';
 import { UIBuilder } from './UIBuilder';
 
 export interface TestResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,7 +26,6 @@ export interface TestResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   passed: boolean;
   error?: string;
   duration: number;
@@ -35,7 +33,6 @@ export interface TestResult {
 }
 
 export interface TestSuite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +44,6 @@ export interface TestSuite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   tests: TestResult[];
   totalDuration: number;
   passed: number;

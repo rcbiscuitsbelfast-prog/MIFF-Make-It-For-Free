@@ -8,7 +8,6 @@
 export type TimerId = string;
 
 export interface Timer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -31,7 +30,6 @@ export interface Timer {
 }
 
 export interface Cooldown {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +41,6 @@ export interface Cooldown {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   duration: number;
   remaining: number;
   category?: string;
@@ -51,7 +48,6 @@ export interface Cooldown {
 }
 
 export interface ScheduledEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -63,7 +59,6 @@ export interface ScheduledEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   at: number;
   payload?: any;
   callback?: () => void;
@@ -71,7 +66,6 @@ export interface ScheduledEvent {
 }
 
 export interface TimeScale {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,7 +77,6 @@ export interface TimeScale {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   factor: number;
   duration?: number;
   startTime: number;
@@ -92,7 +85,6 @@ export interface TimeScale {
 }
 
 export interface TimeStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,7 +108,6 @@ export interface TimeStats {
 }
 
 export interface TimeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

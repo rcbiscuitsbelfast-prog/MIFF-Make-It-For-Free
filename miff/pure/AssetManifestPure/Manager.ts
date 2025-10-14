@@ -20,7 +20,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AssetManifestConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface AssetManifestConfig {
 }
 
 export interface AssetManifest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,8 +58,6 @@ export interface AssetManifest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ManifestType;
   status: ManifestStatus;
   assets: AssetEntry[];
@@ -69,14 +65,12 @@ export interface AssetManifest {
   versioning: VersioningInfo;
   caching: CachingInfo;
   analytics: ManifestAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AssetEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,21 +82,17 @@ export interface AssetEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssetType;
   path: string;
   size: number; // bytes
   hash: string;
   version: string;
   dependencies: string[];
-  metadata: Record<string, any>;
   status: AssetStatus;
   lastModified: Date;
 }
 
 export interface AssetDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,17 +104,14 @@ export interface AssetDependency {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   assetId: string;
   dependencyId: string;
   type: DependencyType;
   required: boolean;
   version: string;
-  metadata: Record<string, any>;
 }
 
 export interface VersioningInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,7 +132,6 @@ export interface VersioningInfo {
 }
 
 export interface CachingInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +152,6 @@ export interface CachingInfo {
 }
 
 export interface ManifestAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

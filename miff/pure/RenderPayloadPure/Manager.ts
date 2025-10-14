@@ -13,7 +13,6 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface FrameBuildOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -33,7 +32,6 @@ export interface FrameBuildOptions {
 }
 
 export interface BuildResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,13 +54,10 @@ export interface BuildResult {
   };
   
   // Missing properties that are being accessed
-  ok: boolean;
   result?: RenderPayload;
-  errors: string[];
 }
 
 export interface AssetReference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -74,7 +69,6 @@ export interface AssetReference {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   path: string;
   type: 'texture' | 'audio' | 'model' | 'animation' | 'shader';
   size: number;
@@ -83,7 +77,6 @@ export interface AssetReference {
 }
 
 export interface AnimationSequence {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -95,8 +88,6 @@ export interface AnimationSequence {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   frames: number;
   duration: number;
   loop: boolean;
@@ -107,7 +98,6 @@ export interface AnimationSequence {
 }
 
 export interface RenderStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,7 +122,6 @@ export interface RenderStats {
 }
 
 export interface RenderPayload {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -160,7 +149,6 @@ export interface RenderPayload {
 }
 
 export interface RenderData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +160,6 @@ export interface RenderData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'sprite' | 'model' | 'effect' | 'ui' | 'text' | 'particle';
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
@@ -185,7 +172,6 @@ export interface RenderData {
 }
 
 export interface RenderPayloadConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

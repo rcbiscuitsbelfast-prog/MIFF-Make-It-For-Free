@@ -13,7 +13,6 @@
  */
 
 export interface OverlinkZoneValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,12 +29,10 @@ export interface OverlinkZoneValidationResult {
   hasRequiredMethods: boolean;
   hasOptionalFeatures: boolean;
   warnings: string[];
-  errors: string[];
   suggestions: string[];
 }
 
 export interface OverlinkZoneHealthCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

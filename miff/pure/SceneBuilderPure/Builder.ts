@@ -1,5 +1,4 @@
 export interface SceneObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -11,13 +10,11 @@ export interface SceneObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   position: { x: number; y: number; z: number };
 }
 
 export interface Scene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -29,8 +26,6 @@ export interface Scene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: string;
   dimensions: { width: number; height: number };
   objects: SceneObject[];

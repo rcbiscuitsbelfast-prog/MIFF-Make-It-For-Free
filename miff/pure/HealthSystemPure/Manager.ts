@@ -6,7 +6,6 @@
  */
 
 export interface HealthEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -18,7 +17,6 @@ export interface HealthEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   maxHp: number;
   currentHp: number;
   shields: Shield[];
@@ -30,7 +28,6 @@ export interface HealthEntity {
 }
 
 export interface Shield {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +39,6 @@ export interface Shield {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'physical' | 'magical' | 'elemental' | 'all';
   amount: number;
   maxAmount: number;
@@ -53,7 +49,6 @@ export interface Shield {
 }
 
 export interface RegenerationEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -65,7 +60,6 @@ export interface RegenerationEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'hp' | 'shield' | 'both';
   amount: number; // per second
   duration: number; // seconds
@@ -76,7 +70,6 @@ export interface RegenerationEffect {
 }
 
 export interface HealthEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,19 +81,16 @@ export interface HealthEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'damage' | 'heal' | 'shield' | 'regeneration' | 'immunity' | 'resistance';
   amount: number;
   source: string;
   target: string;
   damageType?: 'physical' | 'magical' | 'elemental' | 'pure';
   element?: 'fire' | 'ice' | 'lightning' | 'poison' | 'holy' | 'dark';
-  timestamp: number;
   metadata?: Record<string, any>;
 }
 
 export interface HealthOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,7 +109,6 @@ export interface HealthOutput {
 }
 
 export interface DamageResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

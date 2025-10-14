@@ -56,7 +56,6 @@ export enum UnrealAudioSystem {
 }
 
 export interface UnrealSceneBuildConfiguration extends SceneBuildConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,7 +137,6 @@ export interface UnrealSceneBuildConfiguration extends SceneBuildConfiguration {
 }
 
 export interface UnrealSceneComposition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,11 +167,9 @@ export interface UnrealSceneComposition {
   aiControllers: any[];
   pawns: any[];
   characters: any[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealDataLayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,8 +181,6 @@ export interface UnrealDataLayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   actors: string[];
   components: string[];
@@ -197,11 +191,9 @@ export interface UnrealDataLayer {
   bIsInitiallyLoaded: boolean;
   bIsInitiallyVisible: boolean;
   priority: number;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealWorldPartition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -213,8 +205,6 @@ export interface UnrealWorldPartition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: UnrealWorldPartitionType;
   gridSize: number;
   cellSize: number;
@@ -227,11 +217,9 @@ export interface UnrealWorldPartition {
   alwaysLoadedActors: string[];
   runtimeGrid: any;
   editorGrid: any;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealNavigationSystemBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,8 +231,6 @@ export interface UnrealNavigationSystemBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   navigationSystemClass: string;
   defaultAgentRadius: number;
   defaultAgentHeight: number;
@@ -285,11 +271,9 @@ export interface UnrealNavigationSystemBridge {
   dependencies: string[];
   providesInterfaces: string[];
   requiresInterfaces: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealLightingSystemBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -301,8 +285,6 @@ export interface UnrealLightingSystemBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   lightingSystemType: 'static' | 'dynamic' | 'lumen' | 'ray_tracing' | 'path_tracing';
   globalIlluminationType: 'none' | 'lightmass' | 'lumen' | 'ray_tracing';
   reflectionType: 'none' | 'reflection_captures' | 'lumen' | 'ray_tracing' | 'screen_space';
@@ -356,11 +338,9 @@ export interface UnrealLightingSystemBridge {
   dependencies: string[];
   providesInterfaces: string[];
   requiresInterfaces: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealPhysicsSystemBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -372,8 +352,6 @@ export interface UnrealPhysicsSystemBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   physicsSystemType: 'physics' | 'chaos' | 'custom';
   gravity: { x: number; y: number; z: number };
   defaultFluidFriction: number;
@@ -428,11 +406,9 @@ export interface UnrealPhysicsSystemBridge {
   dependencies: string[];
   providesInterfaces: string[];
   requiresInterfaces: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealAudioSystemBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -444,8 +420,6 @@ export interface UnrealAudioSystemBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   audioSystemType: 'default' | 'wwise' | 'fmod' | 'custom';
   masterVolume: number;
   musicVolume: number;
@@ -517,11 +491,9 @@ export interface UnrealAudioSystemBridge {
   dependencies: string[];
   providesInterfaces: string[];
   requiresInterfaces: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealSceneBuildResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -539,8 +511,6 @@ export interface UnrealSceneBuildResult {
   buildTime: number;
   composition: UnrealSceneComposition;
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export class UnrealSceneBuilderPure {

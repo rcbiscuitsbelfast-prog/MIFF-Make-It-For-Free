@@ -12,7 +12,6 @@
  */
 
 export interface EcosystemExpansionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface EcosystemExpansionConfig {
 }
 
 export interface EcosystemExpansionManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface EcosystemExpansionManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EcosystemExpansionManagerType;
   status: EcosystemExpansionManagerStatus;
   partnerships: Partnership[];
@@ -67,16 +63,12 @@ export interface EcosystemExpansionManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type EcosystemExpansionManagerType = 'startup' | 'growth' | 'enterprise' | 'custom';
 export type EcosystemExpansionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Partnership {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,24 +80,18 @@ export interface Partnership {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PartnershipType;
   partner: Partner;
   status: PartnershipStatus;
   value: PartnershipValue;
   terms: PartnershipTerms;
   milestones: Milestone[];
-  createdAt: number;
-  updatedAt: number;
-  metadata: Record<string, any>;
 }
 
 export type PartnershipType = 'strategic' | 'technical' | 'commercial' | 'distribution' | 'joint_venture';
 export type PartnershipStatus = 'proposal' | 'negotiation' | 'active' | 'paused' | 'completed' | 'terminated';
 
 export interface Partner {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,22 +103,18 @@ export interface Partner {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PartnerType;
   industry: string;
   size: PartnerSize;
   location: string;
   contact: ContactInfo;
   reputation: ReputationScore;
-  metadata: Record<string, any>;
 }
 
 export type PartnerType = 'company' | 'organization' | 'individual' | 'government' | 'ngo';
 export type PartnerSize = 'startup' | 'small' | 'medium' | 'large' | 'enterprise';
 
 export interface ContactInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -152,7 +134,6 @@ export interface ContactInfo {
 }
 
 export interface ReputationScore {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +153,6 @@ export interface ReputationScore {
 }
 
 export interface PartnershipValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,7 +171,6 @@ export interface PartnershipValue {
 }
 
 export interface FinancialValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,7 +189,6 @@ export interface FinancialValue {
 }
 
 export interface StrategicValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +207,6 @@ export interface StrategicValue {
 }
 
 export interface TechnicalValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -248,7 +225,6 @@ export interface TechnicalValue {
 }
 
 export interface MarketValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -267,7 +243,6 @@ export interface MarketValue {
 }
 
 export interface PartnershipTerms {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -287,7 +262,6 @@ export interface PartnershipTerms {
 }
 
 export interface IPTerms {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,7 +280,6 @@ export interface IPTerms {
 }
 
 export interface Responsibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -325,7 +298,6 @@ export interface Responsibility {
 }
 
 export interface TerminationClause {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -343,7 +315,6 @@ export interface TerminationClause {
 }
 
 export interface Milestone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,20 +326,16 @@ export interface Milestone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   targetDate: number;
   status: MilestoneStatus;
   value: number;
   dependencies: string[];
-  metadata: Record<string, any>;
 }
 
 export type MilestoneStatus = 'not_started' | 'in_progress' | 'completed' | 'delayed' | 'cancelled';
 
 export interface Integration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -380,22 +347,18 @@ export interface Integration {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: IntegrationType;
   partnerId: string;
   status: IntegrationStatus;
   technical: TechnicalIntegration;
   business: BusinessIntegration;
   performance: IntegrationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type IntegrationType = 'api' | 'sdk' | 'plugin' | 'connector' | 'bridge' | 'custom';
 export type IntegrationStatus = 'planned' | 'development' | 'testing' | 'deployed' | 'maintenance' | 'deprecated';
 
 export interface TechnicalIntegration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -418,7 +381,6 @@ export interface TechnicalIntegration {
 export type AuthMethod = 'api_key' | 'oauth' | 'jwt' | 'basic' | 'custom';
 
 export interface BusinessIntegration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -437,7 +399,6 @@ export interface BusinessIntegration {
 }
 
 export interface PricingModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -456,7 +417,6 @@ export interface PricingModel {
 }
 
 export interface SupportLevel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -475,7 +435,6 @@ export interface SupportLevel {
 }
 
 export interface ServiceLevelAgreement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -494,7 +453,6 @@ export interface ServiceLevelAgreement {
 }
 
 export interface ComplianceRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +471,6 @@ export interface ComplianceRequirement {
 }
 
 export interface IntegrationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -534,7 +491,6 @@ export interface IntegrationPerformance {
 }
 
 export interface Community {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -546,21 +502,17 @@ export interface Community {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CommunityType;
   platform: string;
   members: number;
   activity: CommunityActivity;
   engagement: EngagementMetrics;
   growth: GrowthMetrics;
-  metadata: Record<string, any>;
 }
 
 export type CommunityType = 'developer' | 'user' | 'partner' | 'customer' | 'advocate';
 
 export interface CommunityActivity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -581,7 +533,6 @@ export interface CommunityActivity {
 }
 
 export interface EngagementMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -601,7 +552,6 @@ export interface EngagementMetrics {
 }
 
 export interface GrowthMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -620,7 +570,6 @@ export interface GrowthMetrics {
 }
 
 export interface Market {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -632,19 +581,15 @@ export interface Market {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   region: string;
   segment: MarketSegment;
   size: MarketSize;
   penetration: MarketPenetration;
   competition: CompetitionAnalysis;
   opportunities: Opportunity[];
-  metadata: Record<string, any>;
 }
 
 export interface MarketSegment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -663,7 +608,6 @@ export interface MarketSegment {
 }
 
 export interface MarketSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -682,7 +626,6 @@ export interface MarketSize {
 }
 
 export interface MarketPenetration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -701,7 +644,6 @@ export interface MarketPenetration {
 }
 
 export interface CompetitionAnalysis {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -720,7 +662,6 @@ export interface CompetitionAnalysis {
 }
 
 export interface Competitor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -732,14 +673,12 @@ export interface Competitor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   strength: number;
   weakness: string[];
   marketShare: number;
 }
 
 export interface Opportunity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -751,7 +690,6 @@ export interface Opportunity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   value: number;
   probability: number;
@@ -763,7 +701,6 @@ export interface Opportunity {
 export type Priority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface EcosystemExpansionPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -789,7 +726,6 @@ export interface EcosystemExpansionPerformanceMetrics {
 }
 
 export interface EcosystemExpansionAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -810,7 +746,6 @@ export interface EcosystemExpansionAnalytics {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -822,7 +757,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   partnerships: number;
   integrations: number;
   members: number;
@@ -831,7 +765,6 @@ export interface PerformanceTrend {
 }
 
 export interface EcosystemExpansionReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -854,7 +787,6 @@ export interface EcosystemExpansionReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -875,7 +807,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -895,7 +826,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -915,7 +845,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -928,13 +857,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface EcosystemExpansionOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

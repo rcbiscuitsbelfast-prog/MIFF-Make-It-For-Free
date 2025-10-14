@@ -12,7 +12,6 @@
  */
 
 export interface EventSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface EventSystemConfig {
 }
 
 export interface EventSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface EventSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EventSystemManagerType;
   status: EventSystemManagerStatus;
   events: Event[];
@@ -67,16 +63,12 @@ export interface EventSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type EventSystemManagerType = 'game' | 'web' | 'mobile' | 'desktop' | 'custom';
 export type EventSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Event {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,25 +80,20 @@ export interface Event {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EventType;
   status: EventStatus;
   data: EventData;
   metadata: EventMetadata;
-  timestamp: number;
   source: EventSource;
   target: EventTarget;
   priority: EventPriority;
   persistence: EventPersistence;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'user' | 'system' | 'network' | 'database' | 'custom';
 export type EventStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
 
 export interface EventData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +112,6 @@ export interface EventData {
 }
 
 export interface DataSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +130,6 @@ export interface DataSchema {
 }
 
 export interface PropertySchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +151,6 @@ export interface PropertySchema {
 }
 
 export interface ValidationRules {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +168,6 @@ export interface ValidationRules {
 }
 
 export interface CustomValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +188,6 @@ export interface CustomValidation {
 export type ValidationSeverity = 'error' | 'warning' | 'info';
 
 export interface EncryptionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -224,7 +206,6 @@ export interface EncryptionSettings {
 }
 
 export interface EventMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -247,7 +228,6 @@ export interface EventMetadata {
 }
 
 export interface EventSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -259,9 +239,7 @@ export interface EventSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: SourceType;
-  name: string;
   version: string;
   location: string;
 }
@@ -269,7 +247,6 @@ export interface EventSource {
 export type SourceType = 'user' | 'system' | 'service' | 'external' | 'custom';
 
 export interface EventTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,9 +258,7 @@ export interface EventTarget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TargetType;
-  name: string;
   endpoint: string;
   method: string;
 }
@@ -293,7 +268,6 @@ export type TargetType = 'handler' | 'service' | 'queue' | 'database' | 'custom'
 export type EventPriority = 'low' | 'normal' | 'high' | 'critical' | 'urgent';
 
 export interface EventPersistence {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -312,7 +286,6 @@ export interface EventPersistence {
 }
 
 export interface StorageSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -333,7 +306,6 @@ export interface StorageSettings {
 export type StorageType = 'memory' | 'file' | 'database' | 'cloud' | 'custom';
 
 export interface ReplicationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +327,6 @@ export type ReplicationStrategy = 'master_slave' | 'master_master' | 'peer_to_pe
 export type ConsistencyLevel = 'eventual' | 'strong' | 'weak' | 'custom';
 
 export interface EventHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -367,8 +338,6 @@ export interface EventHandler {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HandlerType;
   status: HandlerStatus;
   events: string[];
@@ -377,14 +346,12 @@ export interface EventHandler {
   retry: RetrySettings;
   timeout: TimeoutSettings;
   performance: HandlerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type HandlerType = 'function' | 'service' | 'queue' | 'webhook' | 'custom';
 export type HandlerStatus = 'active' | 'inactive' | 'error' | 'maintenance';
 
 export interface EventFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -396,15 +363,12 @@ export interface EventFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   conditions: FilterCondition[];
   logic: FilterLogic;
   enabled: boolean;
 }
 
 export interface FilterCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -426,7 +390,6 @@ export type FilterOperator = 'equals' | 'not_equals' | 'contains' | 'starts_with
 export type FilterLogic = 'and' | 'or' | 'not';
 
 export interface HandlerAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -448,7 +411,6 @@ export interface HandlerAction {
 export type ActionType = 'call' | 'send' | 'store' | 'log' | 'notify' | 'custom';
 
 export interface DataTransform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -466,7 +428,6 @@ export interface DataTransform {
 }
 
 export interface TransformRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -486,7 +447,6 @@ export interface TransformRule {
 export type TransformOperation = 'map' | 'filter' | 'aggregate' | 'enrich' | 'validate' | 'custom';
 
 export interface OutputFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -504,7 +464,6 @@ export interface OutputFormat {
 }
 
 export interface RetrySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -526,7 +485,6 @@ export interface RetrySettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface TimeoutSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -546,7 +504,6 @@ export interface TimeoutSettings {
 export type TimeoutAction = 'fail' | 'retry' | 'skip' | 'custom';
 
 export interface HandlerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -568,7 +525,6 @@ export interface HandlerPerformance {
 }
 
 export interface EventRoute {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -580,19 +536,15 @@ export interface EventRoute {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   source: string;
   destination: string;
   filter: EventFilter;
   transform: DataTransform;
   priority: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -618,7 +570,6 @@ export interface EventSystemPerformanceMetrics {
 }
 
 export interface EventSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -638,7 +589,6 @@ export interface EventSystemAnalytics {
 }
 
 export interface EventTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -657,7 +607,6 @@ export interface EventTypeDistribution {
 }
 
 export interface HandlerPerformanceDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -670,14 +619,12 @@ export interface HandlerPerformanceDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   handlerId: string;
-  name: string;
   processedEvents: number;
   successRate: number;
   averageLatency: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -689,7 +636,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   events: number;
   processed: number;
   failed: number;
@@ -700,7 +646,6 @@ export interface PerformanceTrend {
 }
 
 export interface EventSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -723,7 +668,6 @@ export interface EventSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -744,7 +688,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -764,7 +707,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -784,7 +726,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -797,13 +738,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface EventSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

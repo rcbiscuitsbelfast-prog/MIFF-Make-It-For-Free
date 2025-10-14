@@ -24,7 +24,6 @@ export enum ScanTargetType {
 }
 
 export interface ScanTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -36,7 +35,6 @@ export interface ScanTarget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ScanTargetType;
   position: { x: number; y: number; z: number };
   radius: number;
@@ -52,7 +50,6 @@ export interface ScanTarget {
 }
 
 export interface ScanConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

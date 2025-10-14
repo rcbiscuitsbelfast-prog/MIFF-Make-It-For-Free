@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 
 interface OrchestrationEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -14,13 +13,11 @@ interface OrchestrationEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-	name: string;
 	path: string;
 	type: 'scenario' | 'game';
 }
 
 interface ReleaseManifest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,7 +29,6 @@ interface ReleaseManifest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-	name: string;
 	version: string;
 	artifacts: Array<{ name: string; path: string; type: string }>;
 }

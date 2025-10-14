@@ -9,7 +9,6 @@
  */
 
 export interface ExpressionContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -25,7 +24,6 @@ export interface ExpressionContext {
 }
 
 export interface EvaluationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

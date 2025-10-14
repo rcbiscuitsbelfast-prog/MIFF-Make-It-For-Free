@@ -38,7 +38,6 @@ export enum IntegrationStatus {
 }
 
 export interface IntegrationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +49,6 @@ export interface IntegrationConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: IntegrationType;
   version: string;
   priority: number;
@@ -68,7 +65,6 @@ export interface IntegrationConfig {
 }
 
 export interface IntegrationHealth {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,7 +89,6 @@ export interface IntegrationHealth {
 }
 
 export interface IntegrationEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -105,10 +100,8 @@ export interface IntegrationEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   integrationId: string;
   type: string;
-  data: any;
   timestamp: Date;
   priority: number;
   source: string;
@@ -117,7 +110,6 @@ export interface IntegrationEvent {
 }
 
 export interface IntegrationHook {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +121,6 @@ export interface IntegrationHook {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   integrationId: string;
   event: string;
   handler: (event: IntegrationEvent) => void | Promise<void>;
@@ -140,7 +131,6 @@ export interface IntegrationHook {
 }
 
 export interface IntegrationMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +154,6 @@ export interface IntegrationMetrics {
 }
 
 export interface IntegrationManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

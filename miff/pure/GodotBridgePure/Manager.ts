@@ -11,7 +11,6 @@
  */
 
 export interface GodotBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface GodotBridgeConfig {
 }
 
 export interface GodotBridgeManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface GodotBridgeManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GodotBridgeManagerType;
   status: GodotBridgeManagerStatus;
   scenes: GodotScene[];
@@ -67,16 +63,12 @@ export interface GodotBridgeManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type GodotBridgeManagerType = 'editor' | 'runtime' | 'headless' | 'custom';
 export type GodotBridgeManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface GodotScene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface GodotScene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SceneType;
   status: SceneStatus;
   path: string;
@@ -98,14 +88,12 @@ export interface GodotScene {
   scripts: string[];
   configuration: SceneConfiguration;
   performance: ScenePerformance;
-  metadata: Record<string, any>;
 }
 
 export type SceneType = 'main' | 'sub' | 'template' | 'custom';
 export type SceneStatus = 'loaded' | 'unloaded' | 'loading' | 'error';
 
 export interface SceneConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface SceneConfiguration {
 }
 
 export interface PhysicsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +131,6 @@ export interface PhysicsConfig {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface Vector3 {
 export type PhysicsSolver = 'default' | 'box2d' | 'bullet' | 'custom';
 
 export interface RenderingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +170,6 @@ export interface RenderingConfig {
 export type RenderQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface ShadowConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,7 +190,6 @@ export interface ShadowConfig {
 export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface LightingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,7 +208,6 @@ export interface LightingConfig {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -244,7 +226,6 @@ export interface Color {
 }
 
 export interface DirectionalLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -263,7 +244,6 @@ export interface DirectionalLight {
 }
 
 export interface PointLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +263,6 @@ export interface PointLight {
 }
 
 export interface ScenePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +282,6 @@ export interface ScenePerformance {
 }
 
 export interface GodotAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -315,8 +293,6 @@ export interface GodotAsset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssetType;
   status: AssetStatus;
   path: string;
@@ -325,7 +301,6 @@ export interface GodotAsset {
   compression: CompressionConfig;
   dependencies: string[];
   performance: AssetPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AssetType = 'texture' | 'mesh' | 'audio' | 'animation' | 'script' | 'custom';
@@ -334,7 +309,6 @@ export type AssetStatus = 'loaded' | 'unloaded' | 'loading' | 'error';
 export type AssetFormat = 'png' | 'jpg' | 'obj' | 'fbx' | 'wav' | 'mp3' | 'custom';
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +329,6 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'lz4' | 'zstd' | 'gzip' | 'custom';
 
 export interface AssetPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -374,7 +347,6 @@ export interface AssetPerformance {
 }
 
 export interface GodotNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -386,8 +358,6 @@ export interface GodotNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NodeType;
   status: NodeStatus;
   parent: string | null;
@@ -396,14 +366,12 @@ export interface GodotNode {
   signals: NodeSignal[];
   methods: NodeMethod[];
   performance: NodePerformance;
-  metadata: Record<string, any>;
 }
 
 export type NodeType = 'spatial' | 'canvas' | 'control' | 'custom';
 export type NodeStatus = 'active' | 'inactive' | 'paused' | 'error';
 
 export interface NodeProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -424,7 +392,6 @@ export interface NodeProperties {
 }
 
 export interface NodeSignal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -436,13 +403,11 @@ export interface NodeSignal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: SignalParameter[];
   connected: SignalConnection[];
 }
 
 export interface SignalParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,7 +419,6 @@ export interface SignalParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: ParameterType;
   description: string;
 }
@@ -462,7 +426,6 @@ export interface SignalParameter {
 export type ParameterType = 'string' | 'number' | 'boolean' | 'object' | 'custom';
 
 export interface SignalConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -480,7 +443,6 @@ export interface SignalConnection {
 }
 
 export interface ConnectionFlags {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -498,7 +460,6 @@ export interface ConnectionFlags {
 }
 
 export interface NodeMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -510,14 +471,12 @@ export interface NodeMethod {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: MethodParameter[];
   returnType: ParameterType;
   description: string;
 }
 
 export interface MethodParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -529,14 +488,12 @@ export interface MethodParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: ParameterType;
   required: boolean;
   defaultValue: any;
 }
 
 export interface NodePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -555,7 +512,6 @@ export interface NodePerformance {
 }
 
 export interface GodotResource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -567,22 +523,18 @@ export interface GodotResource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ResourceType;
   status: ResourceStatus;
   path: string;
   data: ResourceData;
   references: string[];
   performance: ResourcePerformance;
-  metadata: Record<string, any>;
 }
 
 export type ResourceType = 'material' | 'shader' | 'mesh' | 'texture' | 'audio' | 'custom';
 export type ResourceStatus = 'loaded' | 'unloaded' | 'loading' | 'error';
 
 export interface ResourceData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -604,7 +556,6 @@ export interface ResourceData {
 export type ResourceFormat = 'binary' | 'text' | 'json' | 'custom';
 
 export interface ResourcePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -623,7 +574,6 @@ export interface ResourcePerformance {
 }
 
 export interface GodotScript {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -635,8 +585,6 @@ export interface GodotScript {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScriptType;
   status: ScriptStatus;
   path: string;
@@ -644,7 +592,6 @@ export interface GodotScript {
   source: string;
   dependencies: string[];
   performance: ScriptPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ScriptType = 'tool' | 'autoload' | 'custom';
@@ -653,7 +600,6 @@ export type ScriptStatus = 'loaded' | 'unloaded' | 'compiling' | 'error';
 export type ScriptLanguage = 'gdscript' | 'csharp' | 'python' | 'custom';
 
 export interface ScriptPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -672,7 +618,6 @@ export interface ScriptPerformance {
 }
 
 export interface GodotBridgePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -702,7 +647,6 @@ export interface GodotBridgePerformanceMetrics {
 }
 
 export interface GodotBridgeAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -724,7 +668,6 @@ export interface GodotBridgeAnalytics {
 }
 
 export interface SceneTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -743,7 +686,6 @@ export interface SceneTypeDistribution {
 }
 
 export interface AssetTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -762,7 +704,6 @@ export interface AssetTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -774,7 +715,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   scenes: number;
   assets: number;
   nodes: number;
@@ -784,7 +724,6 @@ export interface PerformanceTrend {
 }
 
 export interface GodotBridgeReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -807,7 +746,6 @@ export interface GodotBridgeReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -828,7 +766,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -848,7 +785,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -868,7 +804,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -881,13 +816,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface GodotBridgeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

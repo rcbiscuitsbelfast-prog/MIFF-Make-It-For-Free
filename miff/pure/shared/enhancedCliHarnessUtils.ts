@@ -12,7 +12,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Types for enhanced CLI functionality
 interface CLIInput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,7 +29,6 @@ interface CLIInput {
 }
 
 interface CLIOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -58,7 +56,6 @@ interface CLIOutput {
 }
 
 interface ReplayHook {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -70,7 +67,6 @@ interface ReplayHook {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   action?: string;
   id?: string;

@@ -13,7 +13,6 @@
  */
 
 export interface SyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface SyncConfig {
 }
 
 export interface SyncManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface SyncManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SyncManagerType;
   status: SyncManagerStatus;
   devices: SyncDevice[];
@@ -69,8 +65,6 @@ export interface SyncManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
   
   // Missing methods that are being called
   getAllSpirits(): any[];
@@ -79,14 +73,12 @@ export interface SyncManager {
   processSyncEvent(event: any): void;
   getSyncLevel(spiritId: string): number;
   increaseSync(spiritId: string, amount: number): void;
-  updatedAt: number;
 }
 
 export type SyncManagerType = 'local' | 'cloud' | 'hybrid' | 'custom';
 export type SyncManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface SyncDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -98,14 +90,11 @@ export interface SyncDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   platform: Platform;
   status: DeviceStatus;
   lastSync: number;
   syncCapabilities: SyncCapability[];
-  metadata: Record<string, any>;
 }
 
 export type DeviceType = 'desktop' | 'mobile' | 'tablet' | 'server' | 'iot';
@@ -113,7 +102,6 @@ export type Platform = 'windows' | 'macos' | 'linux' | 'ios' | 'android' | 'web'
 export type DeviceStatus = 'online' | 'offline' | 'syncing' | 'error';
 
 export interface SyncCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,13 +116,11 @@ export interface SyncCapability {
   type: CapabilityType;
   supported: boolean;
   version: string;
-  metadata: Record<string, any>;
 }
 
 export type CapabilityType = 'realtime' | 'batch' | 'conflict_resolution' | 'offline' | 'encryption';
 
 export interface SyncItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,22 +132,18 @@ export interface SyncItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ItemType;
-  data: any;
   version: number;
   lastModified: number;
   lastModifiedBy: string;
   checksum: string;
   status: ItemStatus;
-  metadata: Record<string, any>;
 }
 
 export type ItemType = 'file' | 'database' | 'settings' | 'preferences' | 'custom';
 export type ItemStatus = 'synced' | 'pending' | 'conflict' | 'error' | 'deleted';
 
 export interface SyncConflict {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,16 +155,13 @@ export interface SyncConflict {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   itemId: string;
   type: ConflictType;
   localVersion: SyncItem;
   remoteVersion: SyncItem;
   resolution: ConflictResolution;
   status: ConflictStatus;
-  createdAt: number;
   resolvedAt?: number;
-  metadata: Record<string, any>;
 }
 
 export type ConflictType = 'content' | 'metadata' | 'permissions' | 'version';
@@ -190,7 +169,6 @@ export type ConflictResolution = 'manual' | 'automatic' | 'local_wins' | 'remote
 export type ConflictStatus = 'pending' | 'resolved' | 'ignored';
 
 export interface SyncQueue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,22 +180,18 @@ export interface SyncQueue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   deviceId: string;
   items: QueueItem[];
   priority: Priority;
   status: QueueStatus;
-  createdAt: number;
   startedAt?: number;
   completedAt?: number;
-  metadata: Record<string, any>;
 }
 
 export type Priority = 'low' | 'normal' | 'high' | 'critical';
 export type QueueStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
 
 export interface QueueItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,19 +203,15 @@ export interface QueueItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   itemId: string;
   operation: Operation;
-  data: any;
   retryCount: number;
   maxRetries: number;
-  metadata: Record<string, any>;
 }
 
 export type Operation = 'create' | 'update' | 'delete' | 'move' | 'copy';
 
 export interface SyncPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,7 +236,6 @@ export interface SyncPerformanceMetrics {
 }
 
 export interface SyncAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -288,7 +257,6 @@ export interface SyncAnalytics {
 }
 
 export interface DeviceDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,7 +274,6 @@ export interface DeviceDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -318,7 +285,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   syncs: number;
   conflicts: number;
   averageTime: number;
@@ -326,7 +292,6 @@ export interface PerformanceTrend {
 }
 
 export interface SyncReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -349,7 +314,6 @@ export interface SyncReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +334,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -390,7 +353,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -410,7 +372,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -423,13 +384,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SyncOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

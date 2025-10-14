@@ -20,7 +20,6 @@ export enum CombatResult {
 
 // Interfaces
 export interface ICombatant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,8 +31,6 @@ export interface ICombatant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   team: string;
   stats: Stats;
   moves: string[];
@@ -48,7 +45,6 @@ export interface ICombatant {
 }
 
 export interface IBattleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,7 +65,6 @@ export interface IBattleAction {
 }
 
 export interface IRNGProvider {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,7 +82,6 @@ export interface IRNGProvider {
 }
 
 export interface InventoryHook {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -104,7 +98,6 @@ export interface InventoryHook {
 }
 
 export interface AIHook {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,7 +113,6 @@ export interface AIHook {
 }
 
 export interface SaveHook {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,8 +139,6 @@ export type Stats = {
 };
 
 export type Combatant = {
-  id: string;
-  name: string;
   team: string;
   stats: Stats;
   moves: string[];
@@ -227,7 +217,6 @@ export class TypeEffectiveness {
 
 export class MoveData {
   moveId: string;
-  name: string;
   category: MoveCategory;
   power: number;
   accuracy: number;
@@ -362,8 +351,6 @@ export class MoveData {
 }
 
 export class SpiritInstance implements ICombatant {
-  id: string;
-  name: string;
   team: string;
   stats: Stats;
   moves: string[];

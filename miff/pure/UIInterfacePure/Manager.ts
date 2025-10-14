@@ -12,7 +12,6 @@
  */
 
 export interface UIInterfaceConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface UIInterfaceConfig {
 }
 
 export interface UIInterfaceManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface UIInterfaceManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: UIInterfaceManagerType;
   status: UIInterfaceManagerStatus;
   components: UIComponent[];
@@ -67,16 +63,12 @@ export interface UIInterfaceManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type UIInterfaceManagerType = 'web' | 'mobile' | 'desktop' | 'game' | 'custom';
 export type UIInterfaceManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface UIComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface UIComponent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ComponentType;
   status: ComponentStatus;
   properties: ComponentProperties;
@@ -98,14 +88,12 @@ export interface UIComponent {
   layout: LayoutProperties;
   style: StyleProperties;
   events: EventHandler[];
-  metadata: Record<string, any>;
 }
 
 export type ComponentType = 'container' | 'button' | 'text' | 'image' | 'input' | 'list' | 'custom';
 export type ComponentStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface ComponentProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +116,6 @@ export interface ComponentProperties {
 }
 
 export interface LayoutProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -152,7 +139,6 @@ export interface LayoutProperties {
 }
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,7 +159,6 @@ export interface Position {
 export type PositionType = 'absolute' | 'relative' | 'fixed' | 'sticky' | 'static';
 
 export interface Size {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +179,6 @@ export interface Size {
 }
 
 export interface SizeValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -214,7 +198,6 @@ export interface SizeValue {
 export type SizeUnit = 'px' | 'em' | 'rem' | '%' | 'vh' | 'vw' | 'auto' | 'custom';
 
 export interface Spacing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,7 +216,6 @@ export interface Spacing {
 }
 
 export interface Border {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -254,7 +236,6 @@ export interface Border {
 export type BorderStyle = 'solid' | 'dashed' | 'dotted' | 'double' | 'none' | 'custom';
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,7 +256,6 @@ export interface Color {
 export type DisplayType = 'block' | 'inline' | 'inline-block' | 'flex' | 'grid' | 'none' | 'custom';
 
 export interface FlexProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -302,7 +282,6 @@ export type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-betwe
 export type AlignItems = 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
 
 export interface GridProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +303,6 @@ export interface GridProperties {
 }
 
 export interface GridTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -342,7 +320,6 @@ export interface GridTrack {
 }
 
 export interface GridGap {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -359,7 +336,6 @@ export interface GridGap {
 }
 
 export interface GridArea {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -371,13 +347,11 @@ export interface GridArea {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   start: GridPosition;
   end: GridPosition;
 }
 
 export interface GridPosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -397,7 +371,6 @@ export type GridAutoFlow = 'row' | 'column' | 'dense' | 'row-dense' | 'column-de
 export type GridAlignment = 'start' | 'end' | 'center' | 'stretch';
 
 export interface Transform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -417,7 +390,6 @@ export interface Transform {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -435,7 +407,6 @@ export interface Vector3 {
 }
 
 export interface Vector2 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -452,7 +423,6 @@ export interface Vector2 {
 }
 
 export interface StyleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -475,7 +445,6 @@ export interface StyleProperties {
 }
 
 export interface FontProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,7 +471,6 @@ export type FontStyle = 'normal' | 'italic' | 'oblique';
 export type FontVariant = 'normal' | 'small-caps';
 
 export interface TextProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -530,7 +498,6 @@ export type WhiteSpace = 'normal' | 'nowrap' | 'pre' | 'pre-line' | 'pre-wrap';
 export type WordBreak = 'normal' | 'break-all' | 'keep-all' | 'break-word';
 
 export interface BackgroundProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -552,7 +519,6 @@ export interface BackgroundProperties {
 }
 
 export interface BackgroundPosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -569,7 +535,6 @@ export interface BackgroundPosition {
 }
 
 export interface BackgroundSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -591,7 +556,6 @@ export type BackgroundClip = 'border-box' | 'padding-box' | 'content-box' | 'tex
 export type BackgroundOrigin = 'border-box' | 'padding-box' | 'content-box';
 
 export interface ShadowProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -608,7 +572,6 @@ export interface ShadowProperties {
 }
 
 export interface BoxShadow {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -629,7 +592,6 @@ export interface BoxShadow {
 }
 
 export interface TextShadow {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -648,7 +610,6 @@ export interface TextShadow {
 }
 
 export interface AnimationProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -660,7 +621,6 @@ export interface AnimationProperties {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   duration: number;
   timing: TimingFunction;
   delay: number;
@@ -676,7 +636,6 @@ export type FillMode = 'none' | 'forwards' | 'backwards' | 'both';
 export type PlayState = 'running' | 'paused';
 
 export interface TransitionProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -695,7 +654,6 @@ export interface TransitionProperties {
 }
 
 export interface EventHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -707,7 +665,6 @@ export interface EventHandler {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   event: EventType;
   handler: string;
   capture: boolean;
@@ -719,7 +676,6 @@ export interface EventHandler {
 export type EventType = 'click' | 'hover' | 'focus' | 'blur' | 'change' | 'input' | 'submit' | 'custom';
 
 export interface UILayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -731,19 +687,15 @@ export interface UILayout {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LayoutType;
   components: string[];
   properties: LayoutProperties;
   responsive: ResponsiveSettings;
-  metadata: Record<string, any>;
 }
 
 export type LayoutType = 'flex' | 'grid' | 'absolute' | 'relative' | 'custom';
 
 export interface ResponsiveSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -760,7 +712,6 @@ export interface ResponsiveSettings {
 }
 
 export interface Breakpoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -772,14 +723,12 @@ export interface Breakpoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   minWidth: number;
   maxWidth: number;
   properties: Partial<LayoutProperties>;
 }
 
 export interface ResponsiveRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -796,7 +745,6 @@ export interface ResponsiveRule {
 }
 
 export interface UITheme {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -808,8 +756,6 @@ export interface UITheme {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ThemeType;
   colors: ColorPalette;
   typography: TypographySettings;
@@ -817,13 +763,11 @@ export interface UITheme {
   shadows: ShadowScale;
   animations: AnimationPresets;
   components: ComponentStyles;
-  metadata: Record<string, any>;
 }
 
 export type ThemeType = 'light' | 'dark' | 'custom';
 
 export interface ColorPalette {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -849,7 +793,6 @@ export interface ColorPalette {
 }
 
 export interface TypographySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -870,7 +813,6 @@ export interface TypographySettings {
 }
 
 export interface HeadingStyles {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -891,7 +833,6 @@ export interface HeadingStyles {
 }
 
 export interface SpacingScale {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -912,7 +853,6 @@ export interface SpacingScale {
 }
 
 export interface ShadowScale {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -931,7 +871,6 @@ export interface ShadowScale {
 }
 
 export interface AnimationPresets {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -952,7 +891,6 @@ export interface AnimationPresets {
 }
 
 export interface ComponentStyles {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -972,7 +910,6 @@ export interface ComponentStyles {
 }
 
 export interface UIEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -984,17 +921,13 @@ export interface UIEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
   target: string;
   data: EventData;
-  timestamp: number;
   handled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1016,7 +949,6 @@ export interface EventData {
 }
 
 export interface UIInterfacePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1040,7 +972,6 @@ export interface UIInterfacePerformanceMetrics {
 }
 
 export interface UIInterfaceAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1061,7 +992,6 @@ export interface UIInterfaceAnalytics {
 }
 
 export interface ComponentTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1080,7 +1010,6 @@ export interface ComponentTypeDistribution {
 }
 
 export interface EventTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1099,7 +1028,6 @@ export interface EventTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1111,7 +1039,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   components: number;
   events: number;
   renderTime: number;
@@ -1121,7 +1048,6 @@ export interface PerformanceTrend {
 }
 
 export interface UIInterfaceReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1144,7 +1070,6 @@ export interface UIInterfaceReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1165,7 +1090,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1185,7 +1109,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1205,7 +1128,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1218,13 +1140,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface UIInterfaceOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

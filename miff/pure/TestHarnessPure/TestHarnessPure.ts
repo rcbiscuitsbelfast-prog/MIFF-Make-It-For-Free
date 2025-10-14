@@ -9,7 +9,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface TestConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,7 +31,6 @@ export interface TestConfig {
 }
 
 export interface TestCase {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,8 +42,6 @@ export interface TestCase {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   category: string;
   description?: string;
   setup?: () => void | Promise<void>;
@@ -57,7 +53,6 @@ export interface TestCase {
 }
 
 export interface TestResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -70,18 +65,15 @@ export interface TestResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   testId: string;
-  name: string;
   category: string;
   status: 'passed' | 'failed' | 'skipped' | 'timeout';
   duration: number;
   error?: Error;
   retries: number;
   metadata?: Record<string, any>;
-  timestamp: number;
 }
 
 export interface TestSuite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,8 +85,6 @@ export interface TestSuite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description?: string;
   tests: TestCase[];
   setup?: () => void | Promise<void>;
@@ -103,7 +93,6 @@ export interface TestSuite {
 }
 
 export interface TestReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +113,6 @@ export interface TestReport {
     duration: number;
   };
   suites: Map<string, {
-    name: string;
     total: number;
     passed: number;
     failed: number;
@@ -136,7 +124,6 @@ export interface TestReport {
 }
 
 export interface HotReloadConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,7 +144,6 @@ export interface HotReloadConfig {
 }
 
 export interface CodeInjection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +155,6 @@ export interface CodeInjection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   target: string; // Function name or module path
   code: string;
   type: 'replace' | 'before' | 'after' | 'wrap';
@@ -547,7 +532,6 @@ export class TestHarness {
 
     // Calculate suite statistics
     const suites = new Map<string, {
-      name: string;
       total: number;
       passed: number;
       failed: number;
@@ -685,7 +669,6 @@ export class TestHarness {
 }
 
 export interface TestObserver {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -697,7 +680,6 @@ export interface TestObserver {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   onTestRunStarted?: () => void;
   onTestRunCompleted?: (data: { duration: number }) => void;
   onSuiteAdded?: (suite: TestSuite) => void;

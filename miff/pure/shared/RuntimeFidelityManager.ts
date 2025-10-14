@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface MockImplementation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface MockImplementation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   filePath: string;
   lineNumber: number;
@@ -32,7 +30,6 @@ export interface MockImplementation {
 }
 
 export interface RuntimeFidelityResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,7 +51,6 @@ export interface RuntimeFidelityResult {
 }
 
 export interface TransportLayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,8 +62,6 @@ export interface TransportLayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'websocket' | 'http' | 'tcp' | 'udp' | 'ipc';
   implementation: string;
   status: 'implemented' | 'partial' | 'mock';
@@ -80,7 +74,6 @@ export interface TransportLayer {
 }
 
 export interface LifecycleHook {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -92,7 +85,6 @@ export interface LifecycleHook {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   hook: 'onInit' | 'onStart' | 'onUpdate' | 'onDestroy' | 'onError';
   implementation: 'real' | 'mock' | 'missing';
@@ -101,7 +93,6 @@ export interface LifecycleHook {
 }
 
 export interface FidelityStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -12,7 +12,6 @@
  */
 
 export interface EventBusConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface EventBusConfig {
 }
 
 export interface EventBusManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface EventBusManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EventBusManagerType;
   status: EventBusManagerStatus;
   buses: EventBus[];
@@ -69,16 +65,12 @@ export interface EventBusManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type EventBusManagerType = 'message_queue' | 'pub_sub' | 'event_stream' | 'message_broker' | 'custom';
 export type EventBusManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface EventBus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,22 +82,18 @@ export interface EventBus {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EventBusType;
   status: EventBusStatus;
   configuration: EventBusConfiguration;
   topics: EventTopic[];
   channels: EventChannel[];
   performance: EventBusPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EventBusType = 'rabbitmq' | 'kafka' | 'redis' | 'amqp' | 'mqtt' | 'custom';
 export type EventBusStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface EventBusConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +116,6 @@ export interface EventBusConfiguration {
 }
 
 export interface AuthenticationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +136,6 @@ export interface AuthenticationSettings {
 }
 
 export interface SecuritySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +153,6 @@ export interface SecuritySettings {
 }
 
 export interface SSLSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,7 +172,6 @@ export interface SSLSettings {
 }
 
 export interface EncryptionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,7 +190,6 @@ export interface EncryptionSettings {
 }
 
 export interface AccessControlSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,7 +208,6 @@ export interface AccessControlSettings {
 }
 
 export interface AccessPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,8 +219,6 @@ export interface AccessPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   resource: string;
   actions: string[];
   conditions: PolicyCondition[];
@@ -248,7 +228,6 @@ export interface AccessPolicy {
 export type PolicyEffect = 'allow' | 'deny';
 
 export interface PolicyCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,7 +245,6 @@ export interface PolicyCondition {
 }
 
 export interface Role {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,14 +256,11 @@ export interface Role {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   permissions: string[];
   description: string;
 }
 
 export interface Permission {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -297,15 +272,12 @@ export interface Permission {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   resource: string;
   actions: string[];
   description: string;
 }
 
 export interface ClusteringSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +296,6 @@ export interface ClusteringSettings {
 }
 
 export interface ClusterNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,7 +307,6 @@ export interface ClusterNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   host: string;
   port: number;
   role: NodeRole;
@@ -347,7 +317,6 @@ export type NodeRole = 'master' | 'slave' | 'replica' | 'observer';
 export type NodeStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ReplicationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -369,7 +338,6 @@ export type ReplicationStrategy = 'synchronous' | 'asynchronous' | 'semi_synchro
 export type ConsistencyLevel = 'strong' | 'eventual' | 'weak';
 
 export interface LoadBalancingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -389,7 +357,6 @@ export interface LoadBalancingSettings {
 export type LoadBalancingAlgorithm = 'round_robin' | 'least_connections' | 'weighted' | 'custom';
 
 export interface HealthCheckSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -409,7 +376,6 @@ export interface HealthCheckSettings {
 }
 
 export interface PersistenceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -428,7 +394,6 @@ export interface PersistenceSettings {
 }
 
 export interface StorageSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -449,7 +414,6 @@ export interface StorageSettings {
 export type StorageType = 'file' | 'database' | 'cloud' | 'memory' | 'custom';
 
 export interface RetentionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -470,7 +434,6 @@ export interface RetentionSettings {
 export type RetentionPolicy = 'time_based' | 'size_based' | 'count_based' | 'custom';
 
 export interface CompressionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -491,7 +454,6 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'gzip' | 'lz4' | 'snappy' | 'zstd' | 'custom';
 
 export interface PerformanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +475,6 @@ export interface PerformanceSettings {
 }
 
 export interface EventTopic {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -525,22 +486,18 @@ export interface EventTopic {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TopicType;
   status: TopicStatus;
   configuration: TopicConfiguration;
   partitions: TopicPartition[];
   subscribers: string[];
   performance: TopicPerformance;
-  metadata: Record<string, any>;
 }
 
 export type TopicType = 'queue' | 'topic' | 'stream' | 'fanout' | 'direct' | 'custom';
 export type TopicStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TopicConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -562,7 +519,6 @@ export interface TopicConfiguration {
 }
 
 export interface TopicPartition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,7 +530,6 @@ export interface TopicPartition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   number: number;
   leader: string;
   replicas: string[];
@@ -585,7 +540,6 @@ export interface TopicPartition {
 export type PartitionStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TopicPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -605,7 +559,6 @@ export interface TopicPerformance {
 }
 
 export interface EventChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -617,21 +570,17 @@ export interface EventChannel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChannelType;
   status: ChannelStatus;
   configuration: ChannelConfiguration;
   connections: ChannelConnection[];
   performance: ChannelPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ChannelType = 'direct' | 'fanout' | 'topic' | 'headers' | 'custom';
 export type ChannelStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ChannelConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -652,7 +601,6 @@ export interface ChannelConfiguration {
 }
 
 export interface QoSSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -671,7 +619,6 @@ export interface QoSSettings {
 }
 
 export interface RoutingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -690,7 +637,6 @@ export interface RoutingSettings {
 }
 
 export interface ChannelConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -702,7 +648,6 @@ export interface ChannelConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConnectionType;
   endpoint: string;
   status: ConnectionStatus;
@@ -713,7 +658,6 @@ export type ConnectionType = 'publisher' | 'subscriber' | 'both';
 export type ConnectionStatus = 'connected' | 'disconnected' | 'reconnecting' | 'error';
 
 export interface ConnectionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -733,7 +677,6 @@ export interface ConnectionPerformance {
 }
 
 export interface ChannelPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -754,7 +697,6 @@ export interface ChannelPerformance {
 }
 
 export interface EventBusPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,7 +720,6 @@ export interface EventBusPerformance {
 }
 
 export interface EventPublisher {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -790,21 +731,17 @@ export interface EventPublisher {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PublisherType;
   status: PublisherStatus;
   configuration: PublisherConfiguration;
   topics: string[];
   performance: PublisherPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PublisherType = 'producer' | 'sender' | 'emitter' | 'custom';
 export type PublisherStatus = 'active' | 'inactive' | 'error';
 
 export interface PublisherConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -825,7 +762,6 @@ export interface PublisherConfiguration {
 }
 
 export interface RetrySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -847,7 +783,6 @@ export interface RetrySettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface TimeoutSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -867,7 +802,6 @@ export interface TimeoutSettings {
 export type TimeoutAction = 'fail' | 'retry' | 'skip' | 'custom';
 
 export interface PublisherPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -887,7 +821,6 @@ export interface PublisherPerformance {
 }
 
 export interface EventSubscriber {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -899,22 +832,18 @@ export interface EventSubscriber {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SubscriberType;
   status: SubscriberStatus;
   configuration: SubscriberConfiguration;
   topics: string[];
   filters: EventFilter[];
   performance: SubscriberPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SubscriberType = 'consumer' | 'receiver' | 'listener' | 'custom';
 export type SubscriberStatus = 'active' | 'inactive' | 'error';
 
 export interface SubscriberConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -936,7 +865,6 @@ export interface SubscriberConfiguration {
 }
 
 export interface EventFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -948,15 +876,12 @@ export interface EventFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   conditions: FilterCondition[];
   logic: FilterLogic;
   enabled: boolean;
 }
 
 export interface FilterCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -978,7 +903,6 @@ export type FilterOperator = 'equals' | 'not_equals' | 'contains' | 'starts_with
 export type FilterLogic = 'and' | 'or' | 'not';
 
 export interface SubscriberPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -999,7 +923,6 @@ export interface SubscriberPerformance {
 }
 
 export interface EventRoute {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1011,19 +934,15 @@ export interface EventRoute {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   source: string;
   destination: string;
   filter: EventFilter;
   transform: DataTransform;
   priority: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface DataTransform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1041,7 +960,6 @@ export interface DataTransform {
 }
 
 export interface TransformRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1061,7 +979,6 @@ export interface TransformRule {
 export type TransformOperation = 'map' | 'filter' | 'aggregate' | 'enrich' | 'validate' | 'custom';
 
 export interface OutputFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1079,7 +996,6 @@ export interface OutputFormat {
 }
 
 export interface DataSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1098,7 +1014,6 @@ export interface DataSchema {
 }
 
 export interface PropertySchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1120,7 +1035,6 @@ export interface PropertySchema {
 }
 
 export interface EventBusPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1149,7 +1063,6 @@ export interface EventBusPerformanceMetrics {
 }
 
 export interface EventBusAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1170,7 +1083,6 @@ export interface EventBusAnalytics {
 }
 
 export interface BusTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1189,7 +1101,6 @@ export interface BusTypeDistribution {
 }
 
 export interface TopicTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1208,7 +1119,6 @@ export interface TopicTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1220,7 +1130,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   buses: number;
   publishers: number;
   subscribers: number;
@@ -1232,7 +1141,6 @@ export interface PerformanceTrend {
 }
 
 export interface EventBusReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1255,7 +1163,6 @@ export interface EventBusReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1276,7 +1183,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1296,7 +1202,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1316,7 +1221,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1329,13 +1233,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface EventBusOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

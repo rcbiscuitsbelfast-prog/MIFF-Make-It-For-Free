@@ -1,7 +1,6 @@
 export type EquipmentSlot = 'main_hand' | 'off_hand' | 'head' | 'chest' | 'legs' | 'feet' | 'ring' | 'amulet';
 
 export interface EquipmentItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -13,8 +12,6 @@ export interface EquipmentItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   slot: EquipmentSlot;
   stats: {
 

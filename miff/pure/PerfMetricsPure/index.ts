@@ -1,5 +1,4 @@
 export interface PerfSample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -15,13 +14,11 @@ export interface PerfSample {
   tickStartMs: number;
   tickEndMs: number;
   playersSimulated: number;
-  timestamp: number;
   category?: string;
   metadata?: Record<string, any>;
 }
 
 export interface PerfSnapshot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +43,6 @@ export interface PerfSnapshot {
 }
 
 export interface PerfMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,7 +62,6 @@ export interface PerfMetrics {
 }
 
 export interface PerfAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -78,18 +73,15 @@ export interface PerfAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'performance' | 'memory' | 'fps' | 'latency';
   severity: 'low' | 'medium' | 'high' | 'critical';
   message: string;
-  timestamp: number;
   threshold: number;
   actual: number;
   recommendations: string[];
 }
 
 export interface PerfTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +101,6 @@ export interface PerfTrend {
 }
 
 export interface PerfConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,7 +125,6 @@ export interface PerfConfig {
 }
 
 export interface PerfStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

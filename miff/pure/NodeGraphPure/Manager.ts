@@ -3,7 +3,6 @@
 export type NodeId = string;
 
 export interface GraphNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,7 +21,6 @@ export interface GraphNode {
 }
 
 export interface GraphDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +36,6 @@ export interface GraphDefinition {
 }
 
 export interface ExecutionResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

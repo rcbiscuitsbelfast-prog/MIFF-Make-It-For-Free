@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface PerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +45,6 @@ export interface PerformanceMetrics {
 }
 
 export interface OptimizationTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -58,7 +56,6 @@ export interface OptimizationTarget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   type: 'memory' | 'cpu' | 'network' | 'cache';
   priority: 'critical' | 'high' | 'medium' | 'low';
@@ -70,7 +67,6 @@ export interface OptimizationTarget {
 }
 
 export interface MemoryOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,7 +78,6 @@ export interface MemoryOptimization {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   strategy: 'object_pooling' | 'lazy_loading' | 'garbage_collection' | 'memory_mapping' | 'compression';
   impact: 'high' | 'medium' | 'low';
@@ -92,7 +87,6 @@ export interface MemoryOptimization {
 }
 
 export interface CPUOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -104,7 +98,6 @@ export interface CPUOptimization {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   strategy: 'async_processing' | 'worker_threads' | 'algorithm_optimization' | 'caching' | 'batching';
   impact: 'high' | 'medium' | 'low';
@@ -114,7 +107,6 @@ export interface CPUOptimization {
 }
 
 export interface NetworkOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +118,6 @@ export interface NetworkOptimization {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   strategy: 'compression' | 'batching' | 'connection_pooling' | 'caching' | 'protocol_optimization';
   impact: 'high' | 'medium' | 'low';
@@ -136,7 +127,6 @@ export interface NetworkOptimization {
 }
 
 export interface CacheStrategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +138,6 @@ export interface CacheStrategy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   type: 'lru' | 'lfu' | 'ttl' | 'write_through' | 'write_back';
   maxSize: number;
@@ -159,7 +148,6 @@ export interface CacheStrategy {
 }
 
 export interface PerformanceReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

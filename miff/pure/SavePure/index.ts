@@ -38,7 +38,6 @@ export type SaveVersion = typeof SUPPORTED_VERSIONS[number];
  * Save validation result
  */
 export interface SaveValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,7 +51,6 @@ export interface SaveValidationResult {
   metadata?: Record<string, any>;
   isValid: boolean;
   warnings: string[];
-  errors: string[];
   version: string;
   checksumValid: boolean;
 }
@@ -61,7 +59,6 @@ export interface SaveValidationResult {
  * Save migration result
  */
 export interface SaveMigrationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,7 +81,6 @@ export interface SaveMigrationResult {
  * Save/load operation result
  */
 export interface SaveOperationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,7 +104,6 @@ export interface SaveOperationResult {
  * Game entity interface (for spirit instances)
  */
 export interface IGameEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,8 +115,6 @@ export interface IGameEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   hp: number;
   maxHp: number;
@@ -134,7 +127,6 @@ export interface IGameEntity {
  * Save snapshot interface - the core save data structure
  */
 export interface ISaveSnapshot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,7 +149,6 @@ export interface ISaveSnapshot {
   unlockedContent: string[];
   gameSettings: Record<string, any>;
   statistics: Record<string, number>;
-  metadata: Record<string, any>;
   validate(): SaveValidationResult;
   computeChecksum(): string;
   clone(): ISaveSnapshot;
@@ -169,7 +160,6 @@ export interface ISaveSnapshot {
  * Save manager interface
  */
 export interface ISaveManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,7 +186,6 @@ export interface ISaveManager {
  * Save validator interface
  */
 export interface ISaveValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +208,6 @@ export interface ISaveValidator {
  * Save migrator interface
  */
 export interface ISaveMigrator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -242,7 +230,6 @@ export interface ISaveMigrator {
  * Compression utility interface
  */
 export interface ICompressionUtil {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,7 +251,6 @@ export interface ICompressionUtil {
  * Encryption utility interface
  */
 export interface IEncryptionUtil {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

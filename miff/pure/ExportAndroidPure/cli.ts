@@ -3,7 +3,6 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface ExportAndroidArgs {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

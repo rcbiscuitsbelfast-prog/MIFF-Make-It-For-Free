@@ -17,7 +17,6 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface QuestModuleConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface QuestModuleConfig {
 }
 
 export interface Quest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,7 +51,6 @@ export interface Quest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   type: QuestType;
@@ -74,7 +71,6 @@ export interface Quest {
 }
 
 export interface QuestObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,7 +82,6 @@ export interface QuestObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   type: ObjectiveType;
   target: string;
@@ -98,7 +93,6 @@ export interface QuestObjective {
 }
 
 export interface QuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -118,7 +112,6 @@ export interface QuestReward {
 }
 
 export interface QuestPrerequisite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,7 +130,6 @@ export interface QuestPrerequisite {
 }
 
 export interface QuestMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -160,7 +152,6 @@ export interface QuestMetadata {
 }
 
 export interface QuestProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +175,6 @@ export interface QuestProgress {
 }
 
 export interface ObjectiveProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,7 +194,6 @@ export interface ObjectiveProgress {
 }
 
 export interface ProgressMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +212,6 @@ export interface ProgressMetadata {
 }
 
 export interface QuestInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -235,7 +223,6 @@ export interface QuestInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   questId: string;
   playerId: string;
   status: QuestStatus;
@@ -246,7 +233,6 @@ export interface QuestInstance {
 }
 
 export interface InstanceMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

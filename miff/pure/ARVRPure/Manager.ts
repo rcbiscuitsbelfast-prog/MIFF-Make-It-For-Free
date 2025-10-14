@@ -20,7 +20,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ARVRConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface ARVRConfig {
 }
 
 export interface ARVRDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,22 +58,18 @@ export interface ARVRDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   status: DeviceStatus;
   capabilities: DeviceCapabilities;
   tracking: TrackingData;
   haptics: HapticData;
   analytics: DeviceAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface DeviceCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -99,7 +93,6 @@ export interface DeviceCapabilities {
 }
 
 export interface TrackingData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,7 +113,6 @@ export interface TrackingData {
 }
 
 export interface HapticData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -141,7 +133,6 @@ export interface HapticData {
 }
 
 export interface DeviceAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +153,6 @@ export interface DeviceAnalytics {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -180,7 +170,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +188,6 @@ export interface Quaternion {
 }
 
 export interface Resolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -216,7 +204,6 @@ export interface Resolution {
 }
 
 export interface HapticPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -228,14 +215,11 @@ export interface HapticPattern {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   sequence: HapticEvent[];
   duration: number;
 }
 
 export interface HapticEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -21,7 +21,6 @@ export enum PerceptionMode {
 }
 
 export interface PerceptionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface PerceptionConfig {
 }
 
 export interface ContextTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,7 +58,6 @@ export interface ContextTrigger {
 }
 
 export interface NPCInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -72,7 +69,6 @@ export interface NPCInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'friendly' | 'neutral' | 'hostile' | 'quest' | 'merchant' | 'guard';
   position: { x: number; y: number; z: number };
   radius: number;
@@ -81,7 +77,6 @@ export interface NPCInfo {
 }
 
 export interface InteractableInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,7 +88,6 @@ export interface InteractableInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'item' | 'door' | 'chest' | 'lever' | 'terminal' | 'portal';
   position: { x: number; y: number; z: number };
   radius: number;

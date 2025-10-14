@@ -12,7 +12,6 @@
  */
 
 export interface ScoreSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface ScoreSystemConfig {
 }
 
 export interface ScoreSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface ScoreSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScoreSystemManagerType;
   status: ScoreSystemManagerStatus;
   scores: Score[];
@@ -68,16 +64,12 @@ export interface ScoreSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ScoreSystemManagerType = 'game' | 'competition' | 'educational' | 'fitness' | 'custom';
 export type ScoreSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Score {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,7 +81,6 @@ export interface Score {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   playerId: string;
   gameId: string;
   value: number;
@@ -102,15 +93,12 @@ export interface Score {
   final: number;
   rank: number;
   percentile: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export type ScoreType = 'points' | 'time' | 'accuracy' | 'combo' | 'streak' | 'custom';
 export type ScoreCategory = 'gameplay' | 'achievement' | 'bonus' | 'penalty' | 'custom';
 
 export interface Leaderboard {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,8 +110,6 @@ export interface Leaderboard {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LeaderboardType;
   scope: LeaderboardScope;
   category: string;
@@ -133,14 +119,12 @@ export interface Leaderboard {
   rules: LeaderboardRule[];
   refreshRate: number;
   lastUpdated: number;
-  metadata: Record<string, any>;
 }
 
 export type LeaderboardType = 'global' | 'friends' | 'local' | 'regional' | 'custom';
 export type LeaderboardScope = 'all_time' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
 
 export interface TimeRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,7 +142,6 @@ export interface TimeRange {
 }
 
 export interface LeaderboardEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -174,12 +157,9 @@ export interface LeaderboardEntry {
   playerId: string;
   playerName: string;
   score: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export interface LeaderboardRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,8 +171,6 @@ export interface LeaderboardRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -201,7 +179,6 @@ export interface LeaderboardRule {
 export type RuleType = 'minimum_score' | 'maximum_entries' | 'time_limit' | 'validation' | 'custom';
 
 export interface ScorePlayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -213,21 +190,17 @@ export interface ScorePlayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PlayerType;
   status: PlayerStatus;
   profile: PlayerProfile;
   statistics: PlayerStatistics;
   preferences: PlayerPreferences;
-  metadata: Record<string, any>;
 }
 
 export type PlayerType = 'guest' | 'registered' | 'premium' | 'admin' | 'custom';
 export type PlayerStatus = 'active' | 'inactive' | 'banned' | 'suspended';
 
 export interface PlayerProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -250,7 +223,6 @@ export interface PlayerProfile {
 }
 
 export interface PlayerStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,7 +245,6 @@ export interface PlayerStatistics {
 }
 
 export interface PlayerPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,7 +264,6 @@ export interface PlayerPreferences {
 }
 
 export interface PrivacySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -312,7 +282,6 @@ export interface PrivacySettings {
 }
 
 export interface NotificationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -331,7 +300,6 @@ export interface NotificationSettings {
 }
 
 export interface DisplaySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -350,7 +318,6 @@ export interface DisplaySettings {
 }
 
 export interface Achievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -362,8 +329,6 @@ export interface Achievement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: AchievementType;
   category: string;
@@ -374,14 +339,12 @@ export interface Achievement {
   unlocked: boolean;
   unlockedAt: number;
   progress: number;
-  metadata: Record<string, any>;
 }
 
 export type AchievementType = 'score' | 'time' | 'combo' | 'streak' | 'collection' | 'custom';
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface AchievementRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -404,7 +367,6 @@ export type RequirementType = 'score' | 'time' | 'combo' | 'streak' | 'games' | 
 export type ComparisonOperator = 'equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal';
 
 export interface AchievementReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -426,7 +388,6 @@ export interface AchievementReward {
 export type RewardType = 'points' | 'experience' | 'unlock' | 'badge' | 'custom';
 
 export interface ScoreEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -438,20 +399,16 @@ export interface ScoreEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
   playerId: string;
   gameId: string;
   scoreId: string;
   data: EventData;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'score_created' | 'score_updated' | 'score_deleted' | 'leaderboard_updated' | 'achievement_unlocked' | 'custom';
 
 export interface EventData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -470,7 +427,6 @@ export interface EventData {
 }
 
 export interface ScoreSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,7 +451,6 @@ export interface ScoreSystemPerformanceMetrics {
 }
 
 export interface ScoreSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -516,7 +471,6 @@ export interface ScoreSystemAnalytics {
 }
 
 export interface ScoreTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -535,7 +489,6 @@ export interface ScoreTypeDistribution {
 }
 
 export interface PlayerTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -554,7 +507,6 @@ export interface PlayerTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -566,7 +518,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   scores: number;
   players: number;
   leaderboards: number;
@@ -576,7 +527,6 @@ export interface PerformanceTrend {
 }
 
 export interface ScoreSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -599,7 +549,6 @@ export interface ScoreSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -620,7 +569,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -640,7 +588,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -660,7 +607,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -673,13 +619,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ScoreSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

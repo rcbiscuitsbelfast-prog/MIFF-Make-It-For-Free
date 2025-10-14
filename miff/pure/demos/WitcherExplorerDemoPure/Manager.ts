@@ -12,7 +12,6 @@
  */
 
 export interface WitcherExplorerDemoConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface WitcherExplorerDemoConfig {
 }
 
 export interface WitcherExplorerDemoManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface WitcherExplorerDemoManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WitcherExplorerDemoManagerType;
   status: WitcherExplorerDemoManagerStatus;
   players: Player[];
@@ -69,16 +65,12 @@ export interface WitcherExplorerDemoManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type WitcherExplorerDemoManagerType = 'singleplayer' | 'multiplayer' | 'coop' | 'custom';
 export type WitcherExplorerDemoManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Player {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,8 +82,6 @@ export interface Player {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   experience: number;
   health: number;
@@ -108,11 +98,9 @@ export interface Player {
   stats: PlayerStats;
   quests: string[];
   achievements: string[];
-  metadata: Record<string, any>;
 }
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,7 +118,6 @@ export interface Position3D {
 }
 
 export interface Rotation3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +135,6 @@ export interface Rotation3D {
 }
 
 export interface Equipment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +153,6 @@ export interface Equipment {
 }
 
 export interface Weapon {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -179,8 +164,6 @@ export interface Weapon {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WeaponType;
   damage: number;
   durability: number;
@@ -193,7 +176,6 @@ export type WeaponType = 'sword' | 'bow' | 'crossbow' | 'staff' | 'custom';
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface Enchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,8 +187,6 @@ export interface Enchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EnchantmentType;
   level: number;
   effects: EnchantmentEffect[];
@@ -215,7 +195,6 @@ export interface Enchantment {
 export type EnchantmentType = 'fire' | 'ice' | 'lightning' | 'poison' | 'custom';
 
 export interface EnchantmentEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -235,7 +214,6 @@ export interface EnchantmentEffect {
 export type EffectType = 'damage' | 'burn' | 'freeze' | 'shock' | 'poison' | 'custom';
 
 export interface Armor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -247,8 +225,6 @@ export interface Armor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ArmorType;
   defense: number;
   durability: number;
@@ -260,7 +236,6 @@ export interface Armor {
 export type ArmorType = 'helmet' | 'chestplate' | 'leggings' | 'boots' | 'gloves' | 'custom';
 
 export interface Accessory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,8 +247,6 @@ export interface Accessory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AccessoryType;
   effects: AccessoryEffect[];
   rarity: Rarity;
@@ -282,7 +255,6 @@ export interface Accessory {
 export type AccessoryType = 'ring' | 'amulet' | 'cloak' | 'custom';
 
 export interface AccessoryEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,7 +272,6 @@ export interface AccessoryEffect {
 }
 
 export interface Potion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -312,8 +283,6 @@ export interface Potion {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PotionType;
   effects: PotionEffect[];
   duration: number;
@@ -325,7 +294,6 @@ export interface Potion {
 export type PotionType = 'healing' | 'stamina' | 'magic' | 'strength' | 'custom';
 
 export interface PotionEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -343,7 +311,6 @@ export interface PotionEffect {
 }
 
 export interface Inventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -362,7 +329,6 @@ export interface Inventory {
 }
 
 export interface InventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -374,14 +340,12 @@ export interface InventoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   item: Item;
   quantity: number;
   slot: number;
 }
 
 export interface Item {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -393,8 +357,6 @@ export interface Item {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemType;
   description: string;
   value: number;
@@ -408,7 +370,6 @@ export interface Item {
 export type ItemType = 'weapon' | 'armor' | 'accessory' | 'potion' | 'material' | 'custom';
 
 export interface ItemEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -426,7 +387,6 @@ export interface ItemEffect {
 }
 
 export interface PlayerStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -447,7 +407,6 @@ export interface PlayerStats {
 }
 
 export interface Monster {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -459,8 +418,6 @@ export interface Monster {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MonsterType;
   level: number;
   health: number;
@@ -471,13 +428,11 @@ export interface Monster {
   abilities: string[];
   loot: LootTable;
   ai: MonsterAI;
-  metadata: Record<string, any>;
 }
 
 export type MonsterType = 'beast' | 'undead' | 'elemental' | 'demon' | 'custom';
 
 export interface MonsterStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -499,7 +454,6 @@ export interface MonsterStats {
 }
 
 export interface LootTable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -517,7 +471,6 @@ export interface LootTable {
 }
 
 export interface LootEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -535,7 +488,6 @@ export interface LootEntry {
 }
 
 export interface GoldRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -552,7 +504,6 @@ export interface GoldRange {
 }
 
 export interface MonsterAI {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -576,7 +527,6 @@ export type AIType = 'passive' | 'aggressive' | 'neutral' | 'custom';
 export type BehaviorType = 'patrol' | 'guard' | 'hunt' | 'flee' | 'custom';
 
 export interface Quest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -588,8 +538,6 @@ export interface Quest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: QuestType;
   status: QuestStatus;
   description: string;
@@ -599,14 +547,12 @@ export interface Quest {
   location: string;
   npc: string;
   level: number;
-  metadata: Record<string, any>;
 }
 
 export type QuestType = 'main' | 'side' | 'contract' | 'treasure' | 'custom';
 export type QuestStatus = 'available' | 'active' | 'completed' | 'failed';
 
 export interface QuestObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -618,7 +564,6 @@ export interface QuestObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   type: ObjectiveType;
   target: string;
@@ -631,7 +576,6 @@ export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'explore' | 'custom
 export type ObjectiveStatus = 'incomplete' | 'complete';
 
 export interface QuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +597,6 @@ export interface QuestReward {
 export type RewardType = 'item' | 'gold' | 'experience' | 'ability' | 'custom';
 
 export interface QuestRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -675,7 +618,6 @@ export interface QuestRequirement {
 export type RequirementType = 'level' | 'ability' | 'quest' | 'item' | 'custom';
 
 export interface Location {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -687,8 +629,6 @@ export interface Location {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LocationType;
   position: Position3D;
   size: Size3D;
@@ -698,13 +638,11 @@ export interface Location {
   items: string[];
   quests: string[];
   connections: string[];
-  metadata: Record<string, any>;
 }
 
 export type LocationType = 'town' | 'dungeon' | 'forest' | 'mountain' | 'custom';
 
 export interface Size3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -722,7 +660,6 @@ export interface Size3D {
 }
 
 export interface Ability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -734,8 +671,6 @@ export interface Ability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AbilityType;
   description: string;
   level: number;
@@ -745,13 +680,11 @@ export interface Ability {
   range: number;
   effects: AbilityEffect[];
   requirements: AbilityRequirement[];
-  metadata: Record<string, any>;
 }
 
 export type AbilityType = 'combat' | 'magic' | 'utility' | 'passive' | 'custom';
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -772,7 +705,6 @@ export interface AbilityEffect {
 export type TargetType = 'self' | 'enemy' | 'ally' | 'area' | 'custom';
 
 export interface AbilityRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -792,7 +724,6 @@ export interface AbilityRequirement {
 }
 
 export interface WitcherExplorerDemoPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -819,7 +750,6 @@ export interface WitcherExplorerDemoPerformanceMetrics {
 }
 
 export interface WitcherExplorerDemoAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -841,7 +771,6 @@ export interface WitcherExplorerDemoAnalytics {
 }
 
 export interface LevelDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -859,7 +788,6 @@ export interface LevelDistribution {
 }
 
 export interface MonsterTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -878,7 +806,6 @@ export interface MonsterTypeDistribution {
 }
 
 export interface QuestTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -897,7 +824,6 @@ export interface QuestTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -909,7 +835,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   players: number;
   monsters: number;
   fps: number;
@@ -918,7 +843,6 @@ export interface PerformanceTrend {
 }
 
 export interface WitcherExplorerDemoReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -941,7 +865,6 @@ export interface WitcherExplorerDemoReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -962,7 +885,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -982,7 +904,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1002,7 +923,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1015,13 +935,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface WitcherExplorerDemoOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

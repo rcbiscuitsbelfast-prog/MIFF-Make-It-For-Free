@@ -10,7 +10,6 @@
  */
 
 export interface OverlinkConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface OverlinkConfig {
 }
 
 export interface OverlinkManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface OverlinkManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: OverlinkManagerType;
   status: OverlinkManagerStatus;
   overlinks: Overlink[];
@@ -64,16 +60,12 @@ export interface OverlinkManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type OverlinkManagerType = 'internal' | 'external' | 'hybrid' | 'custom';
 export type OverlinkManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Overlink {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +77,6 @@ export interface Overlink {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: OverlinkType;
   status: OverlinkStatus;
   source: OverlinkSource;
@@ -95,14 +85,12 @@ export interface Overlink {
   validation: OverlinkValidation;
   verification: OverlinkVerification;
   performance: OverlinkPerformance;
-  metadata: Record<string, any>;
 }
 
 export type OverlinkType = 'data' | 'function' | 'service' | 'resource' | 'custom';
 export type OverlinkStatus = 'active' | 'inactive' | 'pending' | 'error';
 
 export interface OverlinkSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,19 +102,16 @@ export interface OverlinkSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: SourceType;
   location: string;
   protocol: Protocol;
   authentication: AuthenticationConfig;
-  metadata: Record<string, any>;
 }
 
 export type SourceType = 'database' | 'api' | 'file' | 'service' | 'custom';
 export type Protocol = 'http' | 'https' | 'tcp' | 'udp' | 'custom';
 
 export interface AuthenticationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,7 +132,6 @@ export interface AuthenticationConfig {
 export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface Credentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +150,6 @@ export interface Credentials {
 }
 
 export interface OverlinkTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,18 +161,15 @@ export interface OverlinkTarget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TargetType;
   location: string;
   protocol: Protocol;
   authentication: AuthenticationConfig;
-  metadata: Record<string, any>;
 }
 
 export type TargetType = 'database' | 'api' | 'file' | 'service' | 'custom';
 
 export interface OverlinkProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,7 +190,6 @@ export interface OverlinkProperties {
 }
 
 export interface CachingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -231,7 +210,6 @@ export interface CachingConfig {
 export type CacheStrategy = 'lru' | 'lfu' | 'fifo' | 'custom';
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -252,7 +230,6 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'deflate' | 'brotli' | 'custom';
 
 export interface EncryptionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,7 +250,6 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface OverlinkValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +268,6 @@ export interface OverlinkValidation {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,8 +279,6 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   condition: RuleCondition;
   message: string;
@@ -315,7 +288,6 @@ export interface ValidationRule {
 export type RuleType = 'required' | 'format' | 'range' | 'pattern' | 'custom';
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,7 +308,6 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface ValidationSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +328,6 @@ export interface ValidationSchema {
 export type SchemaType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'custom';
 
 export interface SchemaProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -369,7 +339,6 @@ export interface SchemaProperty {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: PropertyType;
   format: string;
   description: string;
@@ -379,7 +348,6 @@ export interface SchemaProperty {
 export type PropertyType = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'custom';
 
 export interface ValidationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -399,7 +367,6 @@ export interface ValidationPerformance {
 }
 
 export interface OverlinkVerification {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -417,7 +384,6 @@ export interface OverlinkVerification {
 }
 
 export interface VerificationCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -429,8 +395,6 @@ export interface VerificationCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CheckType;
   configuration: CheckConfiguration;
   enabled: boolean;
@@ -439,7 +403,6 @@ export interface VerificationCheck {
 export type CheckType = 'connectivity' | 'authentication' | 'data_integrity' | 'performance' | 'custom';
 
 export interface CheckConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -458,7 +421,6 @@ export interface CheckConfiguration {
 }
 
 export interface VerificationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -478,7 +440,6 @@ export interface VerificationPerformance {
 }
 
 export interface OverlinkPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -499,7 +460,6 @@ export interface OverlinkPerformance {
 }
 
 export interface OverlinkValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -511,21 +471,17 @@ export interface OverlinkValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ValidatorType = 'schema' | 'business' | 'data' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +500,6 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidatorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -563,7 +518,6 @@ export interface ValidatorPerformance {
 }
 
 export interface OverlinkVerifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -575,21 +529,17 @@ export interface OverlinkVerifier {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: VerifierType;
   status: VerifierStatus;
   configuration: VerifierConfiguration;
   checks: VerificationCheck[];
   performance: VerifierPerformance;
-  metadata: Record<string, any>;
 }
 
 export type VerifierType = 'connectivity' | 'authentication' | 'data' | 'custom';
 export type VerifierStatus = 'active' | 'inactive' | 'error';
 
 export interface VerifierConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -608,7 +558,6 @@ export interface VerifierConfiguration {
 }
 
 export interface VerifierPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -627,7 +576,6 @@ export interface VerifierPerformance {
 }
 
 export interface OverlinkAnalyzer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -639,21 +587,17 @@ export interface OverlinkAnalyzer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnalyzerType;
   status: AnalyzerStatus;
   configuration: AnalyzerConfiguration;
   metrics: AnalyzerMetric[];
   performance: AnalyzerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AnalyzerType = 'performance' | 'usage' | 'error' | 'custom';
 export type AnalyzerStatus = 'active' | 'inactive' | 'error';
 
 export interface AnalyzerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -674,7 +618,6 @@ export interface AnalyzerConfiguration {
 export type AggregationType = 'sum' | 'average' | 'count' | 'max' | 'min' | 'custom';
 
 export interface AnalyzerMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -686,18 +629,15 @@ export interface AnalyzerMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: MetricType;
   value: number;
   unit: string;
-  timestamp: number;
   tags: Record<string, string>;
 }
 
 export type MetricType = 'counter' | 'gauge' | 'histogram' | 'custom';
 
 export interface AnalyzerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -716,7 +656,6 @@ export interface AnalyzerPerformance {
 }
 
 export interface OverlinkPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -744,7 +683,6 @@ export interface OverlinkPerformanceMetrics {
 }
 
 export interface OverlinkAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -765,7 +703,6 @@ export interface OverlinkAnalytics {
 }
 
 export interface OverlinkTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -784,7 +721,6 @@ export interface OverlinkTypeDistribution {
 }
 
 export interface SourceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -803,7 +739,6 @@ export interface SourceTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -815,7 +750,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   overlinks: number;
   requests: number;
   responseTime: number;
@@ -825,7 +759,6 @@ export interface PerformanceTrend {
 }
 
 export interface OverlinkReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -848,7 +781,6 @@ export interface OverlinkReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -869,7 +801,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -889,7 +820,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -909,7 +839,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -922,13 +851,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface OverlinkOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

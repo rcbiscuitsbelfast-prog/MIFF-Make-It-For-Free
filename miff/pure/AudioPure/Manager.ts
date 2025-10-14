@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +46,6 @@ export interface AudioConfig {
 }
 
 export interface AudioSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,22 +57,18 @@ export interface AudioSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SourceType;
   status: SourceStatus;
   audio: AudioData;
   effects: AudioEffect[];
   settings: AudioSettings;
   analytics: SourceAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AudioData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -96,7 +90,6 @@ export interface AudioData {
 }
 
 export interface AudioFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,7 +109,6 @@ export interface AudioFormat {
 }
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,17 +120,13 @@ export interface AudioEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   enabled: boolean;
   parameters: EffectParameters;
   order: number;
-  metadata: Record<string, any>;
 }
 
 export interface AudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -161,7 +149,6 @@ export interface AudioSettings {
 }
 
 export interface SourceAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,7 +169,6 @@ export interface SourceAnalytics {
 }
 
 export interface EffectParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

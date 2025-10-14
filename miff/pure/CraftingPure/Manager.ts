@@ -14,7 +14,6 @@
  */
 
 export interface CraftingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +43,6 @@ export interface CraftingConfig {
 }
 
 export interface CraftingManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,8 +54,6 @@ export interface CraftingManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CraftingManagerType;
   status: CraftingManagerStatus;
   recipes: Recipe[];
@@ -71,16 +67,12 @@ export interface CraftingManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type CraftingManagerType = 'basic' | 'advanced' | 'master' | 'custom';
 export type CraftingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Recipe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -92,8 +84,6 @@ export interface Recipe {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: RecipeCategory;
   difficulty: DifficultyLevel;
@@ -106,14 +96,12 @@ export interface Recipe {
   qualityMultiplier: number;
   output: CraftingOutput[];
   experience: number;
-  metadata: Record<string, any>;
 }
 
 export type RecipeCategory = 'weapon' | 'armor' | 'tool' | 'consumable' | 'material' | 'decoration';
 export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert' | 'master';
 
 export interface IngredientRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,7 +120,6 @@ export interface IngredientRequirement {
 }
 
 export interface ToolRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +137,6 @@ export interface ToolRequirement {
 }
 
 export interface SkillRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +154,6 @@ export interface SkillRequirement {
 }
 
 export interface CraftingOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +174,6 @@ export interface CraftingOutput {
 export type QualityLevel = 'poor' | 'normal' | 'good' | 'excellent' | 'perfect';
 
 export interface Ingredient {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -201,8 +185,6 @@ export interface Ingredient {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: IngredientCategory;
   rarity: IngredientRarity;
@@ -210,14 +192,12 @@ export interface Ingredient {
   weight: number;
   stackable: boolean;
   maxStack: number;
-  metadata: Record<string, any>;
 }
 
 export type IngredientCategory = 'metal' | 'wood' | 'stone' | 'cloth' | 'leather' | 'gem' | 'herb' | 'chemical';
 export type IngredientRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface CraftingStation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,8 +209,6 @@ export interface CraftingStation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StationType;
   level: number;
   efficiency: number;
@@ -240,13 +218,11 @@ export interface CraftingStation {
   supportedRecipes: string[];
   position: Vector3;
   rotation: Quaternion;
-  metadata: Record<string, any>;
 }
 
 export type StationType = 'forge' | 'anvil' | 'workbench' | 'alchemy' | 'enchanting' | 'cooking';
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,7 +240,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +258,6 @@ export interface Quaternion {
 }
 
 export interface ActiveCraft {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -295,7 +269,6 @@ export interface ActiveCraft {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   recipeId: string;
   stationId: string;
   crafterId: string;
@@ -306,13 +279,11 @@ export interface ActiveCraft {
   status: CraftStatus;
   ingredients: IngredientRequirement[];
   output: CraftingOutput[];
-  metadata: Record<string, any>;
 }
 
 export type CraftStatus = 'preparing' | 'crafting' | 'completed' | 'failed' | 'cancelled';
 
 export interface CraftingSkill {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,18 +295,14 @@ export interface CraftingSkill {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   experience: number;
   maxExperience: number;
   specialization: string[];
   bonuses: SkillBonus[];
-  metadata: Record<string, any>;
 }
 
 export interface SkillBonus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +322,6 @@ export interface SkillBonus {
 export type BonusType = 'speed' | 'quality' | 'success' | 'experience' | 'cost';
 
 export interface CraftingPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -380,7 +346,6 @@ export interface CraftingPerformanceMetrics {
 }
 
 export interface CraftingAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -400,7 +365,6 @@ export interface CraftingAnalytics {
 }
 
 export interface RecipeUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -413,14 +377,12 @@ export interface RecipeUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   recipeId: string;
-  name: string;
   craftCount: number;
   successRate: number;
   averageQuality: number;
 }
 
 export interface SkillDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -433,14 +395,12 @@ export interface SkillDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   skillId: string;
-  name: string;
   level: number;
   experience: number;
   percentage: number;
 }
 
 export interface QualityDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -458,7 +418,6 @@ export interface QualityDistribution {
 }
 
 export interface StationUtilization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -471,14 +430,12 @@ export interface StationUtilization {
   updatedAt?: number;
   metadata?: Record<string, any>;
   stationId: string;
-  name: string;
   utilization: number;
   totalCrafts: number;
   efficiency: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +447,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   crafts: number;
   successRate: number;
   averageQuality: number;
@@ -498,7 +454,6 @@ export interface PerformanceTrend {
 }
 
 export interface CraftingReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -521,7 +476,6 @@ export interface CraftingReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -542,7 +496,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -562,7 +515,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -582,7 +534,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -595,13 +546,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface CraftingOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

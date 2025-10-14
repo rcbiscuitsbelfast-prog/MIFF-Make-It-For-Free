@@ -20,7 +20,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AIProfilesConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface AIProfilesConfig {
 }
 
 export interface AIProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,22 +58,18 @@ export interface AIProfile {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProfileType;
   status: ProfileStatus;
   personality: PersonalityProfile;
   behavior: BehaviorProfile;
   preferences: PreferenceProfile;
   analytics: ProfileAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface PersonalityProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -94,7 +88,6 @@ export interface PersonalityProfile {
 }
 
 export interface PersonalityTrait {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,8 +99,6 @@ export interface PersonalityTrait {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   value: number; // -1 to 1
   weight: number; // 0 to 1
   description: string;
@@ -115,7 +106,6 @@ export interface PersonalityTrait {
 }
 
 export interface BehaviorProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -135,7 +125,6 @@ export interface BehaviorProfile {
 }
 
 export interface BehaviorPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,8 +136,6 @@ export interface BehaviorPattern {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   frequency: number; // 0 to 1
   intensity: number; // 0 to 1
   conditions: BehaviorCondition[];
@@ -156,7 +143,6 @@ export interface BehaviorPattern {
 }
 
 export interface BehaviorTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,8 +154,6 @@ export interface BehaviorTrigger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TriggerType;
   threshold: number; // 0 to 1
   response: string;
@@ -177,7 +161,6 @@ export interface BehaviorTrigger {
 }
 
 export interface BehaviorResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,8 +172,6 @@ export interface BehaviorResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ResponseType;
   probability: number; // 0 to 1
   duration: number; // milliseconds
@@ -198,7 +179,6 @@ export interface BehaviorResponse {
 }
 
 export interface PreferenceProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +197,6 @@ export interface PreferenceProfile {
 }
 
 export interface CombatPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -236,7 +215,6 @@ export interface CombatPreferences {
 }
 
 export interface SocialPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,7 +233,6 @@ export interface SocialPreferences {
 }
 
 export interface ExplorationPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,7 +251,6 @@ export interface ExplorationPreferences {
 }
 
 export interface ResourcePreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,7 +269,6 @@ export interface ResourcePreferences {
 }
 
 export interface ProfileAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -314,7 +289,6 @@ export interface ProfileAnalytics {
 }
 
 export interface BehaviorCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

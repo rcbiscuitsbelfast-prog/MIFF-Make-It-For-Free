@@ -12,7 +12,6 @@
  */
 
 export interface QuantumComputingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface QuantumComputingConfig {
 }
 
 export interface QuantumComputingManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface QuantumComputingManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: QuantumComputingManagerType;
   status: QuantumComputingManagerStatus;
   circuits: QuantumCircuit[];
@@ -68,16 +64,12 @@ export interface QuantumComputingManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type QuantumComputingManagerType = 'simulator' | 'hardware' | 'hybrid' | 'cloud' | 'custom';
 export type QuantumComputingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface QuantumCircuit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface QuantumCircuit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CircuitType;
   status: CircuitStatus;
   qubits: number;
@@ -99,14 +89,12 @@ export interface QuantumCircuit {
   optimization: CircuitOptimization;
   simulation: CircuitSimulation;
   performance: CircuitPerformance;
-  metadata: Record<string, any>;
 }
 
 export type CircuitType = 'algorithm' | 'error_correction' | 'quantum_fourier' | 'grover' | 'custom';
 export type CircuitStatus = 'draft' | 'compiled' | 'ready' | 'running' | 'completed' | 'error';
 
 export interface QuantumGate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -118,7 +106,6 @@ export interface QuantumGate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: GateType;
   qubits: number[];
   parameters: GateParameters;
@@ -130,7 +117,6 @@ export interface QuantumGate {
 export type GateType = 'x' | 'y' | 'z' | 'h' | 'cnot' | 'toffoli' | 'fredkin' | 'custom';
 
 export interface GateParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +135,6 @@ export interface GateParameters {
 }
 
 export interface GatePosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +152,6 @@ export interface GatePosition {
 }
 
 export interface QuantumMeasurement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -179,7 +163,6 @@ export interface QuantumMeasurement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   qubits: number[];
   basis: MeasurementBasis;
   observable: Observable;
@@ -189,7 +172,6 @@ export interface QuantumMeasurement {
 export type MeasurementBasis = 'computational' | 'hadamard' | 'custom';
 
 export interface Observable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,7 +192,6 @@ export interface Observable {
 export type ObservableType = 'pauli_x' | 'pauli_y' | 'pauli_z' | 'custom';
 
 export interface CircuitOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -231,7 +212,6 @@ export interface CircuitOptimization {
 export type OptimizationLevel = 'none' | 'basic' | 'advanced' | 'maximum';
 
 export interface OptimizationTechnique {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,7 +231,6 @@ export interface OptimizationTechnique {
 export type TechniqueType = 'gate_merging' | 'gate_decomposition' | 'circuit_compression' | 'custom';
 
 export interface OptimizationConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -271,7 +250,6 @@ export interface OptimizationConstraint {
 export type ConstraintType = 'depth' | 'gate_count' | 'fidelity' | 'custom';
 
 export interface CircuitSimulation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,7 +271,6 @@ export interface CircuitSimulation {
 export type SimulationBackend = 'statevector' | 'density_matrix' | 'stabilizer' | 'custom';
 
 export interface NoiseModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -313,7 +290,6 @@ export interface NoiseModel {
 export type NoiseType = 'depolarizing' | 'amplitude_damping' | 'phase_damping' | 'custom';
 
 export interface SimulationOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -332,7 +308,6 @@ export interface SimulationOptimization {
 }
 
 export interface CircuitPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -353,7 +328,6 @@ export interface CircuitPerformance {
 }
 
 export interface QuantumAlgorithm {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -365,8 +339,6 @@ export interface QuantumAlgorithm {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AlgorithmType;
   status: AlgorithmStatus;
   description: string;
@@ -374,14 +346,12 @@ export interface QuantumAlgorithm {
   implementation: AlgorithmImplementation;
   applications: AlgorithmApplication[];
   performance: AlgorithmPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AlgorithmType = 'search' | 'factorization' | 'optimization' | 'simulation' | 'custom';
 export type AlgorithmStatus = 'draft' | 'implemented' | 'tested' | 'optimized' | 'published';
 
 export interface AlgorithmComplexity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -402,7 +372,6 @@ export interface AlgorithmComplexity {
 export type ComplexityClass = 'constant' | 'logarithmic' | 'linear' | 'polynomial' | 'exponential';
 
 export interface AlgorithmImplementation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -425,7 +394,6 @@ export type ProgrammingLanguage = 'python' | 'qsharp' | 'qiskit' | 'cirq' | 'cus
 export type QuantumFramework = 'qiskit' | 'cirq' | 'qsharp' | 'braket' | 'custom';
 
 export interface AlgorithmTest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -437,8 +405,6 @@ export interface AlgorithmTest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   input: TestInput;
   expected: TestOutput;
   actual: TestOutput;
@@ -446,7 +412,6 @@ export interface AlgorithmTest {
 }
 
 export interface TestInput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -460,11 +425,9 @@ export interface TestInput {
   metadata?: Record<string, any>;
   qubits: number;
   parameters: Record<string, any>;
-  data: any;
 }
 
 export interface TestOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -476,13 +439,11 @@ export interface TestOutput {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  result: any;
   probability: number;
   fidelity: number;
 }
 
 export interface AlgorithmApplication {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -503,7 +464,6 @@ export interface AlgorithmApplication {
 export type ApplicationDomain = 'cryptography' | 'optimization' | 'simulation' | 'machine_learning' | 'custom';
 
 export interface AlgorithmPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -523,7 +483,6 @@ export interface AlgorithmPerformance {
 }
 
 export interface ResourceUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -542,7 +501,6 @@ export interface ResourceUsage {
 }
 
 export interface QuantumHardware {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -554,22 +512,18 @@ export interface QuantumHardware {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HardwareType;
   status: HardwareStatus;
   specifications: HardwareSpecifications;
   connectivity: ConnectivityMap;
   calibration: CalibrationData;
   performance: HardwarePerformance;
-  metadata: Record<string, any>;
 }
 
 export type HardwareType = 'superconducting' | 'trapped_ion' | 'photonic' | 'topological' | 'custom';
 export type HardwareStatus = 'online' | 'offline' | 'maintenance' | 'error';
 
 export interface HardwareSpecifications {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -589,7 +543,6 @@ export interface HardwareSpecifications {
 }
 
 export interface CoherenceTime {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -608,7 +561,6 @@ export interface CoherenceTime {
 }
 
 export interface FidelityMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -627,7 +579,6 @@ export interface FidelityMetrics {
 }
 
 export interface ConnectivitySpecs {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -648,7 +599,6 @@ export interface ConnectivitySpecs {
 export type ConnectivityType = 'nearest_neighbor' | 'all_to_all' | 'custom';
 
 export interface ArchitectureSpecs {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -669,7 +619,6 @@ export interface ArchitectureSpecs {
 export type LayoutType = 'linear' | 'grid' | 'hexagonal' | 'custom';
 
 export interface ConnectivityMap {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -687,7 +636,6 @@ export interface ConnectivityMap {
 }
 
 export interface QubitNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -705,7 +653,6 @@ export interface QubitNode {
 }
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -723,7 +670,6 @@ export interface Position3D {
 }
 
 export interface QubitProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -742,7 +688,6 @@ export interface QubitProperties {
 }
 
 export interface NoiseProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -761,7 +706,6 @@ export interface NoiseProperties {
 }
 
 export interface QubitConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -782,7 +726,6 @@ export interface QubitConnection {
 export type ConnectionType = 'direct' | 'mediated' | 'virtual' | 'custom';
 
 export interface RoutingAlgorithm {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -802,7 +745,6 @@ export interface RoutingAlgorithm {
 export type RoutingType = 'swap' | 'bridge' | 'custom';
 
 export interface CalibrationData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -822,7 +764,6 @@ export interface CalibrationData {
 }
 
 export interface CalibrationValues {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -841,7 +782,6 @@ export interface CalibrationValues {
 }
 
 export interface HardwarePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -862,7 +802,6 @@ export interface HardwarePerformance {
 }
 
 export interface QuantumSimulation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -874,22 +813,18 @@ export interface QuantumSimulation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SimulationType;
   status: SimulationStatus;
   circuit: string;
   parameters: SimulationParameters;
   results: SimulationResults;
   performance: SimulationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SimulationType = 'statevector' | 'density_matrix' | 'stabilizer' | 'custom';
 export type SimulationStatus = 'queued' | 'running' | 'completed' | 'failed';
 
 export interface SimulationParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -909,7 +844,6 @@ export interface SimulationParameters {
 }
 
 export interface SimulationResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -924,11 +858,9 @@ export interface SimulationResults {
   counts: CountsResult;
   statevector: StatevectorResult;
   expectation: ExpectationResult;
-  metadata: Record<string, any>;
 }
 
 export interface CountsResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -946,7 +878,6 @@ export interface CountsResult {
 }
 
 export interface StatevectorResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -964,7 +895,6 @@ export interface StatevectorResult {
 }
 
 export interface ComplexNumber {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -981,7 +911,6 @@ export interface ComplexNumber {
 }
 
 export interface ExpectationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1000,7 +929,6 @@ export interface ExpectationResult {
 }
 
 export interface SimulationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1020,7 +948,6 @@ export interface SimulationPerformance {
 }
 
 export interface QuantumExperiment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1032,22 +959,18 @@ export interface QuantumExperiment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ExperimentType;
   status: ExperimentStatus;
   hypothesis: string;
   methodology: ExperimentMethodology;
   results: ExperimentResults;
   analysis: ExperimentAnalysis;
-  metadata: Record<string, any>;
 }
 
 export type ExperimentType = 'benchmark' | 'characterization' | 'algorithm' | 'custom';
 export type ExperimentStatus = 'planned' | 'running' | 'completed' | 'failed';
 
 export interface ExperimentMethodology {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1067,7 +990,6 @@ export interface ExperimentMethodology {
 }
 
 export interface ControlGroup {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1079,14 +1001,11 @@ export interface ControlGroup {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   conditions: Record<string, any>;
   size: number;
 }
 
 export interface ExperimentVariable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1098,7 +1017,6 @@ export interface ExperimentVariable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: VariableType;
   range: ValueRange;
   steps: number;
@@ -1107,7 +1025,6 @@ export interface ExperimentVariable {
 export type VariableType = 'continuous' | 'discrete' | 'categorical' | 'custom';
 
 export interface ValueRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1125,7 +1042,6 @@ export interface ValueRange {
 }
 
 export interface ExperimentResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1143,7 +1059,6 @@ export interface ExperimentResults {
 }
 
 export interface ExperimentData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1155,13 +1070,10 @@ export interface ExperimentData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   values: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface ExperimentStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1181,7 +1093,6 @@ export interface ExperimentStatistics {
 }
 
 export interface Visualization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1194,14 +1105,12 @@ export interface Visualization {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VisualizationType;
-  data: any;
   configuration: Record<string, any>;
 }
 
 export type VisualizationType = 'plot' | 'histogram' | 'heatmap' | 'custom';
 
 export interface ExperimentAnalysis {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1221,7 +1130,6 @@ export interface ExperimentAnalysis {
 }
 
 export interface QuantumComputingPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1247,7 +1155,6 @@ export interface QuantumComputingPerformanceMetrics {
 }
 
 export interface QuantumComputingAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1268,7 +1175,6 @@ export interface QuantumComputingAnalytics {
 }
 
 export interface CircuitTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1287,7 +1193,6 @@ export interface CircuitTypeDistribution {
 }
 
 export interface AlgorithmTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1306,7 +1211,6 @@ export interface AlgorithmTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1318,7 +1222,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   circuits: number;
   algorithms: number;
   simulations: number;
@@ -1329,7 +1232,6 @@ export interface PerformanceTrend {
 }
 
 export interface QuantumComputingReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1352,7 +1254,6 @@ export interface QuantumComputingReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1373,7 +1274,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1393,7 +1293,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1413,7 +1312,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1426,13 +1324,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface QuantumComputingOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

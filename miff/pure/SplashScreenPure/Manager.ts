@@ -10,7 +10,6 @@
  */
 
 export interface SplashScreenConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface SplashScreenConfig {
 }
 
 export interface SplashScreenManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface SplashScreenManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SplashScreenManagerType;
   status: SplashScreenManagerStatus;
   splashScreens: SplashScreen[];
@@ -64,16 +60,12 @@ export interface SplashScreenManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type SplashScreenManagerType = 'loading' | 'intro' | 'outro' | 'custom';
 export type SplashScreenManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface SplashScreen {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +77,6 @@ export interface SplashScreen {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SplashType;
   status: SplashStatus;
   configuration: SplashConfiguration;
@@ -94,14 +84,12 @@ export interface SplashScreen {
   transitions: string[];
   effects: string[];
   performance: SplashPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SplashType = 'loading' | 'intro' | 'outro' | 'custom';
 export type SplashStatus = 'draft' | 'active' | 'archived' | 'error';
 
 export interface SplashConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,7 +110,6 @@ export interface SplashConfiguration {
 }
 
 export interface BackgroundConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -141,7 +128,6 @@ export interface BackgroundConfig {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -160,7 +146,6 @@ export interface Color {
 }
 
 export interface LogoConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -179,7 +164,6 @@ export interface LogoConfig {
 }
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +183,6 @@ export interface Position {
 export type Alignment = 'top_left' | 'top_center' | 'top_right' | 'center_left' | 'center' | 'center_right' | 'bottom_left' | 'bottom_center' | 'bottom_right' | 'custom';
 
 export interface Size {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +200,6 @@ export interface Size {
 }
 
 export interface ProgressConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,7 +222,6 @@ export interface ProgressConfig {
 export type ProgressType = 'bar' | 'circle' | 'dots' | 'custom';
 
 export interface SplashPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,7 +239,6 @@ export interface SplashPerformance {
 }
 
 export interface SplashAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,20 +250,16 @@ export interface SplashAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   status: AnimationStatus;
   configuration: AnimationConfiguration;
   performance: AnimationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AnimationType = 'fade' | 'slide' | 'scale' | 'rotate' | 'custom';
 export type AnimationStatus = 'active' | 'inactive' | 'error';
 
 export interface AnimationConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -307,7 +283,6 @@ export type EasingFunction = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' |
 export type AnimationDirection = 'forward' | 'backward' | 'alternate' | 'custom';
 
 export interface AnimationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -325,7 +300,6 @@ export interface AnimationPerformance {
 }
 
 export interface SplashTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -337,20 +311,16 @@ export interface SplashTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TransitionType;
   status: TransitionStatus;
   configuration: TransitionConfiguration;
   performance: TransitionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type TransitionType = 'fade' | 'slide' | 'wipe' | 'dissolve' | 'custom';
 export type TransitionStatus = 'active' | 'inactive' | 'error';
 
 export interface TransitionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -373,7 +343,6 @@ export type TransitionDirection = 'left' | 'right' | 'up' | 'down' | 'custom';
 export type TransitionTiming = 'immediate' | 'delayed' | 'custom';
 
 export interface TransitionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,7 +360,6 @@ export interface TransitionPerformance {
 }
 
 export interface SplashEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -403,20 +371,16 @@ export interface SplashEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   status: EffectStatus;
   configuration: EffectConfiguration;
   performance: EffectPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EffectType = 'particle' | 'glow' | 'blur' | 'custom';
 export type EffectStatus = 'active' | 'inactive' | 'error';
 
 export interface EffectConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -435,7 +399,6 @@ export interface EffectConfiguration {
 }
 
 export interface EffectPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -453,7 +416,6 @@ export interface EffectPerformance {
 }
 
 export interface SplashScreenPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -477,7 +439,6 @@ export interface SplashScreenPerformanceMetrics {
 }
 
 export interface SplashScreenAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -498,7 +459,6 @@ export interface SplashScreenAnalytics {
 }
 
 export interface SplashTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -517,7 +477,6 @@ export interface SplashTypeDistribution {
 }
 
 export interface AnimationTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -536,7 +495,6 @@ export interface AnimationTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -548,7 +506,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   splashScreens: number;
   animations: number;
   displayTime: number;
@@ -557,7 +514,6 @@ export interface PerformanceTrend {
 }
 
 export interface SplashScreenReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -580,7 +536,6 @@ export interface SplashScreenReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -601,7 +556,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -621,7 +575,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -641,7 +594,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,13 +606,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SplashScreenOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

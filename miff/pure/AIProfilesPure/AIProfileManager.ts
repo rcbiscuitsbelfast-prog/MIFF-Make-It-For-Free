@@ -8,7 +8,6 @@
 export type Role = 'vendor' | 'questGiver' | 'wanderer' | 'guard' | 'custom';
 
 export interface ScheduleEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -20,7 +19,6 @@ export interface ScheduleEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   time: string;
   action: string;
   priority: number;
@@ -29,7 +27,6 @@ export interface ScheduleEntry {
 }
 
 export interface AIProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,8 +38,6 @@ export interface AIProfile {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   role: Role;
   behaviorTree?: string;
   schedule?: ScheduleEntry[];
@@ -55,7 +50,6 @@ export interface AIProfile {
 }
 
 export interface PersonalityTraits {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -76,7 +70,6 @@ export interface PersonalityTraits {
 }
 
 export interface SkillSet {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -97,7 +90,6 @@ export interface SkillSet {
 }
 
 export interface RelationshipMap {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -118,7 +110,6 @@ export interface RelationshipMap {
 }
 
 export interface RelationshipEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,15 +121,12 @@ export interface RelationshipEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'interaction' | 'quest' | 'trade' | 'combat' | 'dialogue';
   description: string;
-  timestamp: number;
   impact: number; // -100 to 100
 }
 
 export interface BehaviorResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -163,7 +151,6 @@ export interface BehaviorResult {
 }
 
 export interface AIStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +171,6 @@ export interface AIStats {
 }
 
 export interface AIFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +193,6 @@ export interface AIFilter {
 }
 
 export interface AIOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,7 +211,6 @@ export interface AIOutput {
 }
 
 export interface Hooks {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

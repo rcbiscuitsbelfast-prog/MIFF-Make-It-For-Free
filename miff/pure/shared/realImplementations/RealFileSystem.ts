@@ -9,7 +9,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface FileSystemOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -29,7 +28,6 @@ export interface FileSystemOptions {
 }
 
 export interface FileMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,7 +48,6 @@ export interface FileMetadata {
 }
 
 export interface CacheEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

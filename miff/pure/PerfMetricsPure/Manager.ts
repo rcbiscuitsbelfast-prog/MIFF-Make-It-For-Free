@@ -10,7 +10,6 @@
  */
 
 export interface PerfMetricsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface PerfMetricsConfig {
 }
 
 export interface PerfMetricsManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface PerfMetricsManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PerfMetricsManagerType;
   status: PerfMetricsManagerStatus;
   metrics: Metric[];
@@ -64,16 +60,12 @@ export interface PerfMetricsManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type PerfMetricsManagerType = 'system' | 'application' | 'network' | 'custom';
 export type PerfMetricsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Metric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,22 +77,18 @@ export interface Metric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MetricType;
   status: MetricStatus;
   data: MetricData[];
   aggregation: AggregationConfig;
   analysis: AnalysisConfig;
   performance: MetricPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MetricType = 'counter' | 'gauge' | 'histogram' | 'custom';
 export type MetricStatus = 'active' | 'inactive' | 'error';
 
 export interface MetricData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -112,14 +100,11 @@ export interface MetricData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   value: number;
   tags: Record<string, string>;
-  metadata: Record<string, any>;
 }
 
 export interface AggregationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,7 +123,6 @@ export interface AggregationConfig {
 }
 
 export interface AggregationFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,7 +142,6 @@ export interface AggregationFunction {
 export type FunctionType = 'sum' | 'average' | 'min' | 'max' | 'count' | 'custom';
 
 export interface AnalysisConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,7 +160,6 @@ export interface AnalysisConfig {
 }
 
 export interface AnalysisAlgorithm {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -197,7 +179,6 @@ export interface AnalysisAlgorithm {
 export type AlgorithmType = 'trend' | 'anomaly' | 'forecast' | 'custom';
 
 export interface Threshold {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +200,6 @@ export type ThresholdType = 'warning' | 'critical' | 'custom';
 export type ThresholdOperator = 'greater_than' | 'less_than' | 'equals' | 'custom';
 
 export interface Alert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -231,15 +211,12 @@ export interface Alert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: AlertCondition;
   action: AlertAction;
   enabled: boolean;
 }
 
 export interface AlertCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -260,7 +237,6 @@ export interface AlertCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface AlertAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,7 +256,6 @@ export interface AlertAction {
 export type ActionType = 'email' | 'webhook' | 'log' | 'custom';
 
 export interface MetricPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -299,7 +274,6 @@ export interface MetricPerformance {
 }
 
 export interface MetricCollector {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,21 +285,17 @@ export interface MetricCollector {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CollectorType;
   status: CollectorStatus;
   configuration: CollectorConfiguration;
   metrics: string[];
   performance: CollectorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type CollectorType = 'system' | 'application' | 'custom';
 export type CollectorStatus = 'active' | 'inactive' | 'error';
 
 export interface CollectorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -345,7 +315,6 @@ export interface CollectorConfiguration {
 }
 
 export interface CollectorFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -365,7 +334,6 @@ export interface CollectorFilter {
 export type FilterType = 'include' | 'exclude' | 'custom';
 
 export interface CollectorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -385,7 +353,6 @@ export interface CollectorPerformance {
 }
 
 export interface MetricAggregator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -397,21 +364,17 @@ export interface MetricAggregator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AggregatorType;
   status: AggregatorStatus;
   configuration: AggregatorConfiguration;
   metrics: string[];
   performance: AggregatorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AggregatorType = 'time_series' | 'statistical' | 'custom';
 export type AggregatorStatus = 'active' | 'inactive' | 'error';
 
 export interface AggregatorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -430,7 +393,6 @@ export interface AggregatorConfiguration {
 }
 
 export interface AggregatorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -450,7 +412,6 @@ export interface AggregatorPerformance {
 }
 
 export interface MetricAnalyzer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -462,21 +423,17 @@ export interface MetricAnalyzer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnalyzerType;
   status: AnalyzerStatus;
   configuration: AnalyzerConfiguration;
   metrics: string[];
   performance: AnalyzerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AnalyzerType = 'trend' | 'anomaly' | 'forecast' | 'custom';
 export type AnalyzerStatus = 'active' | 'inactive' | 'error';
 
 export interface AnalyzerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,7 +452,6 @@ export interface AnalyzerConfiguration {
 }
 
 export interface AnalyzerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -515,7 +471,6 @@ export interface AnalyzerPerformance {
 }
 
 export interface PerfMetricsPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -541,7 +496,6 @@ export interface PerfMetricsPerformanceMetrics {
 }
 
 export interface PerfMetricsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -562,7 +516,6 @@ export interface PerfMetricsAnalytics {
 }
 
 export interface MetricTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -581,7 +534,6 @@ export interface MetricTypeDistribution {
 }
 
 export interface CollectorTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -600,7 +552,6 @@ export interface CollectorTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -612,7 +563,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   metrics: number;
   dataPoints: number;
   averageValue: number;
@@ -621,7 +571,6 @@ export interface PerformanceTrend {
 }
 
 export interface PerfMetricsReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -644,7 +593,6 @@ export interface PerfMetricsReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,7 +613,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -685,7 +632,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -705,7 +651,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -718,13 +663,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface PerfMetricsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

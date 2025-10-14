@@ -50,7 +50,6 @@ export enum AudioBusType {
 }
 
 export interface AudioSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -62,8 +61,6 @@ export interface AudioSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   url: string;
   format: AudioFormat;
   channels: AudioChannel;
@@ -79,7 +76,6 @@ export interface AudioSource {
 }
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +87,6 @@ export interface AudioEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AudioEffectType;
   enabled: boolean;
   parameters: Record<string, number>;
@@ -100,7 +95,6 @@ export interface AudioEffect {
 }
 
 export interface AudioAutomationPoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -118,7 +112,6 @@ export interface AudioAutomationPoint {
 }
 
 export interface AudioBus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,8 +123,6 @@ export interface AudioBus {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AudioBusType;
   volume: number;
   mute: boolean;
@@ -143,7 +134,6 @@ export interface AudioBus {
 }
 
 export interface AudioBusSend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +152,6 @@ export interface AudioBusSend {
 }
 
 export interface AudioMixerStrip {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -174,8 +163,6 @@ export interface AudioMixerStrip {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   sourceId?: string;
   busId: string;
   volume: number;
@@ -188,7 +175,6 @@ export interface AudioMixerStrip {
 }
 
 export interface AudioAutomation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,7 +192,6 @@ export interface AudioAutomation {
 }
 
 export interface AudioListener {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -224,7 +209,6 @@ export interface AudioListener {
 }
 
 export interface SpatialAudioConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +230,6 @@ export interface SpatialAudioConfig {
 }
 
 export interface AudioPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,7 +252,6 @@ export interface AudioPerformanceMetrics {
 }
 
 export interface AudioAnalysisData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -783,7 +765,6 @@ export class AudioEngine {
 
 // Supporting interfaces and types
 export interface PlayOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -804,7 +785,6 @@ export interface PlayOptions {
 }
 
 export interface AudioProject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -827,7 +807,6 @@ export interface AudioProject {
 }
 
 export interface SecurityConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -3,7 +3,6 @@ export type PermissionName = 'camera' | 'microphone' | 'notifications' | 'vibrat
 export type PermissionState = 'granted' | 'denied' | 'prompt';
 
 export interface PermissionQueryResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -158,7 +158,6 @@ export enum EventScope {
 }
 
 export interface EventSyncConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -200,7 +199,6 @@ export interface EventSyncConfiguration {
 }
 
 export interface EventFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -212,19 +210,15 @@ export interface EventFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   eventTypes: UnrealEventType[];
   priorities: EventPriority[];
   sources: string[];
   targets: string[];
   conditions: EventCondition[];
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,11 +234,9 @@ export interface EventCondition {
   operator: 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'starts_with' | 'ends_with' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'in' | 'not_in' | 'exists' | 'not_exists' | 'matches' | 'not_matches';
   value: any;
   caseSensitive: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventTransformer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -256,18 +248,14 @@ export interface EventTransformer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   eventTypes: UnrealEventType[];
   transformFunction: string;
   inputSchema: Record<string, any>;
   outputSchema: Record<string, any>;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -279,16 +267,12 @@ export interface EventValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   eventTypes: UnrealEventType[];
   validationRules: ValidationRule[];
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,11 +288,9 @@ export interface ValidationRule {
   rule: 'required' | 'optional' | 'read_only' | 'write_only' | 'min_length' | 'max_length' | 'min_value' | 'max_value' | 'pattern' | 'enum' | 'custom';
   value: any;
   message: string;
-  metadata: Record<string, any>;
 }
 
 export interface EventMapping {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -329,11 +311,9 @@ export interface EventMapping {
   validator?: string;
   filter?: string;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventSubscription {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -345,7 +325,6 @@ export interface EventSubscription {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   eventType: UnrealEventType;
   subscriber: string;
   priority: EventPriority;
@@ -353,11 +332,9 @@ export interface EventSubscription {
   transformer?: EventTransformer;
   validator?: EventValidator;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventQueue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -369,8 +346,6 @@ export interface EventQueue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   priority: EventPriority;
   events: UnrealEvent[];
   maxSize: number;
@@ -380,11 +355,9 @@ export interface EventQueue {
   batchTimeout: number;
   lastBatchTime: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EventStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

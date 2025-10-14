@@ -10,7 +10,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface ProfilerMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,17 +21,13 @@ export interface ProfilerMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   category: string;
   value: number;
   unit: string;
-  timestamp: number;
   metadata?: Record<string, any>;
 }
 
 export interface ProfilerSample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,8 +39,6 @@ export interface ProfilerSample {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   category: string;
   startTime: number;
   endTime?: number;
@@ -56,7 +49,6 @@ export interface ProfilerSample {
 }
 
 export interface ProfilerFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,7 +61,6 @@ export interface ProfilerFrame {
   updatedAt?: number;
   metadata?: Record<string, any>;
   frameNumber: number;
-  timestamp: number;
   samples: Map<string, ProfilerSample>;
   metrics: Map<string, ProfilerMetric>;
   duration: number;
@@ -77,7 +68,6 @@ export interface ProfilerFrame {
 }
 
 export interface ProfilerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -98,7 +88,6 @@ export interface ProfilerConfig {
 }
 
 export interface ProfilerReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +118,6 @@ export interface ProfilerReport {
 }
 
 export interface HotReloadConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -500,7 +488,6 @@ export class Profiler {
 }
 
 export interface ProfilerObserver {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -512,7 +499,6 @@ export interface ProfilerObserver {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   onFrameEnd?: (frame: ProfilerFrame) => void;
   onSampleBegin?: (sample: ProfilerSample) => void;
   onSampleEnd?: (sample: ProfilerSample) => void;

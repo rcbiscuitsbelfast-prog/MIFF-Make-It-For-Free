@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface DataAnalysisConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface DataAnalysisConfig {
 }
 
 export interface DataAnalysis {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface DataAnalysis {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   datasets: Dataset[];
@@ -64,14 +60,12 @@ export interface DataAnalysis {
   visualizations: Visualization[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Dataset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,18 +77,14 @@ export interface Dataset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DatasetType;
   status: DatasetStatus;
   data: any[];
   schema: DataSchema;
   statistics: DatasetStatistics;
-  metadata: Record<string, any>;
 }
 
 export interface DataSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,14 +96,10 @@ export interface DataSchema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   fields: SchemaField[];
-  metadata: Record<string, any>;
 }
 
 export interface SchemaField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,17 +111,13 @@ export interface SchemaField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FieldType;
   nullable: boolean;
   unique: boolean;
   indexed: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface DatasetStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -154,11 +136,9 @@ export interface DatasetStatistics {
   numericFields: number;
   textFields: number;
   dateFields: number;
-  metadata: Record<string, any>;
 }
 
 export interface Analysis {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -170,8 +150,6 @@ export interface Analysis {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnalysisType;
   status: AnalysisStatus;
   dataset: string; // Dataset ID
@@ -179,11 +157,9 @@ export interface Analysis {
   results: AnalysisResults;
   created: Date;
   completed?: Date;
-  metadata: Record<string, any>;
 }
 
 export interface AnalysisParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,11 +174,9 @@ export interface AnalysisParameters {
   method: string;
   options: Record<string, any>;
   filters: AnalysisFilter[];
-  metadata: Record<string, any>;
 }
 
 export interface AnalysisFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,11 +191,9 @@ export interface AnalysisFilter {
   field: string;
   operator: FilterOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface AnalysisResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -234,14 +206,10 @@ export interface AnalysisResults {
   updatedAt?: number;
   metadata?: Record<string, any>;
   success: boolean;
-  data: any;
   metrics: AnalysisMetrics;
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AnalysisMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -260,11 +228,9 @@ export interface AnalysisMetrics {
   rSquared?: number;
   mse?: number;
   mae?: number;
-  metadata: Record<string, any>;
 }
 
 export interface Visualization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,20 +242,15 @@ export interface Visualization {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: VisualizationType;
   status: VisualizationStatus;
   dataset: string; // Dataset ID
   analysis?: string; // Analysis ID
   config: VisualizationConfig;
-  data: any;
   created: Date;
-  metadata: Record<string, any>;
 }
 
 export interface VisualizationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -308,11 +269,9 @@ export interface VisualizationConfig {
   groupBy?: string;
   filters: AnalysisFilter[];
   options: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -331,11 +290,9 @@ export interface SystemPerformance {
   averageProcessingTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -14,7 +14,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Core interfaces and types
 export interface CameraDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -26,8 +25,6 @@ export interface CameraDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   mode: CameraMode;
   settings: CameraSettings;
@@ -41,7 +38,6 @@ export interface CameraDefinition {
 }
 
 export interface CameraMode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -63,7 +59,6 @@ export interface CameraMode {
 export type CameraModeType = 'chase' | 'orbit' | 'first-person' | 'fixed' | 'cinematic' | 'debug' | 'custom';
 
 export interface CameraSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -110,7 +105,6 @@ export interface CameraSettings {
 }
 
 export interface CameraTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,8 +116,6 @@ export interface CameraTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   fromMode: string;
   toMode: string;
   duration: number;
@@ -136,7 +128,6 @@ export interface CameraTransition {
 }
 
 export interface CameraKeyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,7 +148,6 @@ export interface CameraKeyframe {
 }
 
 export interface CameraTransitionEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -176,7 +166,6 @@ export interface CameraTransitionEvent {
 }
 
 export interface CameraConstraints {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -222,7 +211,6 @@ export interface CameraConstraints {
 }
 
 export interface CameraEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -234,8 +222,6 @@ export interface CameraEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: 'shake' | 'zoom' | 'blur' | 'chromatic' | 'vignette' | 'color' | 'noise' | 'custom';
   parameters: Map<string, any>;
@@ -247,7 +233,6 @@ export interface CameraEffect {
 }
 
 export interface CameraVisualStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,7 +257,6 @@ export interface CameraVisualStyle {
 }
 
 export interface CameraMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -294,7 +278,6 @@ export interface CameraMetadata {
 }
 
 export interface CameraInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,7 +289,6 @@ export interface CameraInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   definition: CameraDefinition;
   currentSettings: CameraSettings;
   targetEntity?: string; // Entity being followed
@@ -319,7 +301,6 @@ export interface CameraInstance {
 }
 
 export interface CameraPath {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -331,8 +312,6 @@ export interface CameraPath {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   waypoints: CameraWaypoint[];
   duration: number;
@@ -346,7 +325,6 @@ export interface CameraPath {
 }
 
 export interface CameraWaypoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +348,6 @@ export interface CameraWaypoint {
 }
 
 export interface CameraPathEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -389,7 +366,6 @@ export interface CameraPathEvent {
 }
 
 export interface CameraState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -418,7 +394,6 @@ export interface CameraState {
 }
 
 export interface CameraPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,7 +417,6 @@ export interface CameraPerformanceMetrics {
 }
 
 export interface CinematicSequence {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,8 +428,6 @@ export interface CinematicSequence {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   duration: number;
   cameraShots: CameraShot[];
@@ -472,7 +444,6 @@ export interface CinematicSequence {
 }
 
 export interface CameraShot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -484,8 +455,6 @@ export interface CameraShot {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   cameraId: string;
   startTime: number;
   endTime: number;
@@ -500,7 +469,6 @@ export interface CameraShot {
 }
 
 export interface Subtitle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -521,7 +489,6 @@ export interface Subtitle {
 }
 
 export interface CinematicEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -533,7 +500,6 @@ export interface CinematicEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'fade' | 'blur' | 'shake' | 'color' | 'filter' | 'overlay';
   startTime: number;
   endTime: number;
@@ -542,7 +508,6 @@ export interface CinematicEffect {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -560,7 +525,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -579,7 +543,6 @@ export interface Quaternion {
 }
 
 export interface CameraConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -614,7 +577,6 @@ export interface CameraConfig {
 }
 
 export interface CameraStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

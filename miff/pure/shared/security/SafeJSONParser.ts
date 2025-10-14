@@ -9,7 +9,6 @@
  */
 
 export interface JSONSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -35,7 +34,6 @@ export interface JSONSchema {
 }
 
 export interface ParseResult<T = any> {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

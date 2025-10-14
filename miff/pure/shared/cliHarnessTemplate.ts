@@ -36,7 +36,6 @@ export type OutputFormat = 'json' | 'yaml' | 'csv' | 'markdown' | 'html' | 'text
 
 // Standard CLI arguments interface
 export interface CLIArgs {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,7 +60,6 @@ export interface CLIArgs {
 
 // Standard CLI result interface
 export interface CLIResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

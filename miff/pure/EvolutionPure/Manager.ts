@@ -10,7 +10,6 @@
  */
 
 export interface EvolutionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface EvolutionConfig {
 }
 
 export interface EvolutionManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface EvolutionManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EvolutionManagerType;
   status: EvolutionManagerStatus;
   populations: Population[];
@@ -63,9 +59,6 @@ export interface EvolutionManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
   
   // Missing methods that are being called
   registerSpeciesEvolution(evolution: any): void;
@@ -78,7 +71,6 @@ export type EvolutionManagerType = 'genetic' | 'neural' | 'swarm' | 'custom';
 export type EvolutionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Population {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,8 +82,6 @@ export interface Population {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PopulationType;
   status: PopulationStatus;
   size: number;
@@ -101,14 +91,12 @@ export interface Population {
   crossover: CrossoverMethod;
   mutation: MutationMethod;
   performance: PopulationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PopulationType = 'binary' | 'real' | 'permutation' | 'custom';
 export type PopulationStatus = 'initializing' | 'evolving' | 'converged' | 'error';
 
 export interface Individual {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,8 +108,6 @@ export interface Individual {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: IndividualType;
   status: IndividualStatus;
   genome: Genome;
@@ -130,14 +116,12 @@ export interface Individual {
   parents: string[];
   children: string[];
   performance: IndividualPerformance;
-  metadata: Record<string, any>;
 }
 
 export type IndividualType = 'binary' | 'real' | 'permutation' | 'custom';
 export type IndividualStatus = 'active' | 'inactive' | 'dead' | 'error';
 
 export interface Genome {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -160,7 +144,6 @@ export type GenomeType = 'binary' | 'real' | 'permutation' | 'custom';
 export type EncodingType = 'binary' | 'gray' | 'real' | 'custom';
 
 export interface Gene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,8 +155,6 @@ export interface Gene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GeneType;
   value: any;
   range: GeneRange;
@@ -183,7 +164,6 @@ export interface Gene {
 export type GeneType = 'binary' | 'real' | 'integer' | 'custom';
 
 export interface GeneRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -201,7 +181,6 @@ export interface GeneRange {
 }
 
 export interface MutationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -221,7 +200,6 @@ export interface MutationConfig {
 export type MutationType = 'uniform' | 'gaussian' | 'polynomial' | 'custom';
 
 export interface Constraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -242,7 +220,6 @@ export interface Constraint {
 export type ConstraintType = 'equality' | 'inequality' | 'bound' | 'custom';
 
 export interface IndividualPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -262,7 +239,6 @@ export interface IndividualPerformance {
 }
 
 export interface FitnessFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,8 +250,6 @@ export interface FitnessFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FitnessType;
   expression: string;
   parameters: Record<string, any>;
@@ -285,7 +259,6 @@ export interface FitnessFunction {
 export type FitnessType = 'minimization' | 'maximization' | 'multi_objective' | 'custom';
 
 export interface FitnessPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +276,6 @@ export interface FitnessPerformance {
 }
 
 export interface SelectionMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -315,8 +287,6 @@ export interface SelectionMethod {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SelectionType;
   parameters: Record<string, any>;
   performance: SelectionPerformance;
@@ -325,7 +295,6 @@ export interface SelectionMethod {
 export type SelectionType = 'roulette' | 'tournament' | 'rank' | 'custom';
 
 export interface SelectionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -343,7 +312,6 @@ export interface SelectionPerformance {
 }
 
 export interface CrossoverMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,8 +323,6 @@ export interface CrossoverMethod {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CrossoverType;
   rate: number;
   parameters: Record<string, any>;
@@ -366,7 +332,6 @@ export interface CrossoverMethod {
 export type CrossoverType = 'single_point' | 'two_point' | 'uniform' | 'custom';
 
 export interface CrossoverPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -384,7 +349,6 @@ export interface CrossoverPerformance {
 }
 
 export interface MutationMethod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -396,8 +360,6 @@ export interface MutationMethod {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MutationType;
   rate: number;
   parameters: Record<string, any>;
@@ -405,7 +367,6 @@ export interface MutationMethod {
 }
 
 export interface MutationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -423,7 +384,6 @@ export interface MutationPerformance {
 }
 
 export interface PopulationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -443,7 +403,6 @@ export interface PopulationPerformance {
 }
 
 export interface EvolutionAlgorithm {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -455,20 +414,16 @@ export interface EvolutionAlgorithm {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AlgorithmType;
   status: AlgorithmStatus;
   parameters: AlgorithmParameters;
   performance: AlgorithmPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AlgorithmType = 'ga' | 'pso' | 'de' | 'custom';
 export type AlgorithmStatus = 'active' | 'inactive' | 'error';
 
 export interface AlgorithmParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +445,6 @@ export interface AlgorithmParameters {
 }
 
 export interface AlgorithmPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -510,7 +464,6 @@ export interface AlgorithmPerformance {
 }
 
 export interface Generation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -522,18 +475,14 @@ export interface Generation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   number: number;
   population: string;
   individuals: string[];
   statistics: GenerationStatistics;
   performance: GenerationPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface GenerationStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -554,7 +503,6 @@ export interface GenerationStatistics {
 }
 
 export interface GenerationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -575,7 +523,6 @@ export interface GenerationPerformance {
 }
 
 export interface EvolutionPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -600,7 +547,6 @@ export interface EvolutionPerformanceMetrics {
 }
 
 export interface EvolutionAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -621,7 +567,6 @@ export interface EvolutionAnalytics {
 }
 
 export interface PopulationTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -640,7 +585,6 @@ export interface PopulationTypeDistribution {
 }
 
 export interface AlgorithmTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -659,7 +603,6 @@ export interface AlgorithmTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -671,7 +614,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   populations: number;
   generations: number;
   fitness: number;
@@ -681,7 +623,6 @@ export interface PerformanceTrend {
 }
 
 export interface EvolutionReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -704,7 +645,6 @@ export interface EvolutionReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -725,7 +665,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -745,7 +684,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -765,7 +703,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,13 +715,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface EvolutionOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

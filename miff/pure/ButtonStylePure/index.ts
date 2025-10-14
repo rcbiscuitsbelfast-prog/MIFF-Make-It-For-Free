@@ -40,7 +40,6 @@ export enum ButtonState {
 }
 
 export interface ButtonStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -75,7 +74,6 @@ export interface ButtonStyle {
   boxShadow: string;
   transition: string;
   icon?: {
-    name: string;
     size: number;
     color: string;
     position: 'left' | 'right' | 'top' | 'bottom';
@@ -84,7 +82,6 @@ export interface ButtonStyle {
 }
 
 export interface ButtonTheme {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -96,7 +93,6 @@ export interface ButtonTheme {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   baseStyles: Record<ButtonVariant, Partial<ButtonStyle>>;
   sizeMultipliers: Record<ButtonSize, number>;

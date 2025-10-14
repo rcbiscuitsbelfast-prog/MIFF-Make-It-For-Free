@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CIEnforcerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CIEnforcerConfig {
 }
 
 export interface CIEnforcer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface CIEnforcer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EnforcerType;
   status: EnforcerStatus;
   rules: EnforcerRule[];
@@ -64,14 +60,12 @@ export interface CIEnforcer {
   checks: EnforcerCheck[];
   performance: EnforcerPerformance;
   analytics: EnforcerAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface EnforcerRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,18 +77,14 @@ export interface EnforcerRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   severity: RuleSeverity;
   enabled: boolean;
   conditions: RuleCondition[];
   actions: RuleAction[];
-  metadata: Record<string, any>;
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,15 +96,12 @@ export interface RuleCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   operator: ConditionOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,14 +113,11 @@ export interface RuleAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface EnforcerPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,16 +129,12 @@ export interface EnforcerPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   rules: string[]; // Rule IDs
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface EnforcerCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,19 +146,15 @@ export interface EnforcerCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CheckType;
   status: CheckStatus;
   result: CheckResult;
   startedAt: Date;
   completedAt?: Date;
   duration?: number; // milliseconds
-  metadata: Record<string, any>;
 }
 
 export interface CheckResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,11 +170,9 @@ export interface CheckResult {
   score: number; // 0-100
   issues: CheckIssue[];
   recommendations: string[];
-  metadata: Record<string, any>;
 }
 
 export interface CheckIssue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,18 +184,15 @@ export interface CheckIssue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: IssueType;
   severity: IssueSeverity;
   message: string;
   file?: string;
   line?: number;
   column?: number;
-  metadata: Record<string, any>;
 }
 
 export interface EnforcerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,11 +209,9 @@ export interface EnforcerPerformance {
   failedChecks: number;
   averageDuration: number; // milliseconds
   successRate: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface EnforcerAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -10,7 +10,6 @@
  */
 
 export interface TestHarnessConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface TestHarnessConfig {
 }
 
 export interface TestHarnessManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface TestHarnessManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TestHarnessManagerType;
   status: TestHarnessManagerStatus;
   testHarnesses: TestHarness[];
@@ -64,16 +60,12 @@ export interface TestHarnessManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type TestHarnessManagerType = 'unit' | 'integration' | 'e2e' | 'custom';
 export type TestHarnessManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TestHarness {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,21 +77,17 @@ export interface TestHarness {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HarnessType;
   status: HarnessStatus;
   tests: string[];
   configuration: HarnessConfiguration;
   performance: HarnessPerformance;
-  metadata: Record<string, any>;
 }
 
 export type HarnessType = 'unit' | 'integration' | 'e2e' | 'performance' | 'custom';
 export type HarnessStatus = 'idle' | 'running' | 'completed' | 'error';
 
 export interface HarnessConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,7 +108,6 @@ export interface HarnessConfiguration {
 }
 
 export interface TestEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,14 +119,12 @@ export interface TestEnvironment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   variables: Record<string, string>;
   setup: string[];
   teardown: string[];
 }
 
 export interface HarnessPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,7 +144,6 @@ export interface HarnessPerformance {
 }
 
 export interface Test {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,21 +155,17 @@ export interface Test {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TestType;
   status: TestStatus;
   harness: string;
   configuration: TestConfiguration;
   performance: TestPerformance;
-  metadata: Record<string, any>;
 }
 
 export type TestType = 'unit' | 'integration' | 'e2e' | 'performance' | 'custom';
 export type TestStatus = 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
 
 export interface TestConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,7 +186,6 @@ export interface TestConfiguration {
 }
 
 export interface TestPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,7 +205,6 @@ export interface TestPerformance {
 }
 
 export interface TestRunner {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,21 +216,17 @@ export interface TestRunner {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RunnerType;
   status: RunnerStatus;
   tests: string[];
   configuration: RunnerConfiguration;
   performance: RunnerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type RunnerType = 'jest' | 'mocha' | 'jasmine' | 'custom';
 export type RunnerStatus = 'idle' | 'running' | 'error';
 
 export interface RunnerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,7 +246,6 @@ export interface RunnerConfiguration {
 }
 
 export interface RunnerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +265,6 @@ export interface RunnerPerformance {
 }
 
 export interface TestReporter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,21 +276,17 @@ export interface TestReporter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ReporterType;
   status: ReporterStatus;
   tests: string[];
   configuration: ReporterConfiguration;
   performance: ReporterPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ReporterType = 'console' | 'html' | 'json' | 'xml' | 'custom';
 export type ReporterStatus = 'active' | 'inactive' | 'error';
 
 export interface ReporterConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -338,7 +306,6 @@ export interface ReporterConfiguration {
 }
 
 export interface ReporterPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -358,7 +325,6 @@ export interface ReporterPerformance {
 }
 
 export interface TestHarnessPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -383,7 +349,6 @@ export interface TestHarnessPerformanceMetrics {
 }
 
 export interface TestHarnessAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -404,7 +369,6 @@ export interface TestHarnessAnalytics {
 }
 
 export interface HarnessTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -423,7 +387,6 @@ export interface HarnessTypeDistribution {
 }
 
 export interface TestTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,7 +405,6 @@ export interface TestTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,7 +416,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   testHarnesses: number;
   tests: number;
   executionTime: number;
@@ -464,7 +425,6 @@ export interface PerformanceTrend {
 }
 
 export interface TestHarnessReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -487,7 +447,6 @@ export interface TestHarnessReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -508,7 +467,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -528,7 +486,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -548,7 +505,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -561,13 +517,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface TestHarnessOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

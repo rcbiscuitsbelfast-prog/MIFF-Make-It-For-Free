@@ -9,7 +9,6 @@ import * as crypto from 'crypto';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export interface User {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -21,7 +20,6 @@ export interface User {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   username: string;
   email: string;
   role: 'admin' | 'developer' | 'user';
@@ -32,7 +30,6 @@ export interface User {
 }
 
 export interface JWTClaims {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,7 +52,6 @@ export interface JWTClaims {
 }
 
 export interface Session {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -67,7 +63,6 @@ export interface Session {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   userId: string;
   token: string;
   refreshToken: string;
@@ -80,7 +75,6 @@ export interface Session {
 }
 
 export interface AuthConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -104,7 +98,6 @@ export interface AuthConfig {
 }
 
 export interface LoginRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +116,6 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +136,6 @@ export interface LoginResponse {
 }
 
 export interface RegisterRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -163,7 +154,6 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

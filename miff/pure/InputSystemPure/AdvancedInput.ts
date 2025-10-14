@@ -9,7 +9,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // Removed unused import of InputSystemPure
 
 export interface InputGesture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -21,8 +20,6 @@ export interface InputGesture {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'tap' | 'double_tap' | 'long_press' | 'swipe' | 'pinch' | 'rotate' | 'custom';
   pattern: GesturePattern;
   threshold: GestureThreshold;
@@ -31,7 +28,6 @@ export interface InputGesture {
 }
 
 export interface GesturePattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,7 +46,6 @@ export interface GesturePattern {
 }
 
 export interface InputSequence {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -71,7 +66,6 @@ export interface InputSequence {
 }
 
 export interface GestureThreshold {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,7 +87,6 @@ export interface GestureThreshold {
 }
 
 export interface GestureData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,7 +110,6 @@ export interface GestureData {
 }
 
 export interface InputData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -133,13 +125,11 @@ export interface InputData {
   value: any;
   position: { x: number; y: number };
   pressure: number;
-  timestamp: number;
   duration: number;
   metadata?: any;
 }
 
 export interface HapticFeedback {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -151,8 +141,6 @@ export interface HapticFeedback {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'impact' | 'notification' | 'selection' | 'custom';
   intensity: number;
   duration: number;
@@ -161,7 +149,6 @@ export interface HapticFeedback {
 }
 
 export interface HapticPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -180,7 +167,6 @@ export interface HapticPattern {
 }
 
 export interface InputMapping {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,8 +178,6 @@ export interface InputMapping {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   input: InputSequence;
   action: string;
   context: string;
@@ -203,7 +187,6 @@ export interface InputMapping {
 }
 
 export interface InputCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -222,7 +205,6 @@ export interface InputCondition {
 }
 
 export interface InputContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,12 +220,10 @@ export interface InputContext {
   previousInputs: InputData[];
   mousePosition: { x: number; y: number };
   gamepadState: GamepadState;
-  timestamp: number;
   metadata?: any;
 }
 
 export interface GamepadState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,12 +238,10 @@ export interface GamepadState {
   connected: boolean;
   buttons: boolean[];
   axes: number[];
-  id: string;
   index: number;
 }
 
 export interface InputProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,8 +253,6 @@ export interface InputProfile {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   mappings: InputMapping[];
   gestures: InputGesture[];
   haptics: HapticFeedback[];
@@ -285,7 +261,6 @@ export interface InputProfile {
 }
 
 export interface InputSensitivity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -905,7 +880,6 @@ class GestureRecognition {
 }
 
 interface GestureState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -994,7 +968,6 @@ class HapticManager {
 }
 
 interface HapticState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

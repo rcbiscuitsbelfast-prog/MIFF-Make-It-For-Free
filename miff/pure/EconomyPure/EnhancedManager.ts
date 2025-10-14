@@ -6,7 +6,6 @@
  */
 
 export interface EconomyConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -26,7 +25,6 @@ export interface EconomyConfig {
 }
 
 export interface Currency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,8 +36,6 @@ export interface Currency {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   symbol: string;
   exchangeRate: number; // Relative to base currency
   stability: number; // 0-1, affects exchange rate volatility
@@ -47,7 +43,6 @@ export interface Currency {
 }
 
 export interface PriceRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,7 +54,6 @@ export interface PriceRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   itemId: string;
   basePrice: number;
   currency: string; // Currency ID
@@ -70,7 +64,6 @@ export interface PriceRule {
 }
 
 export interface PriceModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,7 +82,6 @@ export interface PriceModifier {
 }
 
 export interface ModifierCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -107,7 +99,6 @@ export interface ModifierCondition {
 }
 
 export interface VendorState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,8 +110,6 @@ export interface VendorState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'general' | 'specialist' | 'black_market' | 'auction_house';
   inventory: Record<string, VendorInventoryItem>;
   markup: number; // Base markup percentage
@@ -136,7 +125,6 @@ export interface VendorState {
 }
 
 export interface VendorInventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,7 +145,6 @@ export interface VendorInventoryItem {
 }
 
 export interface MarketData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -180,7 +167,6 @@ export interface MarketData {
 }
 
 export interface EconomicEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,8 +178,6 @@ export interface EconomicEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'inflation' | 'deflation' | 'shortage' | 'surplus' | 'crisis' | 'boom';
   description: string;
   duration: number; // hours
@@ -208,7 +192,6 @@ export interface EconomicEvent {
 }
 
 export interface PriceResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -239,7 +222,6 @@ export interface PriceResult {
 }
 
 export interface EconomyStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,7 +246,6 @@ export interface EconomyStats {
 }
 
 export interface TradeTransaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,20 +257,17 @@ export interface TradeTransaction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   vendorId: string;
   itemId: string;
   quantity: number;
   unitPrice: number;
   totalPrice: number;
   currency: string;
-  timestamp: number;
   type: 'buy' | 'sell';
   playerId?: string;
 }
 
 export interface EconomyOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

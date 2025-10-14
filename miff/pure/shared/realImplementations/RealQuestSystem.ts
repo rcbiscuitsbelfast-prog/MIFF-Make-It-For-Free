@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Quest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface Quest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   status: 'available' | 'active' | 'completed' | 'failed';
@@ -34,7 +32,6 @@ export interface Quest {
 }
 
 export interface QuestObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -46,7 +43,6 @@ export interface QuestObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   type: 'kill' | 'collect' | 'reach' | 'talk' | 'craft' | 'custom';
   target: string;
@@ -56,7 +52,6 @@ export interface QuestObjective {
 }
 
 export interface QuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,13 +64,11 @@ export interface QuestReward {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: 'experience' | 'item' | 'currency' | 'reputation';
-  id: string;
   quantity: number;
   description: string;
 }
 
 export interface QuestProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

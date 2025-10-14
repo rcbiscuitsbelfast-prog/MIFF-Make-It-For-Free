@@ -17,7 +17,6 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface PlayerStateConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface PlayerStateConfig {
 }
 
 export interface PlayerState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,10 +53,8 @@ export interface PlayerState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   userId: string;
   sessionId: string;
-  timestamp: number;
   version: number;
   data: PlayerStateData;
   metadata: PlayerStateMetadata;
@@ -69,7 +65,6 @@ export interface PlayerState {
 }
 
 export interface PlayerStateData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -101,7 +96,6 @@ export interface PlayerStateData {
 }
 
 export interface Position3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,7 +113,6 @@ export interface Position3D {
 }
 
 export interface Rotation3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,7 +131,6 @@ export interface Rotation3D {
 }
 
 export interface Velocity3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,7 +148,6 @@ export interface Velocity3D {
 }
 
 export interface PlayerStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +172,6 @@ export interface PlayerStats {
 }
 
 export interface PlayerStatus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +195,6 @@ export interface PlayerStatus {
 }
 
 export interface InventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +206,6 @@ export interface InventoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   itemId: string;
   quantity: number;
   quality: number;
@@ -228,7 +216,6 @@ export interface InventoryItem {
 }
 
 export interface EquipmentSlot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +233,6 @@ export interface EquipmentSlot {
 }
 
 export interface Enchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,14 +244,12 @@ export interface Enchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   level: number;
   type: string;
   effects: Map<string, number>;
 }
 
 export interface QuestProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -287,7 +271,6 @@ export interface QuestProgress {
 }
 
 export interface QuestObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -299,7 +282,6 @@ export interface QuestObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   type: string;
   target: string;
@@ -309,7 +291,6 @@ export interface QuestObjective {
 }
 
 export interface QuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -328,7 +309,6 @@ export interface QuestReward {
 }
 
 export interface Achievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -340,8 +320,6 @@ export interface Achievement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: string;
   rarity: string;
@@ -352,7 +330,6 @@ export interface Achievement {
 }
 
 export interface PlayerSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -372,7 +349,6 @@ export interface PlayerSettings {
 }
 
 export interface GraphicsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -396,7 +372,6 @@ export interface GraphicsSettings {
 }
 
 export interface AudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -419,7 +394,6 @@ export interface AudioSettings {
 }
 
 export interface ControlsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,7 +416,6 @@ export interface ControlsSettings {
 }
 
 export interface UISettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -467,7 +440,6 @@ export interface UISettings {
 }
 
 export interface GameplaySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +462,6 @@ export interface GameplaySettings {
 }
 
 export interface PlayerStateMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -516,7 +487,6 @@ export interface PlayerStateMetadata {
 }
 
 export interface StateConflict {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -528,18 +498,15 @@ export interface StateConflict {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   playerId: string;
   field: string;
   localValue: any;
   remoteValue: any;
-  timestamp: number;
   resolved: boolean;
   resolution: string;
 }
 
 export interface StateValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -551,18 +518,15 @@ export interface StateValidation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   playerId: string;
   field: string;
   value: any;
   rule: string;
   passed: boolean;
   message: string;
-  timestamp: number;
 }
 
 export interface StateSync {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,10 +538,8 @@ export interface StateSync {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   playerId: string;
   stateId: string;
-  timestamp: number;
   direction: 'upload' | 'download';
   size: number;
   duration: number;

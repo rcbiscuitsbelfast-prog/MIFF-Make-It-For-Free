@@ -11,7 +11,6 @@
  */
 
 export interface TopplerDemoConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface TopplerDemoConfig {
 }
 
 export interface TopplerDemoManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface TopplerDemoManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TopplerDemoManagerType;
   status: TopplerDemoManagerStatus;
   demos: TopplerDemo[];
@@ -66,16 +62,12 @@ export interface TopplerDemoManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type TopplerDemoManagerType = 'arcade' | 'puzzle' | 'physics' | 'educational' | 'custom';
 export type TopplerDemoManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TopplerDemo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +79,6 @@ export interface TopplerDemo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DemoType;
   status: DemoStatus;
   configuration: DemoConfiguration;
@@ -97,14 +87,12 @@ export interface TopplerDemo {
   audio: AudioSettings;
   controls: ControlSettings;
   performance: DemoPerformance;
-  metadata: Record<string, any>;
 }
 
 export type DemoType = 'tutorial' | 'challenge' | 'free_play' | 'competition' | 'custom';
 export type DemoStatus = 'draft' | 'ready' | 'active' | 'completed' | 'archived';
 
 export interface DemoConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +115,6 @@ export interface DemoConfiguration {
 export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert' | 'custom';
 
 export interface DemoObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,8 +126,6 @@ export interface DemoObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: ObjectiveType;
   target: number;
@@ -151,7 +136,6 @@ export interface DemoObjective {
 export type ObjectiveType = 'score' | 'time' | 'accuracy' | 'combo' | 'custom';
 
 export interface GameRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -163,8 +147,6 @@ export interface GameRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: RuleType;
   parameters: Record<string, any>;
@@ -174,7 +156,6 @@ export interface GameRule {
 export type RuleType = 'physics' | 'scoring' | 'time' | 'collision' | 'custom';
 
 export interface Reward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,8 +167,6 @@ export interface Reward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RewardType;
   value: number;
   condition: RewardCondition;
@@ -197,7 +176,6 @@ export interface Reward {
 export type RewardType = 'points' | 'unlock' | 'achievement' | 'custom';
 
 export interface RewardCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +195,6 @@ export interface RewardCondition {
 export type ConditionType = 'score' | 'time' | 'combo' | 'accuracy' | 'custom';
 
 export interface PhysicsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,7 +214,6 @@ export interface PhysicsSettings {
 }
 
 export interface GravitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -256,7 +232,6 @@ export interface GravitySettings {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,7 +249,6 @@ export interface Vector3 {
 }
 
 export interface FrictionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,7 +267,6 @@ export interface FrictionSettings {
 }
 
 export interface CollisionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -315,7 +288,6 @@ export type CollisionDetection = 'discrete' | 'continuous' | 'hybrid';
 export type CollisionResponse = 'bounce' | 'stick' | 'destroy' | 'custom';
 
 export interface CollisionLayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -327,14 +299,11 @@ export interface CollisionLayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   mask: number;
   interactions: string[];
 }
 
 export interface MaterialSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -346,8 +315,6 @@ export interface MaterialSettings {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   density: number;
   friction: number;
   restitution: number;
@@ -355,7 +322,6 @@ export interface MaterialSettings {
 }
 
 export interface MaterialProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +341,6 @@ export interface MaterialProperty {
 export type PropertyType = 'elasticity' | 'viscosity' | 'conductivity' | 'custom';
 
 export interface ConstraintSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,7 +352,6 @@ export interface ConstraintSettings {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConstraintType;
   objects: string[];
   parameters: Record<string, any>;
@@ -397,7 +361,6 @@ export interface ConstraintSettings {
 export type ConstraintType = 'hinge' | 'spring' | 'rope' | 'fixed' | 'custom';
 
 export interface GraphicsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -419,7 +382,6 @@ export interface GraphicsSettings {
 export type GraphicsQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface GraphicsEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -440,7 +402,6 @@ export interface GraphicsEffect {
 export type EffectType = 'bloom' | 'motion_blur' | 'depth_of_field' | 'custom';
 
 export interface LightingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -462,7 +423,6 @@ export interface LightingSettings {
 export type LightingType = 'directional' | 'point' | 'spot' | 'area';
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -481,7 +441,6 @@ export interface Color {
 }
 
 export interface ShadowSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,7 +461,6 @@ export interface ShadowSettings {
 export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface AmbientSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -520,7 +478,6 @@ export interface AmbientSettings {
 }
 
 export interface ParticleSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -539,7 +496,6 @@ export interface ParticleSettings {
 }
 
 export interface ParticleSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -551,8 +507,6 @@ export interface ParticleSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParticleSystemType;
   properties: ParticleProperties;
   emission: EmissionSettings;
@@ -564,7 +518,6 @@ export type ParticleSystemType = 'explosion' | 'trail' | 'sparkle' | 'custom';
 export type ParticleQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface ParticleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -584,7 +537,6 @@ export interface ParticleProperties {
 }
 
 export interface EmissionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -603,7 +555,6 @@ export interface EmissionSettings {
 }
 
 export interface BurstSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -623,7 +574,6 @@ export interface BurstSettings {
 export type EmissionShape = 'point' | 'line' | 'circle' | 'sphere' | 'custom';
 
 export interface MovementSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -644,7 +594,6 @@ export interface MovementSettings {
 export type MovementType = 'linear' | 'curved' | 'spiral' | 'random' | 'custom';
 
 export interface AppearanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,7 +614,6 @@ export interface AppearanceSettings {
 export type BlendMode = 'normal' | 'add' | 'multiply' | 'screen' | 'custom';
 
 export interface PostProcessingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -683,7 +631,6 @@ export interface PostProcessingSettings {
 }
 
 export interface PostProcessingEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -705,7 +652,6 @@ export type PostProcessingEffectType = 'bloom' | 'chromatic_aberration' | 'vigne
 export type PostProcessingQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface AudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -726,7 +672,6 @@ export interface AudioSettings {
 }
 
 export interface AudioChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -744,7 +689,6 @@ export interface AudioChannel {
 }
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -764,7 +708,6 @@ export interface AudioEffect {
 export type AudioEffectType = 'reverb' | 'echo' | 'distortion' | 'filter' | 'custom';
 
 export interface SpatialAudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -786,7 +729,6 @@ export interface SpatialAudioSettings {
 export type RolloffType = 'linear' | 'logarithmic' | 'custom';
 
 export interface ControlSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -807,7 +749,6 @@ export interface ControlSettings {
 export type ControlScheme = 'keyboard' | 'gamepad' | 'touch' | 'custom';
 
 export interface SensitivitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -826,7 +767,6 @@ export interface SensitivitySettings {
 }
 
 export interface ControlBinding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -845,7 +785,6 @@ export interface ControlBinding {
 }
 
 export interface AccessibilitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -864,7 +803,6 @@ export interface AccessibilitySettings {
 }
 
 export interface DemoPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -887,7 +825,6 @@ export interface DemoPerformance {
 }
 
 export interface TopplerPlayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -899,22 +836,18 @@ export interface TopplerPlayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PlayerType;
   status: PlayerStatus;
   profile: PlayerProfile;
   statistics: PlayerStatistics;
   achievements: Achievement[];
   preferences: PlayerPreferences;
-  metadata: Record<string, any>;
 }
 
 export type PlayerType = 'guest' | 'registered' | 'premium' | 'custom';
 export type PlayerStatus = 'online' | 'offline' | 'away' | 'banned';
 
 export interface PlayerProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -935,7 +868,6 @@ export interface PlayerProfile {
 }
 
 export interface PlayerStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -956,7 +888,6 @@ export interface PlayerStatistics {
 }
 
 export interface Achievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -968,8 +899,6 @@ export interface Achievement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: AchievementType;
   unlocked: boolean;
@@ -981,7 +910,6 @@ export interface Achievement {
 export type AchievementType = 'score' | 'time' | 'combo' | 'streak' | 'custom';
 
 export interface PlayerPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1002,7 +930,6 @@ export interface PlayerPreferences {
 }
 
 export interface DemoScenario {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1014,22 +941,18 @@ export interface DemoScenario {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScenarioType;
   status: ScenarioStatus;
   configuration: ScenarioConfiguration;
   objectives: ScenarioObjective[];
   rewards: ScenarioReward[];
   performance: ScenarioPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ScenarioType = 'tutorial' | 'challenge' | 'story' | 'endless' | 'custom';
 export type ScenarioStatus = 'draft' | 'ready' | 'active' | 'completed' | 'archived';
 
 export interface ScenarioConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1050,7 +973,6 @@ export interface ScenarioConfiguration {
 }
 
 export interface PowerUp {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1062,8 +984,6 @@ export interface PowerUp {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PowerUpType;
   effect: PowerUpEffect;
   duration: number;
@@ -1074,7 +994,6 @@ export type PowerUpType = 'score_multiplier' | 'time_bonus' | 'shield' | 'custom
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface PowerUpEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1093,7 +1012,6 @@ export interface PowerUpEffect {
 }
 
 export interface Obstacle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1105,8 +1023,6 @@ export interface Obstacle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObstacleType;
   properties: ObstacleProperties;
   behavior: ObstacleBehavior;
@@ -1116,7 +1032,6 @@ export interface Obstacle {
 export type ObstacleType = 'static' | 'moving' | 'rotating' | 'custom';
 
 export interface ObstacleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1136,7 +1051,6 @@ export interface ObstacleProperties {
 }
 
 export interface ObstacleBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1154,7 +1068,6 @@ export interface ObstacleBehavior {
 }
 
 export interface MovementPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1173,7 +1086,6 @@ export interface MovementPattern {
 }
 
 export interface RotationPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1194,7 +1106,6 @@ export interface RotationPattern {
 export type RotationType = 'continuous' | 'oscillating' | 'random' | 'custom';
 
 export interface CollisionBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1213,7 +1124,6 @@ export interface CollisionBehavior {
 }
 
 export interface CollisionEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1231,7 +1141,6 @@ export interface CollisionEffect {
 }
 
 export interface ObstacleAppearance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1251,7 +1160,6 @@ export interface ObstacleAppearance {
 }
 
 export interface ScenarioObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1263,8 +1171,6 @@ export interface ScenarioObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: ObjectiveType;
   target: number;
@@ -1274,7 +1180,6 @@ export interface ScenarioObjective {
 }
 
 export interface ScenarioReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1286,8 +1191,6 @@ export interface ScenarioReward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RewardType;
   value: number;
   condition: RewardCondition;
@@ -1295,7 +1198,6 @@ export interface ScenarioReward {
 }
 
 export interface ScenarioPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1315,7 +1217,6 @@ export interface ScenarioPerformance {
 }
 
 export interface Leaderboard {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1327,8 +1228,6 @@ export interface Leaderboard {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LeaderboardType;
   scope: LeaderboardScope;
   entries: LeaderboardEntry[];
@@ -1340,7 +1239,6 @@ export type LeaderboardType = 'score' | 'time' | 'combo' | 'custom';
 export type LeaderboardScope = 'global' | 'friends' | 'local' | 'custom';
 
 export interface LeaderboardEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1356,12 +1254,9 @@ export interface LeaderboardEntry {
   playerId: string;
   playerName: string;
   score: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export interface TopplerDemoPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1386,7 +1281,6 @@ export interface TopplerDemoPerformanceMetrics {
 }
 
 export interface TopplerDemoAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1407,7 +1301,6 @@ export interface TopplerDemoAnalytics {
 }
 
 export interface DemoTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1426,7 +1319,6 @@ export interface DemoTypeDistribution {
 }
 
 export interface PlayerTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1445,7 +1337,6 @@ export interface PlayerTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1457,7 +1348,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   demos: number;
   players: number;
   fps: number;
@@ -1467,7 +1357,6 @@ export interface PerformanceTrend {
 }
 
 export interface TopplerDemoReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1490,7 +1379,6 @@ export interface TopplerDemoReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1511,7 +1399,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1531,7 +1418,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1551,7 +1437,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1564,13 +1449,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface TopplerDemoOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -10,7 +10,6 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface AssetReference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,7 +21,6 @@ export interface AssetReference {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   path: string;
   type: AssetType;
   module: string;
@@ -47,7 +45,6 @@ export enum AssetType {
 }
 
 export interface AssetValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,13 +58,11 @@ export interface AssetValidationResult {
   metadata?: Record<string, any>;
   asset: AssetReference;
   valid: boolean;
-  errors: string[];
   warnings: string[];
   suggestions: string[];
 }
 
 export interface PipelineIntegrityResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,7 +83,6 @@ export interface PipelineIntegrityResult {
 }
 
 export interface AssetValidationStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

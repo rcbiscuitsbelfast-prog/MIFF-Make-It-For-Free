@@ -12,7 +12,6 @@ import { SecurityHardening } from './SecurityHardening.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ProductionReadinessCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -24,9 +23,7 @@ export interface ProductionReadinessCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   category: 'security' | 'performance' | 'reliability' | 'scalability' | 'monitoring' | 'deployment';
-  name: string;
   description: string;
   status: 'pass' | 'fail' | 'warning' | 'not_applicable';
   severity: 'critical' | 'high' | 'medium' | 'low';
@@ -36,7 +33,6 @@ export interface ProductionReadinessCheck {
 }
 
 export interface DeploymentEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,8 +44,6 @@ export interface DeploymentEnvironment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'development' | 'staging' | 'production';
   url: string;
   status: 'active' | 'inactive' | 'maintenance';
@@ -59,7 +53,6 @@ export interface DeploymentEnvironment {
 }
 
 export interface EnvironmentConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,7 +75,6 @@ export interface EnvironmentConfiguration {
 }
 
 export interface MonitoringConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,7 +95,6 @@ export interface MonitoringConfiguration {
 }
 
 export interface SecurityConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +116,6 @@ export interface SecurityConfiguration {
 }
 
 export interface AlertConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,8 +127,6 @@ export interface AlertConfiguration {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: string;
   threshold: number;
   severity: 'critical' | 'high' | 'medium' | 'low';
@@ -147,7 +135,6 @@ export interface AlertConfiguration {
 }
 
 export interface RateLimitConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +153,6 @@ export interface RateLimitConfiguration {
 }
 
 export interface DeploymentPipeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,8 +164,6 @@ export interface DeploymentPipeline {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   stages: PipelineStage[];
   triggers: PipelineTrigger[];
   status: 'active' | 'inactive' | 'maintenance';
@@ -188,7 +172,6 @@ export interface DeploymentPipeline {
 }
 
 export interface PipelineStage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -200,8 +183,6 @@ export interface PipelineStage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'build' | 'test' | 'deploy' | 'verify';
   status: 'pending' | 'running' | 'success' | 'failed' | 'skipped';
   duration: number;
@@ -210,7 +191,6 @@ export interface PipelineStage {
 }
 
 export interface PipelineTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -228,7 +208,6 @@ export interface PipelineTrigger {
 }
 
 export interface ProductionReadinessReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

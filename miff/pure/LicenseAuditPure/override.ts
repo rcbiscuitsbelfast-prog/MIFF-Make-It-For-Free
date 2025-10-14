@@ -3,7 +3,6 @@ type LicenseType = 'MIT' | 'Apache' | 'GPL' | 'BSD' | 'Custom' | 'CC-BY-SA-4.0';
 type LicenseCompatibility = 'compatible' | 'incompatible' | 'conditional' | 'requires-review';
 
 interface LicenseInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -16,7 +15,6 @@ interface LicenseInfo {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LicenseType;
-  name: string;
   description: string;
   compatible: boolean;
   version?: string;
@@ -32,7 +30,6 @@ interface LicenseInfo {
 }
 
 interface LicenseAuditOverride {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

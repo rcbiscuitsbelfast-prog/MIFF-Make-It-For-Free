@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CameraBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CameraBridgeConfig {
 }
 
 export interface CameraBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface CameraBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BridgeType;
   status: BridgeStatus;
   cameras: Camera[];
@@ -64,14 +60,12 @@ export interface CameraBridge {
   recordings: CameraRecording[];
   performance: BridgePerformance;
   analytics: BridgeAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Camera {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,18 +77,14 @@ export interface Camera {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CameraType;
   status: CameraStatus;
   capabilities: CameraCapabilities;
   settings: CameraSettings;
   controls: CameraControls;
-  metadata: Record<string, any>;
 }
 
 export interface CameraCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -110,11 +100,9 @@ export interface CameraCapabilities {
   frameRate: number[];
   formats: VideoFormat[];
   features: CameraFeature[];
-  metadata: Record<string, any>;
 }
 
 export interface CameraSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -133,11 +121,9 @@ export interface CameraSettings {
   brightness: number; // 0-100
   contrast: number; // 0-100
   saturation: number; // 0-100
-  metadata: Record<string, any>;
 }
 
 export interface CameraControls {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -153,11 +139,9 @@ export interface CameraControls {
   focus: FocusControl;
   exposure: ExposureControl;
   whiteBalance: WhiteBalanceControl;
-  metadata: Record<string, any>;
 }
 
 export interface ZoomControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,11 +157,9 @@ export interface ZoomControl {
   max: number;
   current: number;
   step: number;
-  metadata: Record<string, any>;
 }
 
 export interface FocusControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,11 +173,9 @@ export interface FocusControl {
   metadata?: Record<string, any>;
   mode: FocusMode;
   distance: number;
-  metadata: Record<string, any>;
 }
 
 export interface ExposureControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -209,11 +189,9 @@ export interface ExposureControl {
   metadata?: Record<string, any>;
   mode: ExposureMode;
   value: number;
-  metadata: Record<string, any>;
 }
 
 export interface WhiteBalanceControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,11 +205,9 @@ export interface WhiteBalanceControl {
   metadata?: Record<string, any>;
   mode: WhiteBalanceMode;
   temperature: number;
-  metadata: Record<string, any>;
 }
 
 export interface CameraStream {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,17 +219,14 @@ export interface CameraStream {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   cameraId: string;
   type: StreamType;
   status: StreamStatus;
   settings: StreamSettings;
   performance: StreamPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface StreamSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,11 +242,9 @@ export interface StreamSettings {
   frameRate: number;
   bitrate: number;
   codec: VideoCodec;
-  metadata: Record<string, any>;
 }
 
 export interface StreamPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -289,11 +260,9 @@ export interface StreamPerformance {
   bitrate: number;
   latency: number; // milliseconds
   droppedFrames: number;
-  metadata: Record<string, any>;
 }
 
 export interface CameraRecording {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -305,18 +274,15 @@ export interface CameraRecording {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   cameraId: string;
   type: RecordingType;
   status: RecordingStatus;
   settings: RecordingSettings;
   duration: number; // milliseconds
   size: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface RecordingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -333,11 +299,9 @@ export interface RecordingSettings {
   bitrate: number;
   codec: VideoCodec;
   format: RecordingFormat;
-  metadata: Record<string, any>;
 }
 
 export interface BridgePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,11 +319,9 @@ export interface BridgePerformance {
   activeStreams: number;
   averageFps: number;
   averageLatency: number; // milliseconds
-  metadata: Record<string, any>;
 }
 
 export interface BridgeAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -383,7 +345,6 @@ export interface BridgeAnalytics {
 }
 
 export interface Resolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -398,11 +359,9 @@ export interface Resolution {
   width: number;
   height: number;
   aspectRatio: number;
-  metadata: Record<string, any>;
 }
 
 export interface VideoFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -414,14 +373,11 @@ export interface VideoFormat {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   codec: VideoCodec;
   container: string;
-  metadata: Record<string, any>;
 }
 
 export interface CameraFeature {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -433,10 +389,8 @@ export interface CameraFeature {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: FeatureType;
   supported: boolean;
-  metadata: Record<string, any>;
 }
 
 export type BridgeType = 'web' | 'native' | 'unity' | 'godot' | 'unreal' | 'custom';

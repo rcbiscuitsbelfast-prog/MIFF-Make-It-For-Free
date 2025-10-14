@@ -7,7 +7,6 @@ import { StandardErrorHandler } from '../error/StandardErrorHandler';
  */
 
 export interface HealthStatus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -25,11 +24,9 @@ export interface HealthStatus {
   version: string;
   checks: HealthCheck[];
   summary: HealthSummary;
-  metadata: Record<string, any>;
 }
 
 export interface HealthCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,16 +38,13 @@ export interface HealthCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   status: 'pass' | 'fail' | 'warn' | 'skip';
   message: string;
   duration: number;
   timestamp: Date;
-  metadata: Record<string, any>;
 }
 
 export interface HealthSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -71,7 +65,6 @@ export interface HealthSummary {
 }
 
 export interface HealthCheckConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +84,6 @@ export interface HealthCheckConfig {
 }
 
 export interface HealthCheckRegistry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +101,6 @@ export interface HealthCheckRegistry {
 }
 
 export interface AlertConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface ImplementationTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,8 +18,6 @@ export interface ImplementationTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: 'manager' | 'processor' | 'validator' | 'bridge' | 'converter';
   template: string;
@@ -29,7 +26,6 @@ export interface ImplementationTemplate {
 }
 
 export interface GeneratedImplementation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +37,6 @@ export interface GeneratedImplementation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   moduleId: string;
   templateId: string;
   content: string;
@@ -52,7 +47,6 @@ export interface GeneratedImplementation {
 }
 
 export interface GenerationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

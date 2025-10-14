@@ -1,5 +1,4 @@
 export interface TeamMemberStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -17,7 +16,6 @@ export interface TeamMemberStats {
 }
 
 export interface TeamMember {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -29,14 +27,11 @@ export interface TeamMember {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   role: string;
   stats: TeamMemberStats;
 }
 
 export interface TeamStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,7 +49,6 @@ export interface TeamStats {
 }
 
 export interface Team {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,8 +60,6 @@ export interface Team {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   members: TeamMember[];
   formation: string;
   stats: TeamStats;

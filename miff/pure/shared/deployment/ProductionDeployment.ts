@@ -9,7 +9,6 @@ import { ProductionMonitor } from '../monitoring/ProductionMonitor';
  */
 
 export interface DeploymentConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -31,7 +30,6 @@ export interface DeploymentConfig {
 }
 
 export interface RollbackConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,7 +48,6 @@ export interface RollbackConfig {
 }
 
 export interface ValidationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,7 +66,6 @@ export interface ValidationConfig {
 }
 
 export interface ValidationCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,7 +77,6 @@ export interface ValidationCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'health' | 'performance' | 'security' | 'functionality';
   enabled: boolean;
   critical: boolean;
@@ -89,7 +84,6 @@ export interface ValidationCheck {
 }
 
 export interface MonitoringConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,7 +102,6 @@ export interface MonitoringConfig {
 }
 
 export interface DeploymentStatus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,7 +125,6 @@ export interface DeploymentStatus {
 }
 
 export interface DeploymentLog {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -151,7 +143,6 @@ export interface DeploymentLog {
 }
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +160,6 @@ export interface ValidationResult {
 }
 
 export interface ValidationCheckResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +171,6 @@ export interface ValidationCheckResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   status: 'pass' | 'fail' | 'warn' | 'skip';
   message: string;
   duration: number;
@@ -189,7 +178,6 @@ export interface ValidationCheckResult {
 }
 
 export interface ValidationSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,7 +198,6 @@ export interface ValidationSummary {
 }
 
 export interface RollbackInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

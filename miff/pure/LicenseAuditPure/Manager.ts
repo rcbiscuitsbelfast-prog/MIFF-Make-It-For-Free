@@ -11,7 +11,6 @@
  */
 
 export interface LicenseAuditConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface LicenseAuditConfig {
 }
 
 export interface LicenseAuditManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface LicenseAuditManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LicenseAuditManagerType;
   status: LicenseAuditManagerStatus;
   licenses: License[];
@@ -65,16 +61,12 @@ export interface LicenseAuditManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type LicenseAuditManagerType = 'software' | 'content' | 'patent' | 'custom';
 export type LicenseAuditManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface License {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,8 +78,6 @@ export interface License {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LicenseType;
   status: LicenseStatus;
   provider: string;
@@ -96,14 +86,12 @@ export interface License {
   usage: LicenseUsage;
   compliance: LicenseCompliance;
   performance: LicensePerformance;
-  metadata: Record<string, any>;
 }
 
 export type LicenseType = 'proprietary' | 'open_source' | 'commercial' | 'freeware' | 'custom';
 export type LicenseStatus = 'active' | 'expired' | 'suspended' | 'revoked' | 'pending';
 
 export interface LicenseTerms {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +114,6 @@ export interface LicenseTerms {
 }
 
 export interface WarrantyInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,7 +132,6 @@ export interface WarrantyInfo {
 }
 
 export interface LiabilityInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface LiabilityInfo {
 }
 
 export interface TerminationInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,7 +168,6 @@ export interface TerminationInfo {
 }
 
 export interface LicenseUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +189,6 @@ export interface LicenseUsage {
 }
 
 export interface UsageHistory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +200,6 @@ export interface UsageHistory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   action: UsageAction;
   user: string;
   resource: string;
@@ -227,7 +209,6 @@ export interface UsageHistory {
 export type UsageAction = 'start' | 'stop' | 'pause' | 'resume' | 'custom';
 
 export interface UsageTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -248,7 +229,6 @@ export interface UsageTrend {
 export type TrendDirection = 'up' | 'down' | 'stable' | 'custom';
 
 export interface LicenseCompliance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -271,7 +251,6 @@ export interface LicenseCompliance {
 export type ComplianceStatus = 'compliant' | 'non_compliant' | 'warning' | 'error';
 
 export interface ComplianceHistory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +262,6 @@ export interface ComplianceHistory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   status: ComplianceStatus;
   score: number;
   violations: string[];
@@ -291,7 +269,6 @@ export interface ComplianceHistory {
 }
 
 export interface LicensePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,7 +288,6 @@ export interface LicensePerformance {
 }
 
 export interface AuditRecord {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -323,17 +299,14 @@ export interface AuditRecord {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AuditType;
   status: AuditStatus;
   licenseId: string;
-  timestamp: number;
   user: string;
   action: AuditAction;
   details: AuditDetails;
   result: AuditResult;
   performance: AuditPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AuditType = 'usage' | 'compliance' | 'security' | 'performance' | 'custom';
@@ -342,7 +315,6 @@ export type AuditStatus = 'pending' | 'in_progress' | 'completed' | 'failed' | '
 export type AuditAction = 'check' | 'validate' | 'report' | 'alert' | 'custom';
 
 export interface AuditDetails {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -362,7 +334,6 @@ export interface AuditDetails {
 }
 
 export interface AuditScope {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -381,7 +352,6 @@ export interface AuditScope {
 }
 
 export interface TimeRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -401,7 +371,6 @@ export interface TimeRange {
 export type AuditPriority = 'low' | 'medium' | 'high' | 'critical' | 'custom';
 
 export interface AuditResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -421,7 +390,6 @@ export interface AuditResult {
 }
 
 export interface Finding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -433,7 +401,6 @@ export interface Finding {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: FindingType;
   severity: FindingSeverity;
   description: string;
@@ -446,7 +413,6 @@ export type FindingType = 'violation' | 'anomaly' | 'risk' | 'opportunity' | 'cu
 export type FindingSeverity = 'low' | 'medium' | 'high' | 'critical' | 'custom';
 
 export interface Evidence {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -460,15 +426,12 @@ export interface Evidence {
   metadata?: Record<string, any>;
   type: EvidenceType;
   source: string;
-  data: any;
-  timestamp: number;
   reliability: number;
 }
 
 export type EvidenceType = 'log' | 'metric' | 'document' | 'test' | 'custom';
 
 export interface ImpactAssessment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -488,7 +451,6 @@ export interface ImpactAssessment {
 }
 
 export interface RemediationInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -507,7 +469,6 @@ export interface RemediationInfo {
 }
 
 export interface EffortEstimate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -527,7 +488,6 @@ export interface EffortEstimate {
 export type ComplexityLevel = 'low' | 'medium' | 'high' | 'expert' | 'custom';
 
 export interface Timeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -545,7 +505,6 @@ export interface Timeline {
 }
 
 export interface Milestone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -557,7 +516,6 @@ export interface Milestone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   date: number;
   status: MilestoneStatus;
   dependencies: string[];
@@ -566,7 +524,6 @@ export interface Milestone {
 export type MilestoneStatus = 'pending' | 'in_progress' | 'completed' | 'blocked' | 'custom';
 
 export interface ResourceRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -579,7 +536,6 @@ export interface ResourceRequirement {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ResourceType;
-  name: string;
   quantity: number;
   cost: number;
   availability: number;
@@ -588,7 +544,6 @@ export interface ResourceRequirement {
 export type ResourceType = 'personnel' | 'equipment' | 'software' | 'external' | 'custom';
 
 export interface Recommendation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -600,7 +555,6 @@ export interface Recommendation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RecommendationType;
   priority: RecommendationPriority;
   description: string;
@@ -613,7 +567,6 @@ export type RecommendationType = 'process' | 'technology' | 'policy' | 'training
 export type RecommendationPriority = 'low' | 'medium' | 'high' | 'critical' | 'custom';
 
 export interface ImplementationPlan {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -632,7 +585,6 @@ export interface ImplementationPlan {
 }
 
 export interface ImplementationPhase {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -644,7 +596,6 @@ export interface ImplementationPhase {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   duration: number;
   dependencies: string[];
@@ -652,7 +603,6 @@ export interface ImplementationPhase {
 }
 
 export interface Risk {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -664,7 +614,6 @@ export interface Risk {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   probability: number;
   impact: number;
@@ -673,7 +622,6 @@ export interface Risk {
 }
 
 export interface Benefit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -694,7 +642,6 @@ export interface Benefit {
 export type BenefitType = 'financial' | 'operational' | 'strategic' | 'compliance' | 'custom';
 
 export interface Cost {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -716,7 +663,6 @@ export interface Cost {
 export type CostType = 'one_time' | 'recurring' | 'operational' | 'capital' | 'custom';
 
 export interface AuditPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -735,7 +681,6 @@ export interface AuditPerformance {
 }
 
 export interface ResourceUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -754,7 +699,6 @@ export interface ResourceUsage {
 }
 
 export interface ComplianceRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -766,22 +710,18 @@ export interface ComplianceRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   status: RuleStatus;
   description: string;
   conditions: RuleCondition[];
   actions: RuleAction[];
   performance: RulePerformance;
-  metadata: Record<string, any>;
 }
 
 export type RuleType = 'usage' | 'security' | 'performance' | 'compliance' | 'custom';
 export type RuleStatus = 'active' | 'inactive' | 'draft' | 'error';
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -802,7 +742,6 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -822,7 +761,6 @@ export interface RuleAction {
 export type ActionType = 'alert' | 'block' | 'log' | 'report' | 'custom';
 
 export interface RulePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -841,7 +779,6 @@ export interface RulePerformance {
 }
 
 export interface Violation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -853,18 +790,15 @@ export interface Violation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ViolationType;
   severity: ViolationSeverity;
   licenseId: string;
   ruleId: string;
-  timestamp: number;
   description: string;
   evidence: Evidence[];
   status: ViolationStatus;
   resolution: ViolationResolution;
   performance: ViolationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ViolationType = 'usage' | 'security' | 'compliance' | 'performance' | 'custom';
@@ -872,7 +806,6 @@ export type ViolationSeverity = 'low' | 'medium' | 'high' | 'critical' | 'custom
 export type ViolationStatus = 'open' | 'investigating' | 'resolved' | 'false_positive' | 'custom';
 
 export interface ViolationResolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -892,7 +825,6 @@ export interface ViolationResolution {
 }
 
 export interface ResolutionAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -907,12 +839,10 @@ export interface ResolutionAction {
   type: ActionType;
   description: string;
   completed: boolean;
-  timestamp: number;
   result: string;
 }
 
 export interface ViolationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -931,7 +861,6 @@ export interface ViolationPerformance {
 }
 
 export interface LicenseAuditPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -957,7 +886,6 @@ export interface LicenseAuditPerformanceMetrics {
 }
 
 export interface LicenseAuditAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -978,7 +906,6 @@ export interface LicenseAuditAnalytics {
 }
 
 export interface LicenseTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -997,7 +924,6 @@ export interface LicenseTypeDistribution {
 }
 
 export interface ViolationTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1016,7 +942,6 @@ export interface ViolationTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1028,7 +953,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   licenses: number;
   auditRecords: number;
   violations: number;
@@ -1038,7 +962,6 @@ export interface PerformanceTrend {
 }
 
 export interface LicenseAuditReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1061,7 +984,6 @@ export interface LicenseAuditReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1082,7 +1004,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1102,7 +1023,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1122,7 +1042,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1135,13 +1054,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface LicenseAuditOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

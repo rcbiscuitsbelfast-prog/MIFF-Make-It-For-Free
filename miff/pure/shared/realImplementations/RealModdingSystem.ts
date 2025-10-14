@@ -10,7 +10,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Mod {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,8 +21,6 @@ export interface Mod {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   author: string;
   description: string;
@@ -40,7 +37,6 @@ export interface Mod {
 }
 
 export interface ModMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,7 +48,6 @@ export interface ModMetadata {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   version: string;
   author: string;
   description: string;
@@ -71,7 +66,6 @@ export interface ModMetadata {
 }
 
 export interface ModDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,14 +77,12 @@ export interface ModDependency {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   version: string;
   optional: boolean;
   description?: string;
 }
 
 export interface ModConflict {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -102,13 +94,11 @@ export interface ModConflict {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   reason: string;
   severity: 'warning' | 'error';
 }
 
 export interface ModFile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +119,6 @@ export interface ModFile {
 }
 
 export interface ModScript {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -151,7 +140,6 @@ export interface ModScript {
 }
 
 export interface ModAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,11 +157,9 @@ export interface ModAsset {
   size: number;
   dimensions?: { width: number; height: number };
   duration?: number;
-  metadata: Record<string, any>;
 }
 
 export interface ModLoadResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,14 +173,12 @@ export interface ModLoadResult {
   metadata?: Record<string, any>;
   success: boolean;
   mod: Mod;
-  errors: string[];
   warnings: string[];
   loadedFiles: string[];
   failedFiles: string[];
 }
 
 export interface ModValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +191,6 @@ export interface ModValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: string[];
   warnings: string[];
   suggestions: string[];
 }

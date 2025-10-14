@@ -16,7 +16,6 @@
  */
 
 export interface InventoryConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface InventoryConfig {
 }
 
 export interface InventoryManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,8 +58,6 @@ export interface InventoryManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: InventoryManagerType;
   status: InventoryManagerStatus;
   items: InventoryItem[];
@@ -74,16 +70,12 @@ export interface InventoryManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type InventoryManagerType = 'player' | 'chest' | 'shop' | 'warehouse' | 'bank' | 'guild';
 export type InventoryManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface InventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -95,9 +87,7 @@ export interface InventoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   itemId: string;
-  name: string;
   description: string;
   category: string;
   tags: string[];
@@ -108,7 +98,6 @@ export interface InventoryItem {
   rarity: ItemRarity;
   durability: DurabilityInfo;
   properties: Record<string, any>;
-  metadata: Record<string, any>;
   addedAt: number;
   lastModified: number;
 }
@@ -116,7 +105,6 @@ export interface InventoryItem {
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface DurabilityInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -135,7 +123,6 @@ export interface DurabilityInfo {
 }
 
 export interface ItemCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,17 +134,13 @@ export interface ItemCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   parent?: string;
   children: string[];
   properties: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface ItemTag {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,15 +152,11 @@ export interface ItemTag {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   color: string;
   description: string;
-  metadata: Record<string, any>;
 }
 
 export interface InventoryOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,20 +168,16 @@ export interface InventoryOperation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: OperationType;
   itemId: string;
   quantity: number;
   fromSlot?: number;
   toSlot?: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export type OperationType = 'add' | 'remove' | 'move' | 'split' | 'merge' | 'use' | 'repair' | 'upgrade';
 
 export interface InventoryPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,7 +202,6 @@ export interface InventoryPerformanceMetrics {
 }
 
 export interface InventoryAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,7 +223,6 @@ export interface InventoryAnalytics {
 }
 
 export interface ItemUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -262,13 +235,11 @@ export interface ItemUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   itemId: string;
-  name: string;
   usageCount: number;
   lastUsed: number;
 }
 
 export interface CategoryDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -286,7 +257,6 @@ export interface CategoryDistribution {
 }
 
 export interface RarityDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,7 +274,6 @@ export interface RarityDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +285,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   operations: number;
   items: number;
   weight: number;
@@ -324,7 +292,6 @@ export interface PerformanceTrend {
 }
 
 export interface InventoryReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -347,7 +314,6 @@ export interface InventoryReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -368,7 +334,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -388,7 +353,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -408,7 +372,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -421,13 +384,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface InventoryOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

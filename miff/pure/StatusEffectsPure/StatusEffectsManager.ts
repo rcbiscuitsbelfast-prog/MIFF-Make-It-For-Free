@@ -6,7 +6,6 @@
  */
 
 export interface StatusEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -18,8 +17,6 @@ export interface StatusEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'buff' | 'debuff' | 'neutral';
   category: 'poison' | 'regen' | 'shield' | 'stun' | 'slow' | 'haste' | 'burn' | 'freeze' | 'charm' | 'fear' | 'custom';
   magnitude: number;
@@ -35,7 +32,6 @@ export interface StatusEffect {
 }
 
 export interface StatusEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +43,6 @@ export interface StatusEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   hp: number;
   maxHp: number;
   effects: StatusEffect[];
@@ -58,7 +53,6 @@ export interface StatusEntity {
 }
 
 export interface EffectStackingRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -77,7 +71,6 @@ export interface EffectStackingRule {
 }
 
 export interface TickResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -99,7 +92,6 @@ export interface TickResult {
 }
 
 export interface StatusEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,12 +106,10 @@ export interface StatusEvent {
   type: 'effect_applied' | 'effect_expired' | 'effect_modified' | 'entity_died' | 'entity_revived' | 'immunity_triggered';
   entityId: string;
   effectId?: string;
-  timestamp: number;
   data?: Record<string, any>;
 }
 
 export interface StatusStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -141,7 +131,6 @@ export interface StatusStats {
 }
 
 export interface StatusFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,7 +151,6 @@ export interface StatusFilter {
 }
 
 export interface StatusOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

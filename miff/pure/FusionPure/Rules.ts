@@ -15,7 +15,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
  */
 
 export interface FusionPairRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,7 +26,6 @@ export interface FusionPairRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   speciesA: string;
   speciesB: string;
   resultSpeciesId: string;
@@ -41,7 +39,6 @@ export interface FusionPairRule {
 }
 
 export interface PlayerContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -63,7 +60,6 @@ export interface PlayerContext {
 }
 
 export interface Inventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,7 +77,6 @@ export interface Inventory {
 }
 
 export interface FusionRulesStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

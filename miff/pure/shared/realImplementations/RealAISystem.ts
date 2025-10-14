@@ -11,7 +11,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface AIModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -23,8 +22,6 @@ export interface AIModel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'classification' | 'regression' | 'clustering' | 'nlp' | 'reinforcement';
   version: string;
   accuracy: number;
@@ -35,7 +32,6 @@ export interface AIModel {
 }
 
 export interface AITask {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,8 +43,6 @@ export interface AITask {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: 'prediction' | 'classification' | 'generation' | 'analysis';
   input: any;
@@ -61,7 +55,6 @@ export interface AITask {
 }
 
 export interface AILearningSession {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -73,7 +66,6 @@ export interface AILearningSession {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   modelId: string;
   data: any[];
   algorithm: string;
@@ -88,7 +80,6 @@ export interface AILearningSession {
 }
 
 export interface AIPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -17,7 +17,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface ClueSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface ClueSystemConfig {
 }
 
 export interface ClueSystemItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,19 +52,15 @@ export interface ClueSystemItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: string;
   properties: Record<string, any>;
-  metadata: Record<string, any>;
   version: string;
   created: number;
   modified: number;
 }
 
 export interface ClueSystemStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

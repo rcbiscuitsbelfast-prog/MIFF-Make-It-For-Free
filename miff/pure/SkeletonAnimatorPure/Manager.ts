@@ -12,7 +12,6 @@
  */
 
 export interface SkeletonAnimatorConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface SkeletonAnimatorConfig {
 }
 
 export interface SkeletonAnimatorManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface SkeletonAnimatorManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SkeletonAnimatorManagerType;
   status: SkeletonAnimatorManagerStatus;
   skeletons: Skeleton[];
@@ -65,9 +61,6 @@ export interface SkeletonAnimatorManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
   
   // Missing methods that are being called
   createFullCharacter(name: string, options: any): void;
@@ -84,7 +77,6 @@ export type SkeletonAnimatorManagerType = '2d' | '3d' | 'hybrid' | 'custom';
 export type SkeletonAnimatorManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Skeleton {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -96,16 +88,12 @@ export interface Skeleton {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   bones: Bone[];
   rootBone: string;
   bindPose: Pose;
-  metadata: Record<string, any>;
 }
 
 export interface Bone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,18 +105,14 @@ export interface Bone {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   parent?: string;
   children: string[];
   transform: Transform;
   bindTransform: Transform;
   isRoot: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface Transform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +130,6 @@ export interface Transform {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +147,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,7 +165,6 @@ export interface Quaternion {
 }
 
 export interface Pose {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,11 +177,9 @@ export interface Pose {
   updatedAt?: number;
   metadata?: Record<string, any>;
   bones: Record<string, Transform>;
-  timestamp: number;
 }
 
 export interface Animation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -212,18 +191,14 @@ export interface Animation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   duration: number;
   tracks: AnimationTrack[];
   events: AnimationEvent[];
   looping: boolean;
   speed: number;
-  metadata: Record<string, any>;
 }
 
 export interface AnimationTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -235,7 +210,6 @@ export interface AnimationTrack {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   boneId: string;
   property: TrackProperty;
   keyframes: Keyframe[];
@@ -245,7 +219,6 @@ export interface AnimationTrack {
 export type TrackProperty = 'position' | 'rotation' | 'scale' | 'visibility';
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,7 +239,6 @@ export interface Keyframe {
 export type InterpolationType = 'linear' | 'bezier' | 'step' | 'cubic';
 
 export interface AnimationEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,17 +250,13 @@ export interface AnimationEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   time: number;
   type: EventType;
-  data: any;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'sound' | 'effect' | 'callback' | 'custom';
 
 export interface AnimationStateMachine {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,17 +268,13 @@ export interface AnimationStateMachine {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   states: AnimationState[];
   transitions: AnimationTransition[];
   currentState: string;
   parameters: AnimationParameter[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -322,17 +286,13 @@ export interface AnimationState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   animationId: string;
   speed: number;
   looping: boolean;
   transitions: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -344,17 +304,14 @@ export interface AnimationTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   fromState: string;
   toState: string;
   conditions: TransitionCondition[];
   duration: number;
   offset: number;
-  metadata: Record<string, any>;
 }
 
 export interface TransitionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -374,7 +331,6 @@ export interface TransitionCondition {
 export type ConditionOperator = 'equals' | 'not-equals' | 'greater' | 'less' | 'greater-equals' | 'less-equals';
 
 export interface AnimationParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -386,18 +342,14 @@ export interface AnimationParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParameterType;
   value: any;
   defaultValue: any;
-  metadata: Record<string, any>;
 }
 
 export type ParameterType = 'bool' | 'int' | 'float' | 'trigger';
 
 export interface SkeletonAnimatorPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -421,7 +373,6 @@ export interface SkeletonAnimatorPerformanceMetrics {
 }
 
 export interface SkeletonAnimatorAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -441,7 +392,6 @@ export interface SkeletonAnimatorAnalytics {
 }
 
 export interface AnimationUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -454,14 +404,12 @@ export interface AnimationUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   animationId: string;
-  name: string;
   playCount: number;
   totalDuration: number;
   lastPlayed: number;
 }
 
 export interface BoneUsageDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -474,13 +422,11 @@ export interface BoneUsageDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   boneId: string;
-  name: string;
   usageCount: number;
   percentage: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -492,7 +438,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   frameTime: number;
   bones: number;
   animations: number;
@@ -500,7 +445,6 @@ export interface PerformanceTrend {
 }
 
 export interface SkeletonAnimatorReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -523,7 +467,6 @@ export interface SkeletonAnimatorReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +487,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -564,7 +506,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -584,7 +525,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -597,13 +537,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SkeletonAnimatorOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1035,8 +973,6 @@ export class SkeletonAnimatorPure {
 
 // Class implementation of SkeletonAnimatorManager
 export class SkeletonAnimatorManagerImpl implements SkeletonAnimatorManager {
-  id: string;
-  name: string;
   type: SkeletonAnimatorManagerType;
   status: SkeletonAnimatorManagerStatus;
   skeletons: Skeleton[] = [];
@@ -1049,8 +985,6 @@ export class SkeletonAnimatorManagerImpl implements SkeletonAnimatorManager {
   backup: BackupConfig;
   versioning: VersioningConfig;
   metadata: Record<string, any> = {};
-  createdAt: number;
-  updatedAt: number;
 
   constructor(...args: any[]) {
     this.id = `skeleton-${Date.now()}`;

@@ -12,7 +12,6 @@
  */
 
 export interface IoTPureConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface IoTPureConfig {
 }
 
 export interface IoTPureManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface IoTPureManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: IoTPureManagerType;
   status: IoTPureManagerStatus;
   devices: IoTDevice[];
@@ -68,16 +64,12 @@ export interface IoTPureManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type IoTPureManagerType = 'industrial' | 'smart_home' | 'agriculture' | 'healthcare' | 'custom';
 export type IoTPureManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface IoTDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface IoTDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   status: DeviceStatus;
   manufacturer: string;
@@ -101,14 +91,12 @@ export interface IoTDevice {
   location: DeviceLocation;
   connectivity: ConnectivityInfo;
   security: SecurityInfo;
-  metadata: Record<string, any>;
 }
 
 export type DeviceType = 'sensor' | 'actuator' | 'gateway' | 'controller' | 'camera' | 'custom';
 export type DeviceStatus = 'online' | 'offline' | 'maintenance' | 'error' | 'sleeping';
 
 export interface FirmwareInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +117,6 @@ export interface FirmwareInfo {
 }
 
 export interface DeviceCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +137,6 @@ export interface DeviceCapabilities {
 }
 
 export interface SensorCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,7 +159,6 @@ export interface SensorCapability {
 export type SensorType = 'temperature' | 'humidity' | 'pressure' | 'light' | 'motion' | 'sound' | 'custom';
 
 export interface ValueRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,7 +176,6 @@ export interface ValueRange {
 }
 
 export interface ActuatorCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -214,7 +198,6 @@ export interface ActuatorCapability {
 export type ActuatorType = 'relay' | 'motor' | 'valve' | 'led' | 'speaker' | 'display' | 'custom';
 
 export interface CommunicationCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -234,7 +217,6 @@ export interface CommunicationCapability {
 }
 
 export interface PowerCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -257,7 +239,6 @@ export interface PowerCapability {
 export type PowerType = 'battery' | 'solar' | 'wired' | 'usb' | 'custom';
 
 export interface StorageCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -279,7 +260,6 @@ export interface StorageCapability {
 export type StorageType = 'flash' | 'sd' | 'eeprom' | 'ram' | 'custom';
 
 export interface ProcessingCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -299,7 +279,6 @@ export interface ProcessingCapability {
 }
 
 export interface DeviceConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -319,7 +298,6 @@ export interface DeviceConfiguration {
 }
 
 export interface ConfigurationParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -331,7 +309,6 @@ export interface ConfigurationParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: any;
   type: ParameterType;
   unit: string;
@@ -342,7 +319,6 @@ export interface ConfigurationParameter {
 export type ParameterType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'custom';
 
 export interface Schedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -354,8 +330,6 @@ export interface Schedule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   enabled: boolean;
   cron: string;
   action: string;
@@ -363,7 +337,6 @@ export interface Schedule {
 }
 
 export interface Threshold {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +348,6 @@ export interface Threshold {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   parameter: string;
   operator: ThresholdOperator;
   value: number;
@@ -386,7 +358,6 @@ export interface Threshold {
 export type ThresholdOperator = 'greater' | 'less' | 'equal' | 'not_equal' | 'greater_equal' | 'less_equal';
 
 export interface Rule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -398,8 +369,6 @@ export interface Rule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: RuleCondition;
   action: RuleAction;
   enabled: boolean;
@@ -407,7 +376,6 @@ export interface Rule {
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -431,7 +399,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | '
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -452,7 +419,6 @@ export interface RuleAction {
 export type ActionType = 'set_parameter' | 'send_alert' | 'execute_script' | 'custom';
 
 export interface DeviceLocation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -474,7 +440,6 @@ export interface DeviceLocation {
 }
 
 export interface ConnectivityInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,7 +460,6 @@ export interface ConnectivityInfo {
 }
 
 export interface SecurityInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -514,7 +478,6 @@ export interface SecurityInfo {
 }
 
 export interface EncryptionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -533,7 +496,6 @@ export interface EncryptionInfo {
 }
 
 export interface AuthenticationInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -553,7 +515,6 @@ export interface AuthenticationInfo {
 }
 
 export interface CertificateInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -565,7 +526,6 @@ export interface CertificateInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   issuer: string;
   subject: string;
@@ -575,7 +535,6 @@ export interface CertificateInfo {
 }
 
 export interface AccessControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -594,7 +553,6 @@ export interface AccessControl {
 }
 
 export interface IoTGateway {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -606,8 +564,6 @@ export interface IoTGateway {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GatewayType;
   status: GatewayStatus;
   location: DeviceLocation;
@@ -616,14 +572,12 @@ export interface IoTGateway {
   devices: string[];
   configuration: GatewayConfiguration;
   performance: GatewayPerformance;
-  metadata: Record<string, any>;
 }
 
 export type GatewayType = 'edge' | 'cloud' | 'fog' | 'custom';
 export type GatewayStatus = 'online' | 'offline' | 'maintenance' | 'error';
 
 export interface GatewayConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -642,7 +596,6 @@ export interface GatewayConfiguration {
 }
 
 export interface ProtocolConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,14 +607,12 @@ export interface ProtocolConfiguration {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   enabled: boolean;
   port: number;
   parameters: Record<string, any>;
 }
 
 export interface RoutingConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -679,7 +630,6 @@ export interface RoutingConfiguration {
 }
 
 export interface RoutingRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -697,7 +647,6 @@ export interface RoutingRule {
 }
 
 export interface PerformanceConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -716,7 +665,6 @@ export interface PerformanceConfiguration {
 }
 
 export interface GatewayPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -736,7 +684,6 @@ export interface GatewayPerformance {
 }
 
 export interface IoTProtocol {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -748,21 +695,17 @@ export interface IoTProtocol {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProtocolType;
   version: string;
   description: string;
   features: ProtocolFeature[];
   configuration: ProtocolConfiguration;
   security: SecurityInfo;
-  metadata: Record<string, any>;
 }
 
 export type ProtocolType = 'mqtt' | 'coap' | 'http' | 'websocket' | 'modbus' | 'custom';
 
 export interface ProtocolFeature {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -774,14 +717,12 @@ export interface ProtocolFeature {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   supported: boolean;
   parameters: Record<string, any>;
 }
 
 export interface DataStream {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -793,8 +734,6 @@ export interface DataStream {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   device: string;
   type: StreamType;
   format: DataFormat;
@@ -802,14 +741,12 @@ export interface DataStream {
   buffer: BufferConfiguration;
   processing: ProcessingConfiguration;
   destination: string;
-  metadata: Record<string, any>;
 }
 
 export type StreamType = 'sensor' | 'event' | 'log' | 'video' | 'audio' | 'custom';
 export type DataFormat = 'json' | 'xml' | 'csv' | 'binary' | 'text' | 'custom';
 
 export interface BufferConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -830,7 +767,6 @@ export interface BufferConfiguration {
 export type BufferStrategy = 'fifo' | 'lifo' | 'priority' | 'custom';
 
 export interface ProcessingConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -849,7 +785,6 @@ export interface ProcessingConfiguration {
 }
 
 export interface DataFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -870,7 +805,6 @@ export interface DataFilter {
 export type FilterOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'regex' | 'custom';
 
 export interface DataTransformation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -890,7 +824,6 @@ export interface DataTransformation {
 export type TransformationType = 'map' | 'filter' | 'aggregate' | 'join' | 'sort' | 'custom';
 
 export interface DataAggregation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -911,7 +844,6 @@ export interface DataAggregation {
 export type AggregationFunction = 'sum' | 'avg' | 'count' | 'min' | 'max' | 'median' | 'mode' | 'custom';
 
 export interface TimeWindow {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -931,7 +863,6 @@ export interface TimeWindow {
 export type TimeUnit = 'millisecond' | 'second' | 'minute' | 'hour' | 'day' | 'custom';
 
 export interface ProcessingRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -950,7 +881,6 @@ export interface ProcessingRule {
 }
 
 export interface IoTAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -962,22 +892,18 @@ export interface IoTAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   device: string;
   type: AlertType;
   severity: AlertSeverity;
   message: string;
-  timestamp: number;
   acknowledged: boolean;
   resolved: boolean;
-  metadata: Record<string, any>;
 }
 
 export type AlertType = 'device_offline' | 'threshold_exceeded' | 'security_breach' | 'maintenance_required' | 'custom';
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface IoTPurePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1002,7 +928,6 @@ export interface IoTPurePerformanceMetrics {
 }
 
 export interface IoTPureAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1023,7 +948,6 @@ export interface IoTPureAnalytics {
 }
 
 export interface DeviceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1042,7 +966,6 @@ export interface DeviceTypeDistribution {
 }
 
 export interface ProtocolDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1061,7 +984,6 @@ export interface ProtocolDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1073,7 +995,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   devices: number;
   gateways: number;
   dataStreams: number;
@@ -1083,7 +1004,6 @@ export interface PerformanceTrend {
 }
 
 export interface IoTPureReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1106,7 +1026,6 @@ export interface IoTPureReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1127,7 +1046,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1147,7 +1065,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1167,7 +1084,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1180,13 +1096,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface IoTPureOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

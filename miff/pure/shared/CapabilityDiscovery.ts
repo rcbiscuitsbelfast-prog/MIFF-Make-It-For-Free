@@ -11,7 +11,6 @@ import * as path from 'path';
 import { glob } from 'glob';
 
 export interface DiscoveryResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -29,12 +28,10 @@ export interface DiscoveryResult {
   capabilities: ModuleCapabilities;
   discoveredAt: Date;
   status: 'success' | 'error' | 'warning';
-  errors: string[];
   warnings: string[];
 }
 
 export interface DiscoveryStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

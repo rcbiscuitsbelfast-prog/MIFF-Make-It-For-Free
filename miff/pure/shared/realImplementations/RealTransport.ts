@@ -8,7 +8,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface TransportMessage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -20,14 +19,10 @@ export interface TransportMessage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
-  data: any;
-  timestamp: number;
 }
 
 export interface TransportOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

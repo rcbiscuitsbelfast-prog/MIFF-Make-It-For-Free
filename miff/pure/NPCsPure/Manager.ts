@@ -12,7 +12,6 @@
  */
 
 export interface NPCsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface NPCsConfig {
 }
 
 export interface NPCsManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface NPCsManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NPCsManagerType;
   status: NPCsManagerStatus;
   npcs: NPC[];
@@ -67,16 +63,12 @@ export interface NPCsManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type NPCsManagerType = 'game' | 'simulation' | 'training' | 'custom';
 export type NPCsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface NPC {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface NPC {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NPCType;
   status: NPCStatus;
   level: number;
@@ -102,14 +92,12 @@ export interface NPC {
   quest: QuestState;
   position: Position;
   appearance: Appearance;
-  metadata: Record<string, any>;
 }
 
 export type NPCType = 'friendly' | 'neutral' | 'hostile' | 'merchant' | 'guard' | 'quest_giver' | 'custom';
 export type NPCStatus = 'active' | 'inactive' | 'dead' | 'unconscious' | 'busy';
 
 export interface NPCStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -133,7 +121,6 @@ export interface NPCStats {
 }
 
 export interface StatValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -151,7 +138,6 @@ export interface StatValue {
 }
 
 export interface NPCSkill {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -163,8 +149,6 @@ export interface NPCSkill {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   experience: number;
   category: SkillCategory;
@@ -174,7 +158,6 @@ export interface NPCSkill {
 export type SkillCategory = 'combat' | 'social' | 'crafting' | 'magic' | 'stealth' | 'survival' | 'custom';
 
 export interface NPCInventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -193,7 +176,6 @@ export interface NPCInventory {
 }
 
 export interface InventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,8 +187,6 @@ export interface InventoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemType;
   quantity: number;
   value: number;
@@ -217,7 +197,6 @@ export interface InventoryItem {
 export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'tool' | 'misc' | 'custom';
 
 export interface ItemProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,7 +217,6 @@ export interface ItemProperties {
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface Enchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -250,14 +228,11 @@ export interface Enchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   effect: EnchantmentEffect;
 }
 
 export interface EnchantmentEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -279,7 +254,6 @@ export type EffectType = 'stat_bonus' | 'damage' | 'healing' | 'buff' | 'debuff'
 export type EffectTarget = 'self' | 'target' | 'area' | 'all' | 'custom';
 
 export interface Currency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -299,7 +273,6 @@ export interface Currency {
 }
 
 export interface BehaviorState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -321,7 +294,6 @@ export interface BehaviorState {
 }
 
 export interface BehaviorCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -343,7 +315,6 @@ export type ConditionType = 'health' | 'mana' | 'distance' | 'time' | 'item' | '
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'custom';
 
 export interface DialogueState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +337,6 @@ export interface DialogueState {
 export type RelationshipType = 'stranger' | 'acquaintance' | 'friend' | 'ally' | 'enemy' | 'rival' | 'custom';
 
 export interface QuestState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,7 +357,6 @@ export interface QuestState {
 }
 
 export interface QuestProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -406,7 +375,6 @@ export interface QuestProgress {
 }
 
 export interface ObjectiveProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -418,7 +386,6 @@ export interface ObjectiveProgress {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   completed: boolean;
   progress: number;
@@ -426,7 +393,6 @@ export interface ObjectiveProgress {
 }
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -447,7 +413,6 @@ export interface Position {
 }
 
 export interface Appearance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -472,7 +437,6 @@ export interface Appearance {
 }
 
 export interface HairStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +454,6 @@ export interface HairStyle {
 }
 
 export interface EyeColor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -507,7 +470,6 @@ export interface EyeColor {
 }
 
 export interface SkinTone {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -524,7 +486,6 @@ export interface SkinTone {
 }
 
 export interface Clothing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -536,8 +497,6 @@ export interface Clothing {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ClothingType;
   color: string;
   material: string;
@@ -547,7 +506,6 @@ export interface Clothing {
 export type ClothingType = 'shirt' | 'pants' | 'shoes' | 'hat' | 'gloves' | 'coat' | 'custom';
 
 export interface Accessory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -559,8 +517,6 @@ export interface Accessory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AccessoryType;
   color: string;
   material: string;
@@ -570,7 +526,6 @@ export interface Accessory {
 export type AccessoryType = 'ring' | 'necklace' | 'bracelet' | 'earring' | 'piercing' | 'custom';
 
 export interface Quest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -582,8 +537,6 @@ export interface Quest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: QuestType;
   giver: string;
@@ -592,14 +545,12 @@ export interface Quest {
   rewards: QuestReward;
   requirements: QuestRequirement;
   status: QuestStatus;
-  metadata: Record<string, any>;
 }
 
 export type QuestType = 'main' | 'side' | 'daily' | 'weekly' | 'event' | 'custom';
 export type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'expired';
 
 export interface QuestObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -611,7 +562,6 @@ export interface QuestObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   type: ObjectiveType;
   target: string;
@@ -623,7 +573,6 @@ export interface QuestObjective {
 export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'talk' | 'explore' | 'craft' | 'custom';
 
 export interface QuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -643,7 +592,6 @@ export interface QuestReward {
 }
 
 export interface QuestRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -663,7 +611,6 @@ export interface QuestRequirement {
 }
 
 export interface StatRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -681,7 +628,6 @@ export interface StatRequirement {
 }
 
 export interface SkillRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -699,7 +645,6 @@ export interface SkillRequirement {
 }
 
 export interface ItemRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -719,7 +664,6 @@ export interface ItemRequirement {
 export type RequirementOperator = 'equals' | 'greater' | 'less' | 'greater_equal' | 'less_equal';
 
 export interface Dialogue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -731,21 +675,17 @@ export interface Dialogue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   npcId: string;
   type: DialogueType;
   nodes: DialogueNode[];
   conditions: DialogueCondition[];
   status: DialogueStatus;
-  metadata: Record<string, any>;
 }
 
 export type DialogueType = 'greeting' | 'quest' | 'trade' | 'information' | 'romance' | 'custom';
 export type DialogueStatus = 'available' | 'locked' | 'completed' | 'expired';
 
 export interface DialogueNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -757,7 +697,6 @@ export interface DialogueNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   text: string;
   speaker: string;
   responses: DialogueResponse[];
@@ -766,7 +705,6 @@ export interface DialogueNode {
 }
 
 export interface DialogueResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,7 +716,6 @@ export interface DialogueResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   text: string;
   nextNode: string;
   conditions: DialogueCondition[];
@@ -786,7 +723,6 @@ export interface DialogueResponse {
 }
 
 export interface DialogueAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -806,7 +742,6 @@ export interface DialogueAction {
 export type ActionType = 'give_item' | 'take_item' | 'give_quest' | 'complete_quest' | 'change_reputation' | 'custom';
 
 export interface DialogueCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -825,7 +760,6 @@ export interface DialogueCondition {
 }
 
 export interface Behavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -837,8 +771,6 @@ export interface Behavior {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BehaviorType;
   description: string;
   actions: BehaviorAction[];
@@ -847,13 +779,11 @@ export interface Behavior {
   cooldown: number;
   duration: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export type BehaviorType = 'idle' | 'patrol' | 'follow' | 'attack' | 'flee' | 'trade' | 'custom';
 
 export interface BehaviorAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -873,7 +803,6 @@ export interface BehaviorAction {
 }
 
 export interface NPCsPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -899,7 +828,6 @@ export interface NPCsPerformanceMetrics {
 }
 
 export interface NPCsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -920,7 +848,6 @@ export interface NPCsAnalytics {
 }
 
 export interface NPCTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -939,7 +866,6 @@ export interface NPCTypeDistribution {
 }
 
 export interface QuestTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -958,7 +884,6 @@ export interface QuestTypeDistribution {
 }
 
 export interface DialogueTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -977,7 +902,6 @@ export interface DialogueTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -989,7 +913,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   npcs: number;
   quests: number;
   dialogues: number;
@@ -1000,7 +923,6 @@ export interface PerformanceTrend {
 }
 
 export interface NPCsReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1023,7 +945,6 @@ export interface NPCsReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1044,7 +965,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1064,7 +984,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1084,7 +1003,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1097,13 +1015,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface NPCsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

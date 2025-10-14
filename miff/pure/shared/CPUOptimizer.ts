@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface CPUOptimizationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,7 +31,6 @@ export interface CPUOptimizationConfig {
 }
 
 export interface OptimizationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +42,6 @@ export interface OptimizationResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'cache' | 'lazy_loading' | 'async_processing' | 'resource_pooling' | 'memory';
   description: string;
   beforeMetrics: CPUMetrics;
@@ -55,7 +52,6 @@ export interface OptimizationResult {
 }
 
 export interface CPUMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -76,7 +72,6 @@ export interface CPUMetrics {
 }
 
 export interface CacheEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -97,7 +92,6 @@ export interface CacheEntry {
 }
 
 export interface ResourcePool {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +103,6 @@ export interface ResourcePool {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   resources: any[];
   maxSize: number;

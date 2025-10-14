@@ -13,7 +13,6 @@
  */
 
 export interface SpeechRecognitionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface SpeechRecognitionConfig {
 }
 
 export interface SpeechRecognitionManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface SpeechRecognitionManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SpeechRecognitionManagerType;
   status: SpeechRecognitionManagerStatus;
   models: SpeechModel[];
@@ -68,16 +64,12 @@ export interface SpeechRecognitionManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type SpeechRecognitionManagerType = 'basic' | 'advanced' | 'enterprise' | 'custom';
 export type SpeechRecognitionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface SpeechModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface SpeechModel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ModelType;
   language: string;
   version: string;
@@ -98,14 +88,12 @@ export interface SpeechModel {
   size: number;
   status: ModelStatus;
   capabilities: ModelCapabilities;
-  metadata: Record<string, any>;
 }
 
 export type ModelType = 'general' | 'medical' | 'legal' | 'technical' | 'custom';
 export type ModelStatus = 'loading' | 'ready' | 'error' | 'updating';
 
 export interface ModelCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +116,6 @@ export interface ModelCapabilities {
 }
 
 export interface RecognitionSession {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,7 +127,6 @@ export interface RecognitionSession {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   userId: string;
   modelId: string;
   language: string;
@@ -151,13 +137,11 @@ export interface RecognitionSession {
   audioData: AudioData;
   transcript: Transcript;
   confidence: number;
-  metadata: Record<string, any>;
 }
 
 export type SessionStatus = 'active' | 'paused' | 'completed' | 'error' | 'cancelled';
 
 export interface AudioData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,7 +166,6 @@ export type AudioFormat = 'wav' | 'mp3' | 'flac' | 'aac' | 'ogg' | 'webm';
 export type AudioQuality = 'low' | 'medium' | 'high' | 'lossless';
 
 export interface Transcript {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,11 +182,9 @@ export interface Transcript {
   sentences: Sentence[];
   confidence: number;
   language: string;
-  timestamp: number;
 }
 
 export interface Word {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +204,6 @@ export interface Word {
 }
 
 export interface Sentence {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,7 +223,6 @@ export interface Sentence {
 }
 
 export interface VoiceCommand {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,18 +234,14 @@ export interface VoiceCommand {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   pattern: string;
   action: CommandAction;
   parameters: CommandParameters;
   enabled: boolean;
   priority: number;
-  metadata: Record<string, any>;
 }
 
 export interface CommandAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -286,7 +261,6 @@ export interface CommandAction {
 export type ActionType = 'function' | 'api' | 'navigation' | 'system' | 'custom';
 
 export interface CommandParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -305,7 +279,6 @@ export interface CommandParameters {
 }
 
 export interface Language {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -318,16 +291,13 @@ export interface Language {
   updatedAt?: number;
   metadata?: Record<string, any>;
   code: string;
-  name: string;
   nativeName: string;
   supported: boolean;
   models: string[];
   accuracy: number;
-  metadata: Record<string, any>;
 }
 
 export interface SpeechRecognitionPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -352,7 +322,6 @@ export interface SpeechRecognitionPerformanceMetrics {
 }
 
 export interface SpeechRecognitionAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -373,7 +342,6 @@ export interface SpeechRecognitionAnalytics {
 }
 
 export interface AccuracyDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,7 +359,6 @@ export interface AccuracyDistribution {
 }
 
 export interface LanguageDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -409,7 +376,6 @@ export interface LanguageDistribution {
 }
 
 export interface CommandUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,14 +388,12 @@ export interface CommandUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   commandId: string;
-  name: string;
   usageCount: number;
   successRate: number;
   averageResponseTime: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -441,7 +405,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   sessions: number;
   accuracy: number;
   processingTime: number;
@@ -449,7 +412,6 @@ export interface PerformanceTrend {
 }
 
 export interface SpeechRecognitionReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -472,7 +434,6 @@ export interface SpeechRecognitionReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -493,7 +454,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +473,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -533,7 +492,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -546,13 +504,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SpeechRecognitionOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

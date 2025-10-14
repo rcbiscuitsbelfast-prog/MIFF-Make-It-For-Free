@@ -12,7 +12,6 @@
  */
 
 export interface ResourceManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface ResourceManagerConfig {
 }
 
 export interface ResourceManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface ResourceManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ResourceManagerType;
   status: ResourceManagerStatus;
   resources: Resource[];
@@ -68,16 +64,12 @@ export interface ResourceManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ResourceManagerType = 'game' | 'web' | 'mobile' | 'desktop' | 'custom';
 export type ResourceManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Resource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface Resource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ResourceType;
   status: ResourceStatus;
   source: ResourceSource;
@@ -99,14 +89,12 @@ export interface Resource {
   dependencies: ResourceDependency[];
   performance: ResourcePerformance;
   memory: ResourceMemory;
-  metadata: Record<string, any>;
 }
 
 export type ResourceType = 'texture' | 'model' | 'audio' | 'font' | 'shader' | 'data' | 'custom';
 export type ResourceStatus = 'unloaded' | 'loading' | 'loaded' | 'unloading' | 'error';
 
 export interface ResourceSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +115,6 @@ export interface ResourceSource {
 }
 
 export interface CompressionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +135,6 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'gzip' | 'lz4' | 'zstd' | 'brotli' | 'custom';
 
 export interface EncryptionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +153,6 @@ export interface EncryptionSettings {
 }
 
 export interface ResourceProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -188,7 +173,6 @@ export interface ResourceProperties {
 }
 
 export interface ResourceSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +191,6 @@ export interface ResourceSize {
 }
 
 export interface ResourceDimensions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,7 +209,6 @@ export interface ResourceDimensions {
 }
 
 export interface ResourceFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -245,7 +227,6 @@ export interface ResourceFormat {
 }
 
 export interface ResourceQuality {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,7 +247,6 @@ export interface ResourceQuality {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface MipmapSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -288,7 +268,6 @@ export type MipmapFilter = 'nearest' | 'linear' | 'cubic' | 'custom';
 export type MipmapGeneration = 'automatic' | 'manual' | 'precomputed';
 
 export interface ResourceMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,7 +290,6 @@ export interface ResourceMetadata {
 }
 
 export interface ResourceDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -334,7 +312,6 @@ export type DependencyType = 'hard' | 'soft' | 'optional' | 'custom';
 export type LoadingStrategy = 'eager' | 'lazy' | 'on_demand' | 'preload';
 
 export interface ResourcePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -355,7 +332,6 @@ export interface ResourcePerformance {
 }
 
 export interface ResourceMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +351,6 @@ export interface ResourceMemory {
 }
 
 export interface ResourcePool {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,21 +362,17 @@ export interface ResourcePool {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PoolType;
   status: PoolStatus;
   resources: string[];
   configuration: PoolConfiguration;
   performance: PoolPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PoolType = 'texture' | 'model' | 'audio' | 'buffer' | 'custom';
 export type PoolStatus = 'active' | 'inactive' | 'full' | 'empty' | 'error';
 
 export interface PoolConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +393,6 @@ export interface PoolConfiguration {
 }
 
 export interface EvictionPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,7 +412,6 @@ export interface EvictionPolicy {
 export type EvictionType = 'lru' | 'lfu' | 'fifo' | 'random' | 'custom';
 
 export interface PreloadingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -463,7 +432,6 @@ export interface PreloadingSettings {
 export type PreloadingStrategy = 'immediate' | 'background' | 'on_demand' | 'custom';
 
 export interface PoolPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -485,7 +453,6 @@ export interface PoolPerformance {
 }
 
 export interface ResourceCache {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -497,21 +464,17 @@ export interface ResourceCache {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CacheType;
   status: CacheStatus;
   configuration: CacheConfiguration;
   statistics: CacheStatistics;
   performance: CachePerformance;
-  metadata: Record<string, any>;
 }
 
 export type CacheType = 'memory' | 'disk' | 'network' | 'hybrid' | 'custom';
 export type CacheStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface CacheConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -532,7 +495,6 @@ export interface CacheConfiguration {
 }
 
 export interface PersistenceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -552,7 +514,6 @@ export interface PersistenceSettings {
 }
 
 export interface CacheStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,7 +535,6 @@ export interface CacheStatistics {
 }
 
 export interface CachePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -595,7 +555,6 @@ export interface CachePerformance {
 }
 
 export interface ResourceStream {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -607,21 +566,17 @@ export interface ResourceStream {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StreamType;
   status: StreamStatus;
   source: StreamSource;
   configuration: StreamConfiguration;
   performance: StreamPerformance;
-  metadata: Record<string, any>;
 }
 
 export type StreamType = 'file' | 'network' | 'memory' | 'custom';
 export type StreamStatus = 'idle' | 'streaming' | 'paused' | 'error';
 
 export interface StreamSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -642,7 +597,6 @@ export interface StreamSource {
 }
 
 export interface AuthenticationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -664,7 +618,6 @@ export interface AuthenticationSettings {
 export type AuthenticationType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface StreamConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -685,7 +638,6 @@ export interface StreamConfiguration {
 }
 
 export interface StreamPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -706,7 +658,6 @@ export interface StreamPerformance {
 }
 
 export interface ResourceManagerPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -732,7 +683,6 @@ export interface ResourceManagerPerformanceMetrics {
 }
 
 export interface ResourceManagerAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -753,7 +703,6 @@ export interface ResourceManagerAnalytics {
 }
 
 export interface ResourceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -772,7 +721,6 @@ export interface ResourceTypeDistribution {
 }
 
 export interface PoolTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -791,7 +739,6 @@ export interface PoolTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -803,7 +750,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   resources: number;
   loaded: number;
   memory: number;
@@ -813,7 +759,6 @@ export interface PerformanceTrend {
 }
 
 export interface ResourceManagerReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -836,7 +781,6 @@ export interface ResourceManagerReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -857,7 +801,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -877,7 +820,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -897,7 +839,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -910,13 +851,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ResourceManagerOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -13,7 +13,6 @@
  */
 
 export interface DataMiningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface DataMiningConfig {
 }
 
 export interface DataMiningManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface DataMiningManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataMiningManagerType;
   status: DataMiningManagerStatus;
   datasets: Dataset[];
@@ -69,16 +65,12 @@ export interface DataMiningManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DataMiningManagerType = 'basic' | 'advanced' | 'enterprise' | 'custom';
 export type DataMiningManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Dataset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,21 +82,17 @@ export interface Dataset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: DatasetType;
   size: number;
   records: DataRecord[];
   schema: DataSchema;
   quality: DataQuality;
-  metadata: Record<string, any>;
 }
 
 export type DatasetType = 'tabular' | 'text' | 'image' | 'time_series' | 'graph' | 'custom';
 
 export interface DataRecord {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,14 +104,11 @@ export interface DataRecord {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   fields: Record<string, any>;
   quality: Record<string, DataQuality>;
-  metadata: Record<string, any>;
 }
 
 export interface DataSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -142,7 +127,6 @@ export interface DataSchema {
 }
 
 export interface FieldDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -154,7 +138,6 @@ export interface FieldDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: FieldType;
   nullable: boolean;
   defaultValue?: any;
@@ -164,7 +147,6 @@ export interface FieldDefinition {
 export type FieldType = 'string' | 'number' | 'boolean' | 'date' | 'array' | 'object';
 
 export interface IndexDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +166,6 @@ export interface IndexDefinition {
 export type IndexType = 'btree' | 'hash' | 'text' | 'spatial';
 
 export interface ConstraintDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,7 +185,6 @@ export interface ConstraintDefinition {
 export type ConstraintType = 'unique' | 'foreign_key' | 'check' | 'not_null';
 
 export interface DataQuality {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,7 +205,6 @@ export interface DataQuality {
 }
 
 export interface MiningModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,17 +216,13 @@ export interface MiningModel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ModelType;
   algorithm: Algorithm;
   datasetId: string;
   parameters: ModelParameters;
   performance: ModelPerformance;
   status: ModelStatus;
-  createdAt: number;
   trainedAt?: number;
-  metadata: Record<string, any>;
 }
 
 export type ModelType = 'classification' | 'regression' | 'clustering' | 'association' | 'anomaly_detection';
@@ -255,7 +230,6 @@ export type Algorithm = 'decision_tree' | 'random_forest' | 'svm' | 'kmeans' | '
 export type ModelStatus = 'pending' | 'training' | 'trained' | 'failed' | 'deployed';
 
 export interface ModelParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,7 +248,6 @@ export interface ModelParameters {
 }
 
 export interface PreprocessingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -294,7 +267,6 @@ export interface PreprocessingConfig {
 }
 
 export interface ValidationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -315,7 +287,6 @@ export interface ValidationConfig {
 export type ValidationMethod = 'holdout' | 'kfold' | 'stratified' | 'time_series';
 
 export interface ModelPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -339,7 +310,6 @@ export interface ModelPerformance {
 }
 
 export interface ConfusionMatrix {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -358,7 +328,6 @@ export interface ConfusionMatrix {
 }
 
 export interface Pattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,8 +339,6 @@ export interface Pattern {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PatternType;
   datasetId: string;
   support: number;
@@ -379,13 +346,11 @@ export interface Pattern {
   lift: number;
   items: PatternItem[];
   description: string;
-  metadata: Record<string, any>;
 }
 
 export type PatternType = 'frequent' | 'sequential' | 'closed' | 'maximal' | 'association';
 
 export interface PatternItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -405,7 +370,6 @@ export interface PatternItem {
 export type Operator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'regex';
 
 export interface AssociationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -417,7 +381,6 @@ export interface AssociationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   antecedent: PatternItem[];
   consequent: PatternItem[];
   support: number;
@@ -426,11 +389,9 @@ export interface AssociationRule {
   conviction: number;
   datasetId: string;
   quality: RuleQuality;
-  metadata: Record<string, any>;
 }
 
 export interface RuleQuality {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -449,7 +410,6 @@ export interface RuleQuality {
 }
 
 export interface DataMiningPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -473,7 +433,6 @@ export interface DataMiningPerformanceMetrics {
 }
 
 export interface DataMiningAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -493,7 +452,6 @@ export interface DataMiningAnalytics {
 }
 
 export interface ModelTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -511,7 +469,6 @@ export interface ModelTypeDistribution {
 }
 
 export interface AlgorithmDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -529,7 +486,6 @@ export interface AlgorithmDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -541,7 +497,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   models: number;
   accuracy: number;
   trainingTime: number;
@@ -549,7 +504,6 @@ export interface PerformanceTrend {
 }
 
 export interface DataMiningReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -572,7 +526,6 @@ export interface DataMiningReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -593,7 +546,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -613,7 +565,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -633,7 +584,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -646,13 +596,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface DataMiningOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

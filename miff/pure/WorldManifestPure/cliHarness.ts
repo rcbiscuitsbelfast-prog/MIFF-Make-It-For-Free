@@ -7,7 +7,6 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WorldOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

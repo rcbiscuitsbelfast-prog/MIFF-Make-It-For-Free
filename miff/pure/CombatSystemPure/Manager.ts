@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CombatSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CombatSystemConfig {
 }
 
 export interface CombatSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface CombatSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   combats: Combat[];
@@ -64,14 +60,12 @@ export interface CombatSystem {
   effects: StatusEffect[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Combat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,8 +77,6 @@ export interface Combat {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CombatType;
   status: CombatStatus;
   participants: CombatParticipant[];
@@ -93,11 +85,9 @@ export interface Combat {
   round: number;
   rules: CombatRule[];
   effects: StatusEffect[];
-  metadata: Record<string, any>;
 }
 
 export interface CombatParticipant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,8 +99,6 @@ export interface CombatParticipant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParticipantType;
   status: ParticipantStatus;
   health: number;
@@ -121,11 +109,9 @@ export interface CombatParticipant {
   abilities: CombatAbility[];
   effects: StatusEffect[];
   position: Vector3;
-  metadata: Record<string, any>;
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -143,7 +129,6 @@ export interface Vector3 {
 }
 
 export interface CombatStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,11 +151,9 @@ export interface CombatStats {
   speed: number;
   criticalChance: number;
   criticalMultiplier: number;
-  metadata: Record<string, any>;
 }
 
 export interface CombatAbility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,8 +165,6 @@ export interface CombatAbility {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AbilityType;
   cost: number; // Mana cost
   cooldown: number; // Turns
@@ -191,11 +172,9 @@ export interface CombatAbility {
   range: number;
   area: number;
   effects: AbilityEffect[];
-  metadata: Record<string, any>;
 }
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,16 +186,13 @@ export interface AbilityEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   value: number;
   duration: number; // Turns
   target: EffectTarget;
-  metadata: Record<string, any>;
 }
 
 export interface StatusEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -228,18 +204,14 @@ export interface StatusEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   value: number;
   duration: number; // Turns
   target: string; // Participant ID
   source: string; // Participant ID
-  metadata: Record<string, any>;
 }
 
 export interface CombatRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,17 +223,13 @@ export interface CombatRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   enabled: boolean;
   conditions: RuleCondition[];
   actions: RuleAction[];
-  metadata: Record<string, any>;
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,15 +241,12 @@ export interface RuleCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   operator: ConditionOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,14 +258,11 @@ export interface RuleAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -317,11 +279,9 @@ export interface SystemPerformance {
   averageTurnTime: number; // milliseconds
   averageDamage: number;
   successRate: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

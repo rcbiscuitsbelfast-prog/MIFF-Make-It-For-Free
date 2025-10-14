@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AnimationSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +46,6 @@ export interface AnimationSystemConfig {
 }
 
 export interface Animation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,8 +57,6 @@ export interface Animation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   status: AnimationStatus;
   timeline: AnimationTimeline;
@@ -68,14 +64,12 @@ export interface Animation {
   blending: BlendingConfig;
   transitions: TransitionConfig;
   analytics: AnimationAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AnimationTimeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -97,7 +91,6 @@ export interface AnimationTimeline {
 }
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +102,6 @@ export interface Keyframe {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   time: number; // milliseconds
   value: any;
   interpolation: InterpolationType;
@@ -118,7 +110,6 @@ export interface Keyframe {
 }
 
 export interface BlendingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,7 +129,6 @@ export interface BlendingConfig {
 }
 
 export interface TransitionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,7 +148,6 @@ export interface TransitionConfig {
 }
 
 export interface AnimationAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

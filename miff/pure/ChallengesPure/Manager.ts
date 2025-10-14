@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ChallengesConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface ChallengesConfig {
 }
 
 export interface Challenges {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,22 +53,18 @@ export interface Challenges {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChallengeType;
   status: ChallengeStatus;
   challenges: Challenge[];
   categories: ChallengeCategory[];
   performance: ChallengePerformance;
   analytics: ChallengeAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Challenge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,8 +76,6 @@ export interface Challenge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChallengeType;
   category: string;
   status: ChallengeStatus;
@@ -92,11 +84,9 @@ export interface Challenge {
   objectives: ChallengeObjective[];
   rewards: ChallengeReward[];
   progress: ChallengeProgress;
-  metadata: Record<string, any>;
 }
 
 export interface ChallengeObjective {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,17 +98,13 @@ export interface ChallengeObjective {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectiveType;
   target: number;
   current: number;
   completed: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface ChallengeReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,16 +116,12 @@ export interface ChallengeReward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RewardType;
   value: number;
   claimed: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface ChallengeProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -151,18 +133,15 @@ export interface ChallengeProgress {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   challengeId: string;
   userId: string;
   progress: number; // 0-100
   completed: boolean;
   startedAt: Date;
   completedAt?: Date;
-  metadata: Record<string, any>;
 }
 
 export interface ChallengeCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -174,15 +153,11 @@ export interface ChallengeCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   challenges: string[]; // Challenge IDs
-  metadata: Record<string, any>;
 }
 
 export interface ChallengePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,11 +173,9 @@ export interface ChallengePerformance {
   completedChallenges: number;
   averageCompletionTime: number; // milliseconds
   successRate: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface ChallengeAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

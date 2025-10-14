@@ -12,7 +12,6 @@
  */
 
 export interface NotificationSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface NotificationSystemConfig {
 }
 
 export interface NotificationSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface NotificationSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NotificationSystemManagerType;
   status: NotificationSystemManagerStatus;
   notifications: Notification[];
@@ -68,16 +64,12 @@ export interface NotificationSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type NotificationSystemManagerType = 'web' | 'mobile' | 'desktop' | 'email' | 'custom';
 export type NotificationSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Notification {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,7 +81,6 @@ export interface Notification {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   message: string;
   type: NotificationType;
@@ -101,7 +92,6 @@ export interface Notification {
   data: NotificationData;
   scheduling: NotificationScheduling;
   delivery: NotificationDelivery;
-  metadata: Record<string, any>;
 }
 
 export type NotificationType = 'info' | 'warning' | 'error' | 'success' | 'promotion' | 'custom';
@@ -109,7 +99,6 @@ export type NotificationPriority = 'low' | 'normal' | 'high' | 'urgent' | 'criti
 export type NotificationStatus = 'draft' | 'scheduled' | 'sending' | 'sent' | 'delivered' | 'failed' | 'cancelled';
 
 export interface NotificationRecipient {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +118,6 @@ export interface NotificationRecipient {
 }
 
 export interface UserPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +136,6 @@ export interface UserPreferences {
 }
 
 export interface ChannelPreference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +153,6 @@ export interface ChannelPreference {
 }
 
 export interface FrequencyPreference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,7 +173,6 @@ export interface FrequencyPreference {
 export type FrequencyType = 'immediate' | 'batched' | 'scheduled' | 'custom';
 
 export interface QuietHours {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +192,6 @@ export interface QuietHours {
 }
 
 export interface CategoryPreference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,7 +210,6 @@ export interface CategoryPreference {
 }
 
 export interface NotificationData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +229,6 @@ export interface NotificationData {
 }
 
 export interface NotificationAttachment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,7 +240,6 @@ export interface NotificationAttachment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AttachmentType;
   url: string;
   size: number;
@@ -269,7 +250,6 @@ export interface NotificationAttachment {
 export type AttachmentType = 'image' | 'video' | 'audio' | 'document' | 'custom';
 
 export interface NotificationAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,7 +261,6 @@ export interface NotificationAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   label: string;
   type: ActionType;
   url: string;
@@ -292,7 +271,6 @@ export interface NotificationAction {
 export type ActionType = 'open' | 'dismiss' | 'reply' | 'custom';
 
 export interface NotificationScheduling {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -312,7 +290,6 @@ export interface NotificationScheduling {
 }
 
 export interface RecurrenceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -333,7 +310,6 @@ export interface RecurrenceSettings {
 export type RecurrencePattern = 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
 
 export interface ExpirationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -353,7 +329,6 @@ export interface ExpirationSettings {
 export type ExpirationAction = 'delete' | 'archive' | 'mark_read' | 'custom';
 
 export interface NotificationDelivery {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -374,7 +349,6 @@ export interface NotificationDelivery {
 }
 
 export interface BackoffSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -396,7 +370,6 @@ export interface BackoffSettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface TrackingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -414,7 +387,6 @@ export interface TrackingSettings {
 }
 
 export interface TrackingEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -427,14 +399,12 @@ export interface TrackingEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  timestamp: number;
   data: Record<string, any>;
 }
 
 export type EventType = 'sent' | 'delivered' | 'opened' | 'clicked' | 'dismissed' | 'custom';
 
 export interface AnalyticsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -453,7 +423,6 @@ export interface AnalyticsSettings {
 }
 
 export interface NotificationChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -465,20 +434,16 @@ export interface NotificationChannel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ChannelType;
   status: ChannelStatus;
   configuration: ChannelConfiguration;
   performance: ChannelPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ChannelType = 'email' | 'sms' | 'push' | 'in_app' | 'webhook' | 'custom';
 export type ChannelStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ChannelConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -498,7 +463,6 @@ export interface ChannelConfiguration {
 }
 
 export interface CredentialSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -518,7 +482,6 @@ export interface CredentialSettings {
 }
 
 export interface RateLimitSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -537,7 +500,6 @@ export interface RateLimitSettings {
 }
 
 export interface RetrySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -556,7 +518,6 @@ export interface RetrySettings {
 }
 
 export interface TimeoutSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -575,7 +536,6 @@ export interface TimeoutSettings {
 }
 
 export interface ChannelPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -596,7 +556,6 @@ export interface ChannelPerformance {
 }
 
 export interface NotificationTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -608,21 +567,17 @@ export interface NotificationTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TemplateType;
   status: TemplateStatus;
   content: TemplateContent;
   variables: TemplateVariable[];
   channels: string[];
-  metadata: Record<string, any>;
 }
 
 export type TemplateType = 'email' | 'sms' | 'push' | 'in_app' | 'custom';
 export type TemplateStatus = 'draft' | 'active' | 'inactive' | 'archived';
 
 export interface TemplateContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -642,7 +597,6 @@ export interface TemplateContent {
 }
 
 export interface TemplateAttachment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,7 +608,6 @@ export interface TemplateAttachment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AttachmentType;
   content: string;
   filename: string;
@@ -662,7 +615,6 @@ export interface TemplateAttachment {
 }
 
 export interface TemplateVariable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -674,7 +626,6 @@ export interface TemplateVariable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: VariableType;
   required: boolean;
   defaultValue: string;
@@ -684,7 +635,6 @@ export interface TemplateVariable {
 export type VariableType = 'string' | 'number' | 'boolean' | 'date' | 'custom';
 
 export interface NotificationUser {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -696,18 +646,14 @@ export interface NotificationUser {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   email: string;
   phone: string;
   preferences: UserPreferences;
   devices: UserDevice[];
   subscriptions: UserSubscription[];
-  metadata: Record<string, any>;
 }
 
 export interface UserDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -719,7 +665,6 @@ export interface UserDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: DeviceType;
   platform: string;
   version: string;
@@ -731,7 +676,6 @@ export interface UserDevice {
 export type DeviceType = 'ios' | 'android' | 'web' | 'desktop' | 'custom';
 
 export interface UserSubscription {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -743,7 +687,6 @@ export interface UserSubscription {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: SubscriptionType;
   status: SubscriptionStatus;
   startDate: number;
@@ -755,7 +698,6 @@ export type SubscriptionType = 'free' | 'premium' | 'enterprise' | 'custom';
 export type SubscriptionStatus = 'active' | 'inactive' | 'expired' | 'cancelled';
 
 export interface NotificationSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -767,21 +709,17 @@ export interface NotificationSchedule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScheduleType;
   status: ScheduleStatus;
   configuration: ScheduleConfiguration;
   notifications: string[];
   performance: SchedulePerformance;
-  metadata: Record<string, any>;
 }
 
 export type ScheduleType = 'immediate' | 'delayed' | 'recurring' | 'custom';
 export type ScheduleStatus = 'active' | 'paused' | 'completed' | 'cancelled';
 
 export interface ScheduleConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -802,7 +740,6 @@ export interface ScheduleConfiguration {
 }
 
 export interface ScheduleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -822,7 +759,6 @@ export interface ScheduleCondition {
 export type ConditionType = 'time' | 'user' | 'event' | 'custom';
 
 export interface ScheduleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -840,7 +776,6 @@ export interface ScheduleAction {
 }
 
 export interface SchedulePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -861,7 +796,6 @@ export interface SchedulePerformance {
 }
 
 export interface NotificationSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -888,7 +822,6 @@ export interface NotificationSystemPerformanceMetrics {
 }
 
 export interface NotificationSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -909,7 +842,6 @@ export interface NotificationSystemAnalytics {
 }
 
 export interface NotificationTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -928,7 +860,6 @@ export interface NotificationTypeDistribution {
 }
 
 export interface ChannelTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -947,7 +878,6 @@ export interface ChannelTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -959,7 +889,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   notifications: number;
   sent: number;
   failed: number;
@@ -970,7 +899,6 @@ export interface PerformanceTrend {
 }
 
 export interface NotificationSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -993,7 +921,6 @@ export interface NotificationSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1014,7 +941,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1034,7 +960,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1054,7 +979,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1067,13 +991,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface NotificationSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

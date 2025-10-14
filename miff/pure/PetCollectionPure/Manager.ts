@@ -46,7 +46,6 @@ export enum PetType {
 }
 
 export interface PetStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -67,7 +66,6 @@ export interface PetStats {
 }
 
 export interface Pet {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -79,8 +77,6 @@ export interface Pet {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   species?: string;
   type: PetType;
   rarity: PetRarity;
@@ -105,7 +101,6 @@ export interface Pet {
 }
 
 export interface Egg {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,7 +112,6 @@ export interface Egg {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EggType;
   rarity: PetRarity;
   hatchTime: number;
@@ -128,7 +122,6 @@ export interface Egg {
 }
 
 export interface TradeOffer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,7 +133,6 @@ export interface TradeOffer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   offererId: string;
   offeredPetIds: string[];
   requestedPetIds: string[];
@@ -151,7 +143,6 @@ export interface TradeOffer {
 }
 
 export interface CollectionStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -175,7 +166,6 @@ export interface CollectionStats {
 }
 
 export interface PetCollectionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -197,7 +187,6 @@ export interface PetCollectionConfig {
 }
 
 export interface PetFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +208,6 @@ export interface PetFilter {
 }
 
 export interface PetSortOption {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -236,7 +224,6 @@ export interface PetSortOption {
 }
 
 export interface PetCollectionOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,7 +238,6 @@ export interface PetCollectionOutput {
   success: boolean;
   message: string;
   data?: any;
-  timestamp: number;
 }
 
 export class PetCollectionManager {

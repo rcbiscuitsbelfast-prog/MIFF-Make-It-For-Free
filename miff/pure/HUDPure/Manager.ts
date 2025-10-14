@@ -11,7 +11,6 @@
  */
 
 export interface HUDConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface HUDConfig {
 }
 
 export interface HUDManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface HUDManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HUDManagerType;
   status: HUDManagerStatus;
   elements: HUDElement[];
@@ -64,22 +60,18 @@ export interface HUDManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
   
   // Missing methods that are being called
   getModel(): any;
   render(): void;
   updateSpirit(spiritId: string, data: any): void;
   changePhase(phase: string): void;
-  updatedAt: number;
 }
 
 export type HUDManagerType = 'game' | 'simulation' | 'training' | 'custom';
 export type HUDManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface HUDElement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,8 +83,6 @@ export interface HUDElement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ElementType;
   layer: string;
   position: Position;
@@ -101,14 +91,12 @@ export interface HUDElement {
   data: ElementData;
   behavior: ElementBehavior;
   status: ElementStatus;
-  metadata: Record<string, any>;
 }
 
 export type ElementType = 'text' | 'image' | 'progress' | 'chart' | 'gauge' | 'list' | 'grid' | 'custom';
 export type ElementStatus = 'visible' | 'hidden' | 'disabled' | 'error';
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -131,7 +119,6 @@ export type Anchor = 'top_left' | 'top_center' | 'top_right' | 'center_left' | '
 export type Alignment = 'left' | 'center' | 'right' | 'justify';
 
 export interface Size {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -153,7 +140,6 @@ export interface Size {
 }
 
 export interface ElementStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,7 +163,6 @@ export interface ElementStyle {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -196,7 +181,6 @@ export interface Color {
 }
 
 export interface FontStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -220,7 +204,6 @@ export type FontStyleType = 'normal' | 'italic' | 'oblique';
 export type FontDecoration = 'none' | 'underline' | 'overline' | 'line_through';
 
 export interface ShadowStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -241,7 +224,6 @@ export interface ShadowStyle {
 }
 
 export interface AnimationStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -267,7 +249,6 @@ export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bo
 export type AnimationDirection = 'normal' | 'reverse' | 'alternate' | 'alternate_reverse';
 
 export interface ElementData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -291,7 +272,6 @@ export type DataSource = 'static' | 'dynamic' | 'api' | 'websocket' | 'file' | '
 export type DataFormat = 'string' | 'number' | 'boolean' | 'json' | 'xml' | 'csv' | 'binary' | 'custom';
 
 export interface DataValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -309,7 +289,6 @@ export interface DataValidation {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -329,7 +308,6 @@ export interface ValidationRule {
 export type ValidationType = 'required' | 'min' | 'max' | 'pattern' | 'custom';
 
 export interface ErrorHandling {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -348,7 +326,6 @@ export interface ErrorHandling {
 }
 
 export interface ElementBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -367,7 +344,6 @@ export interface ElementBehavior {
 }
 
 export interface Interaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -389,7 +365,6 @@ export type InteractionType = 'click' | 'hover' | 'drag' | 'drop' | 'scroll' | '
 export type TriggerType = 'mouse' | 'touch' | 'keyboard' | 'gesture' | 'voice' | 'custom';
 
 export interface ElementEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -410,7 +385,6 @@ export interface ElementEvent {
 export type EventType = 'show' | 'hide' | 'update' | 'error' | 'complete' | 'custom';
 
 export interface Condition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +406,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | '
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface Action {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -453,7 +426,6 @@ export interface Action {
 export type ActionType = 'show' | 'hide' | 'update' | 'animate' | 'navigate' | 'call' | 'custom';
 
 export interface HUDLayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -465,20 +437,16 @@ export interface HUDLayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   order: number;
   visible: boolean;
   opacity: number;
   blendMode: BlendMode;
   elements: string[];
-  metadata: Record<string, any>;
 }
 
 export type BlendMode = 'normal' | 'multiply' | 'screen' | 'overlay' | 'soft_light' | 'hard_light' | 'color_dodge' | 'color_burn' | 'darken' | 'lighten' | 'difference' | 'exclusion';
 
 export interface HUDTheme {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,18 +458,14 @@ export interface HUDTheme {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   colors: ThemeColors;
   fonts: ThemeFonts;
   spacing: ThemeSpacing;
   effects: ThemeEffects;
-  metadata: Record<string, any>;
 }
 
 export interface ThemeColors {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -527,7 +491,6 @@ export interface ThemeColors {
 }
 
 export interface ThemeFonts {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -547,7 +510,6 @@ export interface ThemeFonts {
 }
 
 export interface ThemeSpacing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -568,7 +530,6 @@ export interface ThemeSpacing {
 }
 
 export interface ThemeEffects {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -586,7 +547,6 @@ export interface ThemeEffects {
 }
 
 export interface TransitionStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -605,7 +565,6 @@ export interface TransitionStyle {
 }
 
 export interface HUDLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -617,16 +576,12 @@ export interface HUDLayout {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   elements: LayoutElement[];
   responsive: ResponsiveSettings;
-  metadata: Record<string, any>;
 }
 
 export interface LayoutElement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -645,7 +600,6 @@ export interface LayoutElement {
 }
 
 export interface LayoutConstraints {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -667,7 +621,6 @@ export interface LayoutConstraints {
 }
 
 export interface Spacing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -686,7 +639,6 @@ export interface Spacing {
 }
 
 export interface ResponsiveSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -704,7 +656,6 @@ export interface ResponsiveSettings {
 }
 
 export interface Breakpoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -716,13 +667,11 @@ export interface Breakpoint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   minWidth: number;
   maxWidth?: number;
 }
 
 export interface ResponsiveRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -740,7 +689,6 @@ export interface ResponsiveRule {
 }
 
 export interface HUDPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -763,7 +711,6 @@ export interface HUDPerformanceMetrics {
 }
 
 export interface HUDAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -783,7 +730,6 @@ export interface HUDAnalytics {
 }
 
 export interface ElementUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -796,7 +742,6 @@ export interface ElementUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   elementId: string;
-  name: string;
   type: ElementType;
   usage: number;
   averageRenderTime: number;
@@ -804,7 +749,6 @@ export interface ElementUsage {
 }
 
 export interface LayerUsage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -817,14 +761,12 @@ export interface LayerUsage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   layerId: string;
-  name: string;
   usage: number;
   elementCount: number;
   averageRenderTime: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -836,7 +778,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   elements: number;
   renderTime: number;
   memory: number;
@@ -844,7 +785,6 @@ export interface PerformanceTrend {
 }
 
 export interface HUDReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -867,7 +807,6 @@ export interface HUDReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -888,7 +827,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -908,7 +846,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -928,7 +865,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -941,13 +877,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface HUDOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

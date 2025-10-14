@@ -13,7 +13,6 @@
  */
 
 export interface ItemsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface ItemsConfig {
 }
 
 export interface ItemsManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface ItemsManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemsManagerType;
   status: ItemsManagerStatus;
   items: Item[];
@@ -68,16 +64,12 @@ export interface ItemsManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ItemsManagerType = 'game' | 'ecommerce' | 'inventory' | 'custom';
 export type ItemsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Item {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface Item {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: ItemType;
   category: string;
@@ -99,14 +89,12 @@ export interface Item {
   properties: ItemProperties;
   requirements: ItemRequirements;
   effects: ItemEffect[];
-  metadata: Record<string, any>;
 }
 
 export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'tool' | 'misc' | 'custom';
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface ItemValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface ItemValue {
 }
 
 export interface ValueModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +133,6 @@ export interface ValueModifier {
 export type ModifierType = 'additive' | 'multiplicative' | 'exponential' | 'custom';
 
 export interface ItemProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -170,7 +156,6 @@ export interface ItemProperties {
 }
 
 export interface ItemSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +174,6 @@ export interface ItemSize {
 }
 
 export interface Durability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -209,7 +193,6 @@ export interface Durability {
 }
 
 export interface ItemRequirements {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +212,6 @@ export interface ItemRequirements {
 }
 
 export interface StatRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -247,7 +229,6 @@ export interface StatRequirement {
 }
 
 export interface SkillRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +246,6 @@ export interface SkillRequirement {
 }
 
 export interface ItemRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +263,6 @@ export interface ItemRequirement {
 }
 
 export interface QuestRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +282,6 @@ export type RequirementOperator = 'equals' | 'greater' | 'less' | 'greater_equal
 export type QuestStatus = 'not_started' | 'in_progress' | 'completed' | 'failed';
 
 export interface ItemEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -315,20 +293,17 @@ export interface ItemEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   value: number;
   duration: number;
   target: EffectTarget;
   conditions: EffectCondition[];
-  metadata: Record<string, any>;
 }
 
 export type EffectType = 'stat_bonus' | 'damage' | 'healing' | 'buff' | 'debuff' | 'custom';
 export type EffectTarget = 'self' | 'target' | 'area' | 'all' | 'custom';
 
 export interface EffectCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -349,7 +324,6 @@ export type ConditionType = 'health' | 'mana' | 'level' | 'time' | 'location' | 
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains';
 
 export interface Inventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -361,21 +335,17 @@ export interface Inventory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: InventoryType;
   capacity: number;
   items: InventoryItem[];
   slots: InventorySlot[];
   filters: InventoryFilter[];
   sorting: InventorySorting;
-  metadata: Record<string, any>;
 }
 
 export type InventoryType = 'player' | 'container' | 'shop' | 'bank' | 'guild' | 'custom';
 
 export interface InventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,11 +361,9 @@ export interface InventoryItem {
   quantity: number;
   slot: number;
   position: InventoryPosition;
-  metadata: Record<string, any>;
 }
 
 export interface InventoryPosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -414,7 +382,6 @@ export interface InventoryPosition {
 }
 
 export interface InventorySlot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -437,7 +404,6 @@ export interface InventorySlot {
 export type SlotType = 'general' | 'weapon' | 'armor' | 'accessory' | 'consumable' | 'custom';
 
 export interface SlotRestriction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -458,7 +424,6 @@ export type RestrictionType = 'item_type' | 'item_rarity' | 'item_level' | 'cust
 export type RestrictionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains';
 
 export interface InventoryFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -470,8 +435,6 @@ export interface InventoryFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FilterType;
   criteria: FilterCriteria;
   enabled: boolean;
@@ -480,7 +443,6 @@ export interface InventoryFilter {
 export type FilterType = 'item_type' | 'item_rarity' | 'item_level' | 'item_value' | 'custom';
 
 export interface FilterCriteria {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,7 +464,6 @@ export type FilterOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'con
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface InventorySorting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -520,7 +481,6 @@ export interface InventorySorting {
 }
 
 export interface SortCriteria {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,7 +500,6 @@ export interface SortCriteria {
 export type SortDirection = 'asc' | 'desc';
 
 export interface Recipe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -552,18 +511,14 @@ export interface Recipe {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: string;
   ingredients: RecipeIngredient[];
   result: RecipeResult;
   requirements: RecipeRequirements;
-  metadata: Record<string, any>;
 }
 
 export interface RecipeIngredient {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -582,7 +537,6 @@ export interface RecipeIngredient {
 }
 
 export interface RecipeResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -601,7 +555,6 @@ export interface RecipeResult {
 }
 
 export interface RecipeAlternative {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -619,7 +572,6 @@ export interface RecipeAlternative {
 }
 
 export interface RecipeRequirements {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -639,7 +591,6 @@ export interface RecipeRequirements {
 }
 
 export interface ItemCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -651,17 +602,13 @@ export interface ItemCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   parent?: string;
   children: string[];
   properties: CategoryProperties;
-  metadata: Record<string, any>;
 }
 
 export interface CategoryProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -681,7 +628,6 @@ export interface CategoryProperties {
 }
 
 export interface ItemsPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -705,7 +651,6 @@ export interface ItemsPerformanceMetrics {
 }
 
 export interface ItemsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -726,7 +671,6 @@ export interface ItemsAnalytics {
 }
 
 export interface ItemTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -745,7 +689,6 @@ export interface ItemTypeDistribution {
 }
 
 export interface RarityDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -764,7 +707,6 @@ export interface RarityDistribution {
 }
 
 export interface InventoryUtilization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -777,14 +719,12 @@ export interface InventoryUtilization {
   updatedAt?: number;
   metadata?: Record<string, any>;
   inventoryId: string;
-  name: string;
   utilization: number;
   totalValue: number;
   itemCount: number;
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -796,7 +736,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   items: number;
   inventories: number;
   recipes: number;
@@ -805,7 +744,6 @@ export interface PerformanceTrend {
 }
 
 export interface ItemsReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -828,7 +766,6 @@ export interface ItemsReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -849,7 +786,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -869,7 +805,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -889,7 +824,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -902,13 +836,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ItemsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

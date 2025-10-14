@@ -10,7 +10,6 @@
  */
 
 export interface RenderWorldConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface RenderWorldConfig {
 }
 
 export interface RenderWorldManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface RenderWorldManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RenderWorldManagerType;
   status: RenderWorldManagerStatus;
   worlds: RenderWorld[];
@@ -65,16 +61,12 @@ export interface RenderWorldManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type RenderWorldManagerType = 'game' | 'simulation' | 'visualization' | 'custom';
 export type RenderWorldManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface RenderWorld {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,8 +78,6 @@ export interface RenderWorld {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WorldType;
   status: WorldStatus;
   scenes: string[];
@@ -96,14 +86,12 @@ export interface RenderWorld {
   materials: string[];
   properties: WorldProperties;
   performance: WorldPerformance;
-  metadata: Record<string, any>;
 }
 
 export type WorldType = '3d' | '2d' | 'hybrid' | 'custom';
 export type WorldStatus = 'loading' | 'ready' | 'rendering' | 'paused' | 'error';
 
 export interface RenderScene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -115,8 +103,6 @@ export interface RenderScene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SceneType;
   status: SceneStatus;
   worldId: string;
@@ -126,14 +112,12 @@ export interface RenderScene {
   materials: string[];
   properties: SceneProperties;
   performance: ScenePerformance;
-  metadata: Record<string, any>;
 }
 
 export type SceneType = 'main' | 'ui' | 'background' | 'custom';
 export type SceneStatus = 'loading' | 'ready' | 'rendering' | 'paused' | 'error';
 
 export interface RenderObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -145,8 +129,6 @@ export interface RenderObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectType;
   status: ObjectStatus;
   geometry: Geometry;
@@ -154,14 +136,12 @@ export interface RenderObject {
   transform: Transform;
   properties: ObjectProperties;
   performance: ObjectPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ObjectType = 'mesh' | 'light' | 'camera' | 'particle' | 'custom';
 export type ObjectStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface Geometry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +164,6 @@ export interface Geometry {
 export type GeometryType = 'box' | 'sphere' | 'plane' | 'custom';
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,7 +181,6 @@ export interface Vector3 {
 }
 
 export interface Vector2 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +197,6 @@ export interface Vector2 {
 }
 
 export interface GeometryAttribute {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -231,7 +208,6 @@ export interface GeometryAttribute {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: AttributeType;
   data: any[];
   size: number;
@@ -240,7 +216,6 @@ export interface GeometryAttribute {
 export type AttributeType = 'float' | 'int' | 'vec2' | 'vec3' | 'vec4' | 'custom';
 
 export interface Transform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -259,7 +234,6 @@ export interface Transform {
 }
 
 export interface Matrix4 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,7 +249,6 @@ export interface Matrix4 {
 }
 
 export interface ObjectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -296,7 +269,6 @@ export interface ObjectProperties {
 }
 
 export interface ObjectPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +288,6 @@ export interface ObjectPerformance {
 }
 
 export interface RenderCamera {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -328,21 +299,17 @@ export interface RenderCamera {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CameraType;
   status: CameraStatus;
   properties: CameraProperties;
   transform: Transform;
   performance: CameraPerformance;
-  metadata: Record<string, any>;
 }
 
 export type CameraType = 'perspective' | 'orthographic' | 'fisheye' | 'custom';
 export type CameraStatus = 'active' | 'inactive' | 'recording' | 'error';
 
 export interface CameraProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -368,7 +335,6 @@ export interface CameraProperties {
 }
 
 export interface CameraPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -388,7 +354,6 @@ export interface CameraPerformance {
 }
 
 export interface Resolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -406,7 +371,6 @@ export interface Resolution {
 }
 
 export interface RenderLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -418,21 +382,17 @@ export interface RenderLight {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LightType;
   status: LightStatus;
   properties: LightProperties;
   transform: Transform;
   performance: LightPerformance;
-  metadata: Record<string, any>;
 }
 
 export type LightType = 'directional' | 'point' | 'spot' | 'area' | 'custom';
 export type LightStatus = 'active' | 'inactive' | 'error';
 
 export interface LightProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -456,7 +416,6 @@ export interface LightProperties {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -475,7 +434,6 @@ export interface Color {
 }
 
 export interface ShadowProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,7 +453,6 @@ export interface ShadowProperties {
 }
 
 export interface LightPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +470,6 @@ export interface LightPerformance {
 }
 
 export interface RenderMaterial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -525,22 +481,18 @@ export interface RenderMaterial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MaterialType;
   status: MaterialStatus;
   properties: MaterialProperties;
   textures: MaterialTexture[];
   shaders: MaterialShader[];
   performance: MaterialPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MaterialType = 'basic' | 'lambert' | 'phong' | 'standard' | 'custom';
 export type MaterialStatus = 'active' | 'inactive' | 'error';
 
 export interface MaterialProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -569,7 +521,6 @@ export type MaterialSide = 'front' | 'back' | 'double' | 'custom';
 export type BlendingMode = 'normal' | 'add' | 'subtract' | 'multiply' | 'custom';
 
 export interface MaterialTexture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -581,8 +532,6 @@ export interface MaterialTexture {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TextureType;
   path: string;
   properties: TextureProperties;
@@ -591,7 +540,6 @@ export interface MaterialTexture {
 export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
 
 export interface TextureProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -619,7 +567,6 @@ export type TextureFormat = 'rgba' | 'rgb' | 'luminance' | 'custom';
 export type TextureDataType = 'unsigned_byte' | 'float' | 'half_float' | 'custom';
 
 export interface MaterialShader {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -631,8 +578,6 @@ export interface MaterialShader {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ShaderType;
   source: string;
   uniforms: ShaderUniform[];
@@ -642,7 +587,6 @@ export interface MaterialShader {
 export type ShaderType = 'vertex' | 'fragment' | 'geometry' | 'custom';
 
 export interface ShaderUniform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,7 +598,6 @@ export interface ShaderUniform {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: UniformType;
   value: any;
   location: number;
@@ -663,7 +606,6 @@ export interface ShaderUniform {
 export type UniformType = 'float' | 'int' | 'vec2' | 'vec3' | 'vec4' | 'mat3' | 'mat4' | 'sampler2d' | 'custom';
 
 export interface ShaderAttribute {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -675,14 +617,12 @@ export interface ShaderAttribute {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: AttributeType;
   location: number;
   size: number;
 }
 
 export interface MaterialPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -700,7 +640,6 @@ export interface MaterialPerformance {
 }
 
 export interface WorldProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -720,7 +659,6 @@ export interface WorldProperties {
 }
 
 export interface PhysicsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -740,7 +678,6 @@ export interface PhysicsConfig {
 }
 
 export interface LightingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -759,7 +696,6 @@ export interface LightingConfig {
 }
 
 export interface DirectionalLightConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,7 +714,6 @@ export interface DirectionalLightConfig {
 }
 
 export interface PointLightConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -799,7 +734,6 @@ export interface PointLightConfig {
 }
 
 export interface SpotLightConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -823,7 +757,6 @@ export interface SpotLightConfig {
 }
 
 export interface FogConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -843,7 +776,6 @@ export interface FogConfig {
 }
 
 export interface BackgroundConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -864,7 +796,6 @@ export interface BackgroundConfig {
 export type BackgroundType = 'color' | 'texture' | 'skybox' | 'custom';
 
 export interface SceneProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -884,7 +815,6 @@ export interface SceneProperties {
 }
 
 export interface WorldPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -905,7 +835,6 @@ export interface WorldPerformance {
 }
 
 export interface ScenePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -926,7 +855,6 @@ export interface ScenePerformance {
 }
 
 export interface RenderWorldPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -953,7 +881,6 @@ export interface RenderWorldPerformanceMetrics {
 }
 
 export interface RenderWorldAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -974,7 +901,6 @@ export interface RenderWorldAnalytics {
 }
 
 export interface WorldTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -993,7 +919,6 @@ export interface WorldTypeDistribution {
 }
 
 export interface SceneTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1012,7 +937,6 @@ export interface SceneTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1024,7 +948,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   worlds: number;
   scenes: number;
   fps: number;
@@ -1034,7 +957,6 @@ export interface PerformanceTrend {
 }
 
 export interface RenderWorldReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1057,7 +979,6 @@ export interface RenderWorldReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1078,7 +999,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1098,7 +1018,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1118,7 +1037,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1131,13 +1049,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface RenderWorldOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -6,7 +6,6 @@
  */
 
 export interface StatModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -26,7 +25,6 @@ export interface StatModifier {
 }
 
 export interface EquippedItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,8 +36,6 @@ export interface EquippedItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   slot: string;
   modifiers: StatModifier[];
   source: string;
@@ -53,7 +49,6 @@ export interface EquippedItem {
 }
 
 export interface Enchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -65,8 +60,6 @@ export interface Enchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   effects: StatModifier[];
   duration?: number;
@@ -74,7 +67,6 @@ export interface Enchantment {
 }
 
 export interface EquipmentSet {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,15 +78,12 @@ export interface EquipmentSet {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   pieces: string[];
   bonuses: SetBonus[];
   metadata?: Record<string, any>;
 }
 
 export interface SetBonus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -112,7 +101,6 @@ export interface SetBonus {
 }
 
 export interface EquipmentStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,7 +122,6 @@ export interface EquipmentStats {
 }
 
 export interface EquipmentFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,7 +143,6 @@ export interface EquipmentFilter {
 }
 
 export interface EquipmentOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,7 +163,6 @@ export interface EquipmentOutput {
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface Hooks {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +184,6 @@ export interface Hooks {
 }
 
 export interface InventoryPort {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

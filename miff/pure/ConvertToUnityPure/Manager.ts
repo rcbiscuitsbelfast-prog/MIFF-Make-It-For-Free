@@ -3,7 +3,6 @@ import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
 import { RenderPayload, RenderData } from '../shared/ConsolidatedSchema';
 
 export interface UnityConvertedPayload {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -51,7 +51,6 @@ export enum ExportStatus {
 }
 
 export interface ExportConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -76,7 +75,6 @@ export interface ExportConfig {
 }
 
 export interface ExportStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +86,6 @@ export interface ExportStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   status: ExportStatus;
   progress: number; // 0-100
@@ -101,7 +97,6 @@ export interface ExportStep {
 }
 
 export interface ExportAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +123,6 @@ export interface ExportAnalytics {
 }
 
 export interface ExportResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,12 +143,9 @@ export interface ExportResult {
   steps: ExportStep[];
   analytics?: ExportAnalytics;
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface ExportPipelineConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

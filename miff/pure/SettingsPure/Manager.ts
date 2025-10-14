@@ -12,7 +12,6 @@
  */
 
 export interface SettingsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface SettingsConfig {
 }
 
 export interface SettingsManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface SettingsManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SettingsManagerType;
   status: SettingsManagerStatus;
   settings: Setting[];
@@ -67,9 +63,6 @@ export interface SettingsManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
   
   // Missing methods that are being called
   get(key: string): any;
@@ -88,7 +81,6 @@ export type SettingsManagerType = 'application' | 'game' | 'user' | 'system' | '
 export type SettingsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Setting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -100,8 +92,6 @@ export interface Setting {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: string;
   type: SettingType;
@@ -109,13 +99,11 @@ export interface Setting {
   defaultValue: any;
   constraints: SettingConstraints;
   validation: ValidationRules;
-  metadata: Record<string, any>;
 }
 
 export type SettingType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'enum' | 'custom';
 
 export interface SettingConstraints {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,7 +127,6 @@ export interface SettingConstraints {
 }
 
 export interface ValidationRules {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,7 +144,6 @@ export interface ValidationRules {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,7 +164,6 @@ export interface ValidationRule {
 export type ValidationType = 'required' | 'min' | 'max' | 'pattern' | 'enum' | 'custom';
 
 export interface ErrorHandling {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -197,7 +182,6 @@ export interface ErrorHandling {
 }
 
 export interface SettingCategory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -209,19 +193,15 @@ export interface SettingCategory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   parent?: string;
   children: string[];
   order: number;
   icon: string;
   color: string;
-  metadata: Record<string, any>;
 }
 
 export interface SettingSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,18 +213,14 @@ export interface SettingSchema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   description: string;
   structure: SchemaStructure;
   validation: ValidationRules;
   migration: MigrationRule[];
-  metadata: Record<string, any>;
 }
 
 export interface SchemaStructure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -262,7 +238,6 @@ export interface SchemaStructure {
 }
 
 export interface SchemaNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,8 +249,6 @@ export interface SchemaNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NodeType;
   required: boolean;
   properties: SchemaProperty[];
@@ -286,7 +259,6 @@ export interface SchemaNode {
 export type NodeType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null' | 'custom';
 
 export interface SchemaProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -298,7 +270,6 @@ export interface SchemaProperty {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   required: boolean;
   defaultValue: any;
@@ -306,7 +277,6 @@ export interface SchemaProperty {
 }
 
 export interface ValidationConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -326,7 +296,6 @@ export interface ValidationConstraint {
 export type ConstraintType = 'min' | 'max' | 'pattern' | 'enum' | 'custom';
 
 export interface SchemaRelationship {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -348,7 +317,6 @@ export type RelationshipType = 'one_to_one' | 'one_to_many' | 'many_to_one' | 'm
 export type Cardinality = '1' | '0..1' | '1..*' | '0..*';
 
 export interface MigrationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -367,7 +335,6 @@ export interface MigrationRule {
 }
 
 export interface MigrationStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -390,7 +357,6 @@ export type StepType = 'add' | 'remove' | 'modify' | 'rename' | 'transform' | 'c
 export type OperationType = 'set' | 'copy' | 'move' | 'delete' | 'calculate' | 'custom';
 
 export interface SettingProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -402,20 +368,14 @@ export interface SettingProfile {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: ProfileType;
   settings: Record<string, any>;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ProfileType = 'default' | 'user' | 'system' | 'custom';
 
 export interface SettingsPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -438,7 +398,6 @@ export interface SettingsPerformanceMetrics {
 }
 
 export interface SettingsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -459,7 +418,6 @@ export interface SettingsAnalytics {
 }
 
 export interface CategoryDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -478,7 +436,6 @@ export interface CategoryDistribution {
 }
 
 export interface SettingTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -497,7 +454,6 @@ export interface SettingTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -509,7 +465,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   settings: number;
   validation: number;
   persistence: number;
@@ -518,7 +473,6 @@ export interface PerformanceTrend {
 }
 
 export interface SettingsReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -541,7 +495,6 @@ export interface SettingsReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -562,7 +515,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -582,7 +534,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -602,7 +553,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -615,13 +565,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SettingsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

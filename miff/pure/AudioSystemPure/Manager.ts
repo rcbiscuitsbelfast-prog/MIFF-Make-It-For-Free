@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface AudioSystemConfig {
 }
 
 export interface AudioSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface AudioSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   devices: AudioDevice[];
@@ -66,14 +62,12 @@ export interface AudioSystem {
   pipeline: ProcessingPipeline;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface AudioDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,17 +79,13 @@ export interface AudioDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   status: DeviceStatus;
   capabilities: DeviceCapabilities;
   settings: DeviceSettings;
-  metadata: Record<string, any>;
 }
 
 export interface AudioContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -107,19 +97,15 @@ export interface AudioContext {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ContextType;
   status: ContextStatus;
   sampleRate: number;
   bufferSize: number;
   channels: number;
   settings: ContextSettings;
-  metadata: Record<string, any>;
 }
 
 export interface ProcessingPipeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,7 +125,6 @@ export interface ProcessingPipeline {
 }
 
 export interface ProcessingStage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -151,17 +136,13 @@ export interface ProcessingStage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StageType;
   enabled: boolean;
   parameters: StageParameters;
   order: number;
-  metadata: Record<string, any>;
 }
 
 export interface PipelineConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,16 +154,13 @@ export interface PipelineConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   sourceStage: string;
   targetStage: string;
   enabled: boolean;
   gain: number; // 0 to 1
-  metadata: Record<string, any>;
 }
 
 export interface DeviceCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -203,7 +181,6 @@ export interface DeviceCapabilities {
 }
 
 export interface DeviceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -223,7 +200,6 @@ export interface DeviceSettings {
 }
 
 export interface ContextSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,7 +219,6 @@ export interface ContextSettings {
 }
 
 export interface AudioFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -262,7 +237,6 @@ export interface AudioFormat {
 }
 
 export interface StageParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,7 +252,6 @@ export interface StageParameters {
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -299,7 +272,6 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

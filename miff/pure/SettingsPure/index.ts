@@ -4,7 +4,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // Schema Version: v1
 
 export interface SettingsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -64,7 +63,6 @@ export interface SettingsConfig {
 }
 
 export interface SettingsValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -77,13 +75,11 @@ export interface SettingsValidation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   isValid: boolean;
-  errors: string[];
   warnings: string[];
   suggestions: string[];
 }
 
 export interface SettingsStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

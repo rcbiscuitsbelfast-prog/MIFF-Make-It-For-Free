@@ -68,7 +68,6 @@ export enum RevenueType {
 }
 
 export interface BusinessFacility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -80,8 +79,6 @@ export interface BusinessFacility {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FacilityType;
   location: string;
   capacity: number;
@@ -97,7 +94,6 @@ export interface BusinessFacility {
 }
 
 export interface StaffMember {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,8 +105,6 @@ export interface StaffMember {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   role: StaffRole;
   salary: number;
   productivity: number;
@@ -124,7 +118,6 @@ export interface StaffMember {
 }
 
 export interface RevenueStream {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -136,7 +129,6 @@ export interface RevenueStream {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RevenueType;
   amount: number;
   frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
@@ -148,7 +140,6 @@ export interface RevenueStream {
 }
 
 export interface MarketData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -173,7 +164,6 @@ export interface MarketData {
 }
 
 export interface BusinessStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,7 +192,6 @@ export interface BusinessStats {
 }
 
 export interface TycoonIntegration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,7 +216,6 @@ export interface TycoonIntegration {
 }
 
 export interface TycoonManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -252,7 +240,6 @@ export interface TycoonManagerConfig {
 }
 
 export interface FacilityManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -271,7 +258,6 @@ export interface FacilityManager {
 }
 
 export interface StaffManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -290,7 +276,6 @@ export interface StaffManager {
 }
 
 export interface FinancialManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

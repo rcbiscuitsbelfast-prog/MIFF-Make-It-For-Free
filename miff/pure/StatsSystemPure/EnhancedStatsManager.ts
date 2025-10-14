@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface StatConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -28,7 +27,6 @@ export interface StatConfig {
 }
 
 export interface Stat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -49,7 +47,6 @@ export interface Stat {
 }
 
 export interface StatModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,7 +58,6 @@ export interface StatModifier {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   statKey: string;
   value: number;
   type: 'flat' | 'percentage' | 'multiplier';
@@ -73,7 +69,6 @@ export interface StatModifier {
 }
 
 export interface ModifierCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -92,7 +87,6 @@ export interface ModifierCondition {
 }
 
 export interface StatDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -111,7 +105,6 @@ export interface StatDependency {
 }
 
 export interface EntityStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +116,6 @@ export interface EntityStats {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   stats: Stat[];
   modifiers: StatModifier[];
   dependencies: StatDependency[];
@@ -132,7 +124,6 @@ export interface EntityStats {
 }
 
 export interface StatProgression {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,7 +138,6 @@ export interface StatProgression {
   entityId: string;
   statKey: string;
   history: Array<{
-    timestamp: number;
     value: number;
     change: number;
     source: string;
@@ -159,13 +149,11 @@ export interface StatProgression {
   };
   milestones: Array<{
     value: number;
-    timestamp: number;
     description: string;
   }>;
 }
 
 export interface StatsAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -188,7 +176,6 @@ export interface StatsAnalytics {
 }
 
 export interface StatCalculationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -204,7 +191,6 @@ export interface StatCalculationResult {
   baseValue: number;
   finalValue: number;
   modifiers: Array<{
-    id: string;
     source: string;
     effect: number;
     type: string;
@@ -218,7 +204,6 @@ export interface StatCalculationResult {
 }
 
 export interface StatsOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

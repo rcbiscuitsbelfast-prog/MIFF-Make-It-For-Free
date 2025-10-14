@@ -11,7 +11,6 @@
  */
 
 export interface SliceConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface SliceConfig {
 }
 
 export interface SliceManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface SliceManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SliceManagerType;
   status: SliceManagerStatus;
   slices: Slice[];
@@ -67,16 +63,12 @@ export interface SliceManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type SliceManagerType = 'data' | 'memory' | 'disk' | 'network' | 'custom';
 export type SliceManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Slice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Slice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SliceType;
   status: SliceStatus;
   data: SliceData;
@@ -103,7 +93,6 @@ export type SliceType = 'horizontal' | 'vertical' | 'hybrid' | 'custom';
 export type SliceStatus = 'active' | 'inactive' | 'locked' | 'error';
 
 export interface SliceData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +116,6 @@ export interface SliceData {
 export type DataFormat = 'json' | 'xml' | 'yaml' | 'csv' | 'binary' | 'custom';
 
 export interface CompressionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +137,6 @@ export interface CompressionInfo {
 export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
 export interface SliceMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +159,6 @@ export interface SliceMetadata {
 }
 
 export interface SlicePermissions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,7 +177,6 @@ export interface SlicePermissions {
 }
 
 export interface SliceSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -213,7 +198,6 @@ export interface SliceSchema {
 export type SchemaType = 'object' | 'array' | 'primitive' | 'custom';
 
 export interface PropertyDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,7 +224,6 @@ export interface PropertyDefinition {
 export type DataType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'null' | 'custom';
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -263,7 +246,6 @@ export type ConstraintType = 'required' | 'type' | 'format' | 'range' | 'length'
 export type ConstraintOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'not_contains' | 'custom';
 
 export interface SlicePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +265,6 @@ export interface SlicePerformance {
 }
 
 export interface SliceCacheInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -304,7 +285,6 @@ export interface SliceCacheInfo {
 }
 
 export interface SliceSynchronization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -326,7 +306,6 @@ export interface SliceSynchronization {
 export type SyncStatus = 'synced' | 'pending' | 'conflict' | 'error';
 
 export interface SyncConflict {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -342,13 +321,11 @@ export interface SyncConflict {
   localValue: any;
   remoteValue: any;
   resolution: ConflictResolution;
-  timestamp: number;
 }
 
 export type ConflictResolution = 'local' | 'remote' | 'merge' | 'custom';
 
 export interface Partition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -360,21 +337,17 @@ export interface Partition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PartitionType;
   status: PartitionStatus;
   slices: string[];
   criteria: PartitionCriteria;
   performance: PartitionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PartitionType = 'range' | 'hash' | 'list' | 'custom';
 export type PartitionStatus = 'active' | 'inactive' | 'error';
 
 export interface PartitionCriteria {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -397,7 +370,6 @@ export type CriteriaOperator = 'equals' | 'range' | 'hash' | 'custom';
 export type HashFunction = 'md5' | 'sha1' | 'sha256' | 'custom';
 
 export interface ValueRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -415,7 +387,6 @@ export interface ValueRange {
 }
 
 export interface PartitionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -434,7 +405,6 @@ export interface PartitionPerformance {
 }
 
 export interface SliceCache {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -446,20 +416,16 @@ export interface SliceCache {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CacheType;
   status: CacheStatus;
   configuration: CacheConfiguration;
   performance: CachePerformance;
-  metadata: Record<string, any>;
 }
 
 export type CacheType = 'memory' | 'disk' | 'redis' | 'custom';
 export type CacheStatus = 'active' | 'inactive' | 'error';
 
 export interface CacheConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -481,7 +447,6 @@ export interface CacheConfiguration {
 export type EvictionPolicy = 'lru' | 'lfu' | 'fifo' | 'custom';
 
 export interface CachePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,7 +467,6 @@ export interface CachePerformance {
 }
 
 export interface SliceSynchronizer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -514,20 +478,16 @@ export interface SliceSynchronizer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SynchronizerType;
   status: SynchronizerStatus;
   configuration: SynchronizerConfiguration;
   performance: SynchronizerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SynchronizerType = 'realtime' | 'batch' | 'event' | 'custom';
 export type SynchronizerStatus = 'active' | 'inactive' | 'error';
 
 export interface SynchronizerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -549,7 +509,6 @@ export interface SynchronizerConfiguration {
 }
 
 export interface SynchronizerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -568,7 +527,6 @@ export interface SynchronizerPerformance {
 }
 
 export interface SliceOptimizer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -580,20 +538,16 @@ export interface SliceOptimizer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: OptimizerType;
   status: OptimizerStatus;
   configuration: OptimizerConfiguration;
   performance: OptimizerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type OptimizerType = 'compression' | 'deduplication' | 'indexing' | 'custom';
 export type OptimizerStatus = 'active' | 'inactive' | 'error';
 
 export interface OptimizerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -615,7 +569,6 @@ export type OptimizationAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom
 export type OptimizationLevel = 'fast' | 'balanced' | 'maximum' | 'custom';
 
 export interface OptimizerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -635,7 +588,6 @@ export interface OptimizerPerformance {
 }
 
 export interface SlicePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -660,7 +612,6 @@ export interface SlicePerformanceMetrics {
 }
 
 export interface SliceAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -681,7 +632,6 @@ export interface SliceAnalytics {
 }
 
 export interface SliceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -700,7 +650,6 @@ export interface SliceTypeDistribution {
 }
 
 export interface PartitionTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -719,7 +668,6 @@ export interface PartitionTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -731,7 +679,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   slices: number;
   partitions: number;
   memory: number;
@@ -740,7 +687,6 @@ export interface PerformanceTrend {
 }
 
 export interface SliceReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -763,7 +709,6 @@ export interface SliceReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -784,7 +729,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -804,7 +748,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -824,7 +767,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -837,13 +779,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SliceOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

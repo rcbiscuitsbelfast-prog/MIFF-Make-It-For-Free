@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CacheManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CacheManagerConfig {
 }
 
 export interface CacheManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,22 +53,18 @@ export interface CacheManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CacheType;
   status: CacheStatus;
   caches: Cache[];
   policies: CachePolicy[];
   performance: CachePerformance;
   analytics: CacheAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Cache {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,19 +76,15 @@ export interface Cache {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CacheType;
   level: CacheLevel;
   status: CacheStatus;
   entries: CacheEntry[];
   policy: CachePolicy;
   performance: CachePerformance;
-  metadata: Record<string, any>;
 }
 
 export interface CacheEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -113,11 +103,9 @@ export interface CacheEntry {
   lastAccessed: Date;
   accessCount: number;
   size: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface CachePolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,19 +117,15 @@ export interface CachePolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   maxSize: number; // bytes
   maxEntries: number;
   ttl: number; // milliseconds
   evictionStrategy: EvictionStrategy;
   compression: CompressionConfig;
-  metadata: Record<string, any>;
 }
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,11 +140,9 @@ export interface CompressionConfig {
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   threshold: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface CachePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,11 +159,9 @@ export interface CachePerformance {
   averageAccessTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface CacheAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

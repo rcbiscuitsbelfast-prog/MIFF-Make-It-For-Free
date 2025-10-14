@@ -10,7 +10,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
  */
 
 export interface ItemDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,8 +21,6 @@ export interface ItemDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: 'weapon' | 'armor' | 'consumable' | 'material' | 'quest' | 'currency';
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
@@ -36,7 +33,6 @@ export interface ItemDefinition {
 }
 
 export interface ItemInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +44,6 @@ export interface ItemInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   definitionId: string;
   quantity: number;
   durability?: number;
@@ -60,7 +55,6 @@ export interface ItemInstance {
 }
 
 export interface ItemEnchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -72,8 +66,6 @@ export interface ItemEnchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'damage' | 'defense' | 'utility' | 'special';
   magnitude: number;
   duration?: number; // -1 for permanent
@@ -81,7 +73,6 @@ export interface ItemEnchantment {
 }
 
 export interface InventoryComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -103,7 +94,6 @@ export interface InventoryComponent {
 }
 
 export interface InventorySystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,7 +112,6 @@ export interface InventorySystem {
 }
 
 export interface InventoryTransaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,7 +123,6 @@ export interface InventoryTransaction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'add' | 'remove' | 'move' | 'equip' | 'unequip' | 'use' | 'split' | 'merge';
   entityId: string;
   itemId?: string;
@@ -142,12 +130,10 @@ export interface InventoryTransaction {
   fromSlot?: string;
   toSlot?: string;
   equipSlot?: string;
-  timestamp: number;
   metadata?: Record<string, any>;
 }
 
 export interface InventoryObserver {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,7 +145,6 @@ export interface InventoryObserver {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   onItemAdded?: (transaction: InventoryTransaction) => void;
   onItemRemoved?: (transaction: InventoryTransaction) => void;
   onItemMoved?: (transaction: InventoryTransaction) => void;
@@ -169,7 +154,6 @@ export interface InventoryObserver {
 }
 
 export interface InventoryQuery {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

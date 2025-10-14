@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AvatarRendererGodotConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -47,7 +46,6 @@ export interface AvatarRendererGodotConfig {
 }
 
 export interface AvatarRendererGodot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,8 +57,6 @@ export interface AvatarRendererGodot {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RendererType;
   status: RendererStatus;
   avatars: GodotAvatar[];
@@ -69,14 +65,12 @@ export interface AvatarRendererGodot {
   lodSystem: LODSystem;
   performance: RendererPerformance;
   analytics: RendererAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface GodotAvatar {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +82,6 @@ export interface GodotAvatar {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AvatarType;
   status: AvatarStatus;
   mesh: GodotMesh;
@@ -97,11 +89,9 @@ export interface GodotAvatar {
   animations: GodotAnimation[];
   lodLevels: LODLevel[];
   transform: Transform3D;
-  metadata: Record<string, any>;
 }
 
 export interface GodotMaterial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -113,17 +103,13 @@ export interface GodotMaterial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MaterialType;
   shader: string;
   properties: MaterialProperties;
   textures: GodotTexture[];
-  metadata: Record<string, any>;
 }
 
 export interface GodotShader {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -135,16 +121,12 @@ export interface GodotShader {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ShaderType;
   code: string;
   uniforms: ShaderUniform[];
-  metadata: Record<string, any>;
 }
 
 export interface GodotMesh {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,18 +138,14 @@ export interface GodotMesh {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   vertices: number[];
   normals: number[];
   uvs: number[];
   indices: number[];
   submeshes: Submesh[];
-  metadata: Record<string, any>;
 }
 
 export interface GodotAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -179,16 +157,12 @@ export interface GodotAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   duration: number; // seconds
   tracks: AnimationTrack[];
-  metadata: Record<string, any>;
 }
 
 export interface LODSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -208,7 +182,6 @@ export interface LODSystem {
 }
 
 export interface LODLevel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -220,17 +193,14 @@ export interface LODLevel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   level: number;
   distance: number;
   mesh: string;
   materials: string[];
   quality: QualityLevel;
-  metadata: Record<string, any>;
 }
 
 export interface GodotTexture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -242,17 +212,13 @@ export interface GodotTexture {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TextureType;
   path: string;
   size: { width: number; height: number };
   format: TextureFormat;
-  metadata: Record<string, any>;
 }
 
 export interface Submesh {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,14 +230,11 @@ export interface Submesh {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   material: string;
   indices: number[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,15 +246,12 @@ export interface AnimationTrack {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TrackType;
   property: string;
   keyframes: Keyframe[];
-  metadata: Record<string, any>;
 }
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,11 +266,9 @@ export interface Keyframe {
   time: number; // seconds
   value: any;
   interpolation: InterpolationType;
-  metadata: Record<string, any>;
 }
 
 export interface MaterialProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -326,7 +284,6 @@ export interface MaterialProperties {
 }
 
 export interface ShaderUniform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -338,14 +295,11 @@ export interface ShaderUniform {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: UniformType;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface Transform3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,7 +317,6 @@ export interface Transform3D {
 }
 
 export interface RendererPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -384,7 +337,6 @@ export interface RendererPerformance {
 }
 
 export interface RendererAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

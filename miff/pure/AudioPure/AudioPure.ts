@@ -10,7 +10,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface AudioConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface AudioConfig {
 }
 
 export interface AudioEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,12 +51,10 @@ export interface AudioEvent {
   metadata?: Record<string, any>;
   type: 'play' | 'stop' | 'pause' | 'volume' | 'spatial';
   soundId: string;
-  timestamp: number;
   data?: any;
 }
 
 export interface SpatialAudioConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,7 +81,6 @@ export interface SpatialAudioConfig {
 }
 
 export interface SoundDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -97,8 +92,6 @@ export interface SoundDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   category: string;
   volume: number;
   pitch: number;

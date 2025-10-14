@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ConfigManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface ConfigManagerConfig {
 }
 
 export interface ConfigManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface ConfigManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ManagerType;
   status: ManagerStatus;
   configs: Configuration[];
@@ -64,14 +60,12 @@ export interface ConfigManager {
   validators: ConfigValidator[];
   performance: ManagerPerformance;
   analytics: ManagerAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Configuration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,8 +77,6 @@ export interface Configuration {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConfigType;
   status: ConfigStatus;
   data: Record<string, any>;
@@ -92,11 +84,9 @@ export interface Configuration {
   version: string;
   encrypted: boolean;
   lastModified: Date;
-  metadata: Record<string, any>;
 }
 
 export interface ConfigSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -108,17 +98,13 @@ export interface ConfigSchema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SchemaType;
   version: string;
   fields: SchemaField[];
   validation: SchemaValidation;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -130,17 +116,13 @@ export interface SchemaField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FieldType;
   required: boolean;
   defaultValue: any;
   validation: FieldValidation;
-  metadata: Record<string, any>;
 }
 
 export interface FieldValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,11 +139,9 @@ export interface FieldValidation {
   pattern?: string;
   enum?: any[];
   custom?: string;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -176,11 +156,9 @@ export interface SchemaValidation {
   strict: boolean;
   allowUnknown: boolean;
   coerce: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface ConfigValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,16 +170,12 @@ export interface ConfigValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   enabled: boolean;
   rules: ValidationRule[];
-  metadata: Record<string, any>;
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -213,16 +187,12 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   condition: RuleCondition;
   action: RuleAction;
-  metadata: Record<string, any>;
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,11 +207,9 @@ export interface RuleCondition {
   field: string;
   operator: ConditionOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,11 +223,9 @@ export interface RuleAction {
   metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface ManagerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -277,11 +243,9 @@ export interface ManagerPerformance {
   averageValidationTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface ManagerAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

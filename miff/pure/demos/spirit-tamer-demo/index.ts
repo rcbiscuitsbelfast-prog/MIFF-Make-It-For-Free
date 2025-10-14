@@ -27,7 +27,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Game Types and Interfaces
 interface SpiritType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ interface SpiritType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   color: string;
   weaknesses: string[];
   resistances: string[];
@@ -47,7 +45,6 @@ interface SpiritType {
 }
 
 interface SpiritSpecies {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -59,8 +56,6 @@ interface SpiritSpecies {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: string;
   baseStats: {
@@ -78,7 +73,6 @@ interface SpiritSpecies {
 }
 
 interface PlayerSpirit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,9 +84,7 @@ interface PlayerSpirit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   speciesId: string;
-  name: string;
   level: number;
   experience: number;
   currentHp: number;
@@ -114,7 +106,6 @@ interface PlayerSpirit {
 }
 
 interface Player {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +117,6 @@ interface Player {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   spirits: PlayerSpirit[];
   activeTeam: PlayerSpirit[];
   inventory: Map<string, number>;
@@ -138,7 +128,6 @@ interface Player {
 }
 
 interface BattleState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

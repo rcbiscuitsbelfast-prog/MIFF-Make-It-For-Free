@@ -12,7 +12,6 @@ import { PerfTimer, HighResPerfTimer, PerfUtils, defaultProfiler } from './index
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLITest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -24,7 +23,6 @@ interface CLITest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   fn: () => void | Promise<void>;
 }

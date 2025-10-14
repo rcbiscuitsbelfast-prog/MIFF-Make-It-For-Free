@@ -6,7 +6,6 @@
  */
 
 export interface MigrationStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -18,7 +17,6 @@ export interface MigrationStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   fromVersion: string;
   toVersion: string;
   description: string;
@@ -30,7 +28,6 @@ export interface MigrationStep {
 }
 
 export interface MigrationPath {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,7 +47,6 @@ export interface MigrationPath {
 }
 
 export interface MigrationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -65,14 +61,12 @@ export interface MigrationResult {
   success: boolean;
   migratedData: any;
   stepsExecuted: string[];
-  errors: string[];
   warnings: string[];
   duration: number;
   rollbackData?: any;
 }
 
 export interface VersionCompatibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,7 +85,6 @@ export interface VersionCompatibility {
 }
 
 export interface MigrationStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

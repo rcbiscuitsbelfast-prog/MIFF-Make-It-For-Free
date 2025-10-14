@@ -11,7 +11,6 @@
  */
 
 export interface DataPipelineConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface DataPipelineConfig {
 }
 
 export interface DataPipelineManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface DataPipelineManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataPipelineManagerType;
   status: DataPipelineManagerStatus;
   pipelines: Pipeline[];
@@ -67,16 +63,12 @@ export interface DataPipelineManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DataPipelineManagerType = 'batch' | 'stream' | 'hybrid' | 'real_time' | 'custom';
 export type DataPipelineManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Pipeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,22 +80,18 @@ export interface Pipeline {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PipelineType;
   status: PipelineStatus;
   configuration: PipelineConfiguration;
   stages: PipelineStage[];
   dependencies: PipelineDependency[];
   performance: PipelinePerformance;
-  metadata: Record<string, any>;
 }
 
 export type PipelineType = 'etl' | 'elt' | 'streaming' | 'batch' | 'custom';
 export type PipelineStatus = 'draft' | 'running' | 'paused' | 'completed' | 'failed';
 
 export interface PipelineConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +112,6 @@ export interface PipelineConfiguration {
 }
 
 export interface CheckpointingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -143,7 +130,6 @@ export interface CheckpointingConfig {
 }
 
 export interface CheckpointStorage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface CheckpointStorage {
 export type StorageType = 'local' | 'hdfs' | 's3' | 'gcs' | 'custom';
 
 export interface RecoveryConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +170,6 @@ export interface RecoveryConfig {
 export type RecoveryStrategy = 'restart' | 'resume' | 'skip' | 'custom';
 
 export interface BackoffConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,7 +190,6 @@ export interface BackoffConfig {
 export type BackoffType = 'exponential' | 'linear' | 'fixed' | 'custom';
 
 export interface MonitoringConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,7 +208,6 @@ export interface MonitoringConfig {
 }
 
 export interface AlertConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,14 +219,12 @@ export interface AlertConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   condition: AlertCondition;
   action: AlertAction;
   enabled: boolean;
 }
 
 export interface AlertCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +245,6 @@ export interface AlertCondition {
 export type ConditionOperator = 'greater_than' | 'less_than' | 'equals' | 'not_equals' | 'custom';
 
 export interface AlertAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -285,7 +264,6 @@ export interface AlertAction {
 export type ActionType = 'email' | 'webhook' | 'slack' | 'custom';
 
 export interface SecurityConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +281,6 @@ export interface SecurityConfig {
 }
 
 export interface EncryptionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,7 +301,6 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface AuthenticationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -344,7 +320,6 @@ export interface AuthenticationConfig {
 export type AuthMethod = 'basic' | 'oauth' | 'jwt' | 'custom';
 
 export interface Credentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,7 +338,6 @@ export interface Credentials {
 }
 
 export interface AuthorizationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -382,7 +356,6 @@ export interface AuthorizationConfig {
 }
 
 export interface Policy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -394,14 +367,11 @@ export interface Policy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   rules: PolicyRule[];
   enabled: boolean;
 }
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -419,7 +389,6 @@ export interface PolicyRule {
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -437,7 +406,6 @@ export interface RuleCondition {
 }
 
 export interface PipelineStage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -449,21 +417,17 @@ export interface PipelineStage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StageType;
   order: number;
   configuration: StageConfiguration;
   inputs: StageInput[];
   outputs: StageOutput[];
   performance: StagePerformance;
-  metadata: Record<string, any>;
 }
 
 export type StageType = 'ingestion' | 'transformation' | 'validation' | 'output' | 'custom';
 
 export interface StageConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +447,6 @@ export interface StageConfiguration {
 }
 
 export interface StageInput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,8 +458,6 @@ export interface StageInput {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: InputType;
   source: string;
   schema: DataSchema;
@@ -506,7 +467,6 @@ export interface StageInput {
 export type InputType = 'file' | 'database' | 'api' | 'stream' | 'custom';
 
 export interface DataSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -527,7 +487,6 @@ export interface DataSchema {
 export type SchemaType = 'json' | 'avro' | 'parquet' | 'csv' | 'custom';
 
 export interface SchemaField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -539,7 +498,6 @@ export interface SchemaField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: FieldType;
   nullable: boolean;
   default: any;
@@ -549,7 +507,6 @@ export interface SchemaField {
 export type FieldType = 'string' | 'integer' | 'float' | 'boolean' | 'timestamp' | 'custom';
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -570,7 +527,6 @@ export interface SchemaConstraint {
 export type ConstraintType = 'required' | 'unique' | 'range' | 'pattern' | 'custom';
 
 export interface InputConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -590,7 +546,6 @@ export interface InputConfiguration {
 }
 
 export interface StageOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -602,8 +557,6 @@ export interface StageOutput {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: OutputType;
   destination: string;
   schema: DataSchema;
@@ -613,7 +566,6 @@ export interface StageOutput {
 export type OutputType = 'file' | 'database' | 'api' | 'stream' | 'custom';
 
 export interface OutputConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -633,7 +585,6 @@ export interface OutputConfiguration {
 }
 
 export interface PartitioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,7 +605,6 @@ export interface PartitioningConfig {
 export type PartitioningStrategy = 'hash' | 'range' | 'round_robin' | 'custom';
 
 export interface StagePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -675,7 +625,6 @@ export interface StagePerformance {
 }
 
 export interface PipelineDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -687,7 +636,6 @@ export interface PipelineDependency {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   source: string;
   target: string;
   type: DependencyType;
@@ -698,7 +646,6 @@ export interface PipelineDependency {
 export type DependencyType = 'data' | 'time' | 'event' | 'custom';
 
 export interface DependencyCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -717,7 +664,6 @@ export interface DependencyCondition {
 }
 
 export interface PipelinePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -738,7 +684,6 @@ export interface PipelinePerformance {
 }
 
 export interface DataSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -750,21 +695,17 @@ export interface DataSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataSourceType;
   status: DataSourceStatus;
   configuration: DataSourceConfiguration;
   schema: DataSchema;
   performance: DataSourcePerformance;
-  metadata: Record<string, any>;
 }
 
 export type DataSourceType = 'database' | 'file' | 'api' | 'stream' | 'custom';
 export type DataSourceStatus = 'active' | 'inactive' | 'error';
 
 export interface DataSourceConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -783,7 +724,6 @@ export interface DataSourceConfiguration {
 }
 
 export interface ConnectionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -804,7 +744,6 @@ export interface ConnectionConfig {
 }
 
 export interface DataSourcePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -823,7 +762,6 @@ export interface DataSourcePerformance {
 }
 
 export interface DataProcessor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -835,20 +773,16 @@ export interface DataProcessor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProcessorType;
   status: ProcessorStatus;
   configuration: ProcessorConfiguration;
   performance: ProcessorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ProcessorType = 'filter' | 'aggregate' | 'join' | 'sort' | 'custom';
 export type ProcessorStatus = 'active' | 'inactive' | 'error';
 
 export interface ProcessorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -868,7 +802,6 @@ export interface ProcessorConfiguration {
 }
 
 export interface ProcessorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -887,7 +820,6 @@ export interface ProcessorPerformance {
 }
 
 export interface DataTransformer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -899,20 +831,16 @@ export interface DataTransformer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TransformerType;
   status: TransformerStatus;
   configuration: TransformerConfiguration;
   performance: TransformerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type TransformerType = 'map' | 'reduce' | 'filter' | 'join' | 'custom';
 export type TransformerStatus = 'active' | 'inactive' | 'error';
 
 export interface TransformerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -932,7 +860,6 @@ export interface TransformerConfiguration {
 }
 
 export interface TransformerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -951,7 +878,6 @@ export interface TransformerPerformance {
 }
 
 export interface DataValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -963,21 +889,17 @@ export interface DataValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ValidatorType = 'schema' | 'business' | 'quality' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -996,7 +918,6 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1008,8 +929,6 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   field: string;
   type: RuleType;
   condition: RuleCondition;
@@ -1020,7 +939,6 @@ export interface ValidationRule {
 export type RuleType = 'required' | 'type' | 'range' | 'pattern' | 'custom';
 
 export interface ValidatorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1040,7 +958,6 @@ export interface ValidatorPerformance {
 }
 
 export interface DataPipelinePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1069,7 +986,6 @@ export interface DataPipelinePerformanceMetrics {
 }
 
 export interface DataPipelineAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1090,7 +1006,6 @@ export interface DataPipelineAnalytics {
 }
 
 export interface PipelineTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1109,7 +1024,6 @@ export interface PipelineTypeDistribution {
 }
 
 export interface DataSourceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1128,7 +1042,6 @@ export interface DataSourceTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1140,7 +1053,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   pipelines: number;
   records: number;
   processingTime: number;
@@ -1150,7 +1062,6 @@ export interface PerformanceTrend {
 }
 
 export interface DataPipelineReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1173,7 +1084,6 @@ export interface DataPipelineReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1194,7 +1104,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1214,7 +1123,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1234,7 +1142,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1247,13 +1154,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface DataPipelineOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

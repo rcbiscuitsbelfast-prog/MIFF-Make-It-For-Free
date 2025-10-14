@@ -16,7 +16,6 @@
 export type XPCurveType = 'linear' | 'exponential' | 'custom';
 
 export interface SpiritInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface SpiritInstance {
 }
 
 export interface LevelUpEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,7 +55,6 @@ export interface LevelUpEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'stat_boost' | 'ability_learned' | 'evolution_trigger' | 'cosmetic_change';
   target: string;
   value: number | string;
@@ -65,7 +62,6 @@ export interface LevelUpEffect {
 }
 
 export interface XPCurve {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,7 +82,6 @@ export interface XPCurve {
 }
 
 export interface ProgressionStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,7 +104,6 @@ export interface ProgressionStats {
 }
 
 export interface XPManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

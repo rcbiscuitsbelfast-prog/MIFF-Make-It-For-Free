@@ -10,7 +10,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'expired';
 
 export interface DynamicQuest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -22,8 +21,6 @@ export interface DynamicQuest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: 'main' | 'side' | 'daily' | 'weekly' | 'event' | 'procedural';
   difficulty: 'easy' | 'medium' | 'hard' | 'expert' | 'legendary';
@@ -34,12 +31,9 @@ export interface DynamicQuest {
   triggers: QuestTrigger[];
   metadata: QuestMetadata;
   status: QuestStatus;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export interface QuestPrerequisite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,7 +51,6 @@ export interface QuestPrerequisite {
 }
 
 export interface DynamicQuestStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,8 +62,6 @@ export interface DynamicQuestStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: 'kill' | 'collect' | 'deliver' | 'explore' | 'talk' | 'craft' | 'custom';
   target: any;
@@ -84,7 +75,6 @@ export interface DynamicQuestStep {
 }
 
 export interface QuestStepCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -102,7 +92,6 @@ export interface QuestStepCondition {
 }
 
 export interface QuestStepReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,7 +109,6 @@ export interface QuestStepReward {
 }
 
 export interface DynamicQuestReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,7 +127,6 @@ export interface DynamicQuestReward {
 }
 
 export interface QuestRewardCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,7 +144,6 @@ export interface QuestRewardCondition {
 }
 
 export interface QuestCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -175,7 +161,6 @@ export interface QuestCondition {
 }
 
 export interface QuestTrigger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -193,7 +178,6 @@ export interface QuestTrigger {
 }
 
 export interface QuestTriggerCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -211,7 +195,6 @@ export interface QuestTriggerCondition {
 }
 
 export interface QuestMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -234,7 +217,6 @@ export interface QuestMetadata {
 }
 
 export interface QuestContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -249,13 +231,11 @@ export interface QuestContext {
   player: any;
   quest?: DynamicQuest;
   step?: DynamicQuestStep;
-  timestamp: number;
   reason?: string;
   metadata?: any;
 }
 
 export interface QuestStepContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,12 +250,10 @@ export interface QuestStepContext {
   player: any;
   quest: DynamicQuest;
   step: DynamicQuestStep;
-  timestamp: number;
   metadata?: any;
 }
 
 export interface QuestTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -287,8 +265,6 @@ export interface QuestTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   category: string;
   difficulty: string;
   structure: QuestStructure;
@@ -297,7 +273,6 @@ export interface QuestTemplate {
 }
 
 export interface QuestStructure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +291,6 @@ export interface QuestStructure {
 }
 
 export interface QuestStepTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -337,7 +311,6 @@ export interface QuestStepTemplate {
 }
 
 export interface QuestRewardTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +330,6 @@ export interface QuestRewardTemplate {
 }
 
 export interface QuestConditionTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +347,6 @@ export interface QuestConditionTemplate {
 }
 
 export interface QuestTriggerTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -394,7 +365,6 @@ export interface QuestTriggerTemplate {
 }
 
 export interface QuestStepConditionTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -412,7 +382,6 @@ export interface QuestStepConditionTemplate {
 }
 
 export interface QuestStepRewardTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -430,7 +399,6 @@ export interface QuestStepRewardTemplate {
 }
 
 export interface QuestRewardConditionTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -448,7 +416,6 @@ export interface QuestRewardConditionTemplate {
 }
 
 export interface QuestTriggerConditionTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -466,7 +433,6 @@ export interface QuestTriggerConditionTemplate {
 }
 
 export interface QuestVariable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -478,14 +444,12 @@ export interface QuestVariable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'string' | 'number' | 'boolean' | 'array' | 'object';
   value: any;
   generator?: (context: QuestContext) => any;
 }
 
 export interface QuestGenerator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1189,7 +1153,6 @@ export class AdvancedQuests {
 }
 
 interface QuestHistoryEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1203,7 +1166,5 @@ interface QuestHistoryEntry {
   metadata?: Record<string, any>;
   questId: string;
   playerId: string;
-  status: string;
   reason?: string;
-  timestamp: number;
 }

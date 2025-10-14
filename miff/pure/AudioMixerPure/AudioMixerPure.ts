@@ -43,7 +43,6 @@ export enum SpatialAudioMode {
 }
 
 export interface AudioBus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +54,6 @@ export interface AudioBus {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   volume: number;
   mute: boolean;
   solo: boolean;
@@ -66,7 +63,6 @@ export interface AudioBus {
 }
 
 export interface AudioSend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,7 +80,6 @@ export interface AudioSend {
 }
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -96,14 +91,12 @@ export interface AudioEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AudioEffectType;
   enabled: boolean;
   parameters: Record<string, number>;
 }
 
 export interface SpatialAudioSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -115,7 +108,6 @@ export interface SpatialAudioSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   direction: { x: number; y: number; z: number };
@@ -128,7 +120,6 @@ export interface SpatialAudioSource {
 }
 
 export interface AudioAnalysisData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +141,6 @@ export interface AudioAnalysisData {
 }
 
 export interface MixingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,7 +167,6 @@ export interface MixingConfig {
 }
 
 export interface AudioSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +178,6 @@ export interface AudioSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   audioData: AudioBuffer;
   loop: boolean;
   volume: number;

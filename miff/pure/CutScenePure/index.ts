@@ -382,7 +382,6 @@ class AvatarSystemPureStub {
 }
 
 interface CutSceneConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -394,18 +393,14 @@ interface CutSceneConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   duration: number; // Total duration in milliseconds
   skippable: boolean;
   autoStart: boolean;
   engineTargets: ('unity' | 'unreal' | 'godot' | 'web')[];
-  metadata: Record<string, any>;
 }
 
 interface CutSceneTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -417,8 +412,6 @@ interface CutSceneTrack {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'camera' | 'dialogue' | 'event' | 'audio' | 'animation' | 'custom';
   enabled: boolean;
   startTime: number; // Start time in milliseconds
@@ -427,7 +420,6 @@ interface CutSceneTrack {
 }
 
 interface CutSceneAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -439,16 +431,13 @@ interface CutSceneAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   trackId: string;
-  timestamp: number;
   type: 'start' | 'update' | 'complete' | 'trigger';
   payload: any;
   conditions?: CutSceneCondition[];
 }
 
 interface CutSceneCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -468,7 +457,6 @@ interface CutSceneCondition {
 }
 
 export interface CutSceneDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -489,7 +477,6 @@ export interface CutSceneDefinition {
 }
 
 interface CutSceneBranch {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -501,8 +488,6 @@ interface CutSceneBranch {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: CutSceneCondition;
   targetSceneId?: string;
   actions: CutSceneAction[];
@@ -510,7 +495,6 @@ interface CutSceneBranch {
 }
 
 interface CutSceneEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -522,15 +506,11 @@ interface CutSceneEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
-  timestamp: number;
   payload: any;
   triggers: string[]; // Event IDs this event triggers
 }
 
 interface CutSceneState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

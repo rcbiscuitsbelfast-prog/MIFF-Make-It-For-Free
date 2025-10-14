@@ -7,7 +7,6 @@ import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
 
 export interface UnityGameObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,14 +18,12 @@ export interface UnityGameObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   active: boolean;
   layer: number;
   tag: string;
 }
 
 export interface UnityTransform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +41,6 @@ export interface UnityTransform {
 }
 
 export interface UnityEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,14 +52,12 @@ export interface UnityEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   gameObject: UnityGameObject;
   transform: UnityTransform;
   components: { [key: string]: UnityComponent };
 }
 
 export interface UnityComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,7 +75,6 @@ export interface UnityComponent {
 }
 
 export interface UnityRenderData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -101,7 +94,6 @@ export interface UnityRenderData {
 }
 
 export interface UnityBridgeOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,7 +112,6 @@ export interface UnityBridgeOperation {
 }
 
 export interface UnityBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,7 +131,6 @@ export interface UnityBridgeConfig {
 }
 
 export interface UnityBridgeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -12,7 +12,6 @@
  */
 
 export interface SceneBuilderConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface SceneBuilderConfig {
 }
 
 export interface SceneBuilderManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface SceneBuilderManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SceneBuilderManagerType;
   status: SceneBuilderManagerStatus;
   scenes: Scene[];
@@ -68,16 +64,12 @@ export interface SceneBuilderManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type SceneBuilderManagerType = 'game' | 'architectural' | 'simulation' | 'custom';
 export type SceneBuilderManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Scene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface Scene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: SceneType;
   status: SceneStatus;
@@ -99,14 +89,12 @@ export interface Scene {
   cameras: string[];
   environment: Environment;
   settings: SceneSettings;
-  metadata: Record<string, any>;
 }
 
 export type SceneType = 'indoor' | 'outdoor' | 'mixed' | 'procedural' | 'custom';
 export type SceneStatus = 'active' | 'inactive' | 'rendering' | 'error';
 
 export interface Environment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +114,6 @@ export interface Environment {
 }
 
 export interface Skybox {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,7 +135,6 @@ export interface Skybox {
 export type SkyboxType = 'texture' | 'color' | 'procedural' | 'custom';
 
 export interface FogSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,7 +157,6 @@ export interface FogSettings {
 export type FogType = 'linear' | 'exponential' | 'exponential_squared' | 'custom';
 
 export interface WindSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,7 +176,6 @@ export interface WindSettings {
 }
 
 export interface GravitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -209,7 +193,6 @@ export interface GravitySettings {
 }
 
 export interface PhysicsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +212,6 @@ export interface PhysicsSettings {
 }
 
 export interface SceneSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,7 +233,6 @@ export interface SceneSettings {
 export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface AntiAliasingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,7 +253,6 @@ export interface AntiAliasingSettings {
 export type AntiAliasingType = 'msaa' | 'fxaa' | 'smaa' | 'taa' | 'custom';
 
 export interface PostProcessingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -290,7 +270,6 @@ export interface PostProcessingSettings {
 }
 
 export interface PostProcessingEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,7 +290,6 @@ export interface PostProcessingEffect {
 export type EffectType = 'bloom' | 'ssao' | 'motion_blur' | 'color_grading' | 'custom';
 
 export interface PerformanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -331,7 +309,6 @@ export interface PerformanceSettings {
 }
 
 export interface SceneObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -343,8 +320,6 @@ export interface SceneObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectType;
   status: ObjectStatus;
   transform: Transform;
@@ -352,14 +327,12 @@ export interface SceneObject {
   material: string;
   physics: PhysicsObject;
   animation: AnimationObject;
-  metadata: Record<string, any>;
 }
 
 export type ObjectType = 'mesh' | 'light' | 'camera' | 'particle' | 'terrain' | 'custom';
 export type ObjectStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface Transform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -378,7 +351,6 @@ export interface Transform {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -396,7 +368,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -415,7 +386,6 @@ export interface Quaternion {
 }
 
 export interface Matrix4 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -434,7 +404,6 @@ export interface Matrix4 {
 }
 
 export interface Geometry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -459,7 +428,6 @@ export interface Geometry {
 export type GeometryType = 'box' | 'sphere' | 'cylinder' | 'plane' | 'mesh' | 'custom';
 
 export interface Vertex {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -480,7 +448,6 @@ export interface Vertex {
 }
 
 export interface Vector2 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -497,7 +464,6 @@ export interface Vector2 {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -516,7 +482,6 @@ export interface Color {
 }
 
 export interface PhysicsObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -539,7 +504,6 @@ export interface PhysicsObject {
 export type PhysicsType = 'static' | 'kinematic' | 'dynamic' | 'trigger';
 
 export interface CollisionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -561,7 +525,6 @@ export interface CollisionSettings {
 export type CollisionShape = 'box' | 'sphere' | 'cylinder' | 'mesh' | 'custom';
 
 export interface AnimationObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -581,7 +544,6 @@ export interface AnimationObject {
 }
 
 export interface AnimationClip {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -593,15 +555,12 @@ export interface AnimationClip {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   duration: number;
   tracks: AnimationTrack[];
   events: AnimationEvent[];
 }
 
 export interface AnimationTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -621,7 +580,6 @@ export interface AnimationTrack {
 export type InterpolationType = 'linear' | 'step' | 'cubic' | 'bezier' | 'custom';
 
 export interface Keyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -640,7 +598,6 @@ export interface Keyframe {
 }
 
 export interface AnimationEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,12 +610,10 @@ export interface AnimationEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   time: number;
-  name: string;
   parameters: Record<string, any>;
 }
 
 export interface Material {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -670,19 +625,15 @@ export interface Material {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MaterialType;
   properties: MaterialProperties;
   textures: MaterialTexture[];
   shaders: ShaderSettings;
-  metadata: Record<string, any>;
 }
 
 export type MaterialType = 'standard' | 'pbr' | 'unlit' | 'custom';
 
 export interface MaterialProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -705,7 +656,6 @@ export interface MaterialProperties {
 }
 
 export interface TransparencySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -727,7 +677,6 @@ export type TransparencyMode = 'opaque' | 'cutout' | 'transparent' | 'custom';
 export type BlendMode = 'alpha' | 'additive' | 'multiply' | 'custom';
 
 export interface MaterialTexture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -753,7 +702,6 @@ export type WrapMode = 'repeat' | 'clamp' | 'mirror' | 'custom';
 export type FilterMode = 'point' | 'bilinear' | 'trilinear' | 'anisotropic' | 'custom';
 
 export interface ShaderSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -773,7 +721,6 @@ export interface ShaderSettings {
 }
 
 export interface ShaderUniform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -785,7 +732,6 @@ export interface ShaderUniform {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: UniformType;
   value: any;
   location: number;
@@ -794,7 +740,6 @@ export interface ShaderUniform {
 export type UniformType = 'float' | 'int' | 'bool' | 'vec2' | 'vec3' | 'vec4' | 'mat3' | 'mat4' | 'sampler2d' | 'custom';
 
 export interface Light {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -806,8 +751,6 @@ export interface Light {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LightType;
   status: LightStatus;
   transform: Transform;
@@ -815,14 +758,12 @@ export interface Light {
   intensity: number;
   range: number;
   shadows: ShadowSettings;
-  metadata: Record<string, any>;
 }
 
 export type LightType = 'directional' | 'point' | 'spot' | 'area' | 'custom';
 export type LightStatus = 'active' | 'inactive' | 'error';
 
 export interface ShadowSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -846,7 +787,6 @@ export interface ShadowSettings {
 export type ShadowType = 'hard' | 'soft' | 'pcf' | 'vsm' | 'custom';
 
 export interface Camera {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -858,21 +798,17 @@ export interface Camera {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CameraType;
   status: CameraStatus;
   transform: Transform;
   projection: ProjectionSettings;
   rendering: RenderingSettings;
-  metadata: Record<string, any>;
 }
 
 export type CameraType = 'perspective' | 'orthographic' | 'custom';
 export type CameraStatus = 'active' | 'inactive' | 'rendering' | 'error';
 
 export interface ProjectionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -894,7 +830,6 @@ export interface ProjectionSettings {
 }
 
 export interface RenderingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -915,7 +850,6 @@ export interface RenderingSettings {
 }
 
 export interface CullingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -936,7 +870,6 @@ export type CullMode = 'none' | 'front' | 'back' | 'both';
 export type FrontFace = 'ccw' | 'cw';
 
 export interface DepthSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -957,7 +890,6 @@ export interface DepthSettings {
 export type DepthFunc = 'never' | 'less' | 'equal' | 'lequal' | 'greater' | 'notequal' | 'gequal' | 'always';
 
 export interface StencilSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -982,7 +914,6 @@ export type StencilFunc = 'never' | 'less' | 'lequal' | 'greater' | 'gequal' | '
 export type StencilOp = 'keep' | 'zero' | 'replace' | 'incr' | 'incr_wrap' | 'decr' | 'decr_wrap' | 'invert';
 
 export interface SceneBuilderPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1007,7 +938,6 @@ export interface SceneBuilderPerformanceMetrics {
 }
 
 export interface SceneBuilderAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1028,7 +958,6 @@ export interface SceneBuilderAnalytics {
 }
 
 export interface SceneTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1047,7 +976,6 @@ export interface SceneTypeDistribution {
 }
 
 export interface ObjectTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1066,7 +994,6 @@ export interface ObjectTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1078,7 +1005,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   scenes: number;
   objects: number;
   fps: number;
@@ -1088,7 +1014,6 @@ export interface PerformanceTrend {
 }
 
 export interface SceneBuilderReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1111,7 +1036,6 @@ export interface SceneBuilderReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1132,7 +1056,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1152,7 +1075,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1172,7 +1094,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1185,13 +1106,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SceneBuilderOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

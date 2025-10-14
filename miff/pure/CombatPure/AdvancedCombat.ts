@@ -8,7 +8,6 @@
 import { Combatant, MoveData } from './engine';
 
 export interface ComboSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -20,8 +19,6 @@ export interface ComboSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   moves: string[];
   requirements: ComboRequirement[];
   effects: ComboEffect[];
@@ -30,7 +27,6 @@ export interface ComboSystem {
 }
 
 export interface ComboRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +44,6 @@ export interface ComboRequirement {
 }
 
 export interface ComboEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -67,7 +62,6 @@ export interface ComboEffect {
 }
 
 export interface ComboContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,11 +77,9 @@ export interface ComboContext {
   move: MoveData;
   previousMoves: MoveData[];
   battleState: any;
-  timestamp: number;
 }
 
 export interface EnvironmentalEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -99,8 +91,6 @@ export interface EnvironmentalEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'weather' | 'terrain' | 'hazard' | 'benefit' | 'neutral';
   effects: EnvironmentalModifier[];
   duration: number;
@@ -109,7 +99,6 @@ export interface EnvironmentalEffect {
 }
 
 export interface EnvironmentalModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +117,6 @@ export interface EnvironmentalModifier {
 }
 
 export interface TacticalPosition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,8 +128,6 @@ export interface TacticalPosition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   position: { x: number; y: number; z: number };
   advantages: TacticalAdvantage[];
   disadvantages: TacticalDisadvantage[];
@@ -149,7 +135,6 @@ export interface TacticalPosition {
 }
 
 export interface TacticalAdvantage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,7 +152,6 @@ export interface TacticalAdvantage {
 }
 
 export interface TacticalDisadvantage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -185,7 +169,6 @@ export interface TacticalDisadvantage {
 }
 
 export interface BattlePhase {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -197,15 +180,12 @@ export interface BattlePhase {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   duration: number;
   effects: BattlePhaseEffect[];
   transitions: BattlePhaseTransition[];
 }
 
 export interface BattlePhaseEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -224,7 +204,6 @@ export interface BattlePhaseEffect {
 }
 
 export interface BattlePhaseTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

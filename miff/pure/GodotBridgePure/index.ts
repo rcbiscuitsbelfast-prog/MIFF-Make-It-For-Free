@@ -137,7 +137,6 @@ export enum GodotResourceType {
 }
 
 export interface GodotBridgeConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -174,7 +173,6 @@ export interface GodotBridgeConfiguration {
 }
 
 export interface GodotNodeBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,8 +184,6 @@ export interface GodotNodeBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GodotNodeType;
   parent?: string;
   children: string[];
@@ -204,11 +200,9 @@ export interface GodotNodeBridge {
   scene?: string;
   customMultiplayer?: any;
   customData?: any;
-  metadata: Record<string, any>;
 }
 
 export interface GodotSignalBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -220,7 +214,6 @@ export interface GodotSignalBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: GodotParameterBridge[];
   connections: GodotSignalConnection[];
   isBuiltIn: boolean;
@@ -229,7 +222,6 @@ export interface GodotSignalBridge {
 }
 
 export interface GodotSignalConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -250,7 +242,6 @@ export interface GodotSignalConnection {
 }
 
 export interface GodotMethodBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -262,7 +253,6 @@ export interface GodotMethodBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: GodotParameterBridge[];
   returnType: string;
   isBuiltIn: boolean;
@@ -276,7 +266,6 @@ export interface GodotMethodBridge {
 }
 
 export interface GodotParameterBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -288,7 +277,6 @@ export interface GodotParameterBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: GodotPropertyType;
   defaultValue: any;
   hint: number;
@@ -297,7 +285,6 @@ export interface GodotParameterBridge {
 }
 
 export interface GodotPropertyBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -309,7 +296,6 @@ export interface GodotPropertyBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: GodotPropertyType;
   value: any;
   defaultValue: any;
@@ -327,7 +313,6 @@ export interface GodotPropertyBridge {
 }
 
 export interface GodotResourceBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -339,21 +324,17 @@ export interface GodotResourceBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GodotResourceType;
   path: string;
   size: number;
   lastModified: number;
   dependencies: string[];
-  metadata: Record<string, any>;
   preview?: string;
   thumbnail?: string;
   importSettings?: Record<string, any>;
 }
 
 export interface GodotSceneBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -365,8 +346,6 @@ export interface GodotSceneBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   path: string;
   rootNode: string;
   nodes: Map<string, GodotNodeBridge>;
@@ -375,11 +354,9 @@ export interface GodotSceneBridge {
   isEditableInstance: boolean;
   isMainScene: boolean;
   instanceCount: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotInputEventBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,7 +368,6 @@ export interface GodotInputEventBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
   device: number;
   index: number;
@@ -420,11 +396,9 @@ export interface GodotInputEventBridge {
   metaPressed: boolean;
   commandPressed: boolean;
   scancode: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotPhysicsBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -452,11 +426,9 @@ export interface GodotPhysicsBridge {
   islandCount: number;
   activeConstraints: number;
   disabledCollisions: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotRenderingBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -499,11 +471,9 @@ export interface GodotRenderingBridge {
   screenSpaceReflection: boolean;
   subsurfaceScattering: boolean;
   volumetricFog: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface GodotAudioBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -527,11 +497,9 @@ export interface GodotAudioBridge {
   voiceCount: number;
   pitchScale: number;
   dopplerTracking: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotAnimationBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -550,11 +518,9 @@ export interface GodotAnimationBridge {
   playingSpeed: number;
   captureFps: number;
   onionSkinning: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface GodotNetworkBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,11 +540,9 @@ export interface GodotNetworkBridge {
   packetsReceived: number;
   packetsSent: number;
   averageLatency: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotMultiplayerBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -598,11 +562,9 @@ export interface GodotMultiplayerBridge {
   serverRelay: boolean;
   allowObjectDecoding: boolean;
   refuseNewConnections: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface GodotMessage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -614,11 +576,9 @@ export interface GodotMessage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'command' | 'query' | 'event' | 'response' | 'error' | 'heartbeat' | 'signal' | 'property' | 'method';
   source: string;
   destination: string;
-  timestamp: number;
   payload: any;
   correlationId?: string;
   priority: number;
@@ -627,11 +587,9 @@ export interface GodotMessage {
   encrypted: boolean;
   compressed: boolean;
   signature?: string;
-  metadata: Record<string, any>;
 }
 
 export interface GodotCommand {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -643,19 +601,15 @@ export interface GodotCommand {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   parameters: Record<string, any>;
   target: string;
   executionContext: string;
   timeout: number;
   retryPolicy: RetryPolicy;
   rollbackStrategy: RollbackStrategy;
-  metadata: Record<string, any>;
 }
 
 export interface RetryPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -675,7 +629,6 @@ export interface RetryPolicy {
 }
 
 export interface RollbackStrategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -690,11 +643,9 @@ export interface RollbackStrategy {
   enabled: boolean;
   type: 'compensating_action' | 'state_restoration' | 'manual';
   compensatingActions: GodotCommand[];
-  metadata: Record<string, any>;
 }
 
 export interface GodotQuery {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -706,8 +657,6 @@ export interface GodotQuery {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   parameters: Record<string, any>;
   target: string;
   responseType: string;
@@ -715,11 +664,9 @@ export interface GodotQuery {
   caching: boolean;
   cacheKey?: string;
   cacheTTL: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -731,19 +678,13 @@ export interface GodotEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   source: string;
-  data: any;
-  timestamp: number;
   eventType: string;
   category: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
-  metadata: Record<string, any>;
 }
 
 export interface GodotResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -755,18 +696,13 @@ export interface GodotResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   correlationId: string;
   success: boolean;
-  data: any;
   error?: GodotError;
   executionTime: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -783,7 +719,6 @@ export interface GodotError {
   stackTrace?: string;
   innerError?: GodotError;
   context: Record<string, any>;
-  timestamp: number;
   severity: 'low' | 'medium' | 'high' | 'critical';
   category: string;
   retryable: boolean;
@@ -791,7 +726,6 @@ export interface GodotError {
 }
 
 export interface GodotConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -803,7 +737,6 @@ export interface GodotConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'local' | 'remote' | 'embedded';
   status: 'connected' | 'disconnected' | 'connecting' | 'error' | 'reconnecting';
   endpoint: string;
@@ -813,11 +746,9 @@ export interface GodotConnection {
   errorCount: number;
   reconnectAttempts: number;
   maxReconnectAttempts: number;
-  metadata: Record<string, any>;
 }
 
 export interface GodotPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -963,7 +894,6 @@ export interface GodotPerformanceMetrics {
 }
 
 export interface GodotBridgeStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

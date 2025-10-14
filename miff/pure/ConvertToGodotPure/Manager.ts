@@ -12,7 +12,6 @@
  */
 
 export interface ConvertToGodotConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface ConvertToGodotConfig {
 }
 
 export interface ConvertToGodotManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface ConvertToGodotManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConvertToGodotManagerType;
   status: ConvertToGodotManagerStatus;
   projects: ConversionProject[];
@@ -66,16 +62,12 @@ export interface ConvertToGodotManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ConvertToGodotManagerType = 'unity' | 'unreal' | 'web' | 'mobile' | 'custom';
 export type ConvertToGodotManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ConversionProject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +79,6 @@ export interface ConversionProject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   sourceType: SourceType;
   sourcePath: string;
   targetPath: string;
@@ -98,14 +88,12 @@ export interface ConversionProject {
   assets: string[];
   scenes: string[];
   scripts: string[];
-  metadata: Record<string, any>;
 }
 
 export type SourceType = 'unity' | 'unreal' | 'web' | 'mobile' | 'custom';
 export type ProjectStatus = 'pending' | 'converting' | 'completed' | 'failed' | 'paused';
 
 export interface ProjectSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +115,6 @@ export interface ProjectSettings {
 export type Platform = 'windows' | 'macos' | 'linux' | 'android' | 'ios' | 'web' | 'console';
 
 export interface QualitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +136,6 @@ export interface QualitySettings {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface OptimizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +154,6 @@ export interface OptimizationSettings {
 }
 
 export interface CompressionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +174,6 @@ export interface CompressionSettings {
 export type CompressionType = 'none' | 'lossless' | 'lossy' | 'custom';
 
 export interface BatchingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -208,7 +192,6 @@ export interface BatchingSettings {
 }
 
 export interface CullingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,7 +210,6 @@ export interface CullingSettings {
 }
 
 export interface MemorySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +228,6 @@ export interface MemorySettings {
 }
 
 export interface CompatibilitySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +246,6 @@ export interface CompatibilitySettings {
 }
 
 export interface ShaderCompatibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +263,6 @@ export interface ShaderCompatibility {
 }
 
 export interface ScriptCompatibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +282,6 @@ export interface ScriptCompatibility {
 export type ScriptLanguage = 'gdscript' | 'csharp' | 'visual_script' | 'custom';
 
 export interface AssetCompatibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -321,7 +299,6 @@ export interface AssetCompatibility {
 }
 
 export interface FeatureCompatibility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -340,7 +317,6 @@ export interface FeatureCompatibility {
 }
 
 export interface ConversionAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -352,8 +328,6 @@ export interface ConversionAsset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssetType;
   sourcePath: string;
   targetPath: string;
@@ -361,14 +335,12 @@ export interface ConversionAsset {
   progress: number;
   settings: AssetSettings;
   dependencies: string[];
-  metadata: Record<string, any>;
 }
 
 export type AssetType = 'texture' | 'mesh' | 'audio' | 'animation' | 'script' | 'scene' | 'shader' | 'custom';
 export type AssetStatus = 'pending' | 'converting' | 'completed' | 'failed' | 'skipped';
 
 export interface AssetSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -389,7 +361,6 @@ export interface AssetSettings {
 export type AssetFormat = 'png' | 'jpg' | 'tga' | 'dds' | 'ktx' | 'astc' | 'etc' | 'custom';
 
 export interface AssetOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -408,7 +379,6 @@ export interface AssetOptimization {
 }
 
 export interface ResizeSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -430,7 +400,6 @@ export interface ResizeSettings {
 export type ResizeAlgorithm = 'nearest' | 'bilinear' | 'bicubic' | 'lanczos';
 
 export interface FilteringSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -451,7 +420,6 @@ export interface FilteringSettings {
 export type FilterType = 'nearest' | 'linear' | 'cubic';
 
 export interface MipmapSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -471,7 +439,6 @@ export interface MipmapSettings {
 export type MipmapAlgorithm = 'box' | 'triangle' | 'kaiser';
 
 export interface AssetQuality {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,7 +457,6 @@ export interface AssetQuality {
 }
 
 export interface ConversionTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,8 +468,6 @@ export interface ConversionTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   sourceType: SourceType;
   targetType: SourceType;
@@ -511,11 +475,9 @@ export interface ConversionTemplate {
   rules: string[];
   assets: string[];
   scripts: string[];
-  metadata: Record<string, any>;
 }
 
 export interface TemplateSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -534,7 +496,6 @@ export interface TemplateSettings {
 }
 
 export interface SceneSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -555,7 +516,6 @@ export interface SceneSettings {
 export type SceneFormat = 'tscn' | 'scn' | 'gltf' | 'glb' | 'fbx' | 'dae' | 'custom';
 
 export interface SceneOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,7 +534,6 @@ export interface SceneOptimization {
 }
 
 export interface LODSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -593,7 +552,6 @@ export interface LODSettings {
 }
 
 export interface LODLevel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -611,7 +569,6 @@ export interface LODLevel {
 }
 
 export interface StreamingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -630,7 +587,6 @@ export interface StreamingSettings {
 }
 
 export interface ScriptSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -649,7 +605,6 @@ export interface ScriptSettings {
 }
 
 export interface ScriptOptimization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -668,7 +623,6 @@ export interface ScriptOptimization {
 }
 
 export interface ConversionRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -680,8 +634,6 @@ export interface ConversionRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   sourceType: SourceType;
   targetType: SourceType;
@@ -689,11 +641,9 @@ export interface ConversionRule {
   action: RuleAction;
   priority: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface RulePattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -714,7 +664,6 @@ export interface RulePattern {
 export type PatternType = 'regex' | 'glob' | 'path' | 'content' | 'custom';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -735,7 +684,6 @@ export interface RuleAction {
 export type ActionType = 'convert' | 'transform' | 'copy' | 'skip' | 'custom';
 
 export interface TransformFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -747,14 +695,12 @@ export interface TransformFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: Record<string, any>;
   language: ScriptLanguage;
   code: string;
 }
 
 export interface ConvertToGodotPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -781,7 +727,6 @@ export interface ConvertToGodotPerformanceMetrics {
 }
 
 export interface ConvertToGodotAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -802,7 +747,6 @@ export interface ConvertToGodotAnalytics {
 }
 
 export interface SourceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -821,7 +765,6 @@ export interface SourceTypeDistribution {
 }
 
 export interface AssetTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -840,7 +783,6 @@ export interface AssetTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -852,7 +794,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   projects: number;
   assets: number;
   conversionTime: number;
@@ -861,7 +802,6 @@ export interface PerformanceTrend {
 }
 
 export interface ConvertToGodotReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -884,7 +824,6 @@ export interface ConvertToGodotReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -905,7 +844,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -925,7 +863,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -945,7 +882,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -958,13 +894,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ConvertToGodotOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

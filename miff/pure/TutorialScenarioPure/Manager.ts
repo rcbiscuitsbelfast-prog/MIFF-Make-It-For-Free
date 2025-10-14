@@ -10,7 +10,6 @@
  */
 
 export interface TutorialScenarioConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface TutorialScenarioConfig {
 }
 
 export interface TutorialScenarioManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface TutorialScenarioManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TutorialScenarioManagerType;
   status: TutorialScenarioManagerStatus;
   scenarios: TutorialScenario[];
@@ -64,16 +60,12 @@ export interface TutorialScenarioManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type TutorialScenarioManagerType = 'interactive' | 'guided' | 'self_paced' | 'custom';
 export type TutorialScenarioManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TutorialScenario {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,8 +77,6 @@ export interface TutorialScenario {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScenarioType;
   status: ScenarioStatus;
   description: string;
@@ -95,14 +85,12 @@ export interface TutorialScenario {
   rewards: string[];
   configuration: ScenarioConfiguration;
   performance: ScenarioPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ScenarioType = 'beginner' | 'intermediate' | 'advanced' | 'custom';
 export type ScenarioStatus = 'draft' | 'active' | 'completed' | 'archived';
 
 export interface Prerequisite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,7 +102,6 @@ export interface Prerequisite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: PrerequisiteType;
   target: string;
   value: number;
@@ -126,7 +113,6 @@ export type PrerequisiteType = 'level' | 'scenario' | 'achievement' | 'custom';
 export type PrerequisiteOperator = 'equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'custom';
 
 export interface ScenarioConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +135,6 @@ export interface ScenarioConfiguration {
 export type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'expert' | 'custom';
 
 export interface ScenarioPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +153,6 @@ export interface ScenarioPerformance {
 }
 
 export interface TutorialStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -180,8 +164,6 @@ export interface TutorialStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StepType;
   status: StepStatus;
   scenario: string;
@@ -190,14 +172,12 @@ export interface TutorialStep {
   requirements: StepRequirement[];
   actions: StepAction[];
   performance: StepPerformance;
-  metadata: Record<string, any>;
 }
 
 export type StepType = 'instruction' | 'interaction' | 'quiz' | 'custom';
 export type StepStatus = 'pending' | 'active' | 'completed' | 'skipped';
 
 export interface StepContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +197,6 @@ export interface StepContent {
 }
 
 export interface MediaContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,7 +217,6 @@ export interface MediaContent {
 export type MediaType = 'image' | 'video' | 'audio' | 'custom';
 
 export interface StepRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -250,7 +228,6 @@ export interface StepRequirement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RequirementType;
   target: string;
   value: any;
@@ -262,7 +239,6 @@ export type RequirementType = 'click' | 'input' | 'selection' | 'custom';
 export type RequirementOperator = 'equals' | 'contains' | 'matches' | 'custom';
 
 export interface StepAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,7 +250,6 @@ export interface StepAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ActionType;
   target: string;
   parameters: Record<string, any>;
@@ -284,7 +259,6 @@ export interface StepAction {
 export type ActionType = 'highlight' | 'focus' | 'animate' | 'custom';
 
 export interface StepPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +277,6 @@ export interface StepPerformance {
 }
 
 export interface TutorialProgression {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -315,7 +288,6 @@ export interface TutorialProgression {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   scenario: string;
   user: string;
   status: ProgressionStatus;
@@ -324,13 +296,11 @@ export interface TutorialProgression {
   progress: ProgressionProgress;
   rewards: string[];
   performance: ProgressionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ProgressionStatus = 'not_started' | 'in_progress' | 'completed' | 'abandoned';
 
 export interface ProgressionProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -351,7 +321,6 @@ export interface ProgressionProgress {
 }
 
 export interface ProgressionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +339,6 @@ export interface ProgressionPerformance {
 }
 
 export interface TutorialReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -382,8 +350,6 @@ export interface TutorialReward {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RewardType;
   value: number;
   description: string;
@@ -394,7 +360,6 @@ export interface TutorialReward {
 export type RewardType = 'experience' | 'achievement' | 'item' | 'custom';
 
 export interface TutorialScenarioPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -420,7 +385,6 @@ export interface TutorialScenarioPerformanceMetrics {
 }
 
 export interface TutorialScenarioAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -441,7 +405,6 @@ export interface TutorialScenarioAnalytics {
 }
 
 export interface ScenarioTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -460,7 +423,6 @@ export interface ScenarioTypeDistribution {
 }
 
 export interface StepTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -479,7 +441,6 @@ export interface StepTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -491,7 +452,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   scenarios: number;
   steps: number;
   completions: number;
@@ -500,7 +460,6 @@ export interface PerformanceTrend {
 }
 
 export interface TutorialScenarioReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -523,7 +482,6 @@ export interface TutorialScenarioReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +502,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -564,7 +521,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -584,7 +540,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -597,13 +552,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface TutorialScenarioOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

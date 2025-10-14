@@ -17,7 +17,6 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface UnrealBridgeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface UnrealBridgeConfig {
 }
 
 export interface UnrealAsset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface UnrealAsset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssetType;
   path: string;
   size: number;
@@ -69,7 +65,6 @@ export interface UnrealAsset {
 }
 
 export interface AssetMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -92,7 +87,6 @@ export interface AssetMetadata {
 }
 
 export interface BlueprintFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -104,7 +98,6 @@ export interface BlueprintFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: BlueprintParameter[];
   returnType: string;
   description: string;
@@ -115,7 +108,6 @@ export interface BlueprintFunction {
 }
 
 export interface BlueprintParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +119,6 @@ export interface BlueprintParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   required: boolean;
   defaultValue: any;
@@ -135,7 +126,6 @@ export interface BlueprintParameter {
 }
 
 export interface UnrealObject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -147,8 +137,6 @@ export interface UnrealObject {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: string;
   position: Vector3D;
   rotation: Quaternion;
@@ -162,7 +150,6 @@ export interface UnrealObject {
 }
 
 export interface Vector3D {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -180,7 +167,6 @@ export interface Vector3D {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +185,6 @@ export interface Quaternion {
 }
 
 export interface UnrealComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -211,16 +196,13 @@ export interface UnrealComponent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: string;
-  name: string;
   properties: Map<string, any>;
   enabled: boolean;
   visible: boolean;
 }
 
 export interface SyncData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -232,17 +214,13 @@ export interface SyncData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: SyncType;
   objectId: string;
-  data: any;
-  timestamp: number;
   priority: number;
   reliable: boolean;
 }
 
 export interface PerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -264,11 +242,9 @@ export interface PerformanceMetrics {
   vertices: number;
   textures: number;
   materials: number;
-  timestamp: number;
 }
 
 export interface UnrealEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,12 +256,9 @@ export interface UnrealEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
   source: string;
   target: string;
-  data: any;
-  timestamp: number;
   processed: boolean;
 }
 

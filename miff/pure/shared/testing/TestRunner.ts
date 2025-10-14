@@ -54,7 +54,6 @@ export enum TestPriority {
 }
 
 export interface TestConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,7 +89,6 @@ export interface TestConfig {
 }
 
 export interface TestResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -102,8 +100,6 @@ export interface TestResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   file: string;
   type: TestType;
   priority: TestPriority;
@@ -118,11 +114,9 @@ export interface TestResult {
   retries: number;
   maxRetries: number;
   tags: string[];
-  metadata: Record<string, any>;
 }
 
 export interface TestAssertion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,7 +128,6 @@ export interface TestAssertion {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   passed: boolean;
   expected?: any;
@@ -144,7 +137,6 @@ export interface TestAssertion {
 }
 
 export interface TestCoverage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -165,7 +157,6 @@ export interface TestCoverage {
 }
 
 export interface TestCoverageFile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,7 +177,6 @@ export interface TestCoverageFile {
 }
 
 export interface TestSuite {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,8 +188,6 @@ export interface TestSuite {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   file: string;
   type: TestType;
   priority: TestPriority;
@@ -213,11 +201,9 @@ export interface TestSuite {
   retries: number;
   maxRetries: number;
   tags: string[];
-  metadata: Record<string, any>;
 }
 
 export interface TestReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -229,7 +215,6 @@ export interface TestReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   timestamp: Date;
   duration: number;
   status: TestStatus;
@@ -249,7 +234,6 @@ export interface TestReport {
 }
 
 export interface TestPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -271,7 +255,6 @@ export interface TestPerformance {
 }
 
 export interface TestEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,7 +266,6 @@ export interface TestEnvironment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   config: TestConfig;
   status: 'idle' | 'running' | 'error';
   startTime?: Date;

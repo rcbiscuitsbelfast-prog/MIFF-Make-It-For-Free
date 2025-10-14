@@ -14,7 +14,6 @@ type RNGPure = any;
 
 // Core interfaces and types
 export interface RitualParticipant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -26,8 +25,6 @@ export interface RitualParticipant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   role: 'leader' | 'participant' | 'observer' | 'sacrifice';
   position: Vector3;
   requirements: ParticipantRequirement[];
@@ -40,7 +37,6 @@ export interface RitualParticipant {
 }
 
 export interface ParticipantRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,7 +56,6 @@ export interface ParticipantRequirement {
 }
 
 export interface ParticipantContribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -79,7 +74,6 @@ export interface ParticipantContribution {
 }
 
 export interface RitualStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,8 +85,6 @@ export interface RitualStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   duration: number; // Duration in milliseconds
   type: 'preparation' | 'invocation' | 'channeling' | 'summoning' | 'binding' | 'completion';
@@ -109,7 +101,6 @@ export interface RitualStep {
 }
 
 export interface StepRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +119,6 @@ export interface StepRequirement {
 }
 
 export interface RitualEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +140,6 @@ export interface RitualEffect {
 }
 
 export interface SummonedEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,8 +151,6 @@ export interface SummonedEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'creature' | 'spirit' | 'elemental' | 'construct' | 'avatar';
   level: number;
   health: number;
@@ -179,7 +166,6 @@ export interface SummonedEntity {
 }
 
 export interface RitualDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -191,8 +177,6 @@ export interface RitualDefinition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: 'summoning' | 'binding' | 'creation' | 'transformation' | 'divination' | 'destruction';
   tier: 'basic' | 'intermediate' | 'advanced' | 'master' | 'legendary';
@@ -219,7 +203,6 @@ export interface RitualDefinition {
 }
 
 export interface RitualReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,7 +223,6 @@ export interface RitualReward {
 }
 
 export interface RitualRisk {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -260,7 +242,6 @@ export interface RitualRisk {
 }
 
 export interface RitualInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,7 +253,6 @@ export interface RitualInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   definition: RitualDefinition;
   leaderId: string;
   participants: RitualParticipant[];
@@ -291,7 +271,6 @@ export interface RitualInstance {
 }
 
 export interface RitualResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -320,7 +299,6 @@ export interface RitualResult {
 }
 
 export interface RitualConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -350,7 +328,6 @@ export interface RitualConfig {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

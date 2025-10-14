@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface DataProcessingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface DataProcessingConfig {
 }
 
 export interface DataProcessing {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface DataProcessing {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   pipelines: DataPipeline[];
@@ -64,14 +60,12 @@ export interface DataProcessing {
   transformers: DataTransformer[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface DataPipeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,19 +77,15 @@ export interface DataPipeline {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PipelineType;
   status: PipelineStatus;
   steps: PipelineStep[];
   input: PipelineInput;
   output: PipelineOutput;
   schedule: PipelineSchedule;
-  metadata: Record<string, any>;
 }
 
 export interface PipelineStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -107,18 +97,14 @@ export interface PipelineStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StepType;
   processor: string; // Processor ID
   parameters: Record<string, any>;
   order: number;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface PipelineInput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,11 +120,9 @@ export interface PipelineInput {
   format: InputFormat;
   schema: DataSchema;
   filters: InputFilter[];
-  metadata: Record<string, any>;
 }
 
 export interface PipelineOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -154,11 +138,9 @@ export interface PipelineOutput {
   format: OutputFormat;
   schema: DataSchema;
   options: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface PipelineSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -176,11 +158,9 @@ export interface PipelineSchedule {
   startTime?: Date;
   endTime?: Date;
   timezone: string;
-  metadata: Record<string, any>;
 }
 
 export interface DataProcessor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,17 +172,13 @@ export interface DataProcessor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProcessorType;
   status: ProcessorStatus;
   capabilities: ProcessorCapabilities;
   configuration: ProcessorConfiguration;
-  metadata: Record<string, any>;
 }
 
 export interface ProcessorCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,11 +195,9 @@ export interface ProcessorCapabilities {
   operations: OperationType[];
   maxDataSize: number; // bytes
   maxConcurrency: number;
-  metadata: Record<string, any>;
 }
 
 export interface ProcessorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -240,11 +214,9 @@ export interface ProcessorConfiguration {
   retries: number;
   batchSize: number;
   options: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface DataTransformer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -256,17 +228,13 @@ export interface DataTransformer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TransformerType;
   status: TransformerStatus;
   rules: TransformationRule[];
   configuration: TransformerConfiguration;
-  metadata: Record<string, any>;
 }
 
 export interface TransformationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -278,17 +246,13 @@ export interface TransformationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   condition: RuleCondition;
   action: RuleAction;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,11 +267,9 @@ export interface RuleCondition {
   field: string;
   operator: ConditionOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -321,11 +283,9 @@ export interface RuleAction {
   metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface TransformerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -341,11 +301,9 @@ export interface TransformerConfiguration {
   strict: boolean;
   validate: boolean;
   options: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface DataSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,16 +315,12 @@ export interface DataSchema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   fields: SchemaField[];
   validation: SchemaValidation;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -378,18 +332,14 @@ export interface SchemaField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FieldType;
   required: boolean;
   nullable: boolean;
   defaultValue: any;
   validation: FieldValidation;
-  metadata: Record<string, any>;
 }
 
 export interface FieldValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -406,11 +356,9 @@ export interface FieldValidation {
   pattern?: string;
   enum?: any[];
   custom?: string;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -425,11 +373,9 @@ export interface SchemaValidation {
   strict: boolean;
   allowUnknown: boolean;
   coerce: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface InputFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -444,11 +390,9 @@ export interface InputFilter {
   field: string;
   operator: FilterOperator;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -468,11 +412,9 @@ export interface SystemPerformance {
   throughput: number; // records per second
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

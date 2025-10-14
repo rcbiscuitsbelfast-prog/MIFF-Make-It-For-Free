@@ -12,7 +12,6 @@
  */
 
 export interface PrefabBuilderConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface PrefabBuilderConfig {
 }
 
 export interface PrefabBuilderManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface PrefabBuilderManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PrefabBuilderManagerType;
   status: PrefabBuilderManagerStatus;
   prefabs: Prefab[];
@@ -67,16 +63,12 @@ export interface PrefabBuilderManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type PrefabBuilderManagerType = 'game' | 'simulation' | 'vr' | 'ar' | 'custom';
 export type PrefabBuilderManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Prefab {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Prefab {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PrefabType;
   status: PrefabStatus;
   components: PrefabComponent[];
@@ -97,14 +87,12 @@ export interface Prefab {
   hierarchy: PrefabHierarchy;
   variants: PrefabVariant[];
   performance: PrefabPerformance;
-  metadata: Record<string, any>;
 }
 
 export type PrefabType = 'gameobject' | 'ui' | 'particle' | 'audio' | 'lighting' | 'custom';
 export type PrefabStatus = 'draft' | 'ready' | 'published' | 'deprecated' | 'error';
 
 export interface PrefabComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,19 +104,15 @@ export interface PrefabComponent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ComponentType;
   properties: ComponentProperties;
   configuration: ComponentConfiguration;
   dependencies: ComponentDependency[];
-  metadata: Record<string, any>;
 }
 
 export type ComponentType = 'transform' | 'renderer' | 'collider' | 'rigidbody' | 'script' | 'custom';
 
 export interface ComponentProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +134,6 @@ export interface ComponentProperties {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +151,6 @@ export interface Vector3 {
 }
 
 export interface Quaternion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,7 +169,6 @@ export interface Quaternion {
 }
 
 export interface ComponentConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,7 +187,6 @@ export interface ComponentConfiguration {
 }
 
 export interface ComponentConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -227,7 +207,6 @@ export interface ComponentConstraint {
 export type ConstraintType = 'position' | 'rotation' | 'scale' | 'parent' | 'custom';
 
 export interface ValidationRules {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -245,7 +224,6 @@ export interface ValidationRules {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,7 +244,6 @@ export interface ValidationRule {
 export type ValidationType = 'required' | 'range' | 'pattern' | 'custom';
 
 export interface ComponentDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -287,7 +264,6 @@ export interface ComponentDependency {
 export type DependencyType = 'hard' | 'soft' | 'optional' | 'custom';
 
 export interface PrefabProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -314,7 +290,6 @@ export type PrefabCategory = 'character' | 'environment' | 'ui' | 'effect' | 'pr
 export type ComplexityLevel = 'simple' | 'moderate' | 'complex' | 'expert';
 
 export interface PrefabSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,7 +310,6 @@ export interface PrefabSize {
 }
 
 export interface PerformanceProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -356,7 +330,6 @@ export interface PerformanceProfile {
 export type PerformanceLevel = 'low' | 'medium' | 'high' | 'very_high';
 
 export interface PrefabHierarchy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +348,6 @@ export interface PrefabHierarchy {
 }
 
 export interface HierarchyNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,20 +359,16 @@ export interface HierarchyNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NodeType;
   parent: string;
   children: string[];
   components: string[];
   properties: NodeProperties;
-  metadata: Record<string, any>;
 }
 
 export type NodeType = 'gameobject' | 'group' | 'empty' | 'custom';
 
 export interface NodeProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +390,6 @@ export interface NodeProperties {
 }
 
 export interface PrefabVariant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -434,18 +401,14 @@ export interface PrefabVariant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: VariantType;
   changes: VariantChange[];
   properties: VariantProperties;
-  metadata: Record<string, any>;
 }
 
 export type VariantType = 'color' | 'size' | 'material' | 'texture' | 'custom';
 
 export interface VariantChange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -466,7 +429,6 @@ export interface VariantChange {
 export type ChangeOperation = 'set' | 'add' | 'multiply' | 'custom';
 
 export interface VariantProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -485,7 +447,6 @@ export interface VariantProperties {
 }
 
 export interface VariantCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -505,7 +466,6 @@ export interface VariantCondition {
 export type ConditionType = 'level' | 'platform' | 'setting' | 'custom';
 
 export interface PrefabPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -528,7 +488,6 @@ export interface PrefabPerformance {
 }
 
 export interface PrefabInstance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,9 +499,7 @@ export interface PrefabInstance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   prefabId: string;
-  name: string;
   status: InstanceStatus;
   position: Vector3;
   rotation: Quaternion;
@@ -550,13 +507,11 @@ export interface PrefabInstance {
   properties: InstanceProperties;
   components: InstanceComponent[];
   performance: InstancePerformance;
-  metadata: Record<string, any>;
 }
 
 export type InstanceStatus = 'active' | 'inactive' | 'destroyed' | 'error';
 
 export interface InstanceProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -578,7 +533,6 @@ export interface InstanceProperties {
 }
 
 export interface InstanceComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -597,7 +551,6 @@ export interface InstanceComponent {
 }
 
 export interface ComponentOverride {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -617,7 +570,6 @@ export interface ComponentOverride {
 export type OverrideType = 'value' | 'add' | 'multiply' | 'custom';
 
 export interface InstancePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -637,7 +589,6 @@ export interface InstancePerformance {
 }
 
 export interface PrefabTemplate {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -649,20 +600,16 @@ export interface PrefabTemplate {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TemplateType;
   category: PrefabCategory;
   components: PrefabComponent[];
   properties: PrefabProperties;
   configuration: TemplateConfiguration;
-  metadata: Record<string, any>;
 }
 
 export type TemplateType = 'base' | 'derived' | 'composite' | 'custom';
 
 export interface TemplateConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -681,7 +628,6 @@ export interface TemplateConfiguration {
 }
 
 export interface InheritanceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -700,7 +646,6 @@ export interface InheritanceSettings {
 }
 
 export interface OverrideSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -719,7 +664,6 @@ export interface OverrideSettings {
 }
 
 export interface MergeSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -740,7 +684,6 @@ export type MergeStrategy = 'replace' | 'merge' | 'append' | 'custom';
 export type ConflictResolution = 'parent' | 'child' | 'merge' | 'error';
 
 export interface CompositionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -759,7 +702,6 @@ export interface CompositionSettings {
 }
 
 export interface CompositionComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,7 +720,6 @@ export interface CompositionComponent {
 }
 
 export interface OptimizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -799,7 +740,6 @@ export interface OptimizationSettings {
 export type OptimizationLevel = 'none' | 'low' | 'medium' | 'high' | 'maximum';
 
 export interface OptimizationTechnique {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -819,7 +759,6 @@ export interface OptimizationTechnique {
 export type TechniqueType = 'batching' | 'culling' | 'lod' | 'occlusion' | 'custom';
 
 export interface OptimizationTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -839,7 +778,6 @@ export interface OptimizationTarget {
 export type TargetType = 'memory' | 'cpu' | 'gpu' | 'draw_calls' | 'custom';
 
 export interface PrefabBuilderPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -865,7 +803,6 @@ export interface PrefabBuilderPerformanceMetrics {
 }
 
 export interface PrefabBuilderAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -886,7 +823,6 @@ export interface PrefabBuilderAnalytics {
 }
 
 export interface PrefabTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -905,7 +841,6 @@ export interface PrefabTypeDistribution {
 }
 
 export interface ComponentTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -924,7 +859,6 @@ export interface ComponentTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -936,7 +870,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   prefabs: number;
   instances: number;
   instantiationTime: number;
@@ -945,7 +878,6 @@ export interface PerformanceTrend {
 }
 
 export interface PrefabBuilderReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -968,7 +900,6 @@ export interface PrefabBuilderReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -989,7 +920,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1009,7 +939,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1029,7 +958,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1042,13 +970,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface PrefabBuilderOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -7,7 +7,6 @@ import { EventBus } from '../../EventBusPure/index';
  */
 
 export interface TestEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,8 +18,6 @@ export interface TestEntity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   stats: Map<string, number>;
   immunities: string[];
   isAlive: boolean;
@@ -28,11 +25,9 @@ export interface TestEntity {
   experience: number;
   inventory: Map<string, number>;
   position: { x: number; y: number; z: number };
-  metadata: Record<string, any>;
 }
 
 export interface TestSpirit extends TestEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,7 +47,6 @@ export interface TestSpirit extends TestEntity {
 }
 
 export interface TestPlayer extends TestEntity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -72,7 +66,6 @@ export interface TestPlayer extends TestEntity {
 }
 
 export interface TestHealthSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -95,7 +88,6 @@ export interface TestHealthSystem {
 }
 
 export interface TestCombatSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,7 +108,6 @@ export interface TestCombatSystem {
 }
 
 export interface TestRNGSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,7 +131,6 @@ export interface TestRNGSystem {
 }
 
 export interface TestInventorySystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

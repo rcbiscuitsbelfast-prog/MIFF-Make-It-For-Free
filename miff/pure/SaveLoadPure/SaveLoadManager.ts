@@ -2,7 +2,6 @@ v10($2);
 
 // Minimal GameData V11 used by the CLI (extend safely in engine runtime)
 export interface GameDataV11 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,7 +26,6 @@ export interface GameDataV11 {
 }
 
 export interface SaveSlot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +37,6 @@ export interface SaveSlot {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   timestamp: number; // epoch ms
   data: GameDataV11; // snapshot of a full V11 state
   autosave?: boolean;
@@ -47,7 +44,6 @@ export interface SaveSlot {
 }
 
 export interface StorageAdapter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

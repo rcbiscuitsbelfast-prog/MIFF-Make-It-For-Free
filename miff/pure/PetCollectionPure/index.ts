@@ -19,7 +19,6 @@ export type PetType = 'fire' | 'water' | 'earth' | 'air' | 'light' | 'dark' | 'n
 export type EggType = 'basic' | 'premium' | 'golden' | 'diamond' | 'cosmic';
 
 export interface PetStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +39,6 @@ export interface PetStats {
 }
 
 export interface Pet {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -52,8 +50,6 @@ export interface Pet {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   species: string;
   type: PetType;
   rarity: PetRarity;
@@ -74,7 +70,6 @@ export interface Pet {
 }
 
 export interface Egg {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,7 +81,6 @@ export interface Egg {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EggType;
   species: string;
   rarity: PetRarity;
@@ -99,7 +93,6 @@ export interface Egg {
 }
 
 export interface TradeOffer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -111,19 +104,16 @@ export interface TradeOffer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   petId: string;
   ownerId: string;
   requestedPetId?: string;
   requestedItems?: string[];
   status: 'pending' | 'accepted' | 'declined' | 'completed' | 'cancelled';
-  createdAt: number;
   expiresAt: number;
   metadata?: Record<string, any>;
 }
 
 export interface CollectionStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

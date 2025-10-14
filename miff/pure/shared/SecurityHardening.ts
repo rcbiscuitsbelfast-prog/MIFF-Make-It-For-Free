@@ -10,7 +10,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SecurityConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface SecurityConfig {
 }
 
 export interface PasswordPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,7 +58,6 @@ export interface PasswordPolicy {
 }
 
 export interface SecurityHeaders {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,7 +79,6 @@ export interface SecurityHeaders {
 }
 
 export interface RateLimitConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -102,7 +98,6 @@ export interface RateLimitConfig {
 }
 
 export interface SecurityEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,7 +109,6 @@ export interface SecurityEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'login_attempt' | 'rate_limit_exceeded' | 'suspicious_activity' | 'security_violation';
   severity: 'low' | 'medium' | 'high' | 'critical';
   timestamp: Date;
@@ -124,7 +118,6 @@ export interface SecurityEvent {
 }
 
 export interface SecurityAudit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +137,6 @@ export interface SecurityAudit {
 }
 
 export interface SecurityVulnerability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,7 +148,6 @@ export interface SecurityVulnerability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'injection' | 'broken_auth' | 'sensitive_data' | 'xml_external_entities' | 'broken_access_control' | 'security_misconfiguration' | 'cross_site_scripting' | 'insecure_deserialization' | 'known_vulnerabilities' | 'insufficient_logging';
   severity: 'low' | 'medium' | 'high' | 'critical';
   description: string;
@@ -166,7 +157,6 @@ export interface SecurityVulnerability {
 }
 
 export interface ComplianceStatus {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

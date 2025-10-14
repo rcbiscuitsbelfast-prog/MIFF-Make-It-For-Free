@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BridgeInspectorConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface BridgeInspectorConfig {
 }
 
 export interface BridgeInspector {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface BridgeInspector {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: InspectorType;
   status: InspectorStatus;
   bridges: Bridge[];
@@ -64,14 +60,12 @@ export interface BridgeInspector {
   reports: InspectionReport[];
   performance: InspectorPerformance;
   analytics: InspectorAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Bridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,18 +77,14 @@ export interface Bridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BridgeType;
   status: BridgeStatus;
   health: BridgeHealth;
   performance: BridgePerformance;
   configuration: BridgeConfiguration;
-  metadata: Record<string, any>;
 }
 
 export interface Inspection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,18 +96,15 @@ export interface Inspection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   bridgeId: string;
   type: InspectionType;
   status: InspectionStatus;
   startTime: Date;
   endTime?: Date;
   results: InspectionResults;
-  metadata: Record<string, any>;
 }
 
 export interface InspectionReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +116,6 @@ export interface InspectionReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   bridgeId: string;
   inspectionId: string;
   type: ReportType;
@@ -137,11 +123,9 @@ export interface InspectionReport {
   findings: Finding[];
   recommendations: Recommendation[];
   generatedAt: Date;
-  metadata: Record<string, any>;
 }
 
 export interface BridgeHealth {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -156,11 +140,9 @@ export interface BridgeHealth {
   overall: HealthStatus;
   components: ComponentHealth[];
   lastChecked: Date;
-  metadata: Record<string, any>;
 }
 
 export interface ComponentHealth {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,15 +154,12 @@ export interface ComponentHealth {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   status: HealthStatus;
   score: number; // 0-100
   issues: Issue[];
-  metadata: Record<string, any>;
 }
 
 export interface Issue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,17 +171,14 @@ export interface Issue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: IssueType;
   severity: IssueSeverity;
   description: string;
   detectedAt: Date;
   resolvedAt?: Date;
-  metadata: Record<string, any>;
 }
 
 export interface BridgePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -218,11 +194,9 @@ export interface BridgePerformance {
   throughput: number; // requests per second
   errorRate: number; // 0-1
   uptime: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface BridgeConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,11 +211,9 @@ export interface BridgeConfiguration {
   settings: Record<string, any>;
   features: string[];
   limits: ConfigurationLimits;
-  metadata: Record<string, any>;
 }
 
 export interface ConfigurationLimits {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -256,11 +228,9 @@ export interface ConfigurationLimits {
   maxConnections: number;
   maxRequests: number;
   timeout: number; // milliseconds
-  metadata: Record<string, any>;
 }
 
 export interface InspectionResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,11 +246,9 @@ export interface InspectionResults {
   score: number; // 0-100
   checks: CheckResult[];
   summary: string;
-  metadata: Record<string, any>;
 }
 
 export interface CheckResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,16 +260,13 @@ export interface CheckResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   passed: boolean;
   score: number; // 0-100
   message: string;
   details: Record<string, any>;
-  metadata: Record<string, any>;
 }
 
 export interface Finding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -313,17 +278,14 @@ export interface Finding {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: FindingType;
   severity: FindingSeverity;
   description: string;
   location: string;
   impact: string;
-  metadata: Record<string, any>;
 }
 
 export interface Recommendation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,17 +297,14 @@ export interface Recommendation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RecommendationType;
   priority: RecommendationPriority;
   description: string;
   action: string;
   estimatedEffort: number; // hours
-  metadata: Record<string, any>;
 }
 
 export interface InspectorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -362,11 +321,9 @@ export interface InspectorPerformance {
   successRate: number; // 0-1
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface InspectorAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

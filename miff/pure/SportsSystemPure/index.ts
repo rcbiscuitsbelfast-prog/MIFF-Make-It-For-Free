@@ -20,7 +20,6 @@ export type TeamPosition = 'goalkeeper' | 'defender' | 'midfielder' | 'forward' 
 export type BallState = 'held' | 'free' | 'out_of_bounds' | 'scored';
 
 export interface Player {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,8 +31,6 @@ export interface Player {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   teamId: string;
   position: TeamPosition;
   stats: PlayerStats;
@@ -43,7 +40,6 @@ export interface Player {
 }
 
 export interface PlayerStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,7 +62,6 @@ export interface PlayerStats {
 }
 
 export interface Ball {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -78,7 +73,6 @@ export interface Ball {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   state: BallState;
@@ -89,7 +83,6 @@ export interface Ball {
 }
 
 export interface Team {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -101,8 +94,6 @@ export interface Team {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   players: Player[];
   score: number;
   color: string;
@@ -112,7 +103,6 @@ export interface Team {
 }
 
 export interface GameField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -124,7 +114,6 @@ export interface GameField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   sportType: SportType;
   dimensions: { width: number; height: number; depth: number };
   boundaries: Boundary[];
@@ -134,7 +123,6 @@ export interface GameField {
 }
 
 export interface Boundary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +134,6 @@ export interface Boundary {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'wall' | 'fence' | 'net' | 'line';
   position: { x: number; y: number; z: number };
   dimensions: { width: number; height: number; depth: number };
@@ -154,7 +141,6 @@ export interface Boundary {
 }
 
 export interface Goal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -166,7 +152,6 @@ export interface Goal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   teamId: string;
   position: { x: number; y: number; z: number };
   dimensions: { width: number; height: number; depth: number };
@@ -174,7 +159,6 @@ export interface Goal {
 }
 
 export interface Obstacle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,7 +170,6 @@ export interface Obstacle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'cone' | 'hurdle' | 'wall' | 'pit';
   position: { x: number; y: number; z: number };
   dimensions: { width: number; height: number; depth: number };
@@ -195,7 +178,6 @@ export interface Obstacle {
 }
 
 export interface GameRules {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +201,6 @@ export interface GameRules {
 }
 
 export interface GameStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -243,7 +224,6 @@ export interface GameStats {
 }
 
 export interface MatchResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -265,7 +245,6 @@ export interface MatchResult {
 }
 
 export interface Highlight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -277,9 +256,7 @@ export interface Highlight {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'goal' | 'save' | 'foul' | 'injury' | 'substitution';
-  timestamp: number;
   playerId: string;
   description: string;
   importance: number; // 1-10
@@ -850,7 +827,6 @@ export class SportsSystemPure {
 
 // Additional interfaces
 export interface Game {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -862,7 +838,6 @@ export interface Game {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   sportType: SportType;
   teams: Team[];
   state: GameState;

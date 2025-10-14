@@ -10,7 +10,6 @@
  */
 
 export interface StartMenuConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface StartMenuConfig {
 }
 
 export interface StartMenuManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface StartMenuManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StartMenuManagerType;
   status: StartMenuManagerStatus;
   menus: StartMenu[];
@@ -64,16 +60,12 @@ export interface StartMenuManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type StartMenuManagerType = 'main' | 'settings' | 'game' | 'custom';
 export type StartMenuManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface StartMenu {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,21 +77,17 @@ export interface StartMenu {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MenuType;
   status: MenuStatus;
   items: string[];
   configuration: MenuConfiguration;
   performance: MenuPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MenuType = 'main' | 'settings' | 'game' | 'custom';
 export type MenuStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface MenuConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -120,7 +108,6 @@ export interface MenuConfiguration {
 }
 
 export interface MenuTheme {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,14 +119,12 @@ export interface MenuTheme {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   colors: ThemeColors;
   fonts: ThemeFonts;
   styles: ThemeStyles;
 }
 
 export interface ThemeColors {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,7 +144,6 @@ export interface ThemeColors {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,7 +162,6 @@ export interface Color {
 }
 
 export interface ThemeFonts {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +182,6 @@ export interface ThemeFonts {
 export type FontWeight = 'normal' | 'bold' | 'light' | 'custom';
 
 export interface ThemeStyles {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +199,6 @@ export interface ThemeStyles {
 }
 
 export interface ShadowStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -236,7 +217,6 @@ export interface ShadowStyle {
 }
 
 export interface Vector2 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -253,7 +233,6 @@ export interface Vector2 {
 }
 
 export interface BorderStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -274,7 +253,6 @@ export interface BorderStyle {
 export type BorderType = 'solid' | 'dashed' | 'dotted' | 'custom';
 
 export interface MenuLayout {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -297,7 +275,6 @@ export type LayoutType = 'vertical' | 'horizontal' | 'grid' | 'custom';
 export type LayoutDirection = 'top_to_bottom' | 'bottom_to_top' | 'left_to_right' | 'right_to_left' | 'custom';
 
 export interface Padding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +293,6 @@ export interface Padding {
 }
 
 export interface Alignment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,7 +312,6 @@ export type HorizontalAlignment = 'left' | 'center' | 'right' | 'custom';
 export type VerticalAlignment = 'top' | 'center' | 'bottom' | 'custom';
 
 export interface MenuAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -348,7 +323,6 @@ export interface MenuAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: AnimationType;
   duration: number;
   easing: EasingFunction;
@@ -360,7 +334,6 @@ export type AnimationType = 'fade' | 'slide' | 'scale' | 'custom';
 export type EasingFunction = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
 
 export interface MenuSound {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -372,7 +345,6 @@ export interface MenuSound {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: SoundType;
   file: string;
   volume: number;
@@ -382,7 +354,6 @@ export interface MenuSound {
 export type SoundType = 'click' | 'hover' | 'select' | 'custom';
 
 export interface MenuPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -400,7 +371,6 @@ export interface MenuPerformance {
 }
 
 export interface MenuItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -412,21 +382,17 @@ export interface MenuItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemType;
   status: ItemStatus;
   menu: string;
   configuration: ItemConfiguration;
   performance: ItemPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ItemType = 'button' | 'link' | 'separator' | 'custom';
 export type ItemStatus = 'active' | 'inactive' | 'disabled' | 'error';
 
 export interface ItemConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -447,7 +413,6 @@ export interface ItemConfiguration {
 }
 
 export interface ItemAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -468,7 +433,6 @@ export interface ItemAction {
 export type ActionType = 'navigate' | 'execute' | 'toggle' | 'custom';
 
 export interface ItemStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -489,7 +453,6 @@ export interface ItemStyle {
 }
 
 export interface Margin {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -508,7 +471,6 @@ export interface Margin {
 }
 
 export interface ItemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -526,7 +488,6 @@ export interface ItemPerformance {
 }
 
 export interface MenuNavigation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -538,21 +499,17 @@ export interface MenuNavigation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NavigationType;
   status: NavigationStatus;
   menus: string[];
   configuration: NavigationConfiguration;
   performance: NavigationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type NavigationType = 'breadcrumb' | 'tabs' | 'sidebar' | 'custom';
 export type NavigationStatus = 'active' | 'inactive' | 'error';
 
 export interface NavigationConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -574,7 +531,6 @@ export interface NavigationConfiguration {
 export type Orientation = 'horizontal' | 'vertical' | 'custom';
 
 export interface NavigationStyle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -595,7 +551,6 @@ export interface NavigationStyle {
 }
 
 export interface NavigationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -613,7 +568,6 @@ export interface NavigationPerformance {
 }
 
 export interface MenuInteraction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -625,21 +579,17 @@ export interface MenuInteraction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: InteractionType;
   status: InteractionStatus;
   menus: string[];
   configuration: InteractionConfiguration;
   performance: InteractionPerformance;
-  metadata: Record<string, any>;
 }
 
 export type InteractionType = 'click' | 'hover' | 'keyboard' | 'custom';
 export type InteractionStatus = 'active' | 'inactive' | 'error';
 
 export interface InteractionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -658,7 +608,6 @@ export interface InteractionConfiguration {
 }
 
 export interface FeedbackConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -677,7 +626,6 @@ export interface FeedbackConfig {
 }
 
 export interface InteractionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -697,7 +645,6 @@ export interface InteractionPerformance {
 }
 
 export interface StartMenuPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -722,7 +669,6 @@ export interface StartMenuPerformanceMetrics {
 }
 
 export interface StartMenuAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -743,7 +689,6 @@ export interface StartMenuAnalytics {
 }
 
 export interface MenuTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -762,7 +707,6 @@ export interface MenuTypeDistribution {
 }
 
 export interface ItemTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -781,7 +725,6 @@ export interface ItemTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -793,7 +736,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   menus: number;
   items: number;
   loadTime: number;
@@ -803,7 +745,6 @@ export interface PerformanceTrend {
 }
 
 export interface StartMenuReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -826,7 +767,6 @@ export interface StartMenuReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -847,7 +787,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -867,7 +806,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -887,7 +825,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -900,13 +837,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface StartMenuOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

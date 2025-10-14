@@ -11,7 +11,6 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SystemMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,7 +55,6 @@ export interface SystemMetrics {
 }
 
 export interface ApplicationMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -93,7 +91,6 @@ export interface ApplicationMetrics {
 }
 
 export interface ErrorInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -105,7 +102,6 @@ export interface ErrorInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   message: string;
   stack?: string;
   timestamp: Date;
@@ -115,7 +111,6 @@ export interface ErrorInfo {
 }
 
 export interface Alert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +122,6 @@ export interface Alert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'cpu' | 'memory' | 'disk' | 'error' | 'performance' | 'custom';
   severity: 'info' | 'warning' | 'error' | 'critical';
   title: string;
@@ -139,7 +133,6 @@ export interface Alert {
 }
 
 export interface MonitoringConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +165,6 @@ export interface MonitoringConfig {
 }
 
 export interface HealthCheck {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +176,6 @@ export interface HealthCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   status: 'healthy' | 'unhealthy' | 'degraded';
   message: string;
   timestamp: Date;

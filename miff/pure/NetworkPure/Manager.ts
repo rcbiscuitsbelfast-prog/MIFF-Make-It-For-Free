@@ -11,7 +11,6 @@
  */
 
 export interface NetworkConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface NetworkConfig {
 }
 
 export interface NetworkManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface NetworkManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NetworkManagerType;
   status: NetworkManagerStatus;
   connections: NetworkConnection[];
@@ -66,16 +62,12 @@ export interface NetworkManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type NetworkManagerType = 'ethernet' | 'wifi' | 'cellular' | 'bluetooth' | 'custom';
 export type NetworkManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface NetworkConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,22 +79,18 @@ export interface NetworkConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConnectionType;
   status: ConnectionStatus;
   configuration: ConnectionConfiguration;
   performance: ConnectionPerformance;
   security: ConnectionSecurity;
   monitoring: ConnectionMonitoring;
-  metadata: Record<string, any>;
 }
 
 export type ConnectionType = 'tcp' | 'udp' | 'http' | 'https' | 'websocket' | 'custom';
 export type ConnectionStatus = 'connected' | 'disconnected' | 'connecting' | 'error';
 
 export interface ConnectionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface ConnectionConfiguration {
 }
 
 export interface ConnectionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +133,6 @@ export interface ConnectionPerformance {
 }
 
 export interface ConnectionSecurity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +154,6 @@ export interface ConnectionSecurity {
 export type SecurityProtocol = 'tls' | 'ssl' | 'ipsec' | 'custom';
 
 export interface CertificateInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -189,7 +174,6 @@ export interface CertificateInfo {
 }
 
 export interface CipherInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -208,7 +192,6 @@ export interface CipherInfo {
 }
 
 export interface KeyExchangeInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,7 +209,6 @@ export interface KeyExchangeInfo {
 }
 
 export interface ConnectionMonitoring {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -245,7 +227,6 @@ export interface ConnectionMonitoring {
 }
 
 export interface MonitoringMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -257,17 +238,14 @@ export interface MonitoringMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: MetricType;
   value: number;
   unit: string;
-  timestamp: number;
 }
 
 export type MetricType = 'counter' | 'gauge' | 'histogram' | 'custom';
 
 export interface MonitoringAlert {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -279,8 +257,6 @@ export interface MonitoringAlert {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: AlertCondition;
   severity: AlertSeverity;
   enabled: boolean;
@@ -288,7 +264,6 @@ export interface MonitoringAlert {
 }
 
 export interface AlertCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -310,7 +285,6 @@ export type ConditionOperator = 'greater_than' | 'less_than' | 'equals' | 'not_e
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface NetworkDevice {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -322,22 +296,18 @@ export interface NetworkDevice {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DeviceType;
   status: DeviceStatus;
   configuration: DeviceConfiguration;
   capabilities: DeviceCapabilities;
   performance: DevicePerformance;
   security: DeviceSecurity;
-  metadata: Record<string, any>;
 }
 
 export type DeviceType = 'router' | 'switch' | 'firewall' | 'access_point' | 'custom';
 export type DeviceStatus = 'online' | 'offline' | 'maintenance' | 'error';
 
 export interface DeviceConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -360,7 +330,6 @@ export interface DeviceConfiguration {
 }
 
 export interface DeviceCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -380,7 +349,6 @@ export interface DeviceCapabilities {
 }
 
 export interface DevicePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -400,7 +368,6 @@ export interface DevicePerformance {
 }
 
 export interface DeviceSecurity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -419,7 +386,6 @@ export interface DeviceSecurity {
 }
 
 export interface AuthenticationInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -439,7 +405,6 @@ export interface AuthenticationInfo {
 export type AuthMethod = 'password' | 'certificate' | 'key' | 'custom';
 
 export interface UserInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -458,7 +423,6 @@ export interface UserInfo {
 }
 
 export interface FirewallInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -478,7 +442,6 @@ export interface FirewallInfo {
 export type FirewallAction = 'allow' | 'deny' | 'log' | 'custom';
 
 export interface FirewallRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,8 +453,6 @@ export interface FirewallRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   action: FirewallAction;
   source: NetworkAddress;
   destination: NetworkAddress;
@@ -501,7 +462,6 @@ export interface FirewallRule {
 }
 
 export interface NetworkAddress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -521,7 +481,6 @@ export interface NetworkAddress {
 export type AddressType = 'ip' | 'subnet' | 'hostname' | 'custom';
 
 export interface IntrusionDetectionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -541,7 +500,6 @@ export interface IntrusionDetectionInfo {
 export type SensitivityLevel = 'low' | 'medium' | 'high' | 'custom';
 
 export interface IDSRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -553,8 +511,6 @@ export interface IDSRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   pattern: string;
   action: IDSAction;
   severity: AlertSeverity;
@@ -564,7 +520,6 @@ export interface IDSRule {
 export type IDSAction = 'alert' | 'block' | 'log' | 'custom';
 
 export interface NetworkProtocol {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -576,22 +531,18 @@ export interface NetworkProtocol {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProtocolType;
   version: string;
   status: ProtocolStatus;
   configuration: ProtocolConfiguration;
   performance: ProtocolPerformance;
   security: ProtocolSecurity;
-  metadata: Record<string, any>;
 }
 
 export type ProtocolType = 'tcp' | 'udp' | 'http' | 'https' | 'ftp' | 'smtp' | 'custom';
 export type ProtocolStatus = 'active' | 'inactive' | 'error';
 
 export interface ProtocolConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -613,7 +564,6 @@ export interface ProtocolConfiguration {
 }
 
 export interface ProtocolPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -634,7 +584,6 @@ export interface ProtocolPerformance {
 }
 
 export interface ProtocolSecurity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +602,6 @@ export interface ProtocolSecurity {
 }
 
 export interface NetworkSecurity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,21 +613,17 @@ export interface NetworkSecurity {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SecurityType;
   status: SecurityStatus;
   configuration: SecurityConfiguration;
   rules: SecurityRule[];
   performance: SecurityPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SecurityType = 'firewall' | 'ids' | 'ips' | 'vpn' | 'custom';
 export type SecurityStatus = 'active' | 'inactive' | 'error';
 
 export interface SecurityConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -701,7 +645,6 @@ export interface SecurityConfiguration {
 export type SecurityMode = 'permissive' | 'restrictive' | 'custom';
 
 export interface SecurityRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -713,8 +656,6 @@ export interface SecurityRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   action: SecurityAction;
   condition: SecurityCondition;
   priority: number;
@@ -724,7 +665,6 @@ export interface SecurityRule {
 export type SecurityAction = 'allow' | 'deny' | 'log' | 'alert' | 'custom';
 
 export interface SecurityCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -746,7 +686,6 @@ export interface SecurityCondition {
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface SecurityPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -766,7 +705,6 @@ export interface SecurityPerformance {
 }
 
 export interface NetworkMonitor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,22 +716,18 @@ export interface NetworkMonitor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MonitorType;
   status: MonitorStatus;
   configuration: MonitorConfiguration;
   metrics: MonitorMetric[];
   alerts: MonitorAlert[];
   performance: MonitorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type MonitorType = 'bandwidth' | 'latency' | 'packet_loss' | 'jitter' | 'custom';
 export type MonitorStatus = 'active' | 'inactive' | 'error';
 
 export interface MonitorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -813,7 +747,6 @@ export interface MonitorConfiguration {
 }
 
 export interface MonitorMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -825,16 +758,13 @@ export interface MonitorMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: MetricType;
   value: number;
   unit: string;
-  timestamp: number;
   tags: Record<string, string>;
 }
 
 export interface MonitorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -853,7 +783,6 @@ export interface MonitorPerformance {
 }
 
 export interface NetworkPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -881,7 +810,6 @@ export interface NetworkPerformanceMetrics {
 }
 
 export interface NetworkAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -902,7 +830,6 @@ export interface NetworkAnalytics {
 }
 
 export interface ConnectionTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -921,7 +848,6 @@ export interface ConnectionTypeDistribution {
 }
 
 export interface DeviceTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -940,7 +866,6 @@ export interface DeviceTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -952,7 +877,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   connections: number;
   devices: number;
   latency: number;
@@ -962,7 +886,6 @@ export interface PerformanceTrend {
 }
 
 export interface NetworkReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -985,7 +908,6 @@ export interface NetworkReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1006,7 +928,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1026,7 +947,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1046,7 +966,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1059,13 +978,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface NetworkOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

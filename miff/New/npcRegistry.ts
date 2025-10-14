@@ -1,5 +1,4 @@
 export interface NPC {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -11,8 +10,6 @@ export interface NPC {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   x: number;
   y: number;
   dialogue: string[];

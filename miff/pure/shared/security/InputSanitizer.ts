@@ -9,7 +9,6 @@
  */
 
 export interface SanitizationOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -30,7 +29,6 @@ export interface SanitizationOptions {
 }
 
 export interface SanitizationResult<T = any> {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -19,7 +19,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BlockchainConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,7 +44,6 @@ export interface BlockchainConfig {
 }
 
 export interface Blockchain {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -57,8 +55,6 @@ export interface Blockchain {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BlockchainType;
   status: BlockchainStatus;
   blocks: Block[];
@@ -67,14 +63,12 @@ export interface Blockchain {
   consensus: ConsensusConfig;
   performance: BlockchainPerformance;
   analytics: BlockchainAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Block {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,7 +80,6 @@ export interface Block {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   index: number;
   hash: string;
   previousHash: string;
@@ -95,11 +88,9 @@ export interface Block {
   nonce: number;
   difficulty: number;
   merkleRoot: string;
-  metadata: Record<string, any>;
 }
 
 export interface Transaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -111,7 +102,6 @@ export interface Transaction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TransactionType;
   from: string;
   to: string;
@@ -123,11 +113,9 @@ export interface Transaction {
   status: TransactionStatus;
   blockHash?: string;
   timestamp: Date;
-  metadata: Record<string, any>;
 }
 
 export interface SmartContract {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,19 +127,15 @@ export interface SmartContract {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   address: string;
   bytecode: string;
   abi: ContractABI;
   owner: string;
   deployedAt: Date;
   status: ContractStatus;
-  metadata: Record<string, any>;
 }
 
 export interface ConsensusConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -167,11 +151,9 @@ export interface ConsensusConfig {
   difficulty: number;
   blockTime: number; // seconds
   maxBlockSize: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface ContractABI {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,11 +168,9 @@ export interface ContractABI {
   functions: ContractFunction[];
   events: ContractEvent[];
   constructor: ContractConstructor;
-  metadata: Record<string, any>;
 }
 
 export interface ContractFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,15 +182,12 @@ export interface ContractFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   inputs: ContractParameter[];
   outputs: ContractParameter[];
   stateMutability: StateMutability;
-  metadata: Record<string, any>;
 }
 
 export interface ContractEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -222,14 +199,11 @@ export interface ContractEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   inputs: ContractParameter[];
   anonymous: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface ContractConstructor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -242,11 +216,9 @@ export interface ContractConstructor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   inputs: ContractParameter[];
-  metadata: Record<string, any>;
 }
 
 export interface ContractParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,14 +230,11 @@ export interface ContractParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   indexed?: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface BlockchainPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -282,11 +251,9 @@ export interface BlockchainPerformance {
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
   networkLatency: number; // milliseconds
-  metadata: Record<string, any>;
 }
 
 export interface BlockchainAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

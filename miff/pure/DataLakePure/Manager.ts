@@ -12,7 +12,6 @@
  */
 
 export interface DataLakeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface DataLakeConfig {
 }
 
 export interface DataLakeManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface DataLakeManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataLakeManagerType;
   status: DataLakeManagerStatus;
   datasets: Dataset[];
@@ -69,16 +65,12 @@ export interface DataLakeManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DataLakeManagerType = 'enterprise' | 'cloud' | 'hybrid' | 'edge' | 'custom';
 export type DataLakeManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Dataset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,8 +82,6 @@ export interface Dataset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DatasetType;
   status: DatasetStatus;
   schema: DataSchema;
@@ -100,14 +90,12 @@ export interface Dataset {
   quality: DataQuality;
   lineage: DataLineage;
   performance: DatasetPerformance;
-  metadata: Record<string, any>;
 }
 
 export type DatasetType = 'structured' | 'semi_structured' | 'unstructured' | 'streaming' | 'custom';
 export type DatasetStatus = 'ingesting' | 'processing' | 'ready' | 'archived' | 'error';
 
 export interface DataSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,7 +115,6 @@ export interface DataSchema {
 }
 
 export interface SchemaField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,7 +126,6 @@ export interface SchemaField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: FieldType;
   nullable: boolean;
   description: string;
@@ -149,7 +135,6 @@ export interface SchemaField {
 export type FieldType = 'string' | 'integer' | 'float' | 'boolean' | 'date' | 'array' | 'object' | 'custom';
 
 export interface FieldConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +154,6 @@ export interface FieldConstraint {
 export type ConstraintType = 'not_null' | 'unique' | 'range' | 'pattern' | 'custom';
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +165,6 @@ export interface SchemaConstraint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: ConstraintType;
   fields: string[];
   condition: string;
@@ -189,7 +172,6 @@ export interface SchemaConstraint {
 }
 
 export interface SchemaIndex {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -201,7 +183,6 @@ export interface SchemaIndex {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: IndexType;
   fields: string[];
   unique: boolean;
@@ -211,7 +192,6 @@ export interface SchemaIndex {
 export type IndexType = 'btree' | 'hash' | 'bitmap' | 'custom';
 
 export interface PartitionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,7 +213,6 @@ export type PartitionType = 'range' | 'list' | 'hash' | 'custom';
 export type PartitionStrategy = 'automatic' | 'manual' | 'custom';
 
 export interface PartitionValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -252,7 +231,6 @@ export interface PartitionValue {
 }
 
 export interface StorageLocation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -276,7 +254,6 @@ export interface StorageLocation {
 export type StorageFormat = 'parquet' | 'orc' | 'avro' | 'json' | 'csv' | 'custom';
 
 export interface CompressionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -297,7 +274,6 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'gzip' | 'snappy' | 'lz4' | 'zstd' | 'custom';
 
 export interface EncryptionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,7 +292,6 @@ export interface EncryptionSettings {
 }
 
 export interface DatasetMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -339,7 +314,6 @@ export interface DatasetMetadata {
 }
 
 export interface DataQuality {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -359,7 +333,6 @@ export interface DataQuality {
 }
 
 export interface QualityMetric {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -371,7 +344,6 @@ export interface QualityMetric {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   value: number;
   threshold: number;
   status: MetricStatus;
@@ -381,7 +353,6 @@ export interface QualityMetric {
 export type MetricStatus = 'pass' | 'fail' | 'warning' | 'unknown';
 
 export interface QualityRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -393,8 +364,6 @@ export interface QualityRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -405,7 +374,6 @@ export type RuleType = 'completeness' | 'accuracy' | 'consistency' | 'validity' 
 export type RuleSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface QualityIssue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -417,21 +385,18 @@ export interface QualityIssue {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: IssueType;
   severity: IssueSeverity;
   description: string;
   field: string;
   value: any;
   expected: any;
-  timestamp: number;
 }
 
 export type IssueType = 'missing' | 'invalid' | 'duplicate' | 'outlier' | 'custom';
 export type IssueSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface DataLineage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -450,7 +415,6 @@ export interface DataLineage {
 }
 
 export interface DataSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -462,18 +426,14 @@ export interface DataSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SourceType;
   location: string;
   schema: DataSchema;
-  metadata: Record<string, any>;
 }
 
 export type SourceType = 'database' | 'file' | 'api' | 'stream' | 'custom';
 
 export interface Transformation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -485,8 +445,6 @@ export interface Transformation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TransformationType;
   parameters: Record<string, any>;
   inputs: string[];
@@ -497,7 +455,6 @@ export interface Transformation {
 export type TransformationType = 'filter' | 'map' | 'aggregate' | 'join' | 'custom';
 
 export interface DataDestination {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -509,18 +466,14 @@ export interface DataDestination {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DestinationType;
   location: string;
   schema: DataSchema;
-  metadata: Record<string, any>;
 }
 
 export type DestinationType = 'database' | 'file' | 'api' | 'stream' | 'custom';
 
 export interface DataDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -536,13 +489,11 @@ export interface DataDependency {
   to: string;
   type: DependencyType;
   required: boolean;
-  metadata: Record<string, any>;
 }
 
 export type DependencyType = 'hard' | 'soft' | 'optional' | 'custom';
 
 export interface DatasetPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -563,7 +514,6 @@ export interface DatasetPerformance {
 }
 
 export interface StorageSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -575,21 +525,17 @@ export interface StorageSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StorageType;
   status: StorageStatus;
   configuration: StorageConfiguration;
   capacity: StorageCapacity;
   performance: StoragePerformance;
-  metadata: Record<string, any>;
 }
 
 export type StorageType = 'object' | 'block' | 'file' | 'database' | 'custom';
 export type StorageStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface StorageConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -610,7 +556,6 @@ export interface StorageConfiguration {
 }
 
 export interface CredentialSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -629,7 +574,6 @@ export interface CredentialSettings {
 }
 
 export interface ReplicationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -650,7 +594,6 @@ export interface ReplicationSettings {
 export type ReplicationStrategy = 'synchronous' | 'asynchronous' | 'semi_synchronous';
 
 export interface StorageCapacity {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -670,7 +613,6 @@ export interface StorageCapacity {
 }
 
 export interface StoragePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -690,7 +632,6 @@ export interface StoragePerformance {
 }
 
 export interface DataProcessor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -702,22 +643,18 @@ export interface DataProcessor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProcessorType;
   status: ProcessorStatus;
   configuration: ProcessorConfiguration;
   inputs: string[];
   outputs: string[];
   performance: ProcessorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ProcessorType = 'batch' | 'stream' | 'real_time' | 'custom';
 export type ProcessorStatus = 'idle' | 'running' | 'paused' | 'error';
 
 export interface ProcessorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -738,7 +675,6 @@ export interface ProcessorConfiguration {
 export type ProcessingEngine = 'spark' | 'flink' | 'kafka' | 'custom';
 
 export interface ResourceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -757,7 +693,6 @@ export interface ResourceSettings {
 }
 
 export interface ParallelismSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -777,7 +712,6 @@ export interface ParallelismSettings {
 export type ParallelismStrategy = 'fixed' | 'dynamic' | 'adaptive' | 'custom';
 
 export interface CheckpointSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -796,7 +730,6 @@ export interface CheckpointSettings {
 }
 
 export interface ProcessorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -816,7 +749,6 @@ export interface ProcessorPerformance {
 }
 
 export interface DataPipeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -828,22 +760,18 @@ export interface DataPipeline {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PipelineType;
   status: PipelineStatus;
   stages: PipelineStage[];
   schedule: PipelineSchedule;
   monitoring: PipelineMonitoring;
   performance: PipelinePerformance;
-  metadata: Record<string, any>;
 }
 
 export type PipelineType = 'etl' | 'elt' | 'streaming' | 'custom';
 export type PipelineStatus = 'draft' | 'active' | 'paused' | 'error';
 
 export interface PipelineStage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -855,8 +783,6 @@ export interface PipelineStage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StageType;
   processor: string;
   configuration: Record<string, any>;
@@ -868,7 +794,6 @@ export interface PipelineStage {
 export type StageType = 'extract' | 'transform' | 'load' | 'validate' | 'custom';
 
 export interface PipelineSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -889,7 +814,6 @@ export interface PipelineSchedule {
 }
 
 export interface RetrySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -910,7 +834,6 @@ export interface RetrySettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface PipelineMonitoring {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -929,7 +852,6 @@ export interface PipelineMonitoring {
 }
 
 export interface AlertRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -941,8 +863,6 @@ export interface AlertRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: string;
   severity: AlertSeverity;
   actions: AlertAction[];
@@ -951,7 +871,6 @@ export interface AlertRule {
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface AlertAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -971,7 +890,6 @@ export interface AlertAction {
 export type ActionType = 'email' | 'sms' | 'webhook' | 'custom';
 
 export interface LoggingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -993,7 +911,6 @@ export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 export type LogFormat = 'json' | 'text' | 'xml' | 'custom';
 
 export interface PipelinePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1013,7 +930,6 @@ export interface PipelinePerformance {
 }
 
 export interface DataGovernance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1033,7 +949,6 @@ export interface DataGovernance {
 }
 
 export interface GovernancePolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1045,8 +960,6 @@ export interface GovernancePolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   scope: PolicyScope;
   rules: PolicyRule[];
@@ -1057,7 +970,6 @@ export type PolicyType = 'data_quality' | 'privacy' | 'security' | 'retention' |
 export type PolicyScope = 'global' | 'dataset' | 'field' | 'custom';
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1069,8 +981,6 @@ export interface PolicyRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: string;
   action: string;
   severity: RuleSeverity;
@@ -1078,7 +988,6 @@ export interface PolicyRule {
 }
 
 export interface PolicyEnforcement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1098,7 +1007,6 @@ export interface PolicyEnforcement {
 export type EnforcementMode = 'prevent' | 'warn' | 'audit' | 'custom';
 
 export interface EnforcementAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1116,7 +1024,6 @@ export interface EnforcementAction {
 }
 
 export interface NotificationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1135,7 +1042,6 @@ export interface NotificationSettings {
 }
 
 export interface GovernanceRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1147,8 +1053,6 @@ export interface GovernanceRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   scope: PolicyScope;
   condition: string;
@@ -1157,7 +1061,6 @@ export interface GovernanceRule {
 }
 
 export interface AccessControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1177,7 +1080,6 @@ export interface AccessControl {
 }
 
 export interface AccessPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1189,8 +1091,6 @@ export interface AccessPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   resource: string;
   actions: string[];
   conditions: PolicyCondition[];
@@ -1198,7 +1098,6 @@ export interface AccessPolicy {
 }
 
 export interface PolicyCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1218,7 +1117,6 @@ export interface PolicyCondition {
 export type PolicyEffect = 'allow' | 'deny';
 
 export interface AccessRole {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1230,14 +1128,11 @@ export interface AccessRole {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   permissions: string[];
   description: string;
 }
 
 export interface AccessPermission {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1249,15 +1144,12 @@ export interface AccessPermission {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   resource: string;
   actions: string[];
   description: string;
 }
 
 export interface PrivacySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1276,7 +1168,6 @@ export interface PrivacySettings {
 }
 
 export interface PrivacyRegulation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1288,14 +1179,12 @@ export interface PrivacyRegulation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   version: string;
   requirements: PrivacyRequirement[];
   compliance: ComplianceStatus;
 }
 
 export interface PrivacyRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1307,8 +1196,6 @@ export interface PrivacyRequirement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   mandatory: boolean;
   controls: string[];
@@ -1317,7 +1204,6 @@ export interface PrivacyRequirement {
 export type ComplianceStatus = 'compliant' | 'non_compliant' | 'partial' | 'unknown';
 
 export interface PrivacyControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1329,8 +1215,6 @@ export interface PrivacyControl {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ControlType;
   implementation: ControlImplementation;
   effectiveness: ControlEffectiveness;
@@ -1340,7 +1224,6 @@ export type ControlType = 'encryption' | 'anonymization' | 'pseudonymization' | 
 export type ControlEffectiveness = 'high' | 'medium' | 'low' | 'unknown';
 
 export interface ControlImplementation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1360,7 +1243,6 @@ export interface ControlImplementation {
 export type ImplementationStatus = 'implemented' | 'partial' | 'planned' | 'not_implemented';
 
 export interface ConsentManagement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1379,7 +1261,6 @@ export interface ConsentManagement {
 }
 
 export interface ConsentPurpose {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1391,15 +1272,12 @@ export interface ConsentPurpose {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   legalBasis: string;
   retention: number;
 }
 
 export interface ConsentMechanism {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1411,8 +1289,6 @@ export interface ConsentMechanism {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: MechanismType;
   configuration: Record<string, any>;
 }
@@ -1420,7 +1296,6 @@ export interface ConsentMechanism {
 export type MechanismType = 'opt_in' | 'opt_out' | 'explicit' | 'custom';
 
 export interface ConsentTracking {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1438,7 +1313,6 @@ export interface ConsentTracking {
 }
 
 export interface ConsentEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1450,9 +1324,7 @@ export interface ConsentEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
-  timestamp: number;
   user: string;
   purpose: string;
   action: string;
@@ -1461,7 +1333,6 @@ export interface ConsentEvent {
 export type EventType = 'granted' | 'withdrawn' | 'modified' | 'custom';
 
 export interface ComplianceSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1480,7 +1351,6 @@ export interface ComplianceSettings {
 }
 
 export interface ComplianceFramework {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1492,14 +1362,12 @@ export interface ComplianceFramework {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   version: string;
   requirements: ComplianceRequirement[];
   status: ComplianceStatus;
 }
 
 export interface ComplianceRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1511,8 +1379,6 @@ export interface ComplianceRequirement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: string;
   mandatory: boolean;
@@ -1520,7 +1386,6 @@ export interface ComplianceRequirement {
 }
 
 export interface ComplianceAssessment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1532,7 +1397,6 @@ export interface ComplianceAssessment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   framework: string;
   date: number;
   assessor: string;
@@ -1541,7 +1405,6 @@ export interface ComplianceAssessment {
 }
 
 export interface ComplianceFinding {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1553,7 +1416,6 @@ export interface ComplianceFinding {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: FindingType;
   severity: FindingSeverity;
   description: string;
@@ -1566,7 +1428,6 @@ export type FindingSeverity = 'low' | 'medium' | 'high' | 'critical';
 export type FindingStatus = 'open' | 'in_progress' | 'resolved' | 'accepted';
 
 export interface ComplianceReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1586,7 +1447,6 @@ export interface ComplianceReporting {
 }
 
 export interface DataLakePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1613,7 +1473,6 @@ export interface DataLakePerformanceMetrics {
 }
 
 export interface DataLakeAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1634,7 +1493,6 @@ export interface DataLakeAnalytics {
 }
 
 export interface DatasetTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1653,7 +1511,6 @@ export interface DatasetTypeDistribution {
 }
 
 export interface StorageTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1672,7 +1529,6 @@ export interface StorageTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1684,7 +1540,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   datasets: number;
   storage: number;
   processors: number;
@@ -1695,7 +1550,6 @@ export interface PerformanceTrend {
 }
 
 export interface DataLakeReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1718,7 +1572,6 @@ export interface DataLakeReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1739,7 +1592,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1759,7 +1611,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1779,7 +1630,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1792,13 +1642,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface DataLakeOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

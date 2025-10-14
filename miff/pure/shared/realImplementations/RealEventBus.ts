@@ -8,7 +8,6 @@
 import { EventEmitter } from 'events';
 
 export interface EventSubscription {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -20,7 +19,6 @@ export interface EventSubscription {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   event: string;
   handler: (...args: any[]) => void;
   once: boolean;
@@ -29,7 +27,6 @@ export interface EventSubscription {
 }
 
 export interface EventMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

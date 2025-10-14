@@ -9,7 +9,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SessionOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

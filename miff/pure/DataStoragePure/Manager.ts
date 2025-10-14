@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface DataStorageConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface DataStorageConfig {
 }
 
 export interface DataStorage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface DataStorage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StorageType;
   status: StorageStatus;
   databases: Database[];
@@ -64,14 +60,12 @@ export interface DataStorage {
   schemas: DatabaseSchema[];
   performance: StoragePerformance;
   analytics: StorageAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Database {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -83,19 +77,15 @@ export interface Database {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DatabaseType;
   status: DatabaseStatus;
   connection: string; // Connection ID
   tables: DatabaseTable[];
   indexes: DatabaseIndex[];
   constraints: DatabaseConstraint[];
-  metadata: Record<string, any>;
 }
 
 export interface DatabaseConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -107,8 +97,6 @@ export interface DatabaseConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConnectionType;
   status: ConnectionStatus;
   host: string;
@@ -117,11 +105,9 @@ export interface DatabaseConnection {
   username: string;
   password: string;
   options: ConnectionOptions;
-  metadata: Record<string, any>;
 }
 
 export interface ConnectionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -137,11 +123,9 @@ export interface ConnectionOptions {
   timeout: number; // milliseconds
   poolSize: number;
   retries: number;
-  metadata: Record<string, any>;
 }
 
 export interface DatabaseSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -153,16 +137,12 @@ export interface DatabaseSchema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   tables: SchemaTable[];
   relationships: SchemaRelationship[];
-  metadata: Record<string, any>;
 }
 
 export interface SchemaTable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -174,16 +154,12 @@ export interface SchemaTable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   columns: SchemaColumn[];
   primaryKey: string[];
   indexes: string[];
-  metadata: Record<string, any>;
 }
 
 export interface SchemaColumn {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -195,18 +171,14 @@ export interface SchemaColumn {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ColumnType;
   nullable: boolean;
   unique: boolean;
   defaultValue: any;
   constraints: ColumnConstraint[];
-  metadata: Record<string, any>;
 }
 
 export interface ColumnConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -220,11 +192,9 @@ export interface ColumnConstraint {
   metadata?: Record<string, any>;
   type: ConstraintType;
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface SchemaRelationship {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -236,17 +206,14 @@ export interface SchemaRelationship {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RelationshipType;
   fromTable: string;
   toTable: string;
   fromColumn: string;
   toColumn: string;
-  metadata: Record<string, any>;
 }
 
 export interface DatabaseTable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,17 +225,13 @@ export interface DatabaseTable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   schema: string; // Schema ID
   columns: TableColumn[];
   rows: number;
   size: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface TableColumn {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,17 +243,13 @@ export interface TableColumn {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ColumnType;
   nullable: boolean;
   unique: boolean;
   indexed: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface DatabaseIndex {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -302,17 +261,13 @@ export interface DatabaseIndex {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   table: string; // Table ID
   columns: string[];
   type: IndexType;
   unique: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface DatabaseConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,17 +279,13 @@ export interface DatabaseConstraint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConstraintType;
   table: string; // Table ID
   columns: string[];
   value: any;
-  metadata: Record<string, any>;
 }
 
 export interface StoragePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -354,11 +305,9 @@ export interface StoragePerformance {
   throughput: number; // queries per second
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface StorageAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

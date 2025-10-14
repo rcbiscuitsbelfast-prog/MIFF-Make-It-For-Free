@@ -8,7 +8,6 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SyncManagerOperation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -27,7 +26,6 @@ interface SyncManagerOperation {
 }
 
 interface PlayerStateSnapshot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

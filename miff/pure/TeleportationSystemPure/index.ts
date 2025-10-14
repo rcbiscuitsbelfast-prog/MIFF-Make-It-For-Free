@@ -13,7 +13,6 @@ type RNGPure = any;
 
 // Core interfaces and types
 export interface SpatialAnchor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -25,8 +24,6 @@ export interface SpatialAnchor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   position: Vector3;
   zoneId: string;
   description: string;
@@ -44,7 +41,6 @@ export interface SpatialAnchor {
 }
 
 export interface Portal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -56,8 +52,6 @@ export interface Portal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   sourceAnchor: SpatialAnchor;
   destinationAnchor: SpatialAnchor;
   isActive: boolean;
@@ -77,7 +71,6 @@ export interface Portal {
 }
 
 export interface TeleportationRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -98,7 +91,6 @@ export interface TeleportationRequest {
 }
 
 export interface TeleportationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,7 +114,6 @@ export interface TeleportationResult {
 }
 
 export interface TeleportationSideEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -142,7 +133,6 @@ export interface TeleportationSideEffect {
 }
 
 export interface TeleportationConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +159,6 @@ export interface TeleportationConfig {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -187,7 +176,6 @@ export interface Vector3 {
 }
 
 export interface ZoneInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,8 +187,6 @@ export interface ZoneInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   bounds: {
     min: Vector3;
     max: Vector3;
@@ -212,7 +198,6 @@ export interface ZoneInfo {
 }
 
 export interface TeleportationStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

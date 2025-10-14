@@ -12,7 +12,6 @@
  */
 
 export interface CutsceneSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface CutsceneSystemConfig {
 }
 
 export interface CutsceneSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface CutsceneSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CutsceneSystemManagerType;
   status: CutsceneSystemManagerStatus;
   cutscenes: Cutscene[];
@@ -69,16 +65,12 @@ export interface CutsceneSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type CutsceneSystemManagerType = 'cinematic' | 'gameplay' | 'tutorial' | 'promotional' | 'custom';
 export type CutsceneSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Cutscene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,8 +82,6 @@ export interface Cutscene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CutsceneType;
   status: CutsceneStatus;
   duration: number;
@@ -101,14 +91,12 @@ export interface Cutscene {
   audio: CutsceneAudioSettings;
   effects: CutsceneEffectSettings;
   performance: CutscenePerformance;
-  metadata: Record<string, any>;
 }
 
 export type CutsceneType = 'opening' | 'closing' | 'transition' | 'dialogue' | 'action' | 'custom';
 export type CutsceneStatus = 'draft' | 'production' | 'review' | 'approved' | 'published';
 
 export interface CutsceneTimeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +116,6 @@ export interface CutsceneTimeline {
 }
 
 export interface CutsceneTrack {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -140,8 +127,6 @@ export interface CutsceneTrack {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TrackType;
   enabled: boolean;
   locked: boolean;
@@ -152,7 +137,6 @@ export interface CutsceneTrack {
 export type TrackType = 'video' | 'audio' | 'animation' | 'camera' | 'lighting' | 'custom';
 
 export interface CutsceneClip {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,8 +148,6 @@ export interface CutsceneClip {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ClipType;
   start: number;
   end: number;
@@ -177,7 +159,6 @@ export interface CutsceneClip {
 export type ClipType = 'video' | 'audio' | 'image' | 'animation' | 'text' | 'custom';
 
 export interface ClipSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +180,6 @@ export interface ClipSource {
 export type SourceType = 'file' | 'url' | 'stream' | 'generated' | 'custom';
 
 export interface Resolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +197,6 @@ export interface Resolution {
 }
 
 export interface ClipProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -237,7 +216,6 @@ export interface ClipProperties {
 }
 
 export interface Scale {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,7 +233,6 @@ export interface Scale {
 }
 
 export interface Position {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,7 +250,6 @@ export interface Position {
 }
 
 export interface Rotation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -291,7 +267,6 @@ export interface Rotation {
 }
 
 export interface ClipEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +278,6 @@ export interface ClipEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -312,7 +286,6 @@ export interface ClipEffect {
 export type EffectType = 'blur' | 'color' | 'distort' | 'glow' | 'custom';
 
 export interface TrackEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -324,14 +297,12 @@ export interface TrackEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   parameters: Record<string, any>;
   enabled: boolean;
 }
 
 export interface CutsceneMarker {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -343,8 +314,6 @@ export interface CutsceneMarker {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   time: number;
   type: MarkerType;
   color: string;
@@ -354,7 +323,6 @@ export interface CutsceneMarker {
 export type MarkerType = 'cue' | 'beat' | 'event' | 'custom';
 
 export interface CutsceneKeyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -366,7 +334,6 @@ export interface CutsceneKeyframe {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   time: number;
   property: string;
   value: any;
@@ -378,7 +345,6 @@ export type InterpolationType = 'linear' | 'bezier' | 'step' | 'custom';
 export type EasingFunction = 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
 
 export interface CutsceneCameraSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -400,7 +366,6 @@ export interface CutsceneCameraSettings {
 }
 
 export interface CameraMovement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +387,6 @@ export interface CameraMovement {
 export type MovementType = 'static' | 'linear' | 'spline' | 'orbit' | 'custom';
 
 export interface CameraTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -434,7 +398,6 @@ export interface CameraTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TransitionType;
   duration: number;
   easing: EasingFunction;
@@ -444,7 +407,6 @@ export interface CameraTransition {
 export type TransitionType = 'cut' | 'fade' | 'dissolve' | 'wipe' | 'custom';
 
 export interface CutsceneLightingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -464,7 +426,6 @@ export interface CutsceneLightingSettings {
 }
 
 export interface AmbientLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -482,7 +443,6 @@ export interface AmbientLight {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -501,7 +461,6 @@ export interface Color {
 }
 
 export interface DirectionalLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +472,6 @@ export interface DirectionalLight {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   color: Color;
   intensity: number;
   direction: Vector3;
@@ -522,7 +480,6 @@ export interface DirectionalLight {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -540,7 +497,6 @@ export interface Vector3 {
 }
 
 export interface ShadowSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -560,7 +516,6 @@ export interface ShadowSettings {
 }
 
 export interface PointLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -572,7 +527,6 @@ export interface PointLight {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   color: Color;
   intensity: number;
   position: Position;
@@ -582,7 +536,6 @@ export interface PointLight {
 }
 
 export interface SpotLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -594,7 +547,6 @@ export interface SpotLight {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   color: Color;
   intensity: number;
   position: Position;
@@ -607,7 +559,6 @@ export interface SpotLight {
 }
 
 export interface EnvironmentLighting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -626,7 +577,6 @@ export interface EnvironmentLighting {
 }
 
 export interface CutsceneAudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -647,7 +597,6 @@ export interface CutsceneAudioSettings {
 }
 
 export interface AudioChannel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,7 +614,6 @@ export interface AudioChannel {
 }
 
 export interface AudioEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -685,7 +633,6 @@ export interface AudioEffect {
 export type AudioEffectType = 'reverb' | 'echo' | 'distortion' | 'filter' | 'custom';
 
 export interface SpatialAudioSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -707,7 +654,6 @@ export interface SpatialAudioSettings {
 export type RolloffType = 'linear' | 'logarithmic' | 'custom';
 
 export interface CutsceneEffectSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -726,7 +672,6 @@ export interface CutsceneEffectSettings {
 }
 
 export interface PostProcessingEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -738,7 +683,6 @@ export interface PostProcessingEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: PostProcessingType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -747,7 +691,6 @@ export interface PostProcessingEffect {
 export type PostProcessingType = 'bloom' | 'ssao' | 'motion_blur' | 'color_grading' | 'custom';
 
 export interface ParticleEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -759,7 +702,6 @@ export interface ParticleEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ParticleType;
   position: Position;
   properties: ParticleProperties;
@@ -769,7 +711,6 @@ export interface ParticleEffect {
 export type ParticleType = 'fire' | 'smoke' | 'sparkle' | 'rain' | 'custom';
 
 export interface ParticleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -790,7 +731,6 @@ export interface ParticleProperties {
 }
 
 export interface ShaderEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -802,7 +742,6 @@ export interface ShaderEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ShaderType;
   material: string;
   parameters: Record<string, any>;
@@ -812,7 +751,6 @@ export interface ShaderEffect {
 export type ShaderType = 'unlit' | 'lit' | 'transparent' | 'custom';
 
 export interface CustomEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -824,15 +762,12 @@ export interface CustomEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   script: string;
   parameters: Record<string, any>;
   enabled: boolean;
 }
 
 export interface CutscenePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -855,7 +790,6 @@ export interface CutscenePerformance {
 }
 
 export interface CutsceneAnimation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -867,22 +801,18 @@ export interface CutsceneAnimation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AnimationType;
   status: AnimationStatus;
   duration: number;
   keyframes: AnimationKeyframe[];
   curves: AnimationCurve[];
   performance: AnimationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AnimationType = 'character' | 'camera' | 'object' | 'light' | 'custom';
 export type AnimationStatus = 'draft' | 'ready' | 'playing' | 'paused' | 'stopped';
 
 export interface AnimationKeyframe {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -894,7 +824,6 @@ export interface AnimationKeyframe {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   time: number;
   property: string;
   value: any;
@@ -903,7 +832,6 @@ export interface AnimationKeyframe {
 }
 
 export interface AnimationCurve {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -915,7 +843,6 @@ export interface AnimationCurve {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   property: string;
   points: CurvePoint[];
   type: CurveType;
@@ -923,7 +850,6 @@ export interface AnimationCurve {
 }
 
 export interface CurvePoint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -944,7 +870,6 @@ export interface CurvePoint {
 export type CurveType = 'linear' | 'bezier' | 'hermite' | 'custom';
 
 export interface AnimationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -963,7 +888,6 @@ export interface AnimationPerformance {
 }
 
 export interface CutsceneCamera {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -975,21 +899,17 @@ export interface CutsceneCamera {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CameraType;
   status: CameraStatus;
   properties: CameraProperties;
   movement: CameraMovement;
   performance: CameraPerformance;
-  metadata: Record<string, any>;
 }
 
 export type CameraType = 'perspective' | 'orthographic' | 'fisheye' | 'custom';
 export type CameraStatus = 'active' | 'inactive' | 'recording' | 'error';
 
 export interface CameraProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1010,7 +930,6 @@ export interface CameraProperties {
 }
 
 export interface CameraPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1030,7 +949,6 @@ export interface CameraPerformance {
 }
 
 export interface CutsceneLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1042,20 +960,16 @@ export interface CutsceneLight {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LightType;
   status: LightStatus;
   properties: LightProperties;
   performance: LightPerformance;
-  metadata: Record<string, any>;
 }
 
 export type LightType = 'directional' | 'point' | 'spot' | 'area' | 'custom';
 export type LightStatus = 'active' | 'inactive' | 'error';
 
 export interface LightProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1076,7 +990,6 @@ export interface LightProperties {
 }
 
 export interface LightPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1094,7 +1007,6 @@ export interface LightPerformance {
 }
 
 export interface CutsceneAudio {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1106,20 +1018,16 @@ export interface CutsceneAudio {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AudioType;
   status: AudioStatus;
   properties: AudioProperties;
   performance: AudioPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AudioType = 'music' | 'sfx' | 'voice' | 'ambient' | 'custom';
 export type AudioStatus = 'playing' | 'paused' | 'stopped' | 'error';
 
 export interface AudioProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1140,7 +1048,6 @@ export interface AudioProperties {
 }
 
 export interface AudioPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1159,7 +1066,6 @@ export interface AudioPerformance {
 }
 
 export interface CutsceneEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1171,19 +1077,15 @@ export interface CutsceneEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EffectType;
   status: EffectStatus;
   properties: EffectProperties;
   performance: EffectPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EffectStatus = 'active' | 'inactive' | 'error';
 
 export interface EffectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1203,7 +1105,6 @@ export interface EffectProperties {
 }
 
 export interface EffectPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1222,7 +1123,6 @@ export interface EffectPerformance {
 }
 
 export interface CutsceneSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1249,7 +1149,6 @@ export interface CutsceneSystemPerformanceMetrics {
 }
 
 export interface CutsceneSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1270,7 +1169,6 @@ export interface CutsceneSystemAnalytics {
 }
 
 export interface CutsceneTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1289,7 +1187,6 @@ export interface CutsceneTypeDistribution {
 }
 
 export interface AnimationTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1308,7 +1205,6 @@ export interface AnimationTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1320,7 +1216,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   cutscenes: number;
   animations: number;
   fps: number;
@@ -1329,7 +1224,6 @@ export interface PerformanceTrend {
 }
 
 export interface CutsceneSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1352,7 +1246,6 @@ export interface CutsceneSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1373,7 +1266,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1393,7 +1285,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1413,7 +1304,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1426,13 +1316,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface CutsceneSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

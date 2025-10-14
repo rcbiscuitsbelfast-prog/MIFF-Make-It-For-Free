@@ -13,7 +13,6 @@
  */
 
 export interface NLPConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface NLPConfig {
 }
 
 export interface NLPManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface NLPManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NLPManagerType;
   status: NLPManagerStatus;
   models: NLPModel[];
@@ -68,16 +64,12 @@ export interface NLPManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type NLPManagerType = 'basic' | 'advanced' | 'enterprise' | 'custom';
 export type NLPManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface NLPModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,22 +81,18 @@ export interface NLPModel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ModelType;
   language: string;
   version: string;
   accuracy: number;
   size: number;
   status: ModelStatus;
-  metadata: Record<string, any>;
 }
 
 export type ModelType = 'sentiment' | 'classification' | 'translation' | 'ner' | 'summarization' | 'custom';
 export type ModelStatus = 'loading' | 'ready' | 'error' | 'updating';
 
 export interface NLPProcessor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -116,21 +104,17 @@ export interface NLPProcessor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProcessorType;
   input: ProcessorInput;
   output: ProcessorOutput;
   config: ProcessorConfig;
   status: ProcessorStatus;
-  metadata: Record<string, any>;
 }
 
 export type ProcessorType = 'preprocessor' | 'analyzer' | 'classifier' | 'extractor' | 'generator';
 export type ProcessorStatus = 'active' | 'inactive' | 'error';
 
 export interface ProcessorInput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +133,6 @@ export interface ProcessorInput {
 }
 
 export interface ProcessorOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -168,7 +151,6 @@ export interface ProcessorOutput {
 }
 
 export interface ProcessorConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -186,7 +168,6 @@ export interface ProcessorConfig {
 }
 
 export interface NLPRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -198,22 +179,18 @@ export interface NLPRequest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: RequestType;
   input: string;
   output: any;
   status: RequestStatus;
   processingTime: number;
   confidence: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export type RequestType = 'analyze' | 'classify' | 'translate' | 'extract' | 'summarize';
 export type RequestStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export interface NLPPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -236,7 +213,6 @@ export interface NLPPerformanceMetrics {
 }
 
 export interface NLPAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -257,7 +233,6 @@ export interface NLPAnalytics {
 }
 
 export interface LanguageDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,7 +250,6 @@ export interface LanguageDistribution {
 }
 
 export interface RequestTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,7 +267,6 @@ export interface RequestTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -305,7 +278,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   requests: number;
   processingTime: number;
   confidence: number;
@@ -313,7 +285,6 @@ export interface PerformanceTrend {
 }
 
 export interface NLPReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -336,7 +307,6 @@ export interface NLPReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +327,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -377,7 +346,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -397,7 +365,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -410,13 +377,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface NLPOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

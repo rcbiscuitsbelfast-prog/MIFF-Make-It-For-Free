@@ -72,7 +72,6 @@ export enum GodotScriptLanguage {
 }
 
 export interface GodotNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,8 +83,6 @@ export interface GodotNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GodotNodeType;
   parent?: string;
   children: string[];
@@ -99,7 +96,6 @@ export interface GodotNode {
 }
 
 export interface GodotScript {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -119,7 +115,6 @@ export interface GodotScript {
 }
 
 export interface GodotFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -131,7 +126,6 @@ export interface GodotFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: GodotParameter[];
   returnType: string;
   body: string;
@@ -140,7 +134,6 @@ export interface GodotFunction {
 }
 
 export interface GodotParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -152,14 +145,12 @@ export interface GodotParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   defaultValue?: any;
   export?: boolean;
 }
 
 export interface GodotComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -176,7 +167,6 @@ export interface GodotComponent {
 }
 
 export interface GodotResource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -188,17 +178,13 @@ export interface GodotResource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: GodotResourceType;
   path: string;
   data?: any;
   dependencies: string[];
-  metadata: Record<string, any>;
 }
 
 export interface GodotScene {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -210,8 +196,6 @@ export interface GodotScene {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   nodes: Map<string, GodotNode>;
   resources: Map<string, GodotResource>;
   rootNode: string;
@@ -224,7 +208,6 @@ export interface GodotScene {
 }
 
 export interface GodotProject {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +229,6 @@ export interface GodotProject {
 }
 
 export interface GodotProjectSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -259,7 +241,6 @@ export interface GodotProjectSettings {
   updatedAt?: number;
   metadata?: Record<string, any>;
   application: {
-    name: string;
     version: string;
     icon: string;
     description: string;
@@ -299,7 +280,6 @@ export interface GodotProjectSettings {
 }
 
 export interface GodotExportPreset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,7 +291,6 @@ export interface GodotExportPreset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   platform: string;
   options: Record<string, any>;
   includeFilter: string[];
@@ -322,7 +301,6 @@ export interface GodotExportPreset {
 }
 
 export interface ConversionOptions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -345,7 +323,6 @@ export interface ConversionOptions {
 }
 
 export interface ConversionResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -360,12 +337,10 @@ export interface ConversionResult {
   success: boolean;
   project: GodotProject;
   warnings: string[];
-  errors: string[];
   statistics: ConversionStatistics;
 }
 
 export interface ConversionStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

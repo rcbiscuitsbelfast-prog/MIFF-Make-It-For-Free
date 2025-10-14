@@ -9,7 +9,6 @@ import type { RenderWorldGameState } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface AdvancedRenderConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -33,7 +32,6 @@ export interface AdvancedRenderConfig {
 }
 
 export interface PostProcessingEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -45,8 +43,6 @@ export interface PostProcessingEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'bloom' | 'blur' | 'color_correction' | 'depth_of_field' | 'motion_blur' | 'custom';
   enabled: boolean;
   intensity: number;
@@ -54,7 +50,6 @@ export interface PostProcessingEffect {
 }
 
 export interface LightSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,7 +61,6 @@ export interface LightSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'directional' | 'point' | 'spot' | 'ambient';
   position: { x: number; y: number; z: number };
   direction?: { x: number; y: number; z: number };
@@ -79,7 +73,6 @@ export interface LightSource {
 }
 
 export interface ShaderProgram {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -91,8 +84,6 @@ export interface ShaderProgram {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   vertexShader: string;
   fragmentShader: string;
   uniforms: Map<string, ShaderUniform>;
@@ -101,7 +92,6 @@ export interface ShaderProgram {
 }
 
 export interface ShaderUniform {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -113,14 +103,12 @@ export interface ShaderUniform {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'float' | 'int' | 'bool' | 'vec2' | 'vec3' | 'vec4' | 'mat2' | 'mat3' | 'mat4' | 'sampler2D';
   value: any;
   location?: number;
 }
 
 export interface ShaderAttribute {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,13 +120,11 @@ export interface ShaderAttribute {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: 'float' | 'int' | 'bool' | 'vec2' | 'vec3' | 'vec4';
   location?: number;
 }
 
 export interface ParticleSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,8 +136,6 @@ export interface ParticleSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   acceleration: { x: number; y: number; z: number };
@@ -165,7 +149,6 @@ export interface ParticleSystem {
 }
 
 export interface RenderLayer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,8 +160,6 @@ export interface RenderLayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   depth: number;
   visible: boolean;
   opacity: number;
@@ -188,7 +169,6 @@ export interface RenderLayer {
 }
 
 export interface RenderFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -200,15 +180,12 @@ export interface RenderFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: 'color' | 'blur' | 'sharpen' | 'edge_detection' | 'custom';
   enabled: boolean;
   parameters: Map<string, any>;
 }
 
 export interface Camera {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -220,8 +197,6 @@ export interface Camera {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
   fov: number;
@@ -236,7 +211,6 @@ export interface Camera {
 }
 
 export interface RenderBatch {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -248,7 +222,6 @@ export interface RenderBatch {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   mesh: any;
   material: any;
   shader: string;

@@ -11,7 +11,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface LogEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -32,7 +31,6 @@ export interface LogEntry {
 }
 
 export interface ConsoleConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,7 +52,6 @@ export interface ConsoleConfig {
 }
 
 export interface LogDestination {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -66,13 +63,11 @@ export interface LogDestination {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   write: (entry: LogEntry) => void;
   enabled: boolean;
 }
 
 export interface PerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -12,7 +12,6 @@
  */
 
 export interface LoggingSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +41,6 @@ export interface LoggingSystemConfig {
 }
 
 export interface LoggingSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -54,8 +52,6 @@ export interface LoggingSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LoggingSystemManagerType;
   status: LoggingSystemManagerStatus;
   loggers: Logger[];
@@ -69,16 +65,12 @@ export interface LoggingSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type LoggingSystemManagerType = 'centralized' | 'distributed' | 'hybrid' | 'edge' | 'custom';
 export type LoggingSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Logger {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -90,8 +82,6 @@ export interface Logger {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: LoggerType;
   status: LoggerStatus;
   configuration: LoggerConfiguration;
@@ -99,14 +89,12 @@ export interface Logger {
   filters: string[];
   level: LogLevel;
   performance: LoggerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type LoggerType = 'application' | 'system' | 'security' | 'audit' | 'custom';
 export type LoggerStatus = 'active' | 'inactive' | 'error';
 
 export interface LoggerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -129,7 +117,6 @@ export interface LoggerConfiguration {
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
 export interface BufferSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +137,6 @@ export interface BufferSettings {
 export type OverflowAction = 'block' | 'drop' | 'discard' | 'custom';
 
 export interface LoggerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -170,7 +156,6 @@ export interface LoggerPerformance {
 }
 
 export interface LogAppender {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,22 +167,18 @@ export interface LogAppender {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AppenderType;
   status: AppenderStatus;
   configuration: AppenderConfiguration;
   formatter: string;
   filter: string;
   performance: AppenderPerformance;
-  metadata: Record<string, any>;
 }
 
 export type AppenderType = 'console' | 'file' | 'database' | 'network' | 'custom';
 export type AppenderStatus = 'active' | 'inactive' | 'error';
 
 export interface AppenderConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -218,7 +199,6 @@ export interface AppenderConfiguration {
 }
 
 export interface RotationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -241,7 +221,6 @@ export interface RotationSettings {
 export type RotationStrategy = 'size' | 'time' | 'both' | 'custom';
 
 export interface CompressionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -262,7 +241,6 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'gzip' | 'bzip2' | 'lz4' | 'zstd' | 'custom';
 
 export interface EncryptionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,7 +259,6 @@ export interface EncryptionSettings {
 }
 
 export interface BufferingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -300,7 +277,6 @@ export interface BufferingSettings {
 }
 
 export interface AppenderPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -320,7 +296,6 @@ export interface AppenderPerformance {
 }
 
 export interface LogFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -332,20 +307,16 @@ export interface LogFilter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FilterType;
   status: FilterStatus;
   configuration: FilterConfiguration;
   performance: FilterPerformance;
-  metadata: Record<string, any>;
 }
 
 export type FilterType = 'level' | 'pattern' | 'regex' | 'custom';
 export type FilterStatus = 'active' | 'inactive' | 'error';
 
 export interface FilterConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,7 +334,6 @@ export interface FilterConfiguration {
 }
 
 export interface FilterCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -385,7 +355,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'contains' | 'starts_w
 export type FilterLogic = 'and' | 'or' | 'not';
 
 export interface FilterAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -405,7 +374,6 @@ export interface FilterAction {
 export type ActionType = 'accept' | 'reject' | 'modify' | 'route' | 'custom';
 
 export interface FilterPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -426,7 +394,6 @@ export interface FilterPerformance {
 }
 
 export interface LogFormatter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -438,20 +405,16 @@ export interface LogFormatter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FormatterType;
   status: FormatterStatus;
   configuration: FormatterConfiguration;
   performance: FormatterPerformance;
-  metadata: Record<string, any>;
 }
 
 export type FormatterType = 'pattern' | 'json' | 'xml' | 'csv' | 'custom';
 export type FormatterStatus = 'active' | 'inactive' | 'error';
 
 export interface FormatterConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -471,7 +434,6 @@ export interface FormatterConfiguration {
 }
 
 export interface FormatterField {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +445,6 @@ export interface FormatterField {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: FieldType;
   format: string;
   required: boolean;
@@ -493,7 +454,6 @@ export interface FormatterField {
 export type FieldType = 'timestamp' | 'level' | 'logger' | 'message' | 'thread' | 'custom';
 
 export interface FormatterPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -513,7 +473,6 @@ export interface FormatterPerformance {
 }
 
 export interface LogDestination {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -525,20 +484,16 @@ export interface LogDestination {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DestinationType;
   status: DestinationStatus;
   configuration: DestinationConfiguration;
   performance: DestinationPerformance;
-  metadata: Record<string, any>;
 }
 
 export type DestinationType = 'file' | 'database' | 'elasticsearch' | 'kafka' | 'custom';
 export type DestinationStatus = 'active' | 'inactive' | 'error';
 
 export interface DestinationConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -558,7 +513,6 @@ export interface DestinationConfiguration {
 }
 
 export interface CredentialSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -579,7 +533,6 @@ export interface CredentialSettings {
 export type CredentialType = 'password' | 'token' | 'key' | 'certificate' | 'custom';
 
 export interface ConnectionSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -598,7 +551,6 @@ export interface ConnectionSettings {
 }
 
 export interface BatchSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -617,7 +569,6 @@ export interface BatchSettings {
 }
 
 export interface RetrySettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -639,7 +590,6 @@ export interface RetrySettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface DestinationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -659,7 +609,6 @@ export interface DestinationPerformance {
 }
 
 export interface LoggingSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -687,7 +636,6 @@ export interface LoggingSystemPerformanceMetrics {
 }
 
 export interface LoggingSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -708,7 +656,6 @@ export interface LoggingSystemAnalytics {
 }
 
 export interface LoggerTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -727,7 +674,6 @@ export interface LoggerTypeDistribution {
 }
 
 export interface AppenderTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -746,7 +692,6 @@ export interface AppenderTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -758,7 +703,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   loggers: number;
   appenders: number;
   logs: number;
@@ -769,7 +713,6 @@ export interface PerformanceTrend {
 }
 
 export interface LoggingSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -792,7 +735,6 @@ export interface LoggingSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -813,7 +755,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -833,7 +774,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -853,7 +793,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -866,13 +805,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface LoggingSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

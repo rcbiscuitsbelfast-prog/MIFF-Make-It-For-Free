@@ -12,7 +12,6 @@
  */
 
 export interface NeuralNetworkConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface NeuralNetworkConfig {
 }
 
 export interface NeuralNetworkManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface NeuralNetworkManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: NeuralNetworkManagerType;
   status: NeuralNetworkManagerStatus;
   models: NeuralNetworkModel[];
@@ -67,16 +63,12 @@ export interface NeuralNetworkManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type NeuralNetworkManagerType = 'research' | 'production' | 'education' | 'custom';
 export type NeuralNetworkManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface NeuralNetworkModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,22 +80,18 @@ export interface NeuralNetworkModel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ModelType;
   status: ModelStatus;
   architecture: ModelArchitecture;
   parameters: ModelParameters;
   training: TrainingConfiguration;
   performance: ModelPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ModelType = 'feedforward' | 'cnn' | 'rnn' | 'lstm' | 'transformer' | 'gan' | 'custom';
 export type ModelStatus = 'draft' | 'training' | 'trained' | 'deployed' | 'archived' | 'error';
 
 export interface ModelArchitecture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -123,7 +111,6 @@ export interface ModelArchitecture {
 }
 
 export interface Layer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -135,9 +122,7 @@ export interface Layer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: LayerType;
-  name: string;
   parameters: LayerParameters;
   inputShape: number[];
   outputShape: number[];
@@ -147,7 +132,6 @@ export interface Layer {
 export type LayerType = 'dense' | 'conv2d' | 'conv3d' | 'lstm' | 'gru' | 'attention' | 'dropout' | 'batch_norm' | 'custom';
 
 export interface LayerParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,7 +155,6 @@ export interface LayerParameters {
 }
 
 export interface Connection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -193,7 +176,6 @@ export interface Connection {
 export type ConnectionType = 'dense' | 'conv' | 'recurrent' | 'attention' | 'residual' | 'custom';
 
 export interface ActivationFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -205,7 +187,6 @@ export interface ActivationFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: ActivationType;
   parameters: Record<string, any>;
 }
@@ -213,7 +194,6 @@ export interface ActivationFunction {
 export type ActivationType = 'relu' | 'sigmoid' | 'tanh' | 'softmax' | 'leaky_relu' | 'elu' | 'swish' | 'custom';
 
 export interface RegularizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -233,7 +213,6 @@ export interface RegularizationSettings {
 }
 
 export interface EarlyStoppingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -253,7 +232,6 @@ export interface EarlyStoppingSettings {
 }
 
 export interface OptimizationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,7 +251,6 @@ export interface OptimizationSettings {
 }
 
 export interface OptimizerSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +269,6 @@ export interface OptimizerSettings {
 export type OptimizerType = 'adam' | 'sgd' | 'rmsprop' | 'adagrad' | 'adamw' | 'custom';
 
 export interface LearningRateSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,7 +287,6 @@ export interface LearningRateSettings {
 }
 
 export interface LearningRateSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -330,7 +305,6 @@ export interface LearningRateSchedule {
 export type ScheduleType = 'constant' | 'exponential' | 'cosine' | 'step' | 'custom';
 
 export interface GradientClippingSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -350,7 +324,6 @@ export interface GradientClippingSettings {
 export type ClippingMethod = 'norm' | 'value' | 'custom';
 
 export interface ModelParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +343,6 @@ export interface ModelParameters {
 }
 
 export interface TrainingConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -392,7 +364,6 @@ export interface TrainingConfiguration {
 }
 
 export interface Callback {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -412,7 +383,6 @@ export interface Callback {
 export type CallbackType = 'early_stopping' | 'model_checkpoint' | 'reduce_lr' | 'tensorboard' | 'custom';
 
 export interface LossFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +402,6 @@ export interface LossFunction {
 export type LossType = 'mse' | 'mae' | 'categorical_crossentropy' | 'binary_crossentropy' | 'sparse_categorical_crossentropy' | 'custom';
 
 export interface ModelPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -456,7 +425,6 @@ export interface ModelPerformance {
 }
 
 export interface Dataset {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -468,22 +436,18 @@ export interface Dataset {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DatasetType;
   status: DatasetStatus;
   source: DataSource;
   preprocessing: PreprocessingPipeline;
   splits: DataSplit;
   statistics: DatasetStatistics;
-  metadata: Record<string, any>;
 }
 
 export type DatasetType = 'image' | 'text' | 'audio' | 'tabular' | 'time_series' | 'custom';
 export type DatasetStatus = 'raw' | 'processed' | 'ready' | 'error';
 
 export interface DataSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -505,7 +469,6 @@ export interface DataSource {
 export type SourceType = 'file' | 'database' | 'api' | 'stream' | 'custom';
 
 export interface PreprocessingPipeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -523,7 +486,6 @@ export interface PreprocessingPipeline {
 }
 
 export interface PreprocessingStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -535,7 +497,6 @@ export interface PreprocessingStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: PreprocessingType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -544,7 +505,6 @@ export interface PreprocessingStep {
 export type PreprocessingType = 'normalize' | 'standardize' | 'resize' | 'augment' | 'encode' | 'filter' | 'custom';
 
 export interface DataSplit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -563,7 +523,6 @@ export interface DataSplit {
 }
 
 export interface DatasetStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -583,7 +542,6 @@ export interface DatasetStatistics {
 }
 
 export interface ClassDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -601,7 +559,6 @@ export interface ClassDistribution {
 }
 
 export interface FeatureStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -622,7 +579,6 @@ export interface FeatureStatistics {
 }
 
 export interface TrainingJob {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -634,21 +590,17 @@ export interface TrainingJob {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   modelId: string;
   datasetId: string;
   status: TrainingJobStatus;
   configuration: TrainingConfiguration;
   progress: TrainingProgress;
   results: TrainingResults;
-  metadata: Record<string, any>;
 }
 
 export type TrainingJobStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 
 export interface TrainingProgress {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -672,7 +624,6 @@ export interface TrainingProgress {
 }
 
 export interface TrainingResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -694,7 +645,6 @@ export interface TrainingResults {
 }
 
 export interface Experiment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -706,21 +656,17 @@ export interface Experiment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   status: ExperimentStatus;
   models: string[];
   datasets: string[];
   configuration: ExperimentConfiguration;
   results: ExperimentResults;
-  metadata: Record<string, any>;
 }
 
 export type ExperimentStatus = 'draft' | 'running' | 'completed' | 'failed' | 'archived';
 
 export interface ExperimentConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -740,7 +686,6 @@ export interface ExperimentConfiguration {
 }
 
 export interface HyperparameterSpace {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -757,7 +702,6 @@ export interface HyperparameterSpace {
 }
 
 export interface Hyperparameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -769,7 +713,6 @@ export interface Hyperparameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: HyperparameterType;
   range: ValueRange;
   distribution: DistributionType;
@@ -779,7 +722,6 @@ export type HyperparameterType = 'int' | 'float' | 'categorical' | 'boolean' | '
 export type DistributionType = 'uniform' | 'normal' | 'log_uniform' | 'log_normal' | 'custom';
 
 export interface ValueRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -797,7 +739,6 @@ export interface ValueRange {
 }
 
 export interface Constraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -817,7 +758,6 @@ export interface Constraint {
 export type ConstraintType = 'sum' | 'product' | 'ratio' | 'custom';
 
 export interface ExperimentResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -835,7 +775,6 @@ export interface ExperimentResults {
 }
 
 export interface Trial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -847,7 +786,6 @@ export interface Trial {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   parameters: Record<string, any>;
   results: Record<string, number>;
   status: TrialStatus;
@@ -857,7 +795,6 @@ export interface Trial {
 export type TrialStatus = 'pending' | 'running' | 'completed' | 'failed' | 'pruned';
 
 export interface ExperimentStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -878,7 +815,6 @@ export interface ExperimentStatistics {
 }
 
 export interface NeuralNetworkPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -903,7 +839,6 @@ export interface NeuralNetworkPerformanceMetrics {
 }
 
 export interface NeuralNetworkAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -924,7 +859,6 @@ export interface NeuralNetworkAnalytics {
 }
 
 export interface ModelTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -943,7 +877,6 @@ export interface ModelTypeDistribution {
 }
 
 export interface DatasetTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -962,7 +895,6 @@ export interface DatasetTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -974,7 +906,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   models: number;
   trainingJobs: number;
   accuracy: number;
@@ -984,7 +915,6 @@ export interface PerformanceTrend {
 }
 
 export interface NeuralNetworkReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1007,7 +937,6 @@ export interface NeuralNetworkReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1028,7 +957,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1048,7 +976,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1068,7 +995,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1081,13 +1007,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface NeuralNetworkOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

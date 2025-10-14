@@ -12,7 +12,6 @@
  */
 
 export interface SpiritTamerDemoConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface SpiritTamerDemoConfig {
 }
 
 export interface SpiritTamerDemoManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface SpiritTamerDemoManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SpiritTamerDemoManagerType;
   status: SpiritTamerDemoManagerStatus;
   spirits: Spirit[];
@@ -67,16 +63,12 @@ export interface SpiritTamerDemoManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type SpiritTamerDemoManagerType = 'demo' | 'tutorial' | 'sandbox' | 'custom';
 export type SpiritTamerDemoManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Spirit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -88,8 +80,6 @@ export interface Spirit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   species: string;
   type: SpiritType;
   rarity: SpiritRarity;
@@ -100,7 +90,6 @@ export interface Spirit {
   evolution: EvolutionInfo;
   tamer: string;
   status: SpiritStatus;
-  metadata: Record<string, any>;
 }
 
 export type SpiritType = 'fire' | 'water' | 'earth' | 'air' | 'light' | 'dark' | 'nature' | 'ice' | 'electric' | 'psychic';
@@ -108,7 +97,6 @@ export type SpiritRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary'
 export type SpiritStatus = 'wild' | 'tamed' | 'bonded' | 'evolved' | 'fainted';
 
 export interface SpiritStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -131,7 +119,6 @@ export interface SpiritStats {
 }
 
 export interface StatValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -150,7 +137,6 @@ export interface StatValue {
 }
 
 export interface SpiritAbility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -162,8 +148,6 @@ export interface SpiritAbility {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AbilityType;
   element: SpiritType;
   power: number;
@@ -178,7 +162,6 @@ export interface SpiritAbility {
 export type AbilityType = 'attack' | 'defense' | 'heal' | 'buff' | 'debuff' | 'special';
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,7 +185,6 @@ export type EffectTarget = 'self' | 'enemy' | 'ally' | 'all_enemies' | 'all_alli
 export type EffectCondition = 'always' | 'health_low' | 'health_high' | 'mana_low' | 'status_effect' | 'custom';
 
 export interface EvolutionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -222,7 +204,6 @@ export interface EvolutionInfo {
 }
 
 export interface EvolutionRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -242,7 +223,6 @@ export interface EvolutionRequirement {
 export type RequirementType = 'level' | 'experience' | 'item' | 'ability' | 'stat' | 'custom';
 
 export interface Tamer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -254,8 +234,6 @@ export interface Tamer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   level: number;
   experience: number;
   spirits: string[];
@@ -264,13 +242,11 @@ export interface Tamer {
   stats: TamerStats;
   achievements: Achievement[];
   status: TamerStatus;
-  metadata: Record<string, any>;
 }
 
 export type TamerStatus = 'active' | 'inactive' | 'battling' | 'training' | 'exploring';
 
 export interface TamerInventory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -289,7 +265,6 @@ export interface TamerInventory {
 }
 
 export interface InventoryItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -301,8 +276,6 @@ export interface InventoryItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemType;
   quantity: number;
   value: number;
@@ -312,7 +285,6 @@ export interface InventoryItem {
 export type ItemType = 'potion' | 'ball' | 'stone' | 'berry' | 'crystal' | 'tool' | 'misc';
 
 export interface Currency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -330,7 +302,6 @@ export interface Currency {
 }
 
 export interface TamerStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -351,7 +322,6 @@ export interface TamerStats {
 }
 
 export interface Achievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,8 +333,6 @@ export interface Achievement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: AchievementType;
   progress: number;
@@ -377,7 +345,6 @@ export interface Achievement {
 export type AchievementType = 'battle' | 'collection' | 'evolution' | 'exploration' | 'social' | 'custom';
 
 export interface AchievementReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -396,7 +363,6 @@ export interface AchievementReward {
 }
 
 export interface Battle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -408,7 +374,6 @@ export interface Battle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   tamerId: string;
   opponentId: string;
   type: BattleType;
@@ -417,14 +382,12 @@ export interface Battle {
   result: BattleResult;
   rewards: BattleReward;
   duration: number;
-  metadata: Record<string, any>;
 }
 
 export type BattleType = 'wild' | 'trainer' | 'gym' | 'tournament' | 'pvp';
 export type BattleStatus = 'pending' | 'active' | 'completed' | 'forfeited' | 'error';
 
 export interface BattleTurn {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -442,11 +405,9 @@ export interface BattleTurn {
   action: BattleAction;
   target?: string;
   result: ActionResult;
-  timestamp: number;
 }
 
 export interface BattleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -467,7 +428,6 @@ export interface BattleAction {
 export type ActionType = 'attack' | 'defend' | 'item' | 'switch' | 'run' | 'special';
 
 export interface ActionResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -487,7 +447,6 @@ export interface ActionResult {
 }
 
 export interface BattleResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -507,7 +466,6 @@ export interface BattleResult {
 }
 
 export interface BattleReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -526,7 +484,6 @@ export interface BattleReward {
 }
 
 export interface Evolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -538,18 +495,14 @@ export interface Evolution {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   spiritId: string;
   fromStage: number;
   toStage: number;
   requirements: EvolutionRequirement[];
   result: EvolutionResult;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export interface EvolutionResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -568,7 +521,6 @@ export interface EvolutionResult {
 }
 
 export interface StatChange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -586,7 +538,6 @@ export interface StatChange {
 }
 
 export interface AbilityChange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -604,7 +555,6 @@ export interface AbilityChange {
 }
 
 export interface AppearanceChange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -622,7 +572,6 @@ export interface AppearanceChange {
 }
 
 export interface SpiritTamerDemoPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -646,7 +595,6 @@ export interface SpiritTamerDemoPerformanceMetrics {
 }
 
 export interface SpiritTamerDemoAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -668,7 +616,6 @@ export interface SpiritTamerDemoAnalytics {
 }
 
 export interface SpiritTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -687,7 +634,6 @@ export interface SpiritTypeDistribution {
 }
 
 export interface RarityDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -706,7 +652,6 @@ export interface RarityDistribution {
 }
 
 export interface BattleResults {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -726,7 +671,6 @@ export interface BattleResults {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -738,7 +682,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   spirits: number;
   tamers: number;
   battles: number;
@@ -747,7 +690,6 @@ export interface PerformanceTrend {
 }
 
 export interface SpiritTamerDemoReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -770,7 +712,6 @@ export interface SpiritTamerDemoReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -791,7 +732,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -811,7 +751,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -831,7 +770,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -844,13 +782,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface SpiritTamerDemoOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

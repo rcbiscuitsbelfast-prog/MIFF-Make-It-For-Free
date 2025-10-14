@@ -11,7 +11,6 @@
  */
 
 export interface WorldManifestConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface WorldManifestConfig {
 }
 
 export interface WorldManifestManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface WorldManifestManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WorldManifestManagerType;
   status: WorldManifestManagerStatus;
   manifests: WorldManifest[];
@@ -65,9 +61,6 @@ export interface WorldManifestManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
   
   // Missing methods that are being called
   createWorld(worldId: string, name: string, width: number, height: number): { ok: boolean; world?: any; errors: string[] };
@@ -85,7 +78,6 @@ export type WorldManifestManagerType = 'game' | 'simulation' | 'virtual' | 'cust
 export type WorldManifestManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface WorldManifest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -97,8 +89,6 @@ export interface WorldManifest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ManifestType;
   status: ManifestStatus;
   version: string;
@@ -107,14 +97,12 @@ export interface WorldManifest {
   validation: ManifestValidation;
   synchronization: ManifestSynchronization;
   performance: ManifestPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ManifestType = 'world' | 'region' | 'chunk' | 'object' | 'custom';
 export type ManifestStatus = 'draft' | 'validated' | 'synchronized' | 'error';
 
 export interface ManifestData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -134,7 +122,6 @@ export interface ManifestData {
 }
 
 export interface WorldInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,8 +133,6 @@ export interface WorldInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: WorldType;
   size: WorldSize;
   seed: number;
@@ -159,7 +144,6 @@ export type WorldType = 'overworld' | 'nether' | 'end' | 'custom';
 export type WorldSize = 'small' | 'medium' | 'large' | 'infinite' | 'custom';
 
 export interface WorldGenerator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -179,7 +163,6 @@ export interface WorldGenerator {
 export type GeneratorType = 'vanilla' | 'custom' | 'modded' | 'custom';
 
 export interface GeneratorSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -199,7 +182,6 @@ export interface GeneratorSettings {
 }
 
 export interface GeneratorPlugin {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -211,15 +193,12 @@ export interface GeneratorPlugin {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   enabled: boolean;
   settings: Record<string, any>;
 }
 
 export interface RegionInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -231,8 +210,6 @@ export interface RegionInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RegionType;
   bounds: RegionBounds;
   biome: BiomeInfo;
@@ -243,7 +220,6 @@ export interface RegionInfo {
 export type RegionType = 'overworld' | 'nether' | 'end' | 'custom';
 
 export interface RegionBounds {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -261,7 +237,6 @@ export interface RegionBounds {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -279,7 +254,6 @@ export interface Vector3 {
 }
 
 export interface BiomeInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -291,8 +265,6 @@ export interface BiomeInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BiomeType;
   temperature: number;
   humidity: number;
@@ -304,7 +276,6 @@ export type BiomeType = 'desert' | 'forest' | 'plains' | 'mountains' | 'ocean' |
 export type PrecipitationType = 'none' | 'rain' | 'snow' | 'custom';
 
 export interface BiomeFeature {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,8 +287,6 @@ export interface BiomeFeature {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: FeatureType;
   frequency: number;
   size: Vector3;
@@ -327,7 +296,6 @@ export interface BiomeFeature {
 export type FeatureType = 'tree' | 'rock' | 'flower' | 'ore' | 'custom';
 
 export interface RegionProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -349,7 +317,6 @@ export interface RegionProperties {
 export type DifficultyLevel = 'peaceful' | 'easy' | 'normal' | 'hard' | 'custom';
 
 export interface WeatherConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,7 +337,6 @@ export interface WeatherConfig {
 export type WeatherType = 'clear' | 'rain' | 'snow' | 'storm' | 'custom';
 
 export interface WeatherEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -391,7 +357,6 @@ export interface WeatherEffect {
 export type EffectType = 'damage' | 'heal' | 'buff' | 'debuff' | 'custom';
 
 export interface AreaOfEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -412,7 +377,6 @@ export type AOEType = 'none' | 'circle' | 'cone' | 'line' | 'custom';
 export type AOEShape = 'circle' | 'square' | 'triangle' | 'custom';
 
 export interface LightingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -430,7 +394,6 @@ export interface LightingConfig {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -449,7 +412,6 @@ export interface Color {
 }
 
 export interface DirectionalLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -467,7 +429,6 @@ export interface DirectionalLight {
 }
 
 export interface PointLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -486,7 +447,6 @@ export interface PointLight {
 }
 
 export interface ObjectInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -498,8 +458,6 @@ export interface ObjectInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ObjectType;
   position: Vector3;
   rotation: Vector3;
@@ -511,7 +469,6 @@ export interface ObjectInfo {
 export type ObjectType = 'entity' | 'block' | 'item' | 'structure' | 'custom';
 
 export interface ObjectProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -532,7 +489,6 @@ export interface ObjectProperties {
 }
 
 export interface ObjectComponent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -544,7 +500,6 @@ export interface ObjectComponent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ComponentType;
   properties: Record<string, any>;
   enabled: boolean;
@@ -553,7 +508,6 @@ export interface ObjectComponent {
 export type ComponentType = 'physics' | 'render' | 'collision' | 'ai' | 'custom';
 
 export interface WorldProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -573,7 +527,6 @@ export interface WorldProperties {
 }
 
 export interface WorldTime {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -593,7 +546,6 @@ export interface WorldTime {
 }
 
 export interface PhysicsConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -613,7 +565,6 @@ export interface PhysicsConfig {
 }
 
 export interface WorldSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -636,7 +587,6 @@ export interface WorldSettings {
 export type GameMode = 'survival' | 'creative' | 'adventure' | 'spectator' | 'custom';
 
 export interface ManifestValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -655,7 +605,6 @@ export interface ManifestValidation {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -667,8 +616,6 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   condition: RuleCondition;
   message: string;
@@ -678,7 +625,6 @@ export interface ValidationRule {
 export type RuleType = 'required' | 'format' | 'range' | 'pattern' | 'custom';
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -699,7 +645,6 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface ValidationSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -720,7 +665,6 @@ export interface ValidationSchema {
 export type SchemaType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'custom';
 
 export interface SchemaProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -732,7 +676,6 @@ export interface SchemaProperty {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: PropertyType;
   format: string;
   description: string;
@@ -742,7 +685,6 @@ export interface SchemaProperty {
 export type PropertyType = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'custom';
 
 export interface ValidationPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -762,7 +704,6 @@ export interface ValidationPerformance {
 }
 
 export interface ManifestSynchronization {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -784,7 +725,6 @@ export interface ManifestSynchronization {
 export type SyncStrategy = 'push' | 'pull' | 'bidirectional' | 'custom';
 
 export interface ConflictResolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -804,7 +744,6 @@ export interface ConflictResolution {
 export type ConflictStrategy = 'last_write_wins' | 'first_write_wins' | 'merge' | 'custom';
 
 export interface SyncPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -824,7 +763,6 @@ export interface SyncPerformance {
 }
 
 export interface ManifestPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -843,7 +781,6 @@ export interface ManifestPerformance {
 }
 
 export interface WorldData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -855,22 +792,18 @@ export interface WorldData {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataType;
   status: DataStatus;
   content: DataContent;
   compression: CompressionConfig;
   encryption: EncryptionConfig;
   performance: DataPerformance;
-  metadata: Record<string, any>;
 }
 
 export type DataType = 'chunk' | 'region' | 'object' | 'metadata' | 'custom';
 export type DataStatus = 'loaded' | 'unloaded' | 'loading' | 'error';
 
 export interface DataContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -886,13 +819,11 @@ export interface DataContent {
   version: string;
   size: number;
   checksum: string;
-  data: any;
 }
 
 export type ContentFormat = 'binary' | 'json' | 'xml' | 'custom';
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -914,7 +845,6 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'lz4' | 'zstd' | 'custom';
 
 export interface EncryptionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -935,7 +865,6 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface DataPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -955,7 +884,6 @@ export interface DataPerformance {
 }
 
 export interface ManifestValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -967,21 +895,17 @@ export interface ManifestValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ValidatorType = 'schema' | 'business' | 'data' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1000,7 +924,6 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidatorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1019,7 +942,6 @@ export interface ValidatorPerformance {
 }
 
 export interface WorldSynchronizer {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1031,20 +953,16 @@ export interface WorldSynchronizer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SynchronizerType;
   status: SynchronizerStatus;
   configuration: SynchronizerConfiguration;
   performance: SynchronizerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SynchronizerType = 'real_time' | 'batch' | 'event_driven' | 'custom';
 export type SynchronizerStatus = 'active' | 'inactive' | 'error';
 
 export interface SynchronizerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1064,7 +982,6 @@ export interface SynchronizerConfiguration {
 }
 
 export interface SynchronizerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1083,7 +1000,6 @@ export interface SynchronizerPerformance {
 }
 
 export interface WorldManifestPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1109,7 +1025,6 @@ export interface WorldManifestPerformanceMetrics {
 }
 
 export interface WorldManifestAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1130,7 +1045,6 @@ export interface WorldManifestAnalytics {
 }
 
 export interface ManifestTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1149,7 +1063,6 @@ export interface ManifestTypeDistribution {
 }
 
 export interface WorldTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1168,7 +1081,6 @@ export interface WorldTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1180,7 +1092,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   manifests: number;
   worldData: number;
   validationTime: number;
@@ -1190,7 +1101,6 @@ export interface PerformanceTrend {
 }
 
 export interface WorldManifestReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1213,7 +1123,6 @@ export interface WorldManifestReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1234,7 +1143,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1254,7 +1162,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1274,7 +1181,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1287,13 +1193,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface WorldManifestOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

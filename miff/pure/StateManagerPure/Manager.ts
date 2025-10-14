@@ -11,7 +11,6 @@
  */
 
 export interface StateManagerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface StateManagerConfig {
 }
 
 export interface StateManagerManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface StateManagerManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StateManagerManagerType;
   status: StateManagerManagerStatus;
   states: State[];
@@ -66,16 +62,12 @@ export interface StateManagerManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type StateManagerManagerType = 'local' | 'global' | 'session' | 'persistent' | 'custom';
 export type StateManagerManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface State {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,8 +79,6 @@ export interface State {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: StateType;
   status: StateStatus;
   data: StateData;
@@ -102,7 +92,6 @@ export type StateType = 'application' | 'user' | 'session' | 'component' | 'cust
 export type StateStatus = 'active' | 'inactive' | 'locked' | 'error';
 
 export interface StateData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -122,7 +111,6 @@ export interface StateData {
 }
 
 export interface StateSchema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +132,6 @@ export interface StateSchema {
 export type SchemaType = 'object' | 'array' | 'primitive' | 'custom';
 
 export interface PropertyDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,7 +158,6 @@ export interface PropertyDefinition {
 export type DataType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'null' | 'custom';
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +180,6 @@ export type ConstraintType = 'required' | 'type' | 'format' | 'range' | 'length'
 export type ConstraintOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'not_contains' | 'custom';
 
 export interface StateMetadata {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -217,7 +202,6 @@ export interface StateMetadata {
 }
 
 export interface StatePermissions {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -236,7 +220,6 @@ export interface StatePermissions {
 }
 
 export interface StateValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -255,7 +238,6 @@ export interface StateValidation {
 }
 
 export interface ValidationError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -275,7 +257,6 @@ export interface ValidationError {
 }
 
 export interface ValidationWarning {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -295,7 +276,6 @@ export interface ValidationWarning {
 }
 
 export interface StatePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -314,7 +294,6 @@ export interface StatePerformance {
 }
 
 export interface StateHistoryEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -326,8 +305,6 @@ export interface StateHistoryEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  timestamp: number;
   action: HistoryAction;
   changes: StateChange[];
   user: string;
@@ -337,7 +314,6 @@ export interface StateHistoryEntry {
 export type HistoryAction = 'create' | 'update' | 'delete' | 'restore' | 'custom';
 
 export interface StateChange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -358,7 +334,6 @@ export interface StateChange {
 export type ChangeType = 'add' | 'remove' | 'modify' | 'custom';
 
 export interface StateTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -370,19 +345,15 @@ export interface StateTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   from: string;
   to: string;
   condition: TransitionCondition;
   action: TransitionAction;
   validation: TransitionValidation;
   performance: TransitionPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface TransitionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -401,7 +372,6 @@ export interface TransitionCondition {
 }
 
 export interface TransitionAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -422,7 +392,6 @@ export interface TransitionAction {
 export type ActionType = 'transform' | 'validate' | 'notify' | 'persist' | 'custom';
 
 export interface TransitionValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -440,7 +409,6 @@ export interface TransitionValidation {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -459,7 +427,6 @@ export interface ValidationRule {
 }
 
 export interface TransitionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -478,7 +445,6 @@ export interface TransitionPerformance {
 }
 
 export interface StateValidator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -490,21 +456,17 @@ export interface StateValidator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   status: ValidatorStatus;
   rules: ValidationRule[];
   configuration: ValidatorConfiguration;
   performance: ValidatorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ValidatorType = 'schema' | 'business' | 'security' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -527,7 +489,6 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidatorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -547,7 +508,6 @@ export interface ValidatorPerformance {
 }
 
 export interface StateHistory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -559,7 +519,6 @@ export interface StateHistory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   state: string;
   entries: StateHistoryEntry[];
   totalEntries: number;
@@ -569,7 +528,6 @@ export interface StateHistory {
 }
 
 export interface HistoryPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -588,7 +546,6 @@ export interface HistoryPerformance {
 }
 
 export interface StateSubscription {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -600,17 +557,14 @@ export interface StateSubscription {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   subscriber: string;
   state: string;
   events: SubscriptionEvent[];
   configuration: SubscriptionConfiguration;
   performance: SubscriptionPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface SubscriptionEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -631,7 +585,6 @@ export interface SubscriptionEvent {
 export type EventType = 'change' | 'create' | 'update' | 'delete' | 'custom';
 
 export interface EventCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +606,6 @@ export interface EventCondition {
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface EventAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -672,7 +624,6 @@ export interface EventAction {
 }
 
 export interface SubscriptionConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -694,7 +645,6 @@ export interface SubscriptionConfiguration {
 }
 
 export interface SubscriptionPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -713,7 +663,6 @@ export interface SubscriptionPerformance {
 }
 
 export interface StateManagerPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -738,7 +687,6 @@ export interface StateManagerPerformanceMetrics {
 }
 
 export interface StateManagerAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -759,7 +707,6 @@ export interface StateManagerAnalytics {
 }
 
 export interface StateTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -778,7 +725,6 @@ export interface StateTypeDistribution {
 }
 
 export interface TransitionTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -797,7 +743,6 @@ export interface TransitionTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -809,7 +754,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   states: number;
   transitions: number;
   memory: number;
@@ -818,7 +762,6 @@ export interface PerformanceTrend {
 }
 
 export interface StateManagerReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -841,7 +784,6 @@ export interface StateManagerReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -862,7 +804,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -882,7 +823,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -902,7 +842,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -915,13 +854,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface StateManagerOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

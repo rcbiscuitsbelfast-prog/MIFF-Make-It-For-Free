@@ -1,7 +1,6 @@
 import { TileType } from './tileTypes';
 
 export interface TileStatusEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -13,7 +12,6 @@ export interface TileStatusEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   duration: number;
   impact: string;
 }

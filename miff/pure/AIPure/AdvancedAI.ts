@@ -7,7 +7,6 @@
 
 
 export interface AIBehaviorTree {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,15 +18,12 @@ export interface AIBehaviorTree {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   root: BehaviorNode;
   conditions: Map<string, (context: any) => boolean>;
   actions: Map<string, (context: any) => Promise<any>>;
 }
 
 export interface BehaviorNode {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -40,7 +36,6 @@ export interface BehaviorNode {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: 'sequence' | 'selector' | 'parallel' | 'condition' | 'action' | 'decorator';
-  name: string;
   children?: BehaviorNode[];
   condition?: string;
   action?: string;
@@ -50,7 +45,6 @@ export interface BehaviorNode {
 }
 
 export interface AIMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -69,7 +63,6 @@ export interface AIMemory {
 }
 
 export interface AIExperience {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -81,16 +74,13 @@ export interface AIExperience {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   context: any;
   action: string;
   result: 'success' | 'failure' | 'partial';
   reward: number;
-  timestamp: number;
 }
 
 export interface NeuralNetwork {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

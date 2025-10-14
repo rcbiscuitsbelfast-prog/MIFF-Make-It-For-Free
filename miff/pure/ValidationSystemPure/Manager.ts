@@ -11,7 +11,6 @@
  */
 
 export interface ValidationSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface ValidationSystemConfig {
 }
 
 export interface ValidationSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface ValidationSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidationSystemManagerType;
   status: ValidationSystemManagerStatus;
   validators: Validator[];
@@ -66,16 +62,12 @@ export interface ValidationSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type ValidationSystemManagerType = 'data' | 'schema' | 'rule' | 'hybrid' | 'custom';
 export type ValidationSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Validator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -87,22 +79,18 @@ export interface Validator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ValidatorType;
   status: ValidatorStatus;
   schema: string;
   rules: string[];
   configuration: ValidatorConfiguration;
   performance: ValidatorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ValidatorType = 'json' | 'xml' | 'yaml' | 'csv' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +114,6 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidatorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +133,6 @@ export interface ValidatorPerformance {
 }
 
 export interface Schema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -158,22 +144,18 @@ export interface Schema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SchemaType;
   version: string;
   status: SchemaStatus;
   definition: SchemaDefinition;
   validation: SchemaValidation;
   performance: SchemaPerformance;
-  metadata: Record<string, any>;
 }
 
 export type SchemaType = 'json' | 'xml' | 'yaml' | 'avro' | 'protobuf' | 'custom';
 export type SchemaStatus = 'draft' | 'active' | 'deprecated' | 'archived';
 
 export interface SchemaDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +176,6 @@ export interface SchemaDefinition {
 export type SchemaFormat = 'json_schema' | 'xml_schema' | 'yaml_schema' | 'avro_schema' | 'custom';
 
 export interface SchemaStructure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -216,7 +197,6 @@ export interface SchemaStructure {
 export type DataType = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'null' | 'custom';
 
 export interface PropertyDefinition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -244,7 +224,6 @@ export interface PropertyDefinition {
 }
 
 export interface SchemaConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -267,7 +246,6 @@ export type ConstraintType = 'required' | 'type' | 'format' | 'range' | 'length'
 export type ConstraintOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'not_contains' | 'custom';
 
 export interface SchemaExample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -279,14 +257,11 @@ export interface SchemaExample {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
-  data: any;
   valid: boolean;
 }
 
 export interface SchemaValidation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -305,7 +280,6 @@ export interface SchemaValidation {
 }
 
 export interface ValidationError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -325,7 +299,6 @@ export interface ValidationError {
 }
 
 export interface ValidationWarning {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -345,7 +318,6 @@ export interface ValidationWarning {
 }
 
 export interface SchemaPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -365,7 +337,6 @@ export interface SchemaPerformance {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -377,22 +348,18 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RuleType;
   status: RuleStatus;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
   performance: RulePerformance;
-  metadata: Record<string, any>;
 }
 
 export type RuleType = 'validation' | 'transformation' | 'sanitization' | 'custom';
 export type RuleStatus = 'active' | 'inactive' | 'error';
 
 export interface RuleCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -415,7 +382,6 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -437,7 +403,6 @@ export type ActionType = 'reject' | 'warn' | 'transform' | 'sanitize' | 'custom'
 export type ActionSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface RulePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -457,7 +422,6 @@ export interface RulePerformance {
 }
 
 export interface Validation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -469,20 +433,15 @@ export interface Validation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   validator: string;
-  data: any;
   status: ValidationStatus;
   result: ValidationResult;
-  timestamp: number;
   duration: number;
-  metadata: Record<string, any>;
 }
 
 export type ValidationStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 
 export interface ValidationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -502,7 +461,6 @@ export interface ValidationResult {
 }
 
 export interface ValidationSuggestion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -521,7 +479,6 @@ export interface ValidationSuggestion {
 }
 
 export interface ValidationReport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -533,22 +490,18 @@ export interface ValidationReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ReportType;
   status: ReportStatus;
   validations: string[];
   summary: ReportSummary;
   details: ReportDetails;
   generatedAt: number;
-  metadata: Record<string, any>;
 }
 
 export type ReportType = 'summary' | 'detailed' | 'error' | 'performance' | 'custom';
 export type ReportStatus = 'generating' | 'completed' | 'failed';
 
 export interface ReportSummary {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -570,7 +523,6 @@ export interface ReportSummary {
 }
 
 export interface ReportDetails {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -589,7 +541,6 @@ export interface ReportDetails {
 }
 
 export interface ValidationDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -601,16 +552,13 @@ export interface ValidationDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   validator: string;
   status: ValidationStatus;
   score: number;
   duration: number;
-  timestamp: number;
 }
 
 export interface ErrorDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -630,7 +578,6 @@ export interface ErrorDetail {
 }
 
 export interface WarningDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -650,7 +597,6 @@ export interface WarningDetail {
 }
 
 export interface PerformanceDetail {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -670,7 +616,6 @@ export interface PerformanceDetail {
 }
 
 export interface ValidationSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -696,7 +641,6 @@ export interface ValidationSystemPerformanceMetrics {
 }
 
 export interface ValidationSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -717,7 +661,6 @@ export interface ValidationSystemAnalytics {
 }
 
 export interface ValidatorTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -736,7 +679,6 @@ export interface ValidatorTypeDistribution {
 }
 
 export interface SchemaTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -755,7 +697,6 @@ export interface SchemaTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -767,7 +708,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   validators: number;
   validations: number;
   validationTime: number;
@@ -777,7 +717,6 @@ export interface PerformanceTrend {
 }
 
 export interface ValidationSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -800,7 +739,6 @@ export interface ValidationSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -821,7 +759,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -841,7 +778,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -861,7 +797,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -874,13 +809,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface ValidationSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

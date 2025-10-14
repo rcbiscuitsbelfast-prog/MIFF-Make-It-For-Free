@@ -1,7 +1,6 @@
 export type GestureType = 'tap' | 'doubleTap' | 'longPress' | 'swipe' | 'pinch' | 'rotate';
 
 export interface TouchEventLike {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -23,7 +22,6 @@ export interface TouchEventLike {
 }
 
 export interface Gesture {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

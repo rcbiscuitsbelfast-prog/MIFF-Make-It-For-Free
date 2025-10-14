@@ -10,7 +10,6 @@
  */
 
 export interface VisualItemEventConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -38,7 +37,6 @@ export interface VisualItemEventConfig {
 }
 
 export interface VisualItemEventManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -50,8 +48,6 @@ export interface VisualItemEventManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: VisualItemEventManagerType;
   status: VisualItemEventManagerStatus;
   events: VisualItemEvent[];
@@ -64,16 +60,12 @@ export interface VisualItemEventManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type VisualItemEventManagerType = 'ui' | 'game' | 'interaction' | 'custom';
 export type VisualItemEventManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface VisualItemEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -85,23 +77,18 @@ export interface VisualItemEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EventType;
   status: EventStatus;
   source: EventSource;
   target: EventTarget;
   data: EventData;
-  timestamp: number;
   performance: EventPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EventType = 'click' | 'hover' | 'drag' | 'drop' | 'custom';
 export type EventStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export interface EventSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -113,16 +100,13 @@ export interface EventSource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: SourceType;
-  name: string;
   properties: SourceProperties;
 }
 
 export type SourceType = 'button' | 'menu' | 'panel' | 'custom';
 
 export interface SourceProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -142,7 +126,6 @@ export interface SourceProperties {
 }
 
 export interface Vector2 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -159,7 +142,6 @@ export interface Vector2 {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -178,7 +160,6 @@ export interface Color {
 }
 
 export interface EventTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -190,16 +171,13 @@ export interface EventTarget {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: TargetType;
-  name: string;
   properties: TargetProperties;
 }
 
 export type TargetType = 'item' | 'container' | 'zone' | 'custom';
 
 export interface TargetProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +197,6 @@ export interface TargetProperties {
 }
 
 export interface EventData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -239,7 +216,6 @@ export interface EventData {
 export type DataType = 'string' | 'number' | 'boolean' | 'object' | 'custom';
 
 export interface EventPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -257,7 +233,6 @@ export interface EventPerformance {
 }
 
 export interface EventHandler {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -269,21 +244,17 @@ export interface EventHandler {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: HandlerType;
   status: HandlerStatus;
   events: string[];
   configuration: HandlerConfiguration;
   performance: HandlerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type HandlerType = 'callback' | 'middleware' | 'custom';
 export type HandlerStatus = 'active' | 'inactive' | 'error';
 
 export interface HandlerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -303,7 +274,6 @@ export interface HandlerConfiguration {
 }
 
 export interface HandlerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -323,7 +293,6 @@ export interface HandlerPerformance {
 }
 
 export interface EventProcessor {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,21 +304,17 @@ export interface EventProcessor {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ProcessorType;
   status: ProcessorStatus;
   events: string[];
   configuration: ProcessorConfiguration;
   performance: ProcessorPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ProcessorType = 'filter' | 'transform' | 'aggregate' | 'custom';
 export type ProcessorStatus = 'active' | 'inactive' | 'error';
 
 export interface ProcessorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -369,7 +334,6 @@ export interface ProcessorConfiguration {
 }
 
 export interface ProcessorFilter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -392,7 +356,6 @@ export type FilterType = 'event_type' | 'source' | 'target' | 'custom';
 export type FilterOperator = 'equals' | 'not_equals' | 'contains' | 'custom';
 
 export interface ProcessorPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -412,7 +375,6 @@ export interface ProcessorPerformance {
 }
 
 export interface EventListener {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -424,21 +386,17 @@ export interface EventListener {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ListenerType;
   status: ListenerStatus;
   events: string[];
   configuration: ListenerConfiguration;
   performance: ListenerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ListenerType = 'dom' | 'custom' | 'custom';
 export type ListenerStatus = 'active' | 'inactive' | 'error';
 
 export interface ListenerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -457,7 +415,6 @@ export interface ListenerConfiguration {
 }
 
 export interface ListenerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -475,7 +432,6 @@ export interface ListenerPerformance {
 }
 
 export interface VisualItemEventPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -501,7 +457,6 @@ export interface VisualItemEventPerformanceMetrics {
 }
 
 export interface VisualItemEventAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -522,7 +477,6 @@ export interface VisualItemEventAnalytics {
 }
 
 export interface EventTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -541,7 +495,6 @@ export interface EventTypeDistribution {
 }
 
 export interface HandlerTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -560,7 +513,6 @@ export interface HandlerTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -572,7 +524,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   events: number;
   handlers: number;
   processingTime: number;
@@ -582,7 +533,6 @@ export interface PerformanceTrend {
 }
 
 export interface VisualItemEventReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -605,7 +555,6 @@ export interface VisualItemEventReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -626,7 +575,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -646,7 +594,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -666,7 +613,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -679,13 +625,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface VisualItemEventOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

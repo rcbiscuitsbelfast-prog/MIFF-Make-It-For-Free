@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface InterfaceStandard {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface InterfaceStandard {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   version: string;
   description: string;
   category: 'manager' | 'bridge' | 'validator' | 'processor' | 'renderer' | 'cli';
@@ -32,7 +30,6 @@ export interface InterfaceStandard {
 }
 
 export interface InterfaceProperty {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -44,7 +41,6 @@ export interface InterfaceProperty {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   required: boolean;
   description: string;
@@ -52,7 +48,6 @@ export interface InterfaceProperty {
 }
 
 export interface InterfaceEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -64,14 +59,12 @@ export interface InterfaceEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   payload: any;
   async: boolean;
 }
 
 export interface LifecycleMethods {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -92,7 +85,6 @@ export interface LifecycleMethods {
 }
 
 export interface ErrorHandlingStandard {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -111,7 +103,6 @@ export interface ErrorHandlingStandard {
 }
 
 export interface StandardizationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -139,7 +130,6 @@ export interface StandardizationResult {
 }
 
 export interface LifecycleCompliance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -161,7 +151,6 @@ export interface LifecycleCompliance {
 }
 
 export interface ErrorHandlingCompliance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,7 +170,6 @@ export interface ErrorHandlingCompliance {
 }
 
 export interface StandardizationStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

@@ -63,7 +63,6 @@ export enum AssetBundleType {
 }
 
 export interface AssetManagerConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -126,7 +125,6 @@ export interface AssetManagerConfiguration {
 }
 
 export interface AssetBundle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -138,8 +136,6 @@ export interface AssetBundle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AssetBundleType;
   version: string;
   assets: string[];
@@ -156,11 +152,9 @@ export interface AssetBundle {
   loadCount: number;
   unloadCount: number;
   errorCount: number;
-  metadata: Record<string, any>;
 }
 
 export interface AssetLoadingRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +166,6 @@ export interface AssetLoadingRequest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   assetId: string;
   priority: number;
   dependencies: string[];
@@ -184,11 +177,9 @@ export interface AssetLoadingRequest {
   streamingMode: AssetStreamingMode;
   qualityLevel: 'low' | 'medium' | 'high' | 'ultra';
   platform: string;
-  metadata: Record<string, any>;
 }
 
 export interface AssetLoadingResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -200,7 +191,6 @@ export interface AssetLoadingResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   requestId: string;
   success: boolean;
   asset: UnrealAssetBridge | null;
@@ -208,12 +198,9 @@ export interface AssetLoadingResponse {
   memory: number;
   diskUsage: number;
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AssetStreamingRequest {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,7 +212,6 @@ export interface AssetStreamingRequest {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   assetId: string;
   qualityLevel: 'low' | 'medium' | 'high' | 'ultra';
   distance: number;
@@ -237,11 +223,9 @@ export interface AssetStreamingRequest {
   budget_Memory: number;
   enableMipmaps: boolean;
   enableCompression: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface AssetStreamingResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -253,7 +237,6 @@ export interface AssetStreamingResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   requestId: string;
   success: boolean;
   qualityLevel: 'low' | 'medium' | 'high' | 'ultra';
@@ -264,12 +247,9 @@ export interface AssetStreamingResponse {
   loadTime: number;
   streamingTime: number;
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AssetCacheEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,7 +261,6 @@ export interface AssetCacheEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   asset: UnrealAssetBridge;
   size: number;
   lastAccessTime: number;
@@ -292,11 +271,9 @@ export interface AssetCacheEntry {
   qualityLevel: 'low' | 'medium' | 'high' | 'ultra';
   compressed: boolean;
   pinned: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface AssetOptimizationResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -316,12 +293,9 @@ export interface AssetOptimizationResult {
   compressionRatio: number;
   qualityLoss: number;
   warnings: string[];
-  errors: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AssetManagerStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -367,7 +341,6 @@ export interface AssetManagerStatistics {
 }
 
 export interface AssetManagerMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

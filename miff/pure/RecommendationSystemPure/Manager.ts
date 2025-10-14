@@ -12,7 +12,6 @@
  */
 
 export interface RecommendationSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface RecommendationSystemConfig {
 }
 
 export interface RecommendationSystemManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface RecommendationSystemManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: RecommendationSystemManagerType;
   status: RecommendationSystemManagerStatus;
   models: RecommendationModel[];
@@ -68,16 +64,12 @@ export interface RecommendationSystemManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type RecommendationSystemManagerType = 'ecommerce' | 'content' | 'social' | 'custom';
 export type RecommendationSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface RecommendationModel {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,22 +81,18 @@ export interface RecommendationModel {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ModelType;
   status: ModelStatus;
   algorithm: string;
   parameters: ModelParameters;
   training: TrainingData;
   performance: ModelPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ModelType = 'collaborative' | 'content_based' | 'hybrid' | 'deep_learning' | 'custom';
 export type ModelStatus = 'training' | 'ready' | 'deployed' | 'retired' | 'error';
 
 export interface ModelParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -125,7 +113,6 @@ export interface ModelParameters {
 }
 
 export interface TrainingData {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -146,7 +133,6 @@ export interface TrainingData {
 }
 
 export interface DataSplit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -164,7 +150,6 @@ export interface DataSplit {
 }
 
 export interface PreprocessingSteps {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -184,7 +169,6 @@ export interface PreprocessingSteps {
 }
 
 export interface ModelPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -207,7 +191,6 @@ export interface ModelPerformance {
 }
 
 export interface User {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,18 +202,14 @@ export interface User {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   email: string;
   profile: UserProfile;
   preferences: UserPreferences;
   behavior: UserBehavior;
   demographics: Demographics;
-  metadata: Record<string, any>;
 }
 
 export interface UserProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,7 +230,6 @@ export interface UserProfile {
 }
 
 export interface UserPreferences {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -271,7 +249,6 @@ export interface UserPreferences {
 }
 
 export interface PriceRange {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -289,7 +266,6 @@ export interface PriceRange {
 }
 
 export interface QualityPreference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -306,7 +282,6 @@ export interface QualityPreference {
 }
 
 export interface UserBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -325,7 +300,6 @@ export interface UserBehavior {
 }
 
 export interface BehaviorPattern {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -347,7 +321,6 @@ export interface BehaviorPattern {
 export type PatternType = 'browsing' | 'purchasing' | 'searching' | 'social' | 'custom';
 
 export interface PreferenceEvolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,11 +336,9 @@ export interface PreferenceEvolution {
   oldPreference: number;
   newPreference: number;
   change: number;
-  timestamp: number;
 }
 
 export interface EngagementMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -387,7 +358,6 @@ export interface EngagementMetrics {
 }
 
 export interface Demographics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -408,7 +378,6 @@ export interface Demographics {
 }
 
 export interface Item {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -420,19 +389,15 @@ export interface Item {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemType;
   category: string;
   attributes: ItemAttributes;
   content: ItemContent;
-  metadata: Record<string, any>;
 }
 
 export type ItemType = 'product' | 'content' | 'service' | 'event' | 'custom';
 
 export interface ItemAttributes {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -453,7 +418,6 @@ export interface ItemAttributes {
 }
 
 export interface ItemContent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -474,7 +438,6 @@ export interface ItemContent {
 }
 
 export interface Interaction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -486,20 +449,16 @@ export interface Interaction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   userId: string;
   itemId: string;
   type: InteractionType;
   value: number;
   context: InteractionContext;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export type InteractionType = 'view' | 'click' | 'purchase' | 'rating' | 'review' | 'share' | 'custom';
 
 export interface InteractionContext {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -520,7 +479,6 @@ export interface InteractionContext {
 }
 
 export interface Algorithm {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -532,20 +490,16 @@ export interface Algorithm {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AlgorithmType;
   description: string;
   parameters: AlgorithmParameters;
   performance: AlgorithmPerformance;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export type AlgorithmType = 'collaborative_filtering' | 'content_based' | 'matrix_factorization' | 'deep_learning' | 'custom';
 
 export interface AlgorithmParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -566,7 +520,6 @@ export interface AlgorithmParameters {
 }
 
 export interface SimilarityMeasure {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -586,7 +539,6 @@ export interface SimilarityMeasure {
 export type SimilarityType = 'cosine' | 'pearson' | 'euclidean' | 'jaccard' | 'custom';
 
 export interface NeighborhoodSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -604,7 +556,6 @@ export interface NeighborhoodSize {
 }
 
 export interface AlgorithmPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -625,7 +576,6 @@ export interface AlgorithmPerformance {
 }
 
 export interface RecommendationSystemPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -649,7 +599,6 @@ export interface RecommendationSystemPerformanceMetrics {
 }
 
 export interface RecommendationSystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -671,7 +620,6 @@ export interface RecommendationSystemAnalytics {
 }
 
 export interface ModelPerformanceDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -684,7 +632,6 @@ export interface ModelPerformanceDistribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   modelId: string;
-  name: string;
   type: ModelType;
   accuracy: number;
   usage: number;
@@ -692,7 +639,6 @@ export interface ModelPerformanceDistribution {
 }
 
 export interface UserEngagementDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -712,7 +658,6 @@ export interface UserEngagementDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -724,7 +669,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   models: number;
   users: number;
   items: number;
@@ -735,7 +679,6 @@ export interface PerformanceTrend {
 }
 
 export interface RecommendationSystemReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -758,7 +701,6 @@ export interface RecommendationSystemReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -779,7 +721,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -799,7 +740,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -819,7 +759,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -832,13 +771,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface RecommendationSystemOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

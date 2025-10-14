@@ -20,7 +20,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BackupSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -48,7 +47,6 @@ export interface BackupSystemConfig {
 }
 
 export interface BackupSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -60,8 +58,6 @@ export interface BackupSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   backups: Backup[];
@@ -70,14 +66,12 @@ export interface BackupSystem {
   storage: StorageConfig;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Backup {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +83,6 @@ export interface Backup {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: BackupType;
   status: BackupStatus;
   source: BackupSource;
@@ -101,11 +93,9 @@ export interface Backup {
   schedule: string;
   createdAt: Date;
   completedAt?: Date;
-  metadata: Record<string, any>;
 }
 
 export interface BackupSchedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,8 +107,6 @@ export interface BackupSchedule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ScheduleType;
   frequency: ScheduleFrequency;
   time: string; // HH:MM format
@@ -126,11 +114,9 @@ export interface BackupSchedule {
   enabled: boolean;
   lastRun?: Date;
   nextRun?: Date;
-  metadata: Record<string, any>;
 }
 
 export interface BackupPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -142,18 +128,14 @@ export interface BackupPolicy {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: PolicyType;
   rules: PolicyRule[];
   retention: RetentionConfig;
   compression: CompressionConfig;
   encryption: EncryptionConfig;
-  metadata: Record<string, any>;
 }
 
 export interface StorageConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -171,7 +153,6 @@ export interface StorageConfig {
 }
 
 export interface LocalStorageConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -190,7 +171,6 @@ export interface LocalStorageConfig {
 }
 
 export interface CloudStorageConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -202,18 +182,15 @@ export interface CloudStorageConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   provider: CloudProvider;
   enabled: boolean;
   credentials: CloudCredentials;
   bucket: string;
   region: string;
   maxSize: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface NetworkStorageConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -225,19 +202,15 @@ export interface NetworkStorageConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   enabled: boolean;
   host: string;
   port: number;
   path: string;
   credentials: NetworkCredentials;
   maxSize: number; // bytes
-  metadata: Record<string, any>;
 }
 
 export interface BackupSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -254,11 +227,9 @@ export interface BackupSource {
   includes: string[];
   excludes: string[];
   filters: FilterConfig[];
-  metadata: Record<string, any>;
 }
 
 export interface BackupDestination {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,11 +244,9 @@ export interface BackupDestination {
   type: DestinationType;
   path: string;
   storage: string;
-  metadata: Record<string, any>;
 }
 
 export interface EncryptionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -293,11 +262,9 @@ export interface EncryptionConfig {
   algorithm: EncryptionAlgorithm;
   keySize: number;
   keyId: string;
-  metadata: Record<string, any>;
 }
 
 export interface CompressionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -312,11 +279,9 @@ export interface CompressionConfig {
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number; // 1-9
-  metadata: Record<string, any>;
 }
 
 export interface RetentionConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -332,11 +297,9 @@ export interface RetentionConfig {
   maxAge: number; // days
   maxSize: number; // bytes
   policy: RetentionPolicy;
-  metadata: Record<string, any>;
 }
 
 export interface PolicyRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -348,16 +311,12 @@ export interface PolicyRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   condition: string;
   action: string;
   priority: number;
-  metadata: Record<string, any>;
 }
 
 export interface FilterConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -369,15 +328,12 @@ export interface FilterConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: FilterType;
   pattern: string;
   enabled: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface CloudCredentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -392,11 +348,9 @@ export interface CloudCredentials {
   accessKey: string;
   secretKey: string;
   region: string;
-  metadata: Record<string, any>;
 }
 
 export interface NetworkCredentials {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -411,11 +365,9 @@ export interface NetworkCredentials {
   username: string;
   password: string;
   domain?: string;
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -436,7 +388,6 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

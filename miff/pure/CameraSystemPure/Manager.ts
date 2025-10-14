@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CameraSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CameraSystemConfig {
 }
 
 export interface CameraSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,22 +53,18 @@ export interface CameraSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: SystemType;
   status: SystemStatus;
   cameras: Camera[];
   settings: SystemSettings;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Camera {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,18 +76,14 @@ export interface Camera {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CameraType;
   status: CameraStatus;
   capabilities: CameraCapabilities;
   settings: CameraSettings;
   controls: CameraControls;
-  metadata: Record<string, any>;
 }
 
 export interface CameraCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -109,11 +99,9 @@ export interface CameraCapabilities {
   frameRate: number[];
   formats: VideoFormat[];
   features: CameraFeature[];
-  metadata: Record<string, any>;
 }
 
 export interface CameraSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,11 +120,9 @@ export interface CameraSettings {
   brightness: number; // 0-100
   contrast: number; // 0-100
   saturation: number; // 0-100
-  metadata: Record<string, any>;
 }
 
 export interface CameraControls {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -152,11 +138,9 @@ export interface CameraControls {
   focus: FocusControl;
   exposure: ExposureControl;
   whiteBalance: WhiteBalanceControl;
-  metadata: Record<string, any>;
 }
 
 export interface ZoomControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,11 +156,9 @@ export interface ZoomControl {
   max: number;
   current: number;
   step: number;
-  metadata: Record<string, any>;
 }
 
 export interface FocusControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -190,11 +172,9 @@ export interface FocusControl {
   metadata?: Record<string, any>;
   mode: FocusMode;
   distance: number;
-  metadata: Record<string, any>;
 }
 
 export interface ExposureControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -208,11 +188,9 @@ export interface ExposureControl {
   metadata?: Record<string, any>;
   mode: ExposureMode;
   value: number;
-  metadata: Record<string, any>;
 }
 
 export interface WhiteBalanceControl {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -226,11 +204,9 @@ export interface WhiteBalanceControl {
   metadata?: Record<string, any>;
   mode: WhiteBalanceMode;
   temperature: number;
-  metadata: Record<string, any>;
 }
 
 export interface SystemSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -248,11 +224,9 @@ export interface SystemSettings {
   autoFocus: boolean;
   autoExposure: boolean;
   autoWhiteBalance: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface SystemPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -270,11 +244,9 @@ export interface SystemPerformance {
   averageLatency: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface SystemAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -297,7 +269,6 @@ export interface SystemAnalytics {
 }
 
 export interface Resolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -312,11 +283,9 @@ export interface Resolution {
   width: number;
   height: number;
   aspectRatio: number;
-  metadata: Record<string, any>;
 }
 
 export interface VideoFormat {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -328,14 +297,11 @@ export interface VideoFormat {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   codec: VideoCodec;
   container: string;
-  metadata: Record<string, any>;
 }
 
 export interface CameraFeature {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -347,10 +313,8 @@ export interface CameraFeature {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: FeatureType;
   supported: boolean;
-  metadata: Record<string, any>;
 }
 
 export type SystemType = 'web' | 'native' | 'unity' | 'godot' | 'unreal' | 'custom';

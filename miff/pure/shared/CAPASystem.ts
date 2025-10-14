@@ -6,7 +6,6 @@
  */
 
 export interface CAPAEntry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -18,7 +17,6 @@ export interface CAPAEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   title: string;
   description: string;
   category: CAPACategory;
@@ -70,7 +68,6 @@ export enum CAPAStatus {
 }
 
 export interface CAPAAction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -82,7 +79,6 @@ export interface CAPAAction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   description: string;
   type: 'corrective' | 'preventive';
   status: 'pending' | 'in_progress' | 'completed' | 'failed';
@@ -94,7 +90,6 @@ export interface CAPAAction {
 }
 
 export interface CAPAImpact {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,7 +109,6 @@ export interface CAPAImpact {
 }
 
 export interface CAPARegistry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,7 +126,6 @@ export interface CAPARegistry {
 }
 
 export interface CAPAMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -157,7 +150,6 @@ export interface CAPAMetrics {
 }
 
 export interface CAPAPolicies {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -177,7 +169,6 @@ export interface CAPAPolicies {
 }
 
 export interface CAPAEscalationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

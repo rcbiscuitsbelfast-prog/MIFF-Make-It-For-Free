@@ -21,7 +21,6 @@ import {
 } from './engine';
 
 interface CLIResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

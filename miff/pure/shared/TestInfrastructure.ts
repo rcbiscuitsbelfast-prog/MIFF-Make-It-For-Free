@@ -7,7 +7,6 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface TestModule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -19,7 +18,6 @@ export interface TestModule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   path: string;
   testFiles: string[];
   mockFiles: string[];
@@ -30,7 +28,6 @@ export interface TestModule {
 }
 
 export interface MockReplacement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -42,7 +39,6 @@ export interface MockReplacement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   module: string;
   mockFile: string;
   realImplementation: string;
@@ -54,7 +50,6 @@ export interface MockReplacement {
 }
 
 export interface TestCoverage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -77,7 +72,6 @@ export interface TestCoverage {
 }
 
 export interface TestQuality {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -99,7 +93,6 @@ export interface TestQuality {
 }
 
 export interface TestInfrastructureStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

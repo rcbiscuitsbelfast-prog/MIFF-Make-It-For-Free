@@ -124,7 +124,6 @@ export enum UnrealCollisionChannel {
 }
 
 export interface UnrealBridgeConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -183,8 +182,6 @@ export interface UnrealBridgeConfiguration {
 }
 
 export interface UnrealActorBridge {
-  id: string;
-  name: string;
   className: string;
   blueprintPath?: string;
   transform: UnrealTransformBridge;
@@ -237,11 +234,9 @@ export interface UnrealActorBridge {
   bCallsTickInEditor: boolean;
   bPushedToTalk: boolean;
   bIsInLevelLoad: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealTransformBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -273,7 +268,6 @@ export interface UnrealTransformBridge {
 }
 
 export interface UnrealComponentBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -285,8 +279,6 @@ export interface UnrealComponentBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   className: string;
   blueprintClass?: string;
   outer?: string;
@@ -319,11 +311,9 @@ export interface UnrealComponentBridge {
   physicsVolumeChanged: boolean;
   constraintInstance: any;
   bodyInstance: any;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealAssetBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -335,8 +325,6 @@ export interface UnrealAssetBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: UnrealDataType;
   packagePath: string;
   assetPath: string;
@@ -364,11 +352,9 @@ export interface UnrealAssetBridge {
   loadPriority: number;
   loadOrder: number;
   loadState: 'uninitialized' | 'loading' | 'loaded' | 'failed' | 'cancelled';
-  metadata: Record<string, any>;
 }
 
 export interface UnrealSceneBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -380,8 +366,6 @@ export interface UnrealSceneBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   path: string;
   worldType: 'game' | 'editor' | 'preview' | 'inactive';
   featureLevel: 'es2' | 'es3_1' | 'sm4' | 'sm5' | 'feature_level_type_count';
@@ -416,11 +400,9 @@ export interface UnrealSceneBridge {
   bIsPartitioned: boolean;
   bIsWorldPartitioned: boolean;
   bCanBePartitioned: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealSystemBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -432,7 +414,6 @@ export interface UnrealSystemBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'engine_subsystem' | 'editor_subsystem' | 'game_subsystem' | 'local_player_subsystem' | 'world_subsystem';
   subsystemName: string;
   moduleName: string;
@@ -443,11 +424,9 @@ export interface UnrealSystemBridge {
   dependencies: string[];
   providesInterfaces: string[];
   requiresInterfaces: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealServiceBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -459,7 +438,6 @@ export interface UnrealServiceBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'online_service' | 'platform_service' | 'game_service' | 'editor_service' | 'custom_service';
   serviceName: string;
   serviceVersion: string;
@@ -479,11 +457,9 @@ export interface UnrealServiceBridge {
   healthCheck: any;
   metrics: any;
   logging: any;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealBlueprintBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,8 +471,6 @@ export interface UnrealBlueprintBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   path: string;
   blueprintType: 'blueprint' | 'const_blueprint' | 'macro_library' | 'interface' | 'level_script' | 'function_library';
   parentClass: string;
@@ -510,11 +484,9 @@ export interface UnrealBlueprintBridge {
   components: UnrealComponentBridge[];
   timelineAssets: string[];
   curveAssets: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealBlueprintVariable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -526,7 +498,6 @@ export interface UnrealBlueprintVariable {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: UnrealDataType;
   category: string;
   defaultValue: any;
@@ -538,11 +509,9 @@ export interface UnrealBlueprintVariable {
   saveGame: boolean;
   advancedDisplay: boolean;
   tooltip: string;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealBlueprintFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -554,7 +523,6 @@ export interface UnrealBlueprintFunction {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   signature: string;
   returnType: UnrealDataType;
   parameters: UnrealBlueprintFunctionParameter[];
@@ -571,11 +539,9 @@ export interface UnrealBlueprintFunction {
   clientOnly: boolean;
   netMulticast: boolean;
   reliable: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealBlueprintFunctionParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -587,16 +553,13 @@ export interface UnrealBlueprintFunctionParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: UnrealDataType;
   passByReference: boolean;
   defaultValue: any;
   parameterFlags: number;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealBlueprintMacro {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -608,15 +571,12 @@ export interface UnrealBlueprintMacro {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   parameters: UnrealBlueprintFunctionParameter[];
   localVariables: UnrealBlueprintVariable[];
   nodes: any[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealEventGraph {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -628,14 +588,11 @@ export interface UnrealEventGraph {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   nodes: any[];
   variables: UnrealBlueprintVariable[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealConstructionScript {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -649,11 +606,9 @@ export interface UnrealConstructionScript {
   metadata?: Record<string, any>;
   nodes: any[];
   variables: UnrealBlueprintVariable[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealLevelBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,8 +620,6 @@ export interface UnrealLevelBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   path: string;
   persistentLevel: string;
   streamedLevels: string[];
@@ -688,11 +641,9 @@ export interface UnrealLevelBridge {
   bIsLocked: boolean;
   bIsPartitioned: boolean;
   levelColor: { r: number; g: number; b: number };
-  metadata: Record<string, any>;
 }
 
 export interface UnrealWorldBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -704,8 +655,6 @@ export interface UnrealWorldBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   worldType: 'game' | 'editor' | 'preview' | 'inactive';
   timeSeconds: number;
   realTimeSeconds: number;
@@ -732,11 +681,9 @@ export interface UnrealWorldBridge {
   bIsWorldPartitioned: boolean;
   bCanBePartitioned: boolean;
   bIsVisibleInSceneOutliner: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealGameModeBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -748,8 +695,6 @@ export interface UnrealGameModeBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   className: string;
   gameModeClass: string;
   gameStateClass: string;
@@ -775,11 +720,9 @@ export interface UnrealGameModeBridge {
   serverName: string;
   inactivityTimeout: number;
   bHandleDedicatedServerReplays: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealGameStateBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -791,8 +734,6 @@ export interface UnrealGameStateBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   className: string;
   gameModeClass: string;
   spectatorClass: string;
@@ -811,11 +752,9 @@ export interface UnrealGameStateBridge {
   bReplicatedHasBegunPlay: boolean;
   bIsLevelTransition: boolean;
   bIsInLevelTransition: boolean;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealPlayerControllerBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -827,8 +766,6 @@ export interface UnrealPlayerControllerBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   className: string;
   playerIndex: number;
   netPlayerIndex: number;
@@ -858,11 +795,9 @@ export interface UnrealPlayerControllerBridge {
   lastCompletedViewRotation: { pitch: number; yaw: number; roll: number };
   controlRotation: { pitch: number; yaw: number; roll: number };
   targetControlRotation: { pitch: number; y: number; z: number };
-  metadata: Record<string, any>;
 }
 
 export interface UnrealAIControllerBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -874,8 +809,6 @@ export interface UnrealAIControllerBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   className: string;
   aiLogic: string;
   behaviorTreeAsset: string;
@@ -908,11 +841,9 @@ export interface UnrealAIControllerBridge {
   pathStartTime: number;
   pathStartLocation: { x: number; y: number; z: number };
   pathGoalLocation: { x: number; y: number; z: number };
-  metadata: Record<string, any>;
 }
 
 export interface UnrealPawnBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -924,8 +855,6 @@ export interface UnrealPawnBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   className: string;
   controller: string;
   playerState: string;
@@ -945,11 +874,9 @@ export interface UnrealPawnBridge {
   baseEyeHeight: number;
   crouchedEyeHeight: number;
   proneEyeHeight: number;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealCharacterBridge {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -961,8 +888,6 @@ export interface UnrealCharacterBridge {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   className: string;
   characterMovement: string;
   capsuleComponent: string;
@@ -1011,11 +936,9 @@ export interface UnrealCharacterBridge {
   jumpOffJumpZFactor: number;
   walkableFloorAngle: number;
   walkableFloorZ: number;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealMessage {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1027,11 +950,9 @@ export interface UnrealMessage {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'command' | 'query' | 'event' | 'response' | 'error' | 'heartbeat' | 'broadcast' | 'rpc' | 'property_sync';
   source: string;
   destination: string;
-  timestamp: number;
   payload: any;
   correlationId?: string;
   priority: number;
@@ -1040,11 +961,9 @@ export interface UnrealMessage {
   encrypted: boolean;
   compressed: boolean;
   signature?: string;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealCommand {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1056,8 +975,6 @@ export interface UnrealCommand {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   parameters: Record<string, any>;
   target: string;
   executionContext: string;
@@ -1065,11 +982,9 @@ export interface UnrealCommand {
   retryPolicy: RetryPolicy;
   rollbackStrategy: RollbackStrategy;
   compensationActions: UnrealCommand[];
-  metadata: Record<string, any>;
 }
 
 export interface RetryPolicy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1092,7 +1007,6 @@ export interface RetryPolicy {
 }
 
 export interface RollbackStrategy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1109,11 +1023,9 @@ export interface RollbackStrategy {
   compensatingActions: UnrealCommand[];
   snapshotData: any;
   restorePoint: string;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealQuery {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1125,8 +1037,6 @@ export interface UnrealQuery {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   parameters: Record<string, any>;
   target: string;
   responseType: string;
@@ -1134,11 +1044,9 @@ export interface UnrealQuery {
   caching: boolean;
   cacheKey?: string;
   cacheTTL: number;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1150,19 +1058,13 @@ export interface UnrealEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   source: string;
-  data: any;
-  timestamp: number;
   eventType: string;
   category: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
-  metadata: Record<string, any>;
 }
 
 export interface UnrealResponse {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1174,18 +1076,13 @@ export interface UnrealResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   correlationId: string;
   success: boolean;
-  data: any;
   error?: UnrealError;
   executionTime: number;
-  timestamp: number;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealError {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1202,7 +1099,6 @@ export interface UnrealError {
   stackTrace?: string;
   innerError?: UnrealError;
   context: Record<string, any>;
-  timestamp: number;
   severity: 'low' | 'medium' | 'high' | 'critical';
   category: string;
   retryable: boolean;
@@ -1211,7 +1107,6 @@ export interface UnrealError {
 }
 
 export interface UnrealConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1223,7 +1118,6 @@ export interface UnrealConnection {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: 'local' | 'remote' | 'embedded' | 'editor' | 'runtime';
   status: 'connected' | 'disconnected' | 'connecting' | 'error' | 'reconnecting' | 'paused';
   endpoint: string;
@@ -1233,11 +1127,9 @@ export interface UnrealConnection {
   errorCount: number;
   reconnectAttempts: number;
   maxReconnectAttempts: number;
-  metadata: Record<string, any>;
 }
 
 export interface UnrealPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1317,7 +1209,6 @@ export interface UnrealPerformanceMetrics {
 }
 
 export interface UnrealBridgeStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1384,7 +1275,6 @@ export interface UnrealBridgeStatistics {
 }
 
 export interface UnrealTickFunction {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

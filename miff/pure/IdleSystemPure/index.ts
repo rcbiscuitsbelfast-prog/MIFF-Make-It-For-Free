@@ -49,7 +49,6 @@ export type AchievementType = 'production' | 'upgrades' | 'time' | 'efficiency' 
  * Resource definition
  */
 export interface Resource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -61,8 +60,6 @@ export interface Resource {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: ResourceType;
   baseValue: number;
@@ -80,7 +77,6 @@ export interface Resource {
  * Generator definition
  */
 export interface Generator {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -92,8 +88,6 @@ export interface Generator {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: GeneratorType;
   baseCost: number;
@@ -115,7 +109,6 @@ export interface Generator {
  * Upgrade definition
  */
 export interface Upgrade {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -127,8 +120,6 @@ export interface Upgrade {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   category: UpgradeCategory;
   cost: number;
@@ -146,7 +137,6 @@ export interface Upgrade {
  * Upgrade effect on game mechanics
  */
 export interface UpgradeEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +159,6 @@ export interface UpgradeEffect {
  * Achievement definition
  */
 export interface Achievement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -181,8 +170,6 @@ export interface Achievement {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: AchievementType;
   requirement: AchievementRequirement;
@@ -197,7 +184,6 @@ export interface Achievement {
  * Achievement requirement
  */
 export interface AchievementRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -219,7 +205,6 @@ export interface AchievementRequirement {
  * Achievement reward
  */
 export interface AchievementReward {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -241,7 +226,6 @@ export interface AchievementReward {
  * Prestige configuration
  */
 export interface PrestigeConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -266,7 +250,6 @@ export interface PrestigeConfig {
  * Idle system configuration
  */
 export interface IdleSystemConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +275,6 @@ export interface IdleSystemConfig {
  * Integration hooks for other systems
  */
 export interface IdleIntegration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

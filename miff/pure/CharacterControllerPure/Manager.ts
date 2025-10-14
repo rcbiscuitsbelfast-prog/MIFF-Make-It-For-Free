@@ -18,7 +18,6 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CharacterControllerConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -43,7 +42,6 @@ export interface CharacterControllerConfig {
 }
 
 export interface CharacterController {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -55,8 +53,6 @@ export interface CharacterController {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ControllerType;
   status: ControllerStatus;
   characters: Character[];
@@ -65,14 +61,12 @@ export interface CharacterController {
   input: InputSettings;
   performance: ControllerPerformance;
   analytics: ControllerAnalytics;
-  metadata: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   version: string;
 }
 
 export interface Character {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -84,8 +78,6 @@ export interface Character {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CharacterType;
   status: CharacterStatus;
   position: Vector3;
@@ -95,11 +87,9 @@ export interface Character {
   acceleration: Vector3;
   state: CharacterState;
   properties: CharacterProperties;
-  metadata: Record<string, any>;
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,7 +107,6 @@ export interface Vector3 {
 }
 
 export interface CharacterState {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -132,11 +121,9 @@ export interface CharacterState {
   current: StateType;
   previous: StateType;
   transitions: StateTransition[];
-  metadata: Record<string, any>;
 }
 
 export interface StateTransition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -148,16 +135,13 @@ export interface StateTransition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   from: StateType;
   to: StateType;
   condition: TransitionCondition;
   duration: number; // milliseconds
-  metadata: Record<string, any>;
 }
 
 export interface TransitionCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,11 +156,9 @@ export interface TransitionCondition {
   type: ConditionType;
   value: any;
   operator: ConditionOperator;
-  metadata: Record<string, any>;
 }
 
 export interface CharacterProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -195,11 +177,9 @@ export interface CharacterProperties {
   mass: number;
   friction: number;
   bounce: number;
-  metadata: Record<string, any>;
 }
 
 export interface PhysicsSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -215,11 +195,9 @@ export interface PhysicsSettings {
   airResistance: number;
   groundFriction: number;
   collisionLayers: string[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -235,11 +213,9 @@ export interface AnimationSettings {
   frameRate: number;
   blendTime: number;
   animations: AnimationClip[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationClip {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -251,16 +227,12 @@ export interface AnimationClip {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   duration: number; // milliseconds
   loop: boolean;
   frames: AnimationFrame[];
-  metadata: Record<string, any>;
 }
 
 export interface AnimationFrame {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -272,14 +244,10 @@ export interface AnimationFrame {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   time: number; // milliseconds
-  data: any;
-  metadata: Record<string, any>;
 }
 
 export interface InputSettings {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -295,11 +263,9 @@ export interface InputSettings {
   sensitivity: number;
   deadZone: number;
   mappings: InputMapping[];
-  metadata: Record<string, any>;
 }
 
 export interface InputMapping {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -311,15 +277,12 @@ export interface InputMapping {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   input: string;
   action: string;
   value: number;
-  metadata: Record<string, any>;
 }
 
 export interface ControllerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -337,11 +300,9 @@ export interface ControllerPerformance {
   averageLatency: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
-  metadata: Record<string, any>;
 }
 
 export interface ControllerAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

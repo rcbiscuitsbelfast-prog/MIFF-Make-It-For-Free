@@ -11,7 +11,6 @@
  */
 
 export interface EncounterConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -39,7 +38,6 @@ export interface EncounterConfig {
 }
 
 export interface EncounterManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -51,8 +49,6 @@ export interface EncounterManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EncounterManagerType;
   status: EncounterManagerStatus;
   encounters: Encounter[];
@@ -65,16 +61,12 @@ export interface EncounterManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type EncounterManagerType = 'combat' | 'social' | 'exploration' | 'custom';
 export type EncounterManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Encounter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -86,8 +78,6 @@ export interface Encounter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EncounterType;
   status: EncounterStatus;
   participants: string[];
@@ -95,14 +85,12 @@ export interface Encounter {
   rules: EncounterRules;
   timeline: EncounterTimeline;
   performance: EncounterPerformance;
-  metadata: Record<string, any>;
 }
 
 export type EncounterType = 'battle' | 'dialogue' | 'puzzle' | 'exploration' | 'custom';
 export type EncounterStatus = 'preparing' | 'active' | 'paused' | 'completed' | 'failed';
 
 export interface EncounterParticipant {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -114,8 +102,6 @@ export interface EncounterParticipant {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ParticipantType;
   status: ParticipantStatus;
   stats: ParticipantStats;
@@ -123,14 +109,12 @@ export interface EncounterParticipant {
   equipment: ParticipantEquipment;
   ai: AIConfiguration;
   performance: ParticipantPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ParticipantType = 'player' | 'npc' | 'enemy' | 'ally' | 'custom';
 export type ParticipantStatus = 'active' | 'inactive' | 'defeated' | 'fled';
 
 export interface ParticipantStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -153,7 +137,6 @@ export interface ParticipantStats {
 }
 
 export interface StatValue {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -172,7 +155,6 @@ export interface StatValue {
 }
 
 export interface StatModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -194,7 +176,6 @@ export interface StatModifier {
 export type ModifierType = 'add' | 'multiply' | 'percentage' | 'custom';
 
 export interface ParticipantAbility {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -206,8 +187,6 @@ export interface ParticipantAbility {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: AbilityType;
   cost: AbilityCost;
   cooldown: number;
@@ -220,7 +199,6 @@ export interface ParticipantAbility {
 export type AbilityType = 'attack' | 'defense' | 'heal' | 'buff' | 'debuff' | 'custom';
 
 export interface AbilityCost {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -239,7 +217,6 @@ export interface AbilityCost {
 }
 
 export interface ItemCost {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -257,7 +234,6 @@ export interface ItemCost {
 }
 
 export interface AreaOfEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -280,7 +256,6 @@ export type AOEShape = 'circle' | 'square' | 'triangle' | 'custom';
 export type TargetType = 'self' | 'ally' | 'enemy' | 'all' | 'custom';
 
 export interface AbilityEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -292,7 +267,6 @@ export interface AbilityEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   value: number;
   duration: number;
@@ -303,7 +277,6 @@ export interface AbilityEffect {
 export type EffectType = 'damage' | 'heal' | 'buff' | 'debuff' | 'status' | 'custom';
 
 export interface EffectCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -323,7 +296,6 @@ export interface EffectCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface AbilityRequirement {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -344,7 +316,6 @@ export interface AbilityRequirement {
 export type RequirementType = 'stat' | 'level' | 'ability' | 'item' | 'custom';
 
 export interface ParticipantEquipment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -363,7 +334,6 @@ export interface ParticipantEquipment {
 }
 
 export interface EquipmentSlot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -382,7 +352,6 @@ export interface EquipmentSlot {
 }
 
 export interface EquipmentItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -394,8 +363,6 @@ export interface EquipmentItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ItemType;
   rarity: ItemRarity;
   stats: ItemStats;
@@ -406,7 +373,6 @@ export type ItemType = 'weapon' | 'armor' | 'accessory' | 'consumable' | 'custom
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'custom';
 
 export interface ItemStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -426,7 +392,6 @@ export interface ItemStats {
 }
 
 export interface ItemEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -445,7 +410,6 @@ export interface ItemEffect {
 }
 
 export interface Enchantment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -457,8 +421,6 @@ export interface Enchantment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EnchantmentType;
   level: number;
   effects: ItemEffect[];
@@ -467,7 +429,6 @@ export interface Enchantment {
 export type EnchantmentType = 'fire' | 'ice' | 'lightning' | 'poison' | 'custom';
 
 export interface ConsumableSlot {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -486,7 +447,6 @@ export interface ConsumableSlot {
 }
 
 export interface ConsumableItem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -498,8 +458,6 @@ export interface ConsumableItem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConsumableType;
   effects: ItemEffect[];
   duration: number;
@@ -509,7 +467,6 @@ export interface ConsumableItem {
 export type ConsumableType = 'potion' | 'food' | 'scroll' | 'bomb' | 'custom';
 
 export interface AIConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -530,7 +487,6 @@ export interface AIConfiguration {
 }
 
 export interface AIBehavior {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -551,7 +507,6 @@ export interface AIBehavior {
 export type BehaviorType = 'aggressive' | 'defensive' | 'passive' | 'flee' | 'custom';
 
 export interface BehaviorCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -570,7 +525,6 @@ export interface BehaviorCondition {
 }
 
 export interface AIMemory {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -588,7 +542,6 @@ export interface AIMemory {
 }
 
 export interface MemoryEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -600,9 +553,7 @@ export interface MemoryEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EventType;
-  timestamp: number;
   data: Record<string, any>;
   importance: number;
 }
@@ -610,7 +561,6 @@ export interface MemoryEvent {
 export type EventType = 'damage' | 'heal' | 'ability' | 'movement' | 'custom';
 
 export interface AIGoal {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -622,7 +572,6 @@ export interface AIGoal {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: GoalType;
   priority: number;
   target: string;
@@ -632,7 +581,6 @@ export interface AIGoal {
 export type GoalType = 'attack' | 'defend' | 'heal' | 'flee' | 'custom';
 
 export interface GoalCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -650,7 +598,6 @@ export interface GoalCondition {
 }
 
 export interface ParticipantPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -671,7 +618,6 @@ export interface ParticipantPerformance {
 }
 
 export interface EncounterEnvironment {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -683,8 +629,6 @@ export interface EncounterEnvironment {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: EnvironmentType;
   properties: EnvironmentProperties;
   effects: EnvironmentEffect[];
@@ -695,7 +639,6 @@ export interface EncounterEnvironment {
 export type EnvironmentType = 'dungeon' | 'forest' | 'city' | 'arena' | 'custom';
 
 export interface EnvironmentProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -714,7 +657,6 @@ export interface EnvironmentProperties {
 }
 
 export interface Vector3 {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -732,7 +674,6 @@ export interface Vector3 {
 }
 
 export interface Obstacle {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -744,7 +685,6 @@ export interface Obstacle {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ObstacleType;
   position: Vector3;
   size: Vector3;
@@ -754,7 +694,6 @@ export interface Obstacle {
 export type ObstacleType = 'wall' | 'pillar' | 'rock' | 'tree' | 'custom';
 
 export interface ObstacleProperties {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -773,7 +712,6 @@ export interface ObstacleProperties {
 }
 
 export interface Cover {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -785,7 +723,6 @@ export interface Cover {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: CoverType;
   position: Vector3;
   size: Vector3;
@@ -795,7 +732,6 @@ export interface Cover {
 export type CoverType = 'full' | 'partial' | 'low' | 'high' | 'custom';
 
 export interface Hazard {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -807,7 +743,6 @@ export interface Hazard {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: HazardType;
   position: Vector3;
   radius: number;
@@ -818,7 +753,6 @@ export interface Hazard {
 export type HazardType = 'fire' | 'poison' | 'electric' | 'spike' | 'custom';
 
 export interface EnvironmentEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -830,7 +764,6 @@ export interface EnvironmentEffect {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: EffectType;
   intensity: number;
   area: AreaOfEffect;
@@ -838,7 +771,6 @@ export interface EnvironmentEffect {
 }
 
 export interface LightingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -856,7 +788,6 @@ export interface LightingConfig {
 }
 
 export interface Color {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -875,7 +806,6 @@ export interface Color {
 }
 
 export interface DirectionalLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -893,7 +823,6 @@ export interface DirectionalLight {
 }
 
 export interface PointLight {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -912,7 +841,6 @@ export interface PointLight {
 }
 
 export interface WeatherConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -932,7 +860,6 @@ export interface WeatherConfig {
 export type WeatherType = 'clear' | 'rain' | 'snow' | 'fog' | 'storm' | 'custom';
 
 export interface WeatherEffect {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -950,7 +877,6 @@ export interface WeatherEffect {
 }
 
 export interface EncounterRules {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -973,7 +899,6 @@ export interface EncounterRules {
 export type TurnOrderType = 'initiative' | 'round_robin' | 'random' | 'custom';
 
 export interface VictoryCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -985,7 +910,6 @@ export interface VictoryCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   target: string;
   value: number;
@@ -995,7 +919,6 @@ export interface VictoryCondition {
 export type ConditionType = 'defeat_all' | 'survive_time' | 'reach_location' | 'custom';
 
 export interface DefeatCondition {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1007,7 +930,6 @@ export interface DefeatCondition {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: ConditionType;
   target: string;
   value: number;
@@ -1015,7 +937,6 @@ export interface DefeatCondition {
 }
 
 export interface EncounterTimeline {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1034,7 +955,6 @@ export interface EncounterTimeline {
 }
 
 export interface TimelineEvent {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1046,8 +966,6 @@ export interface TimelineEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  timestamp: number;
   type: EventType;
   participant: string;
   action: string;
@@ -1055,7 +973,6 @@ export interface TimelineEvent {
 }
 
 export interface EncounterPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1075,7 +992,6 @@ export interface EncounterPerformance {
 }
 
 export interface AIController {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1087,20 +1003,16 @@ export interface AIController {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ControllerType;
   status: ControllerStatus;
   configuration: AIConfiguration;
   performance: ControllerPerformance;
-  metadata: Record<string, any>;
 }
 
 export type ControllerType = 'behavior_tree' | 'state_machine' | 'neural_network' | 'custom';
 export type ControllerStatus = 'active' | 'inactive' | 'error';
 
 export interface ControllerPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1119,7 +1031,6 @@ export interface ControllerPerformance {
 }
 
 export interface CombatSystem {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1131,20 +1042,16 @@ export interface CombatSystem {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: CombatType;
   status: CombatStatus;
   configuration: CombatConfiguration;
   performance: CombatPerformance;
-  metadata: Record<string, any>;
 }
 
 export type CombatType = 'turn_based' | 'real_time' | 'hybrid' | 'custom';
 export type CombatStatus = 'active' | 'inactive' | 'paused' | 'error';
 
 export interface CombatConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1163,7 +1070,6 @@ export interface CombatConfiguration {
 }
 
 export interface DamageCalculation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1181,7 +1087,6 @@ export interface DamageCalculation {
 }
 
 export interface DamageModifier {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1199,7 +1104,6 @@ export interface DamageModifier {
 }
 
 export interface Resistance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1217,7 +1121,6 @@ export interface Resistance {
 }
 
 export interface CriticalHitConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1236,7 +1139,6 @@ export interface CriticalHitConfig {
 }
 
 export interface StatusEffectConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1255,7 +1157,6 @@ export interface StatusEffectConfig {
 }
 
 export interface HealingConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1274,7 +1175,6 @@ export interface HealingConfig {
 }
 
 export interface CombatPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1293,7 +1193,6 @@ export interface CombatPerformance {
 }
 
 export interface EncounterPerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1319,7 +1218,6 @@ export interface EncounterPerformanceMetrics {
 }
 
 export interface EncounterAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1340,7 +1238,6 @@ export interface EncounterAnalytics {
 }
 
 export interface EncounterTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1359,7 +1256,6 @@ export interface EncounterTypeDistribution {
 }
 
 export interface ParticipantTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1378,7 +1274,6 @@ export interface ParticipantTypeDistribution {
 }
 
 export interface PerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1390,7 +1285,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   encounters: number;
   participants: number;
   fps: number;
@@ -1399,7 +1293,6 @@ export interface PerformanceTrend {
 }
 
 export interface EncounterReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1422,7 +1315,6 @@ export interface EncounterReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1443,7 +1335,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1463,7 +1354,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1483,7 +1373,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -1496,13 +1385,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface EncounterOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

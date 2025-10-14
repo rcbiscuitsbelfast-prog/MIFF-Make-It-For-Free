@@ -12,7 +12,6 @@
  */
 
 export interface DataWarehouseConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -41,7 +40,6 @@ export interface DataWarehouseConfig {
 }
 
 export interface DataWarehouseManager {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -53,8 +51,6 @@ export interface DataWarehouseManager {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DataWarehouseManagerType;
   status: DataWarehouseManagerStatus;
   databases: Database[];
@@ -68,16 +64,12 @@ export interface DataWarehouseManager {
   cloudSync: CloudSyncConfig;
   backup: BackupConfig;
   versioning: VersioningConfig;
-  metadata: Record<string, any>;
-  createdAt: number;
-  updatedAt: number;
 }
 
 export type DataWarehouseManagerType = 'analytical' | 'operational' | 'hybrid' | 'custom';
 export type DataWarehouseManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Database {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -89,8 +81,6 @@ export interface Database {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: DatabaseType;
   status: DatabaseStatus;
   connection: DatabaseConnection;
@@ -98,14 +88,12 @@ export interface Database {
   schemas: string[];
   size: DatabaseSize;
   performance: DatabasePerformance;
-  metadata: Record<string, any>;
 }
 
 export type DatabaseType = 'postgresql' | 'mysql' | 'oracle' | 'sqlserver' | 'mongodb' | 'redis' | 'custom';
 export type DatabaseStatus = 'online' | 'offline' | 'maintenance' | 'error';
 
 export interface DatabaseConnection {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -128,7 +116,6 @@ export interface DatabaseConnection {
 }
 
 export interface DatabaseSize {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -149,7 +136,6 @@ export interface DatabaseSize {
 }
 
 export interface DatabasePerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -170,7 +156,6 @@ export interface DatabasePerformance {
 }
 
 export interface Table {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -182,8 +167,6 @@ export interface Table {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   database: string;
   schema: string;
   type: TableType;
@@ -192,14 +175,12 @@ export interface Table {
   indexes: Index[];
   constraints: Constraint[];
   statistics: TableStatistics;
-  metadata: Record<string, any>;
 }
 
 export type TableType = 'fact' | 'dimension' | 'staging' | 'temp' | 'view' | 'custom';
 export type TableStatus = 'active' | 'inactive' | 'archived' | 'error';
 
 export interface Column {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -211,8 +192,6 @@ export interface Column {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ColumnType;
   nullable: boolean;
   defaultValue: any;
@@ -226,7 +205,6 @@ export interface Column {
 export type ColumnType = 'varchar' | 'integer' | 'decimal' | 'date' | 'timestamp' | 'boolean' | 'json' | 'custom';
 
 export interface ColumnConstraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -246,7 +224,6 @@ export interface ColumnConstraint {
 export type ConstraintType = 'primary_key' | 'foreign_key' | 'unique' | 'check' | 'not_null' | 'custom';
 
 export interface Index {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -258,8 +235,6 @@ export interface Index {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: IndexType;
   columns: string[];
   unique: boolean;
@@ -271,7 +246,6 @@ export interface Index {
 export type IndexType = 'btree' | 'hash' | 'bitmap' | 'gin' | 'gist' | 'custom';
 
 export interface Constraint {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -283,8 +257,6 @@ export interface Constraint {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: ConstraintType;
   columns: string[];
   referencedTable: string;
@@ -296,7 +268,6 @@ export interface Constraint {
 export type ReferentialAction = 'cascade' | 'restrict' | 'set_null' | 'set_default' | 'no_action';
 
 export interface TableStatistics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -317,7 +288,6 @@ export interface TableStatistics {
 }
 
 export interface DistributionStats {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -338,7 +308,6 @@ export interface DistributionStats {
 }
 
 export interface Schema {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -350,8 +319,6 @@ export interface Schema {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   database: string;
   description: string;
   tables: string[];
@@ -359,11 +326,9 @@ export interface Schema {
   functions: string[];
   procedures: string[];
   permissions: Permission[];
-  metadata: Record<string, any>;
 }
 
 export interface Permission {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -375,7 +340,6 @@ export interface Permission {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   user: string;
   role: string;
   type: PermissionType;
@@ -387,7 +351,6 @@ export interface Permission {
 export type PermissionType = 'select' | 'insert' | 'update' | 'delete' | 'create' | 'alter' | 'drop' | 'custom';
 
 export interface ETLProcess {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -399,8 +362,6 @@ export interface ETLProcess {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   type: ETLType;
   source: ETLSource;
@@ -408,14 +369,12 @@ export interface ETLProcess {
   transformations: Transformation[];
   schedule: Schedule;
   status: ETLStatus;
-  metadata: Record<string, any>;
 }
 
 export type ETLType = 'batch' | 'stream' | 'real_time' | 'custom';
 export type ETLStatus = 'active' | 'inactive' | 'running' | 'failed' | 'completed';
 
 export interface ETLSource {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -438,7 +397,6 @@ export interface ETLSource {
 export type SourceType = 'database' | 'file' | 'api' | 'stream' | 'custom';
 
 export interface ETLTarget {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -461,7 +419,6 @@ export type TargetType = 'database' | 'file' | 'api' | 'stream' | 'custom';
 export type LoadMode = 'insert' | 'update' | 'upsert' | 'replace' | 'custom';
 
 export interface Filter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +440,6 @@ export type FilterOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'con
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface Transformation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -495,8 +451,6 @@ export interface Transformation {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   type: TransformationType;
   input: string[];
   output: string[];
@@ -507,7 +461,6 @@ export interface Transformation {
 export type TransformationType = 'map' | 'filter' | 'aggregate' | 'join' | 'sort' | 'custom';
 
 export interface TransformationParameters {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -527,7 +480,6 @@ export interface TransformationParameters {
 }
 
 export interface OrderBy {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -546,7 +498,6 @@ export interface OrderBy {
 export type SortDirection = 'asc' | 'desc';
 
 export interface Schedule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -570,7 +521,6 @@ export interface Schedule {
 export type ScheduleType = 'once' | 'daily' | 'weekly' | 'monthly' | 'cron' | 'custom';
 
 export interface Query {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -582,19 +532,15 @@ export interface Query {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   sql: string;
   database: string;
   schema: string;
   parameters: QueryParameter[];
   performance: QueryPerformance;
-  metadata: Record<string, any>;
 }
 
 export interface QueryParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -606,14 +552,12 @@ export interface QueryParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: ColumnType;
   value: any;
   required: boolean;
 }
 
 export interface QueryPerformance {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -634,7 +578,6 @@ export interface QueryPerformance {
 }
 
 export interface ExecutionPlan {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -653,7 +596,6 @@ export interface ExecutionPlan {
 }
 
 export interface PlanStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -665,7 +607,6 @@ export interface PlanStep {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
   type: StepType;
   table: string;
   operation: OperationType;
@@ -678,7 +619,6 @@ export type StepType = 'scan' | 'index' | 'join' | 'sort' | 'aggregate' | 'filte
 export type OperationType = 'seq_scan' | 'index_scan' | 'hash_join' | 'nested_loop' | 'merge_join' | 'custom';
 
 export interface DataWarehousePerformanceMetrics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -702,7 +642,6 @@ export interface DataWarehousePerformanceMetrics {
 }
 
 export interface DataWarehouseAnalytics {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -724,7 +663,6 @@ export interface DataWarehouseAnalytics {
 }
 
 export interface DatabaseTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -743,7 +681,6 @@ export interface DatabaseTypeDistribution {
 }
 
 export interface TableTypeDistribution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -762,7 +699,6 @@ export interface TableTypeDistribution {
 }
 
 export interface QueryPerformanceTrend {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -774,7 +710,6 @@ export interface QueryPerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number;
   queries: number;
   averageTime: number;
   totalRows: number;
@@ -783,7 +718,6 @@ export interface QueryPerformanceTrend {
 }
 
 export interface DataWarehouseReporting {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -806,7 +740,6 @@ export interface DataWarehouseReporting {
 }
 
 export interface CloudSyncConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -827,7 +760,6 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -847,7 +779,6 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -867,7 +798,6 @@ export interface VersioningConfig {
 }
 
 export interface Version {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -880,13 +810,11 @@ export interface Version {
   updatedAt?: number;
   metadata?: Record<string, any>;
   version: string;
-  timestamp: number;
   changes: string[];
   compatible: boolean;
 }
 
 export interface DataWarehouseOutput {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

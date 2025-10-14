@@ -6,7 +6,6 @@
  */
 
 export interface MIFFCapable {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -65,7 +64,6 @@ export interface MIFFCapable {
 }
 
 export interface ModuleCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -104,7 +102,6 @@ export interface ModuleCapabilities {
 }
 
 export interface OperationCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -117,7 +114,6 @@ export interface OperationCapability {
   updatedAt?: number;
   metadata?: Record<string, any>;
   id?: string;
-  name: string;
   description: string;
   category?: 'create' | 'read' | 'update' | 'delete' | 'simulate' | 'render' | 'export' | 'validate';
   complexity?: 'low' | 'medium' | 'high' | 'critical';
@@ -131,7 +127,6 @@ export interface OperationCapability {
 }
 
 export interface DataProcessingCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -144,7 +139,6 @@ export interface DataProcessingCapability {
   updatedAt?: number;
   metadata?: Record<string, any>;
   id?: string;
-  name: string;
   description: string;
   inputTypes: string[];
   outputTypes: string[];
@@ -156,7 +150,6 @@ export interface DataProcessingCapability {
 }
 
 export interface IntegrationCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -169,7 +162,6 @@ export interface IntegrationCapability {
   updatedAt?: number;
   metadata?: Record<string, any>;
   id?: string;
-  name: string;
   description: string;
   targetSystem?: string;
   integrationType: 'bridge' | 'adapter' | 'converter' | 'proxy' | 'gateway' | 'event'; // Added 'event' type
@@ -179,7 +171,6 @@ export interface IntegrationCapability {
 }
 
 export interface FormatCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -192,7 +183,6 @@ export interface FormatCapability {
   updatedAt?: number;
   metadata?: Record<string, any>;
   id?: string;
-  name: string;
   description: string;
   mimeType?: string;
   fileExtensions?: string[];
@@ -203,7 +193,6 @@ export interface FormatCapability {
 }
 
 export interface RealtimeCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -216,7 +205,6 @@ export interface RealtimeCapability {
   updatedAt?: number;
   metadata?: Record<string, any>;
   id?: string;
-  name: string;
   description: string;
   eventTypes?: string[];
   subscriptionModel?: 'push' | 'pull' | 'hybrid';
@@ -226,7 +214,6 @@ export interface RealtimeCapability {
 }
 
 export interface SchemaInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -238,8 +225,6 @@ export interface SchemaInfo {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   version: string;
   description: string;
   type: 'input' | 'output' | 'config' | 'state';
@@ -249,7 +234,6 @@ export interface SchemaInfo {
 }
 
 export interface ValidationRule {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -261,15 +245,12 @@ export interface ValidationRule {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   rule: string; // JSON Schema validation rule
   severity: 'error' | 'warning' | 'info';
 }
 
 export interface SchemaExample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -281,14 +262,11 @@ export interface SchemaExample {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
-  data: any;
   valid: boolean;
 }
 
 export interface CLIInterface {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -322,7 +300,6 @@ export interface CLIInterface {
 }
 
 export interface CLICommand {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -334,7 +311,6 @@ export interface CLICommand {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   usage: string;
   aliases: string[];
@@ -345,7 +321,6 @@ export interface CLICommand {
 }
 
 export interface CLIOption {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -357,7 +332,6 @@ export interface CLIOption {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   short?: string;
   description: string;
   type: 'string' | 'number' | 'boolean' | 'array' | 'object';
@@ -368,7 +342,6 @@ export interface CLIOption {
 }
 
 export interface CLIArgument {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -380,7 +353,6 @@ export interface CLIArgument {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   description: string;
   type: 'string' | 'number' | 'boolean' | 'file' | 'directory';
   required: boolean;
@@ -389,7 +361,6 @@ export interface CLIArgument {
 }
 
 export interface CLIExample {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -407,7 +378,6 @@ export interface CLIExample {
 }
 
 export interface CLIHelp {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -427,7 +397,6 @@ export interface CLIHelp {
 }
 
 export interface Tutorial {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -446,7 +415,6 @@ export interface Tutorial {
 }
 
 export interface TutorialStep {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -465,7 +433,6 @@ export interface TutorialStep {
 }
 
 export interface FAQ {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -483,7 +450,6 @@ export interface FAQ {
 }
 
 export interface TroubleshootingGuide {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -501,7 +467,6 @@ export interface TroubleshootingGuide {
 }
 
 export interface TroubleshootingSolution {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -519,7 +484,6 @@ export interface TroubleshootingSolution {
 }
 
 export interface AutoCompleteSupport {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -539,7 +503,6 @@ export interface AutoCompleteSupport {
 }
 
 export interface CustomCompletion {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -558,7 +521,6 @@ export interface CustomCompletion {
 }
 
 export interface LifecycleHooks {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -592,7 +554,6 @@ export interface LifecycleHooks {
 }
 
 export interface LifecycleHook {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -604,8 +565,6 @@ export interface LifecycleHook {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   event: string;
   priority: number;
@@ -615,7 +574,6 @@ export interface LifecycleHook {
 }
 
 export interface HookParameter {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -627,14 +585,12 @@ export interface HookParameter {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: string;
   type: string;
   required: boolean;
   description: string;
 }
 
 export interface ModuleDependency {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -654,7 +610,6 @@ export interface ModuleDependency {
 }
 
 export interface CompatibilityInfo {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -673,7 +628,6 @@ export interface CompatibilityInfo {
 }
 
 export interface PerformanceProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -707,7 +661,6 @@ export interface PerformanceProfile {
 }
 
 export interface MemoryProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -726,7 +679,6 @@ export interface MemoryProfile {
 }
 
 export interface GCProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -744,7 +696,6 @@ export interface GCProfile {
 }
 
 export interface CPUProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -763,7 +714,6 @@ export interface CPUProfile {
 }
 
 export interface IOProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -782,7 +732,6 @@ export interface IOProfile {
 }
 
 export interface ScalabilityProfile {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -800,7 +749,6 @@ export interface ScalabilityProfile {
 }
 
 export interface PerformanceDegradation {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -818,7 +766,6 @@ export interface PerformanceDegradation {
 }
 
 export interface TestingCapabilities {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -852,7 +799,6 @@ export interface TestingCapabilities {
 }
 
 export interface TestType {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -864,8 +810,6 @@ export interface TestType {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   framework: string;
   coverage: number; // percentage
@@ -873,7 +817,6 @@ export interface TestType {
 }
 
 export interface TestDataCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -885,8 +828,6 @@ export interface TestDataCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   dataTypes: string[];
   generationMethod: 'random' | 'template' | 'fuzzing' | 'realistic';
@@ -894,7 +835,6 @@ export interface TestDataCapability {
 }
 
 export interface MockingCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -906,8 +846,6 @@ export interface MockingCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   mockTypes: string[];
   isolationLevel: 'unit' | 'integration' | 'system';
@@ -915,7 +853,6 @@ export interface MockingCapability {
 }
 
 export interface PerformanceTestCapability {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -927,8 +864,6 @@ export interface PerformanceTestCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: string;
-  name: string;
   description: string;
   metrics: string[];
   loadPatterns: string[];
@@ -936,7 +871,6 @@ export interface PerformanceTestCapability {
 }
 
 export interface ResourceRequirements {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -956,7 +890,6 @@ export interface ResourceRequirements {
 }
 
 export interface RateLimit {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -974,7 +907,6 @@ export interface RateLimit {
 }
 
 export interface SchemaReference {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -995,7 +927,6 @@ export interface SchemaReference {
  * Capability Registry for managing all module capabilities
  */
 export interface CapabilityRegistry {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;

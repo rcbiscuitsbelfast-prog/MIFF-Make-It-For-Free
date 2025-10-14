@@ -14,7 +14,6 @@ import { SceneBuilderManager } from '../SceneBuilderPure';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface UnrealEditorConfiguration {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -62,7 +61,6 @@ export interface UnrealEditorConfiguration {
 }
 
 export interface UnrealEditorTestResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -77,15 +75,12 @@ export interface UnrealEditorTestResult {
   success: boolean;
   testName: string;
   duration: number;
-  errors: string[];
   warnings: string[];
   metrics: Record<string, any>;
   artifacts: string[];
-  metadata: Record<string, any>;
 }
 
 export interface UnrealEditorDemoResult {
-  // Auto-added common properties
   id?: string;
   name?: string;
   status?: string;
@@ -106,7 +101,6 @@ export interface UnrealEditorDemoResult {
   performanceMetrics: Record<string, any>;
   screenshots: string[];
   logs: string[];
-  metadata: Record<string, any>;
 }
 
 export class UnrealEditorHarnessPure {
