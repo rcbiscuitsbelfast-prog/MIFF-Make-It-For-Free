@@ -1,4 +1,3 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // UnrealBridgePure - Unreal Engine bridge system for MIFF framework
 // Schema Version: v1.0
 // Compatible with Unreal Engine 4.27+ and 5.x
@@ -427,17 +426,6 @@ export interface UnrealSystemBridge {
 }
 
 export interface UnrealServiceBridge {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: 'online_service' | 'platform_service' | 'game_service' | 'editor_service' | 'custom_service';
   serviceName: string;
   serviceVersion: string;
