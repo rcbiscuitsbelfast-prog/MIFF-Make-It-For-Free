@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface CanvasInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   width: number;
   height: number;
@@ -21,6 +33,18 @@ export interface CanvasInfo {
 }
 
 export interface DrawingContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fillStyle: string;
   strokeStyle: string;
   lineWidth: number;
@@ -34,19 +58,43 @@ export interface DrawingContext {
 }
 
 export interface ImageData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   data: Uint8ClampedArray;
 }
 
 export interface AnimationFrame {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: number;
   callback: (timestamp: number) => void;
   isActive: boolean;
 }
 
 export class RealCanvas {
-  private logger: StructuredLogger;
+  
   private canvases: Map<string, CanvasInfo> = new Map();
   private contexts: Map<string, DrawingContext> = new Map();
   private animations: Map<number, AnimationFrame> = new Map();
@@ -55,8 +103,8 @@ export class RealCanvas {
   private nextAnimationId: number = 1;
   private isInitialized: boolean = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealCanvas' });
+  constructor(...args: any[]) {
+    
     this.initialize();
   }
 

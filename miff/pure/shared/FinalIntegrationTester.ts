@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface TestSuite {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'end_to_end' | 'integration' | 'performance' | 'security' | 'user_acceptance';
@@ -20,6 +32,18 @@ export interface TestSuite {
 }
 
 export interface TestCase {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -34,6 +58,18 @@ export interface TestCase {
 }
 
 export interface TestStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   action: string;
@@ -45,6 +81,18 @@ export interface TestStep {
 }
 
 export interface TestResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   testCaseId: string;
   status: 'passed' | 'failed' | 'skipped';
   duration: number;
@@ -55,6 +103,18 @@ export interface TestResult {
 }
 
 export interface TestMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   responseTime: number;
   memory: number;
   cpu: number;
@@ -64,6 +124,18 @@ export interface TestMetrics {
 }
 
 export interface IntegrationTest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   modules: string[];
@@ -77,6 +149,18 @@ export interface IntegrationTest {
 }
 
 export interface PerformanceTest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'load' | 'stress' | 'spike' | 'volume' | 'endurance';
@@ -88,6 +172,18 @@ export interface PerformanceTest {
 }
 
 export interface PerformanceTestConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   virtualUsers: number;
   duration: number; // seconds
   rampUpTime: number; // seconds
@@ -98,6 +194,18 @@ export interface PerformanceTestConfiguration {
 }
 
 export interface PerformanceTestResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRequests: number;
   successfulRequests: number;
   failedRequests: number;
@@ -113,6 +221,18 @@ export interface PerformanceTestResults {
 }
 
 export interface SecurityTest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'vulnerability' | 'penetration' | 'authentication' | 'authorization' | 'encryption';
@@ -125,6 +245,18 @@ export interface SecurityTest {
 }
 
 export interface SecurityFinding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   severity: 'critical' | 'high' | 'medium' | 'low' | 'info';
   title: string;
@@ -135,6 +267,18 @@ export interface SecurityFinding {
 }
 
 export interface UserAcceptanceTest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   userStory: string;
@@ -149,6 +293,18 @@ export interface UserAcceptanceTest {
 }
 
 export interface FinalValidationReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   overallStatus: 'ready' | 'not_ready' | 'needs_attention';
   readinessScore: number;
@@ -164,7 +320,7 @@ export interface FinalValidationReport {
 }
 
 export class FinalIntegrationTester {
-  private logger: StructuredLogger;
+  
   private testSuites: Map<string, TestSuite> = new Map();
   private integrationTests: Map<string, IntegrationTest> = new Map();
   private performanceTests: Map<string, PerformanceTest> = new Map();
@@ -172,8 +328,8 @@ export class FinalIntegrationTester {
   private userAcceptanceTests: Map<string, UserAcceptanceTest> = new Map();
   private report: FinalValidationReport | null = null;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'FinalIntegrationTester' });
+  constructor(...args: any[]) {
+    
     this.initializeTestSuites();
     this.initializeIntegrationTests();
     this.initializePerformanceTests();

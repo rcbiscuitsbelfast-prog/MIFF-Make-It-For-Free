@@ -14,7 +14,7 @@ import { runScenario } from './ScenarioPackOverlinkPure';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function main() {
+function main(...args: any[]) {
   const { mode, args } = parseCLIArgs(process.argv);
   
   if (mode === 'demo') {

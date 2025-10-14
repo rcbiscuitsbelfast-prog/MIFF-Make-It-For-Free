@@ -39,12 +39,12 @@ import { AvatarStyle } from '../AvatarSystemPure/schema';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AvatarAssetRegistryCLI {
-  private logger: StructuredLogger;
+  
   private registry: AvatarAssetRegistry;
   private rl: readline.Interface;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AvatarAssetRegistryCLI' });
+  constructor(...args: any[]) {
+    
     this.registry = this.createSampleRegistryInternal();
     this.rl = readline.createInterface({
       input: process.stdin,
@@ -455,7 +455,7 @@ Remix Safety: CC0, restricted, custom
 }
 
 // Main execution
-async function main() {
+async function main(...args: any[]) {
   const cli = new AvatarAssetRegistryCLI();
   await cli.start();
 }

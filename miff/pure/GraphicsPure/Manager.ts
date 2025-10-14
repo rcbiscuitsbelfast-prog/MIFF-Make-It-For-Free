@@ -12,6 +12,18 @@
  */
 
 export interface GraphicsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableGraphicsManagement: boolean;
   enableRenderingPipeline: boolean;
   enableShaderSystem: boolean;
@@ -32,6 +44,18 @@ export interface GraphicsConfig {
 }
 
 export interface GraphicsManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: GraphicsManagerType;
@@ -59,6 +83,18 @@ export type GraphicsManagerType = 'opengl' | 'vulkan' | 'directx' | 'metal' | 'c
 export type GraphicsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Renderer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RendererType;
@@ -73,6 +109,18 @@ export type RendererType = 'forward' | 'deferred' | 'forward_plus' | 'custom';
 export type RendererStatus = 'active' | 'inactive' | 'error';
 
 export interface RendererConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolution: Resolution;
   msaa: number;
   vsync: boolean;
@@ -84,6 +132,18 @@ export interface RendererConfiguration {
 }
 
 export interface Resolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   aspectRatio: number;
@@ -92,6 +152,18 @@ export interface Resolution {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface RendererCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxTextures: number;
   maxVertices: number;
   maxIndices: number;
@@ -103,6 +175,18 @@ export interface RendererCapabilities {
 }
 
 export interface RendererPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   drawCalls: number;
@@ -114,6 +198,18 @@ export interface RendererPerformance {
 }
 
 export interface Shader {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ShaderType;
@@ -130,6 +226,18 @@ export type ShaderType = 'vertex' | 'fragment' | 'geometry' | 'compute' | 'custo
 export type ShaderStatus = 'draft' | 'compiled' | 'error';
 
 export interface ShaderSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   code: string;
   language: ShaderLanguage;
   version: string;
@@ -140,6 +248,18 @@ export interface ShaderSource {
 export type ShaderLanguage = 'glsl' | 'hlsl' | 'spirv' | 'custom';
 
 export interface ShaderCompilation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   errors: string[];
   warnings: string[];
@@ -148,6 +268,18 @@ export interface ShaderCompilation {
 }
 
 export interface ShaderUniform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: UniformType;
   location: number;
@@ -159,6 +291,18 @@ export interface ShaderUniform {
 export type UniformType = 'float' | 'int' | 'bool' | 'vec2' | 'vec3' | 'vec4' | 'mat3' | 'mat4' | 'sampler2d' | 'custom';
 
 export interface ShaderAttribute {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: AttributeType;
   location: number;
@@ -169,6 +313,18 @@ export interface ShaderAttribute {
 export type AttributeType = 'float' | 'int' | 'vec2' | 'vec3' | 'vec4' | 'custom';
 
 export interface ShaderPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   compilationTime: number;
   memoryUsage: number;
   instructionCount: number;
@@ -176,6 +332,18 @@ export interface ShaderPerformance {
 }
 
 export interface Material {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MaterialType;
@@ -192,6 +360,18 @@ export type MaterialType = 'opaque' | 'transparent' | 'cutout' | 'custom';
 export type MaterialStatus = 'draft' | 'ready' | 'error';
 
 export interface MaterialProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   metallic: number;
   roughness: number;
@@ -204,6 +384,18 @@ export interface MaterialProperties {
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -214,6 +406,18 @@ export type CullMode = 'none' | 'front' | 'back' | 'both';
 export type BlendMode = 'opaque' | 'alpha' | 'additive' | 'multiply' | 'custom';
 
 export interface MaterialTexture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   slot: string;
   texture: string;
   scale: Vector2;
@@ -223,6 +427,18 @@ export interface MaterialTexture {
 }
 
 export interface Vector2 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
@@ -231,6 +447,18 @@ export type WrapMode = 'repeat' | 'clamp' | 'mirror' | 'custom';
 export type FilterMode = 'point' | 'bilinear' | 'trilinear' | 'anisotropic' | 'custom';
 
 export interface MaterialUniform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: UniformType;
   value: any;
@@ -238,12 +466,36 @@ export interface MaterialUniform {
 }
 
 export interface MaterialPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   drawCalls: number;
   memoryUsage: number;
   lastRendered: number;
 }
 
 export interface Texture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TextureType;
@@ -260,6 +512,18 @@ export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'heig
 export type TextureStatus = 'loading' | 'ready' | 'error';
 
 export interface TextureFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   internal: number;
   format: number;
   type: number;
@@ -270,6 +534,18 @@ export interface TextureFormat {
 export type CompressionType = 'none' | 'dxt1' | 'dxt5' | 'bc7' | 'astc' | 'custom';
 
 export interface TextureSize {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   depth: number;
@@ -277,6 +553,18 @@ export interface TextureSize {
 }
 
 export interface TextureData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pixels: ArrayBuffer;
   mipmaps: ArrayBuffer[];
   compressed: boolean;
@@ -284,6 +572,18 @@ export interface TextureData {
 }
 
 export interface TextureProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   wrapMode: WrapMode;
   filterMode: FilterMode;
   anisotropic: number;
@@ -292,12 +592,36 @@ export interface TextureProperties {
 }
 
 export interface TexturePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   memoryUsage: number;
   uploadTime: number;
   lastUsed: number;
 }
 
 export interface Model {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ModelType;
@@ -314,6 +638,18 @@ export type ModelType = 'static' | 'animated' | 'skinned' | 'custom';
 export type ModelStatus = 'loading' | 'ready' | 'error';
 
 export interface Mesh {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   vertices: Vertex[];
@@ -323,6 +659,18 @@ export interface Mesh {
 }
 
 export interface Vertex {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   normal: Vector3;
   tangent: Vector3;
@@ -333,12 +681,36 @@ export interface Vertex {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Submesh {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   material: string;
   startIndex: number;
   indexCount: number;
@@ -348,6 +720,18 @@ export interface Submesh {
 export type Topology = 'triangles' | 'lines' | 'points' | 'custom';
 
 export interface Animation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   duration: number;
@@ -357,6 +741,18 @@ export interface Animation {
 }
 
 export interface Keyframe {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number;
   value: any;
   interpolation: InterpolationType;
@@ -365,12 +761,36 @@ export interface Keyframe {
 export type InterpolationType = 'linear' | 'step' | 'cubic' | 'custom';
 
 export interface AnimationTrack {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   property: string;
   keyframes: Keyframe[];
   target: string;
 }
 
 export interface Bounds {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: Vector3;
   max: Vector3;
   center: Vector3;
@@ -378,6 +798,18 @@ export interface Bounds {
 }
 
 export interface ModelPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   vertices: number;
   triangles: number;
   memoryUsage: number;
@@ -385,6 +817,18 @@ export interface ModelPerformance {
 }
 
 export interface Light {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LightType;
@@ -399,6 +843,18 @@ export type LightType = 'directional' | 'point' | 'spot' | 'area' | 'custom';
 export type LightStatus = 'active' | 'inactive' | 'error';
 
 export interface LightProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   intensity: number;
   range: number;
@@ -409,12 +865,36 @@ export interface LightProperties {
 }
 
 export interface Attenuation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   constant: number;
   linear: number;
   quadratic: number;
 }
 
 export interface ShadowSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   resolution: number;
   bias: number;
@@ -425,12 +905,36 @@ export interface ShadowSettings {
 }
 
 export interface LightPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   drawCalls: number;
   memoryUsage: number;
   lastUpdated: number;
 }
 
 export interface Camera {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CameraType;
@@ -445,6 +949,18 @@ export type CameraType = 'perspective' | 'orthographic' | 'fisheye' | 'custom';
 export type CameraStatus = 'active' | 'inactive' | 'recording' | 'error';
 
 export interface CameraProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fov: number;
   near: number;
   far: number;
@@ -455,6 +971,18 @@ export interface CameraProperties {
 }
 
 export interface Quaternion {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -462,6 +990,18 @@ export interface Quaternion {
 }
 
 export interface CameraMovement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: MovementType;
   speed: number;
   acceleration: number;
@@ -472,6 +1012,18 @@ export interface CameraMovement {
 export type MovementType = 'free' | 'orbital' | 'first_person' | 'third_person' | 'custom';
 
 export interface MovementConstraints {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minDistance: number;
   maxDistance: number;
   minAngle: number;
@@ -480,6 +1032,18 @@ export interface MovementConstraints {
 }
 
 export interface CameraPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   latency: number;
   resolution: Resolution;
@@ -487,6 +1051,18 @@ export interface CameraPerformance {
 }
 
 export interface PostProcessor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PostProcessorType;
@@ -501,6 +1077,18 @@ export type PostProcessorType = 'bloom' | 'ssao' | 'motion_blur' | 'color_gradin
 export type PostProcessorStatus = 'active' | 'inactive' | 'error';
 
 export interface PostProcessorParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   intensity: number;
   threshold: number;
   radius: number;
@@ -509,12 +1097,36 @@ export interface PostProcessorParameters {
 }
 
 export interface PostProcessorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   executionTime: number;
   memoryUsage: number;
   lastProcessed: number;
 }
 
 export interface GraphicsPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRenderers: number;
   activeRenderers: number;
   totalShaders: number;
@@ -532,6 +1144,18 @@ export interface GraphicsPerformanceMetrics {
 }
 
 export interface GraphicsAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRenderers: number;
   totalShaders: number;
   averageFPS: number;
@@ -541,6 +1165,18 @@ export interface GraphicsAnalytics {
 }
 
 export interface RendererTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RendererType;
   count: number;
   percentage: number;
@@ -548,6 +1184,18 @@ export interface RendererTypeDistribution {
 }
 
 export interface ShaderTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ShaderType;
   count: number;
   percentage: number;
@@ -555,6 +1203,18 @@ export interface ShaderTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   renderers: number;
   shaders: number;
@@ -564,6 +1224,18 @@ export interface PerformanceTrend {
 }
 
 export interface GraphicsReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -575,6 +1247,18 @@ export interface GraphicsReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -584,6 +1268,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -592,6 +1288,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -600,6 +1308,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -607,6 +1327,18 @@ export interface Version {
 }
 
 export interface GraphicsOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface BridgeSchemaConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSchemaDefinition: boolean;
   enableSchemaValidation: boolean;
   enableCrossPlatformCompatibility: boolean;
@@ -32,6 +44,18 @@ export interface BridgeSchemaConfig {
 }
 
 export interface BridgeSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SchemaType;
@@ -53,6 +77,18 @@ export interface BridgeSchema {
 }
 
 export interface SchemaDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   fields: SchemaField[];
@@ -67,6 +103,18 @@ export interface SchemaDefinition {
 }
 
 export interface SchemaField {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: FieldType;
   required: boolean;
@@ -76,6 +124,18 @@ export interface SchemaField {
 }
 
 export interface SchemaRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: RuleType;
   condition: string;
@@ -85,6 +145,18 @@ export interface SchemaRule {
 }
 
 export interface SchemaConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: ConstraintType;
   field: string;
@@ -93,6 +165,18 @@ export interface SchemaConstraint {
 }
 
 export interface FieldValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minLength?: number;
   maxLength?: number;
   minValue?: number;
@@ -103,6 +187,18 @@ export interface FieldValidation {
 }
 
 export interface SchemaValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strict: boolean;
   errors: ValidationError[];
@@ -111,6 +207,18 @@ export interface SchemaValidation {
 }
 
 export interface ValidationError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   field: string;
   message: string;
@@ -120,6 +228,18 @@ export interface ValidationError {
 }
 
 export interface ValidationWarning {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   field: string;
   message: string;
@@ -129,6 +249,18 @@ export interface ValidationWarning {
 }
 
 export interface SchemaCompatibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   platforms: Platform[];
   versions: VersionCompatibility[];
   requirements: CompatibilityRequirement[];
@@ -136,6 +268,18 @@ export interface SchemaCompatibility {
 }
 
 export interface Platform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   version: string;
   supported: boolean;
@@ -144,6 +288,18 @@ export interface Platform {
 }
 
 export interface VersionCompatibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   compatible: boolean;
   changes: string[];
@@ -152,6 +308,18 @@ export interface VersionCompatibility {
 }
 
 export interface MigrationPath {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   from: string;
   to: string;
   steps: MigrationStep[];
@@ -159,6 +327,18 @@ export interface MigrationPath {
 }
 
 export interface MigrationStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: MigrationType;
   description: string;
@@ -167,6 +347,18 @@ export interface MigrationStep {
 }
 
 export interface CompatibilityRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: RequirementType;
   value: any;
@@ -175,6 +367,18 @@ export interface CompatibilityRequirement {
 }
 
 export interface SchemaPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   validationTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
@@ -183,6 +387,18 @@ export interface SchemaPerformance {
 }
 
 export interface SchemaAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSchemas: number;
   activeSchemas: number;
   totalValidations: number;
@@ -202,7 +418,7 @@ export type MigrationType = 'field' | 'type' | 'constraint' | 'rule' | 'custom';
 export type RequirementType = 'version' | 'feature' | 'dependency' | 'custom';
 
 export class BridgeSchemaManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -212,7 +428,7 @@ export class BridgeSchemaManager {
   private startTime: Date;
 
   constructor(config?: Partial<BridgeSchemaConfig>) {
-    this.logger = new StructuredLogger({ module: 'BridgeSchemaManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
@@ -658,6 +874,18 @@ export class BridgeSchemaManager {
 }
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   errors: ValidationError[];
   warnings: ValidationWarning[];

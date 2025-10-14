@@ -41,7 +41,7 @@ export class CanvasRenderPlayer {
     this.drawFrame(0, 0);
   }
 
-  play(){
+  play(...args: any[]) {
     if(this.playing) return;
     this.playing = true;
     this.startTime = performance.now() - this.pausedTime;
@@ -67,7 +67,7 @@ export class CanvasRenderPlayer {
     this.rafId = requestAnimationFrame(loop);
   }
 
-  pause(){
+  pause(...args: any[]) {
     if(!this.playing) return;
     this.playing = false;
     if(this.rafId !== null){
@@ -77,19 +77,19 @@ export class CanvasRenderPlayer {
     this.pausedTime = performance.now() - this.startTime;
   }
 
-  stop(){
+  stop(...args: any[]) {
     this.pause();
     this.pausedTime = 0;
     this.frameIndex = 0;
     this.drawFrame(0, 0);
   }
 
-  toggle(){ this.playing ? this.pause() : this.play(); }
+  toggle(...args: any[]) { this.playing ? this.pause() : this.play(); }
   setDebug(v: boolean){ this.opts.debug = v; this.drawFrame(this.frameIndex, 0); }
   setSpeed(v: number){ this.opts.speed = Math.max(0.1, v); }
   setInterpolation(v: boolean){ this.opts.interpolate = v; }
 
-  private resizeForDevicePixelRatio(){
+  private resizeForDevicePixelRatio(...args: any[]) {
     const dpr = window.devicePixelRatio || 1;
     const rect = this.canvas.getBoundingClientRect();
     this.canvas.width = Math.max(1, Math.round(rect.width * dpr));

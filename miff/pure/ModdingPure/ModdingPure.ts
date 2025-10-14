@@ -18,6 +18,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface PluginManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -31,6 +43,18 @@ export interface PluginManifest {
 }
 
 export interface PluginConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   enabled: boolean;
   loadOrder: number;
@@ -38,6 +62,18 @@ export interface PluginConfig {
 }
 
 export interface PluginInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   manifest: PluginManifest;
   config: PluginConfig;
@@ -49,6 +85,18 @@ export interface PluginInstance {
 }
 
 export interface ModdingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pluginDirectory: string;
   autoLoad: boolean;
   dependencyResolution: 'strict' | 'loose';
@@ -58,6 +106,18 @@ export interface ModdingConfig {
 }
 
 export interface AssetBundle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   assets: Map<string, any>;
@@ -67,6 +127,18 @@ export interface AssetBundle {
 }
 
 export interface ExportTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   platform: string;
@@ -83,12 +155,12 @@ export interface ExportTemplate {
  * Uses SCF-like conventions for plugin structure and registration.
  */
 export class PluginDiscovery {
-  private logger: StructuredLogger;
+  
   private plugins: Map<string, PluginInstance> = new Map();
   private config: ModdingConfig;
 
   constructor(config: ModdingConfig) {
-    this.logger = new StructuredLogger({ module: 'PluginDiscovery' });
+    
     this.config = config;
   }
 
@@ -479,7 +551,7 @@ export class AssetPipeline {
   private bundles: Map<string, AssetBundle> = new Map();
   private templates: Map<string, ExportTemplate> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeTemplates();
   }
 

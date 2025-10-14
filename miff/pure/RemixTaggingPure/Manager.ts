@@ -11,6 +11,18 @@
  */
 
 export interface RemixTaggingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableTaggingManagement: boolean;
   enableTagCreation: boolean;
   enableContentTagging: boolean;
@@ -28,6 +40,18 @@ export interface RemixTaggingConfig {
 }
 
 export interface RemixTaggingManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RemixTaggingManagerType;
@@ -52,6 +76,18 @@ export type RemixTaggingManagerType = 'content' | 'media' | 'document' | 'custom
 export type RemixTaggingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Tag {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TagType;
@@ -68,6 +104,18 @@ export type TagType = 'content' | 'category' | 'keyword' | 'custom' | 'system';
 export type TagStatus = 'active' | 'inactive' | 'deprecated' | 'error';
 
 export interface TagProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: string;
   icon: string;
   priority: number;
@@ -79,6 +127,18 @@ export interface TagProperties {
 }
 
 export interface TagUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalUses: number;
   uniqueContent: number;
   lastUsed: number;
@@ -87,6 +147,18 @@ export interface TagUsage {
 }
 
 export interface UsageTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: string;
   count: number;
   change: number;
@@ -96,6 +168,18 @@ export interface UsageTrend {
 export type TrendDirection = 'up' | 'down' | 'stable' | 'custom';
 
 export interface TagPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   searchTime: number;
   filterTime: number;
   sortTime: number;
@@ -104,6 +188,18 @@ export interface TagPerformance {
 }
 
 export interface ContentItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ContentType;
@@ -120,6 +216,18 @@ export type ContentType = 'text' | 'image' | 'video' | 'audio' | 'document' | 'c
 export type ContentStatus = 'draft' | 'published' | 'archived' | 'deleted';
 
 export interface ContentProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   author: string;
@@ -133,6 +241,18 @@ export interface ContentProperties {
 export type VisibilityLevel = 'public' | 'private' | 'unlisted' | 'custom';
 
 export interface ContentMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   format: string;
   encoding: string;
   checksum: string;
@@ -143,6 +263,18 @@ export interface ContentMetadata {
 }
 
 export interface ContentDimensions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   depth: number;
@@ -151,6 +283,18 @@ export interface ContentDimensions {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface ContentPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   viewCount: number;
   likeCount: number;
   shareCount: number;
@@ -160,6 +304,18 @@ export interface ContentPerformance {
 }
 
 export interface TagCategory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -174,6 +330,18 @@ export interface TagCategory {
 }
 
 export interface CategoryProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sortOrder: number;
   visible: boolean;
   searchable: boolean;
@@ -183,6 +351,18 @@ export interface CategoryProperties {
 }
 
 export interface CategoryPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTags: number;
   totalContent: number;
   averageUsage: number;
@@ -190,6 +370,18 @@ export interface CategoryPerformance {
 }
 
 export interface TagRelation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   sourceTag: string;
   targetTag: string;
@@ -203,6 +395,18 @@ export interface TagRelation {
 export type RelationType = 'related' | 'similar' | 'opposite' | 'hierarchical' | 'custom';
 
 export interface RelationProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bidirectional: boolean;
   symmetric: boolean;
   transitive: boolean;
@@ -211,6 +415,18 @@ export interface RelationProperties {
 }
 
 export interface RelationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalQueries: number;
   averageQueryTime: number;
   cacheHitRate: number;
@@ -218,6 +434,18 @@ export interface RelationPerformance {
 }
 
 export interface SearchIndex {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: IndexType;
@@ -232,6 +460,18 @@ export type IndexType = 'full_text' | 'keyword' | 'fuzzy' | 'semantic' | 'custom
 export type IndexStatus = 'building' | 'ready' | 'updating' | 'error';
 
 export interface IndexConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: string;
   analyzer: AnalyzerType;
   stopWords: string[];
@@ -242,12 +482,36 @@ export interface IndexConfiguration {
 export type AnalyzerType = 'standard' | 'keyword' | 'whitespace' | 'custom';
 
 export interface SynonymMap {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   term: string;
   synonyms: string[];
   weight: number;
 }
 
 export interface FilterConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -256,6 +520,18 @@ export interface FilterConfig {
 export type FilterType = 'lowercase' | 'uppercase' | 'stemming' | 'custom';
 
 export interface IndexStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalDocuments: number;
   totalTerms: number;
   uniqueTerms: number;
@@ -264,6 +540,18 @@ export interface IndexStatistics {
 }
 
 export interface IndexPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalQueries: number;
   averageQueryTime: number;
   averageIndexTime: number;
@@ -272,6 +560,18 @@ export interface IndexPerformance {
 }
 
 export interface RemixTaggingPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTags: number;
   activeTags: number;
   totalContentItems: number;
@@ -286,6 +586,18 @@ export interface RemixTaggingPerformanceMetrics {
 }
 
 export interface RemixTaggingAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTags: number;
   totalContentItems: number;
   averageSearchTime: number;
@@ -295,6 +607,18 @@ export interface RemixTaggingAnalytics {
 }
 
 export interface TagTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TagType;
   count: number;
   percentage: number;
@@ -302,6 +626,18 @@ export interface TagTypeDistribution {
 }
 
 export interface ContentTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ContentType;
   count: number;
   percentage: number;
@@ -309,6 +645,18 @@ export interface ContentTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   tags: number;
   contentItems: number;
@@ -319,6 +667,18 @@ export interface PerformanceTrend {
 }
 
 export interface RemixTaggingReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -330,6 +690,18 @@ export interface RemixTaggingReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -339,6 +711,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -347,6 +731,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -355,6 +751,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -362,6 +770,18 @@ export interface Version {
 }
 
 export interface RemixTaggingOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

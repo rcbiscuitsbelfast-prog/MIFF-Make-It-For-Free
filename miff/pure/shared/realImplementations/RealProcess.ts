@@ -11,6 +11,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface ProcessInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pid: number;
   ppid: number;
   title: string;
@@ -24,6 +36,18 @@ export interface ProcessInfo {
 }
 
 export interface ProcessMemoryUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rss: number;
   heapTotal: number;
   heapUsed: number;
@@ -32,11 +56,35 @@ export interface ProcessMemoryUsage {
 }
 
 export interface ProcessCPUUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   user: number;
   system: number;
 }
 
 export interface ProcessConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxMemoryUsage: number;
   maxCPUUsage: number;
   enableMonitoring: boolean;
@@ -45,14 +93,14 @@ export interface ProcessConfig {
 }
 
 export class RealProcess {
-  private logger: StructuredLogger;
+  
   private config: ProcessConfig;
   private eventHandlers: Map<string, Function[]> = new Map();
   private monitoringInterval?: NodeJS.Timeout;
   private isMonitoring: boolean = false;
 
   constructor(config?: Partial<ProcessConfig>) {
-    this.logger = new StructuredLogger({ module: 'RealProcess' });
+    
     this.config = {
       maxMemoryUsage: 1024 * 1024 * 1024, // 1GB
       maxCPUUsage: 80, // 80%

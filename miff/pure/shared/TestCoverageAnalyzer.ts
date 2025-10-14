@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface CoverageData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   module: string;
   filePath: string;
   totalLines: number;
@@ -19,6 +31,18 @@ export interface CoverageData {
 }
 
 export interface ModuleCoverage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   module: string;
   files: CoverageData[];
   totalLines: number;
@@ -32,6 +56,18 @@ export interface ModuleCoverage {
 }
 
 export interface CoverageReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   generatedAt: Date;
   modules: ModuleCoverage[];
   overallCoverage: number;
@@ -43,7 +79,7 @@ export interface CoverageReport {
 }
 
 export class TestCoverageAnalyzer {
-  private logger: StructuredLogger;
+  
   private coverageData: Map<string, CoverageData[]> = new Map();
   private moduleCoverage: Map<string, ModuleCoverage> = new Map();
 

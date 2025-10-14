@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CachingSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiLevelCaching: boolean;
   enableCacheInvalidation: boolean;
   enablePerformanceOptimization: boolean;
@@ -31,6 +43,18 @@ export interface CachingSystemConfig {
 }
 
 export interface CachingSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CacheType;
@@ -46,6 +70,18 @@ export interface CachingSystem {
 }
 
 export interface Cache {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CacheType;
@@ -58,6 +94,18 @@ export interface Cache {
 }
 
 export interface CacheEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   key: string;
   value: any;
   ttl: number; // time to live in milliseconds
@@ -69,6 +117,18 @@ export interface CacheEntry {
 }
 
 export interface CachePolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -81,6 +141,18 @@ export interface CachePolicy {
 }
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   threshold: number; // bytes
@@ -88,6 +160,18 @@ export interface CompressionConfig {
 }
 
 export interface CachePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hitRate: number; // 0-1
   missRate: number; // 0-1
   averageAccessTime: number; // milliseconds
@@ -97,6 +181,18 @@ export interface CachePerformance {
 }
 
 export interface CacheAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCaches: number;
   activeCaches: number;
   totalEntries: number;
@@ -114,7 +210,7 @@ export type EvictionStrategy = 'fifo' | 'lru' | 'lfu' | 'ttl' | 'random' | 'cust
 export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
 export class CachingSystemManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -124,7 +220,7 @@ export class CachingSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<CachingSystemConfig>) {
-    this.logger = new StructuredLogger({ module: 'CachingSystemManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

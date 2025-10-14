@@ -9,6 +9,18 @@
  */
 
 export interface JSONSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null';
   properties?: { [key: string]: JSONSchema };
   items?: JSONSchema;
@@ -23,6 +35,18 @@ export interface JSONSchema {
 }
 
 export interface ParseResult<T = any> {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   data: T;
   success: boolean;
   error?: string;

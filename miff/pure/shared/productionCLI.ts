@@ -13,11 +13,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class ProductionCLI {
-  private logger: StructuredLogger;
+  
   private manager: ProductionReadinessManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'ProductionCLI' });
+  constructor(...args: any[]) {
+    
     this.manager = new ProductionReadinessManager();
   }
 

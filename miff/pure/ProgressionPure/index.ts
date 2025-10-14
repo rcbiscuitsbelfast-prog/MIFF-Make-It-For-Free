@@ -16,6 +16,18 @@
 export type XPCurveType = 'linear' | 'exponential' | 'custom';
 
 export interface SpiritInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   instanceId: string;
   speciesId: string;
   level: number;
@@ -33,6 +45,18 @@ export interface SpiritInstance {
 }
 
 export interface LevelUpEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'stat_boost' | 'ability_learned' | 'evolution_trigger' | 'cosmetic_change';
   target: string;
@@ -41,6 +65,18 @@ export interface LevelUpEffect {
 }
 
 export interface XPCurve {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: XPCurveType;
   maxLevel: number;
   baseXP: number;
@@ -50,6 +86,18 @@ export interface XPCurve {
 }
 
 export interface ProgressionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalXP: number;
   currentLevel: number;
   xpToNextLevel: number;
@@ -61,6 +109,18 @@ export interface ProgressionStats {
 }
 
 export interface XPManagerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableLevelUpEffects: boolean;
   enableStatGrowth: boolean;
   enableEvolutionTriggers: boolean;

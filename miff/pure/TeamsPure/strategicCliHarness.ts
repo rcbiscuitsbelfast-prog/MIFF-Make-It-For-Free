@@ -25,14 +25,14 @@ import {
  * Strategic CLI for TeamsPure
  */
 export class TeamsPureStrategicCLI {
-  private logger: StructuredLogger;
+  
   private teamManager: TeamManager;
   private rl: readline.Interface;
   private isRunning: boolean = false;
   private mockSpirits: ISpiritInstance[] = [];
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'TeamsPureStrategicCLI' });
+  constructor(...args: any[]) {
+    
     this.teamManager = new TeamManager();
     this.rl = readline.createInterface({
       input: process.stdin,
@@ -147,7 +147,7 @@ export class TeamsPureStrategicCLI {
       }),
       getTypeEffectiveness: () => 1.0,
       toJSON: () => ({}),
-      clone: function() { return { ...(this as any) } as ISpiritInstance; }
+      clone: function(...args: any[]) { return { ...(this as any) } as ISpiritInstance; }
     } as ISpiritInstance;
   }
 
@@ -705,7 +705,7 @@ export class TeamsPureStrategicCLI {
 /**
  * CLI entry point
  */
-async function main() {
+async function main(...args: any[]) {
   const cli = new TeamsPureStrategicCLI();
 
   if (process.argv.includes('--demo')) {

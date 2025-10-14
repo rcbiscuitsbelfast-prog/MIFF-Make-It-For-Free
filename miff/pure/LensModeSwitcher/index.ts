@@ -26,6 +26,18 @@ export enum LensMode {
 }
 
 export interface LensModeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentMode: LensMode;
   availableModes: LensMode[];
   autoSwitch: boolean;
@@ -35,6 +47,18 @@ export interface LensModeConfig {
 }
 
 export interface ModeSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   intensity: number; // 0-1
   transitionSpeed: number; // 0-1
@@ -44,7 +68,7 @@ export interface ModeSettings {
 }
 
 export class LensModeSwitcher {
-  private logger: StructuredLogger;
+  
   private perceptionManager: PerceptionFilterManager;
   private scanManager: ScanFeedbackManager;
   private overlayManager: OverlayFXManager;
@@ -58,7 +82,7 @@ export class LensModeSwitcher {
     scanManager: ScanFeedbackManager,
     overlayManager: OverlayFXManager
   ) {
-    this.logger = new StructuredLogger({ module: 'LensModeSwitcher' });
+    
     this.perceptionManager = perceptionManager;
     this.scanManager = scanManager;
     this.overlayManager = overlayManager;

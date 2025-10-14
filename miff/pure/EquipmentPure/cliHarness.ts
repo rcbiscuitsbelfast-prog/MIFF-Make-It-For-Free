@@ -14,7 +14,7 @@ type Cmd =
   | { op: 'dumpModifiers' }
   | { op: 'syncInventory' };
 
-function main() {
+function main(...args: any[]) {
   const catalogPath = process.argv[2] || 'EquipmentPure/sample_equipment.json';
   const commandsPath = process.argv[3] || '';
   const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(catalogPath), 'utf-8')) as { items: CatalogItem[], inventory?: { id: string, quantity: number }[] };

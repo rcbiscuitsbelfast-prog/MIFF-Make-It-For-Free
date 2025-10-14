@@ -17,6 +17,18 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface QuestModuleConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableDynamicGeneration: boolean;
   enableProgressionTracking: boolean;
   enableRewardDistribution: boolean;
@@ -29,6 +41,18 @@ export interface QuestModuleConfig {
 }
 
 export interface Quest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   description: string;
@@ -50,6 +74,18 @@ export interface Quest {
 }
 
 export interface QuestObjective {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   type: ObjectiveType;
@@ -62,6 +98,18 @@ export interface QuestObjective {
 }
 
 export interface QuestReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RewardType;
   itemId: string;
   quantity: number;
@@ -70,6 +118,18 @@ export interface QuestReward {
 }
 
 export interface QuestPrerequisite {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PrerequisiteType;
   target: string;
   value: number;
@@ -77,6 +137,18 @@ export interface QuestPrerequisite {
 }
 
 export interface QuestMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   author: string;
   version: string;
   tags: string[];
@@ -88,6 +160,18 @@ export interface QuestMetadata {
 }
 
 export interface QuestProgress {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   questId: string;
   playerId: string;
   status: QuestStatus;
@@ -100,6 +184,18 @@ export interface QuestProgress {
 }
 
 export interface ObjectiveProgress {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   objectiveId: string;
   current: number;
   required: number;
@@ -108,6 +204,18 @@ export interface ObjectiveProgress {
 }
 
 export interface ProgressMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   lastUpdated: number;
   version: number;
   checksum: string;
@@ -115,6 +223,18 @@ export interface ProgressMetadata {
 }
 
 export interface QuestInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   questId: string;
   playerId: string;
@@ -126,6 +246,18 @@ export interface QuestInstance {
 }
 
 export interface InstanceMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: QuestDifficulty;
   level: number;
   rewards: QuestReward[];
@@ -145,7 +277,7 @@ export type ComparisonOperator = 'equals' | 'greater_than' | 'less_than' | 'grea
 
 export class QuestModuleManager {
   private config: QuestModuleConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private quests: Map<string, Quest> = new Map();
   private questInstances: Map<string, QuestInstance> = new Map();

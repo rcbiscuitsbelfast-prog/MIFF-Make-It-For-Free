@@ -9,6 +9,18 @@ import type { RenderWorldGameState } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface AdvancedRenderConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableShaders: boolean;
   enableLighting: boolean;
   enableShadows: boolean;
@@ -21,6 +33,18 @@ export interface AdvancedRenderConfig {
 }
 
 export interface PostProcessingEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'bloom' | 'blur' | 'color_correction' | 'depth_of_field' | 'motion_blur' | 'custom';
@@ -30,6 +54,18 @@ export interface PostProcessingEffect {
 }
 
 export interface LightSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'directional' | 'point' | 'spot' | 'ambient';
   position: { x: number; y: number; z: number };
@@ -43,6 +79,18 @@ export interface LightSource {
 }
 
 export interface ShaderProgram {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   vertexShader: string;
@@ -53,6 +101,18 @@ export interface ShaderProgram {
 }
 
 export interface ShaderUniform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: 'float' | 'int' | 'bool' | 'vec2' | 'vec3' | 'vec4' | 'mat2' | 'mat3' | 'mat4' | 'sampler2D';
   value: any;
@@ -60,12 +120,36 @@ export interface ShaderUniform {
 }
 
 export interface ShaderAttribute {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: 'float' | 'int' | 'bool' | 'vec2' | 'vec3' | 'vec4';
   location?: number;
 }
 
 export interface ParticleSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   position: { x: number; y: number; z: number };
@@ -81,6 +165,18 @@ export interface ParticleSystem {
 }
 
 export interface RenderLayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   depth: number;
@@ -92,6 +188,18 @@ export interface RenderLayer {
 }
 
 export interface RenderFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'color' | 'blur' | 'sharpen' | 'edge_detection' | 'custom';
@@ -100,6 +208,18 @@ export interface RenderFilter {
 }
 
 export interface Camera {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   position: { x: number; y: number; z: number };
@@ -116,6 +236,18 @@ export interface Camera {
 }
 
 export interface RenderBatch {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   mesh: any;
   material: any;
@@ -129,7 +261,7 @@ export interface RenderBatch {
 }
 
 export class AdvancedRendering {
-  private logger: StructuredLogger;
+  
   private config: AdvancedRenderConfig;
   private lights: Map<string, LightSource> = new Map();
   private shaders: Map<string, ShaderProgram> = new Map();
@@ -141,7 +273,7 @@ export class AdvancedRendering {
   private renderQueue: RenderBatch[] = [];
 
   constructor(config?: Partial<AdvancedRenderConfig>) {
-    this.logger = new StructuredLogger({ module: 'AdvancedRendering' });
+    
     this.config = {
       enableShaders: true,
       enableLighting: true,
@@ -520,7 +652,7 @@ export class AdvancedRendering {
         uniform mat4 mvpMatrix;
         varying vec2 vTexCoord;
         
-        void main() {
+        void main(...args: any[]) {
           gl_Position = mvpMatrix * vec4(position, 1.0);
           vTexCoord = texCoord;
         }
@@ -530,7 +662,7 @@ export class AdvancedRendering {
         uniform sampler2D texture;
         varying vec2 vTexCoord;
         
-        void main() {
+        void main(...args: any[]) {
           gl_FragColor = texture2D(texture, vTexCoord);
         }
       `,
@@ -560,7 +692,7 @@ export class AdvancedRendering {
         varying vec2 vTexCoord;
         varying vec3 vPosition;
         
-        void main() {
+        void main(...args: any[]) {
           gl_Position = mvpMatrix * vec4(position, 1.0);
           vNormal = normalize((normalMatrix * vec4(normal, 0.0)).xyz);
           vTexCoord = texCoord;
@@ -577,7 +709,7 @@ export class AdvancedRendering {
         varying vec2 vTexCoord;
         varying vec3 vPosition;
         
-        void main() {
+        void main(...args: any[]) {
           vec3 lightDir = normalize(lightPosition - vPosition);
           float diff = max(dot(vNormal, lightDir), 0.0);
           vec3 diffuse = lightColor * diff * lightIntensity;

@@ -3,6 +3,18 @@ import { TileType } from '../TileMapPure/tileTypes';
 import { getTileColor, getTileLabel } from '../TileMapPure/tileUtils';
 
 interface TileInspectorProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TileType;
 }
 

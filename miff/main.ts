@@ -5,6 +5,18 @@ import { validateOverlinkZone, checkOverlinkZoneHealth, safeOverlinkZoneCall } f
 
 // Browser-safe interface for OverlinkZone (avoids Node.js dependencies)
 interface BrowserOverlinkZone {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   mount: (container: HTMLElement) => void;
   unmount: () => void;
@@ -25,6 +37,18 @@ interface BrowserOverlinkZone {
 
 // Game state
 interface GameState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentZone: string;
   remixMode: boolean;
   canvas: HTMLCanvasElement;
@@ -100,7 +124,7 @@ const zones = {
 };
 
 // Initialize canvas context
-function initCanvas() {
+function initCanvas(...args: any[]) {
   if (!gameState.canvas) {
     console.error('Canvas not found');
     return false;
@@ -211,7 +235,7 @@ function handleInteraction(x: number, y: number) {
 }
 
 // Update UI elements
-function updateUI() {
+function updateUI(...args: any[]) {
   const zone = zones[gameState.currentZone as keyof typeof zones];
   if (!zone) return;
   
@@ -248,7 +272,7 @@ function gameLoop(currentTime: number) {
 }
 
 // Initialize mobile controls
-function initMobileControls() {
+function initMobileControls(...args: any[]) {
   const mobileBtns = document.querySelectorAll('.mobileBtn');
   
   mobileBtns.forEach(btn => {
@@ -269,7 +293,7 @@ function initMobileControls() {
 }
 
 // Initialize keyboard controls
-function initKeyboardControls() {
+function initKeyboardControls(...args: any[]) {
   document.addEventListener('keydown', (e) => {
     switch (e.key) {
       case 'ArrowUp':
@@ -301,7 +325,7 @@ function initKeyboardControls() {
 }
 
 // Initialize mouse controls
-function initMouseControls() {
+function initMouseControls(...args: any[]) {
   gameState.canvas.addEventListener('click', (e) => {
     const rect = gameState.canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -311,7 +335,7 @@ function initMouseControls() {
 }
 
 // Initialize remix toggle
-function initRemixToggle() {
+function initRemixToggle(...args: any[]) {
   const remixToggle = document.getElementById('remixToggle');
   if (remixToggle) {
     remixToggle.addEventListener('click', () => {
@@ -332,7 +356,7 @@ function initRemixToggle() {
 }
 
 // Initialize loading screen
-function initLoadingScreen() {
+function initLoadingScreen(...args: any[]) {
   const loadingScreen = document.getElementById('loadingScreen');
   const loadingProgress = document.getElementById('loadingProgress');
   
@@ -358,7 +382,7 @@ function initLoadingScreen() {
 }
 
 // Start the game
-function startGame() {
+function startGame(...args: any[]) {
   if (!initCanvas()) {
     console.error('Failed to initialize canvas');
     return;
@@ -382,7 +406,7 @@ function startGame() {
 }
 
 // Initialize OverlinkZone if available
-async function initOverlinkZone() {
+async function initOverlinkZone(...args: any[]) {
   try {
     // This would create an instance of OverlinkZone for integration
     // For now, we'll just log that it's available

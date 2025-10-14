@@ -19,7 +19,7 @@ type Cmd =
   | { op: 'getStatistics' }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

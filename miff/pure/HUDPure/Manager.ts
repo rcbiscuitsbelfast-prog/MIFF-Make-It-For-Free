@@ -11,6 +11,18 @@
  */
 
 export interface HUDConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableElementManagement: boolean;
   enableRealTimeUpdates: boolean;
   enableCustomization: boolean;
@@ -26,6 +38,18 @@ export interface HUDConfig {
 }
 
 export interface HUDManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: HUDManagerType;
@@ -55,6 +79,18 @@ export type HUDManagerType = 'game' | 'simulation' | 'training' | 'custom';
 export type HUDManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface HUDElement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ElementType;
@@ -72,6 +108,18 @@ export type ElementType = 'text' | 'image' | 'progress' | 'chart' | 'gauge' | 'l
 export type ElementStatus = 'visible' | 'hidden' | 'disabled' | 'error';
 
 export interface Position {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -83,6 +131,18 @@ export type Anchor = 'top_left' | 'top_center' | 'top_right' | 'center_left' | '
 export type Alignment = 'left' | 'center' | 'right' | 'justify';
 
 export interface Size {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   minWidth: number;
@@ -93,6 +153,18 @@ export interface Size {
 }
 
 export interface ElementStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   backgroundColor: Color;
   textColor: Color;
   borderColor: Color;
@@ -105,6 +177,18 @@ export interface ElementStyle {
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -112,6 +196,18 @@ export interface Color {
 }
 
 export interface FontStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   family: string;
   size: number;
   weight: FontWeight;
@@ -124,6 +220,18 @@ export type FontStyleType = 'normal' | 'italic' | 'oblique';
 export type FontDecoration = 'none' | 'underline' | 'overline' | 'line_through';
 
 export interface ShadowStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   color: Color;
   offsetX: number;
@@ -133,6 +241,18 @@ export interface ShadowStyle {
 }
 
 export interface AnimationStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: AnimationType;
   duration: number;
@@ -147,6 +267,18 @@ export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bo
 export type AnimationDirection = 'normal' | 'reverse' | 'alternate' | 'alternate_reverse';
 
 export interface ElementData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   source: DataSource;
   format: DataFormat;
   value: any;
@@ -159,12 +291,36 @@ export type DataSource = 'static' | 'dynamic' | 'api' | 'websocket' | 'file' | '
 export type DataFormat = 'string' | 'number' | 'boolean' | 'json' | 'xml' | 'csv' | 'binary' | 'custom';
 
 export interface DataValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: ValidationRule[];
   errorHandling: ErrorHandling;
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ValidationType;
   value: any;
   message: string;
@@ -173,6 +329,18 @@ export interface ValidationRule {
 export type ValidationType = 'required' | 'min' | 'max' | 'pattern' | 'custom';
 
 export interface ErrorHandling {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   showError: boolean;
   fallbackValue: any;
   retryCount: number;
@@ -180,6 +348,18 @@ export interface ErrorHandling {
 }
 
 export interface ElementBehavior {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interactions: Interaction[];
   events: ElementEvent[];
   conditions: Condition[];
@@ -187,6 +367,18 @@ export interface ElementBehavior {
 }
 
 export interface Interaction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: InteractionType;
   trigger: TriggerType;
   target: string;
@@ -197,6 +389,18 @@ export type InteractionType = 'click' | 'hover' | 'drag' | 'drop' | 'scroll' | '
 export type TriggerType = 'mouse' | 'touch' | 'keyboard' | 'gesture' | 'voice' | 'custom';
 
 export interface ElementEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EventType;
   handler: string;
   parameters: Record<string, any>;
@@ -206,6 +410,18 @@ export interface ElementEvent {
 export type EventType = 'show' | 'hide' | 'update' | 'error' | 'complete' | 'custom';
 
 export interface Condition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -216,6 +432,18 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater' | 'less' | '
 export type LogicOperator = 'and' | 'or' | 'not';
 
 export interface Action {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   target: string;
   parameters: Record<string, any>;
@@ -225,6 +453,18 @@ export interface Action {
 export type ActionType = 'show' | 'hide' | 'update' | 'animate' | 'navigate' | 'call' | 'custom';
 
 export interface HUDLayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   order: number;
@@ -238,6 +478,18 @@ export interface HUDLayer {
 export type BlendMode = 'normal' | 'multiply' | 'screen' | 'overlay' | 'soft_light' | 'hard_light' | 'color_dodge' | 'color_burn' | 'darken' | 'lighten' | 'difference' | 'exclusion';
 
 export interface HUDTheme {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -249,6 +501,18 @@ export interface HUDTheme {
 }
 
 export interface ThemeColors {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: Color;
   secondary: Color;
   accent: Color;
@@ -263,6 +527,18 @@ export interface ThemeColors {
 }
 
 export interface ThemeFonts {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: FontStyle;
   secondary: FontStyle;
   heading: FontStyle;
@@ -271,6 +547,18 @@ export interface ThemeFonts {
 }
 
 export interface ThemeSpacing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   xs: number;
   sm: number;
   md: number;
@@ -280,12 +568,36 @@ export interface ThemeSpacing {
 }
 
 export interface ThemeEffects {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shadows: ShadowStyle[];
   animations: AnimationStyle[];
   transitions: TransitionStyle[];
 }
 
 export interface TransitionStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   property: string;
   duration: number;
   easing: EasingType;
@@ -293,6 +605,18 @@ export interface TransitionStyle {
 }
 
 export interface HUDLayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -302,6 +626,18 @@ export interface HUDLayout {
 }
 
 export interface LayoutElement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   elementId: string;
   position: Position;
   size: Size;
@@ -309,6 +645,18 @@ export interface LayoutElement {
 }
 
 export interface LayoutConstraints {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minWidth: number;
   minHeight: number;
   maxWidth: number;
@@ -319,6 +667,18 @@ export interface LayoutConstraints {
 }
 
 export interface Spacing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: number;
   right: number;
   bottom: number;
@@ -326,24 +686,72 @@ export interface Spacing {
 }
 
 export interface ResponsiveSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   breakpoints: Breakpoint[];
   rules: ResponsiveRule[];
 }
 
 export interface Breakpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   minWidth: number;
   maxWidth?: number;
 }
 
 export interface ResponsiveRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   breakpoint: string;
   elementId: string;
   properties: Record<string, any>;
 }
 
 export interface HUDPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalElements: number;
   visibleElements: number;
   totalLayers: number;
@@ -355,6 +763,18 @@ export interface HUDPerformanceMetrics {
 }
 
 export interface HUDAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalElements: number;
   averageRenderTime: number;
   elementUsage: ElementUsage[];
@@ -363,6 +783,18 @@ export interface HUDAnalytics {
 }
 
 export interface ElementUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   elementId: string;
   name: string;
   type: ElementType;
@@ -372,6 +804,18 @@ export interface ElementUsage {
 }
 
 export interface LayerUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   layerId: string;
   name: string;
   usage: number;
@@ -380,6 +824,18 @@ export interface LayerUsage {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   elements: number;
   renderTime: number;
@@ -388,6 +844,18 @@ export interface PerformanceTrend {
 }
 
 export interface HUDReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -399,6 +867,18 @@ export interface HUDReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -408,6 +888,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -416,6 +908,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -424,6 +928,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -431,6 +947,18 @@ export interface Version {
 }
 
 export interface HUDOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

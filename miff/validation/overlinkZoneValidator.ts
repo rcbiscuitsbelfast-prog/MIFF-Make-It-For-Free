@@ -13,6 +13,18 @@
  */
 
 export interface OverlinkZoneValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isValid: boolean;
   isAvailable: boolean;
   hasRequiredMethods: boolean;
@@ -23,6 +35,18 @@ export interface OverlinkZoneValidationResult {
 }
 
 export interface OverlinkZoneHealthCheck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   core: boolean;
   themes: boolean;
   audio: boolean;
@@ -238,7 +262,7 @@ export function safeOverlinkZoneCall<T>(
  * 
  * @returns Object with validation result and health check
  */
-export function useOverlinkZoneValidation() {
+export function useOverlinkZoneValidation(...args: any[]) {
   const validation = validateOverlinkZone();
   const health = checkOverlinkZoneHealth();
   

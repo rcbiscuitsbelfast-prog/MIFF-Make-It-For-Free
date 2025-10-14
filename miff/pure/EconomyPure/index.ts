@@ -49,6 +49,18 @@ export enum EconomicEventType {
 }
 
 export interface Currency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CurrencyType;
   name: string;
   symbol: string;
@@ -62,6 +74,18 @@ export interface Currency {
 }
 
 export interface EconomicEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'player' | 'npc' | 'guild' | 'merchant' | 'bank' | 'government';
@@ -78,6 +102,18 @@ export interface EconomicEntity {
 }
 
 export interface InventoryItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: string;
@@ -88,6 +124,18 @@ export interface InventoryItem {
 }
 
 export interface PaymentRecord {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   amount: number;
   currency: CurrencyType;
@@ -97,6 +145,18 @@ export interface PaymentRecord {
 }
 
 export interface Market {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MarketType;
@@ -118,6 +178,18 @@ export interface Market {
 }
 
 export interface MarketRestriction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'level' | 'reputation' | 'license' | 'region' | 'time' | 'custom';
   requirement: any;
   description: string;
@@ -125,6 +197,18 @@ export interface MarketRestriction {
 }
 
 export interface MarketListing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   itemId: string;
   itemName: string;
@@ -141,6 +225,18 @@ export interface MarketListing {
 }
 
 export interface Bid {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   bidderId: string;
   amount: number;
@@ -150,6 +246,18 @@ export interface Bid {
 }
 
 export interface MarketStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTransactions: number;
   totalListings: number;
   activeListings: number;
@@ -163,6 +271,18 @@ export interface MarketStatistics {
 }
 
 export interface PricePoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   price: number;
   currency: CurrencyType;
@@ -170,12 +290,36 @@ export interface PricePoint {
 }
 
 export interface VolumePoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   volume: number;
   itemId: string;
 }
 
 export interface EconomicEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EconomicEventType;
   name: string;
@@ -192,6 +336,18 @@ export interface EconomicEvent {
 }
 
 export interface EconomicEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'price_change' | 'supply_change' | 'demand_change' | 'fee_change' | 'restriction_change' | 'bonus' | 'penalty';
   target: string; // market, currency, item, or entity
   value: number;
@@ -201,6 +357,18 @@ export interface EconomicEffect {
 }
 
 export interface Transaction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: TransactionType;
   buyerId?: string;
@@ -219,6 +387,18 @@ export interface Transaction {
 }
 
 export interface TaxPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'sales_tax' | 'income_tax' | 'property_tax' | 'import_tax' | 'export_tax' | 'luxury_tax';
@@ -232,12 +412,36 @@ export interface TaxPolicy {
 }
 
 export interface TaxBracket {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   rate: number;
 }
 
 export interface EconomicReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   period: {
     start: number;
@@ -260,6 +464,18 @@ export interface EconomicReport {
 }
 
 export interface MarketReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   marketId: string;
   totalTransactions: number;
   totalVolume: number;
@@ -270,6 +486,18 @@ export interface MarketReport {
 }
 
 export interface CurrencyReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currency: CurrencyType;
   totalTransactions: number;
   totalVolume: number;
@@ -279,6 +507,18 @@ export interface CurrencyReport {
 }
 
 export interface EntityReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entityId: string;
   totalTransactions: number;
   totalSpent: number;
@@ -290,6 +530,18 @@ export interface EntityReport {
 }
 
 export interface Trend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'price' | 'volume' | 'demand' | 'supply' | 'volatility';
   direction: 'up' | 'down' | 'stable';
   magnitude: number;
@@ -298,6 +550,18 @@ export interface Trend {
 }
 
 export interface EconomicSimulation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   duration: number;
@@ -313,6 +577,18 @@ export interface EconomicSimulation {
 }
 
 export interface SimulationStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTransactions: number;
   totalVolume: number;
   averageMarketHealth: number;
@@ -325,6 +601,18 @@ export interface SimulationStatistics {
 }
 
 export interface SupplyDemandCurve {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   supply: Array<{ price: number; quantity: number }>;
   demand: Array<{ price: number; quantity: number }>;
   equilibrium: { price: number; quantity: number };
@@ -335,6 +623,18 @@ export interface SupplyDemandCurve {
 }
 
 export interface EconomicForecast {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   target: 'market' | 'currency' | 'entity' | 'global';
   targetId: string;
@@ -346,6 +646,18 @@ export interface EconomicForecast {
 }
 
 export interface Prediction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metric: string;
   currentValue: number;
   predictedValue: number;
@@ -355,7 +667,7 @@ export interface Prediction {
 }
 
 export class EconomicEngine {
-  private logger: StructuredLogger;
+  
   private entities: Map<string, EconomicEntity> = new Map();
   private markets: Map<string, Market> = new Map();
   private currencies: Map<CurrencyType, Currency> = new Map();
@@ -369,8 +681,8 @@ export class EconomicEngine {
   private transactionCounter = 0;
   private reportCounter = 0;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'EconomicEngine' });
+  constructor(...args: any[]) {
+    
     this.initializeDefaultCurrencies();
     this.initializeDefaultMarkets();
     this.performanceMetrics = this.initializePerformanceMetrics();
@@ -1051,6 +1363,18 @@ export class EconomicEngine {
 
 // Supporting interfaces and types
 export interface EconomicPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTransactions: number;
   totalVolume: number;
   totalEntities: number;
@@ -1065,6 +1389,18 @@ export interface EconomicPerformanceMetrics {
 }
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   reason?: string;
 }

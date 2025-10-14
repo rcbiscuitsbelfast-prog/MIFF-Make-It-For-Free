@@ -56,6 +56,18 @@ export enum UnrealAudioSystem {
 }
 
 export interface UnrealSceneBuildConfiguration extends SceneBuildConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sceneType: UnrealSceneType;
   worldPartitionType: UnrealWorldPartitionType;
   navigationSystem: UnrealNavigationSystem;
@@ -126,6 +138,18 @@ export interface UnrealSceneBuildConfiguration extends SceneBuildConfiguration {
 }
 
 export interface UnrealSceneComposition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   world: UnrealWorldBridge;
   persistentLevel: UnrealLevelBridge;
   streamingLevels: UnrealLevelBridge[];
@@ -149,6 +173,18 @@ export interface UnrealSceneComposition {
 }
 
 export interface UnrealDataLayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -165,6 +201,18 @@ export interface UnrealDataLayer {
 }
 
 export interface UnrealWorldPartition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: UnrealWorldPartitionType;
@@ -183,6 +231,18 @@ export interface UnrealWorldPartition {
 }
 
 export interface UnrealNavigationSystemBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   navigationSystemClass: string;
@@ -229,6 +289,18 @@ export interface UnrealNavigationSystemBridge {
 }
 
 export interface UnrealLightingSystemBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   lightingSystemType: 'static' | 'dynamic' | 'lumen' | 'ray_tracing' | 'path_tracing';
@@ -288,6 +360,18 @@ export interface UnrealLightingSystemBridge {
 }
 
 export interface UnrealPhysicsSystemBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   physicsSystemType: 'physics' | 'chaos' | 'custom';
@@ -348,6 +432,18 @@ export interface UnrealPhysicsSystemBridge {
 }
 
 export interface UnrealAudioSystemBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   audioSystemType: 'default' | 'wwise' | 'fmod' | 'custom';
@@ -425,6 +521,18 @@ export interface UnrealAudioSystemBridge {
 }
 
 export interface UnrealSceneBuildResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   sceneId: string;
   worldId: string;
@@ -436,7 +544,7 @@ export interface UnrealSceneBuildResult {
 }
 
 export class UnrealSceneBuilderPure {
-  private logger: StructuredLogger;
+  
   private sceneBuilderManager: SceneBuilderManager;
   private bridgeManager: UnrealBridgeManager;
   private payloadAdapter: UnrealPayloadAdapterPure;
@@ -449,7 +557,7 @@ export class UnrealSceneBuilderPure {
     payloadAdapter: UnrealPayloadAdapterPure,
     renderPayloadManager: RenderPayloadManager
   ) {
-    this.logger = new StructuredLogger({ module: 'UnrealSceneBuilderPure' });
+    
     this.sceneBuilderManager = sceneBuilderManager;
     this.bridgeManager = bridgeManager;
     this.payloadAdapter = payloadAdapter;

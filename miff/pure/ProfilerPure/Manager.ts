@@ -18,6 +18,18 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface ProfilerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRealTimeMonitoring: boolean;
   enableMemoryTracking: boolean;
   enableCPUTracking: boolean;
@@ -36,6 +48,18 @@ export interface ProfilerConfig {
 }
 
 export interface AlertThresholds {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameRate: number;
   memoryUsage: number;
   cpuUsage: number;
@@ -46,6 +70,18 @@ export interface AlertThresholds {
 }
 
 export interface ProfilerStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameRate: FrameRateStats;
   memory: MemoryStats;
   cpu: CPUStats;
@@ -56,6 +92,18 @@ export interface ProfilerStats {
 }
 
 export interface FrameRateStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   current: number;
   average: number;
   min: number;
@@ -66,6 +114,18 @@ export interface FrameRateStats {
 }
 
 export interface MemoryStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   heap: MemoryHeapStats;
   native: MemoryNativeStats;
   gpu: MemoryGPUStats;
@@ -76,6 +136,18 @@ export interface MemoryStats {
 }
 
 export interface MemoryHeapStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   used: number;
   free: number;
@@ -86,6 +158,18 @@ export interface MemoryHeapStats {
 }
 
 export interface MemoryNativeStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   used: number;
   free: number;
@@ -94,6 +178,18 @@ export interface MemoryNativeStats {
 }
 
 export interface MemoryGPUStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   used: number;
   free: number;
@@ -102,6 +198,18 @@ export interface MemoryGPUStats {
 }
 
 export interface CPUStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   usage: number;
   cores: number;
   frequency: number;
@@ -111,6 +219,18 @@ export interface CPUStats {
 }
 
 export interface ProcessStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pid: number;
   name: string;
   cpuUsage: number;
@@ -119,6 +239,18 @@ export interface ProcessStats {
 }
 
 export interface GPUStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   usage: number;
   memory: number;
   temperature: number;
@@ -129,6 +261,18 @@ export interface GPUStats {
 }
 
 export interface NetworkStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latency: number;
   bandwidth: number;
   packetsSent: number;
@@ -140,6 +284,18 @@ export interface NetworkStats {
 }
 
 export interface CustomMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: number;
   unit: string;
@@ -148,6 +304,18 @@ export interface CustomMetric {
 }
 
 export interface ProfilerAlert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
@@ -159,6 +327,18 @@ export interface ProfilerAlert {
 }
 
 export interface ProfilerReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   description: string;
@@ -173,7 +353,7 @@ export interface ProfilerReport {
 
 export class ProfilerManager {
   private config: ProfilerConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private isRunning: boolean = false;
   private stats: ProfilerStats[] = [];

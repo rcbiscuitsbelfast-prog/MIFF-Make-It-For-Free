@@ -9,6 +9,18 @@ import { AuthenticationSystem, Session } from './AuthenticationSystem.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SessionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSessionsPerUser: number;
   sessionTimeout: number; // seconds
   cleanupInterval: number; // seconds
@@ -20,6 +32,18 @@ export interface SessionConfig {
 }
 
 export interface SessionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   activeSessions: number;
   expiredSessions: number;
@@ -30,6 +54,18 @@ export interface SessionStats {
 }
 
 export interface SessionEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   sessionId: string;
   userId: string;
@@ -39,6 +75,18 @@ export interface SessionEvent {
 }
 
 export interface SessionMonitor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isEnabled: boolean;
   checkInterval: number; // seconds
   alertThresholds: {
@@ -54,7 +102,7 @@ export interface SessionMonitor {
 }
 
 export class SessionManager {
-  private logger: StructuredLogger;
+  
   private authSystem: AuthenticationSystem;
   private config: SessionConfig;
   private monitor: SessionMonitor;
@@ -64,7 +112,7 @@ export class SessionManager {
   private stats: SessionStats;
 
   constructor(authSystem: AuthenticationSystem, config: Partial<SessionConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'SessionManager' });
+    
     this.authSystem = authSystem;
     this.config = {
       maxSessionsPerUser: 5,

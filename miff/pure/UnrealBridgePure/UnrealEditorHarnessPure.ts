@@ -14,6 +14,18 @@ import { SceneBuilderManager } from '../SceneBuilderPure';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface UnrealEditorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   projectPath: string;
   enginePath: string;
   buildConfiguration: 'debug' | 'development' | 'shipping';
@@ -50,6 +62,18 @@ export interface UnrealEditorConfiguration {
 }
 
 export interface UnrealEditorTestResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   testName: string;
   duration: number;
@@ -61,6 +85,18 @@ export interface UnrealEditorTestResult {
 }
 
 export interface UnrealEditorDemoResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   demoName: string;
   duration: number;
@@ -74,7 +110,7 @@ export interface UnrealEditorDemoResult {
 }
 
 export class UnrealEditorHarnessPure {
-  private logger: StructuredLogger;
+  
   private bridgeManager: UnrealBridgeManager;
   private payloadAdapter: UnrealPayloadAdapterPure;
   private sceneBuilder: UnrealSceneBuilderPure;
@@ -98,7 +134,7 @@ export class UnrealEditorHarnessPure {
     sceneBuilderManager: SceneBuilderManager,
     configuration: UnrealEditorConfiguration
   ) {
-    this.logger = new StructuredLogger({ module: 'UnrealEditorHarnessPure' });
+    
     this.bridgeManager = bridgeManager;
     this.payloadAdapter = payloadAdapter;
     this.sceneBuilder = sceneBuilder;

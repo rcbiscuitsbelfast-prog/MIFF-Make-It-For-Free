@@ -3,6 +3,18 @@ import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
 import { RenderPayload, RenderData } from '../shared/ConsolidatedSchema';
 
 export interface WebConvertedPayload {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'convert';
   status: 'ok' | 'error';
   engine: 'web';

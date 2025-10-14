@@ -54,6 +54,18 @@ export enum TestPriority {
 }
 
 export interface TestConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   testDirectory: string;
   outputDirectory: string;
   coverageDirectory: string;
@@ -78,6 +90,18 @@ export interface TestConfig {
 }
 
 export interface TestResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   file: string;
@@ -98,6 +122,18 @@ export interface TestResult {
 }
 
 export interface TestAssertion {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   passed: boolean;
@@ -108,6 +144,18 @@ export interface TestAssertion {
 }
 
 export interface TestCoverage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   statements: number;
   branches: number;
   functions: number;
@@ -117,6 +165,18 @@ export interface TestCoverage {
 }
 
 export interface TestCoverageFile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   file: string;
   statements: number;
   branches: number;
@@ -126,6 +186,18 @@ export interface TestCoverageFile {
 }
 
 export interface TestSuite {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   file: string;
@@ -145,6 +217,18 @@ export interface TestSuite {
 }
 
 export interface TestReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: Date;
   duration: number;
@@ -165,6 +249,18 @@ export interface TestReport {
 }
 
 export interface TestPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalDuration: number;
   averageTestDuration: number;
   slowestTest: string;
@@ -175,6 +271,18 @@ export interface TestPerformance {
 }
 
 export interface TestEnvironment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   config: TestConfig;
   status: 'idle' | 'running' | 'error';
@@ -187,7 +295,7 @@ export interface TestEnvironment {
  * Test Runner - Core test management functionality
  */
 export class TestRunner {
-  private logger: StructuredLogger;
+  
   private config: TestConfig;
   private eventBus: EventBus;
   private suites: Map<string, TestSuite> = new Map();
@@ -197,7 +305,7 @@ export class TestRunner {
   private currentRunId?: string;
 
   constructor(config: TestConfig, eventBus: EventBus) {
-    this.logger = new StructuredLogger({ module: 'TestRunner' });
+    
     this.config = config;
     this.eventBus = eventBus;
     this.initialize();

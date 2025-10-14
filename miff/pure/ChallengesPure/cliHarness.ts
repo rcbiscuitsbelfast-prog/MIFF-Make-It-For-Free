@@ -100,8 +100,8 @@ class ChallengesPureCLI {
   private playerContext: MockPlayerContext;
   private currentFilter: IChallengeFilter = {};
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'MockPlayerContext' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

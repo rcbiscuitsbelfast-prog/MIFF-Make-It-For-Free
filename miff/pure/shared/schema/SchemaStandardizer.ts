@@ -7,6 +7,18 @@ import { SafeJSONParser } from '../security/SafeJSONParser';
  */
 
 export interface SchemaDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -18,6 +30,18 @@ export interface SchemaDefinition {
 }
 
 export interface SchemaField {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: 'string' | 'number' | 'boolean' | 'object' | 'array' | 'date';
   required: boolean;
@@ -27,6 +51,18 @@ export interface SchemaField {
 }
 
 export interface FieldValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minLength?: number;
   maxLength?: number;
   min?: number;
@@ -37,18 +73,54 @@ export interface FieldValidation {
 }
 
 export interface SchemaValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strict: boolean;
   allowAdditional: boolean;
   customValidators: Array<(data: any) => boolean>;
 }
 
 export interface SchemaMigration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fromVersion: string;
   toVersion: string;
   steps: MigrationStep[];
 }
 
 export interface MigrationStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'add' | 'remove' | 'rename' | 'transform';
   field: string;
   value?: any;
@@ -56,6 +128,18 @@ export interface MigrationStep {
 }
 
 export interface SchemaValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   errors: string[];
   warnings: string[];
@@ -63,12 +147,12 @@ export interface SchemaValidationResult {
 }
 
 export class SchemaStandardizer {
-  private logger: StructuredLogger;
+  
   private schemas: Map<string, SchemaDefinition> = new Map();
   private isInitialized: boolean = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'SchemaStandardizer' });
+  constructor(...args: any[]) {
+    
   }
 
   /**

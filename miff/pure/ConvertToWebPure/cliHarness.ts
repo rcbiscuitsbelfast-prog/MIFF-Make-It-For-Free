@@ -6,7 +6,7 @@ import { ConvertToWebManager } from './Manager';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function main(){
+function main(...args: any[]) {
   const file = process.argv[2];
   if(!file){
     console.info('Usage: npx ts-node ConvertToWebPure/cliHarness.ts <payload.json>');

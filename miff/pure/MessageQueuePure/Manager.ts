@@ -11,6 +11,18 @@
  */
 
 export interface MessageQueueConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableQueueManagement: boolean;
   enableMessageProcessing: boolean;
   enableQueueOptimization: boolean;
@@ -27,6 +39,18 @@ export interface MessageQueueConfig {
 }
 
 export interface MessageQueueManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MessageQueueManagerType;
@@ -51,6 +75,18 @@ export type MessageQueueManagerType = 'fifo' | 'priority' | 'topic' | 'stream' |
 export type MessageQueueManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Queue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: QueueType;
@@ -67,6 +103,18 @@ export type QueueType = 'fifo' | 'priority' | 'topic' | 'stream' | 'custom';
 export type QueueStatus = 'active' | 'inactive' | 'paused' | 'error';
 
 export interface QueueConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   visibilityTimeout: number;
   messageRetentionPeriod: number;
   maxReceiveCount: number;
@@ -77,6 +125,18 @@ export interface QueueConfiguration {
 }
 
 export interface EncryptionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: EncryptionAlgorithm;
   keyId: string;
@@ -86,6 +146,18 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -95,6 +167,18 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
 export interface PartitioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: PartitioningStrategy;
   partitions: number;
@@ -104,6 +188,18 @@ export interface PartitioningConfig {
 export type PartitioningStrategy = 'hash' | 'range' | 'round_robin' | 'custom';
 
 export interface QueuePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMessages: number;
   processedMessages: number;
   failedMessages: number;
@@ -113,6 +209,18 @@ export interface QueuePerformance {
 }
 
 export interface Message {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   queue: string;
   type: MessageType;
@@ -128,6 +236,18 @@ export type MessageType = 'text' | 'json' | 'binary' | 'xml' | 'custom';
 export type MessageStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'dead_letter';
 
 export interface MessageContent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   body: any;
   format: ContentFormat;
   encoding: string;
@@ -138,6 +258,18 @@ export interface MessageContent {
 export type ContentFormat = 'string' | 'json' | 'xml' | 'binary' | 'custom';
 
 export interface MessageHeaders {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   contentType: string;
   encoding: string;
   priority: number;
@@ -148,6 +280,18 @@ export interface MessageHeaders {
 }
 
 export interface MessageMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   created: number;
   modified: number;
   attempts: number;
@@ -157,6 +301,18 @@ export interface MessageMetadata {
 }
 
 export interface DeliveryInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   attempts: number;
   maxAttempts: number;
   nextVisibleTime: number;
@@ -165,6 +321,18 @@ export interface DeliveryInfo {
 }
 
 export interface MessagePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   processingTime: number;
   queueTime: number;
   deliveryTime: number;
@@ -173,6 +341,18 @@ export interface MessagePerformance {
 }
 
 export interface Consumer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConsumerType;
@@ -187,6 +367,18 @@ export type ConsumerType = 'pull' | 'push' | 'stream' | 'custom';
 export type ConsumerStatus = 'active' | 'inactive' | 'error';
 
 export interface ConsumerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   batchSize: number;
   pollingInterval: number;
   timeout: number;
@@ -196,6 +388,18 @@ export interface ConsumerConfiguration {
 }
 
 export interface ConsumerFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   field: string;
   operator: FilterOperator;
@@ -207,6 +411,18 @@ export type FilterType = 'header' | 'content' | 'metadata' | 'custom';
 export type FilterOperator = 'equals' | 'contains' | 'starts_with' | 'ends_with' | 'custom';
 
 export interface ConsumerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMessages: number;
   processedMessages: number;
   failedMessages: number;
@@ -216,6 +432,18 @@ export interface ConsumerPerformance {
 }
 
 export interface Producer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ProducerType;
@@ -230,6 +458,18 @@ export type ProducerType = 'sync' | 'async' | 'batch' | 'custom';
 export type ProducerStatus = 'active' | 'inactive' | 'error';
 
 export interface ProducerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   batchSize: number;
   flushInterval: number;
   timeout: number;
@@ -239,6 +479,18 @@ export interface ProducerConfiguration {
 }
 
 export interface ProducerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMessages: number;
   sentMessages: number;
   failedMessages: number;
@@ -248,6 +500,18 @@ export interface ProducerPerformance {
 }
 
 export interface MessageRouter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RouterType;
@@ -262,6 +526,18 @@ export type RouterType = 'content_based' | 'header_based' | 'priority_based' | '
 export type RouterStatus = 'active' | 'inactive' | 'error';
 
 export interface RouterConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strategy: RoutingStrategy;
   timeout: number;
   retries: number;
@@ -272,6 +548,18 @@ export interface RouterConfiguration {
 export type RoutingStrategy = 'round_robin' | 'least_connections' | 'weighted' | 'custom';
 
 export interface LoadBalancingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: LoadBalancingAlgorithm;
   weights: Record<string, number>;
@@ -280,6 +568,18 @@ export interface LoadBalancingConfig {
 export type LoadBalancingAlgorithm = 'round_robin' | 'least_connections' | 'weighted' | 'custom';
 
 export interface RoutingRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: RuleCondition;
@@ -289,6 +589,18 @@ export interface RoutingRule {
 }
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -300,6 +612,18 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   target: string;
   parameters: Record<string, any>;
@@ -309,6 +633,18 @@ export interface RuleAction {
 export type ActionType = 'route' | 'transform' | 'filter' | 'custom';
 
 export interface RouterPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRoutings: number;
   successfulRoutings: number;
   failedRoutings: number;
@@ -317,6 +653,18 @@ export interface RouterPerformance {
 }
 
 export interface MessageQueuePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalQueues: number;
   activeQueues: number;
   totalMessages: number;
@@ -337,6 +685,18 @@ export interface MessageQueuePerformanceMetrics {
 }
 
 export interface MessageQueueAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalQueues: number;
   totalMessages: number;
   averageProcessingTime: number;
@@ -346,6 +706,18 @@ export interface MessageQueueAnalytics {
 }
 
 export interface QueueTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: QueueType;
   count: number;
   percentage: number;
@@ -353,6 +725,18 @@ export interface QueueTypeDistribution {
 }
 
 export interface MessageTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: MessageType;
   count: number;
   percentage: number;
@@ -360,6 +744,18 @@ export interface MessageTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   queues: number;
   messages: number;
@@ -370,6 +766,18 @@ export interface PerformanceTrend {
 }
 
 export interface MessageQueueReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -381,6 +789,18 @@ export interface MessageQueueReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -390,6 +810,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -398,6 +830,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -406,6 +850,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -413,6 +869,18 @@ export interface Version {
 }
 
 export interface MessageQueueOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

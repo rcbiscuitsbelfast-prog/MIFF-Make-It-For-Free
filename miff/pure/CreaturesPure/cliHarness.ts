@@ -5,19 +5,55 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Minimal in-memory data model to avoid Unity deps
 interface Stats { level:number; hp:number; attack:number; defense:number; speed:number }
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 interface Creature { id:string; nameId:string; speciesId:string; isCaptured:boolean; stats:Stats; moves:string[] }
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 interface Species { id:string; nameId:string; baseHp:number; baseAttack:number; baseDefense:number; baseSpeed:number; captureRate:number; allowedMoves:string[] }
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 
 const rand = (max:number)=>Math.floor(Math.random()*max);
 
 class World {
-  private logger: StructuredLogger;
+  
   creatures: Creature[] = [];
   party: string[] = [];
   species: Record<string, Species> = {};
   createdIds: string[] = [];
   constructor(speciesPath:string){
-    this.logger = new StructuredLogger({ module: 'World' });
+    
     const txt = fs.readFileSync(speciesPath,'utf-8');
     const data = SafeJSONParser.parse(txt) as {species:Species[]};
     for(const s of data.species) this.species[s.id]=s;
@@ -38,7 +74,7 @@ class World {
   swap(a:number,b:number){ if(a<0||b<0||a>=this.party.length||b>=this.party.length) return false; [this.party[a],this.party[b]]=[this.party[b],this.party[a]]; return true; }
   encounter(speciesId:string, level:number){ const c=this.create(speciesId, level); return c; }
   attemptCapture(id:string){ id=this.resolveId(id); const cr=this.creatures.find(x=>x.id===id)!; const s=this.species[cr.speciesId]; const ok = rand(100)<s.captureRate; if(ok){ cr.isCaptured=true; this.addToParty(cr.id);} return ok; }
-  dump(){ return { creatures:this.creatures, party:this.party }; }
+  dump(...args: any[]) { return { creatures:this.creatures, party:this.party }; }
 }
 
 type Cmd = { op:string; [k:string]:any };
@@ -58,7 +94,7 @@ function run(speciesPath:string, cmds:Cmd[]){
   return { log, state:w.dump() };
 }
 
-function main(){
+function main(...args: any[]) {
   const speciesPath = process.argv[2];
   const cmdPath = process.argv[3];
   if(!speciesPath||!cmdPath){ console.error('Usage: cliHarness.ts <species.json> <commands.json>'); process.exit(1); }

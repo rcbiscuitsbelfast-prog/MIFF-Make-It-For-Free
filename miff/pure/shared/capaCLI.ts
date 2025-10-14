@@ -13,12 +13,12 @@ import { CAPACategory, CAPASeverity, CAPAStatus } from './CAPASystem';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CAPACLI {
-  private logger: StructuredLogger;
+  
   private registry: CAPARegistryManager;
   private eventBus: EventBus;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CAPACLI' });
+  constructor(...args: any[]) {
+    
     this.eventBus = new EventBus();
     this.registry = new CAPARegistryManager(this.eventBus);
   }

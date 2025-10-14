@@ -12,11 +12,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class FidelityCLI {
-  private logger: StructuredLogger;
+  
   private manager: RuntimeFidelityManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'FidelityCLI' });
+  constructor(...args: any[]) {
+    
     this.manager = new RuntimeFidelityManager();
   }
 

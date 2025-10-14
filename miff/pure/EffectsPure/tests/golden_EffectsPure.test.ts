@@ -34,7 +34,7 @@ class MockEntityContext implements IEntityContext {
   private currentPhase: EffectPhase = EffectPhase.PRE_TURN;
   private aliveEntities = new Set<string>();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.aliveEntities.add('player');
     this.aliveEntities.add('enemy');
   }

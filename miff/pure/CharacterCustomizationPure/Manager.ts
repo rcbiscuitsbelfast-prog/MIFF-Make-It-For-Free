@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CharacterCustomizationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiCharacterSupport: boolean;
   enableCustomizationOptions: boolean;
   enablePerformanceOptimization: boolean;
@@ -31,6 +43,18 @@ export interface CharacterCustomizationConfig {
 }
 
 export interface CharacterCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SystemType;
@@ -47,6 +71,18 @@ export interface CharacterCustomization {
 }
 
 export interface Character {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CharacterType;
@@ -57,6 +93,18 @@ export interface Character {
 }
 
 export interface CharacterAppearance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gender: Gender;
   age: number;
   height: number;
@@ -70,6 +118,18 @@ export interface CharacterAppearance {
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -77,6 +137,18 @@ export interface Color {
 }
 
 export interface CharacterCustomizationData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   head: HeadCustomization;
   body: BodyCustomization;
   clothing: ClothingCustomization;
@@ -85,6 +157,18 @@ export interface CharacterCustomizationData {
 }
 
 export interface HeadCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hair: HairCustomization;
   face: FaceCustomization;
   eyes: EyeCustomization;
@@ -95,6 +179,18 @@ export interface HeadCustomization {
 }
 
 export interface HairCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   style: string;
   color: Color;
   length: number;
@@ -103,6 +199,18 @@ export interface HairCustomization {
 }
 
 export interface FaceCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shape: string;
   skinTone: Color;
   age: number;
@@ -111,6 +219,18 @@ export interface FaceCustomization {
 }
 
 export interface EyeCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   shape: string;
   size: number;
@@ -119,6 +239,18 @@ export interface EyeCustomization {
 }
 
 export interface MouthCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shape: string;
   size: number;
   lipColor: Color;
@@ -127,6 +259,18 @@ export interface MouthCustomization {
 }
 
 export interface NoseCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shape: string;
   size: number;
   width: number;
@@ -135,6 +279,18 @@ export interface NoseCustomization {
 }
 
 export interface EarCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shape: string;
   size: number;
   position: number;
@@ -142,6 +298,18 @@ export interface EarCustomization {
 }
 
 export interface BodyCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   height: number;
   weight: number;
   muscle: number;
@@ -153,6 +321,18 @@ export interface BodyCustomization {
 }
 
 export interface ClothingCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: ClothingItem;
   bottom: ClothingItem;
   shoes: ClothingItem;
@@ -161,6 +341,18 @@ export interface ClothingCustomization {
 }
 
 export interface ClothingItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ClothingType;
@@ -171,6 +363,18 @@ export interface ClothingItem {
 }
 
 export interface AccessoryCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hats: AccessoryItem[];
   glasses: AccessoryItem[];
   jewelry: AccessoryItem[];
@@ -179,6 +383,18 @@ export interface AccessoryCustomization {
 }
 
 export interface AccessoryItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AccessoryType;
@@ -190,12 +406,36 @@ export interface AccessoryItem {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface CustomizationPreset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PresetType;
@@ -205,6 +445,18 @@ export interface CustomizationPreset {
 }
 
 export interface CustomizationAsset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AssetType;
@@ -215,6 +467,18 @@ export interface CustomizationAsset {
 }
 
 export interface SystemPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCharacters: number;
   activeCharacters: number;
   averageLoadTime: number; // milliseconds
@@ -225,6 +489,18 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSystems: number;
   activeSystems: number;
   totalCharacters: number;
@@ -249,7 +525,7 @@ export type AssetType = 'model' | 'texture' | 'animation' | 'sound' | 'custom';
 export type AssetCategory = 'hair' | 'clothing' | 'accessories' | 'body' | 'custom';
 
 export class CharacterCustomizationManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -259,7 +535,7 @@ export class CharacterCustomizationManager {
   private startTime: Date;
 
   constructor(config?: Partial<CharacterCustomizationConfig>) {
-    this.logger = new StructuredLogger({ module: 'CharacterCustomizationManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

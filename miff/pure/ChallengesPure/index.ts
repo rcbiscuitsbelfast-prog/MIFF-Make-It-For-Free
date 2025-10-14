@@ -70,6 +70,18 @@ export enum ChallengeDifficulty {
  * Player context interface (dependency)
  */
 export interface IPlayerContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hasQuestFlag(flagId: string): boolean;
   hasLoreFlag(flagId: string): boolean;
   getCurrentLocationId(): string;
@@ -85,6 +97,18 @@ export interface IPlayerContext {
  * Challenge ruleset interface
  */
 export interface IChallengeRuleset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   allowedSpiritTypes: string[];
   turnLimit: number;
   bannedItems: string[];
@@ -99,6 +123,18 @@ export interface IChallengeRuleset {
  * Challenge result interface
  */
 export interface IChallengeResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   outcome: ChallengeOutcome;
   itemRewards: Record<string, number>;
   loreFlags: string[];
@@ -113,6 +149,18 @@ export interface IChallengeResult {
  * Challenge filter interface
  */
 export interface IChallengeFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category?: ChallengeCategory;
   status?: ChallengeStatus;
   difficulty?: ChallengeDifficulty;
@@ -133,6 +181,18 @@ export interface IChallengeFilter {
  * Challenge statistics interface
  */
 export interface IChallengeStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChallenges: number;
   completedChallenges: number;
   availableChallenges: number;
@@ -150,6 +210,18 @@ export interface IChallengeStatistics {
  * Battle challenge interface
  */
 export interface IBattleChallenge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   challengeId: string;
   name: string;
   description: string;
@@ -178,6 +250,18 @@ export interface IBattleChallenge {
  * Challenge manager interface
  */
 export interface IChallengeManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   registerChallenge(challenge: IBattleChallenge): boolean;
   getChallenge(challengeId: string): IBattleChallenge | null;
   getAllChallenges(): IBattleChallenge[];
@@ -673,7 +757,7 @@ export class ChallengeRuleset implements IChallengeRuleset {
     bannedItems: string[] = [],
     environmentTag?: string
   ) {
-    this.logger = new StructuredLogger({ module: 'BattleChallenge' });
+    
     this.allowedSpiritTypes = [...allowedSpiritTypes];
     this.turnLimit = turnLimit;
     this.bannedItems = [...bannedItems];

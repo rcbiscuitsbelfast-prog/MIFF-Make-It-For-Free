@@ -19,21 +19,33 @@ import { XPManager, XPCurve } from './index.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   command: string;
   description: string;
   handler: (args: string[]) => void;
 }
 
 class ProgressionCli {
-  private logger: StructuredLogger;
+  
   private manager: XPManager;
   private eventBus: EventBus;
   private spirits: Map<string, any> = new Map();
   private commands: Map<string, CliCommand> = new Map();
   private isRunning: boolean = true;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'ProgressionCli' });
+  constructor(...args: any[]) {
+    
     this.eventBus = new EventBus();
 
     // Create XP curve
@@ -505,7 +517,7 @@ class ProgressionCli {
 }
 
 // CLI entry point
-async function main() {
+async function main(...args: any[]) {
   const cli = new ProgressionCli();
   await cli.run();
 }

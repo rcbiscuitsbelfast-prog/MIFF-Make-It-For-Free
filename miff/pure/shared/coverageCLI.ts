@@ -12,11 +12,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CoverageCLI {
-  private logger: StructuredLogger;
+  
   private analyzer: TestCoverageAnalyzer;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CoverageCLI' });
+  constructor(...args: any[]) {
+    
     this.analyzer = new TestCoverageAnalyzer();
   }
 

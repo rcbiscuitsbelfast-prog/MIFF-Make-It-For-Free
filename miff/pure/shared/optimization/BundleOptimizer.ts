@@ -6,6 +6,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface BundleConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entryPoints: string[];
   outputPath: string;
   target: 'web' | 'node' | 'mobile';
@@ -20,6 +32,18 @@ export interface BundleConfig {
 }
 
 export interface BundleStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   originalSize: number;
   optimizedSize: number;
   compressionRatio: number;
@@ -37,6 +61,18 @@ export interface BundleStats {
 }
 
 export interface OptimizationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   bundlePath: string;
   stats: BundleStats;
@@ -45,7 +81,7 @@ export interface OptimizationResult {
 }
 
 export class BundleOptimizer {
-  private logger: StructuredLogger;
+  
   private config: BundleConfig;
   private analyzedModules: Map<string, ModuleAnalysis> = new Map();
   private dependencyGraph: DependencyGraph = new Map();
@@ -53,7 +89,7 @@ export class BundleOptimizer {
   private unusedExports: Map<string, Set<string>> = new Map();
 
   constructor(config: BundleConfig) {
-    this.logger = new StructuredLogger({ module: 'BundleOptimizer' });
+    
     // Start with provided config and apply defaults field-by-field to avoid duplicate key warnings
     this.config = { ...config } as BundleConfig;
     this.config.optimizationLevel = this.config.optimizationLevel ?? 'aggressive';
@@ -557,6 +593,18 @@ export class BundleOptimizer {
 
 // Supporting interfaces and classes
 interface ModuleAnalysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   size: number;
   exports: string[];

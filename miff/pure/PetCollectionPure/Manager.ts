@@ -46,6 +46,18 @@ export enum PetType {
 }
 
 export interface PetStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: number;
   attack: number;
   defense: number;
@@ -55,6 +67,18 @@ export interface PetStats {
 }
 
 export interface Pet {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   species?: string;
@@ -81,6 +105,18 @@ export interface Pet {
 }
 
 export interface Egg {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EggType;
   rarity: PetRarity;
@@ -92,6 +128,18 @@ export interface Egg {
 }
 
 export interface TradeOffer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   offererId: string;
   offeredPetIds: string[];
@@ -103,6 +151,18 @@ export interface TradeOffer {
 }
 
 export interface CollectionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPets: number;
   petsByType: Record<PetType, number>;
   petsByRarity: Record<PetRarity, number>;
@@ -115,6 +175,18 @@ export interface CollectionStats {
 }
 
 export interface PetCollectionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxPetsPerPlayer?: number;
   maxEggsPerPlayer?: number;
   maxActiveTradesPerPlayer?: number;
@@ -125,6 +197,18 @@ export interface PetCollectionConfig {
 }
 
 export interface PetFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rarity?: PetRarity[];
   type?: PetType[];
   species?: string[];
@@ -135,11 +219,35 @@ export interface PetFilter {
 }
 
 export interface PetSortOption {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: 'name' | 'rarity' | 'level' | 'happiness' | 'loyalty' | 'hatchDate';
   direction: 'asc' | 'desc';
 }
 
 export interface PetCollectionOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   message: string;
   data?: any;

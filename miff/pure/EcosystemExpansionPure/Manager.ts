@@ -12,6 +12,18 @@
  */
 
 export interface EcosystemExpansionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableEcosystemGrowth: boolean;
   enableCommunityBuilding: boolean;
   enablePartnershipManagement: boolean;
@@ -29,6 +41,18 @@ export interface EcosystemExpansionConfig {
 }
 
 export interface EcosystemExpansionManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EcosystemExpansionManagerType;
@@ -52,6 +76,18 @@ export type EcosystemExpansionManagerType = 'startup' | 'growth' | 'enterprise' 
 export type EcosystemExpansionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Partnership {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PartnershipType;
@@ -69,6 +105,18 @@ export type PartnershipType = 'strategic' | 'technical' | 'commercial' | 'distri
 export type PartnershipStatus = 'proposal' | 'negotiation' | 'active' | 'paused' | 'completed' | 'terminated';
 
 export interface Partner {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PartnerType;
@@ -84,6 +132,18 @@ export type PartnerType = 'company' | 'organization' | 'individual' | 'governmen
 export type PartnerSize = 'startup' | 'small' | 'medium' | 'large' | 'enterprise';
 
 export interface ContactInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   email: string;
   phone?: string;
   address?: string;
@@ -92,6 +152,18 @@ export interface ContactInfo {
 }
 
 export interface ReputationScore {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   overall: number;
   reliability: number;
   quality: number;
@@ -100,6 +172,18 @@ export interface ReputationScore {
 }
 
 export interface PartnershipValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   financial: FinancialValue;
   strategic: StrategicValue;
   technical: TechnicalValue;
@@ -107,6 +191,18 @@ export interface PartnershipValue {
 }
 
 export interface FinancialValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   revenue: number;
   costSavings: number;
   investment: number;
@@ -114,6 +210,18 @@ export interface FinancialValue {
 }
 
 export interface StrategicValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   marketAccess: number;
   brandValue: number;
   competitiveAdvantage: number;
@@ -121,6 +229,18 @@ export interface StrategicValue {
 }
 
 export interface TechnicalValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   technologyTransfer: number;
   skillDevelopment: number;
   innovation: number;
@@ -128,6 +248,18 @@ export interface TechnicalValue {
 }
 
 export interface MarketValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   customerBase: number;
   marketShare: number;
   geographicExpansion: number;
@@ -135,6 +267,18 @@ export interface MarketValue {
 }
 
 export interface PartnershipTerms {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: number; // months
   exclusivity: boolean;
   intellectualProperty: IPTerms;
@@ -143,6 +287,18 @@ export interface PartnershipTerms {
 }
 
 export interface IPTerms {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ownership: string;
   licensing: string;
   confidentiality: boolean;
@@ -150,6 +306,18 @@ export interface IPTerms {
 }
 
 export interface Responsibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   party: string;
   description: string;
   deadline: number;
@@ -157,12 +325,36 @@ export interface Responsibility {
 }
 
 export interface TerminationClause {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   noticePeriod: number; // days
   conditions: string[];
   penalties: string[];
 }
 
 export interface Milestone {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -176,6 +368,18 @@ export interface Milestone {
 export type MilestoneStatus = 'not_started' | 'in_progress' | 'completed' | 'delayed' | 'cancelled';
 
 export interface Integration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: IntegrationType;
@@ -191,6 +395,18 @@ export type IntegrationType = 'api' | 'sdk' | 'plugin' | 'connector' | 'bridge' 
 export type IntegrationStatus = 'planned' | 'development' | 'testing' | 'deployed' | 'maintenance' | 'deprecated';
 
 export interface TechnicalIntegration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   protocol: string;
   endpoints: string[];
   authentication: AuthMethod;
@@ -202,6 +418,18 @@ export interface TechnicalIntegration {
 export type AuthMethod = 'api_key' | 'oauth' | 'jwt' | 'basic' | 'custom';
 
 export interface BusinessIntegration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pricing: PricingModel;
   support: SupportLevel;
   sla: ServiceLevelAgreement;
@@ -209,6 +437,18 @@ export interface BusinessIntegration {
 }
 
 export interface PricingModel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'free' | 'freemium' | 'subscription' | 'usage' | 'one_time';
   amount: number;
   currency: string;
@@ -216,6 +456,18 @@ export interface PricingModel {
 }
 
 export interface SupportLevel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: 'basic' | 'standard' | 'premium' | 'enterprise';
   responseTime: number; // hours
   availability: number; // percentage
@@ -223,6 +475,18 @@ export interface SupportLevel {
 }
 
 export interface ServiceLevelAgreement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   uptime: number; // percentage
   responseTime: number; // milliseconds
   throughput: number; // requests per second
@@ -230,6 +494,18 @@ export interface ServiceLevelAgreement {
 }
 
 export interface ComplianceRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   standard: string;
   level: string;
   certification: string;
@@ -237,6 +513,18 @@ export interface ComplianceRequirement {
 }
 
 export interface IntegrationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   uptime: number;
   responseTime: number;
   throughput: number;
@@ -246,6 +534,18 @@ export interface IntegrationPerformance {
 }
 
 export interface Community {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CommunityType;
@@ -260,6 +560,18 @@ export interface Community {
 export type CommunityType = 'developer' | 'user' | 'partner' | 'customer' | 'advocate';
 
 export interface CommunityActivity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   posts: number;
   comments: number;
   shares: number;
@@ -269,6 +581,18 @@ export interface CommunityActivity {
 }
 
 export interface EngagementMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   dailyActiveUsers: number;
   monthlyActiveUsers: number;
   retentionRate: number;
@@ -277,6 +601,18 @@ export interface EngagementMetrics {
 }
 
 export interface GrowthMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   memberGrowth: number;
   activityGrowth: number;
   engagementGrowth: number;
@@ -284,6 +620,18 @@ export interface GrowthMetrics {
 }
 
 export interface Market {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   region: string;
@@ -296,6 +644,18 @@ export interface Market {
 }
 
 export interface MarketSegment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   industry: string;
   vertical: string;
   customerType: string;
@@ -303,6 +663,18 @@ export interface MarketSegment {
 }
 
 export interface MarketSize {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   addressable: number;
   serviceable: number;
@@ -310,6 +682,18 @@ export interface MarketSize {
 }
 
 export interface MarketPenetration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   current: number;
   target: number;
   growth: number;
@@ -317,6 +701,18 @@ export interface MarketPenetration {
 }
 
 export interface CompetitionAnalysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   competitors: Competitor[];
   marketShare: number;
   competitiveAdvantage: string[];
@@ -324,6 +720,18 @@ export interface CompetitionAnalysis {
 }
 
 export interface Competitor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   strength: number;
   weakness: string[];
@@ -331,6 +739,18 @@ export interface Competitor {
 }
 
 export interface Opportunity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   value: number;
@@ -343,6 +763,18 @@ export interface Opportunity {
 export type Priority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface EcosystemExpansionPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPartnerships: number;
   activePartnerships: number;
   totalIntegrations: number;
@@ -357,6 +789,18 @@ export interface EcosystemExpansionPerformanceMetrics {
 }
 
 export interface EcosystemExpansionAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   partnershipSuccessRate: number;
   integrationAdoptionRate: number;
   communityGrowthRate: number;
@@ -366,6 +810,18 @@ export interface EcosystemExpansionAnalytics {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   partnerships: number;
   integrations: number;
@@ -375,6 +831,18 @@ export interface PerformanceTrend {
 }
 
 export interface EcosystemExpansionReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -386,6 +854,18 @@ export interface EcosystemExpansionReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -395,6 +875,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -403,6 +895,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -411,6 +915,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -418,6 +934,18 @@ export interface Version {
 }
 
 export interface EcosystemExpansionOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

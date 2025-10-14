@@ -10,6 +10,18 @@ import { MIFFCapable } from './MIFFCapable.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ManagerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -21,6 +33,18 @@ export interface ManagerConfig {
 }
 
 export interface ManagerState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   initialized: boolean;
   running: boolean;
   paused: boolean;
@@ -31,6 +55,18 @@ export interface ManagerState {
 }
 
 export interface ManagerMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   operationsPerSecond: number;
   averageResponseTime: number;
   errorRate: number;
@@ -40,6 +76,18 @@ export interface ManagerMetrics {
 }
 
 export interface ManagerOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   startTime: Date;
@@ -62,7 +110,7 @@ export abstract class BaseManager extends EventEmitter {
   protected timers: Map<string, NodeJS.Timeout> = new Map();
 
   constructor(config: ManagerConfig) {
-    this.logger = new StructuredLogger({ module: 'for' });
+    
     super();
     this.config = {
       enableLogging: true,
@@ -427,6 +475,18 @@ export abstract class BaseManager extends EventEmitter {
  * Interface for managers that support MIFFCapable introspection
  */
 export interface CapableManager extends BaseManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getCapability(): MIFFCapable;
 }
 

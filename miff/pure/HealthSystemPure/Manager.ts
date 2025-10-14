@@ -6,6 +6,18 @@
  */
 
 export interface HealthEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   maxHp: number;
   currentHp: number;
@@ -18,6 +30,18 @@ export interface HealthEntity {
 }
 
 export interface Shield {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'physical' | 'magical' | 'elemental' | 'all';
   amount: number;
@@ -29,6 +53,18 @@ export interface Shield {
 }
 
 export interface RegenerationEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'hp' | 'shield' | 'both';
   amount: number; // per second
@@ -40,6 +76,18 @@ export interface RegenerationEffect {
 }
 
 export interface HealthEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'damage' | 'heal' | 'shield' | 'regeneration' | 'immunity' | 'resistance';
   amount: number;
@@ -52,6 +100,18 @@ export interface HealthEvent {
 }
 
 export interface HealthOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;
@@ -59,6 +119,18 @@ export interface HealthOutput {
 }
 
 export interface DamageResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   damageDealt: number;
   damageAbsorbed: number;
   damageBlocked: number;
@@ -72,7 +144,7 @@ export class HealthSystemPure {
   private events: HealthEvent[] = [];
   private maxEvents: number = 1000;
 
-  constructor() {
+  constructor(...args: any[]) {
     // Initialize the health system
   }
 

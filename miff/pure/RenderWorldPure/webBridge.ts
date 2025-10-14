@@ -14,6 +14,18 @@ import { EventBus } from '../EventBusPure/EventBusPure.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WebRendererConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   canvas: HTMLCanvasElement;
   width: number;
   height: number;
@@ -23,6 +35,18 @@ interface WebRendererConfig {
 }
 
 interface RenderWorldWebState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   renderer: RenderWorldPure | null;
   animationId: number | null;
   isRunning: boolean;
@@ -37,7 +61,7 @@ interface RenderWorldWebState {
 }
 
 export class RenderWorldWebBridge {
-  private logger: StructuredLogger;
+  
   private config: WebRendererConfig;
   private state: RenderWorldWebState;
   private gl: WebGLRenderingContext | null = null;
@@ -53,7 +77,7 @@ export class RenderWorldWebBridge {
   };
 
   constructor(canvas: HTMLCanvasElement, config: Partial<WebRendererConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'RenderWorldWebBridge' });
+    
     this.config = {
       canvas,
       width: canvas.width,

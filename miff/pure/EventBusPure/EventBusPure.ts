@@ -14,6 +14,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Event {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   data: any;
@@ -37,6 +49,18 @@ export enum EventPriority {
 }
 
 export interface EventHandler {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   eventType: string;
   handler: (event: Event) => void | Promise<void>;
@@ -46,6 +70,18 @@ export interface EventHandler {
 }
 
 export interface EventBusConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxEvents: number;
   enableReplication: boolean;
   networkLatency: number;
@@ -55,6 +91,18 @@ export interface EventBusConfig {
 }
 
 export interface NetworkMessage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   event: Event;
   target: string | 'broadcast';
@@ -63,6 +111,18 @@ export interface NetworkMessage {
 }
 
 export interface EventSubscription {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   eventType: string;
   handler: EventHandler;
@@ -70,6 +130,18 @@ export interface EventSubscription {
 }
 
 export interface EventStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvents: number;
   eventsByType: Record<string, number>;
   averageLatency: number;
@@ -83,7 +155,7 @@ export interface EventStats {
  * Centralized event messaging system with pub/sub pattern.
  */
 export class EventBus {
-  private logger: StructuredLogger;
+  
   private handlers: Map<string, EventHandler[]> = new Map();
   private events: Event[] = [];
   private subscriptions: Map<string, EventSubscription> = new Map();
@@ -92,7 +164,7 @@ export class EventBus {
   private networkCallbacks: Map<string, (message: NetworkMessage) => void> = new Map();
 
   constructor(config: Partial<EventBusConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'EventBus' });
+    
     this.config = {
       maxEvents: 1000,
       enableReplication: false,
@@ -604,6 +676,18 @@ export class EventReplicator {
 }
 
 export interface ReplicationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shouldReplicate: (event: Event) => boolean;
   transform: (event: Event) => Event;
   target: 'all' | 'nearby' | 'team' | 'custom';
@@ -771,6 +855,18 @@ export class EventScheduler {
 }
 
 export interface ScheduledEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   eventType: string;
   data: any;

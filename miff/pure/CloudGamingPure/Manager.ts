@@ -10,6 +10,18 @@
  */
 
 export interface CloudGamingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableGamingManagement: boolean;
   enableSessionManagement: boolean;
   enableStreamingOptimization: boolean;
@@ -26,6 +38,18 @@ export interface CloudGamingConfig {
 }
 
 export interface CloudGamingManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CloudGamingManagerType;
@@ -49,6 +73,18 @@ export type CloudGamingManagerType = 'streaming' | 'rendering' | 'hybrid' | 'cus
 export type CloudGamingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface GamingSession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SessionType;
@@ -66,6 +102,18 @@ export type SessionType = 'single_player' | 'multiplayer' | 'coop' | 'custom';
 export type SessionStatus = 'starting' | 'active' | 'paused' | 'ended' | 'error';
 
 export interface UserInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   email: string;
@@ -74,6 +122,18 @@ export interface UserInfo {
 }
 
 export interface UserPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolution: Resolution;
   quality: QualityLevel;
   frameRate: number;
@@ -82,6 +142,18 @@ export interface UserPreferences {
 }
 
 export interface Resolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   aspectRatio: number;
@@ -90,6 +162,18 @@ export interface Resolution {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface AudioConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   volume: number;
   quality: AudioQuality;
@@ -99,18 +183,54 @@ export interface AudioConfig {
 export type AudioQuality = 'low' | 'medium' | 'high' | 'custom';
 
 export interface ControlConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sensitivity: number;
   keyBindings: KeyBinding[];
   gamepadEnabled: boolean;
 }
 
 export interface KeyBinding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   action: string;
   key: string;
   modifier: string;
 }
 
 export interface SubscriptionInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SubscriptionType;
   level: SubscriptionLevel;
   features: string[];
@@ -121,6 +241,18 @@ export type SubscriptionType = 'free' | 'premium' | 'pro' | 'custom';
 export type SubscriptionLevel = 'basic' | 'standard' | 'premium' | 'custom';
 
 export interface GameInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -132,6 +264,18 @@ export interface GameInfo {
 export type Platform = 'pc' | 'console' | 'mobile' | 'custom';
 
 export interface GameRequirements {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minCpu: string;
   minGpu: string;
   minRam: number;
@@ -140,6 +284,18 @@ export interface GameRequirements {
 }
 
 export interface GameSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   graphics: GraphicsSettings;
   audio: AudioSettings;
   controls: ControlSettings;
@@ -147,6 +303,18 @@ export interface GameSettings {
 }
 
 export interface GraphicsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   quality: GraphicsQuality;
   resolution: Resolution;
   fullscreen: boolean;
@@ -162,6 +330,18 @@ export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 export type LightingQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface AudioSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   masterVolume: number;
   musicVolume: number;
   sfxVolume: number;
@@ -171,6 +351,18 @@ export interface AudioSettings {
 }
 
 export interface ControlSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sensitivity: number;
   invertY: boolean;
   keyBindings: KeyBinding[];
@@ -178,6 +370,18 @@ export interface ControlSettings {
 }
 
 export interface GameplaySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: DifficultyLevel;
   autoSave: boolean;
   subtitles: boolean;
@@ -188,6 +392,18 @@ export interface GameplaySettings {
 export type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'expert' | 'custom';
 
 export interface SessionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   latency: number;
   bandwidth: number;
@@ -198,6 +414,18 @@ export interface SessionPerformance {
 }
 
 export interface GamingStream {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StreamType;
@@ -212,6 +440,18 @@ export type StreamType = 'video' | 'audio' | 'input' | 'custom';
 export type StreamStatus = 'starting' | 'active' | 'paused' | 'stopped' | 'error';
 
 export interface StreamConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolution: Resolution;
   frameRate: number;
   bitrate: number;
@@ -223,6 +463,18 @@ export interface StreamConfiguration {
 export type CodecType = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -232,6 +484,18 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'lz4' | 'zstd' | 'custom';
 
 export interface StreamPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   bitrate: number;
   latency: number;
@@ -241,6 +505,18 @@ export interface StreamPerformance {
 }
 
 export interface GamingServer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ServerType;
@@ -255,6 +531,18 @@ export type ServerType = 'rendering' | 'streaming' | 'hybrid' | 'custom';
 export type ServerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ServerLocation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   region: string;
   country: string;
   city: string;
@@ -262,11 +550,35 @@ export interface ServerLocation {
 }
 
 export interface Coordinates {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latitude: number;
   longitude: number;
 }
 
 export interface ServerCapacity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSessions: number;
   maxStreams: number;
   currentSessions: number;
@@ -274,6 +586,18 @@ export interface ServerCapacity {
 }
 
 export interface ServerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpuUsage: number;
   gpuUsage: number;
   memoryUsage: number;
@@ -283,6 +607,18 @@ export interface ServerPerformance {
 }
 
 export interface GamingClient {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ClientType;
@@ -298,6 +634,18 @@ export type ClientType = 'desktop' | 'mobile' | 'console' | 'custom';
 export type ClientStatus = 'connected' | 'disconnected' | 'error';
 
 export interface DeviceInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DeviceType;
   os: string;
   version: string;
@@ -308,6 +656,18 @@ export interface DeviceInfo {
 export type DeviceType = 'pc' | 'mobile' | 'console' | 'custom';
 
 export interface HardwareInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: string;
   gpu: string;
   ram: number;
@@ -315,6 +675,18 @@ export interface HardwareInfo {
 }
 
 export interface NetworkInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: NetworkType;
   speed: number;
   latency: number;
@@ -324,6 +696,18 @@ export interface NetworkInfo {
 export type NetworkType = 'wifi' | 'ethernet' | 'cellular' | 'custom';
 
 export interface ClientPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   latency: number;
   bandwidth: number;
@@ -333,6 +717,18 @@ export interface ClientPerformance {
 }
 
 export interface CloudGamingPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   activeSessions: number;
   totalStreams: number;
@@ -349,6 +745,18 @@ export interface CloudGamingPerformanceMetrics {
 }
 
 export interface CloudGamingAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   totalStreams: number;
   averageFPS: number;
@@ -358,6 +766,18 @@ export interface CloudGamingAnalytics {
 }
 
 export interface SessionTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SessionType;
   count: number;
   percentage: number;
@@ -365,6 +785,18 @@ export interface SessionTypeDistribution {
 }
 
 export interface StreamTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: StreamType;
   count: number;
   percentage: number;
@@ -372,6 +804,18 @@ export interface StreamTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   sessions: number;
   streams: number;
@@ -382,6 +826,18 @@ export interface PerformanceTrend {
 }
 
 export interface CloudGamingReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -393,6 +849,18 @@ export interface CloudGamingReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -402,6 +870,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -410,6 +890,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -418,6 +910,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -425,6 +929,18 @@ export interface Version {
 }
 
 export interface CloudGamingOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

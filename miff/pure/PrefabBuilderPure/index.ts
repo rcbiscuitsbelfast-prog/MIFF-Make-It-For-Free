@@ -6,6 +6,18 @@ export type PrefabId = string;
 export type AssetId = string;
 
 export interface PrefabConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: PrefabId;
   name: string;
   blocks: Array<{ type: string; x: number; y: number; z: number }>;
@@ -13,6 +25,18 @@ export interface PrefabConfig {
 }
 
 export interface PrefabState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: PrefabId;
   name: string;
   blocks: Array<{ id: string; type: string; x: number; y: number; z: number }>;

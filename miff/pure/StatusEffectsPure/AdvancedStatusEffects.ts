@@ -8,6 +8,18 @@
 import { StatusEffect, StatusEntity, StatusEvent } from './StatusEffectsManager';
 
 export interface EffectChain {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   effects: string[];
@@ -17,6 +29,18 @@ export interface EffectChain {
 }
 
 export interface EffectTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'on_apply' | 'on_tick' | 'on_remove' | 'on_damage' | 'on_heal' | 'on_kill' | 'on_death';
   condition: (context: EffectContext) => boolean;
@@ -25,6 +49,18 @@ export interface EffectTrigger {
 }
 
 export interface EffectCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'health_threshold' | 'effect_count' | 'time_elapsed' | 'damage_dealt' | 'custom';
   value: any;
@@ -33,6 +69,18 @@ export interface EffectCondition {
 }
 
 export interface EffectReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'stat_boost' | 'effect_immunity' | 'damage_reduction' | 'healing' | 'custom';
   magnitude: number;
@@ -41,6 +89,18 @@ export interface EffectReward {
 }
 
 export interface EffectContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entity: StatusEntity;
   effect: StatusEffect;
   allEffects: StatusEffect[];
@@ -51,6 +111,18 @@ export interface EffectContext {
 }
 
 export interface EffectInteraction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   effect1: string;
   effect2: string;
@@ -60,6 +132,18 @@ export interface EffectInteraction {
 }
 
 export interface EffectAura {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   radius: number;
@@ -76,7 +160,7 @@ export class AdvancedStatusEffects {
   private globalEffects: Map<string, StatusEffect> = new Map();
   private effectHistory: Map<string, StatusEvent[]> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultChains();
     this.initializeDefaultInteractions();
     this.initializeDefaultAuras();

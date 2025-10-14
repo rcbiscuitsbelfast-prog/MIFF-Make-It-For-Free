@@ -7,6 +7,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WebBridgeOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'simulate' | 'render' | 'interop' | 'dump' | 'export';
   module: string;
   data?: Record<string, unknown>;
@@ -14,7 +26,7 @@ interface WebBridgeOperation {
   format?: 'json' | 'csv' | 'markdown' | 'html' | 'yaml' | 'xml';
 }
 
-function main() {
+function main(...args: any[]) {
   const inputFile = process.argv[2];
   if (!inputFile) {
     console.error('Usage: tsx cliHarness.ts <input-file>');

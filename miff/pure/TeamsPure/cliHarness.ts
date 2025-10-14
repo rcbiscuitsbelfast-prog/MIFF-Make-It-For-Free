@@ -34,6 +34,18 @@ Examples:
 }
 
 interface TeamOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'add' | 'remove' | 'swap' | 'list' | 'get-team' | 'get-reserves' | 'set-max-size' | 'simulate' | 'dump';
   spiritId?: string;
   indexA?: number;
@@ -44,6 +56,18 @@ interface TeamOperation {
 }
 
 interface SpiritInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   instanceId: string;
   name: string;
   level: number;
@@ -57,7 +81,7 @@ interface SpiritInstance {
 }
 
 class TeamManager {
-  private logger: StructuredLogger;
+  
   private activeTeam: SpiritInstance[] = [];
   private reserves: SpiritInstance[] = [];
   private maxTeamSize: number = 6;
@@ -192,7 +216,7 @@ function createSampleSpirit(id: string, name: string, type: string, level: numbe
   };
 }
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

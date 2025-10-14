@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BattleAIConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableIntelligentCombat: boolean;
   enableTacticalPlanning: boolean;
   enableAdaptiveBehavior: boolean;
@@ -33,6 +45,18 @@ export interface BattleAIConfig {
 }
 
 export interface BattleAI {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AIType;
@@ -49,6 +73,18 @@ export interface BattleAI {
 }
 
 export interface AIUnit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: UnitType;
@@ -66,6 +102,18 @@ export interface AIUnit {
 }
 
 export interface AIStrategy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StrategyType;
@@ -77,6 +125,18 @@ export interface AIStrategy {
 }
 
 export interface AIBehavior {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BehaviorType;
@@ -87,6 +147,18 @@ export interface AIBehavior {
 }
 
 export interface Ability {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AbilityType;
@@ -99,6 +171,18 @@ export interface Ability {
 }
 
 export interface Equipment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EquipmentType;
@@ -108,6 +192,18 @@ export interface Equipment {
 }
 
 export interface AIState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentStrategy: string;
   currentBehavior: string;
   target: string;
@@ -118,6 +214,18 @@ export interface AIState {
 }
 
 export interface AIMemory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enemies: EnemyMemory[];
   allies: AllyMemory[];
   locations: LocationMemory[];
@@ -126,6 +234,18 @@ export interface AIMemory {
 }
 
 export interface EnemyMemory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   lastSeen: Date;
@@ -137,6 +257,18 @@ export interface EnemyMemory {
 }
 
 export interface AllyMemory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   lastSeen: Date;
@@ -148,6 +280,18 @@ export interface AllyMemory {
 }
 
 export interface LocationMemory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   position: Position3D;
@@ -158,6 +302,18 @@ export interface LocationMemory {
 }
 
 export interface EventMemory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EventType;
   timestamp: Date;
@@ -167,6 +323,18 @@ export interface EventMemory {
 }
 
 export interface StrategyCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ConditionType;
   parameter: string;
@@ -176,6 +344,18 @@ export interface StrategyCondition {
 }
 
 export interface StrategyAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ActionType;
   target: string;
@@ -184,6 +364,18 @@ export interface StrategyAction {
 }
 
 export interface BehaviorTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: TriggerType;
   condition: string;
@@ -191,6 +383,18 @@ export interface BehaviorTrigger {
 }
 
 export interface BehaviorResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ResponseType;
   action: string;
@@ -199,6 +403,18 @@ export interface BehaviorResponse {
 }
 
 export interface AbilityEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EffectType;
   duration: number; // seconds
@@ -207,6 +423,18 @@ export interface AbilityEffect {
 }
 
 export interface EquipmentStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: number;
   energy: number;
   damage: number;
@@ -217,12 +445,36 @@ export interface EquipmentStats {
 }
 
 export interface Position3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Rotation3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -230,6 +482,18 @@ export interface Rotation3D {
 }
 
 export interface AIPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   decisionTime: number; // milliseconds
   accuracy: number; // 0-1
   efficiency: number; // 0-1
@@ -239,6 +503,18 @@ export interface AIPerformance {
 }
 
 export interface AIAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalUnits: number;
   activeUnits: number;
   totalStrategies: number;
@@ -267,7 +543,7 @@ export type ResponseType = 'move' | 'attack' | 'defend' | 'heal' | 'custom';
 export type EffectType = 'damage' | 'heal' | 'buff' | 'debuff' | 'custom';
 
 export class BattleAIManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -277,7 +553,7 @@ export class BattleAIManager {
   private startTime: Date;
 
   constructor(config?: Partial<BattleAIConfig>) {
-    this.logger = new StructuredLogger({ module: 'BattleAIManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

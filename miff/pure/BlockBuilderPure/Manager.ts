@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BlockBuilderConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enable3DConstruction: boolean;
   enablePhysicsSimulation: boolean;
   enableRealTimeRendering: boolean;
@@ -32,6 +44,18 @@ export interface BlockBuilderConfig {
 }
 
 export interface BlockBuilder {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BuilderType;
@@ -48,6 +72,18 @@ export interface BlockBuilder {
 }
 
 export interface Block {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BlockType;
@@ -60,6 +96,18 @@ export interface Block {
 }
 
 export interface Building {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BuildingType;
@@ -70,6 +118,18 @@ export interface Building {
 }
 
 export interface Material {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MaterialType;
@@ -79,6 +139,18 @@ export interface Material {
 }
 
 export interface BlockPhysics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mass: number;
   friction: number;
   restitution: number;
@@ -89,6 +161,18 @@ export interface BlockPhysics {
 }
 
 export interface BuildingStructure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   foundation: string[];
   walls: string[];
   roof: string[];
@@ -97,6 +181,18 @@ export interface BuildingStructure {
 }
 
 export interface BuildingPhysics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   stability: number; // 0-1
   centerOfMass: Position3D;
   momentOfInertia: number;
@@ -104,6 +200,18 @@ export interface BuildingPhysics {
 }
 
 export interface PhysicsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gravity: number;
   airResistance: number;
   collisionDetection: boolean;
@@ -112,6 +220,18 @@ export interface PhysicsConfig {
 }
 
 export interface Texture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TextureType;
@@ -121,6 +241,18 @@ export interface Texture {
 }
 
 export interface Collider {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ColliderType;
   size: Scale3D;
   offset: Position3D;
@@ -128,6 +260,18 @@ export interface Collider {
 }
 
 export interface MaterialProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: { r: number; g: number; b: number; a: number };
   metallic: number; // 0-1
   roughness: number; // 0-1
@@ -137,12 +281,36 @@ export interface MaterialProperties {
 }
 
 export interface Position3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Rotation3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -150,12 +318,36 @@ export interface Rotation3D {
 }
 
 export interface Scale3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface BuilderPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number; // milliseconds
   memoryUsage: number; // bytes
@@ -165,6 +357,18 @@ export interface BuilderPerformance {
 }
 
 export interface BuilderAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalBlocks: number;
   totalBuildings: number;
   averageBuildingSize: number;
@@ -182,7 +386,7 @@ export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'cust
 export type ColliderType = 'box' | 'sphere' | 'cylinder' | 'mesh' | 'custom';
 
 export class BlockBuilderManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -192,7 +396,7 @@ export class BlockBuilderManager {
   private startTime: Date;
 
   constructor(config?: Partial<BlockBuilderConfig>) {
-    this.logger = new StructuredLogger({ module: 'BlockBuilderManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

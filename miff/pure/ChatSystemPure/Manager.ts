@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ChatSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiChannelSupport: boolean;
   enableRealTimeMessaging: boolean;
   enableUserManagement: boolean;
@@ -31,6 +43,18 @@ export interface ChatSystemConfig {
 }
 
 export interface ChatSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SystemType;
@@ -48,6 +72,18 @@ export interface ChatSystem {
 }
 
 export interface ChatChannel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChannelType;
@@ -59,6 +95,18 @@ export interface ChatChannel {
 }
 
 export interface ChannelSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxUsers: number;
   allowAnonymous: boolean;
   requireModeration: boolean;
@@ -68,6 +116,18 @@ export interface ChannelSettings {
 }
 
 export interface ChatUser {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: UserType;
@@ -78,6 +138,18 @@ export interface ChatUser {
 }
 
 export interface UserPermissions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   canSendMessages: boolean;
   canCreateChannels: boolean;
   canModerate: boolean;
@@ -87,6 +159,18 @@ export interface UserPermissions {
 }
 
 export interface UserProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   avatar: string;
   displayName: string;
   status: string;
@@ -95,6 +179,18 @@ export interface UserProfile {
 }
 
 export interface ChatMessage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   channelId: string;
   userId: string;
@@ -109,6 +205,18 @@ export interface ChatMessage {
 }
 
 export interface MessageAttachment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AttachmentType;
@@ -118,6 +226,18 @@ export interface MessageAttachment {
 }
 
 export interface ModerationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   autoModeration: boolean;
   profanityFilter: boolean;
@@ -127,6 +247,18 @@ export interface ModerationSettings {
 }
 
 export interface SystemPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChannels: number;
   activeChannels: number;
   totalUsers: number;
@@ -139,6 +271,18 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSystems: number;
   activeSystems: number;
   totalChannels: number;
@@ -160,7 +304,7 @@ export type MessageStatus = 'sent' | 'delivered' | 'read' | 'failed' | 'deleted'
 export type AttachmentType = 'image' | 'file' | 'video' | 'audio' | 'custom';
 
 export class ChatSystemManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -170,7 +314,7 @@ export class ChatSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<ChatSystemConfig>) {
-    this.logger = new StructuredLogger({ module: 'ChatSystemManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

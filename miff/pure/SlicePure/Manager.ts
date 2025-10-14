@@ -11,6 +11,18 @@
  */
 
 export interface SliceConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSliceManagement: boolean;
   enableDataSlicing: boolean;
   enableSliceOptimization: boolean;
@@ -28,6 +40,18 @@ export interface SliceConfig {
 }
 
 export interface SliceManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SliceManagerType;
@@ -52,6 +76,18 @@ export type SliceManagerType = 'data' | 'memory' | 'disk' | 'network' | 'custom'
 export type SliceManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Slice {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SliceType;
@@ -67,6 +103,18 @@ export type SliceType = 'horizontal' | 'vertical' | 'hybrid' | 'custom';
 export type SliceStatus = 'active' | 'inactive' | 'locked' | 'error';
 
 export interface SliceData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   content: any;
   size: number;
   format: DataFormat;
@@ -79,6 +127,18 @@ export interface SliceData {
 export type DataFormat = 'json' | 'xml' | 'yaml' | 'csv' | 'binary' | 'custom';
 
 export interface CompressionInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: CompressionAlgorithm;
   compressed: boolean;
   originalSize: number;
@@ -89,6 +149,18 @@ export interface CompressionInfo {
 export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
 export interface SliceMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   created: number;
   modified: number;
   accessed: number;
@@ -100,6 +172,18 @@ export interface SliceMetadata {
 }
 
 export interface SlicePermissions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   read: string[];
   write: string[];
   delete: string[];
@@ -107,6 +191,18 @@ export interface SlicePermissions {
 }
 
 export interface SliceSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SchemaType;
   properties: Record<string, PropertyDefinition>;
   required: string[];
@@ -117,6 +213,18 @@ export interface SliceSchema {
 export type SchemaType = 'object' | 'array' | 'primitive' | 'custom';
 
 export interface PropertyDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DataType;
   description: string;
   format: string;
@@ -132,6 +240,18 @@ export interface PropertyDefinition {
 export type DataType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'null' | 'custom';
 
 export interface SchemaConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   field: string;
   operator: ConstraintOperator;
@@ -143,6 +263,18 @@ export type ConstraintType = 'required' | 'type' | 'format' | 'range' | 'length'
 export type ConstraintOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'not_contains' | 'custom';
 
 export interface SlicePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accessCount: number;
   averageAccessTime: number;
   memoryUsage: number;
@@ -151,6 +283,18 @@ export interface SlicePerformance {
 }
 
 export interface SliceCacheInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cached: boolean;
   cacheKey: string;
   cacheSize: number;
@@ -160,6 +304,18 @@ export interface SliceCacheInfo {
 }
 
 export interface SliceSynchronization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   synchronized: boolean;
   lastSync: number;
   syncStatus: SyncStatus;
@@ -170,6 +326,18 @@ export interface SliceSynchronization {
 export type SyncStatus = 'synced' | 'pending' | 'conflict' | 'error';
 
 export interface SyncConflict {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   localValue: any;
   remoteValue: any;
@@ -180,6 +348,18 @@ export interface SyncConflict {
 export type ConflictResolution = 'local' | 'remote' | 'merge' | 'custom';
 
 export interface Partition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PartitionType;
@@ -194,6 +374,18 @@ export type PartitionType = 'range' | 'hash' | 'list' | 'custom';
 export type PartitionStatus = 'active' | 'inactive' | 'error';
 
 export interface PartitionCriteria {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: CriteriaOperator;
   value: any;
@@ -205,12 +397,36 @@ export type CriteriaOperator = 'equals' | 'range' | 'hash' | 'custom';
 export type HashFunction = 'md5' | 'sha1' | 'sha256' | 'custom';
 
 export interface ValueRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: any;
   max: any;
   inclusive: boolean;
 }
 
 export interface PartitionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSlices: number;
   averageSliceSize: number;
   memoryUsage: number;
@@ -218,6 +434,18 @@ export interface PartitionPerformance {
 }
 
 export interface SliceCache {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CacheType;
@@ -231,6 +459,18 @@ export type CacheType = 'memory' | 'disk' | 'redis' | 'custom';
 export type CacheStatus = 'active' | 'inactive' | 'error';
 
 export interface CacheConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSize: number;
   ttl: number;
   evictionPolicy: EvictionPolicy;
@@ -241,6 +481,18 @@ export interface CacheConfiguration {
 export type EvictionPolicy = 'lru' | 'lfu' | 'fifo' | 'custom';
 
 export interface CachePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hitRate: number;
   missRate: number;
   totalRequests: number;
@@ -250,6 +502,18 @@ export interface CachePerformance {
 }
 
 export interface SliceSynchronizer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SynchronizerType;
@@ -263,6 +527,18 @@ export type SynchronizerType = 'realtime' | 'batch' | 'event' | 'custom';
 export type SynchronizerStatus = 'active' | 'inactive' | 'error';
 
 export interface SynchronizerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interval: number;
   batchSize: number;
   retryAttempts: number;
@@ -273,6 +549,18 @@ export interface SynchronizerConfiguration {
 }
 
 export interface SynchronizerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSyncs: number;
   successRate: number;
   averageSyncTime: number;
@@ -280,6 +568,18 @@ export interface SynchronizerPerformance {
 }
 
 export interface SliceOptimizer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: OptimizerType;
@@ -293,6 +593,18 @@ export type OptimizerType = 'compression' | 'deduplication' | 'indexing' | 'cust
 export type OptimizerStatus = 'active' | 'inactive' | 'error';
 
 export interface OptimizerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: OptimizationAlgorithm;
   level: OptimizationLevel;
   threshold: number;
@@ -303,6 +615,18 @@ export type OptimizationAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom
 export type OptimizationLevel = 'fast' | 'balanced' | 'maximum' | 'custom';
 
 export interface OptimizerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalOptimizations: number;
   averageCompressionRatio: number;
   averageOptimizationTime: number;
@@ -311,6 +635,18 @@ export interface OptimizerPerformance {
 }
 
 export interface SlicePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSlices: number;
   activeSlices: number;
   totalPartitions: number;
@@ -324,6 +660,18 @@ export interface SlicePerformanceMetrics {
 }
 
 export interface SliceAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSlices: number;
   totalPartitions: number;
   averageSliceSize: number;
@@ -333,6 +681,18 @@ export interface SliceAnalytics {
 }
 
 export interface SliceTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SliceType;
   count: number;
   percentage: number;
@@ -340,6 +700,18 @@ export interface SliceTypeDistribution {
 }
 
 export interface PartitionTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PartitionType;
   count: number;
   percentage: number;
@@ -347,6 +719,18 @@ export interface PartitionTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   slices: number;
   partitions: number;
@@ -356,6 +740,18 @@ export interface PerformanceTrend {
 }
 
 export interface SliceReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -367,6 +763,18 @@ export interface SliceReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -376,6 +784,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -384,6 +804,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -392,6 +824,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -399,6 +843,18 @@ export interface Version {
 }
 
 export interface SliceOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

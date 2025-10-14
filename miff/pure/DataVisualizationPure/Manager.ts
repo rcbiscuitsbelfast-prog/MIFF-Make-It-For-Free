@@ -12,6 +12,18 @@
  */
 
 export interface DataVisualizationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableVisualizationManagement: boolean;
   enableChartCreation: boolean;
   enableDataProcessing: boolean;
@@ -29,6 +41,18 @@ export interface DataVisualizationConfig {
 }
 
 export interface DataVisualizationManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DataVisualizationManagerType;
@@ -52,6 +76,18 @@ export type DataVisualizationManagerType = 'business' | 'scientific' | 'educatio
 export type DataVisualizationManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Chart {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChartType;
@@ -67,6 +103,18 @@ export type ChartType = 'line' | 'bar' | 'pie' | 'scatter' | 'area' | 'histogram
 export type ChartStatus = 'draft' | 'published' | 'archived' | 'error';
 
 export interface ChartData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   source: DataSource;
   columns: DataColumn[];
   rows: DataRow[];
@@ -76,6 +124,18 @@ export interface ChartData {
 }
 
 export interface DataSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   connection: string;
   query: string;
@@ -87,6 +147,18 @@ export interface DataSource {
 export type SourceType = 'database' | 'file' | 'api' | 'stream' | 'custom';
 
 export interface DataColumn {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ColumnType;
@@ -99,12 +171,36 @@ export type ColumnType = 'string' | 'number' | 'date' | 'boolean' | 'object' | '
 export type ColumnFormat = 'text' | 'number' | 'currency' | 'percentage' | 'date' | 'time' | 'custom';
 
 export interface DataRow {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   values: Record<string, any>;
   metadata: Record<string, any>;
 }
 
 export interface DataFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   column: string;
   operator: FilterOperator;
@@ -115,6 +211,18 @@ export interface DataFilter {
 export type FilterOperator = 'equals' | 'not_equals' | 'greater' | 'less' | 'contains' | 'starts_with' | 'ends_with' | 'between' | 'in' | 'not_in';
 
 export interface DataAggregation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   column: string;
   function: AggregationFunction;
@@ -125,6 +233,18 @@ export interface DataAggregation {
 export type AggregationFunction = 'sum' | 'avg' | 'count' | 'min' | 'max' | 'median' | 'mode' | 'std' | 'var' | 'custom';
 
 export interface DataTransformation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: TransformationType;
   parameters: Record<string, any>;
@@ -134,6 +254,18 @@ export interface DataTransformation {
 export type TransformationType = 'sort' | 'group' | 'pivot' | 'join' | 'merge' | 'split' | 'custom';
 
 export interface ChartConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   subtitle: string;
   axes: AxesConfiguration;
@@ -144,12 +276,36 @@ export interface ChartConfiguration {
 }
 
 export interface AxesConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: AxisConfiguration;
   y: AxisConfiguration;
   z?: AxisConfiguration;
 }
 
 export interface AxisConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   type: AxisType;
   scale: ScaleType;
@@ -164,6 +320,18 @@ export type AxisType = 'linear' | 'logarithmic' | 'time' | 'category' | 'custom'
 export type ScaleType = 'linear' | 'log' | 'sqrt' | 'pow' | 'custom';
 
 export interface TickConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   count: number;
   interval: number;
   format: string;
@@ -172,6 +340,18 @@ export interface TickConfiguration {
 }
 
 export interface GridConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   color: string;
   width: number;
@@ -181,6 +361,18 @@ export interface GridConfiguration {
 export type LineStyle = 'solid' | 'dashed' | 'dotted' | 'custom';
 
 export interface LabelConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   format: string;
   rotation: number;
@@ -190,6 +382,18 @@ export interface LabelConfiguration {
 }
 
 export interface LegendConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   position: LegendPosition;
   orientation: LegendOrientation;
@@ -203,6 +407,18 @@ export type LegendPosition = 'top' | 'bottom' | 'left' | 'right' | 'custom';
 export type LegendOrientation = 'horizontal' | 'vertical';
 
 export interface TooltipConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   trigger: TooltipTrigger;
   format: string;
@@ -216,6 +432,18 @@ export interface TooltipConfiguration {
 export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'custom';
 
 export interface AnimationConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   duration: number;
   easing: EasingType;
@@ -226,12 +454,36 @@ export interface AnimationConfiguration {
 export type EasingType = 'linear' | 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'bounce' | 'elastic' | 'custom';
 
 export interface ResponsiveConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   breakpoints: ResponsiveBreakpoint[];
   rules: ResponsiveRule[];
 }
 
 export interface ResponsiveBreakpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   minWidth: number;
   maxWidth: number;
@@ -239,11 +491,35 @@ export interface ResponsiveBreakpoint {
 }
 
 export interface ResponsiveRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   condition: string;
   properties: Partial<ChartConfiguration>;
 }
 
 export interface ChartStyling {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   colors: ColorPalette;
   fonts: FontConfiguration;
   spacing: SpacingConfiguration;
@@ -253,6 +529,18 @@ export interface ChartStyling {
 }
 
 export interface ColorPalette {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: string[];
   secondary: string[];
   accent: string[];
@@ -263,6 +551,18 @@ export interface ColorPalette {
 }
 
 export interface FontConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   family: string;
   size: number;
   weight: FontWeight;
@@ -274,12 +574,36 @@ export type FontWeight = 'normal' | 'bold' | 'bolder' | 'lighter' | '100' | '200
 export type FontStyle = 'normal' | 'italic' | 'oblique';
 
 export interface SpacingConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   margin: Spacing;
   padding: Spacing;
   gap: number;
 }
 
 export interface Spacing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: number;
   right: number;
   bottom: number;
@@ -287,6 +611,18 @@ export interface Spacing {
 }
 
 export interface BorderConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   width: number;
   style: BorderStyle;
@@ -297,6 +633,18 @@ export interface BorderConfiguration {
 export type BorderStyle = 'solid' | 'dashed' | 'dotted' | 'double' | 'none' | 'custom';
 
 export interface ShadowConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   color: string;
   blur: number;
@@ -306,6 +654,18 @@ export interface ShadowConfiguration {
 }
 
 export interface BackgroundConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: string;
   image: string;
   opacity: number;
@@ -313,6 +673,18 @@ export interface BackgroundConfiguration {
 }
 
 export interface GradientConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: GradientType;
   colors: string[];
@@ -324,11 +696,35 @@ export type GradientType = 'linear' | 'radial' | 'conic' | 'custom';
 export type GradientDirection = 'to-right' | 'to-left' | 'to-top' | 'to-bottom' | 'to-top-right' | 'to-top-left' | 'to-bottom-right' | 'to-bottom-left' | 'custom';
 
 export interface GradientStop {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: string;
   position: number;
 }
 
 export interface ChartInteractions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoom: ZoomConfiguration;
   pan: PanConfiguration;
   brush: BrushConfiguration;
@@ -338,6 +734,18 @@ export interface ChartInteractions {
 }
 
 export interface ZoomConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: ZoomType;
   min: number;
@@ -348,6 +756,18 @@ export interface ZoomConfiguration {
 export type ZoomType = 'wheel' | 'pinch' | 'double-click' | 'custom';
 
 export interface PanConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: PanType;
   sensitivity: number;
@@ -357,6 +777,18 @@ export interface PanConfiguration {
 export type PanType = 'drag' | 'touch' | 'keyboard' | 'custom';
 
 export interface BoundsConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   minX: number;
   maxX: number;
@@ -365,6 +797,18 @@ export interface BoundsConfiguration {
 }
 
 export interface BrushConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: BrushType;
   color: string;
@@ -375,6 +819,18 @@ export interface BrushConfiguration {
 export type BrushType = 'rect' | 'circle' | 'polygon' | 'custom';
 
 export interface SelectionConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: SelectionType;
   multiple: boolean;
@@ -385,6 +841,18 @@ export interface SelectionConfiguration {
 export type SelectionType = 'point' | 'line' | 'area' | 'custom';
 
 export interface HoverConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   delay: number;
   duration: number;
@@ -392,6 +860,18 @@ export interface HoverConfiguration {
 }
 
 export interface HighlightConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   color: string;
   opacity: number;
@@ -399,6 +879,18 @@ export interface HighlightConfiguration {
 }
 
 export interface ClickConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   action: ClickAction;
   parameters: Record<string, any>;
@@ -407,6 +899,18 @@ export interface ClickConfiguration {
 export type ClickAction = 'drill-down' | 'filter' | 'navigate' | 'custom';
 
 export interface Dataset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -418,6 +922,18 @@ export interface Dataset {
 }
 
 export interface DatasetSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   columns: DataColumn[];
   constraints: SchemaConstraint[];
   indexes: SchemaIndex[];
@@ -425,6 +941,18 @@ export interface DatasetSchema {
 }
 
 export interface SchemaConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   column: string;
   value: any;
@@ -434,6 +962,18 @@ export interface SchemaConstraint {
 export type ConstraintType = 'not_null' | 'unique' | 'primary_key' | 'foreign_key' | 'check' | 'custom';
 
 export interface SchemaIndex {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   columns: string[];
   type: IndexType;
   unique: boolean;
@@ -443,6 +983,18 @@ export interface SchemaIndex {
 export type IndexType = 'btree' | 'hash' | 'bitmap' | 'gin' | 'gist' | 'custom';
 
 export interface SchemaRelationship {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   from: string;
   to: string;
   type: RelationshipType;
@@ -453,6 +1005,18 @@ export type RelationshipType = 'one_to_one' | 'one_to_many' | 'many_to_one' | 'm
 export type Cardinality = '1' | '0..1' | '1..*' | '0..*';
 
 export interface VisualizationTheme {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ThemeType;
@@ -468,6 +1032,18 @@ export interface VisualizationTheme {
 export type ThemeType = 'light' | 'dark' | 'colorful' | 'minimal' | 'custom';
 
 export interface ChartTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChartType;
@@ -481,6 +1057,18 @@ export interface ChartTemplate {
 }
 
 export interface DataVisualizationPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCharts: number;
   activeCharts: number;
   totalDatasets: number;
@@ -493,6 +1081,18 @@ export interface DataVisualizationPerformanceMetrics {
 }
 
 export interface DataVisualizationAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCharts: number;
   totalDatasets: number;
   averageRenderTime: number;
@@ -502,6 +1102,18 @@ export interface DataVisualizationAnalytics {
 }
 
 export interface ChartTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ChartType;
   count: number;
   percentage: number;
@@ -509,6 +1121,18 @@ export interface ChartTypeDistribution {
 }
 
 export interface DatasetSizeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: string;
   count: number;
   percentage: number;
@@ -516,6 +1140,18 @@ export interface DatasetSizeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   charts: number;
   datasets: number;
@@ -526,6 +1162,18 @@ export interface PerformanceTrend {
 }
 
 export interface DataVisualizationReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -537,6 +1185,18 @@ export interface DataVisualizationReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -546,6 +1206,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -554,6 +1226,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -562,6 +1246,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -569,6 +1265,18 @@ export interface Version {
 }
 
 export interface DataVisualizationOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

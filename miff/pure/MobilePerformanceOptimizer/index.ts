@@ -25,6 +25,18 @@ export enum DeviceType {
 }
 
 export interface PerformanceConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetFPS: number;
   maxMemoryUsage: number; // MB
   enableVSync: boolean;
@@ -40,6 +52,18 @@ export interface PerformanceConfig {
 }
 
 export interface DeviceCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DeviceType;
   memory: number; // MB
   cpuCores: number;
@@ -61,7 +85,7 @@ export class MobilePerformanceOptimizer {
   private memoryUsageHistory: number[] = [];
   private isOptimizing: boolean = false;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.deviceCapabilities = this.detectDeviceCapabilities();
     this.currentPerformanceLevel = this.determineOptimalPerformanceLevel();
     this.config = this.generatePerformanceConfig();

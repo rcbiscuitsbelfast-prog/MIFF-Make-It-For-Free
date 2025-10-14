@@ -10,6 +10,18 @@
  */
 
 export interface SurvivalSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSurvivalManagement: boolean;
   enableSurvivalMechanics: boolean;
   enableResourceManagement: boolean;
@@ -26,6 +38,18 @@ export interface SurvivalSystemConfig {
 }
 
 export interface SurvivalSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SurvivalSystemManagerType;
@@ -49,6 +73,18 @@ export type SurvivalSystemManagerType = 'hardcore' | 'casual' | 'realistic' | 'c
 export type SurvivalSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Survivor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SurvivorType;
@@ -64,6 +100,18 @@ export type SurvivorType = 'player' | 'npc' | 'companion' | 'custom';
 export type SurvivorStatus = 'alive' | 'injured' | 'dying' | 'dead';
 
 export interface SurvivorStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: StatValue;
   hunger: StatValue;
   thirst: StatValue;
@@ -73,6 +121,18 @@ export interface SurvivorStats {
 }
 
 export interface StatValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   current: number;
   maximum: number;
   base: number;
@@ -80,6 +140,18 @@ export interface StatValue {
 }
 
 export interface StatModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   source: string;
   type: ModifierType;
   value: number;
@@ -90,6 +162,18 @@ export interface StatModifier {
 export type ModifierType = 'add' | 'multiply' | 'percentage' | 'custom';
 
 export interface ResourceInventory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resource: string;
   quantity: number;
   maxQuantity: number;
@@ -98,6 +182,18 @@ export interface ResourceInventory {
 }
 
 export interface SurvivorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   survivalTime: number;
   resourcesConsumed: number;
   mechanicsUsed: number;
@@ -105,6 +201,18 @@ export interface SurvivorPerformance {
 }
 
 export interface Resource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ResourceType;
@@ -119,6 +227,18 @@ export type ResourceType = 'food' | 'water' | 'shelter' | 'custom';
 export type ResourceStatus = 'available' | 'depleted' | 'renewable' | 'custom';
 
 export interface ResourceProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   value: number;
   weight: number;
   durability: number;
@@ -129,12 +249,36 @@ export interface ResourceProperties {
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'custom';
 
 export interface ResourceConsumption {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rate: number;
   efficiency: number;
   requirements: ConsumptionRequirement[];
 }
 
 export interface ConsumptionRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RequirementType;
   value: number;
   description: string;
@@ -143,12 +287,36 @@ export interface ConsumptionRequirement {
 export type RequirementType = 'tool' | 'skill' | 'condition' | 'custom';
 
 export interface ResourcePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalConsumed: number;
   averageConsumption: number;
   lastConsumed: number;
 }
 
 export interface SurvivalMechanic {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MechanicType;
@@ -162,6 +330,18 @@ export type MechanicType = 'hunger' | 'thirst' | 'temperature' | 'custom';
 export type MechanicStatus = 'active' | 'inactive' | 'error';
 
 export interface MechanicConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rate: number;
   threshold: number;
@@ -169,6 +349,18 @@ export interface MechanicConfiguration {
 }
 
 export interface MechanicConsequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConsequenceType;
   value: number;
   description: string;
@@ -177,12 +369,36 @@ export interface MechanicConsequence {
 export type ConsequenceType = 'damage' | 'debuff' | 'death' | 'custom';
 
 export interface MechanicPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalActivations: number;
   averageActivationTime: number;
   lastActivation: number;
 }
 
 export interface SurvivalEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EventType;
@@ -198,6 +414,18 @@ export type EventType = 'disaster' | 'opportunity' | 'challenge' | 'custom';
 export type EventStatus = 'pending' | 'active' | 'completed' | 'failed';
 
 export interface EventPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalOccurrences: number;
   successfulOccurrences: number;
   failedOccurrences: number;
@@ -206,6 +434,18 @@ export interface EventPerformance {
 }
 
 export interface SurvivalSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSurvivors: number;
   aliveSurvivors: number;
   totalResources: number;
@@ -219,6 +459,18 @@ export interface SurvivalSystemPerformanceMetrics {
 }
 
 export interface SurvivalSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSurvivors: number;
   totalResources: number;
   averageSurvivalTime: number;
@@ -228,6 +480,18 @@ export interface SurvivalSystemAnalytics {
 }
 
 export interface SurvivorTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SurvivorType;
   count: number;
   percentage: number;
@@ -235,6 +499,18 @@ export interface SurvivorTypeDistribution {
 }
 
 export interface ResourceTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ResourceType;
   count: number;
   percentage: number;
@@ -242,6 +518,18 @@ export interface ResourceTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   survivors: number;
   resources: number;
@@ -252,6 +540,18 @@ export interface PerformanceTrend {
 }
 
 export interface SurvivalSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -263,6 +563,18 @@ export interface SurvivalSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -272,6 +584,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -280,6 +604,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -288,6 +624,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -295,6 +643,18 @@ export interface Version {
 }
 
 export interface SurvivalSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

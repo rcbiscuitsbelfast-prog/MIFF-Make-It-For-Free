@@ -4,7 +4,7 @@ import { HapticsManager, HapticRequest } from './Manager';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-async function main() {
+async function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (!argv.length) {
     console.error('Usage: tsx cliHarness.ts <requests.json>');

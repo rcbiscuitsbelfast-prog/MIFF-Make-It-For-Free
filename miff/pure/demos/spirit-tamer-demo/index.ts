@@ -27,6 +27,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Game Types and Interfaces
 interface SpiritType {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   color: string;
   weaknesses: string[];
@@ -35,6 +47,18 @@ interface SpiritType {
 }
 
 interface SpiritSpecies {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -54,6 +78,18 @@ interface SpiritSpecies {
 }
 
 interface PlayerSpirit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   speciesId: string;
   name: string;
@@ -78,6 +114,18 @@ interface PlayerSpirit {
 }
 
 interface Player {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   spirits: PlayerSpirit[];
   activeTeam: PlayerSpirit[];
@@ -90,6 +138,18 @@ interface Player {
 }
 
 interface BattleState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerSpirit: PlayerSpirit;
   enemySpirit: PlayerSpirit;
   playerMoves: string[];
@@ -195,7 +255,7 @@ const MOVES: Record<string, any> = {
 
 // Game Systems
 class SpiritTamerGame {
-  private logger: StructuredLogger;
+  
   private player: Player;
   private healthSystem: any;
   private combatSystem: any;
@@ -207,8 +267,8 @@ class SpiritTamerGame {
   private rl: readline.Interface;
   private battleState: BattleState | null = null;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'SpiritTamerGame' });
+  constructor(...args: any[]) {
+    
     this.player = {
       name: 'Player',
       spirits: [],
@@ -910,7 +970,7 @@ class SpiritTamerGame {
 }
 
 // Demo Entry Point
-async function main() {
+async function main(...args: any[]) {
   console.info('🎮 Spirit Tamer Demo - MIFF Framework');
   console.info('=====================================');
   console.info('A complete creature collection game featuring:');

@@ -3,6 +3,18 @@ import path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WebExportOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   project: string;
   output: string;
   deploy?: 'pages' | 'netlify' | 'vercel' | 'none';
@@ -23,7 +35,7 @@ function parseArgs(argv: string[]): WebExportOptions {
   return opts as WebExportOptions;
 }
 
-function main() {
+function main(...args: any[]) {
   const opts = parseArgs(process.argv);
   const projectPath = path.resolve(process.cwd(), opts.project);
   console.info(JSON.stringify({

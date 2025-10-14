@@ -6,6 +6,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface CacheEntry<T = any> {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   key: string;
   data: T;
   timestamp: number;
@@ -17,6 +29,18 @@ export interface CacheEntry<T = any> {
 }
 
 export interface CacheStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEntries: number;
   totalSize: number;
   hitRate: number;
@@ -27,6 +51,18 @@ export interface CacheStats {
 }
 
 export interface CacheConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSize: number;
   maxEntries: number;
   defaultTTL: number;
@@ -40,7 +76,7 @@ export interface CacheConfig {
 }
 
 export class CacheManager {
-  private logger: StructuredLogger;
+  
   private cache: Map<string, CacheEntry> = new Map();
   private accessHistory: string[] = [];
   private config: CacheConfig;
@@ -55,7 +91,7 @@ export class CacheManager {
   private persistenceTimer?: NodeJS.Timeout;
 
   constructor(config: Partial<CacheConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'CacheManager' });
+    
     this.config = {
       maxSize: 100 * 1024 * 1024, // 100MB
       maxEntries: 10000,

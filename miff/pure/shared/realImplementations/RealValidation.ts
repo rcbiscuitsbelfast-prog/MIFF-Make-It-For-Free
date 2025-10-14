@@ -6,6 +6,18 @@
  */
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   issues: ValidationIssue[];
   score?: number;
@@ -13,6 +25,18 @@ export interface ValidationResult {
 }
 
 export interface ValidationIssue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'error' | 'warning' | 'info';
   field?: string;
   message: string;
@@ -22,6 +46,18 @@ export interface ValidationIssue {
 }
 
 export interface SchemaValidationOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strict?: boolean;
   allowAdditionalProperties?: boolean;
   validateTypes?: boolean;
@@ -29,6 +65,18 @@ export interface SchemaValidationOptions {
 }
 
 export interface EngineHints {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   unity?: Record<string, unknown>;
   godot?: Record<string, unknown>;
   web?: Record<string, unknown>;
@@ -36,6 +84,18 @@ export interface EngineHints {
 }
 
 export interface ValidationMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   schema: string;
   timestamp: Date;

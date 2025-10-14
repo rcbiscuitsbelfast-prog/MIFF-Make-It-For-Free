@@ -3,7 +3,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd = { op: 'dumpTypes' } | { op: 'list' } | { op: 'dump' };
 
-function main(){
+function main(...args: any[]) {
   const mgr = new SharedSchemaManager();
   const cmdArg = process.argv[2] || 'dumpTypes';
   const cmd:Cmd = cmdArg==='dumpTypes' ? {op:'dumpTypes'} : cmdArg==='list' ? {op:'list'} : {op:'dump'};

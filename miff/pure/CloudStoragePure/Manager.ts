@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CloudStorageConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiProviderSupport: boolean;
   enableFileManagement: boolean;
   enablePerformanceOptimization: boolean;
@@ -31,6 +43,18 @@ export interface CloudStorageConfig {
 }
 
 export interface CloudStorage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StorageType;
@@ -47,6 +71,18 @@ export interface CloudStorage {
 }
 
 export interface StorageProvider {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ProviderType;
@@ -57,6 +93,18 @@ export interface StorageProvider {
 }
 
 export interface ProviderCredentials {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accessKey: string;
   secretKey: string;
   region: string;
@@ -65,6 +113,18 @@ export interface ProviderCredentials {
 }
 
 export interface ProviderSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxFileSize: number; // bytes
   allowedFileTypes: string[];
   compressionEnabled: boolean;
@@ -73,6 +133,18 @@ export interface ProviderSettings {
 }
 
 export interface StorageFile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   path: string;
@@ -88,6 +160,18 @@ export interface StorageFile {
 }
 
 export interface StorageBucket {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   provider: string; // Provider ID
@@ -99,6 +183,18 @@ export interface StorageBucket {
 }
 
 export interface BucketSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   public: boolean;
   versioning: boolean;
   lifecycle: LifecycleRule[];
@@ -106,6 +202,18 @@ export interface BucketSettings {
 }
 
 export interface LifecycleRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   enabled: boolean;
@@ -115,18 +223,54 @@ export interface LifecycleRule {
 }
 
 export interface LifecycleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   value: any;
   metadata: Record<string, any>;
 }
 
 export interface LifecycleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   metadata: Record<string, any>;
 }
 
 export interface StoragePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFiles: number;
   totalSize: number; // bytes
   averageUploadTime: number; // milliseconds
@@ -136,6 +280,18 @@ export interface StoragePerformance {
 }
 
 export interface StorageAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalStorages: number;
   activeStorages: number;
   totalProviders: number;
@@ -158,7 +314,7 @@ export type ConditionType = 'age' | 'size' | 'type' | 'custom';
 export type ActionType = 'delete' | 'archive' | 'move' | 'custom';
 
 export class CloudStorageManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -168,7 +324,7 @@ export class CloudStorageManager {
   private startTime: Date;
 
   constructor(config?: Partial<CloudStorageConfig>) {
-    this.logger = new StructuredLogger({ module: 'CloudStorageManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

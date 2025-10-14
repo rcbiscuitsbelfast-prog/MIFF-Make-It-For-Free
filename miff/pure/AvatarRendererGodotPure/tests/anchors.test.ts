@@ -1,7 +1,7 @@
 import { AvatarSystemPure } from '../../AvatarSystemPure';
 import { AvatarRendererGodotPure } from '../index';
 
-function makeRegistry(){
+function makeRegistry(...args: any[]) {
   return { 
     version:'1.0.0', 
     items:[{ 

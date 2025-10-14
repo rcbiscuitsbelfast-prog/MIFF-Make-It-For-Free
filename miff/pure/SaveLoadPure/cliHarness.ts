@@ -6,7 +6,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class FileStorageAdapter implements StorageAdapter {
   constructor(private filePath: string) {
-    this.logger = new StructuredLogger({ module: 'FileStorageAdapter' });}
+    }
 
   async read(): Promise<unknown | null> {
     try {
@@ -34,7 +34,7 @@ class FileStorageAdapter implements StorageAdapter {
   }
 }
 
-async function main() {
+async function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   // Normalize arguments: allow "command slotId" (no save file) or "command save.json slotId"

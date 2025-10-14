@@ -38,6 +38,18 @@ export enum GameRole {
 }
 
 export interface GamePlayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: GameRole;
@@ -52,6 +64,18 @@ export interface GamePlayer {
 }
 
 export interface GameVote {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   voterId: string;
   targetId: string;
   phase: GamePhase;
@@ -60,6 +84,18 @@ export interface GameVote {
 }
 
 export interface DiscussionRound {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   phase: GamePhase;
   duration: number;
@@ -71,6 +107,18 @@ export interface DiscussionRound {
 }
 
 export interface GameMessage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   playerId: string;
   content: string;
@@ -81,6 +129,18 @@ export interface GameMessage {
 }
 
 export interface VotingResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   phase: GamePhase;
   votes: GameVote[];
   results: Map<string, number>;
@@ -90,6 +150,18 @@ export interface VotingResults {
 }
 
 export interface AbilityEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   playerId: string;
   targetId?: string;
@@ -101,6 +173,18 @@ export interface AbilityEffect {
 }
 
 export interface SocialDeductionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxPlayers?: number;
   minPlayers?: number;
   traitorCount?: number;
@@ -112,6 +196,18 @@ export interface SocialDeductionConfig {
 }
 
 export interface GameStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalGames: number;
   totalPlayers: number;
   averageGameDuration: number;
@@ -122,6 +218,18 @@ export interface GameStats {
 }
 
 export interface SocialOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   message: string;
   data?: any;

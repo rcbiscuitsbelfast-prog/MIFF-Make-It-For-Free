@@ -18,6 +18,18 @@ import { mainOrchestrator, GameState } from './mainOrchestrator';
 
 // Enhanced Tile Editor with orchestrator integration
 interface EnhancedTileEditorProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   manager: TileManager;
   onTileChange?: (x: number, y: number, type: TileType) => void;
   showGrid?: boolean;
@@ -146,6 +158,18 @@ export const EnhancedTileEditor: React.FC<EnhancedTileEditorProps> = ({
 
 // Enhanced Zone Editor with orchestrator integration
 interface EnhancedZoneEditorProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   manager: TileManager;
   onSave: () => void;
   onLoad?: () => void;
@@ -238,6 +262,18 @@ export const EnhancedZoneEditor: React.FC<EnhancedZoneEditorProps> = ({
 
 // Enhanced Tile Inspector with orchestrator integration
 interface EnhancedTileInspectorProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TileType;
   x: number;
   y: number;
@@ -310,6 +346,18 @@ export const EnhancedTileInspector: React.FC<EnhancedTileInspectorProps> = ({
 
 // Game UI Overlay with mobile support
 interface GameUIOverlayProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gameState: GameState;
   isMobile?: boolean;
   onToggleInventory?: () => void;
@@ -401,6 +449,18 @@ export const GameUIOverlay: React.FC<GameUIOverlayProps> = ({
 
 // Debug Overlay with mobile support
 interface DebugOverlayProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isVisible: boolean;
   isMobile?: boolean;
   playerPos: { x: number; y: number };
@@ -437,6 +497,18 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({
 
 // Main Visual Tools Container
 interface VisualToolsContainerProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   manager: TileManager;
   isMobile?: boolean;
   showEditor?: boolean;

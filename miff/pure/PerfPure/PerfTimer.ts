@@ -6,6 +6,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface PerfResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   label: string;
   durationMs: number;
   durationNs: number;
@@ -14,14 +26,14 @@ export interface PerfResult {
 }
 
 export class PerfTimer {
-  private logger: StructuredLogger;
+  
   public readonly label: string;
   public readonly startTime: number;
   private _endTime: number | null = null;
   private _isDisposed: boolean = false;
 
   constructor(label: string) {
-    this.logger = new StructuredLogger({ module: 'PerfTimer' });
+    
     if (!label || label.trim() === '') {
       throw new Error('Timer label cannot be empty');
     }
@@ -327,6 +339,18 @@ export class PerfUtils {
 }
 
 export interface PerfSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalDuration: number;
   timerCount: number;
   averageDuration: number;

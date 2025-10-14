@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Quest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   description: string;
@@ -22,6 +34,18 @@ export interface Quest {
 }
 
 export interface QuestObjective {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   type: 'kill' | 'collect' | 'reach' | 'talk' | 'craft' | 'custom';
@@ -32,6 +56,18 @@ export interface QuestObjective {
 }
 
 export interface QuestReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'experience' | 'item' | 'currency' | 'reputation';
   id: string;
   quantity: number;
@@ -39,6 +75,18 @@ export interface QuestReward {
 }
 
 export interface QuestProgress {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   questId: string;
   objectives: { [objectiveId: string]: number };
   status: 'in_progress' | 'completed' | 'failed';
@@ -47,14 +95,14 @@ export interface QuestProgress {
 }
 
 export class RealQuestSystem {
-  private logger: StructuredLogger;
+  
   private quests: Map<string, Quest> = new Map();
   private activeQuests: Map<string, QuestProgress> = new Map();
   private completedQuests: Set<string> = new Set();
   private questEvents: Map<string, Function[]> = new Map();
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealQuestSystem' });
+  constructor(...args: any[]) {
+    
     this.initializeDefaultQuests();
   }
 

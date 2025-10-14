@@ -8,6 +8,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SyncManagerOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'diff' | 'snapshot' | 'simulate' | 'dump';
   data?: Record<string, unknown>;
   config?: Record<string, unknown>;
@@ -15,12 +27,24 @@ interface SyncManagerOperation {
 }
 
 interface PlayerStateSnapshot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   identity: { playerId: string };
   position: { x: number; y: number };
   velocity: { x: number; y: number };
 }
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

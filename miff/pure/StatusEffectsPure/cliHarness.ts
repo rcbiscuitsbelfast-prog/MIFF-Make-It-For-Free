@@ -39,7 +39,7 @@ type Cmd =
   | { op: 'apply'; id: string; effect: Omit<StatusEffect, 'appliedAt' | 'expiresAt' | 'currentStacks'> }
   | { op: 'remove'; id: string; effectId: string };
 
-function main() {
+function main(...args: any[]) {
   const statusPath = process.argv[2] || 'StatusEffectsPure/sample_status.json';
   const commandsPath = process.argv[3] || '';
   

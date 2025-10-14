@@ -20,6 +20,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AIProfilesConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableProfileCreation: boolean;
   enableProfileManagement: boolean;
   enableBehaviorSimulation: boolean;
@@ -36,6 +48,18 @@ export interface AIProfilesConfig {
 }
 
 export interface AIProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ProfileType;
@@ -51,6 +75,18 @@ export interface AIProfile {
 }
 
 export interface PersonalityProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   traits: PersonalityTrait[];
   archetype: PersonalityArchetype;
   complexity: number; // 0 to 1
@@ -58,6 +94,18 @@ export interface PersonalityProfile {
 }
 
 export interface PersonalityTrait {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   value: number; // -1 to 1
@@ -67,6 +115,18 @@ export interface PersonalityTrait {
 }
 
 export interface BehaviorProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   patterns: BehaviorPattern[];
   triggers: BehaviorTrigger[];
   responses: BehaviorResponse[];
@@ -75,6 +135,18 @@ export interface BehaviorProfile {
 }
 
 export interface BehaviorPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   frequency: number; // 0 to 1
@@ -84,6 +156,18 @@ export interface BehaviorPattern {
 }
 
 export interface BehaviorTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TriggerType;
@@ -93,6 +177,18 @@ export interface BehaviorTrigger {
 }
 
 export interface BehaviorResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ResponseType;
@@ -102,6 +198,18 @@ export interface BehaviorResponse {
 }
 
 export interface PreferenceProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   combat: CombatPreferences;
   social: SocialPreferences;
   exploration: ExplorationPreferences;
@@ -109,6 +217,18 @@ export interface PreferenceProfile {
 }
 
 export interface CombatPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   aggression: number; // 0 to 1
   defense: number; // 0 to 1
   support: number; // 0 to 1
@@ -116,6 +236,18 @@ export interface CombatPreferences {
 }
 
 export interface SocialPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   friendliness: number; // 0 to 1
   leadership: number; // 0 to 1
   cooperation: number; // 0 to 1
@@ -123,6 +255,18 @@ export interface SocialPreferences {
 }
 
 export interface ExplorationPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   curiosity: number; // 0 to 1
   risk_taking: number; // 0 to 1
   patience: number; // 0 to 1
@@ -130,6 +274,18 @@ export interface ExplorationPreferences {
 }
 
 export interface ResourcePreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   conservation: number; // 0 to 1
   efficiency: number; // 0 to 1
   sharing: number; // 0 to 1
@@ -137,6 +293,18 @@ export interface ResourcePreferences {
 }
 
 export interface ProfileAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalProfiles: number;
   activeProfiles: number;
   averagePersonalityComplexity: number;
@@ -146,6 +314,18 @@ export interface ProfileAnalytics {
 }
 
 export interface BehaviorCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'situation' | 'health' | 'ally_count' | 'enemy_count' | 'time' | 'location';
   target: string;
   operator: 'equals' | 'greater' | 'less' | 'contains';
@@ -164,7 +344,7 @@ export type ExplorationMethod = 'systematic' | 'random' | 'guided' | 'risky' | '
 export type ResourcePriority = 'survival' | 'efficiency' | 'growth' | 'sharing' | 'conservation';
 
 export class AIProfilesManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -174,7 +354,7 @@ export class AIProfilesManager {
   private startTime: Date;
 
   constructor(config?: Partial<AIProfilesConfig>) {
-    this.logger = new StructuredLogger({ module: 'AIProfilesManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

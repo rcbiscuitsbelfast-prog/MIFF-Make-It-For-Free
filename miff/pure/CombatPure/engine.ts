@@ -20,6 +20,18 @@ export enum CombatResult {
 
 // Interfaces
 export interface ICombatant {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   team: string;
@@ -36,6 +48,18 @@ export interface ICombatant {
 }
 
 export interface IBattleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   actorId: string;
   type: 'attack' | 'defend' | 'item' | 'flee';
   targetId?: string;
@@ -45,21 +69,69 @@ export interface IBattleAction {
 }
 
 export interface IRNGProvider {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   nextFloat(min: number, max: number): number;
   nextBool(probability: number): boolean;
   reset(): void;
 }
 
 export interface InventoryHook {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hasItem(id: string): boolean;
   consumeItem(id: string): void;
 }
 
 export interface AIHook {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pickAction(state: CombatState, combatantId: string): Action;
 }
 
 export interface SaveHook {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   onCheckpoint?(state: CombatState): void;
 }
 
@@ -527,11 +599,11 @@ export class CombatEngine {
   inventory?: InventoryHook;
   ai?: AIHook;
   save?: SaveHook;
-  constructor(){ this.state={combatants:{}, order:[], queue:[]}; }
+  constructor(...args: any[]) { this.state={combatants:{}, order:[], queue:[]}; }
   addCombatant(c:Combatant){ this.state.combatants[c.id]=c; this.rebuildOrder(); }
-  rebuildOrder(){ this.state.order = Object.values(this.state.combatants).sort((a,b)=>b.stats.spd-a.stats.spd).map(c=>c.id); }
+  rebuildOrder(...args: any[]) { this.state.order = Object.values(this.state.combatants).sort((a,b)=>b.stats.spd-a.stats.spd).map(c=>c.id); }
   enqueue(a:Action){ this.state.queue.push(a); }
-  stepTurn(){ if(this.state.over) return; const next = this.state.queue.shift(); if(!next){ return; } this.resolve(next); this.checkVictory(); this.save?.onCheckpoint?.(this.state); }
+  stepTurn(...args: any[]) { if(this.state.over) return; const next = this.state.queue.shift(); if(!next){ return; } this.resolve(next); this.checkVictory(); this.save?.onCheckpoint?.(this.state); }
   resolve(a:Action){ const actor = this.state.combatants[a.actorId]; if(!actor||actor.status?.ko) return;
     switch(a.type){
       case 'attack': this.attack(actor, a.targetId!); break;
@@ -545,7 +617,7 @@ export class CombatEngine {
     if(item==='potion'){ actor.stats.hp = Math.min(actor.stats.maxHp, actor.stats.hp + 20); }
     if(this.inventory) this.inventory.consumeItem(item);
   }
-  checkVictory(){ const teams = new Map<string,{alive:number,fled:number}>();
+  checkVictory(...args: any[]) { const teams = new Map<string,{alive:number,fled:number}>();
     for(const c of Object.values(this.state.combatants)){
       const t = teams.get(c.team)||{alive:0,fled:0}; if(!c.status?.ko) t.alive++; if(c.status?.fled) t.fled++; teams.set(c.team,t);
     }
@@ -860,28 +932,28 @@ export class BattleEngine {
   /**
    * Get combatants map (for testing purposes)
    */
-  get combatants() {
+  get combatants(...args: any[]) {
     return this.state.combatants;
   }
 
   /**
    * Get turn order (for testing purposes)
    */
-  get order() {
+  get order(...args: any[]) {
     return this.state.order;
   }
 
   /**
    * Get action queue (for testing purposes)
    */
-  get queue() {
+  get queue(...args: any[]) {
     return this.state.queue;
   }
 
   /**
    * Get winner team (for testing purposes)
    */
-  get winnerTeam() {
+  get winnerTeam(...args: any[]) {
     return this.state.winnerTeam;
   }
 

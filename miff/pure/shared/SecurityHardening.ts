@@ -10,6 +10,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SecurityConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSSL: boolean;
   sslCertPath?: string;
   sslKeyPath?: string;
@@ -26,6 +38,18 @@ export interface SecurityConfig {
 }
 
 export interface PasswordPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minLength: number;
   requireUppercase: boolean;
   requireLowercase: boolean;
@@ -36,6 +60,18 @@ export interface PasswordPolicy {
 }
 
 export interface SecurityHeaders {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   'Strict-Transport-Security': string;
   'X-Content-Type-Options': string;
   'X-Frame-Options': string;
@@ -46,6 +82,18 @@ export interface SecurityHeaders {
 }
 
 export interface RateLimitConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   windowMs: number; // milliseconds
   maxRequests: number;
   skipSuccessfulRequests: boolean;
@@ -54,6 +102,18 @@ export interface RateLimitConfig {
 }
 
 export interface SecurityEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'login_attempt' | 'rate_limit_exceeded' | 'suspicious_activity' | 'security_violation';
   severity: 'low' | 'medium' | 'high' | 'critical';
@@ -64,6 +124,18 @@ export interface SecurityEvent {
 }
 
 export interface SecurityAudit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   score: number; // 0-100
   vulnerabilities: SecurityVulnerability[];
@@ -72,6 +144,18 @@ export interface SecurityAudit {
 }
 
 export interface SecurityVulnerability {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'injection' | 'broken_auth' | 'sensitive_data' | 'xml_external_entities' | 'broken_access_control' | 'security_misconfiguration' | 'cross_site_scripting' | 'insecure_deserialization' | 'known_vulnerabilities' | 'insufficient_logging';
   severity: 'low' | 'medium' | 'high' | 'critical';
@@ -82,6 +166,18 @@ export interface SecurityVulnerability {
 }
 
 export interface ComplianceStatus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gdpr: boolean;
   ccpa: boolean;
   sox: boolean;
@@ -91,7 +187,7 @@ export interface ComplianceStatus {
 }
 
 export class SecurityHardening {
-  private logger: StructuredLogger;
+  
   private config: SecurityConfig;
   private securityEvents: SecurityEvent[] = [];
   private rateLimitMap: Map<string, { count: number; resetTime: number }> = new Map();
@@ -99,7 +195,7 @@ export class SecurityHardening {
   private audit: SecurityAudit | null = null;
 
   constructor(config: Partial<SecurityConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'SecurityHardening' });
+    
     this.config = {
       enableSSL: false,
       enableSecurityHeaders: true,

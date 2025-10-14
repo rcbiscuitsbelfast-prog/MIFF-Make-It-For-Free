@@ -11,6 +11,18 @@
  */
 
 export interface SessionManifestConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableManifestManagement: boolean;
   enableSessionDataManagement: boolean;
   enableManifestValidation: boolean;
@@ -27,6 +39,18 @@ export interface SessionManifestConfig {
 }
 
 export interface SessionManifestManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SessionManifestManagerType;
@@ -50,6 +74,18 @@ export type SessionManifestManagerType = 'game' | 'user' | 'multiplayer' | 'cust
 export type SessionManifestManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface SessionManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ManifestType;
@@ -67,6 +103,18 @@ export type ManifestType = 'session' | 'user' | 'game' | 'state' | 'custom';
 export type ManifestStatus = 'draft' | 'validated' | 'synchronized' | 'error';
 
 export interface ManifestData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   session: SessionInfo;
   user: UserInfo;
   game: GameInfo;
@@ -76,6 +124,18 @@ export interface ManifestData {
 }
 
 export interface SessionInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SessionType;
@@ -89,6 +149,18 @@ export type SessionType = 'single_player' | 'multiplayer' | 'coop' | 'pvp' | 'cu
 export type SessionStatus = 'active' | 'paused' | 'completed' | 'abandoned' | 'error';
 
 export interface UserInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   email: string;
@@ -99,6 +171,18 @@ export interface UserInfo {
 }
 
 export interface UserStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gamesPlayed: number;
   totalPlayTime: number;
   achievements: string[];
@@ -107,6 +191,18 @@ export interface UserStats {
 }
 
 export interface UserPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: string;
   region: string;
   difficulty: DifficultyLevel;
@@ -117,6 +213,18 @@ export interface UserPreferences {
 export type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'expert' | 'custom';
 
 export interface GraphicsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   quality: GraphicsQuality;
   resolution: Resolution;
   fullscreen: boolean;
@@ -128,12 +236,36 @@ export type GraphicsQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 export type AntialiasingType = 'none' | 'fxaa' | 'msaa' | 'taa' | 'custom';
 
 export interface Resolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   aspectRatio: number;
 }
 
 export interface AudioSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   masterVolume: number;
   musicVolume: number;
   sfxVolume: number;
@@ -142,6 +274,18 @@ export interface AudioSettings {
 }
 
 export interface GameInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -154,6 +298,18 @@ export interface GameInfo {
 export type GameMode = 'campaign' | 'multiplayer' | 'custom' | 'tutorial' | 'custom';
 
 export interface MapInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MapType;
@@ -166,6 +322,18 @@ export type MapType = 'arena' | 'campaign' | 'survival' | 'custom';
 export type MapSize = 'small' | 'medium' | 'large' | 'huge' | 'custom';
 
 export interface MapObjective {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ObjectiveType;
@@ -177,6 +345,18 @@ export interface MapObjective {
 export type ObjectiveType = 'eliminate' | 'capture' | 'survive' | 'collect' | 'custom';
 
 export interface GameRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timeLimit: number;
   scoreLimit: number;
   respawnEnabled: boolean;
@@ -185,6 +365,18 @@ export interface GameRules {
 }
 
 export interface GameSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: DifficultyLevel;
   aiEnabled: boolean;
   aiDifficulty: DifficultyLevel;
@@ -196,6 +388,18 @@ export type WeatherType = 'clear' | 'rain' | 'snow' | 'fog' | 'storm' | 'custom'
 export type TimeOfDay = 'dawn' | 'morning' | 'noon' | 'afternoon' | 'evening' | 'night' | 'custom';
 
 export interface SessionState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentLevel: number;
   currentObjective: string;
   completedObjectives: string[];
@@ -205,6 +409,18 @@ export interface SessionState {
 }
 
 export interface InventoryItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ItemType;
@@ -215,6 +431,18 @@ export interface InventoryItem {
 export type ItemType = 'weapon' | 'armor' | 'consumable' | 'key' | 'custom';
 
 export interface ItemProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   damage: number;
   defense: number;
   durability: number;
@@ -225,6 +453,18 @@ export interface ItemProperties {
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'custom';
 
 export interface SessionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   kills: number;
   deaths: number;
   score: number;
@@ -234,6 +474,18 @@ export interface SessionStats {
 }
 
 export interface Achievement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -243,6 +495,18 @@ export interface Achievement {
 }
 
 export interface SessionProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gravity: number;
   physics: PhysicsConfig;
   lighting: LightingConfig;
@@ -250,6 +514,18 @@ export interface SessionProperties {
 }
 
 export interface PhysicsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   gravity: Vector3;
   airResistance: number;
@@ -258,18 +534,54 @@ export interface PhysicsConfig {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface LightingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ambient: Color;
   directional: DirectionalLight;
   point: PointLight[];
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -277,12 +589,36 @@ export interface Color {
 }
 
 export interface DirectionalLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   direction: Vector3;
   color: Color;
   intensity: number;
 }
 
 export interface PointLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   color: Color;
   intensity: number;
@@ -290,6 +626,18 @@ export interface PointLight {
 }
 
 export interface AudioConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   volume: number;
   reverb: boolean;
@@ -297,6 +645,18 @@ export interface AudioConfig {
 }
 
 export interface SessionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   autoSave: boolean;
   pauseOnFocusLoss: boolean;
   showFPS: boolean;
@@ -306,6 +666,18 @@ export interface SessionSettings {
 }
 
 export interface ManifestValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: ValidationRule[];
   schema: ValidationSchema;
@@ -313,6 +685,18 @@ export interface ManifestValidation {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -324,6 +708,18 @@ export interface ValidationRule {
 export type RuleType = 'required' | 'format' | 'range' | 'pattern' | 'custom';
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -333,6 +729,18 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface ValidationSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SchemaType;
   properties: SchemaProperty[];
   required: string[];
@@ -342,6 +750,18 @@ export interface ValidationSchema {
 export type SchemaType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'custom';
 
 export interface SchemaProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: PropertyType;
   format: string;
@@ -352,6 +772,18 @@ export interface SchemaProperty {
 export type PropertyType = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'custom';
 
 export interface ValidationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   passedValidations: number;
   failedValidations: number;
@@ -360,6 +792,18 @@ export interface ValidationPerformance {
 }
 
 export interface ManifestSynchronization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: SyncStrategy;
   frequency: number;
@@ -370,6 +814,18 @@ export interface ManifestSynchronization {
 export type SyncStrategy = 'push' | 'pull' | 'bidirectional' | 'custom';
 
 export interface ConflictResolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strategy: ConflictStrategy;
   priority: string;
   timeout: number;
@@ -378,6 +834,18 @@ export interface ConflictResolution {
 export type ConflictStrategy = 'last_write_wins' | 'first_write_wins' | 'merge' | 'custom';
 
 export interface SyncPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSyncs: number;
   successfulSyncs: number;
   failedSyncs: number;
@@ -386,6 +854,18 @@ export interface SyncPerformance {
 }
 
 export interface ManifestPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalManifests: number;
   averageSize: number;
   memoryUsage: number;
@@ -393,6 +873,18 @@ export interface ManifestPerformance {
 }
 
 export interface SessionData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DataType;
@@ -408,6 +900,18 @@ export type DataType = 'state' | 'inventory' | 'progress' | 'settings' | 'custom
 export type DataStatus = 'loaded' | 'unloaded' | 'loading' | 'error';
 
 export interface DataContent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   format: ContentFormat;
   version: string;
   size: number;
@@ -418,6 +922,18 @@ export interface DataContent {
 export type ContentFormat = 'binary' | 'json' | 'xml' | 'custom';
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -428,6 +944,18 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'lz4' | 'zstd' | 'custom';
 
 export interface EncryptionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: EncryptionAlgorithm;
   keyId: string;
@@ -437,6 +965,18 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface DataPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   loadTime: number;
   saveTime: number;
   memoryUsage: number;
@@ -445,6 +985,18 @@ export interface DataPerformance {
 }
 
 export interface ManifestValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ValidatorType;
@@ -459,6 +1011,18 @@ export type ValidatorType = 'schema' | 'business' | 'data' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strict: boolean;
   timeout: number;
@@ -466,6 +1030,18 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidatorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   successRate: number;
   averageValidationTime: number;
@@ -473,6 +1049,18 @@ export interface ValidatorPerformance {
 }
 
 export interface SessionSynchronizer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SynchronizerType;
@@ -486,6 +1074,18 @@ export type SynchronizerType = 'real_time' | 'batch' | 'event_driven' | 'custom'
 export type SynchronizerStatus = 'active' | 'inactive' | 'error';
 
 export interface SynchronizerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   timeout: number;
@@ -494,6 +1094,18 @@ export interface SynchronizerConfiguration {
 }
 
 export interface SynchronizerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSyncs: number;
   successRate: number;
   averageSyncTime: number;
@@ -501,6 +1113,18 @@ export interface SynchronizerPerformance {
 }
 
 export interface SessionManifestPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalManifests: number;
   activeManifests: number;
   totalSessionData: number;
@@ -515,6 +1139,18 @@ export interface SessionManifestPerformanceMetrics {
 }
 
 export interface SessionManifestAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalManifests: number;
   totalSessionData: number;
   averageManifestSize: number;
@@ -524,6 +1160,18 @@ export interface SessionManifestAnalytics {
 }
 
 export interface ManifestTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ManifestType;
   count: number;
   percentage: number;
@@ -531,6 +1179,18 @@ export interface ManifestTypeDistribution {
 }
 
 export interface SessionTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SessionType;
   count: number;
   percentage: number;
@@ -538,6 +1198,18 @@ export interface SessionTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   manifests: number;
   sessionData: number;
@@ -548,6 +1220,18 @@ export interface PerformanceTrend {
 }
 
 export interface SessionManifestReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -559,6 +1243,18 @@ export interface SessionManifestReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -568,6 +1264,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -576,6 +1284,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -584,6 +1304,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -591,6 +1323,18 @@ export interface Version {
 }
 
 export interface SessionManifestOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

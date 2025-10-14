@@ -40,13 +40,13 @@ import { ObstacleCoursePure, ObstacleType, Difficulty, Obstacle, Checkpoint } fr
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class ObstacleCourseCLI {
-  private logger: StructuredLogger;
+  
   private obstacleCourse: ObstacleCoursePure;
   private rl: readline.Interface;
   private currentCourse: string | null = null;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'ObstacleCourseCLI' });
+  constructor(...args: any[]) {
+    
     this.obstacleCourse = new ObstacleCoursePure();
     this.rl = readline.createInterface({
       input: process.stdin,
@@ -421,7 +421,7 @@ Difficulties: easy, medium, hard, expert
 }
 
 // Main execution
-async function main() {
+async function main(...args: any[]) {
   const cli = new ObstacleCourseCLI();
   await cli.start();
 }

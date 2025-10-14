@@ -12,6 +12,18 @@
  */
 
 export interface NotificationSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableNotificationManagement: boolean;
   enableNotificationDelivery: boolean;
   enableMultiChannelSupport: boolean;
@@ -29,6 +41,18 @@ export interface NotificationSystemConfig {
 }
 
 export interface NotificationSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: NotificationSystemManagerType;
@@ -53,6 +77,18 @@ export type NotificationSystemManagerType = 'web' | 'mobile' | 'desktop' | 'emai
 export type NotificationSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Notification {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   message: string;
@@ -73,6 +109,18 @@ export type NotificationPriority = 'low' | 'normal' | 'high' | 'urgent' | 'criti
 export type NotificationStatus = 'draft' | 'scheduled' | 'sending' | 'sent' | 'delivered' | 'failed' | 'cancelled';
 
 export interface NotificationRecipient {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   userId: string;
   email: string;
   phone: string;
@@ -81,6 +129,18 @@ export interface NotificationRecipient {
 }
 
 export interface UserPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   channels: ChannelPreference[];
   frequency: FrequencyPreference;
   quietHours: QuietHours;
@@ -88,12 +148,36 @@ export interface UserPreferences {
 }
 
 export interface ChannelPreference {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   channel: string;
   enabled: boolean;
   priority: NotificationPriority;
 }
 
 export interface FrequencyPreference {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FrequencyType;
   value: number;
   maxPerDay: number;
@@ -103,6 +187,18 @@ export interface FrequencyPreference {
 export type FrequencyType = 'immediate' | 'batched' | 'scheduled' | 'custom';
 
 export interface QuietHours {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   start: string;
   end: string;
@@ -111,6 +207,18 @@ export interface QuietHours {
 }
 
 export interface CategoryPreference {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category: string;
   enabled: boolean;
   priority: NotificationPriority;
@@ -118,6 +226,18 @@ export interface CategoryPreference {
 }
 
 export interface NotificationData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   payload: Record<string, any>;
   attachments: NotificationAttachment[];
   actions: NotificationAction[];
@@ -126,6 +246,18 @@ export interface NotificationData {
 }
 
 export interface NotificationAttachment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AttachmentType;
   url: string;
@@ -137,6 +269,18 @@ export interface NotificationAttachment {
 export type AttachmentType = 'image' | 'video' | 'audio' | 'document' | 'custom';
 
 export interface NotificationAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   label: string;
   type: ActionType;
@@ -148,6 +292,18 @@ export interface NotificationAction {
 export type ActionType = 'open' | 'dismiss' | 'reply' | 'custom';
 
 export interface NotificationScheduling {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   immediate: boolean;
   scheduledAt: number;
   timezone: string;
@@ -156,6 +312,18 @@ export interface NotificationScheduling {
 }
 
 export interface RecurrenceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   pattern: RecurrencePattern;
   interval: number;
@@ -165,6 +333,18 @@ export interface RecurrenceSettings {
 export type RecurrencePattern = 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
 
 export interface ExpirationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   expiresAt: number;
   action: ExpirationAction;
@@ -173,6 +353,18 @@ export interface ExpirationSettings {
 export type ExpirationAction = 'delete' | 'archive' | 'mark_read' | 'custom';
 
 export interface NotificationDelivery {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   attempts: number;
   maxAttempts: number;
   lastAttempt: number;
@@ -182,6 +374,18 @@ export interface NotificationDelivery {
 }
 
 export interface BackoffSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: BackoffStrategy;
   initialDelay: number;
@@ -192,12 +396,36 @@ export interface BackoffSettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface TrackingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   events: TrackingEvent[];
   analytics: AnalyticsSettings;
 }
 
 export interface TrackingEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EventType;
   timestamp: number;
   data: Record<string, any>;
@@ -206,6 +434,18 @@ export interface TrackingEvent {
 export type EventType = 'sent' | 'delivered' | 'opened' | 'clicked' | 'dismissed' | 'custom';
 
 export interface AnalyticsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   events: string[];
@@ -213,6 +453,18 @@ export interface AnalyticsSettings {
 }
 
 export interface NotificationChannel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChannelType;
@@ -226,6 +478,18 @@ export type ChannelType = 'email' | 'sms' | 'push' | 'in_app' | 'webhook' | 'cus
 export type ChannelStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ChannelConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   provider: string;
   credentials: CredentialSettings;
   limits: RateLimitSettings;
@@ -234,6 +498,18 @@ export interface ChannelConfiguration {
 }
 
 export interface CredentialSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   apiKey: string;
   secret: string;
   endpoint: string;
@@ -242,6 +518,18 @@ export interface CredentialSettings {
 }
 
 export interface RateLimitSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   requests: number;
   window: number;
@@ -249,6 +537,18 @@ export interface RateLimitSettings {
 }
 
 export interface RetrySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   maxAttempts: number;
   delay: number;
@@ -256,6 +556,18 @@ export interface RetrySettings {
 }
 
 export interface TimeoutSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   connect: number;
   read: number;
   write: number;
@@ -263,6 +575,18 @@ export interface TimeoutSettings {
 }
 
 export interface ChannelPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSent: number;
   totalDelivered: number;
   totalFailed: number;
@@ -272,6 +596,18 @@ export interface ChannelPerformance {
 }
 
 export interface NotificationTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TemplateType;
@@ -286,6 +622,18 @@ export type TemplateType = 'email' | 'sms' | 'push' | 'in_app' | 'custom';
 export type TemplateStatus = 'draft' | 'active' | 'inactive' | 'archived';
 
 export interface TemplateContent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   subject: string;
   body: string;
   html: string;
@@ -294,6 +642,18 @@ export interface TemplateContent {
 }
 
 export interface TemplateAttachment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AttachmentType;
   content: string;
@@ -302,6 +662,18 @@ export interface TemplateAttachment {
 }
 
 export interface TemplateVariable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: VariableType;
   required: boolean;
@@ -312,6 +684,18 @@ export interface TemplateVariable {
 export type VariableType = 'string' | 'number' | 'boolean' | 'date' | 'custom';
 
 export interface NotificationUser {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   email: string;
@@ -323,6 +707,18 @@ export interface NotificationUser {
 }
 
 export interface UserDevice {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: DeviceType;
   platform: string;
@@ -335,6 +731,18 @@ export interface UserDevice {
 export type DeviceType = 'ios' | 'android' | 'web' | 'desktop' | 'custom';
 
 export interface UserSubscription {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: SubscriptionType;
   status: SubscriptionStatus;
@@ -347,6 +755,18 @@ export type SubscriptionType = 'free' | 'premium' | 'enterprise' | 'custom';
 export type SubscriptionStatus = 'active' | 'inactive' | 'expired' | 'cancelled';
 
 export interface NotificationSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ScheduleType;
@@ -361,6 +781,18 @@ export type ScheduleType = 'immediate' | 'delayed' | 'recurring' | 'custom';
 export type ScheduleStatus = 'active' | 'paused' | 'completed' | 'cancelled';
 
 export interface ScheduleConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number;
   timezone: string;
@@ -370,6 +802,18 @@ export interface ScheduleConfiguration {
 }
 
 export interface ScheduleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   parameters: Record<string, any>;
   required: boolean;
@@ -378,12 +822,36 @@ export interface ScheduleCondition {
 export type ConditionType = 'time' | 'user' | 'event' | 'custom';
 
 export interface ScheduleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   enabled: boolean;
 }
 
 export interface SchedulePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalScheduled: number;
   totalExecuted: number;
   totalFailed: number;
@@ -393,6 +861,18 @@ export interface SchedulePerformance {
 }
 
 export interface NotificationSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalNotifications: number;
   sentNotifications: number;
   failedNotifications: number;
@@ -408,6 +888,18 @@ export interface NotificationSystemPerformanceMetrics {
 }
 
 export interface NotificationSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalNotifications: number;
   sentNotifications: number;
   averageDeliveryTime: number;
@@ -417,6 +909,18 @@ export interface NotificationSystemAnalytics {
 }
 
 export interface NotificationTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: NotificationType;
   count: number;
   percentage: number;
@@ -424,6 +928,18 @@ export interface NotificationTypeDistribution {
 }
 
 export interface ChannelTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ChannelType;
   count: number;
   percentage: number;
@@ -431,6 +947,18 @@ export interface ChannelTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   notifications: number;
   sent: number;
@@ -442,6 +970,18 @@ export interface PerformanceTrend {
 }
 
 export interface NotificationSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -453,6 +993,18 @@ export interface NotificationSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -462,6 +1014,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -470,6 +1034,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -478,6 +1054,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -485,6 +1073,18 @@ export interface Version {
 }
 
 export interface NotificationSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

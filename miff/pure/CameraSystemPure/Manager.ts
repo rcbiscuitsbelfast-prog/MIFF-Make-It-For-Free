@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CameraSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiCameraSupport: boolean;
   enableCameraControls: boolean;
   enableRealTimeProcessing: boolean;
@@ -31,6 +43,18 @@ export interface CameraSystemConfig {
 }
 
 export interface CameraSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SystemType;
@@ -46,6 +70,18 @@ export interface CameraSystem {
 }
 
 export interface Camera {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CameraType;
@@ -57,6 +93,18 @@ export interface Camera {
 }
 
 export interface CameraCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolution: Resolution[];
   frameRate: number[];
   formats: VideoFormat[];
@@ -65,6 +113,18 @@ export interface CameraCapabilities {
 }
 
 export interface CameraSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolution: Resolution;
   frameRate: number;
   format: VideoFormat;
@@ -76,6 +136,18 @@ export interface CameraSettings {
 }
 
 export interface CameraControls {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoom: ZoomControl;
   focus: FocusControl;
   exposure: ExposureControl;
@@ -84,6 +156,18 @@ export interface CameraControls {
 }
 
 export interface ZoomControl {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   current: number;
@@ -92,24 +176,72 @@ export interface ZoomControl {
 }
 
 export interface FocusControl {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: FocusMode;
   distance: number;
   metadata: Record<string, any>;
 }
 
 export interface ExposureControl {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: ExposureMode;
   value: number;
   metadata: Record<string, any>;
 }
 
 export interface WhiteBalanceControl {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: WhiteBalanceMode;
   temperature: number;
   metadata: Record<string, any>;
 }
 
 export interface SystemSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   defaultResolution: Resolution;
   defaultFrameRate: number;
   defaultFormat: VideoFormat;
@@ -120,6 +252,18 @@ export interface SystemSettings {
 }
 
 export interface SystemPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCameras: number;
   activeCameras: number;
   averageFps: number;
@@ -130,6 +274,18 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSystems: number;
   activeSystems: number;
   totalCameras: number;
@@ -141,6 +297,18 @@ export interface SystemAnalytics {
 }
 
 export interface Resolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   aspectRatio: number;
@@ -148,6 +316,18 @@ export interface Resolution {
 }
 
 export interface VideoFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   codec: VideoCodec;
   container: string;
@@ -155,6 +335,18 @@ export interface VideoFormat {
 }
 
 export interface CameraFeature {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: FeatureType;
   supported: boolean;
@@ -172,7 +364,7 @@ export type VideoCodec = 'h264' | 'h265' | 'vp8' | 'vp9' | 'av1' | 'custom';
 export type FeatureType = 'zoom' | 'focus' | 'exposure' | 'white_balance' | 'filters' | 'custom';
 
 export class CameraSystemManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -182,7 +374,7 @@ export class CameraSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<CameraSystemConfig>) {
-    this.logger = new StructuredLogger({ module: 'CameraSystemManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

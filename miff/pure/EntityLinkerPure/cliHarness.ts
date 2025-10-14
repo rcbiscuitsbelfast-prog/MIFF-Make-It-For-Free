@@ -20,7 +20,7 @@ type Cmd =
   | { op: 'export'; format?: 'json' | 'csv' | 'markdown' }
   | { op: 'demo' };
 
-function main() {
+function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   const mgr = new EntityLinkerManager();

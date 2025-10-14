@@ -9,6 +9,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PixelAnimOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'create' | 'createFromPreset' | 'get' | 'list' | 'addPreset' | 'listPresets' | 'createSequence' | 'getSequence' | 'listSequences' | 'createSpriteSheet' | 'simulate' | 'stats' | 'export' | 'validate' | 'delete';
   name?: string;
   presetId?: string;
@@ -29,11 +41,11 @@ interface PixelAnimOperation {
 }
 
 class PixelAnimCLI {
-  private logger: StructuredLogger;
+  
   private manager: PixelAnimManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'PixelAnimCLI' });
+  constructor(...args: any[]) {
+    
     this.manager = new PixelAnimManager();
   }
 
@@ -477,7 +489,7 @@ class PixelAnimCLI {
   }
 }
 
-async function main() {
+async function main(...args: any[]) {
   const cli = new PixelAnimCLI();
   
   if (process.argv.length < 3) {

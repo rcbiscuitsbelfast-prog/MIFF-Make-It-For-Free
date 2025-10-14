@@ -6,6 +6,18 @@
  */
 
 export interface MigrationStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   fromVersion: string;
   toVersion: string;
@@ -18,6 +30,18 @@ export interface MigrationStep {
 }
 
 export interface MigrationPath {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fromVersion: string;
   toVersion: string;
   steps: MigrationStep[];
@@ -26,6 +50,18 @@ export interface MigrationPath {
 }
 
 export interface MigrationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   migratedData: any;
   stepsExecuted: string[];
@@ -36,6 +72,18 @@ export interface MigrationResult {
 }
 
 export interface VersionCompatibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   compatible: boolean;
   migrationPath?: MigrationPath;
   conflicts: string[];
@@ -43,6 +91,18 @@ export interface VersionCompatibility {
 }
 
 export interface MigrationStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMigrations: number;
   successfulMigrations: number;
   failedMigrations: number;
@@ -57,7 +117,7 @@ export class MigrationManager {
   private stats: MigrationStats;
   private migrationHistory: Array<{ id: string; timestamp: Date; success: boolean; duration: number }> = [];
 
-  constructor() {
+  constructor(...args: any[]) {
     this.stats = this.initializeStats();
     this.initializeDefaultMigrations();
   }

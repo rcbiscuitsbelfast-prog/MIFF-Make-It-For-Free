@@ -7,6 +7,18 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SpiritTamerOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'demo' | 'scenario' | 'tame' | 'battle' | 'dump' | 'list' | 'player' | 'move' | 'startTaming' | 'rhythm' | 'session' | 'sessions' | 'stats' | 'export' | 'reset';
   spiritId?: string;
   sessionId?: string;
@@ -22,11 +34,11 @@ interface SpiritTamerOperation {
 }
 
 class SpiritTamerCLI {
-  private logger: StructuredLogger;
+  
   private manager: SpiritTamerManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'SpiritTamerCLI' });
+  constructor(...args: any[]) {
+    
     this.manager = new SpiritTamerManager();
   }
 
@@ -445,7 +457,7 @@ class SpiritTamerCLI {
   }
 }
 
-async function main() {
+async function main(...args: any[]) {
   const cli = new SpiritTamerCLI();
   
   if (process.argv.length < 3) {

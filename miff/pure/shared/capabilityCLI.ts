@@ -15,12 +15,12 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CapabilityCLI {
-  private logger: StructuredLogger;
+  
   private discovery: CapabilityDiscovery;
   private registry: CapabilityRegistryManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CapabilityCLI' });
+  constructor(...args: any[]) {
+    
     this.discovery = new CapabilityDiscovery();
     this.registry = new CapabilityRegistryManager(new EventBus());
   }

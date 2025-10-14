@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AnimationSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAnimationCreation: boolean;
   enableTimelineControl: boolean;
   enableKeyframeControl: boolean;
@@ -35,6 +47,18 @@ export interface AnimationSystemConfig {
 }
 
 export interface Animation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AnimationType;
@@ -51,6 +75,18 @@ export interface Animation {
 }
 
 export interface AnimationTimeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: number; // milliseconds
   startTime: number; // milliseconds
   endTime: number; // milliseconds
@@ -61,6 +97,18 @@ export interface AnimationTimeline {
 }
 
 export interface Keyframe {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   time: number; // milliseconds
   value: any;
@@ -70,6 +118,18 @@ export interface Keyframe {
 }
 
 export interface BlendingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   mode: BlendingMode;
   weight: number; // 0 to 1
@@ -78,6 +138,18 @@ export interface BlendingConfig {
 }
 
 export interface TransitionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   duration: number; // milliseconds
   easing: EasingType;
@@ -86,6 +158,18 @@ export interface TransitionConfig {
 }
 
 export interface AnimationAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAnimations: number;
   activeAnimations: number;
   averageDuration: number;
@@ -102,7 +186,7 @@ export type BlendingMode = 'additive' | 'multiplicative' | 'override' | 'crossfa
 export type BlendingCurve = 'linear' | 'smooth' | 'sharp' | 'custom';
 
 export class AnimationSystemManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -112,7 +196,7 @@ export class AnimationSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<AnimationSystemConfig>) {
-    this.logger = new StructuredLogger({ module: 'AnimationSystemManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

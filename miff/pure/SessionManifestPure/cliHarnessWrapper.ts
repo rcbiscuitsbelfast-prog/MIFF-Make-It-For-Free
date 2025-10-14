@@ -34,11 +34,11 @@ class SessionManifest {
     }
   }
   
-  getAllSessions() {
+  getAllSessions(...args: any[]) {
     return Array.from(this.sessions.values());
   }
   
-  export() {
+  export(...args: any[]) {
     return { sessions: this.getAllSessions() };
   }
 }

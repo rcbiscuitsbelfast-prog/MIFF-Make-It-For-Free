@@ -11,6 +11,18 @@ import * as path from 'path';
 import { glob } from 'glob';
 
 export interface DiscoveryResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   moduleId: string;
   moduleName: string;
   filePath: string;
@@ -22,6 +34,18 @@ export interface DiscoveryResult {
 }
 
 export interface DiscoveryStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalModules: number;
   successfulDiscoveries: number;
   failedDiscoveries: number;
@@ -31,12 +55,12 @@ export interface DiscoveryStats {
 }
 
 export class CapabilityDiscovery {
-  private logger: StructuredLogger;
+  
   private discoveryResults: Map<string, DiscoveryResult> = new Map();
   private stats: DiscoveryStats;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CapabilityDiscovery' });
+  constructor(...args: any[]) {
+    
     this.stats = this.initializeStats();
   }
 

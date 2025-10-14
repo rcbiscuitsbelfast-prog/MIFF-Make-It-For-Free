@@ -17,6 +17,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface EconomyOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'create-rule' | 'create-vendor' | 'create-currency' | 'create-event' | 'calculate-price' | 
       'execute-trade' | 'get-market-data' | 'get-stats' | 'list-rules' | 'list-vendors' | 
       'list-currencies' | 'export' | 'reset' | 'demo' | 'dump';
@@ -34,7 +46,7 @@ interface EconomyOperation {
   exportFormat?: string;
 }
 
-async function main() {
+async function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

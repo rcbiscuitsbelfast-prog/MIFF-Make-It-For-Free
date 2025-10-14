@@ -103,6 +103,18 @@ export enum EffectRemovalReason {
  * Entity context interface (dependency)
  */
 export interface IEntityContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getEntityStat(entityId: string, stat: TargetStat): number;
   setEntityStat(entityId: string, stat: TargetStat, value: number): void;
   hasImmunity(entityId: string, immunityTag: string): boolean;
@@ -116,6 +128,18 @@ export interface IEntityContext {
  * Battle effect interface
  */
 export interface IBattleEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   effectId: string;
   name: string;
   description: string;
@@ -139,6 +163,18 @@ export interface IBattleEffect {
  * Active effect instance interface
  */
 export interface IActiveEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   effect: IBattleEffect;
   stacks: number;
   remainingSeconds: number;
@@ -159,6 +195,18 @@ export interface IActiveEffect {
  * Effect resolver interface
  */
 export interface IEffectResolver {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolveQueue(phase: EffectPhase, effects: IActiveEffect[], targetImmunities: string[]): IActiveEffect[];
   resolveEffects(phase: EffectPhase, entityId: string, effects: IActiveEffect[], context: IEntityContext): EffectResolution;
 }
@@ -167,6 +215,18 @@ export interface IEffectResolver {
  * Stat modifier aggregator interface
  */
 export interface IStatModifierAggregator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   clear(): void;
   add(type: ModifierType, value: number, isMultiplicative: boolean): void;
   apply(baseValue: number): number;
@@ -179,6 +239,18 @@ export interface IStatModifierAggregator {
  * Effect resolution interface
  */
 export interface IEffectResolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolvedEffects: IActiveEffect[];
   appliedEffects: Array<{ effect: IActiveEffect; result: EffectApplicationResult }>;
   expiredEffects: Array<{ effect: IActiveEffect; reason: EffectRemovalReason }>;
@@ -191,6 +263,18 @@ export interface IEffectResolution {
  * Effect event interface
  */
 export interface IEffectEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'applied' | 'refreshed' | 'expired' | 'removed' | 'tick';
   entityId: string;
   effect: IBattleEffect;
@@ -204,6 +288,18 @@ export interface IEffectEvent {
  * Effect manager interface
  */
 export interface IEffectManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   applyEffect(entityId: string, effect: IBattleEffect): EffectApplicationResult;
   removeEffect(entityId: string, effectId: string, reason?: EffectRemovalReason): boolean;
   getActiveEffects(entityId: string): IActiveEffect[];
@@ -254,7 +350,7 @@ export class BattleEffect implements IBattleEffect {
     refreshOnStack: boolean = true,
     triggers: EffectTrigger = EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
   ) {
-    this.logger = new StructuredLogger({ module: 'BattleEffect' });
+    
     this.effectId = effectId;
     this.name = name;
     this.description = description;
@@ -771,7 +867,7 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   private readonly additive: Array<{ type: ModifierType; value: number }>;
   private readonly multiplicative: Array<{ type: ModifierType; value: number }>;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.additive = [];
     this.multiplicative = [];
   }

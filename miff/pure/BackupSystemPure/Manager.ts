@@ -20,6 +20,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BackupSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAutomatedBackups: boolean;
   enableIncrementalBackups: boolean;
   enableDataCompression: boolean;
@@ -36,6 +48,18 @@ export interface BackupSystemConfig {
 }
 
 export interface BackupSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SystemType;
@@ -53,6 +77,18 @@ export interface BackupSystem {
 }
 
 export interface Backup {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BackupType;
@@ -69,6 +105,18 @@ export interface Backup {
 }
 
 export interface BackupSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ScheduleType;
@@ -82,6 +130,18 @@ export interface BackupSchedule {
 }
 
 export interface BackupPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -93,12 +153,36 @@ export interface BackupPolicy {
 }
 
 export interface StorageConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   local: LocalStorageConfig;
   cloud: CloudStorageConfig[];
   network: NetworkStorageConfig[];
 }
 
 export interface LocalStorageConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   path: string;
   maxSize: number; // bytes
@@ -106,6 +190,18 @@ export interface LocalStorageConfig {
 }
 
 export interface CloudStorageConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   provider: CloudProvider;
   enabled: boolean;
@@ -117,6 +213,18 @@ export interface CloudStorageConfig {
 }
 
 export interface NetworkStorageConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   enabled: boolean;
@@ -129,6 +237,18 @@ export interface NetworkStorageConfig {
 }
 
 export interface BackupSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   path: string;
   includes: string[];
@@ -138,6 +258,18 @@ export interface BackupSource {
 }
 
 export interface BackupDestination {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DestinationType;
   path: string;
   storage: string;
@@ -145,6 +277,18 @@ export interface BackupDestination {
 }
 
 export interface EncryptionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: EncryptionAlgorithm;
   keySize: number;
@@ -153,6 +297,18 @@ export interface EncryptionConfig {
 }
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number; // 1-9
@@ -160,6 +316,18 @@ export interface CompressionConfig {
 }
 
 export interface RetentionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxBackups: number;
   maxAge: number; // days
   maxSize: number; // bytes
@@ -168,6 +336,18 @@ export interface RetentionConfig {
 }
 
 export interface PolicyRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: string;
@@ -177,6 +357,18 @@ export interface PolicyRule {
 }
 
 export interface FilterConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: FilterType;
   pattern: string;
@@ -185,6 +377,18 @@ export interface FilterConfig {
 }
 
 export interface CloudCredentials {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accessKey: string;
   secretKey: string;
   region: string;
@@ -192,6 +396,18 @@ export interface CloudCredentials {
 }
 
 export interface NetworkCredentials {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   username: string;
   password: string;
   domain?: string;
@@ -199,6 +415,18 @@ export interface NetworkCredentials {
 }
 
 export interface SystemPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   backupSpeed: number; // MB/s
   restoreSpeed: number; // MB/s
   compressionRatio: number; // 0-1
@@ -208,6 +436,18 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalBackups: number;
   successfulBackups: number;
   failedBackups: number;
@@ -234,7 +474,7 @@ export type RetentionPolicy = 'fifo' | 'lifo' | 'size-based' | 'age-based';
 export type FilterType = 'include' | 'exclude' | 'regex' | 'extension';
 
 export class BackupSystemManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -244,7 +484,7 @@ export class BackupSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<BackupSystemConfig>) {
-    this.logger = new StructuredLogger({ module: 'BackupSystemManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

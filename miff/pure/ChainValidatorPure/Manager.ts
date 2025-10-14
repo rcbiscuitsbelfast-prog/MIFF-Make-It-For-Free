@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface ChainValidatorConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiChainSupport: boolean;
   enableValidationRules: boolean;
   enablePerformanceOptimization: boolean;
@@ -31,6 +43,18 @@ export interface ChainValidatorConfig {
 }
 
 export interface ChainValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ValidatorType;
@@ -47,6 +71,18 @@ export interface ChainValidator {
 }
 
 export interface Chain {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChainType;
@@ -57,6 +93,18 @@ export interface Chain {
 }
 
 export interface ChainBlock {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   index: number;
   data: any;
@@ -67,6 +115,18 @@ export interface ChainBlock {
 }
 
 export interface ChainValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isValid: boolean;
   errors: ValidationError[];
   warnings: ValidationWarning[];
@@ -75,6 +135,18 @@ export interface ChainValidation {
 }
 
 export interface ValidationError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ErrorType;
   severity: ErrorSeverity;
@@ -84,6 +156,18 @@ export interface ValidationError {
 }
 
 export interface ValidationWarning {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: WarningType;
   message: string;
@@ -92,6 +176,18 @@ export interface ValidationWarning {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -102,6 +198,18 @@ export interface ValidationRule {
 }
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ConditionType;
   operator: ConditionOperator;
@@ -110,6 +218,18 @@ export interface RuleCondition {
 }
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ActionType;
   parameters: Record<string, any>;
@@ -117,6 +237,18 @@ export interface RuleAction {
 }
 
 export interface ValidationPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -126,6 +258,18 @@ export interface ValidationPolicy {
 }
 
 export interface ValidatorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChains: number;
   validatedChains: number;
   averageValidationTime: number; // milliseconds
@@ -134,6 +278,18 @@ export interface ValidatorPerformance {
 }
 
 export interface ValidatorAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidators: number;
   activeValidators: number;
   totalChains: number;
@@ -158,7 +314,7 @@ export type ActionType = 'reject' | 'warn' | 'log' | 'custom';
 export type PolicyType = 'mandatory' | 'recommended' | 'optional' | 'custom';
 
 export class ChainValidatorManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -168,7 +324,7 @@ export class ChainValidatorManager {
   private startTime: Date;
 
   constructor(config?: Partial<ChainValidatorConfig>) {
-    this.logger = new StructuredLogger({ module: 'ChainValidatorManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

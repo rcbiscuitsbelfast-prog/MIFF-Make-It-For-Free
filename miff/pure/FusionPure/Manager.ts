@@ -20,6 +20,18 @@ export type FusionStatus = 'success' | 'incompatible_pair' | 'already_fused' | '
 export type TraitType = 'stat_boost' | 'ability_learned' | 'type_change' | 'evolution_trigger' | 'special_effect';
 
 export interface FusionTrait {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: TraitType;
   name: string;
@@ -30,6 +42,18 @@ export interface FusionTrait {
 }
 
 export interface FusionRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -45,6 +69,18 @@ export interface FusionRule {
 }
 
 export interface FusionConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'level' | 'energy' | 'item' | 'location' | 'time' | 'weather';
   operator: 'equals' | 'greater_than' | 'less_than' | 'contains' | 'exists';
@@ -53,6 +89,18 @@ export interface FusionConstraint {
 }
 
 export interface PlayerContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerId: string;
   energy: number;
   level: number;
@@ -64,6 +112,18 @@ export interface PlayerContext {
 }
 
 export interface FusionResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: FusionStatus;
   message: string;
   newSpiritId?: string;
@@ -72,6 +132,18 @@ export interface FusionResult {
 }
 
 export interface FusionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFusions: number;
   successfulFusions: number;
   failedFusions: number;

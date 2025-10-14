@@ -21,6 +21,18 @@ import {
 } from './engine';
 
 interface CLIResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;
@@ -29,12 +41,12 @@ interface CLIResult {
 }
 
 class CombatCLI {
-  private logger: StructuredLogger;
+  
   private battleEngine: BattleEngine;
   private typeChart: TypeEffectiveness;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CombatCLI' });
+  constructor(...args: any[]) {
+    
     this.typeChart = new TypeEffectiveness();
     this.battleEngine = new BattleEngine(this.typeChart);
   }
@@ -369,7 +381,7 @@ class CombatCLI {
 }
 
 // CLI execution
-function main() {
+function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   

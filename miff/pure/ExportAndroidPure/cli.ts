@@ -3,6 +3,18 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface ExportAndroidArgs {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   project: string;
   output: string;
   aab?: boolean;
@@ -44,7 +56,7 @@ function validateSigning(args: ExportAndroidArgs) {
 
 function ensureDir(dir: string) { fs.mkdirSync(dir, { recursive: true }); }
 
-async function main() {
+async function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (!argv.length || argv[0] === 'help') {
     console.info('export:android --project ./docs/godot --output ./build/android --aab --keystore ./keystore.jks --alias app --ks-pass secret --key-pass secret');

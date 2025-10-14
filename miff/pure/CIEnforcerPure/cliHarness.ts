@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-async function main() {
+async function main(...args: any[]) {
   const inputFile = process.argv[2];
   if (!inputFile) {
     console.error('Usage: ts-node cliHarness.ts <input-file>');

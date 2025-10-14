@@ -8,6 +8,18 @@
 import { Combatant, MoveData } from './engine';
 
 export interface ComboSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   moves: string[];
@@ -18,12 +30,36 @@ export interface ComboSystem {
 }
 
 export interface ComboRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'move_sequence' | 'type_match' | 'stat_threshold' | 'status_effect' | 'custom';
   value: any;
   check: (context: ComboContext) => boolean;
 }
 
 export interface ComboEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'damage_multiplier' | 'stat_boost' | 'status_effect' | 'special_ability' | 'custom';
   magnitude: number;
   duration?: number;
@@ -31,6 +67,18 @@ export interface ComboEffect {
 }
 
 export interface ComboContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   combatant: Combatant;
   move: MoveData;
   previousMoves: MoveData[];
@@ -39,6 +87,18 @@ export interface ComboContext {
 }
 
 export interface EnvironmentalEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'weather' | 'terrain' | 'hazard' | 'benefit' | 'neutral';
@@ -49,6 +109,18 @@ export interface EnvironmentalEffect {
 }
 
 export interface EnvironmentalModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'damage' | 'accuracy' | 'speed' | 'defense' | 'special' | 'custom';
   magnitude: number;
   targetTypes?: string[];
@@ -56,6 +128,18 @@ export interface EnvironmentalModifier {
 }
 
 export interface TacticalPosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   position: { x: number; y: number; z: number };
@@ -65,18 +149,54 @@ export interface TacticalPosition {
 }
 
 export interface TacticalAdvantage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'damage_bonus' | 'accuracy_bonus' | 'defense_bonus' | 'special_ability' | 'custom';
   magnitude: number;
   condition?: (combatant: Combatant) => boolean;
 }
 
 export interface TacticalDisadvantage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'damage_penalty' | 'accuracy_penalty' | 'defense_penalty' | 'vulnerability' | 'custom';
   magnitude: number;
   condition?: (combatant: Combatant) => boolean;
 }
 
 export interface BattlePhase {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   duration: number;
@@ -85,6 +205,18 @@ export interface BattlePhase {
 }
 
 export interface BattlePhaseEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'stat_modifier' | 'move_restriction' | 'special_rule' | 'custom';
   magnitude: number;
   target: 'all' | 'player' | 'enemy' | 'specific';
@@ -92,6 +224,18 @@ export interface BattlePhaseEffect {
 }
 
 export interface BattlePhaseTransition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   condition: (battleState: any) => boolean;
   nextPhase: string;
   trigger: 'automatic' | 'manual' | 'conditional';
@@ -105,7 +249,7 @@ export class AdvancedCombat {
   private activePhase: string | null = null;
   private phaseStartTime: number = 0;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultCombos();
     this.initializeDefaultEnvironmentalEffects();
     this.initializeDefaultTacticalPositions();

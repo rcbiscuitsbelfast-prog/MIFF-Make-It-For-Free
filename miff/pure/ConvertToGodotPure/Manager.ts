@@ -12,6 +12,18 @@
  */
 
 export interface ConvertToGodotConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableProjectConversion: boolean;
   enableAssetConversion: boolean;
   enableCodeTranslation: boolean;
@@ -28,6 +40,18 @@ export interface ConvertToGodotConfig {
 }
 
 export interface ConvertToGodotManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConvertToGodotManagerType;
@@ -51,6 +75,18 @@ export type ConvertToGodotManagerType = 'unity' | 'unreal' | 'web' | 'mobile' | 
 export type ConvertToGodotManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface ConversionProject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   sourceType: SourceType;
@@ -69,6 +105,18 @@ export type SourceType = 'unity' | 'unreal' | 'web' | 'mobile' | 'custom';
 export type ProjectStatus = 'pending' | 'converting' | 'completed' | 'failed' | 'paused';
 
 export interface ProjectSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetVersion: string;
   platform: Platform;
   quality: QualitySettings;
@@ -79,6 +127,18 @@ export interface ProjectSettings {
 export type Platform = 'windows' | 'macos' | 'linux' | 'android' | 'ios' | 'web' | 'console';
 
 export interface QualitySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: QualityLevel;
   textureQuality: number;
   shadowQuality: number;
@@ -89,6 +149,18 @@ export interface QualitySettings {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface OptimizationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   compression: CompressionSettings;
   batching: BatchingSettings;
   culling: CullingSettings;
@@ -96,6 +168,18 @@ export interface OptimizationSettings {
 }
 
 export interface CompressionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   textures: CompressionType;
   audio: CompressionType;
   meshes: CompressionType;
@@ -105,6 +189,18 @@ export interface CompressionSettings {
 export type CompressionType = 'none' | 'lossless' | 'lossy' | 'custom';
 
 export interface BatchingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   static: boolean;
   dynamic: boolean;
@@ -112,6 +208,18 @@ export interface BatchingSettings {
 }
 
 export interface CullingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frustum: boolean;
   occlusion: boolean;
   distance: boolean;
@@ -119,6 +227,18 @@ export interface CullingSettings {
 }
 
 export interface MemorySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxTextureSize: number;
   maxAudioSize: number;
   maxMeshSize: number;
@@ -126,6 +246,18 @@ export interface MemorySettings {
 }
 
 export interface CompatibilitySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shaders: ShaderCompatibility;
   scripts: ScriptCompatibility;
   assets: AssetCompatibility;
@@ -133,12 +265,36 @@ export interface CompatibilitySettings {
 }
 
 export interface ShaderCompatibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   features: string[];
   fallbacks: string[];
 }
 
 export interface ScriptCompatibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: ScriptLanguage;
   version: string;
   features: string[];
@@ -147,12 +303,36 @@ export interface ScriptCompatibility {
 export type ScriptLanguage = 'gdscript' | 'csharp' | 'visual_script' | 'custom';
 
 export interface AssetCompatibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   formats: string[];
   compression: string[];
   features: string[];
 }
 
 export interface FeatureCompatibility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rendering: string[];
   physics: string[];
   audio: string[];
@@ -160,6 +340,18 @@ export interface FeatureCompatibility {
 }
 
 export interface ConversionAsset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AssetType;
@@ -176,6 +368,18 @@ export type AssetType = 'texture' | 'mesh' | 'audio' | 'animation' | 'script' | 
 export type AssetStatus = 'pending' | 'converting' | 'completed' | 'failed' | 'skipped';
 
 export interface AssetSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   format: AssetFormat;
   compression: CompressionSettings;
   optimization: AssetOptimization;
@@ -185,6 +389,18 @@ export interface AssetSettings {
 export type AssetFormat = 'png' | 'jpg' | 'tga' | 'dds' | 'ktx' | 'astc' | 'etc' | 'custom';
 
 export interface AssetOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resize: ResizeSettings;
   compression: CompressionSettings;
   filtering: FilteringSettings;
@@ -192,6 +408,18 @@ export interface AssetOptimization {
 }
 
 export interface ResizeSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   width: number;
   height: number;
@@ -202,6 +430,18 @@ export interface ResizeSettings {
 export type ResizeAlgorithm = 'nearest' | 'bilinear' | 'bicubic' | 'lanczos';
 
 export interface FilteringSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minFilter: FilterType;
   magFilter: FilterType;
   mipFilter: FilterType;
@@ -211,6 +451,18 @@ export interface FilteringSettings {
 export type FilterType = 'nearest' | 'linear' | 'cubic';
 
 export interface MipmapSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   levels: number;
   algorithm: MipmapAlgorithm;
@@ -219,6 +471,18 @@ export interface MipmapSettings {
 export type MipmapAlgorithm = 'box' | 'triangle' | 'kaiser';
 
 export interface AssetQuality {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: QualityLevel;
   compression: number;
   filtering: number;
@@ -226,6 +490,18 @@ export interface AssetQuality {
 }
 
 export interface ConversionTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -239,6 +515,18 @@ export interface ConversionTemplate {
 }
 
 export interface TemplateSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   project: ProjectSettings;
   assets: AssetSettings;
   scenes: SceneSettings;
@@ -246,6 +534,18 @@ export interface TemplateSettings {
 }
 
 export interface SceneSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   format: SceneFormat;
   compression: CompressionSettings;
   optimization: SceneOptimization;
@@ -255,6 +555,18 @@ export interface SceneSettings {
 export type SceneFormat = 'tscn' | 'scn' | 'gltf' | 'glb' | 'fbx' | 'dae' | 'custom';
 
 export interface SceneOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   batching: BatchingSettings;
   culling: CullingSettings;
   lod: LODSettings;
@@ -262,6 +574,18 @@ export interface SceneOptimization {
 }
 
 export interface LODSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   levels: LODLevel[];
   distance: number;
@@ -269,12 +593,36 @@ export interface LODSettings {
 }
 
 export interface LODLevel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   distance: number;
   quality: QualityLevel;
   reduction: number;
 }
 
 export interface StreamingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   distance: number;
   priority: number;
@@ -282,6 +630,18 @@ export interface StreamingSettings {
 }
 
 export interface ScriptSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: ScriptLanguage;
   version: string;
   features: string[];
@@ -289,6 +649,18 @@ export interface ScriptSettings {
 }
 
 export interface ScriptOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minify: boolean;
   obfuscate: boolean;
   removeUnused: boolean;
@@ -296,6 +668,18 @@ export interface ScriptOptimization {
 }
 
 export interface ConversionRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -309,6 +693,18 @@ export interface ConversionRule {
 }
 
 export interface RulePattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PatternType;
   expression: string;
   flags: string[];
@@ -318,6 +714,18 @@ export interface RulePattern {
 export type PatternType = 'regex' | 'glob' | 'path' | 'content' | 'custom';
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   target: string;
   parameters: Record<string, any>;
@@ -327,6 +735,18 @@ export interface RuleAction {
 export type ActionType = 'convert' | 'transform' | 'copy' | 'skip' | 'custom';
 
 export interface TransformFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   parameters: Record<string, any>;
   language: ScriptLanguage;
@@ -334,6 +754,18 @@ export interface TransformFunction {
 }
 
 export interface ConvertToGodotPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalProjects: number;
   convertingProjects: number;
   completedProjects: number;
@@ -349,6 +781,18 @@ export interface ConvertToGodotPerformanceMetrics {
 }
 
 export interface ConvertToGodotAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalConversions: number;
   averageConversionTime: number;
   successRate: number;
@@ -358,6 +802,18 @@ export interface ConvertToGodotAnalytics {
 }
 
 export interface SourceTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sourceType: SourceType;
   count: number;
   percentage: number;
@@ -365,6 +821,18 @@ export interface SourceTypeDistribution {
 }
 
 export interface AssetTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   assetType: AssetType;
   count: number;
   percentage: number;
@@ -372,6 +840,18 @@ export interface AssetTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   projects: number;
   assets: number;
@@ -381,6 +861,18 @@ export interface PerformanceTrend {
 }
 
 export interface ConvertToGodotReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -392,6 +884,18 @@ export interface ConvertToGodotReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -401,6 +905,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -409,6 +925,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -417,6 +945,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -424,6 +964,18 @@ export interface Version {
 }
 
 export interface ConvertToGodotOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -13,6 +13,18 @@ import * as fs from 'fs';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface StatsOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'create-entity' | 'set-stat' | 'add-modifier' | 'calculate-stats' | 'get-entity' | 
       'get-analytics' | 'list-entities' | 'export' | 'reset' | 'demo' | 'dump';
   entityId?: string;
@@ -23,7 +35,7 @@ interface StatsOperation {
   exportFormat?: string;
 }
 
-async function main() {
+async function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

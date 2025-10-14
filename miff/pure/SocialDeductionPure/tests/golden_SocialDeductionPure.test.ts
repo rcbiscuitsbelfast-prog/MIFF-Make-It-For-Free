@@ -18,6 +18,18 @@ import { SocialDeductionManager, SocialDeductionConfig } from '../Manager';
 import { GamePhase, GameRole } from '../index';
 
 interface TestResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   passed: boolean;
   message: string;
   duration?: number;
@@ -25,6 +37,18 @@ interface TestResult {
 }
 
 interface GoldenTestSuite {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   tests: Array<() => Promise<TestResult>>;
   setup?: () => Promise<void>;

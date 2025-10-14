@@ -5,6 +5,18 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface ExportWebArgs {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   project: string;
   output: string;
   deploy?: 'pages' | 'netlify' | 'vercel' | 'none';
@@ -34,7 +46,7 @@ function emitManifest(buildDir: string) {
   fs.writeFileSync(path.join(buildDir, 'preload.manifest.json'), JSON.stringify({ files: manifest }, null, 2));
 }
 
-async function main() {
+async function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (argv[0] === 'help' || argv.length === 0) {
     console.info('export:web --project ./docs/godot --output ./build/web --deploy pages');

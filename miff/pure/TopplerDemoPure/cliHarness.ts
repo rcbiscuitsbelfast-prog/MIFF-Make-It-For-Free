@@ -5,6 +5,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 interface PhysicsState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   t: number;
   position: { x: number; y: number };
   velocity: { x: number; y: number };
@@ -50,7 +62,7 @@ function simulatePhysics(): PhysicsState[] {
   return timeline;
 }
 
-function main() {
+function main(...args: any[]) {
   const timeline = simulatePhysics();
   
   const result = {

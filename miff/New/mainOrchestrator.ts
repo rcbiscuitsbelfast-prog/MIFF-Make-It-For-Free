@@ -40,6 +40,18 @@ import { applyStatusEffect } from './statusEffects';
 
 // Input System Types
 export interface InputEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'keyboard' | 'mouse' | 'touch';
   action: string;
   x?: number;
@@ -50,6 +62,18 @@ export interface InputEvent {
 }
 
 export interface TouchGesture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'tap' | 'swipe' | 'pinch' | 'pan';
   startX: number;
   startY: number;
@@ -72,6 +96,18 @@ export enum GameState {
 }
 
 export interface GameConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetFPS: number;
   enableTouch: boolean;
   enableAudio: boolean;

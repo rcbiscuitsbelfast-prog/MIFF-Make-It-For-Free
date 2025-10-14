@@ -8,6 +8,18 @@
 export type Role = 'vendor' | 'questGiver' | 'wanderer' | 'guard' | 'custom';
 
 export interface ScheduleEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   time: string;
   action: string;
@@ -17,6 +29,18 @@ export interface ScheduleEntry {
 }
 
 export interface AIProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: Role;
@@ -31,6 +55,18 @@ export interface AIProfile {
 }
 
 export interface PersonalityTraits {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   friendliness: number; // 0-100
   aggression: number; // 0-100
   intelligence: number; // 0-100
@@ -40,6 +76,18 @@ export interface PersonalityTraits {
 }
 
 export interface SkillSet {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   combat: number; // 0-100
   magic: number; // 0-100
   crafting: number; // 0-100
@@ -49,6 +97,18 @@ export interface SkillSet {
 }
 
 export interface RelationshipMap {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   [npcId: string]: {
     relationship: 'friend' | 'enemy' | 'neutral' | 'ally' | 'rival';
     trust: number; // 0-100
@@ -58,6 +118,18 @@ export interface RelationshipMap {
 }
 
 export interface RelationshipEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'interaction' | 'quest' | 'trade' | 'combat' | 'dialogue';
   description: string;
@@ -66,6 +138,18 @@ export interface RelationshipEvent {
 }
 
 export interface BehaviorResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   npcId: string;
   role: Role;
   actions: string[];
@@ -79,6 +163,18 @@ export interface BehaviorResult {
 }
 
 export interface AIStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalProfiles: number;
   profilesByRole: Record<Role, number>;
   averagePersonality: PersonalityTraits;
@@ -88,6 +184,18 @@ export interface AIStats {
 }
 
 export interface AIFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   role?: Role;
   minFriendliness?: number;
   maxFriendliness?: number;
@@ -99,6 +207,18 @@ export interface AIFilter {
 }
 
 export interface AIOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: AIProfile | BehaviorResult | AIStats | string;
@@ -106,6 +226,18 @@ export interface AIOutput {
 }
 
 export interface Hooks {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   onNPCInteract?: (npcId: string, role: Role) => void;
   onScheduleTrigger?: (npcId: string, entry: ScheduleEntry) => void;
   onRoleAssigned?: (npcId: string, role: Role) => void;

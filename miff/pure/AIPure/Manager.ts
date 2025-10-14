@@ -20,6 +20,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AIConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableBehaviorManagement: boolean;
   enableDecisionMaking: boolean;
   enableLearning: boolean;
@@ -36,6 +48,18 @@ export interface AIConfig {
 }
 
 export interface AIInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AIType;
@@ -51,6 +75,18 @@ export interface AIInstance {
 }
 
 export interface AIBehavior {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   patterns: BehaviorPattern[];
   triggers: BehaviorTrigger[];
   responses: BehaviorResponse[];
@@ -60,6 +96,18 @@ export interface AIBehavior {
 }
 
 export interface BehaviorPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   frequency: number; // 0 to 1
@@ -69,6 +117,18 @@ export interface BehaviorPattern {
 }
 
 export interface BehaviorTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TriggerType;
@@ -78,6 +138,18 @@ export interface BehaviorTrigger {
 }
 
 export interface BehaviorResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ResponseType;
@@ -87,6 +159,18 @@ export interface BehaviorResponse {
 }
 
 export interface AILearning {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   learningRate: number; // 0 to 1
   memorySize: number;
@@ -96,6 +180,18 @@ export interface AILearning {
 }
 
 export interface KnowledgeItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: KnowledgeType;
   content: any;
@@ -105,6 +201,18 @@ export interface KnowledgeItem {
 }
 
 export interface ExperienceItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ExperienceType;
   context: any;
@@ -114,6 +222,18 @@ export interface ExperienceItem {
 }
 
 export interface AIPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   responseTime: number; // milliseconds
   accuracy: number; // 0 to 1
   efficiency: number; // 0 to 1
@@ -123,6 +243,18 @@ export interface AIPerformance {
 }
 
 export interface AIAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalInstances: number;
   activeInstances: number;
   averagePerformance: number;
@@ -132,6 +264,18 @@ export interface AIAnalytics {
 }
 
 export interface BehaviorCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'situation' | 'health' | 'ally_count' | 'enemy_count' | 'time' | 'location';
   target: string;
   operator: 'equals' | 'greater' | 'less' | 'contains';
@@ -146,7 +290,7 @@ export type KnowledgeType = 'fact' | 'rule' | 'pattern' | 'strategy' | 'preferen
 export type ExperienceType = 'success' | 'failure' | 'neutral' | 'learning' | 'adaptation';
 
 export class AIManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -156,7 +300,7 @@ export class AIManager {
   private startTime: Date;
 
   constructor(config?: Partial<AIConfig>) {
-    this.logger = new StructuredLogger({ module: 'AIManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

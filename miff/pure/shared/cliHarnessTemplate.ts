@@ -36,6 +36,18 @@ export type OutputFormat = 'json' | 'yaml' | 'csv' | 'markdown' | 'html' | 'text
 
 // Standard CLI arguments interface
 export interface CLIArgs {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   operation: CLIOperation;
   module: string;
   data?: Record<string, unknown>;
@@ -49,6 +61,18 @@ export interface CLIArgs {
 
 // Standard CLI result interface
 export interface CLIResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   module: string;
@@ -78,7 +102,7 @@ export class CLIError extends Error {
     message: string,
     public details?: any
   ) {
-    this.logger = new StructuredLogger({ module: 'export' });
+    
     super(message);
     this.name = 'CLIError';
   }

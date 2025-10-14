@@ -55,6 +55,18 @@ export enum TimeOfDay {
  * Player state interface
  */
 export interface IPlayerState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoneId: string;
   tileType: string;
   timeOfDay: TimeOfDay;
@@ -68,6 +80,18 @@ export interface IPlayerState {
  * Encounter table entry interface
  */
 export interface IEncounterTableEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoneId: string;
   spiritId: string;
   weight: number;
@@ -81,6 +105,18 @@ export interface IEncounterTableEntry {
  * Encounter table interface
  */
 export interface IEncounterTable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoneId: string;
   entries: IEncounterTableEntry[];
   totalWeight: number;
@@ -92,6 +128,18 @@ export interface IEncounterTable {
  * Encounter trigger interface
  */
 export interface IEncounterTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoneId: string;
   triggerType: TriggerType;
   triggerParams: Record<string, any>;
@@ -103,6 +151,18 @@ export interface IEncounterTrigger {
  * Encounter result interface
  */
 export interface IEncounterResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   triggered: boolean;
   zoneId?: string;
   spiritId?: string;
@@ -115,6 +175,18 @@ export interface IEncounterResult {
  * Encounter controller interface
  */
 export interface IEncounterController {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   registerTable(table: IEncounterTable): void;
   registerTrigger(trigger: IEncounterTrigger): void;
   checkForEncounter(state: IPlayerState, rng: IRNGProvider): IEncounterResult;
@@ -128,6 +200,18 @@ export interface IEncounterController {
  * Spirit instance interface
  */
 export interface ISpiritInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: number;
   spiritId: string;
   name: string;
@@ -159,6 +243,18 @@ export interface ISpiritInstance {
  * Move data interface
  */
 export interface IMoveData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   moveId: string;
   name: string;
   description: string;
@@ -189,6 +285,18 @@ export interface IMoveData {
  * Battle action interface
  */
 export interface IBattleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   actorId: number;
   targetId: number;
   moveId: string;
@@ -203,6 +311,18 @@ export interface IBattleAction {
  * Battle result interface
  */
 export interface IBattleResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   damage: number;
   statusApplied?: string;
@@ -229,6 +349,18 @@ export enum BattlePhase {
  * Battle state interface
  */
 export interface IBattleState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   spirits: Map<number, ISpiritInstance>;
   currentTurn: number;
   phase: BattlePhase;
@@ -248,6 +380,18 @@ export interface IBattleState {
  * Battle log entry interface
  */
 export interface IBattleLogEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   phase: BattlePhase;
   actorId?: number;
@@ -264,6 +408,18 @@ export interface IBattleLogEntry {
  * RNG provider interface
  */
 export interface IRNGProvider {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   nextInt(min?: number, max?: number): number;
   nextFloat(min?: number, max?: number): number;
   nextBoolean(chance?: number): boolean;
@@ -276,6 +432,18 @@ export interface IRNGProvider {
  * Type effectiveness interface
  */
 export interface ITypeEffectiveness {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getMultiplier(attackingType: string, defendingType: string): number;
   isSuperEffective(attackingType: string, defendingType: string): boolean;
   isNotVeryEffective(attackingType: string, defendingType: string): boolean;
@@ -288,6 +456,18 @@ export interface ITypeEffectiveness {
  * Damage calculator interface
  */
 export interface IDamageCalculator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   calculateDamage(attacker: ISpiritInstance, target: ISpiritInstance, move: IMoveData, effectiveness?: number): IBattleResult;
   calculateCriticalHit(attacker: ISpiritInstance, move: IMoveData): boolean;
   calculateHitChance(attacker: ISpiritInstance, target: ISpiritInstance, move: IMoveData): boolean;
@@ -299,6 +479,18 @@ export interface IDamageCalculator {
  * Battle logger interface
  */
 export interface IBattleLogger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   logPhaseChange(phase: BattlePhase): void;
   logAction(action: IBattleAction, result: IBattleResult): void;
   logDamage(actorId: number, targetId: number, damage: number, critical: boolean): void;
@@ -314,6 +506,18 @@ export interface IBattleLogger {
  * Battle loop controller interface
  */
 export interface IBattleLoopController {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   executeTurn(
     seed: number,
     actionSelector: () => IBattleAction[],
@@ -345,7 +549,7 @@ export class PlayerState implements IPlayerState {
     position: { x: number; y: number } = { x: 0, y: 0 },
     weather: string = 'clear'
   ) {
-    this.logger = new StructuredLogger({ module: 'PlayerState' });
+    
     this.zoneId = zoneId;
     this.tileType = tileType;
     this.timeOfDay = timeOfDay;
@@ -970,7 +1174,7 @@ export class RNGProvider implements IRNGProvider {
 export class TypeEffectiveness implements ITypeEffectiveness {
   private effectivenessMap: Map<string, Map<string, number>>;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.effectivenessMap = this.initializeEffectivenessMap();
   }
 
@@ -1335,7 +1539,7 @@ export class OverworldBattleSliceTool {
       statusEffects: [],
       isPlayerControlled: true,
 
-      isAlive: function() { return (this as any).currentHp > 0; },
+      isAlive: function(...args: any[]) { return (this as any).currentHp > 0; },
       takeDamage: function(damage: number) {
         (this as any).currentHp = Math.max(0, (this as any).currentHp - damage);
         return damage;
@@ -1358,12 +1562,12 @@ export class OverworldBattleSliceTool {
         return false;
       },
       hasStatusEffect: function(effect: string) { return (this as any).statusEffects.includes(effect); },
-      getEffectiveAttack: function() { return (this as any).attack; },
-      getEffectiveDefense: function() { return (this as any).defense; },
-      getEffectiveSpecialAttack: function() { return (this as any).specialAttack; },
-      getEffectiveSpecialDefense: function() { return (this as any).specialDefense; },
-      clone: function() { return { ...(this as any) }; },
-      toJSON: function() { return { ...(this as any) }; }
+      getEffectiveAttack: function(...args: any[]) { return (this as any).attack; },
+      getEffectiveDefense: function(...args: any[]) { return (this as any).defense; },
+      getEffectiveSpecialAttack: function(...args: any[]) { return (this as any).specialAttack; },
+      getEffectiveSpecialDefense: function(...args: any[]) { return (this as any).specialDefense; },
+      clone: function(...args: any[]) { return { ...(this as any) }; },
+      toJSON: function(...args: any[]) { return { ...(this as any) }; }
     } as ISpiritInstance;
   }
 
@@ -1397,7 +1601,7 @@ export class OverworldBattleSliceTool {
       statusEffects: [],
       isPlayerControlled: false,
 
-      isAlive: function() { return (this as any).currentHp > 0; },
+      isAlive: function(...args: any[]) { return (this as any).currentHp > 0; },
       takeDamage: function(damage: number) {
         (this as any).currentHp = Math.max(0, (this as any).currentHp - damage);
         return damage;
@@ -1420,12 +1624,12 @@ export class OverworldBattleSliceTool {
         return false;
       },
       hasStatusEffect: function(effect: string) { return (this as any).statusEffects.includes(effect); },
-      getEffectiveAttack: function() { return (this as any).attack; },
-      getEffectiveDefense: function() { return (this as any).defense; },
-      getEffectiveSpecialAttack: function() { return (this as any).specialAttack; },
-      getEffectiveSpecialDefense: function() { return (this as any).specialDefense; },
-      clone: function() { return { ...(this as any) }; },
-      toJSON: function() { return { ...(this as any) }; }
+      getEffectiveAttack: function(...args: any[]) { return (this as any).attack; },
+      getEffectiveDefense: function(...args: any[]) { return (this as any).defense; },
+      getEffectiveSpecialAttack: function(...args: any[]) { return (this as any).specialAttack; },
+      getEffectiveSpecialDefense: function(...args: any[]) { return (this as any).specialDefense; },
+      clone: function(...args: any[]) { return { ...(this as any) }; },
+      toJSON: function(...args: any[]) { return { ...(this as any) }; }
     } as ISpiritInstance;
   }
 }

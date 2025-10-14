@@ -6,6 +6,18 @@
  */
 
 export interface CAPAEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   description: string;
@@ -58,6 +70,18 @@ export enum CAPAStatus {
 }
 
 export interface CAPAAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   type: 'corrective' | 'preventive';
@@ -70,6 +94,18 @@ export interface CAPAAction {
 }
 
 export interface CAPAImpact {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   modulesAffected: string[];
   usersAffected: string[];
   businessImpact: string;
@@ -78,12 +114,36 @@ export interface CAPAImpact {
 }
 
 export interface CAPARegistry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entries: Map<string, CAPAEntry>;
   metrics: CAPAMetrics;
   policies: CAPAPolicies;
 }
 
 export interface CAPAMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEntries: number;
   openEntries: number;
   resolvedEntries: number;
@@ -97,6 +157,18 @@ export interface CAPAMetrics {
 }
 
 export interface CAPAPolicies {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   autoCreate: boolean;
   ciBlocking: boolean;
   prRequired: boolean;
@@ -105,6 +177,18 @@ export interface CAPAPolicies {
 }
 
 export interface CAPAEscalationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   condition: string;
   action: string;
   timeframe: number; // hours

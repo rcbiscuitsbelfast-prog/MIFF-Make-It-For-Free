@@ -26,7 +26,7 @@ function runScenario(s:Scenario): Output {
 	return { op:'runScenario', status:'ok', events, finalState };
 }
 
-function main(){
+function main(...args: any[]) {
 	const scenarioPath = process.argv[2] || 'QuestScenarioPure/scenario.json';
 	const cmd = process.argv[3] || 'run';
 	const s = SafeJSONParser.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;

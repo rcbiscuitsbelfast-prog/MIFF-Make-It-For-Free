@@ -12,6 +12,18 @@
  */
 
 export interface WorkflowEngineConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableWorkflowManagement: boolean;
   enableProcessAutomation: boolean;
   enableTaskScheduling: boolean;
@@ -28,6 +40,18 @@ export interface WorkflowEngineConfig {
 }
 
 export interface WorkflowEngineManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WorkflowEngineManagerType;
@@ -52,6 +76,18 @@ export type WorkflowEngineManagerType = 'sequential' | 'parallel' | 'hybrid' | '
 export type WorkflowEngineManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Workflow {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WorkflowType;
@@ -70,6 +106,18 @@ export type WorkflowType = 'sequential' | 'parallel' | 'conditional' | 'loop' | 
 export type WorkflowStatus = 'draft' | 'active' | 'paused' | 'archived' | 'error';
 
 export interface WorkflowDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   nodes: WorkflowNode[];
   edges: WorkflowEdge[];
   startNode: string;
@@ -79,6 +127,18 @@ export interface WorkflowDefinition {
 }
 
 export interface WorkflowNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: NodeType;
@@ -92,11 +152,35 @@ export interface WorkflowNode {
 export type NodeType = 'start' | 'end' | 'task' | 'condition' | 'loop' | 'parallel' | 'custom';
 
 export interface NodePosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
 
 export interface NodeProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   label: string;
   description: string;
   color: string;
@@ -105,6 +189,18 @@ export interface NodeProperties {
 }
 
 export interface NodeInput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DataType;
@@ -113,6 +209,18 @@ export interface NodeInput {
 }
 
 export interface NodeOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DataType;
@@ -122,6 +230,18 @@ export interface NodeOutput {
 export type DataType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'custom';
 
 export interface NodeConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timeout: number;
   retries: number;
   priority: number;
@@ -130,6 +250,18 @@ export interface NodeConfiguration {
 }
 
 export interface ResourceRequirements {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: number;
   memory: number;
   storage: number;
@@ -137,6 +269,18 @@ export interface ResourceRequirements {
 }
 
 export interface NodeConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   parameter: string;
   value: any;
@@ -147,6 +291,18 @@ export type ConstraintType = 'time' | 'resource' | 'dependency' | 'custom';
 export type ConstraintOperator = 'equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface WorkflowEdge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   source: string;
   target: string;
@@ -158,6 +314,18 @@ export interface WorkflowEdge {
 export type EdgeType = 'success' | 'failure' | 'conditional' | 'parallel' | 'custom';
 
 export interface EdgeCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   expression: string;
   variables: string[];
   operator: ConditionOperator;
@@ -166,6 +334,18 @@ export interface EdgeCondition {
 export type ConditionOperator = 'and' | 'or' | 'not' | 'equals' | 'custom';
 
 export interface EdgeProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   label: string;
   color: string;
   weight: number;
@@ -173,6 +353,18 @@ export interface EdgeProperties {
 }
 
 export interface WorkflowCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   expression: string;
@@ -182,6 +374,18 @@ export interface WorkflowCondition {
 }
 
 export interface WorkflowLoop {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LoopType;
@@ -194,6 +398,18 @@ export interface WorkflowLoop {
 export type LoopType = 'for' | 'while' | 'do_while' | 'foreach' | 'custom';
 
 export interface WorkflowTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TriggerType;
@@ -205,6 +421,18 @@ export interface WorkflowTrigger {
 export type TriggerType = 'manual' | 'scheduled' | 'event' | 'webhook' | 'custom';
 
 export interface TriggerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   schedule: string;
   event: string;
   webhook: string;
@@ -212,6 +440,18 @@ export interface TriggerConfiguration {
 }
 
 export interface WorkflowVariable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DataType;
@@ -223,6 +463,18 @@ export interface WorkflowVariable {
 export type VariableScope = 'global' | 'workflow' | 'node' | 'custom';
 
 export interface WorkflowPermissions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   read: string[];
   write: string[];
   execute: string[];
@@ -230,6 +482,18 @@ export interface WorkflowPermissions {
 }
 
 export interface WorkflowPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   averageExecutionTime: number;
   successRate: number;
   failureRate: number;
@@ -238,6 +502,18 @@ export interface WorkflowPerformance {
 }
 
 export interface Task {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TaskType;
@@ -258,6 +534,18 @@ export type TaskStatus = 'pending' | 'in_progress' | 'completed' | 'failed' | 'c
 export type TaskPriority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface TaskInput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: DataType;
   value: any;
@@ -265,6 +553,18 @@ export interface TaskInput {
 }
 
 export interface TaskOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: DataType;
   value: any;
@@ -272,6 +572,18 @@ export interface TaskOutput {
 }
 
 export interface TaskExecution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -282,6 +594,18 @@ export interface TaskExecution {
 }
 
 export interface TaskLog {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   level: LogLevel;
   message: string;
@@ -291,6 +615,18 @@ export interface TaskLog {
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
 export interface Schedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   workflow: string;
@@ -306,6 +642,18 @@ export type ScheduleType = 'once' | 'recurring' | 'cron' | 'custom';
 export type ScheduleStatus = 'active' | 'paused' | 'completed' | 'error';
 
 export interface ScheduleConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cron: string;
   timezone: string;
   startDate: number;
@@ -314,6 +662,18 @@ export interface ScheduleConfiguration {
 }
 
 export interface WorkflowExecution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   workflow: string;
   status: ExecutionStatus;
@@ -332,6 +692,18 @@ export interface WorkflowExecution {
 export type ExecutionStatus = 'running' | 'completed' | 'failed' | 'cancelled' | 'paused';
 
 export interface ExecutionLog {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   level: LogLevel;
   node: string;
@@ -340,6 +712,18 @@ export interface ExecutionLog {
 }
 
 export interface ExecutionError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   code: string;
   message: string;
   node: string;
@@ -348,6 +732,18 @@ export interface ExecutionError {
 }
 
 export interface WorkflowMonitor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MonitorType;
@@ -362,6 +758,18 @@ export type MonitorType = 'performance' | 'error' | 'resource' | 'custom';
 export type MonitorStatus = 'active' | 'inactive' | 'error';
 
 export interface MonitorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interval: number;
   threshold: number;
   enabled: boolean;
@@ -369,6 +777,18 @@ export interface MonitorConfiguration {
 }
 
 export interface MonitorFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   parameter: string;
   value: any;
@@ -378,6 +798,18 @@ export interface MonitorFilter {
 export type FilterType = 'workflow' | 'task' | 'execution' | 'custom';
 
 export interface MonitorMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalExecutions: number;
   successRate: number;
   averageExecutionTime: number;
@@ -386,6 +818,18 @@ export interface MonitorMetrics {
 }
 
 export interface MonitorAlert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AlertType;
   message: string;
@@ -399,6 +843,18 @@ export type AlertType = 'threshold_exceeded' | 'error_detected' | 'performance_d
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface WorkflowEnginePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalWorkflows: number;
   activeWorkflows: number;
   totalTasks: number;
@@ -416,6 +872,18 @@ export interface WorkflowEnginePerformanceMetrics {
 }
 
 export interface WorkflowEngineAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalWorkflows: number;
   totalTasks: number;
   totalExecutions: number;
@@ -427,6 +895,18 @@ export interface WorkflowEngineAnalytics {
 }
 
 export interface WorkflowTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: WorkflowType;
   count: number;
   percentage: number;
@@ -434,6 +914,18 @@ export interface WorkflowTypeDistribution {
 }
 
 export interface TaskTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TaskType;
   count: number;
   percentage: number;
@@ -441,6 +933,18 @@ export interface TaskTypeDistribution {
 }
 
 export interface ExecutionStatusDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: ExecutionStatus;
   count: number;
   percentage: number;
@@ -448,6 +952,18 @@ export interface ExecutionStatusDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   workflows: number;
   tasks: number;
@@ -459,6 +975,18 @@ export interface PerformanceTrend {
 }
 
 export interface WorkflowEngineReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -470,6 +998,18 @@ export interface WorkflowEngineReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -479,6 +1019,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -487,6 +1039,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -495,6 +1059,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -502,6 +1078,18 @@ export interface Version {
 }
 
 export interface WorkflowEngineOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

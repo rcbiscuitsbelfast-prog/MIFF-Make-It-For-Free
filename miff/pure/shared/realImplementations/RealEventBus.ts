@@ -8,6 +8,18 @@
 import { EventEmitter } from 'events';
 
 export interface EventSubscription {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   event: string;
   handler: (...args: any[]) => void;
@@ -17,6 +29,18 @@ export interface EventSubscription {
 }
 
 export interface EventMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvents: number;
   eventsPerSecond: number;
   activeSubscriptions: number;
@@ -37,7 +61,7 @@ export class RealEventBus extends EventEmitter {
   };
   private metricsInterval?: NodeJS.Timeout;
 
-  constructor() {
+  constructor(...args: any[]) {
     super();
     this.setMaxListeners(1000); // Allow many listeners
     this.startMetricsCollection();

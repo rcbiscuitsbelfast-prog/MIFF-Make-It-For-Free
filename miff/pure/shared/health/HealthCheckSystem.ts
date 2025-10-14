@@ -7,6 +7,18 @@ import { StandardErrorHandler } from '../error/StandardErrorHandler';
  */
 
 export interface HealthStatus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: 'healthy' | 'degraded' | 'unhealthy' | 'critical';
   timestamp: Date;
   uptime: number;
@@ -17,6 +29,18 @@ export interface HealthStatus {
 }
 
 export interface HealthCheck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   status: 'pass' | 'fail' | 'warn' | 'skip';
   message: string;
@@ -26,6 +50,18 @@ export interface HealthCheck {
 }
 
 export interface HealthSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   passed: number;
   failed: number;
@@ -35,6 +71,18 @@ export interface HealthSummary {
 }
 
 export interface HealthCheckConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timeout: number;
   retries: number;
   interval: number;
@@ -43,12 +91,36 @@ export interface HealthCheckConfig {
 }
 
 export interface HealthCheckRegistry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   checks: Map<string, HealthCheckConfig>;
   dependencies: Map<string, string[]>;
   alerts: Map<string, AlertConfig>;
 }
 
 export interface AlertConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   threshold: number;
   cooldown: number;
@@ -57,15 +129,15 @@ export interface AlertConfig {
 }
 
 export class HealthCheckSystem {
-  private logger: StructuredLogger;
+  
   private errorHandler: StandardErrorHandler;
   private registry: HealthCheckRegistry;
   private isInitialized: boolean = false;
   private startTime: Date;
   private version: string;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'HealthCheckSystem' });
+  constructor(...args: any[]) {
+    
     this.errorHandler = new StandardErrorHandler();
     this.registry = {
       checks: new Map(),

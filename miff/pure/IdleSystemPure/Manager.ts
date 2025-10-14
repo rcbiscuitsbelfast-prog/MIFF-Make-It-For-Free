@@ -12,6 +12,18 @@
  */
 
 export interface IdleSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableIdleManagement: boolean;
   enableIdleDetection: boolean;
   enablePowerManagement: boolean;
@@ -29,6 +41,18 @@ export interface IdleSystemConfig {
 }
 
 export interface IdleSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: IdleSystemManagerType;
@@ -53,6 +77,18 @@ export type IdleSystemManagerType = 'desktop' | 'mobile' | 'server' | 'embedded'
 export type IdleSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface IdleSession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   userId: string;
   startTime: number;
@@ -70,6 +106,18 @@ export type SessionType = 'user' | 'system' | 'background' | 'custom';
 export type SessionStatus = 'active' | 'idle' | 'suspended' | 'terminated';
 
 export interface IdlePeriod {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number;
   duration: number;
@@ -82,6 +130,18 @@ export type IdleType = 'user' | 'system' | 'power' | 'network' | 'custom';
 export type IdleReason = 'no_input' | 'low_activity' | 'power_save' | 'network_idle' | 'custom';
 
 export interface IdleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   timestamp: number;
   parameters: Record<string, any>;
@@ -91,6 +151,18 @@ export interface IdleAction {
 export type ActionType = 'suspend' | 'hibernate' | 'power_off' | 'network_disconnect' | 'custom';
 
 export interface SessionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpuUsage: number;
   memoryUsage: number;
   diskUsage: number;
@@ -100,6 +172,18 @@ export interface SessionPerformance {
 }
 
 export interface Activity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ActivityType;
@@ -117,6 +201,18 @@ export type ActivityStatus = 'active' | 'paused' | 'completed' | 'cancelled';
 export type ActivityIntensity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface ResourceUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: number;
   memory: number;
   disk: number;
@@ -125,6 +221,18 @@ export interface ResourceUsage {
 }
 
 export interface IdlePolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -138,6 +246,18 @@ export interface IdlePolicy {
 export type PolicyType = 'power' | 'performance' | 'security' | 'custom';
 
 export interface PolicyCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   parameter: string;
   operator: ConditionOperator;
@@ -149,6 +269,18 @@ export type ConditionType = 'idle_time' | 'cpu_usage' | 'memory_usage' | 'power_
 export type ConditionOperator = 'equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface PolicyAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   delay: number;
@@ -156,6 +288,18 @@ export interface PolicyAction {
 }
 
 export interface IdleMonitor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MonitorType;
@@ -170,6 +314,18 @@ export type MonitorType = 'input' | 'process' | 'network' | 'power' | 'custom';
 export type MonitorStatus = 'active' | 'inactive' | 'error';
 
 export interface MonitorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interval: number;
   threshold: number;
   sensitivity: number;
@@ -178,6 +334,18 @@ export interface MonitorConfiguration {
 }
 
 export interface MonitorFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   parameter: string;
   value: any;
@@ -187,6 +355,18 @@ export interface MonitorFilter {
 export type FilterType = 'process' | 'user' | 'time' | 'resource' | 'custom';
 
 export interface MonitorMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalReadings: number;
   averageValue: number;
   minValue: number;
@@ -198,6 +378,18 @@ export interface MonitorMetrics {
 export type TrendDirection = 'increasing' | 'decreasing' | 'stable' | 'volatile';
 
 export interface MonitorAlert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AlertType;
   message: string;
@@ -211,6 +403,18 @@ export type AlertType = 'threshold_exceeded' | 'anomaly_detected' | 'system_erro
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface PowerSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   powerMode: PowerMode;
   idleTimeout: number;
   sleepTimeout: number;
@@ -224,6 +428,18 @@ export interface PowerSettings {
 export type PowerMode = 'performance' | 'balanced' | 'power_saver' | 'custom';
 
 export interface IdleSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   activeSessions: number;
   totalActivities: number;
@@ -238,6 +454,18 @@ export interface IdleSystemPerformanceMetrics {
 }
 
 export interface IdleSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   totalActivities: number;
   averageIdleTime: number;
@@ -248,6 +476,18 @@ export interface IdleSystemAnalytics {
 }
 
 export interface SessionTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SessionType;
   count: number;
   percentage: number;
@@ -255,6 +495,18 @@ export interface SessionTypeDistribution {
 }
 
 export interface ActivityTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActivityType;
   count: number;
   percentage: number;
@@ -262,6 +514,18 @@ export interface ActivityTypeDistribution {
 }
 
 export interface IdlePatternAnalysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pattern: string;
   frequency: number;
   averageDuration: number;
@@ -270,6 +534,18 @@ export interface IdlePatternAnalysis {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   sessions: number;
   activities: number;
@@ -280,6 +556,18 @@ export interface PerformanceTrend {
 }
 
 export interface IdleSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -291,6 +579,18 @@ export interface IdleSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -300,6 +600,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -308,6 +620,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -316,6 +640,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -323,6 +659,18 @@ export interface Version {
 }
 
 export interface IdleSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

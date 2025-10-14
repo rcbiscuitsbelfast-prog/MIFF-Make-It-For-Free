@@ -12,7 +12,7 @@ import {
   ExportTemplate
 } from './ModdingPure';
 
-async function main() {
+async function main(...args: any[]) {
   // Ensure stdout contains ONLY JSON by redirecting logs to stderr
   const originalLog = console.log;
   console.log = (...args: any[]) => {

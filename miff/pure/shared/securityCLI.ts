@@ -13,11 +13,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class SecurityCLI {
-  private logger: StructuredLogger;
+  
   private security: SecurityHardening;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'SecurityCLI' });
+  constructor(...args: any[]) {
+    
     this.security = new SecurityHardening({
       enableSSL: false, // Set to true for production
       enableSecurityHeaders: true,

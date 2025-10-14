@@ -13,7 +13,7 @@ type Cmd =
   | { op: 'linkDialog'; npcId: string; dialogId: string }
   | { op: 'linkQuest'; npcId: string; questId: string };
 
-function main() {
+function main(...args: any[]) {
   const profilesPath = process.argv[2] || 'AIProfilesPure/sample_profiles.json';
   const commandsPath = process.argv[3] || '';
   const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(profilesPath), 'utf-8')) as { profiles: any[] };

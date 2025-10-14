@@ -9,6 +9,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface TestConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   autoRun: boolean;
   watchMode: boolean;
@@ -20,6 +32,18 @@ export interface TestConfig {
 }
 
 export interface TestCase {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   category: string;
@@ -33,6 +57,18 @@ export interface TestCase {
 }
 
 export interface TestResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   testId: string;
   name: string;
   category: string;
@@ -45,6 +81,18 @@ export interface TestResult {
 }
 
 export interface TestSuite {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description?: string;
@@ -55,6 +103,18 @@ export interface TestSuite {
 }
 
 export interface TestReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   summary: {
     total: number;
     passed: number;
@@ -76,6 +136,18 @@ export interface TestReport {
 }
 
 export interface HotReloadConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   watchPaths: string[];
   reloadDelay: number;
@@ -85,6 +157,18 @@ export interface HotReloadConfig {
 }
 
 export interface CodeInjection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   target: string; // Function name or module path
   code: string;
@@ -94,7 +178,7 @@ export interface CodeInjection {
 }
 
 export class TestHarness {
-  private logger: StructuredLogger;
+  
   private config: TestConfig;
   private suites: Map<string, TestSuite>;
   private results: TestResult[];
@@ -104,7 +188,7 @@ export class TestHarness {
   private codeInjections: Map<string, CodeInjection>;
 
   constructor(config: TestConfig, hotReloadConfig?: HotReloadConfig) {
-    this.logger = new StructuredLogger({ module: 'TestHarness' });
+    
     this.config = config;
     this.suites = new Map();
     this.results = [];
@@ -601,6 +685,18 @@ export class TestHarness {
 }
 
 export interface TestObserver {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   onTestRunStarted?: () => void;
   onTestRunCompleted?: (data: { duration: number }) => void;

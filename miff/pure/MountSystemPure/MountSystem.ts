@@ -28,6 +28,18 @@ export enum MountAttribute {
 }
 
 export interface MountStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: number;
   experience: number;
   attributes: Record<MountAttribute, number>;
@@ -40,6 +52,18 @@ export interface MountStats {
 }
 
 export interface MountEquipment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   saddle?: string;
   armor?: string;
   shoes?: string;
@@ -48,12 +72,36 @@ export interface MountEquipment {
 }
 
 export interface MountSkills {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   basic: string[];
   advanced: string[];
   special: string[];
 }
 
 export interface MountInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MountType;
@@ -81,6 +129,18 @@ export interface MountInstance {
 }
 
 export interface MountState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mounts: Record<string, MountInstance>;
   mounted: Record<string, string>; // rider -> mount
   market: {
@@ -102,6 +162,18 @@ export interface MountState {
 }
 
 export interface MountEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'mount' | 'dismount' | 'train' | 'feed' | 'equip' | 'breed' | 'purchase' | 'sell';
   rider?: string;
   mount?: string;
@@ -111,6 +183,18 @@ export interface MountEvent {
 }
 
 export interface MountSystemResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error' | 'invalid';
   message: string;

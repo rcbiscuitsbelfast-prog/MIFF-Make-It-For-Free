@@ -34,6 +34,18 @@ export enum SceneExportFormat {
 }
 
 export interface SceneBuildConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   dimensions: { width: number; height: number; depth?: number };
@@ -60,6 +72,18 @@ export interface SceneBuildConfiguration {
 }
 
 export interface SceneNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   layer: SceneLayer;
@@ -80,6 +104,18 @@ export interface SceneNode {
 }
 
 export interface SceneComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   properties: Record<string, any>;
   enabled: boolean;
@@ -87,6 +123,18 @@ export interface SceneComponent {
 }
 
 export interface SceneAsset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'texture' | 'mesh' | 'material' | 'shader' | 'audio' | 'animation' | 'prefab' | 'script' | 'font' | 'particle';
@@ -104,6 +152,18 @@ export interface SceneAsset {
 }
 
 export interface SceneLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'directional' | 'point' | 'spot' | 'area' | 'ambient';
   color: { r: number; g: number; b: number; a?: number };
@@ -121,6 +181,18 @@ export interface SceneLight {
 }
 
 export interface SceneCamera {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'perspective' | 'orthographic';
   fov: number;
@@ -139,6 +211,18 @@ export interface SceneCamera {
 }
 
 export interface SceneAudio {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'source' | 'listener' | 'reverb_zone' | 'audio_clip';
   clip?: string;
@@ -155,6 +239,18 @@ export interface SceneAudio {
 }
 
 export interface SceneAnimation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   target: string;
   clip: string;
@@ -168,6 +264,18 @@ export interface SceneAnimation {
 }
 
 export interface SceneAnimationEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number;
   functionName: string;
   parameters: any[];
@@ -175,6 +283,18 @@ export interface SceneAnimationEvent {
 }
 
 export interface SceneParticleSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   emitterShape: 'sphere' | 'box' | 'cone' | 'circle' | 'edge' | 'mesh';
   startSpeed: number;
@@ -198,6 +318,18 @@ export interface SceneParticleSystem {
 }
 
 export interface SceneTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   shape: 'box' | 'sphere' | 'capsule' | 'mesh';
   size: { x: number; y: number; z: number };
@@ -208,6 +340,18 @@ export interface SceneTrigger {
 }
 
 export interface SceneTriggerEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'enter' | 'stay' | 'exit';
   targetTag: string;
   methodName: string;
@@ -217,6 +361,18 @@ export interface SceneTriggerEvent {
 }
 
 export interface SceneCollider {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'box' | 'sphere' | 'capsule' | 'mesh' | 'terrain';
   center: { x: number; y: number; z: number };
@@ -233,6 +389,18 @@ export interface SceneCollider {
 }
 
 export interface ScenePhysicsMaterial {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   dynamicFriction: number;
@@ -243,6 +411,18 @@ export interface ScenePhysicsMaterial {
 }
 
 export interface ScenePostProcessing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   effects: ScenePostProcessingEffect[];
   enabled: boolean;
@@ -250,12 +430,36 @@ export interface ScenePostProcessing {
 }
 
 export interface ScenePostProcessingEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'bloom' | 'depth_of_field' | 'motion_blur' | 'vignette' | 'color_grading' | 'grain' | 'chromatic_aberration' | 'lens_distortion';
   enabled: boolean;
   parameters: Record<string, any>;
 }
 
 export interface SceneBuildResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   sceneId: string;
   buildTime: number;
@@ -270,6 +474,18 @@ export interface SceneBuildResult {
 }
 
 export interface SceneOptimizationStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   triangles: number;
   vertices: number;
   meshes: number;
@@ -286,6 +502,18 @@ export interface SceneOptimizationStats {
 }
 
 export interface SceneValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   errors: string[];
   warnings: string[];
@@ -295,6 +523,18 @@ export interface SceneValidationResult {
 }
 
 export interface SceneTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -308,6 +548,18 @@ export interface SceneTemplate {
 }
 
 export interface SceneBuilderProgress {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   stage: 'initialization' | 'asset_loading' | 'node_building' | 'optimization' | 'export' | 'finalization';
   progress: number;
   message: string;
@@ -318,7 +570,7 @@ export interface SceneBuilderProgress {
 }
 
 export class SceneBuilderManager {
-  private logger: StructuredLogger;
+  
   private configuration: SceneBuildConfiguration;
   private nodes: Map<string, SceneNode> = new Map();
   private assets: Map<string, SceneAsset> = new Map();
@@ -335,7 +587,7 @@ export class SceneBuilderManager {
   private buildProgress?: SceneBuilderProgress;
 
   constructor(configuration: SceneBuildConfiguration) {
-    this.logger = new StructuredLogger({ module: 'SceneBuilderManager' });
+    
     this.configuration = configuration;
     this.initializeBuilder();
   }

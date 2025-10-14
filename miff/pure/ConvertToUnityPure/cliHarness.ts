@@ -6,7 +6,7 @@ import { ConvertToUnityManager } from './Manager';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function printUsage(){
+function printUsage(...args: any[]) {
   console.info(`
 ConvertToUnityPure CLI
 
@@ -15,7 +15,7 @@ Usage:
 `);
 }
 
-function main(){
+function main(...args: any[]) {
   const file = process.argv[2];
   if(!file){
     printUsage();

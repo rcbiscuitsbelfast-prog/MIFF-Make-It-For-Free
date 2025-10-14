@@ -7,6 +7,18 @@ import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
 
 export interface WebEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'sprite' | 'text' | 'group' | 'container';
   x: number;
@@ -18,12 +30,36 @@ export interface WebEntity {
 }
 
 export interface WebComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   data: Record<string, unknown>;
   enabled: boolean;
 }
 
 export interface WebRenderData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entities: WebEntity[];
   components: WebComponent[];
   sprites: string[];
@@ -33,6 +69,18 @@ export interface WebRenderData {
 }
 
 export interface WebBridgeOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'simulate' | 'render' | 'interop' | 'dump';
   module: string;
   data?: Record<string, unknown>;
@@ -40,6 +88,18 @@ export interface WebBridgeOperation {
 }
 
 export interface WebBridgeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   renderer: 'phaser' | 'canvas' | 'dom';
   targetVersion: string; // Phaser version (e.g., "3.60")
   assetPath: string; // Path to web assets
@@ -49,6 +109,18 @@ export interface WebBridgeConfig {
 }
 
 export interface WebBridgeOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   renderData?: WebRenderData;
@@ -80,7 +152,7 @@ export class WebBridge {
   private lootManager: LootTablesManager;
   private economyManager: EconomyManager;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.npcsManager = new NPCsManager();
     this.questsManager = new QuestsManager();
     this.combatManager = new CombatManager();

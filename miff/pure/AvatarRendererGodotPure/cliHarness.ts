@@ -41,11 +41,11 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AvatarRendererGodotCLI {
-  private logger: StructuredLogger;
+  
   private rl: readline.Interface;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AvatarRendererGodotCLI' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -515,7 +515,7 @@ Output files are saved as JSON for easy integration with Godot projects.
 }
 
 // Main execution
-async function main() {
+async function main(...args: any[]) {
   const cli = new AvatarRendererGodotCLI();
   await cli.start();
 }

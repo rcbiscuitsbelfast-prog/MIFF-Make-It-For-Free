@@ -7,6 +7,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface RenderReplayOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'record' | 'playback' | 'analyze' | 'export' | 'dump';
   sessionId?: string;
   data?: Record<string, unknown>;
@@ -79,7 +91,7 @@ function printReplayResult(prefix: string, out: any): void {
   console.info(JSON.stringify(out, null, 2));
 }
 
-function main() {
+function main(...args: any[]) {
   const [cmd, ...rest] = process.argv.slice(2);
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') {
     printHelp();

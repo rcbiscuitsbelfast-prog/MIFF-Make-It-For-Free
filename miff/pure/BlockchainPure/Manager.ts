@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BlockchainConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSmartContracts: boolean;
   enableTransactionProcessing: boolean;
   enableConsensusMechanisms: boolean;
@@ -33,6 +45,18 @@ export interface BlockchainConfig {
 }
 
 export interface Blockchain {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BlockchainType;
@@ -50,6 +74,18 @@ export interface Blockchain {
 }
 
 export interface Block {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   index: number;
   hash: string;
@@ -63,6 +99,18 @@ export interface Block {
 }
 
 export interface Transaction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: TransactionType;
   from: string;
@@ -79,6 +127,18 @@ export interface Transaction {
 }
 
 export interface SmartContract {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   address: string;
@@ -91,6 +151,18 @@ export interface SmartContract {
 }
 
 export interface ConsensusConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: ConsensusAlgorithm;
   difficulty: number;
   blockTime: number; // seconds
@@ -99,6 +171,18 @@ export interface ConsensusConfig {
 }
 
 export interface ContractABI {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   functions: ContractFunction[];
   events: ContractEvent[];
   constructor: ContractConstructor;
@@ -106,6 +190,18 @@ export interface ContractABI {
 }
 
 export interface ContractFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   inputs: ContractParameter[];
   outputs: ContractParameter[];
@@ -114,6 +210,18 @@ export interface ContractFunction {
 }
 
 export interface ContractEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   inputs: ContractParameter[];
   anonymous: boolean;
@@ -121,11 +229,35 @@ export interface ContractEvent {
 }
 
 export interface ContractConstructor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   inputs: ContractParameter[];
   metadata: Record<string, any>;
 }
 
 export interface ContractParameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: string;
   indexed?: boolean;
@@ -133,6 +265,18 @@ export interface ContractParameter {
 }
 
 export interface BlockchainPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   tps: number; // transactions per second
   blockTime: number; // milliseconds
   memoryUsage: number; // bytes
@@ -142,6 +286,18 @@ export interface BlockchainPerformance {
 }
 
 export interface BlockchainAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalBlocks: number;
   totalTransactions: number;
   pendingTransactions: number;
@@ -160,7 +316,7 @@ export type ConsensusAlgorithm = 'proof-of-work' | 'proof-of-stake' | 'delegated
 export type StateMutability = 'pure' | 'view' | 'nonpayable' | 'payable';
 
 export class BlockchainManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -170,7 +326,7 @@ export class BlockchainManager {
   private startTime: Date;
 
   constructor(config?: Partial<BlockchainConfig>) {
-    this.logger = new StructuredLogger({ module: 'BlockchainManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

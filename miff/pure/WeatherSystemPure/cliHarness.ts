@@ -26,6 +26,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // ============================================================================
 
 interface CLIOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: 'interactive' | 'simulate' | 'test' | 'benchmark' | 'export';
   seed?: number;
   duration?: number;
@@ -35,6 +47,18 @@ interface CLIOptions {
 }
 
 interface SimulationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: number;          // Duration in seconds
   weatherTransitions: number; // Number of weather changes to simulate
   logInterval: number;      // Log interval in seconds
@@ -51,7 +75,7 @@ interface SimulationConfig {
  * Provides comprehensive testing and interaction capabilities
  */
 export class WeatherSystemCLI {
-  private logger: StructuredLogger;
+  
   private weatherSystem: WeatherSystemPure;
   private weatherManager: WeatherManagerPure;
   private eventBus: EventBus;
@@ -67,7 +91,7 @@ export class WeatherSystemCLI {
   private isInteractive: boolean = false;
 
   constructor(options: CLIOptions) {
-    this.logger = new StructuredLogger({ module: 'WeatherSystemCLI' });
+    
     this.options = options;
     this.eventBus = new EventBus();
     this.weatherSystem = new WeatherSystemPure(this.eventBus, options.seed);

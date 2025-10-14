@@ -12,6 +12,18 @@
  */
 
 export interface ResourceManagerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableResourceManagement: boolean;
   enableResourceLoading: boolean;
   enableResourceCaching: boolean;
@@ -30,6 +42,18 @@ export interface ResourceManagerConfig {
 }
 
 export interface ResourceManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ResourceManagerType;
@@ -53,6 +77,18 @@ export type ResourceManagerType = 'game' | 'web' | 'mobile' | 'desktop' | 'custo
 export type ResourceManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Resource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ResourceType;
@@ -70,6 +106,18 @@ export type ResourceType = 'texture' | 'model' | 'audio' | 'font' | 'shader' | '
 export type ResourceStatus = 'unloaded' | 'loading' | 'loaded' | 'unloading' | 'error';
 
 export interface ResourceSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   url: string;
   format: string;
@@ -79,6 +127,18 @@ export interface ResourceSource {
 }
 
 export interface CompressionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -88,6 +148,18 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'gzip' | 'lz4' | 'zstd' | 'brotli' | 'custom';
 
 export interface EncryptionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: string;
   key: string;
@@ -95,6 +167,18 @@ export interface EncryptionSettings {
 }
 
 export interface ResourceProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: ResourceSize;
   dimensions: ResourceDimensions;
   format: ResourceFormat;
@@ -104,6 +188,18 @@ export interface ResourceProperties {
 }
 
 export interface ResourceSize {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bytes: number;
   compressed: number;
   uncompressed: number;
@@ -111,6 +207,18 @@ export interface ResourceSize {
 }
 
 export interface ResourceDimensions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   depth: number;
@@ -118,6 +226,18 @@ export interface ResourceDimensions {
 }
 
 export interface ResourceFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   version: string;
   encoding: string;
@@ -125,6 +245,18 @@ export interface ResourceFormat {
 }
 
 export interface ResourceQuality {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: QualityLevel;
   bitDepth: number;
   colorSpace: string;
@@ -134,6 +266,18 @@ export interface ResourceQuality {
 export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra';
 
 export interface MipmapSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   levels: number;
   filter: MipmapFilter;
@@ -144,6 +288,18 @@ export type MipmapFilter = 'nearest' | 'linear' | 'cubic' | 'custom';
 export type MipmapGeneration = 'automatic' | 'manual' | 'precomputed';
 
 export interface ResourceMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   author: string;
   description: string;
   tags: string[];
@@ -155,6 +311,18 @@ export interface ResourceMetadata {
 }
 
 export interface ResourceDependency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resourceId: string;
   type: DependencyType;
   required: boolean;
@@ -166,6 +334,18 @@ export type DependencyType = 'hard' | 'soft' | 'optional' | 'custom';
 export type LoadingStrategy = 'eager' | 'lazy' | 'on_demand' | 'preload';
 
 export interface ResourcePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   loadTime: number;
   unloadTime: number;
   accessTime: number;
@@ -175,6 +355,18 @@ export interface ResourcePerformance {
 }
 
 export interface ResourceMemory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   allocated: number;
   used: number;
   peak: number;
@@ -183,6 +375,18 @@ export interface ResourceMemory {
 }
 
 export interface ResourcePool {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PoolType;
@@ -197,6 +401,18 @@ export type PoolType = 'texture' | 'model' | 'audio' | 'buffer' | 'custom';
 export type PoolStatus = 'active' | 'inactive' | 'full' | 'empty' | 'error';
 
 export interface PoolConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSize: number;
   initialSize: number;
   growthFactor: number;
@@ -206,6 +422,18 @@ export interface PoolConfiguration {
 }
 
 export interface EvictionPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EvictionType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -214,6 +442,18 @@ export interface EvictionPolicy {
 export type EvictionType = 'lru' | 'lfu' | 'fifo' | 'random' | 'custom';
 
 export interface PreloadingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: PreloadingStrategy;
   priority: number;
@@ -223,6 +463,18 @@ export interface PreloadingSettings {
 export type PreloadingStrategy = 'immediate' | 'background' | 'on_demand' | 'custom';
 
 export interface PoolPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hits: number;
   misses: number;
   evictions: number;
@@ -233,6 +485,18 @@ export interface PoolPerformance {
 }
 
 export interface ResourceCache {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CacheType;
@@ -247,6 +511,18 @@ export type CacheType = 'memory' | 'disk' | 'network' | 'hybrid' | 'custom';
 export type CacheStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface CacheConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSize: number;
   maxAge: number;
   maxEntries: number;
@@ -256,6 +532,18 @@ export interface CacheConfiguration {
 }
 
 export interface PersistenceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   location: string;
   format: string;
@@ -264,6 +552,18 @@ export interface PersistenceSettings {
 }
 
 export interface CacheStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hits: number;
   misses: number;
   evictions: number;
@@ -274,6 +574,18 @@ export interface CacheStatistics {
 }
 
 export interface CachePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   averageAccessTime: number;
   averageInsertTime: number;
   averageDeleteTime: number;
@@ -283,6 +595,18 @@ export interface CachePerformance {
 }
 
 export interface ResourceStream {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StreamType;
@@ -297,6 +621,18 @@ export type StreamType = 'file' | 'network' | 'memory' | 'custom';
 export type StreamStatus = 'idle' | 'streaming' | 'paused' | 'error';
 
 export interface StreamSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   url: string;
   protocol: string;
@@ -306,6 +642,18 @@ export interface StreamSource {
 }
 
 export interface AuthenticationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: AuthenticationType;
   credentials: string;
@@ -316,6 +664,18 @@ export interface AuthenticationSettings {
 export type AuthenticationType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface StreamConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bufferSize: number;
   chunkSize: number;
   timeout: number;
@@ -325,6 +685,18 @@ export interface StreamConfiguration {
 }
 
 export interface StreamPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bytesStreamed: number;
   bytesPerSecond: number;
   averageLatency: number;
@@ -334,6 +706,18 @@ export interface StreamPerformance {
 }
 
 export interface ResourceManagerPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalResources: number;
   loadedResources: number;
   totalPools: number;
@@ -348,6 +732,18 @@ export interface ResourceManagerPerformanceMetrics {
 }
 
 export interface ResourceManagerAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalResources: number;
   loadedResources: number;
   averageLoadTime: number;
@@ -357,6 +753,18 @@ export interface ResourceManagerAnalytics {
 }
 
 export interface ResourceTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ResourceType;
   count: number;
   percentage: number;
@@ -364,6 +772,18 @@ export interface ResourceTypeDistribution {
 }
 
 export interface PoolTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PoolType;
   count: number;
   percentage: number;
@@ -371,6 +791,18 @@ export interface PoolTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   resources: number;
   loaded: number;
@@ -381,6 +813,18 @@ export interface PerformanceTrend {
 }
 
 export interface ResourceManagerReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -392,6 +836,18 @@ export interface ResourceManagerReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -401,6 +857,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -409,6 +877,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -417,6 +897,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -424,6 +916,18 @@ export interface Version {
 }
 
 export interface ResourceManagerOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

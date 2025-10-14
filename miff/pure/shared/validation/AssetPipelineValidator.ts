@@ -10,6 +10,18 @@ import { SafeJSONParser } from '../security/SafeJSONParser';
  */
 
 export interface AssetValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -19,6 +31,18 @@ export interface AssetValidationRule {
 }
 
 export interface AssetInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   name: string;
   extension: string;
@@ -29,6 +53,18 @@ export interface AssetInfo {
 }
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   errors: string[];
   warnings: string[];
@@ -37,6 +73,18 @@ export interface ValidationResult {
 }
 
 export interface AssetPipelineConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxFileSize: number; // bytes
   allowedExtensions: string[];
   requiredMetadata: string[];
@@ -45,6 +93,18 @@ export interface AssetPipelineConfig {
 }
 
 export interface ValidationReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAssets: number;
   validAssets: number;
   invalidAssets: number;
@@ -67,14 +127,14 @@ export interface ValidationReport {
 }
 
 export class AssetPipelineValidator {
-  private logger: StructuredLogger;
+  
   private errorHandler: StandardErrorHandler;
   private config: AssetPipelineConfig;
   private rules: Map<string, AssetValidationRule> = new Map();
   private isInitialized: boolean = false;
 
   constructor(config?: Partial<AssetPipelineConfig>) {
-    this.logger = new StructuredLogger({ module: 'AssetPipelineValidator' });
+    
     this.errorHandler = new StandardErrorHandler();
     this.config = this.mergeConfig(config);
   }

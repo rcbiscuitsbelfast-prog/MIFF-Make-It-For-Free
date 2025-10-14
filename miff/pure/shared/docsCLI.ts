@@ -12,11 +12,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class DocsCLI {
-  private logger: StructuredLogger;
+  
   private generator: DocumentationGenerator;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'DocsCLI' });
+  constructor(...args: any[]) {
+    
     this.generator = new DocumentationGenerator();
   }
 

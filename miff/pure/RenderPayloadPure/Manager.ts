@@ -13,6 +13,18 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface FrameBuildOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp?: string;
   engine?: string;
   module?: string;
@@ -21,6 +33,18 @@ export interface FrameBuildOptions {
 }
 
 export interface BuildResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'build';
   status: 'ok' | 'error';
   payload: RenderPayload;
@@ -38,6 +62,18 @@ export interface BuildResult {
 }
 
 export interface AssetReference {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   path: string;
   type: 'texture' | 'audio' | 'model' | 'animation' | 'shader';
@@ -47,6 +83,18 @@ export interface AssetReference {
 }
 
 export interface AnimationSequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   frames: number;
@@ -59,6 +107,18 @@ export interface AnimationSequence {
 }
 
 export interface RenderStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFrames: number;
   totalAssets: number;
   totalAnimations: number;
@@ -72,6 +132,18 @@ export interface RenderStats {
 }
 
 export interface RenderPayload {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   renderData: RenderData[];
@@ -88,6 +160,18 @@ export interface RenderPayload {
 }
 
 export interface RenderData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'sprite' | 'model' | 'effect' | 'ui' | 'text' | 'particle';
   position: { x: number; y: number; z: number };
@@ -101,6 +185,18 @@ export interface RenderData {
 }
 
 export interface RenderPayloadConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAssetManagement: boolean;
   enableAnimationSequences: boolean;
   enablePerformanceOptimization: boolean;
@@ -115,7 +211,7 @@ export interface RenderPayloadConfig {
 
 export class RenderPayloadManager {
   private config: RenderPayloadConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private frames: Map<string, RenderPayload> = new Map();
   private assets: Map<string, AssetReference> = new Map();

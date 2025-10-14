@@ -7,7 +7,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd = { op: 'showAttribution' };
 
-function main(){
+function main(...args: any[]) {
   const cfgPath = process.argv[2] || 'MiffAttributionPure/sample_config.json';
   const cmdsPath = process.argv[3] || '';
   const mgr = new MiffAttributionManager();

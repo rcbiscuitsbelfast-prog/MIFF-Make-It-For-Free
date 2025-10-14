@@ -20,7 +20,7 @@ function readJSON(file: string): any {
   return SafeJSONParser.parse(fs.readFileSync(p, 'utf-8'));
 }
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html]');

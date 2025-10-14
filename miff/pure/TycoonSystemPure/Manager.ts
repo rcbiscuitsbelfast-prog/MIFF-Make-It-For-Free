@@ -68,6 +68,18 @@ export enum RevenueType {
 }
 
 export interface BusinessFacility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: FacilityType;
@@ -85,6 +97,18 @@ export interface BusinessFacility {
 }
 
 export interface StaffMember {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: StaffRole;
@@ -100,6 +124,18 @@ export interface StaffMember {
 }
 
 export interface RevenueStream {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RevenueType;
   amount: number;
@@ -112,6 +148,18 @@ export interface RevenueStream {
 }
 
 export interface MarketData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   condition: MarketCondition;
   demand: number;
   competition: number;
@@ -125,6 +173,18 @@ export interface MarketData {
 }
 
 export interface BusinessStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRevenue: number;
   totalExpenses: number;
   netProfit: number;
@@ -142,6 +202,18 @@ export interface BusinessStats {
 }
 
 export interface TycoonIntegration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   systemId: string;
   enabled: boolean;
   priority: number;
@@ -155,6 +227,18 @@ export interface TycoonIntegration {
 }
 
 export interface TycoonManagerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAutoManagement: boolean;
   managementInterval: number;
   enableAnalytics: boolean;
@@ -168,6 +252,18 @@ export interface TycoonManagerConfig {
 }
 
 export interface FacilityManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getOptimalFacilityLocation: (type: BusinessType) => { x: number; y: number };
   calculateFacilityCost: (type: FacilityType, location: string) => number;
   optimizeFacilityLayout: (facility: BusinessFacility) => BusinessFacility;
@@ -175,6 +271,18 @@ export interface FacilityManager {
 }
 
 export interface StaffManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hireStaff: (role: StaffRole, requirements: any) => StaffMember | null;
   trainStaff: (staffId: string, skill: string) => boolean;
   calculateProductivity: (staff: StaffMember[]) => number;
@@ -182,6 +290,18 @@ export interface StaffManager {
 }
 
 export interface FinancialManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   calculateRevenue: (facilities: BusinessFacility[], marketData: MarketData) => number;
   calculateExpenses: (facilities: BusinessFacility[], staff: StaffMember[]) => number;
   analyzeProfitability: (stats: BusinessStats) => any;
@@ -190,7 +310,7 @@ export interface FinancialManager {
 
 export class TycoonSystemManager {
   private config: TycoonManagerConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private facilities: Map<string, BusinessFacility> = new Map();
   private staff: Map<string, StaffMember> = new Map();

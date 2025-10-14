@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface StringUtils {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   capitalize(str: string): string;
   camelCase(str: string): string;
   kebabCase(str: string): string;
@@ -28,6 +40,18 @@ export interface StringUtils {
 }
 
 export interface ArrayUtils {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   unique<T>(arr: T[]): T[];
   chunk<T>(arr: T[], size: number): T[][];
   flatten<T>(arr: T[][]): T[];
@@ -43,6 +67,18 @@ export interface ArrayUtils {
 }
 
 export interface ObjectUtils {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   deepClone<T>(obj: T): T;
   deepMerge<T>(target: T, source: Partial<T>): T;
   pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>;
@@ -58,6 +94,18 @@ export interface ObjectUtils {
 }
 
 export interface DateUtils {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   now(): Date;
   today(): Date;
   format(date: Date, format: string): string;
@@ -82,6 +130,18 @@ export interface DateUtils {
 }
 
 export interface MathUtils {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   random(min: number, max: number): number;
   randomInt(min: number, max: number): number;
   clamp(value: number, min: number, max: number): number;
@@ -106,12 +166,12 @@ export interface MathUtils {
 }
 
 export class RealUtils {
-  private logger: StructuredLogger;
+  
   private eventHandlers: Map<string, Function[]> = new Map();
   private isInitialized: boolean = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealUtils' });
+  constructor(...args: any[]) {
+    
     this.initialize();
   }
 

@@ -24,6 +24,18 @@ export enum ScanTargetType {
 }
 
 export interface ScanTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ScanTargetType;
   position: { x: number; y: number; z: number };
@@ -40,6 +52,18 @@ export interface ScanTarget {
 }
 
 export interface ScanConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxRange: number;
   scanDuration: number; // milliseconds
   cooldownDuration: number; // milliseconds

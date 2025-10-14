@@ -12,6 +12,18 @@
  */
 
 export interface TimeSeriesAnalysisConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableDataProcessing: boolean;
   enableStatisticalAnalysis: boolean;
   enableForecasting: boolean;
@@ -30,6 +42,18 @@ export interface TimeSeriesAnalysisConfig {
 }
 
 export interface TimeSeriesAnalysisManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TimeSeriesAnalysisManagerType;
@@ -53,6 +77,18 @@ export type TimeSeriesAnalysisManagerType = 'basic' | 'advanced' | 'enterprise' 
 export type TimeSeriesAnalysisManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TimeSeries {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -64,6 +100,18 @@ export interface TimeSeries {
 }
 
 export interface DataPoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   value: number;
   quality: DataQuality;
@@ -74,6 +122,18 @@ export type DataQuality = 'good' | 'warning' | 'bad' | 'missing';
 export type Frequency = 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year';
 
 export interface Analysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timeSeriesId: string;
   type: AnalysisType;
@@ -89,6 +149,18 @@ export type AnalysisType = 'trend' | 'seasonality' | 'autocorrelation' | 'statio
 export type AnalysisStatus = 'pending' | 'running' | 'completed' | 'failed';
 
 export interface AnalysisParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   windowSize?: number;
   confidenceLevel?: number;
   significanceLevel?: number;
@@ -97,6 +169,18 @@ export interface AnalysisParameters {
 }
 
 export interface AnalysisResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   statistics: StatisticalResults;
   patterns: PatternResults;
   insights: string[];
@@ -105,6 +189,18 @@ export interface AnalysisResults {
 }
 
 export interface StatisticalResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mean: number;
   median: number;
   mode: number;
@@ -118,6 +214,18 @@ export interface StatisticalResults {
 }
 
 export interface PatternResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   trend: TrendPattern;
   seasonality: SeasonalityPattern;
   cycles: CyclePattern[];
@@ -125,6 +233,18 @@ export interface PatternResults {
 }
 
 export interface TrendPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   direction: 'increasing' | 'decreasing' | 'stable';
   strength: number;
   slope: number;
@@ -132,6 +252,18 @@ export interface TrendPattern {
 }
 
 export interface SeasonalityPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   detected: boolean;
   period: number;
   strength: number;
@@ -139,12 +271,36 @@ export interface SeasonalityPattern {
 }
 
 export interface SeasonalComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: number;
   amplitude: number;
   phase: number;
 }
 
 export interface CyclePattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: number;
   amplitude: number;
   phase: number;
@@ -152,6 +308,18 @@ export interface CyclePattern {
 }
 
 export interface AnomalyPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   value: number;
   expectedValue: number;
@@ -164,6 +332,18 @@ export type AnomalySeverity = 'low' | 'medium' | 'high' | 'critical';
 export type AnomalyType = 'spike' | 'drop' | 'shift' | 'outlier' | 'missing';
 
 export interface Forecast {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timeSeriesId: string;
   method: ForecastMethod;
@@ -180,6 +360,18 @@ export type ForecastMethod = 'arima' | 'exponential_smoothing' | 'linear_regress
 export type ForecastStatus = 'pending' | 'running' | 'completed' | 'failed';
 
 export interface ForecastPoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   value: number;
   lowerBound: number;
@@ -188,12 +380,36 @@ export interface ForecastPoint {
 }
 
 export interface ConfidenceInterval {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: number;
   lowerBound: number[];
   upperBound: number[];
 }
 
 export interface ForecastAccuracy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mae: number; // Mean Absolute Error
   mse: number; // Mean Squared Error
   rmse: number; // Root Mean Squared Error
@@ -202,6 +418,18 @@ export interface ForecastAccuracy {
 }
 
 export interface Anomaly {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timeSeriesId: string;
   timestamp: number;
@@ -219,6 +447,18 @@ export interface Anomaly {
 export type AnomalyStatus = 'new' | 'investigating' | 'resolved' | 'ignored';
 
 export interface TimeSeriesAnalysisPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTimeSeries: number;
   totalDataPoints: number;
   totalAnalyses: number;
@@ -232,6 +472,18 @@ export interface TimeSeriesAnalysisPerformanceMetrics {
 }
 
 export interface TimeSeriesAnalysisAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAnalyses: number;
   averageProcessingTime: number;
   analysisTypeDistribution: AnalysisTypeDistribution[];
@@ -241,24 +493,72 @@ export interface TimeSeriesAnalysisAnalytics {
 }
 
 export interface AnalysisTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AnalysisType;
   count: number;
   percentage: number;
 }
 
 export interface ForecastAccuracyDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   method: ForecastMethod;
   averageAccuracy: number;
   count: number;
 }
 
 export interface AnomalySeverityDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   severity: AnomalySeverity;
   count: number;
   percentage: number;
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   analyses: number;
   processingTime: number;
@@ -267,6 +567,18 @@ export interface PerformanceTrend {
 }
 
 export interface TimeSeriesAnalysisReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -278,6 +590,18 @@ export interface TimeSeriesAnalysisReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -287,6 +611,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -295,6 +631,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -303,6 +651,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -310,6 +670,18 @@ export interface Version {
 }
 
 export interface TimeSeriesAnalysisOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

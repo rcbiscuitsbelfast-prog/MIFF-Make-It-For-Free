@@ -12,6 +12,18 @@
  */
 
 export interface MonitoringSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMonitoringManagement: boolean;
   enableSystemMonitoring: boolean;
   enableApplicationMonitoring: boolean;
@@ -29,6 +41,18 @@ export interface MonitoringSystemConfig {
 }
 
 export interface MonitoringSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MonitoringSystemManagerType;
@@ -54,6 +78,18 @@ export type MonitoringSystemManagerType = 'system' | 'application' | 'infrastruc
 export type MonitoringSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Metric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MetricType;
@@ -69,6 +105,18 @@ export type MetricType = 'counter' | 'gauge' | 'histogram' | 'summary' | 'custom
 export type MetricStatus = 'active' | 'inactive' | 'error';
 
 export interface MetricDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   description: string;
   unit: string;
   labels: MetricLabel[];
@@ -77,6 +125,18 @@ export interface MetricDefinition {
 }
 
 export interface MetricLabel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: string;
   description: string;
@@ -86,6 +146,18 @@ export type AggregationType = 'sum' | 'avg' | 'min' | 'max' | 'count' | 'custom'
 export type RetentionPolicy = '1h' | '24h' | '7d' | '30d' | '90d' | 'custom';
 
 export interface MetricCollection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interval: number;
   timeout: number;
   retries: number;
@@ -94,6 +166,18 @@ export interface MetricCollection {
 }
 
 export interface CollectionSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   endpoint: string;
   credentials: Credentials;
@@ -103,6 +187,18 @@ export interface CollectionSource {
 export type SourceType = 'api' | 'database' | 'file' | 'log' | 'custom';
 
 export interface Credentials {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CredentialType;
   username: string;
   password: string;
@@ -113,6 +209,18 @@ export interface Credentials {
 export type CredentialType = 'basic' | 'bearer' | 'certificate' | 'custom';
 
 export interface MetricStorage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: StorageType;
   configuration: StorageConfiguration;
   compression: boolean;
@@ -122,6 +230,18 @@ export interface MetricStorage {
 export type StorageType = 'memory' | 'disk' | 'database' | 'cloud' | 'custom';
 
 export interface StorageConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSize: number;
   ttl: number;
   sharding: ShardingConfig;
@@ -129,6 +249,18 @@ export interface StorageConfiguration {
 }
 
 export interface ShardingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: ShardingStrategy;
   shards: number;
@@ -138,6 +270,18 @@ export interface ShardingConfig {
 export type ShardingStrategy = 'hash' | 'range' | 'round_robin' | 'custom';
 
 export interface ReplicationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   factor: number;
   strategy: ReplicationStrategy;
@@ -146,6 +290,18 @@ export interface ReplicationConfig {
 export type ReplicationStrategy = 'master_slave' | 'master_master' | 'custom';
 
 export interface MetricPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSamples: number;
   averageValue: number;
   minValue: number;
@@ -155,6 +311,18 @@ export interface MetricPerformance {
 }
 
 export interface Alert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AlertType;
@@ -170,6 +338,18 @@ export type AlertType = 'threshold' | 'anomaly' | 'pattern' | 'custom';
 export type AlertStatus = 'active' | 'inactive' | 'firing' | 'resolved';
 
 export interface AlertCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metric: string;
   operator: ConditionOperator;
   threshold: number;
@@ -181,6 +361,18 @@ export interface AlertCondition {
 export type ConditionOperator = 'greater_than' | 'less_than' | 'equals' | 'not_equals' | 'custom';
 
 export interface AlertAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   configuration: ActionConfiguration;
   enabled: boolean;
@@ -190,6 +382,18 @@ export interface AlertAction {
 export type ActionType = 'email' | 'sms' | 'webhook' | 'slack' | 'custom';
 
 export interface ActionConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   recipients: string[];
   template: string;
   subject: string;
@@ -199,12 +403,36 @@ export interface ActionConfiguration {
 }
 
 export interface AlertEscalation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   levels: EscalationLevel[];
   timeout: number;
 }
 
 export interface EscalationLevel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: number;
   action: ActionType;
   configuration: ActionConfiguration;
@@ -212,6 +440,18 @@ export interface EscalationLevel {
 }
 
 export interface AlertPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFirings: number;
   averageResolutionTime: number;
   falsePositiveRate: number;
@@ -219,6 +459,18 @@ export interface AlertPerformance {
 }
 
 export interface Dashboard {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DashboardType;
@@ -234,6 +486,18 @@ export type DashboardType = 'system' | 'application' | 'business' | 'custom';
 export type DashboardStatus = 'active' | 'inactive' | 'draft';
 
 export interface DashboardLayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rows: number;
   columns: number;
   grid: GridLayout;
@@ -241,11 +505,35 @@ export interface DashboardLayout {
 }
 
 export interface GridLayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   widgets: WidgetPosition[];
   breakpoints: Breakpoint[];
 }
 
 export interface WidgetPosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   widget: string;
   x: number;
   y: number;
@@ -254,12 +542,36 @@ export interface WidgetPosition {
 }
 
 export interface Breakpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   width: number;
   layout: WidgetPosition[];
 }
 
 export interface Widget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WidgetType;
@@ -271,6 +583,18 @@ export interface Widget {
 export type WidgetType = 'chart' | 'table' | 'gauge' | 'text' | 'custom';
 
 export interface WidgetConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   metrics: string[];
@@ -280,6 +604,18 @@ export interface WidgetConfiguration {
 }
 
 export interface TimeRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   relative: boolean;
@@ -287,6 +623,18 @@ export interface TimeRange {
 }
 
 export interface WidgetData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   values: DataPoint[];
   labels: string[];
   series: DataSeries[];
@@ -294,12 +642,36 @@ export interface WidgetData {
 }
 
 export interface DataPoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   value: number;
   labels: Record<string, string>;
 }
 
 export interface DataSeries {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   data: DataPoint[];
   color: string;
@@ -309,12 +681,36 @@ export interface DataSeries {
 export type SeriesType = 'line' | 'bar' | 'area' | 'scatter' | 'custom';
 
 export interface WidgetPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   renderTime: number;
   dataSize: number;
   lastUpdate: number;
 }
 
 export interface DashboardFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: FilterType;
@@ -327,6 +723,18 @@ export interface DashboardFilter {
 export type FilterType = 'time' | 'metric' | 'label' | 'custom';
 
 export interface DashboardPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   loadTime: number;
   renderTime: number;
   dataSize: number;
@@ -334,6 +742,18 @@ export interface DashboardPerformance {
 }
 
 export interface MonitoringReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ReportType;
@@ -348,6 +768,18 @@ export type ReportType = 'summary' | 'detailed' | 'trend' | 'custom';
 export type ReportStatus = 'generating' | 'completed' | 'failed';
 
 export interface ReportConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metrics: string[];
   timeRange: TimeRange;
   format: ReportFormat;
@@ -358,6 +790,18 @@ export interface ReportConfiguration {
 export type ReportFormat = 'pdf' | 'html' | 'csv' | 'json' | 'custom';
 
 export interface ReportContent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   summary: ReportSummary;
   charts: ReportChart[];
   tables: ReportTable[];
@@ -365,6 +809,18 @@ export interface ReportContent {
 }
 
 export interface ReportSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMetrics: number;
   totalAlerts: number;
   averageValues: Record<string, number>;
@@ -372,6 +828,18 @@ export interface ReportSummary {
 }
 
 export interface TrendInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metric: string;
   direction: TrendDirection;
   change: number;
@@ -381,6 +849,18 @@ export interface TrendInfo {
 export type TrendDirection = 'up' | 'down' | 'stable' | 'custom';
 
 export interface ReportChart {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ChartType;
   title: string;
   data: DataPoint[];
@@ -390,6 +870,18 @@ export interface ReportChart {
 export type ChartType = 'line' | 'bar' | 'pie' | 'scatter' | 'custom';
 
 export interface ReportTable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   headers: string[];
   rows: TableRow[];
@@ -397,11 +889,35 @@ export interface ReportTable {
 }
 
 export interface TableRow {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cells: TableCell[];
   metadata: Record<string, any>;
 }
 
 export interface TableCell {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   value: any;
   format: CellFormat;
   style: CellStyle;
@@ -411,12 +927,36 @@ export type CellFormat = 'number' | 'text' | 'date' | 'custom';
 export type CellStyle = 'normal' | 'bold' | 'italic' | 'custom';
 
 export interface TableSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRows: number;
   averages: Record<string, number>;
   totals: Record<string, number>;
 }
 
 export interface ReportInsight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: InsightType;
   title: string;
   description: string;
@@ -427,6 +967,18 @@ export interface ReportInsight {
 export type InsightType = 'anomaly' | 'trend' | 'correlation' | 'custom';
 
 export interface MonitoringAgent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AgentType;
@@ -441,6 +993,18 @@ export type AgentType = 'system' | 'application' | 'log' | 'custom';
 export type AgentStatus = 'online' | 'offline' | 'error';
 
 export interface AgentConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   endpoint: string;
   interval: number;
   timeout: number;
@@ -450,6 +1014,18 @@ export interface AgentConfiguration {
 }
 
 export interface AgentFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   field: string;
   operator: ConditionOperator;
@@ -458,6 +1034,18 @@ export interface AgentFilter {
 }
 
 export interface AgentCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metrics: string[];
   logs: string[];
   events: string[];
@@ -465,6 +1053,18 @@ export interface AgentCapabilities {
 }
 
 export interface AgentPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCollections: number;
   successRate: number;
   averageLatency: number;
@@ -472,6 +1072,18 @@ export interface AgentPerformance {
 }
 
 export interface DataCollector {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CollectorType;
@@ -486,6 +1098,18 @@ export type CollectorType = 'pull' | 'push' | 'stream' | 'custom';
 export type CollectorStatus = 'active' | 'inactive' | 'error';
 
 export interface CollectorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interval: number;
   batchSize: number;
   timeout: number;
@@ -494,6 +1118,18 @@ export interface CollectorConfiguration {
 }
 
 export interface BufferConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: number;
   flushInterval: number;
   compression: boolean;
@@ -501,6 +1137,18 @@ export interface BufferConfiguration {
 }
 
 export interface CollectorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCollections: number;
   successRate: number;
   averageLatency: number;
@@ -509,6 +1157,18 @@ export interface CollectorPerformance {
 }
 
 export interface MonitoringSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMetrics: number;
   activeMetrics: number;
   totalAlerts: number;
@@ -526,6 +1186,18 @@ export interface MonitoringSystemPerformanceMetrics {
 }
 
 export interface MonitoringSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMetrics: number;
   totalAlerts: number;
   averageCollectionTime: number;
@@ -535,6 +1207,18 @@ export interface MonitoringSystemAnalytics {
 }
 
 export interface MetricTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: MetricType;
   count: number;
   percentage: number;
@@ -542,6 +1226,18 @@ export interface MetricTypeDistribution {
 }
 
 export interface AlertTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AlertType;
   count: number;
   percentage: number;
@@ -549,6 +1245,18 @@ export interface AlertTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   metrics: number;
   alerts: number;
@@ -558,6 +1266,18 @@ export interface PerformanceTrend {
 }
 
 export interface MonitoringSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -569,6 +1289,18 @@ export interface MonitoringSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -578,6 +1310,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -586,6 +1330,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -594,6 +1350,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -601,6 +1369,18 @@ export interface Version {
 }
 
 export interface MonitoringSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

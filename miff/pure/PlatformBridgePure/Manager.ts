@@ -5,6 +5,18 @@ import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface PlatformBridgePureConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   debugMode: boolean;
   maxInstances: number;
@@ -18,6 +30,18 @@ export interface PlatformBridgePureConfig {
 
 // Main item interface
 export interface PlatformBridgePureItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: string;
@@ -33,6 +57,18 @@ export interface PlatformBridgePureItem {
 
 // Analytics interface
 export interface PlatformBridgePureAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalItems: number;
   activeItems: number;
   inactiveItems: number;
@@ -45,6 +81,18 @@ export interface PlatformBridgePureAnalytics {
 
 // Manager statistics
 export interface PlatformBridgePureStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalItems: number;
   activeItems: number;
   errorCount: number;
@@ -60,7 +108,7 @@ export class PlatformBridgePureManager {
   private analytics: PlatformBridgePureAnalytics = this.initializeAnalytics();
   private stats: PlatformBridgePureStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private errorHandler: StandardErrorHandler;
 

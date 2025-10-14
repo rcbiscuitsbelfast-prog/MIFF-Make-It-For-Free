@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AssetValidatorConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableIntegrityValidation: boolean;
   enableFormatValidation: boolean;
   enableDependencyValidation: boolean;
@@ -33,6 +45,18 @@ export interface AssetValidatorConfig {
 }
 
 export interface AssetValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ValidatorType;
@@ -47,6 +71,18 @@ export interface AssetValidator {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -58,6 +94,18 @@ export interface ValidationRule {
 }
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   assetId: string;
   ruleId: string;
@@ -69,6 +117,18 @@ export interface ValidationResult {
 }
 
 export interface ValidatorAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   successfulValidations: number;
   failedValidations: number;
@@ -84,7 +144,7 @@ export type RuleSeverity = 'critical' | 'high' | 'medium' | 'low' | 'info';
 export type ValidationStatus = 'passed' | 'failed' | 'warning' | 'error' | 'skipped';
 
 export class AssetValidatorManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -94,7 +154,7 @@ export class AssetValidatorManager {
   private startTime: Date;
 
   constructor(config?: Partial<AssetValidatorConfig>) {
-    this.logger = new StructuredLogger({ module: 'AssetValidatorManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

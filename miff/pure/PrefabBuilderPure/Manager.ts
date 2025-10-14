@@ -12,6 +12,18 @@
  */
 
 export interface PrefabBuilderConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enablePrefabManagement: boolean;
   enablePrefabCreation: boolean;
   enablePrefabInstantiation: boolean;
@@ -29,6 +41,18 @@ export interface PrefabBuilderConfig {
 }
 
 export interface PrefabBuilderManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PrefabBuilderManagerType;
@@ -52,6 +76,18 @@ export type PrefabBuilderManagerType = 'game' | 'simulation' | 'vr' | 'ar' | 'cu
 export type PrefabBuilderManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Prefab {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PrefabType;
@@ -68,6 +104,18 @@ export type PrefabType = 'gameobject' | 'ui' | 'particle' | 'audio' | 'lighting'
 export type PrefabStatus = 'draft' | 'ready' | 'published' | 'deprecated' | 'error';
 
 export interface PrefabComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ComponentType;
@@ -80,6 +128,18 @@ export interface PrefabComponent {
 export type ComponentType = 'transform' | 'renderer' | 'collider' | 'rigidbody' | 'script' | 'custom';
 
 export interface ComponentProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   rotation: Quaternion;
   scale: Vector3;
@@ -90,12 +150,36 @@ export interface ComponentProperties {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Quaternion {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -103,6 +187,18 @@ export interface Quaternion {
 }
 
 export interface ComponentConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   settings: Record<string, any>;
   parameters: Record<string, any>;
   constraints: ComponentConstraint[];
@@ -110,6 +206,18 @@ export interface ComponentConfiguration {
 }
 
 export interface ComponentConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   target: string;
   parameters: Record<string, any>;
@@ -119,12 +227,36 @@ export interface ComponentConstraint {
 export type ConstraintType = 'position' | 'rotation' | 'scale' | 'parent' | 'custom';
 
 export interface ValidationRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: ValidationRule[];
   strict: boolean;
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   type: ValidationType;
   parameters: Record<string, any>;
@@ -134,6 +266,18 @@ export interface ValidationRule {
 export type ValidationType = 'required' | 'range' | 'pattern' | 'custom';
 
 export interface ComponentDependency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   componentId: string;
   type: DependencyType;
   required: boolean;
@@ -143,6 +287,18 @@ export interface ComponentDependency {
 export type DependencyType = 'hard' | 'soft' | 'optional' | 'custom';
 
 export interface PrefabProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category: PrefabCategory;
   tags: string[];
   description: string;
@@ -158,6 +314,18 @@ export type PrefabCategory = 'character' | 'environment' | 'ui' | 'effect' | 'pr
 export type ComplexityLevel = 'simple' | 'moderate' | 'complex' | 'expert';
 
 export interface PrefabSize {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   vertices: number;
   triangles: number;
   textures: number;
@@ -167,6 +335,18 @@ export interface PrefabSize {
 }
 
 export interface PerformanceProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: PerformanceLevel;
   gpu: PerformanceLevel;
   memory: PerformanceLevel;
@@ -176,6 +356,18 @@ export interface PerformanceProfile {
 export type PerformanceLevel = 'low' | 'medium' | 'high' | 'very_high';
 
 export interface PrefabHierarchy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   root: HierarchyNode;
   nodes: HierarchyNode[];
   depth: number;
@@ -183,6 +375,18 @@ export interface PrefabHierarchy {
 }
 
 export interface HierarchyNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: NodeType;
@@ -196,6 +400,18 @@ export interface HierarchyNode {
 export type NodeType = 'gameobject' | 'group' | 'empty' | 'custom';
 
 export interface NodeProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   rotation: Quaternion;
   scale: Vector3;
@@ -206,6 +422,18 @@ export interface NodeProperties {
 }
 
 export interface PrefabVariant {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: VariantType;
@@ -217,6 +445,18 @@ export interface PrefabVariant {
 export type VariantType = 'color' | 'size' | 'material' | 'texture' | 'custom';
 
 export interface VariantChange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   componentId: string;
   property: string;
   value: any;
@@ -226,6 +466,18 @@ export interface VariantChange {
 export type ChangeOperation = 'set' | 'add' | 'multiply' | 'custom';
 
 export interface VariantProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   weight: number;
   probability: number;
@@ -233,6 +485,18 @@ export interface VariantProperties {
 }
 
 export interface VariantCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   parameters: Record<string, any>;
   required: boolean;
@@ -241,6 +505,18 @@ export interface VariantCondition {
 export type ConditionType = 'level' | 'platform' | 'setting' | 'custom';
 
 export interface PrefabPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   instantiationTime: number;
   memoryUsage: number;
   drawCalls: number;
@@ -252,6 +528,18 @@ export interface PrefabPerformance {
 }
 
 export interface PrefabInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   prefabId: string;
   name: string;
@@ -268,6 +556,18 @@ export interface PrefabInstance {
 export type InstanceStatus = 'active' | 'inactive' | 'destroyed' | 'error';
 
 export interface InstanceProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   active: boolean;
   visible: boolean;
   interactive: boolean;
@@ -278,6 +578,18 @@ export interface InstanceProperties {
 }
 
 export interface InstanceComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   componentId: string;
   properties: ComponentProperties;
   overrides: ComponentOverride[];
@@ -285,6 +597,18 @@ export interface InstanceComponent {
 }
 
 export interface ComponentOverride {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   property: string;
   value: any;
   type: OverrideType;
@@ -293,6 +617,18 @@ export interface ComponentOverride {
 export type OverrideType = 'value' | 'add' | 'multiply' | 'custom';
 
 export interface InstancePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   memoryUsage: number;
   cpuUsage: number;
   gpuUsage: number;
@@ -301,6 +637,18 @@ export interface InstancePerformance {
 }
 
 export interface PrefabTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TemplateType;
@@ -314,6 +662,18 @@ export interface PrefabTemplate {
 export type TemplateType = 'base' | 'derived' | 'composite' | 'custom';
 
 export interface TemplateConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   inheritance: InheritanceSettings;
   composition: CompositionSettings;
   validation: ValidationRules;
@@ -321,6 +681,18 @@ export interface TemplateConfiguration {
 }
 
 export interface InheritanceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   parent: string;
   override: OverrideSettings;
@@ -328,6 +700,18 @@ export interface InheritanceSettings {
 }
 
 export interface OverrideSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   properties: string[];
   components: string[];
@@ -335,6 +719,18 @@ export interface OverrideSettings {
 }
 
 export interface MergeSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: MergeStrategy;
   conflicts: ConflictResolution;
@@ -344,6 +740,18 @@ export type MergeStrategy = 'replace' | 'merge' | 'append' | 'custom';
 export type ConflictResolution = 'parent' | 'child' | 'merge' | 'error';
 
 export interface CompositionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   components: CompositionComponent[];
   order: string[];
@@ -351,6 +759,18 @@ export interface CompositionSettings {
 }
 
 export interface CompositionComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   componentId: string;
   required: boolean;
   order: number;
@@ -358,6 +778,18 @@ export interface CompositionComponent {
 }
 
 export interface OptimizationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   level: OptimizationLevel;
   techniques: OptimizationTechnique[];
@@ -367,6 +799,18 @@ export interface OptimizationSettings {
 export type OptimizationLevel = 'none' | 'low' | 'medium' | 'high' | 'maximum';
 
 export interface OptimizationTechnique {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TechniqueType;
   enabled: boolean;
   parameters: Record<string, any>;
@@ -375,6 +819,18 @@ export interface OptimizationTechnique {
 export type TechniqueType = 'batching' | 'culling' | 'lod' | 'occlusion' | 'custom';
 
 export interface OptimizationTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TargetType;
   value: number;
   priority: number;
@@ -383,6 +839,18 @@ export interface OptimizationTarget {
 export type TargetType = 'memory' | 'cpu' | 'gpu' | 'draw_calls' | 'custom';
 
 export interface PrefabBuilderPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPrefabs: number;
   activePrefabs: number;
   totalInstances: number;
@@ -397,6 +865,18 @@ export interface PrefabBuilderPerformanceMetrics {
 }
 
 export interface PrefabBuilderAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPrefabs: number;
   totalInstances: number;
   averageInstantiationTime: number;
@@ -406,6 +886,18 @@ export interface PrefabBuilderAnalytics {
 }
 
 export interface PrefabTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PrefabType;
   count: number;
   percentage: number;
@@ -413,6 +905,18 @@ export interface PrefabTypeDistribution {
 }
 
 export interface ComponentTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ComponentType;
   count: number;
   percentage: number;
@@ -420,6 +924,18 @@ export interface ComponentTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   prefabs: number;
   instances: number;
@@ -429,6 +945,18 @@ export interface PerformanceTrend {
 }
 
 export interface PrefabBuilderReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -440,6 +968,18 @@ export interface PrefabBuilderReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -449,6 +989,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -457,6 +1009,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -465,6 +1029,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -472,6 +1048,18 @@ export interface Version {
 }
 
 export interface PrefabBuilderOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

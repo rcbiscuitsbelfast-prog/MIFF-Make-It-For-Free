@@ -27,6 +27,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // ============================================================================
 
 interface CLIOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: 'interactive' | 'simulate' | 'auto' | 'test' | 'benchmark';
   initialCurrency?: number;
   autoBuyEnabled?: boolean;
@@ -35,6 +47,18 @@ interface CLIOptions {
 }
 
 interface GameState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currency: number;
   generators: Record<string, number>;
   upgrades: Record<string, number>;
@@ -48,7 +72,7 @@ interface GameState {
 // ============================================================================
 
 export class IdleSystemCLI {
-  private logger: StructuredLogger;
+  
   private idleSystem: IdleSystemPure;
   private idleManager: IdleManagerPure;
   private eventBus: EventBus;
@@ -65,7 +89,7 @@ export class IdleSystemCLI {
   private isInteractive: boolean = false;
 
   constructor(options: CLIOptions) {
-    this.logger = new StructuredLogger({ module: 'IdleSystemCLI' });
+    
     this.options = options;
     this.eventBus = new EventBus();
     this.idleSystem = new IdleSystemPure(this.eventBus, {

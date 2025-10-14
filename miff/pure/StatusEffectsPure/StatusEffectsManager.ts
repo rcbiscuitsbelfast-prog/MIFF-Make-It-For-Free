@@ -6,6 +6,18 @@
  */
 
 export interface StatusEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'buff' | 'debuff' | 'neutral';
@@ -23,6 +35,18 @@ export interface StatusEffect {
 }
 
 export interface StatusEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   hp: number;
   maxHp: number;
@@ -34,6 +58,18 @@ export interface StatusEntity {
 }
 
 export interface EffectStackingRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category: string;
   rule: 'replace' | 'stack' | 'extend' | 'block';
   maxStacks?: number;
@@ -41,6 +77,18 @@ export interface EffectStackingRule {
 }
 
 export interface TickResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entityId: string;
   hpDelta: number;
   newHp: number;
@@ -51,6 +99,18 @@ export interface TickResult {
 }
 
 export interface StatusEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'effect_applied' | 'effect_expired' | 'effect_modified' | 'entity_died' | 'entity_revived' | 'immunity_triggered';
   entityId: string;
   effectId?: string;
@@ -59,6 +119,18 @@ export interface StatusEvent {
 }
 
 export interface StatusStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEntities: number;
   entitiesWithEffects: number;
   totalEffects: number;
@@ -69,6 +141,18 @@ export interface StatusStats {
 }
 
 export interface StatusFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category?: string;
   type?: string;
   minHp?: number;
@@ -78,6 +162,18 @@ export interface StatusFilter {
 }
 
 export interface StatusOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: StatusEntity | StatusEntity[] | TickResult | TickResult[] | StatusStats | Record<string, any>;
@@ -89,7 +185,7 @@ export class StatusEffectsManager {
   private events: StatusEvent[] = [];
   private stackingRules: Map<string, EffectStackingRule> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultStackingRules();
   }
 
@@ -109,7 +205,7 @@ export class StatusEffectsManager {
     }, { ...base });
   }
 
-  private initializeDefaultStackingRules() {
+  private initializeDefaultStackingRules(...args: any[]) {
     const defaultRules: EffectStackingRule[] = [
       { category: 'poison', rule: 'stack', maxStacks: 5 },
       { category: 'regen', rule: 'extend' },

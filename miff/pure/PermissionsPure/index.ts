@@ -32,6 +32,18 @@ export enum PermissionAction {
 }
 
 export interface PermissionRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -45,6 +57,18 @@ export interface PermissionRule {
 }
 
 export interface PermissionCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'time' | 'location' | 'environment' | 'custom';
   operator: 'equals' | 'not_equals' | 'contains' | 'greater_than' | 'less_than' | 'between' | 'in' | 'not_in';
   field: string;
@@ -53,6 +77,18 @@ export interface PermissionCondition {
 }
 
 export interface UserPermissions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   userId: string;
   roles: string[];
   permissions: PermissionLevel[];
@@ -64,6 +100,18 @@ export interface UserPermissions {
 }
 
 export interface PermissionRestriction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'time_limit' | 'location_limit' | 'session_limit' | 'custom';
   value: any;
   reason: string;
@@ -71,6 +119,18 @@ export interface PermissionRestriction {
 }
 
 export interface PermissionRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   userId: string;
   action: PermissionAction;
   resource: string;
@@ -81,6 +141,18 @@ export interface PermissionRequest {
 }
 
 export interface PermissionResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   granted: boolean;
   reason?: string;
   conditions?: PermissionCondition[];
@@ -90,6 +162,18 @@ export interface PermissionResponse {
 }
 
 export interface RoleDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -101,6 +185,18 @@ export interface RoleDefinition {
 }
 
 export interface SecurityAuditLog {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: number;
   userId: string;
@@ -116,6 +212,18 @@ export interface SecurityAuditLog {
 }
 
 export interface PermissionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPermissions: number;
   activePermissions: number;
   deniedPermissions: number;
@@ -135,7 +243,7 @@ export class PermissionsManager {
   private defaultRoles: RoleDefinition[] = [];
   private securityConfig!: SecurityConfiguration;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultRoles();
     this.initializeSecurityConfig();
     this.initializeDefaultPermissions();
@@ -752,6 +860,18 @@ export class PermissionsManager {
 
 // Supporting interfaces and types
 export interface SecurityConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxLoginAttempts: number;
   lockoutDuration: number;
   passwordMinLength: number;

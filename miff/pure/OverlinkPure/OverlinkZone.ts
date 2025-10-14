@@ -86,7 +86,7 @@ export class OverlinkZone {
   private badgeSystem: InstanceType<typeof BadgeSystem>;
   private creditsRenderer: InstanceType<typeof CreditsRenderer>;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.state = {
       currentZone: '',
       activeModules: [],
@@ -422,15 +422,15 @@ export class OverlinkZone {
     this.lineageTracker.registerAssetLineage(lineage);
   }
 
-  getRemixOrigins() {
+  getRemixOrigins(...args: any[]) {
     return this.lineageTracker.getRemixOrigins();
   }
 
-  getAllAssetLineages() {
+  getAllAssetLineages(...args: any[]) {
     return this.lineageTracker.getAllAssetLineages();
   }
 
-  validateAllAssets() {
+  validateAllAssets(...args: any[]) {
     return this.lineageTracker.validateAllAssets();
   }
 
@@ -438,7 +438,7 @@ export class OverlinkZone {
     return this.lineageTracker.getCLISummary();
   }
 
-  getLineageSamplerIntegration() {
+  getLineageSamplerIntegration(...args: any[]) {
     return this.lineageTracker.getSamplerIntegration();
   }
 

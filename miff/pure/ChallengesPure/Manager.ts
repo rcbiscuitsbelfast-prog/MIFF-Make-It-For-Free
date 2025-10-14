@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ChallengesConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiChallengeSupport: boolean;
   enableChallengeTypes: boolean;
   enablePerformanceTracking: boolean;
@@ -31,6 +43,18 @@ export interface ChallengesConfig {
 }
 
 export interface Challenges {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChallengeType;
@@ -46,6 +70,18 @@ export interface Challenges {
 }
 
 export interface Challenge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChallengeType;
@@ -60,6 +96,18 @@ export interface Challenge {
 }
 
 export interface ChallengeObjective {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ObjectiveType;
@@ -70,6 +118,18 @@ export interface ChallengeObjective {
 }
 
 export interface ChallengeReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RewardType;
@@ -79,6 +139,18 @@ export interface ChallengeReward {
 }
 
 export interface ChallengeProgress {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   challengeId: string;
   userId: string;
@@ -90,6 +162,18 @@ export interface ChallengeProgress {
 }
 
 export interface ChallengeCategory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -98,6 +182,18 @@ export interface ChallengeCategory {
 }
 
 export interface ChallengePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChallenges: number;
   completedChallenges: number;
   averageCompletionTime: number; // milliseconds
@@ -106,6 +202,18 @@ export interface ChallengePerformance {
 }
 
 export interface ChallengeAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChallenges: number;
   activeChallenges: number;
   totalUsers: number;
@@ -121,7 +229,7 @@ export type ObjectiveType = 'score' | 'time' | 'collection' | 'defeat' | 'custom
 export type RewardType = 'points' | 'currency' | 'item' | 'badge' | 'custom';
 
 export class ChallengesManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -131,7 +239,7 @@ export class ChallengesManager {
   private startTime: Date;
 
   constructor(config?: Partial<ChallengesConfig>) {
-    this.logger = new StructuredLogger({ module: 'ChallengesManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

@@ -7,6 +7,18 @@ import { EventBus } from '../../EventBusPure/index';
  */
 
 export interface TestEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   stats: Map<string, number>;
@@ -20,6 +32,18 @@ export interface TestEntity {
 }
 
 export interface TestSpirit extends TestEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   speciesId: string;
   syncPercentage: number;
   traits: string[];
@@ -28,6 +52,18 @@ export interface TestSpirit extends TestEntity {
 }
 
 export interface TestPlayer extends TestEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   energy: number;
   fusionHistory: string[];
   lastFusionTime: number;
@@ -36,6 +72,18 @@ export interface TestPlayer extends TestEntity {
 }
 
 export interface TestHealthSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entities: Map<string, TestEntity>;
   createEntity(entityId: string, options: Partial<TestEntity>): TestEntity;
   damageEntity(entityId: string, damage: number): boolean;
@@ -47,6 +95,18 @@ export interface TestHealthSystem {
 }
 
 export interface TestCombatSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entities: Map<string, TestEntity>;
   activeBattles: Map<string, any>;
   startBattle(participants: string[]): string;
@@ -56,6 +116,18 @@ export interface TestCombatSystem {
 }
 
 export interface TestRNGSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   seed: number;
   values: number[];
   index: number;
@@ -68,6 +140,18 @@ export interface TestRNGSystem {
 }
 
 export interface TestInventorySystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   items: Map<string, number>;
   addItem(itemId: string, quantity: number): void;
   removeItem(itemId: string, quantity: number): boolean;
@@ -77,14 +161,14 @@ export interface TestInventorySystem {
 }
 
 export class TestImplementationFactory {
-  private logger: StructuredLogger;
+  
   private eventBus: EventBus;
   private entities: Map<string, TestEntity> = new Map();
   private spirits: Map<string, TestSpirit> = new Map();
   private players: Map<string, TestPlayer> = new Map();
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'TestImplementationFactory' });
+  constructor(...args: any[]) {
+    
     this.eventBus = new EventBus();
   }
 

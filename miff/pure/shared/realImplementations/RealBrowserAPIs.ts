@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface BrowserInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   userAgent: string;
   platform: string;
   language: string;
@@ -24,6 +36,18 @@ export interface BrowserInfo {
 }
 
 export interface StorageInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   localStorage: {
     available: boolean;
     quota: number;
@@ -41,6 +65,18 @@ export interface StorageInfo {
 }
 
 export interface DOMElement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   tagName: string;
   className: string;
@@ -52,6 +88,18 @@ export interface DOMElement {
 }
 
 export interface EventInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   target: string;
   currentTarget: string;
@@ -65,14 +113,14 @@ export interface EventInfo {
 }
 
 export class RealBrowserAPIs {
-  private logger: StructuredLogger;
+  
   private eventHandlers: Map<string, Function[]> = new Map();
   private domElements: Map<string, DOMElement> = new Map();
   private storageData: Map<string, any> = new Map();
   private isInitialized: boolean = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealBrowserAPIs' });
+  constructor(...args: any[]) {
+    
     this.initialize();
   }
 

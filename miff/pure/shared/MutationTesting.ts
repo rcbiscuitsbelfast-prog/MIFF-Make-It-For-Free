@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Mutation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: MutationType;
   description: string;
@@ -31,6 +43,18 @@ export enum MutationType {
 }
 
 export interface MutationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mutation: Mutation;
   killed: boolean;
   testResults: TestResult[];
@@ -39,6 +63,18 @@ export interface MutationResult {
 }
 
 export interface TestResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   testName: string;
   passed: boolean;
   executionTime: number;
@@ -46,6 +82,18 @@ export interface TestResult {
 }
 
 export interface MutationStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMutations: number;
   killedMutations: number;
   survivedMutations: number;
@@ -56,13 +104,13 @@ export interface MutationStats {
 }
 
 export class MutationTester {
-  private logger: StructuredLogger;
+  
   private mutations: Mutation[] = [];
   private results: MutationResult[] = [];
   private testRunner: TestRunner;
 
   constructor(testRunner: TestRunner) {
-    this.logger = new StructuredLogger({ module: 'MutationTester' });
+    
     this.testRunner = testRunner;
   }
 
@@ -410,6 +458,18 @@ export class MutationTester {
  * Test Runner Interface
  */
 export interface TestRunner {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   runTests(): Promise<TestResult[]>;
 }
 

@@ -11,6 +11,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface LogEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   level: 'debug' | 'info' | 'warn' | 'error' | 'fatal';
   message: string;
@@ -20,6 +32,18 @@ export interface LogEntry {
 }
 
 export interface ConsoleConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   logLevel: 'debug' | 'info' | 'warn' | 'error' | 'fatal';
   enableColors: boolean;
   enableTimestamps: boolean;
@@ -30,12 +54,36 @@ export interface ConsoleConfig {
 }
 
 export interface LogDestination {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   write: (entry: LogEntry) => void;
   enabled: boolean;
 }
 
 export interface PerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLogs: number;
   logsByLevel: Record<string, number>;
   averageLogTime: number;
@@ -44,14 +92,14 @@ export interface PerformanceMetrics {
 }
 
 export class RealConsole {
-  private logger: StructuredLogger;
+  
   private config: ConsoleConfig;
   private logHistory: LogEntry[] = [];
   private performanceMetrics: PerformanceMetrics;
   private eventHandlers: Map<string, Function[]> = new Map();
 
   constructor(config?: Partial<ConsoleConfig>) {
-    this.logger = new StructuredLogger({ module: 'RealConsole' });
+    
     this.config = {
       logLevel: 'info',
       enableColors: true,

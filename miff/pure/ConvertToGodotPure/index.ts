@@ -72,6 +72,18 @@ export enum GodotScriptLanguage {
 }
 
 export interface GodotNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: GodotNodeType;
@@ -87,6 +99,18 @@ export interface GodotNode {
 }
 
 export interface GodotScript {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: GodotScriptLanguage;
   source: string;
   path?: string;
@@ -95,6 +119,18 @@ export interface GodotScript {
 }
 
 export interface GodotFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   parameters: GodotParameter[];
   returnType: string;
@@ -104,6 +140,18 @@ export interface GodotFunction {
 }
 
 export interface GodotParameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: string;
   defaultValue?: any;
@@ -111,11 +159,35 @@ export interface GodotParameter {
 }
 
 export interface GodotComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   properties: Record<string, any>;
 }
 
 export interface GodotResource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: GodotResourceType;
@@ -126,6 +198,18 @@ export interface GodotResource {
 }
 
 export interface GodotScene {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   nodes: Map<string, GodotNode>;
@@ -140,6 +224,18 @@ export interface GodotScene {
 }
 
 export interface GodotProject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   projectName: string;
   version: string;
   scenes: Map<string, GodotScene>;
@@ -150,6 +246,18 @@ export interface GodotProject {
 }
 
 export interface GodotProjectSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   application: {
     name: string;
     version: string;
@@ -191,6 +299,18 @@ export interface GodotProjectSettings {
 }
 
 export interface GodotExportPreset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   platform: string;
   options: Record<string, any>;
@@ -202,6 +322,18 @@ export interface GodotExportPreset {
 }
 
 export interface ConversionOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetVersion: string;
   exportPlatform: string;
   includeSource: boolean;
@@ -213,6 +345,18 @@ export interface ConversionOptions {
 }
 
 export interface ConversionResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   project: GodotProject;
   warnings: string[];
@@ -221,6 +365,18 @@ export interface ConversionResult {
 }
 
 export interface ConversionStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   nodesConverted: number;
   resourcesConverted: number;
   scriptsGenerated: number;
@@ -231,7 +387,7 @@ export interface ConversionStatistics {
 }
 
 export class GodotConverter {
-  private logger: StructuredLogger;
+  
   private conversionOptions: ConversionOptions;
   private currentProject: GodotProject;
   private nodeCounter = 0;
@@ -240,7 +396,7 @@ export class GodotConverter {
   private conversionStartTime: number = 0;
 
   constructor(options: Partial<ConversionOptions> = {}) {
-    this.logger = new StructuredLogger({ module: 'GodotConverter' });
+    
     this.conversionOptions = {
       targetVersion: '4.2',
       exportPlatform: 'windows',

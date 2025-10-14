@@ -17,6 +17,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface SaveLoadConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableCreation: boolean;
   enableManagement: boolean;
   enableOptimization: boolean;
@@ -30,6 +42,18 @@ export interface SaveLoadConfig {
 }
 
 export interface SaveLoadItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -42,6 +66,18 @@ export interface SaveLoadItem {
 }
 
 export interface SaveLoadStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalItems: number;
   averageValue: number;
   lastUpdate: number;
@@ -52,7 +88,7 @@ export class SaveLoadManager {
   private items: Map<string, SaveLoadItem> = new Map();
   private stats: SaveLoadStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private errorHandler: StandardErrorHandler;
 

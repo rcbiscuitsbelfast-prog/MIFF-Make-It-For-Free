@@ -13,7 +13,7 @@ type Cmd =
   | { op: 'get'; id: string }
   | { op: 'start'; recipeId: string; crafterId: string; inventory: Inventory };
 
-function main() {
+function main(...args: any[]) {
   const recipesPath = process.argv[2] || 'CraftingPure/sample_recipes.json';
   const commandsPath = process.argv[3] || '';
   

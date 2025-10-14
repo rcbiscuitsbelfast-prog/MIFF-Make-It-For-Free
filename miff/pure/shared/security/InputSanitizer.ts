@@ -9,6 +9,18 @@
  */
 
 export interface SanitizationOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxLength?: number;
   allowHtml?: boolean;
   allowScripts?: boolean;
@@ -18,6 +30,18 @@ export interface SanitizationOptions {
 }
 
 export interface SanitizationResult<T = any> {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sanitized: T;
   isValid: boolean;
   warnings?: string[];

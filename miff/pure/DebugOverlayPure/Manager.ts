@@ -17,6 +17,18 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface DebugOverlayConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableOverlay: boolean;
   enablePerformance: boolean;
   enableSystemInfo: boolean;
@@ -46,12 +58,36 @@ export interface DebugOverlayConfig {
 }
 
 export interface OverlayPosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   anchor: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
 }
 
 export interface OverlaySize {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   resizable: boolean;
@@ -62,6 +98,18 @@ export interface OverlaySize {
 }
 
 export interface OverlayTheme {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   background: string;
   foreground: string;
@@ -72,6 +120,18 @@ export interface OverlayTheme {
 }
 
 export interface DebugPanel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   type: PanelType;
@@ -84,17 +144,53 @@ export interface DebugPanel {
 }
 
 export interface PanelPosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface PanelSize {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
 }
 
 export interface PerformanceData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   memory: MemoryData;
@@ -105,6 +201,18 @@ export interface PerformanceData {
 }
 
 export interface MemoryData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   heap: number;
   heapTotal: number;
   external: number;
@@ -115,6 +223,18 @@ export interface MemoryData {
 }
 
 export interface CPUData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   usage: number;
   cores: number;
   frequency: number;
@@ -123,6 +243,18 @@ export interface CPUData {
 }
 
 export interface GPUData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   usage: number;
   memory: number;
   temperature: number;
@@ -132,6 +264,18 @@ export interface GPUData {
 }
 
 export interface NetworkData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latency: number;
   bandwidth: number;
   packetsSent: number;
@@ -142,6 +286,18 @@ export interface NetworkData {
 }
 
 export interface SystemInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   platform: string;
   arch: string;
   version: string;
@@ -153,6 +309,18 @@ export interface SystemInfo {
 }
 
 export interface SystemMemoryInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   available: number;
   used: number;
@@ -161,6 +329,18 @@ export interface SystemMemoryInfo {
 }
 
 export interface SystemCPUInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   model: string;
   cores: number;
   frequency: number;
@@ -169,6 +349,18 @@ export interface SystemCPUInfo {
 }
 
 export interface SystemGPUInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   vendor: string;
   model: string;
   memory: number;
@@ -177,12 +369,36 @@ export interface SystemGPUInfo {
 }
 
 export interface SystemNetworkInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interfaces: NetworkInterface[];
   connections: number;
   bandwidth: number;
 }
 
 export interface NetworkInterface {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: string;
   address: string;
@@ -193,6 +409,18 @@ export interface NetworkInterface {
 }
 
 export interface DebugConsole {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   commands: Map<string, ConsoleCommand>;
   history: ConsoleEntry[];
@@ -203,6 +431,18 @@ export interface DebugConsole {
 }
 
 export interface ConsoleCommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   usage: string;
@@ -212,6 +452,18 @@ export interface ConsoleCommand {
 }
 
 export interface ConsoleEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'input' | 'output' | 'error' | 'info' | 'warning';
   message: string;
@@ -221,6 +473,18 @@ export interface ConsoleEntry {
 }
 
 export interface DebugTool {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ToolType;
@@ -234,7 +498,7 @@ export type ToolType = 'profiler' | 'inspector' | 'logger' | 'monitor' | 'analyz
 
 export class DebugOverlayManager {
   private config: DebugOverlayConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private isVisible: boolean = false;
   private panels: Map<string, DebugPanel> = new Map();

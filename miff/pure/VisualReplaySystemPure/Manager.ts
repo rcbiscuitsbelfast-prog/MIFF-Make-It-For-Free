@@ -11,6 +11,18 @@
  */
 
 export interface VisualReplaySystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableReplayManagement: boolean;
   enableRecording: boolean;
   enablePlayback: boolean;
@@ -28,6 +40,18 @@ export interface VisualReplaySystemConfig {
 }
 
 export interface VisualReplaySystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: VisualReplaySystemManagerType;
@@ -52,6 +76,18 @@ export type VisualReplaySystemManagerType = 'real_time' | 'offline' | 'hybrid' |
 export type VisualReplaySystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Recording {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RecordingType;
@@ -74,12 +110,36 @@ export type QualityLevel = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 export type CodecType = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
 
 export interface Resolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   aspectRatio: number;
 }
 
 export interface RecordingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bitrate: number;
   keyframeInterval: number;
   colorSpace: ColorSpace;
@@ -90,6 +150,18 @@ export interface RecordingSettings {
 }
 
 export interface ColorSpace {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ColorSpaceType;
   gamma: number;
   primaries: ColorPrimaries;
@@ -101,6 +173,18 @@ export type ColorPrimaries = 'bt709' | 'bt2020' | 'dci_p3' | 'custom';
 export type ColorMatrix = 'bt709' | 'bt2020' | 'dci_p3' | 'custom';
 
 export interface CompressionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: CompressionAlgorithm;
   level: number;
   preset: CompressionPreset;
@@ -111,6 +195,18 @@ export type CompressionAlgorithm = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
 export type CompressionPreset = 'ultrafast' | 'fast' | 'medium' | 'slow' | 'veryslow' | 'custom';
 
 export interface RecordingPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   memoryUsage: number;
@@ -120,6 +216,18 @@ export interface RecordingPerformance {
 }
 
 export interface Playback {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   recording: string;
@@ -138,6 +246,18 @@ export interface Playback {
 export type PlaybackStatus = 'preparing' | 'playing' | 'paused' | 'stopped' | 'seeking' | 'error';
 
 export interface PlaybackSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   volume: number;
   muted: boolean;
   quality: QualityLevel;
@@ -147,6 +267,18 @@ export interface PlaybackSettings {
 }
 
 export interface PlaybackEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EffectType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -155,6 +287,18 @@ export interface PlaybackEffect {
 export type EffectType = 'brightness' | 'contrast' | 'saturation' | 'hue' | 'blur' | 'custom';
 
 export interface PlaybackPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   memoryUsage: number;
@@ -164,6 +308,18 @@ export interface PlaybackPerformance {
 }
 
 export interface Timeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   recording: string;
@@ -181,6 +337,18 @@ export type TimelineType = 'video' | 'audio' | 'effects' | 'custom';
 export type TimelineStatus = 'editing' | 'rendering' | 'completed' | 'error';
 
 export interface TimelineTrack {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TrackType;
@@ -193,6 +361,18 @@ export interface TimelineTrack {
 export type TrackType = 'video' | 'audio' | 'effects' | 'text' | 'custom';
 
 export interface TimelineClip {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ClipType;
@@ -206,6 +386,18 @@ export interface TimelineClip {
 export type ClipType = 'video' | 'audio' | 'image' | 'effect' | 'custom';
 
 export interface ClipSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   path: string;
   format: string;
@@ -216,6 +408,18 @@ export interface ClipSource {
 export type SourceType = 'file' | 'url' | 'stream' | 'generated' | 'custom';
 
 export interface ClipProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   opacity: number;
   scale: Scale;
   position: Position;
@@ -224,24 +428,72 @@ export interface ClipProperties {
 }
 
 export interface Scale {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Position {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Rotation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface ClipEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EffectType;
   parameters: Record<string, any>;
@@ -249,6 +501,18 @@ export interface ClipEffect {
 }
 
 export interface TrackEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EffectType;
   parameters: Record<string, any>;
@@ -256,6 +520,18 @@ export interface TrackEffect {
 }
 
 export interface TimelineMarker {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   time: number;
@@ -267,6 +543,18 @@ export interface TimelineMarker {
 export type MarkerType = 'cue' | 'beat' | 'event' | 'custom';
 
 export interface Keyframe {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   time: number;
   property: string;
@@ -279,6 +567,18 @@ export type InterpolationType = 'linear' | 'bezier' | 'step' | 'custom';
 export type EasingFunction = 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
 
 export interface TimelinePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   memoryUsage: number;
@@ -287,6 +587,18 @@ export interface TimelinePerformance {
 }
 
 export interface Frame {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   recording: string;
   timestamp: number;
@@ -297,6 +609,18 @@ export interface Frame {
 }
 
 export interface FrameData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pixels: ArrayBuffer;
   width: number;
   height: number;
@@ -307,6 +631,18 @@ export interface FrameData {
 export type PixelFormat = 'rgba8' | 'rgb8' | 'yuv420' | 'yuv422' | 'custom';
 
 export interface CompressionInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: CompressionAlgorithm;
   compressed: boolean;
   size: number;
@@ -314,6 +650,18 @@ export interface CompressionInfo {
 }
 
 export interface FrameMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   duration: number;
   keyframe: boolean;
@@ -322,6 +670,18 @@ export interface FrameMetadata {
 }
 
 export interface FrameAnnotation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AnnotationType;
   position: Position;
@@ -332,11 +692,35 @@ export interface FrameAnnotation {
 export type AnnotationType = 'text' | 'shape' | 'highlight' | 'custom';
 
 export interface Size {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
 }
 
 export interface FramePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   decodeTime: number;
   renderTime: number;
   memoryUsage: number;
@@ -344,6 +728,18 @@ export interface FramePerformance {
 }
 
 export interface VisualEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   recording: string;
   timestamp: number;
@@ -355,6 +751,18 @@ export interface VisualEvent {
 export type EventType = 'click' | 'scroll' | 'keypress' | 'mouse_move' | 'custom';
 
 export interface EventData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Position;
   button: number;
   key: string;
@@ -363,6 +771,18 @@ export interface EventData {
 }
 
 export interface VisualReplaySystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRecordings: number;
   activeRecordings: number;
   totalPlaybacks: number;
@@ -378,6 +798,18 @@ export interface VisualReplaySystemPerformanceMetrics {
 }
 
 export interface VisualReplaySystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRecordings: number;
   totalPlaybacks: number;
   averageFrameRate: number;
@@ -387,6 +819,18 @@ export interface VisualReplaySystemAnalytics {
 }
 
 export interface RecordingTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RecordingType;
   count: number;
   percentage: number;
@@ -394,6 +838,18 @@ export interface RecordingTypeDistribution {
 }
 
 export interface PlaybackTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PlaybackType;
   count: number;
   percentage: number;
@@ -403,6 +859,18 @@ export interface PlaybackTypeDistribution {
 export type PlaybackType = 'real_time' | 'offline' | 'streaming' | 'custom';
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   recordings: number;
   playbacks: number;
@@ -412,6 +880,18 @@ export interface PerformanceTrend {
 }
 
 export interface VisualReplaySystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -423,6 +903,18 @@ export interface VisualReplaySystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -432,6 +924,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -440,6 +944,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -448,6 +964,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -455,6 +983,18 @@ export interface Version {
 }
 
 export interface VisualReplaySystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

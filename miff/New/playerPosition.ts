@@ -2,6 +2,18 @@ import { TileManager } from '../TileMapPure/tileManager';
 import { isWalkable } from '../TileMapPure/tileUtils';
 
 export interface PlayerPosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }

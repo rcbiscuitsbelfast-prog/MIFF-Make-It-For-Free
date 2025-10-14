@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ConfigManagerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiConfigSupport: boolean;
   enableConfigurationValidation: boolean;
   enablePerformanceOptimization: boolean;
@@ -31,6 +43,18 @@ export interface ConfigManagerConfig {
 }
 
 export interface ConfigManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ManagerType;
@@ -47,6 +71,18 @@ export interface ConfigManager {
 }
 
 export interface Configuration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConfigType;
@@ -60,6 +96,18 @@ export interface Configuration {
 }
 
 export interface ConfigSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SchemaType;
@@ -70,6 +118,18 @@ export interface ConfigSchema {
 }
 
 export interface SchemaField {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: FieldType;
@@ -80,6 +140,18 @@ export interface SchemaField {
 }
 
 export interface FieldValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min?: number;
   max?: number;
   pattern?: string;
@@ -89,6 +161,18 @@ export interface FieldValidation {
 }
 
 export interface SchemaValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strict: boolean;
   allowUnknown: boolean;
   coerce: boolean;
@@ -96,6 +180,18 @@ export interface SchemaValidation {
 }
 
 export interface ConfigValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ValidatorType;
@@ -105,6 +201,18 @@ export interface ConfigValidator {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -114,6 +222,18 @@ export interface ValidationRule {
 }
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -121,12 +241,36 @@ export interface RuleCondition {
 }
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   metadata: Record<string, any>;
 }
 
 export interface ManagerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalConfigs: number;
   activeConfigs: number;
   averageLoadTime: number; // milliseconds
@@ -137,6 +281,18 @@ export interface ManagerPerformance {
 }
 
 export interface ManagerAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalManagers: number;
   activeManagers: number;
   totalConfigs: number;
@@ -158,7 +314,7 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 export type ActionType = 'error' | 'warning' | 'transform' | 'notify' | 'custom';
 
 export class ConfigManagerManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -168,7 +324,7 @@ export class ConfigManagerManager {
   private startTime: Date;
 
   constructor(config?: Partial<ConfigManagerConfig>) {
-    this.logger = new StructuredLogger({ module: 'ConfigManagerManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

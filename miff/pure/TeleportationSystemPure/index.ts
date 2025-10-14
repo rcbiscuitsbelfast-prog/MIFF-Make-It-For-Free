@@ -13,6 +13,18 @@ type RNGPure = any;
 
 // Core interfaces and types
 export interface SpatialAnchor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   position: Vector3;
@@ -32,6 +44,18 @@ export interface SpatialAnchor {
 }
 
 export interface Portal {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   sourceAnchor: SpatialAnchor;
@@ -53,6 +77,18 @@ export interface Portal {
 }
 
 export interface TeleportationRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entityId: string;
   destinationId: string; // Anchor or portal ID
   usePortal: boolean;
@@ -62,6 +98,18 @@ export interface TeleportationRequest {
 }
 
 export interface TeleportationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   entityId: string;
   fromPosition: Vector3;
@@ -74,6 +122,18 @@ export interface TeleportationResult {
 }
 
 export interface TeleportationSideEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'buff' | 'debuff' | 'damage' | 'heal' | 'summon' | 'environmental';
   description: string;
   duration?: number;
@@ -82,6 +142,18 @@ export interface TeleportationSideEffect {
 }
 
 export interface TeleportationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   defaultEnergyCost: number;
   maxPortalDistance: number;
   portalStabilityDecay: number; // Per use
@@ -97,12 +169,36 @@ export interface TeleportationConfig {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface ZoneInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   bounds: {
@@ -116,6 +212,18 @@ export interface ZoneInfo {
 }
 
 export interface TeleportationStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTeleports: number;
   successfulTeleports: number;
   failedTeleports: number;
@@ -128,7 +236,7 @@ export interface TeleportationStats {
 }
 
 export class TeleportationSystemPure {
-  private logger: StructuredLogger;
+  
   private anchors: Map<string, SpatialAnchor> = new Map();
   private portals: Map<string, Portal> = new Map();
   private zones: Map<string, ZoneInfo> = new Map();
@@ -139,7 +247,7 @@ export class TeleportationSystemPure {
   private rng: RNGPure;
 
   constructor(eventBus: EventBus, rng: RNGPure) {
-    this.logger = new StructuredLogger({ module: 'TeleportationSystemPure' });
+    
     this.eventBus = eventBus;
     this.rng = rng;
     this.config = this.initializeConfig();

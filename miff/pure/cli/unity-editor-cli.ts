@@ -14,7 +14,7 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class UnityEditorCLI {
-  private logger: StructuredLogger;
+  
   private bridge: UnityBridgeManager;
   private projectPath: string;
   private assetsPath: string;
@@ -22,7 +22,7 @@ export class UnityEditorCLI {
   private isConnected = false;
 
   constructor(projectPath: string = './unity-project') {
-    this.logger = new StructuredLogger({ module: 'UnityEditorCLI' });
+    
     this.projectPath = path.resolve(projectPath);
     this.assetsPath = path.join(this.projectPath, 'Assets');
     this.scriptsPath = path.join(this.assetsPath, 'Scripts');
@@ -811,7 +811,7 @@ public class MIFFBridge : EditorWindow
 }
 
 // CLI Interface
-async function main() {
+async function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
 

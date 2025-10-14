@@ -8,12 +8,12 @@ function linearToDb(linear:number){
 }
 
 class MixerSim {
-  private logger: StructuredLogger;
+  
   musicDb:number = 0;
   sfxDb:number = 0;
   setMusicVolume(linear:number){ this.musicDb = linearToDb(linear); }
   setSfxVolume(linear:number){ this.sfxDb = linearToDb(linear); }
-  dump(){ return { MusicVolume: this.musicDb, SFXVolume: this.sfxDb }; }
+  dump(...args: any[]) { return { MusicVolume: this.musicDb, SFXVolume: this.sfxDb }; }
 }
 
 type Cmd = { op:string; channel?:'music'|'sfx'; value?:number };
@@ -30,7 +30,7 @@ function run(cmds:Cmd[]){
   return { log, mixer: m.dump() };
 }
 
-function main(){
+function main(...args: any[]) {
   const cmdPath = process.argv[2];
   if(!cmdPath){ console.error('Usage: cliHarness.ts <commands.json>'); process.exit(1);} 
   const cmds:Cmd[] = SafeJSONParser.parse(require('fs').readFileSync(cmdPath,'utf-8'));

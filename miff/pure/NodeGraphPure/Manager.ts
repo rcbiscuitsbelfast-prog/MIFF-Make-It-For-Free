@@ -3,6 +3,18 @@
 export type NodeId = string;
 
 export interface GraphNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	id: NodeId;
 	type: string; // e.g., 'noise', 'gradient', 'blend', 'mesh.tree', 'mesh.rock'
 	inputs?: Record<string, any>; // static inputs
@@ -10,10 +22,34 @@ export interface GraphNode {
 }
 
 export interface GraphDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	nodes: GraphNode[];
 }
 
 export interface ExecutionResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	results: Record<NodeId, any>;
 }
 

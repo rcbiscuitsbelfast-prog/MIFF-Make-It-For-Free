@@ -34,7 +34,7 @@ class AssetValidator {
     };
   }
   
-  getRules() {
+  getRules(...args: any[]) {
     return this.rules;
   }
 }

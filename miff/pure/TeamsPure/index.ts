@@ -64,6 +64,18 @@ export enum SynergyType {
  * Spirit instance interface
  */
 export interface ISpiritInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   instanceId: string;
   name: string;
   level: number;
@@ -100,6 +112,18 @@ export interface ISpiritInstance {
  * Team slot interface
  */
 export interface ITeamSlot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: TeamPosition;
   spirit?: ISpiritInstance;
   isLocked: boolean;
@@ -118,6 +142,18 @@ export interface ITeamSlot {
  * Spirit Sync Entry interface - for sync management
  */
 export interface ISpiritSyncEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   spiritId: string;
   trainerId: string;
   syncLevel: number;
@@ -147,6 +183,18 @@ export interface ISpiritSyncEntry {
  * Sync Manager interface - for managing spirit sync
  */
 export interface ISyncManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getSyncEntry(spiritId: string, trainerId: string): ISpiritSyncEntry | null;
   createSyncEntry(spiritId: string, trainerId: string): ISpiritSyncEntry;
   updateSyncEntry(entry: ISpiritSyncEntry): boolean;
@@ -163,6 +211,18 @@ export interface ISyncManager {
  * Team interface
  */
 export interface ITeam {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   teamId: string;
   name: string;
   description: string;
@@ -198,6 +258,18 @@ export interface ITeam {
  * Team rules interface
  */
 export interface ITeamRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxTeamSize: number;
   requireTypeDiversity: boolean;
   enableSyncSynergy: boolean;
@@ -219,6 +291,18 @@ export interface ITeamRules {
  * Validation result interface
  */
 export interface IValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: ValidationStatus;
   message: string;
   warnings: string[];
@@ -231,6 +315,18 @@ export interface IValidationResult {
  * Team manager interface
  */
 export interface ITeamManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   createTeam(teamName: string, maxSize?: number): ITeam;
   deleteTeam(teamId: string): boolean;
   getTeam(teamId: string): ITeam | null;
@@ -256,6 +352,18 @@ export interface ITeamManager {
  * Strategic analysis interface
  */
 export interface IStrategicAnalysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   overallStrength: number;
   defensiveRating: number;
   offensiveRating: number;
@@ -272,6 +380,18 @@ export interface IStrategicAnalysis {
  * Team composition recommendation interface
  */
 export interface ITeamCompositionRecommendation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   recommendedTeam: ISpiritInstance[];
   alternativeCompositions: ISpiritInstance[][];
   reasoning: string[];
@@ -283,6 +403,18 @@ export interface ITeamCompositionRecommendation {
  * Threat analysis interface
  */
 export interface IThreatAnalysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primaryThreats: string[];
   vulnerabilityScore: number;
   counterStrategies: string[];
@@ -294,6 +426,18 @@ export interface IThreatAnalysis {
  * Team synergy calculator interface
  */
 export interface ITeamSynergyCalculator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   calculateSyncSynergy(team: ISpiritInstance[], syncMap: Map<string, number>): number;
   calculateTypeSynergy(team: ISpiritInstance[]): number;
   calculateLevelSynergy(team: ISpiritInstance[]): number;
@@ -306,6 +450,18 @@ export interface ITeamSynergyCalculator {
  * Team template interface
  */
 export interface ITeamTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   templateId: string;
   name: string;
   description: string;
@@ -337,7 +493,7 @@ export class ValidationResult implements IValidationResult {
     warnings: string[] = [],
     errors: string[] = []
   ) {
-    this.logger = new StructuredLogger({ module: 'ValidationResult' });
+    
     this.status = status;
     this.message = message;
     this.warnings = [...warnings];

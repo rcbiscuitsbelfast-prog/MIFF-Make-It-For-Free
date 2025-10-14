@@ -6,6 +6,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface MobileConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetPlatform: 'ios' | 'android' | 'web-mobile' | 'hybrid';
   deviceClass: 'phone' | 'tablet' | 'phablet';
   performanceMode: 'high' | 'balanced' | 'power-saver' | 'adaptive';
@@ -18,6 +30,18 @@ export interface MobileConfig {
 }
 
 export interface MobileMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameRate: number;
   memory: number;
   batteryLevel: number;
@@ -28,6 +52,18 @@ export interface MobileMetrics {
 }
 
 export interface TouchConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableGestures: boolean;
   gestureSensitivity: number;
   multiTouchSupport: boolean;
@@ -38,7 +74,7 @@ export interface TouchConfig {
 }
 
 export class MobileOptimizer {
-  private logger: StructuredLogger;
+  
   private config: MobileConfig;
   private metrics: MobileMetrics;
   private touchConfig: TouchConfig;
@@ -49,7 +85,7 @@ export class MobileOptimizer {
   private touchEventListeners: Map<string, Function[]> = new Map();
 
   constructor(config: Partial<MobileConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'MobileOptimizer' });
+    
     this.config = {
       targetPlatform: 'web-mobile',
       deviceClass: 'phone',

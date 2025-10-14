@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ContentManagementConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiContentSupport: boolean;
   enableContentVersioning: boolean;
   enablePerformanceOptimization: boolean;
@@ -31,6 +43,18 @@ export interface ContentManagementConfig {
 }
 
 export interface ContentManagement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SystemType;
@@ -47,6 +71,18 @@ export interface ContentManagement {
 }
 
 export interface Content {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ContentType;
@@ -63,6 +99,18 @@ export interface Content {
 }
 
 export interface ContentData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   body: string;
@@ -72,6 +120,18 @@ export interface ContentData {
 }
 
 export interface ContentMedia {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: MediaType;
   url: string;
@@ -84,6 +144,18 @@ export interface ContentMedia {
 }
 
 export interface ContentCategory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -94,6 +166,18 @@ export interface ContentCategory {
 }
 
 export interface ContentTag {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -103,6 +187,18 @@ export interface ContentTag {
 }
 
 export interface SystemPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalContents: number;
   activeContents: number;
   averageLoadTime: number; // milliseconds
@@ -113,6 +209,18 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSystems: number;
   activeSystems: number;
   totalContents: number;
@@ -130,7 +238,7 @@ export type ContentStatus = 'draft' | 'published' | 'archived' | 'deleted';
 export type MediaType = 'image' | 'video' | 'audio' | 'document' | 'custom';
 
 export class ContentManagementManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -140,7 +248,7 @@ export class ContentManagementManager {
   private startTime: Date;
 
   constructor(config?: Partial<ContentManagementConfig>) {
-    this.logger = new StructuredLogger({ module: 'ContentManagementManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

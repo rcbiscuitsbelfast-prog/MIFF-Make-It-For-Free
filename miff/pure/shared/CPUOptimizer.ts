@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface CPUOptimizationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableCaching: boolean;
   enableLazyLoading: boolean;
   enableAsyncProcessing: boolean;
@@ -20,6 +32,18 @@ export interface CPUOptimizationConfig {
 }
 
 export interface OptimizationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'cache' | 'lazy_loading' | 'async_processing' | 'resource_pooling' | 'memory';
   description: string;
@@ -31,6 +55,18 @@ export interface OptimizationResult {
 }
 
 export interface CPUMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   usage: number; // percentage
   loadAverage: number[];
   processCount: number;
@@ -40,6 +76,18 @@ export interface CPUMetrics {
 }
 
 export interface CacheEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   key: string;
   value: any;
   timestamp: Date;
@@ -49,6 +97,18 @@ export interface CacheEntry {
 }
 
 export interface ResourcePool {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   resources: any[];
@@ -59,7 +119,7 @@ export interface ResourcePool {
 }
 
 export class CPUOptimizer {
-  private logger: StructuredLogger;
+  
   private config: CPUOptimizationConfig;
   private cache: Map<string, CacheEntry> = new Map();
   private resourcePools: Map<string, ResourcePool> = new Map();
@@ -67,7 +127,7 @@ export class CPUOptimizer {
   private isOptimizing: boolean = false;
 
   constructor(config: Partial<CPUOptimizationConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'CPUOptimizer' });
+    
     this.config = {
       enableCaching: true,
       enableLazyLoading: true,

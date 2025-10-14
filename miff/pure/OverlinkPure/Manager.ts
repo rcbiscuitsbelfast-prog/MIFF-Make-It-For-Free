@@ -10,6 +10,18 @@
  */
 
 export interface OverlinkConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableOverlinkManagement: boolean;
   enableLinkCreation: boolean;
   enableLinkValidation: boolean;
@@ -26,6 +38,18 @@ export interface OverlinkConfig {
 }
 
 export interface OverlinkManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: OverlinkManagerType;
@@ -49,6 +73,18 @@ export type OverlinkManagerType = 'internal' | 'external' | 'hybrid' | 'custom';
 export type OverlinkManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Overlink {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: OverlinkType;
@@ -66,6 +102,18 @@ export type OverlinkType = 'data' | 'function' | 'service' | 'resource' | 'custo
 export type OverlinkStatus = 'active' | 'inactive' | 'pending' | 'error';
 
 export interface OverlinkSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: SourceType;
   location: string;
@@ -78,6 +126,18 @@ export type SourceType = 'database' | 'api' | 'file' | 'service' | 'custom';
 export type Protocol = 'http' | 'https' | 'tcp' | 'udp' | 'custom';
 
 export interface AuthenticationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AuthType;
   credentials: Credentials;
   token: string;
@@ -87,6 +147,18 @@ export interface AuthenticationConfig {
 export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface Credentials {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   username: string;
   password: string;
   apiKey: string;
@@ -94,6 +166,18 @@ export interface Credentials {
 }
 
 export interface OverlinkTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: TargetType;
   location: string;
@@ -105,6 +189,18 @@ export interface OverlinkTarget {
 export type TargetType = 'database' | 'api' | 'file' | 'service' | 'custom';
 
 export interface OverlinkProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   priority: number;
   timeout: number;
   retries: number;
@@ -114,6 +210,18 @@ export interface OverlinkProperties {
 }
 
 export interface CachingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   ttl: number;
   strategy: CacheStrategy;
@@ -123,6 +231,18 @@ export interface CachingConfig {
 export type CacheStrategy = 'lru' | 'lfu' | 'fifo' | 'custom';
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -132,6 +252,18 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'deflate' | 'brotli' | 'custom';
 
 export interface EncryptionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: EncryptionAlgorithm;
   key: string;
@@ -141,6 +273,18 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface OverlinkValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: ValidationRule[];
   schema: ValidationSchema;
@@ -148,6 +292,18 @@ export interface OverlinkValidation {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -159,6 +315,18 @@ export interface ValidationRule {
 export type RuleType = 'required' | 'format' | 'range' | 'pattern' | 'custom';
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -168,6 +336,18 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface ValidationSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SchemaType;
   properties: SchemaProperty[];
   required: string[];
@@ -177,6 +357,18 @@ export interface ValidationSchema {
 export type SchemaType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'custom';
 
 export interface SchemaProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: PropertyType;
   format: string;
@@ -187,6 +379,18 @@ export interface SchemaProperty {
 export type PropertyType = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'custom';
 
 export interface ValidationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   passedValidations: number;
   failedValidations: number;
@@ -195,12 +399,36 @@ export interface ValidationPerformance {
 }
 
 export interface OverlinkVerification {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   checks: VerificationCheck[];
   performance: VerificationPerformance;
 }
 
 export interface VerificationCheck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CheckType;
@@ -211,6 +439,18 @@ export interface VerificationCheck {
 export type CheckType = 'connectivity' | 'authentication' | 'data_integrity' | 'performance' | 'custom';
 
 export interface CheckConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timeout: number;
   retries: number;
   interval: number;
@@ -218,6 +458,18 @@ export interface CheckConfiguration {
 }
 
 export interface VerificationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChecks: number;
   passedChecks: number;
   failedChecks: number;
@@ -226,6 +478,18 @@ export interface VerificationPerformance {
 }
 
 export interface OverlinkPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRequests: number;
   successfulRequests: number;
   failedRequests: number;
@@ -235,6 +499,18 @@ export interface OverlinkPerformance {
 }
 
 export interface OverlinkValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ValidatorType;
@@ -249,6 +525,18 @@ export type ValidatorType = 'schema' | 'business' | 'data' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strict: boolean;
   timeout: number;
@@ -256,6 +544,18 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidatorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   successRate: number;
   averageValidationTime: number;
@@ -263,6 +563,18 @@ export interface ValidatorPerformance {
 }
 
 export interface OverlinkVerifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: VerifierType;
@@ -277,6 +589,18 @@ export type VerifierType = 'connectivity' | 'authentication' | 'data' | 'custom'
 export type VerifierStatus = 'active' | 'inactive' | 'error';
 
 export interface VerifierConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   timeout: number;
@@ -284,6 +608,18 @@ export interface VerifierConfiguration {
 }
 
 export interface VerifierPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalVerifications: number;
   successRate: number;
   averageVerificationTime: number;
@@ -291,6 +627,18 @@ export interface VerifierPerformance {
 }
 
 export interface OverlinkAnalyzer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AnalyzerType;
@@ -305,6 +653,18 @@ export type AnalyzerType = 'performance' | 'usage' | 'error' | 'custom';
 export type AnalyzerStatus = 'active' | 'inactive' | 'error';
 
 export interface AnalyzerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   aggregation: AggregationType;
@@ -314,6 +674,18 @@ export interface AnalyzerConfiguration {
 export type AggregationType = 'sum' | 'average' | 'count' | 'max' | 'min' | 'custom';
 
 export interface AnalyzerMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: MetricType;
   value: number;
@@ -325,6 +697,18 @@ export interface AnalyzerMetric {
 export type MetricType = 'counter' | 'gauge' | 'histogram' | 'custom';
 
 export interface AnalyzerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAnalyses: number;
   successRate: number;
   averageAnalysisTime: number;
@@ -332,6 +716,18 @@ export interface AnalyzerPerformance {
 }
 
 export interface OverlinkPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalOverlinks: number;
   activeOverlinks: number;
   totalValidators: number;
@@ -348,6 +744,18 @@ export interface OverlinkPerformanceMetrics {
 }
 
 export interface OverlinkAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalOverlinks: number;
   totalRequests: number;
   averageResponseTime: number;
@@ -357,6 +765,18 @@ export interface OverlinkAnalytics {
 }
 
 export interface OverlinkTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: OverlinkType;
   count: number;
   percentage: number;
@@ -364,6 +784,18 @@ export interface OverlinkTypeDistribution {
 }
 
 export interface SourceTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   count: number;
   percentage: number;
@@ -371,6 +803,18 @@ export interface SourceTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   overlinks: number;
   requests: number;
@@ -381,6 +825,18 @@ export interface PerformanceTrend {
 }
 
 export interface OverlinkReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -392,6 +848,18 @@ export interface OverlinkReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -401,6 +869,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -409,6 +889,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -417,6 +909,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -424,6 +928,18 @@ export interface Version {
 }
 
 export interface OverlinkOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

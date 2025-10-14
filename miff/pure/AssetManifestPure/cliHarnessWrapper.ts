@@ -22,7 +22,7 @@ class AssetManifest {
     this.assets.set(asset.id, asset);
   }
   
-  getAllAssets() {
+  getAllAssets(...args: any[]) {
     return Array.from(this.assets.values());
   }
   
@@ -30,11 +30,11 @@ class AssetManifest {
     return this.assets.get(id);
   }
   
-  getTotalSize() {
+  getTotalSize(...args: any[]) {
     return Array.from(this.assets.values()).reduce((sum, a) => sum + a.size, 0);
   }
   
-  exportManifest() {
+  exportManifest(...args: any[]) {
     return { assets: this.getAllAssets(), totalSize: this.getTotalSize() };
   }
 }

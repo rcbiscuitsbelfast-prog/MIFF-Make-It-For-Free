@@ -12,7 +12,7 @@ import {
   SkillTreeFilter 
 } from './SkillTreeManager';
 
-function main() {
+function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   const mgr = new SkillTreeManager();

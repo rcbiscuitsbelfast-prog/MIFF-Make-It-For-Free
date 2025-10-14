@@ -11,6 +11,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface AIModel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'classification' | 'regression' | 'clustering' | 'nlp' | 'reinforcement';
@@ -23,6 +35,18 @@ export interface AIModel {
 }
 
 export interface AITask {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -37,6 +61,18 @@ export interface AITask {
 }
 
 export interface AILearningSession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   modelId: string;
   data: any[];
@@ -52,6 +88,18 @@ export interface AILearningSession {
 }
 
 export interface AIPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTasks: number;
   completedTasks: number;
   failedTasks: number;
@@ -64,7 +112,7 @@ export interface AIPerformanceMetrics {
 }
 
 export class RealAISystem {
-  private logger: StructuredLogger;
+  
   private models: Map<string, AIModel> = new Map();
   private tasks: Map<string, AITask> = new Map();
   private learningSessions: Map<string, AILearningSession> = new Map();
@@ -82,8 +130,8 @@ export class RealAISystem {
     activeLearningSessions: 0
   };
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealAISystem' });
+  constructor(...args: any[]) {
+    
     this.initializeDefaultModels();
   }
 

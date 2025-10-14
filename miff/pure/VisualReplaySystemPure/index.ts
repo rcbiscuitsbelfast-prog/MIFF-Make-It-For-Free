@@ -1,6 +1,18 @@
 // VisualReplaySystemPure - Deterministic visual replay system for MIFF scenario tests
 
 export interface GameState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entities: Record<string, EntityState>;
   world: WorldState;
   ui: UIState;
@@ -8,6 +20,18 @@ export interface GameState {
 }
 
 export interface EntityState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: { x: number; y: number; z?: number };
   rotation: { x: number; y: number; z?: number };
@@ -17,22 +41,70 @@ export interface EntityState {
 }
 
 export interface WorldState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number;
   weather: string;
   lighting: { ambient: number; directional: number };
 }
 
 export interface UIState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   menus: Array<{ id: string; visible: boolean }>;
   notifications: Array<{ id: string; message: string; type: string }>;
 }
 
 export interface AudioState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   music: { track: string; volume: number; playing: boolean };
   sfx: Array<{ id: string; volume: number; playing: boolean }>;
 }
 
 export interface ReplayFrame {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameNumber: number;
   timestamp: number;
   gameState: GameState;
@@ -42,6 +114,18 @@ export interface ReplayFrame {
 }
 
 export interface InputState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   keys: Record<string, boolean>;
   mouse: {
     x: number;
@@ -65,6 +149,18 @@ export interface InputState {
 }
 
 export interface VisualHook {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'sprite' | 'animation' | 'particle' | 'sound' | 'ui' | 'camera' | 'light';
   target: string;
@@ -86,6 +182,18 @@ export interface VisualHook {
 }
 
 export interface FrameMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp?: number;
   frameRate: number;
   deltaTime: number;
@@ -102,6 +210,18 @@ export interface FrameMetadata {
 }
 
 export interface ReplaySession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   scenarioId: string;
   version: string;
@@ -114,6 +234,18 @@ export interface ReplaySession {
 }
 
 export interface InputEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameNumber: number;
   timestamp: number;
   type: 'keydown' | 'keyup' | 'mousedown' | 'mouseup' | 'mousemove' | 'gamepad' | 'touch';
@@ -121,6 +253,18 @@ export interface InputEvent {
 }
 
 export interface ReplayOutcome {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   score?: number;
   completion: number; // 0.0 to 1.0
@@ -131,6 +275,18 @@ export interface ReplayOutcome {
 }
 
 export interface Checkpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameNumber: number;
   timestamp: number;
   description: string;
@@ -139,6 +295,18 @@ export interface Checkpoint {
 }
 
 export interface ReplayMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   engine: string;
   platform: string;
   resolution: {
@@ -162,6 +330,18 @@ export interface ReplayMetadata {
 }
 
 export interface ReplayConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameRate: number;
   quality: 'low' | 'medium' | 'high' | 'ultra';
   captureInput: boolean;
@@ -172,6 +352,18 @@ export interface ReplayConfig {
 }
 
 export interface ReplayResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'replay';
   session: ReplaySession;
   frames: ReplayFrame[];
@@ -181,6 +373,18 @@ export interface ReplayResult {
 }
 
 export interface ReplayStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFrames: number;
   totalDuration: number;
   averageFrameRate: number;
@@ -214,6 +418,18 @@ export interface ReplayStatistics {
 }
 
 export interface ReplayAnalysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   inputPatterns: InputPattern[];
   visualSequences: VisualSequence[];
   performanceBottlenecks: PerformanceBottleneck[];
@@ -222,6 +438,18 @@ export interface ReplayAnalysis {
 }
 
 export interface InputPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   frequency: number;
   timing: number[];
@@ -229,6 +457,18 @@ export interface InputPattern {
 }
 
 export interface VisualSequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   startFrame: number;
   endFrame: number;
@@ -237,6 +477,18 @@ export interface VisualSequence {
 }
 
 export interface PerformanceBottleneck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameNumber: number;
   timestamp: number;
   type: 'cpu' | 'memory' | 'render';
@@ -246,6 +498,18 @@ export interface PerformanceBottleneck {
 }
 
 export interface CriticalMoment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameNumber: number;
   timestamp: number;
   type: 'input' | 'visual' | 'performance' | 'gameplay';

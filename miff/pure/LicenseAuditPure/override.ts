@@ -3,6 +3,18 @@ type LicenseType = 'MIT' | 'Apache' | 'GPL' | 'BSD' | 'Custom' | 'CC-BY-SA-4.0';
 type LicenseCompatibility = 'compatible' | 'incompatible' | 'conditional' | 'requires-review';
 
 interface LicenseInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: LicenseType;
   name: string;
   description: string;
@@ -20,6 +32,18 @@ interface LicenseInfo {
 }
 
 interface LicenseAuditOverride {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getSpecialLicense: (moduleId: string) => LicenseInfo | null;
   validateLicense: (license: LicenseInfo) => boolean;
   getCompatibilityMatrix: () => Record<string, string[]>;

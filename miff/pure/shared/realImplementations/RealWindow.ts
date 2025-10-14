@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface WindowInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   width: number;
@@ -31,6 +43,18 @@ export interface WindowInfo {
 }
 
 export interface WindowConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   width: number;
   height: number;
@@ -50,6 +74,18 @@ export interface WindowConfig {
 }
 
 export interface WindowEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'resize' | 'move' | 'focus' | 'blur' | 'close' | 'minimize' | 'maximize' | 'restore';
   windowId: string;
   data?: any;
@@ -57,14 +93,14 @@ export interface WindowEvent {
 }
 
 export class RealWindow {
-  private logger: StructuredLogger;
+  
   private windows: Map<string, WindowInfo> = new Map();
   private eventHandlers: Map<string, Function[]> = new Map();
   private nextWindowId: number = 1;
   private isInitialized: boolean = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealWindow' });
+  constructor(...args: any[]) {
+    
     this.initialize();
   }
 

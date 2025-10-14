@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioBridgeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableCrossPlatformIntegration: boolean;
   enableDeviceManagement: boolean;
   enableFormatConversion: boolean;
@@ -34,6 +46,18 @@ export interface AudioBridgeConfig {
 }
 
 export interface AudioBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BridgeType;
@@ -50,6 +74,18 @@ export interface AudioBridge {
 }
 
 export interface AudioDevice {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DeviceType;
@@ -60,6 +96,18 @@ export interface AudioDevice {
 }
 
 export interface AudioStream {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StreamType;
@@ -72,6 +120,18 @@ export interface AudioStream {
 }
 
 export interface AudioFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sampleRate: number;
   bitDepth: number;
   channels: number;
@@ -80,6 +140,18 @@ export interface AudioFormat {
 }
 
 export interface AudioBuffer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: number; // bytes
   capacity: number; // bytes
   data: ArrayBuffer;
@@ -88,6 +160,18 @@ export interface AudioBuffer {
 }
 
 export interface DeviceCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxChannels: number;
   maxSampleRate: number;
   supportedFormats: AudioFormat[];
@@ -96,6 +180,18 @@ export interface DeviceCapabilities {
 }
 
 export interface DeviceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   volume: number; // 0 to 1
   mute: boolean;
   latency: number; // milliseconds
@@ -103,6 +199,18 @@ export interface DeviceSettings {
 }
 
 export interface AudioPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latency: number; // milliseconds
   throughput: number; // bytes per second
   cpuUsage: number; // 0 to 1
@@ -111,6 +219,18 @@ export interface AudioPerformance {
 }
 
 export interface BridgeAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalBridges: number;
   activeBridges: number;
   totalDevices: number;
@@ -132,7 +252,7 @@ export type AudioCompression = 'none' | 'lossless' | 'lossy';
 export type AudioQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export class AudioBridgeManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -142,7 +262,7 @@ export class AudioBridgeManager {
   private startTime: Date;
 
   constructor(config?: Partial<AudioBridgeConfig>) {
-    this.logger = new StructuredLogger({ module: 'AudioBridgeManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

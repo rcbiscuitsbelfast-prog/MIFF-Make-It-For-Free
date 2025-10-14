@@ -2,6 +2,18 @@ v10($2);
 
 // Minimal GameData V11 used by the CLI (extend safely in engine runtime)
 export interface GameDataV11 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   schemaVersion: 11;
   currentSlot: string;
   saves: Record<string, SaveSlot>;
@@ -15,6 +27,18 @@ export interface GameDataV11 {
 }
 
 export interface SaveSlot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: number; // epoch ms
   data: GameDataV11; // snapshot of a full V11 state
@@ -23,6 +47,18 @@ export interface SaveSlot {
 }
 
 export interface StorageAdapter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   read(): Promise<unknown | null>;
   write(data: unknown): Promise<void>;
 }

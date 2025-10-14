@@ -13,14 +13,14 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class CAPARegistryManager {
-  private logger: StructuredLogger;
+  
   private registry: CAPARegistry;
   private eventBus: EventBus;
   private dataPath: string;
   private isInitialized: boolean = false;
 
   constructor(eventBus: EventBus, dataPath: string = 'data/capa') {
-    this.logger = new StructuredLogger({ module: 'CAPARegistryManager' });
+    
     this.eventBus = eventBus;
     this.dataPath = dataPath;
     this.registry = {

@@ -14,11 +14,11 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class MigrationCLI {
-  private logger: StructuredLogger;
+  
   private migrationManager: MigrationManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'MigrationCLI' });
+  constructor(...args: any[]) {
+    
     this.migrationManager = new MigrationManager();
   }
 

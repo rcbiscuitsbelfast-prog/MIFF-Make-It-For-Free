@@ -62,6 +62,18 @@ export enum HashAlgorithm {
 }
 
 export interface SecurityConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAuthentication: boolean;
   enableAuthorization: boolean;
   enableEncryption: boolean;
@@ -91,6 +103,18 @@ export interface SecurityConfig {
 }
 
 export interface SecurityEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: Date;
   type: ThreatType;
@@ -105,6 +129,18 @@ export interface SecurityEvent {
 }
 
 export interface SecurityAlert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   eventId: string;
   timestamp: Date;
@@ -117,6 +153,18 @@ export interface SecurityAlert {
 }
 
 export interface SecurityAudit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: Date;
   action: string;
@@ -130,6 +178,18 @@ export interface SecurityAudit {
 }
 
 export interface VulnerabilityReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: Date;
   severity: SecurityLevel;
@@ -145,6 +205,18 @@ export interface VulnerabilityReport {
 }
 
 export interface ComplianceReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: Date;
   standard: string;
@@ -156,6 +228,18 @@ export interface ComplianceReport {
 }
 
 export interface ComplianceFinding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   requirement: string;
   status: 'pass' | 'fail' | 'warning';
@@ -165,6 +249,18 @@ export interface ComplianceFinding {
 }
 
 export interface SecurityMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   totalEvents: number;
   eventsByType: Record<ThreatType, number>;
@@ -183,7 +279,7 @@ export interface SecurityMetrics {
  * Security Manager - Core security functionality
  */
 export class SecurityManager {
-  private logger: StructuredLogger;
+  
   private config: SecurityConfig;
   private eventBus: EventBus;
   private events: SecurityEvent[] = [];
@@ -198,7 +294,7 @@ export class SecurityManager {
   private complianceChecks: Record<string, boolean> = {};
 
   constructor(config: SecurityConfig, eventBus: EventBus) {
-    this.logger = new StructuredLogger({ module: 'SecurityManager' });
+    
     this.config = config;
     this.eventBus = eventBus;
     this.encryptionKey = this.generateEncryptionKey();

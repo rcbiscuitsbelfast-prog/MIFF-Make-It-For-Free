@@ -77,7 +77,7 @@ try {
             { id: 'asset1', name: 'Test Asset 1', type: 'texture', path: '/assets/texture1.png', size: 1024, checksum: 'abc123' },
             { id: 'asset2', name: 'Test Asset 2', type: 'model', path: '/assets/model1.obj', size: 2048, checksum: 'def456' }
           ],
-          scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update() { console.info("test"); }', language: 'javascript', dependencies: ['library1'] } ]
+          scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update(...args: any[]) { console.info("test"); }', language: 'javascript', dependencies: ['library1'] } ]
         };
       }
       output = manager.validateAll(input);
@@ -171,7 +171,7 @@ try {
             id: 'player_script',
             name: 'Player Controller',
             type: 'controller',
-            content: 'function update() { movePlayer(); }',
+            content: 'function update(...args: any[]) { movePlayer(); }',
             language: 'javascript',
             dependencies: ['input_lib']
           },
@@ -179,7 +179,7 @@ try {
             id: 'unsafe_script',
             name: 'Unsafe Script',
             type: 'utility',
-            content: 'function dangerous() { return userInput; }',
+            content: 'function dangerous(...args: any[]) { return userInput; }',
             language: 'javascript',
             dependencies: []
           }

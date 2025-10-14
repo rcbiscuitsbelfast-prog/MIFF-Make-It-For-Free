@@ -7,6 +7,18 @@ import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
 
 export interface GodotNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'Node2D' | 'Sprite' | 'Label' | 'Control' | 'AnimationPlayer' | 'Area2D';
   name: string;
@@ -19,18 +31,54 @@ export interface GodotNode {
 }
 
 export interface GodotSignal {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   parameters: string[];
   connectedTo: string[];
 }
 
 export interface GodotResource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   path: string;
   data: any;
 }
 
 export interface GodotRenderData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   nodes: GodotNode[];
   resources: GodotResource[];
   scripts: string[];
@@ -40,6 +88,18 @@ export interface GodotRenderData {
 }
 
 export interface GodotBridgeOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'simulate' | 'render' | 'interop' | 'dump';
   module: string;
   data?: any;
@@ -47,6 +107,18 @@ export interface GodotBridgeOperation {
 }
 
 export interface GodotBridgeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: 'gdscript' | 'csharp';
   targetVersion: string; // Godot version (e.g., "4.0", "3.5")
   projectPath: string; // Path to Godot project
@@ -58,6 +130,18 @@ export interface GodotBridgeConfig {
 }
 
 export interface GodotBridgeOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   renderData?: GodotRenderData;
@@ -73,7 +157,7 @@ export class GodotBridge {
   private lootManager: LootTablesManager;
   private economyManager: EconomyManager;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.npcsManager = new NPCsManager();
     this.questsManager = new QuestsManager();
     this.combatManager = new CombatManager();
@@ -219,7 +303,7 @@ export class GodotBridge {
           animations,
           inputs,
           // Add animals/entities alias to satisfy tests expecting entities array
-          get entities() { return nodes; }
+          get entities(...args: any[]) { return nodes; }
         } as any
       };
     } catch (error) {

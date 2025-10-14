@@ -27,6 +27,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // ============================================================================
 
 interface CLIOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: 'interactive' | 'simulate' | 'manage' | 'test' | 'benchmark';
   initialCapital?: number;
   autoManagement?: boolean;
@@ -35,6 +47,18 @@ interface CLIOptions {
 }
 
 interface BusinessState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   capital: number;
   facilities: Record<string, any>;
   staff: Record<string, any>;
@@ -48,7 +72,7 @@ interface BusinessState {
 // ============================================================================
 
 export class TycoonSystemCLI {
-  private logger: StructuredLogger;
+  
   private tycoonSystem: TycoonSystemPure;
   private tycoonManager: TycoonManagerPure;
   private eventBus: EventBus;
@@ -65,7 +89,7 @@ export class TycoonSystemCLI {
   private isInteractive: boolean = false;
 
   constructor(options: CLIOptions) {
-    this.logger = new StructuredLogger({ module: 'TycoonSystemCLI' });
+    
     this.options = options;
     this.eventBus = new EventBus();
     this.tycoonSystem = new TycoonSystemPure(this.eventBus, {

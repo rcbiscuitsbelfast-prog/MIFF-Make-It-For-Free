@@ -19,7 +19,7 @@ type Cmd =
   | { op: 'demo' }
   | { op: 'help' };
 
-function main(){
+function main(...args: any[]) {
   try {
     const sample = process.argv[2] || 'PhysicsSystemPure/sample_world.json';
     const commands = process.argv[3] || '';
@@ -193,7 +193,7 @@ function runDemo(mgr: PhysicsManager): any {
   };
 }
 
-function showHelp() {
+function showHelp(...args: any[]) {
   console.info(`
 PhysicsSystemPure CLI - Advanced 2D Physics Simulation
 

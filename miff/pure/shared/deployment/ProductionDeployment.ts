@@ -9,6 +9,18 @@ import { ProductionMonitor } from '../monitoring/ProductionMonitor';
  */
 
 export interface DeploymentConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   environment: 'development' | 'staging' | 'production';
   version: string;
   buildNumber: string;
@@ -19,6 +31,18 @@ export interface DeploymentConfig {
 }
 
 export interface RollbackConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   maxVersions: number;
   autoRollback: boolean;
@@ -26,6 +50,18 @@ export interface RollbackConfig {
 }
 
 export interface ValidationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   checks: ValidationCheck[];
   timeout: number;
@@ -33,6 +69,18 @@ export interface ValidationConfig {
 }
 
 export interface ValidationCheck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: 'health' | 'performance' | 'security' | 'functionality';
   enabled: boolean;
@@ -41,6 +89,18 @@ export interface ValidationCheck {
 }
 
 export interface MonitoringConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   duration: number;
   metrics: string[];
@@ -48,6 +108,18 @@ export interface MonitoringConfig {
 }
 
 export interface DeploymentStatus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: 'pending' | 'in_progress' | 'completed' | 'failed' | 'rolled_back';
   progress: number;
   currentStep: string;
@@ -60,6 +132,18 @@ export interface DeploymentStatus {
 }
 
 export interface DeploymentLog {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   level: 'info' | 'warn' | 'error' | 'debug';
   message: string;
@@ -67,12 +151,36 @@ export interface DeploymentLog {
 }
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   passed: boolean;
   checks: ValidationCheckResult[];
   summary: ValidationSummary;
 }
 
 export interface ValidationCheckResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   status: 'pass' | 'fail' | 'warn' | 'skip';
   message: string;
@@ -81,6 +189,18 @@ export interface ValidationCheckResult {
 }
 
 export interface ValidationSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   passed: number;
   failed: number;
@@ -90,6 +210,18 @@ export interface ValidationSummary {
 }
 
 export interface RollbackInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   reason: string;
   timestamp: Date;
@@ -98,7 +230,7 @@ export interface RollbackInfo {
 }
 
 export class ProductionDeployment {
-  private logger: StructuredLogger;
+  
   private errorHandler: StandardErrorHandler;
   private healthCheckSystem: HealthCheckSystem;
   private productionMonitor: ProductionMonitor;
@@ -107,7 +239,7 @@ export class ProductionDeployment {
   private deploymentStatus: DeploymentStatus | null = null;
 
   constructor(config?: Partial<DeploymentConfig>) {
-    this.logger = new StructuredLogger({ module: 'ProductionDeployment' });
+    
     this.errorHandler = new StandardErrorHandler();
     this.healthCheckSystem = new HealthCheckSystem();
     this.productionMonitor = new ProductionMonitor();

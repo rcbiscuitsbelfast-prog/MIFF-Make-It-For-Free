@@ -50,6 +50,18 @@ export enum AudioBusType {
 }
 
 export interface AudioSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   url: string;
@@ -67,6 +79,18 @@ export interface AudioSource {
 }
 
 export interface AudioEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AudioEffectType;
   enabled: boolean;
@@ -76,12 +100,36 @@ export interface AudioEffect {
 }
 
 export interface AudioAutomationPoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number;
   value: number;
   curve: 'linear' | 'exponential' | 'logarithmic' | 'step';
 }
 
 export interface AudioBus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AudioBusType;
@@ -95,6 +143,18 @@ export interface AudioBus {
 }
 
 export interface AudioBusSend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   busId: string;
   level: number;
   preFader: boolean;
@@ -102,6 +162,18 @@ export interface AudioBusSend {
 }
 
 export interface AudioMixerStrip {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   sourceId?: string;
@@ -116,18 +188,54 @@ export interface AudioMixerStrip {
 }
 
 export interface AudioAutomation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   volume: AudioAutomationPoint[];
   pan: AudioAutomationPoint[];
   effects: Record<string, AudioAutomationPoint[]>;
 }
 
 export interface AudioListener {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: { x: number; y: number; z: number };
   orientation: { forward: { x: number; y: number; z: number }; up: { x: number; y: number; z: number } };
   velocity: { x: number; y: number; z: number };
 }
 
 export interface SpatialAudioConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   minDistance: number;
   maxDistance: number;
@@ -138,6 +246,18 @@ export interface SpatialAudioConfig {
 }
 
 export interface AudioPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   activeSources: number;
   totalSources: number;
   audioLatency: number;
@@ -149,6 +269,18 @@ export interface AudioPerformanceMetrics {
 }
 
 export interface AudioAnalysisData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frequencyData: Float32Array;
   timeDomainData: Float32Array;
   spectralCentroid: number;
@@ -159,7 +291,7 @@ export interface AudioAnalysisData {
 }
 
 export class AudioEngine {
-  private logger: StructuredLogger;
+  
   private audioContext: AudioContext | null = null;
   private sources: Map<string, AudioSource> = new Map();
   private activeSources: Map<string, AudioBufferSourceNode> = new Map();
@@ -173,8 +305,8 @@ export class AudioEngine {
   private isInitialized = false;
   private audioWorkletLoaded = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AudioEngine' });
+  constructor(...args: any[]) {
+    
     this.masterBus = this.createMasterBus();
     this.audioListener = this.createDefaultListener();
     this.performanceMetrics = this.initializePerformanceMetrics();
@@ -651,6 +783,18 @@ export class AudioEngine {
 
 // Supporting interfaces and types
 export interface PlayOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   volume?: number;
   pitch?: number;
   pan?: number;
@@ -660,6 +804,18 @@ export interface PlayOptions {
 }
 
 export interface AudioProject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sources: AudioSource[];
   buses: AudioBus[];
   mixerStrips: AudioMixerStrip[];
@@ -671,6 +827,18 @@ export interface AudioProject {
 }
 
 export interface SecurityConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxLoginAttempts: number;
   lockoutDuration: number;
   passwordMinLength: number;

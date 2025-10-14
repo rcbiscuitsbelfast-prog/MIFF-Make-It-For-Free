@@ -12,6 +12,18 @@
  */
 
 export interface DatabaseConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableDatabaseManagement: boolean;
   enableConnectionManagement: boolean;
   enableQueryOptimization: boolean;
@@ -29,6 +41,18 @@ export interface DatabaseConfig {
 }
 
 export interface DatabaseManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DatabaseManagerType;
@@ -53,6 +77,18 @@ export type DatabaseManagerType = 'mysql' | 'postgresql' | 'mongodb' | 'redis' |
 export type DatabaseManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface DatabaseConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConnectionType;
@@ -67,6 +103,18 @@ export type ConnectionType = 'mysql' | 'postgresql' | 'mongodb' | 'redis' | 'cus
 export type ConnectionStatus = 'connected' | 'disconnected' | 'connecting' | 'error';
 
 export interface ConnectionConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   host: string;
   port: number;
   database: string;
@@ -79,6 +127,18 @@ export interface ConnectionConfiguration {
 }
 
 export interface SSLConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   cert: string;
   key: string;
@@ -87,6 +147,18 @@ export interface SSLConfig {
 }
 
 export interface ConnectionPool {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   idle: number;
@@ -96,6 +168,18 @@ export interface ConnectionPool {
 }
 
 export interface ConnectionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalConnections: number;
   activeConnections: number;
   averageResponseTime: number;
@@ -104,6 +188,18 @@ export interface ConnectionPerformance {
 }
 
 export interface DatabaseSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SchemaType;
@@ -121,6 +217,18 @@ export type SchemaType = 'relational' | 'document' | 'key_value' | 'graph' | 'cu
 export type SchemaStatus = 'active' | 'inactive' | 'migrating' | 'error';
 
 export interface SchemaPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTables: number;
   totalRows: number;
   averageRowSize: number;
@@ -129,6 +237,18 @@ export interface SchemaPerformance {
 }
 
 export interface DatabaseTable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   schema: string;
@@ -145,6 +265,18 @@ export type TableType = 'table' | 'view' | 'materialized_view' | 'temporary' | '
 export type TableStatus = 'active' | 'inactive' | 'locked' | 'error';
 
 export interface TableColumn {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ColumnType;
@@ -159,6 +291,18 @@ export interface TableColumn {
 export type ColumnType = 'varchar' | 'integer' | 'decimal' | 'boolean' | 'timestamp' | 'json' | 'custom';
 
 export interface TableIndex {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: IndexType;
@@ -171,6 +315,18 @@ export interface TableIndex {
 export type IndexType = 'btree' | 'hash' | 'gin' | 'gist' | 'custom';
 
 export interface IndexPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: number;
   usage: number;
   efficiency: number;
@@ -178,6 +334,18 @@ export interface IndexPerformance {
 }
 
 export interface TableConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConstraintType;
@@ -191,6 +359,18 @@ export type ConstraintType = 'primary_key' | 'foreign_key' | 'unique' | 'check' 
 export type ConstraintAction = 'cascade' | 'restrict' | 'set_null' | 'no_action' | 'custom';
 
 export interface TablePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRows: number;
   averageRowSize: number;
   totalSize: number;
@@ -199,6 +379,18 @@ export interface TablePerformance {
 }
 
 export interface DatabaseQuery {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: QueryType;
@@ -214,6 +406,18 @@ export type QueryType = 'select' | 'insert' | 'update' | 'delete' | 'create' | '
 export type QueryStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 
 export interface QueryParameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: ParameterType;
   value: any;
@@ -223,6 +427,18 @@ export interface QueryParameter {
 export type ParameterType = 'string' | 'number' | 'boolean' | 'date' | 'custom';
 
 export interface QueryExecution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -232,6 +448,18 @@ export interface QueryExecution {
 }
 
 export interface ResultSet {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   columns: ResultColumn[];
   rows: ResultRow[];
   totalRows: number;
@@ -239,6 +467,18 @@ export interface ResultSet {
 }
 
 export interface ResultColumn {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: ColumnType;
   nullable: boolean;
@@ -246,11 +486,35 @@ export interface ResultColumn {
 }
 
 export interface ResultRow {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   values: any[];
   metadata: Record<string, any>;
 }
 
 export interface QueryError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   code: string;
   message: string;
   severity: ErrorSeverity;
@@ -260,6 +524,18 @@ export interface QueryError {
 export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface QueryPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalExecutions: number;
   averageExecutionTime: number;
   minExecutionTime: number;
@@ -269,6 +545,18 @@ export interface QueryPerformance {
 }
 
 export interface DatabaseTransaction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TransactionType;
@@ -285,6 +573,18 @@ export type TransactionStatus = 'active' | 'committed' | 'rolled_back' | 'error'
 export type IsolationLevel = 'read_uncommitted' | 'read_committed' | 'repeatable_read' | 'serializable';
 
 export interface TransactionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTransactions: number;
   committedTransactions: number;
   rolledBackTransactions: number;
@@ -293,6 +593,18 @@ export interface TransactionPerformance {
 }
 
 export interface DatabasePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalConnections: number;
   activeConnections: number;
   totalSchemas: number;
@@ -310,6 +622,18 @@ export interface DatabasePerformanceMetrics {
 }
 
 export interface DatabaseAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalConnections: number;
   totalQueries: number;
   averageQueryTime: number;
@@ -319,6 +643,18 @@ export interface DatabaseAnalytics {
 }
 
 export interface ConnectionTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConnectionType;
   count: number;
   percentage: number;
@@ -326,6 +662,18 @@ export interface ConnectionTypeDistribution {
 }
 
 export interface QueryTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: QueryType;
   count: number;
   percentage: number;
@@ -333,6 +681,18 @@ export interface QueryTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   connections: number;
   queries: number;
@@ -343,6 +703,18 @@ export interface PerformanceTrend {
 }
 
 export interface DatabaseReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -354,6 +726,18 @@ export interface DatabaseReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -363,6 +747,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -371,6 +767,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -379,6 +787,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -386,6 +806,18 @@ export interface Version {
 }
 
 export interface DatabaseOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

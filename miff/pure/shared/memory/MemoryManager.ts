@@ -9,6 +9,18 @@
  */
 
 export interface MemoryStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   heapUsed: number;
   heapTotal: number;
   external: number;
@@ -17,6 +29,18 @@ export interface MemoryStats {
 }
 
 export interface MemoryLeakDetection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isLeak: boolean;
   severity: 'low' | 'medium' | 'high' | 'critical';
   description: string;
@@ -24,6 +48,18 @@ export interface MemoryLeakDetection {
 }
 
 export interface ObjectLifecycle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   created: number;

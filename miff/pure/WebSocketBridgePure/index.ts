@@ -3,6 +3,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type MessageHandler = (channel: string, payload: unknown) => void;
 
 export interface WebSocketBridgeOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   url?: string;
   protocols?: string[];
   useRealWebSocket?: boolean;
@@ -11,7 +23,7 @@ export interface WebSocketBridgeOptions {
 }
 
 export class WebSocketBridgePure {
-  private logger: StructuredLogger;
+  
   private url?: string;
   private protocols?: string[];
   private useRealWebSocket: boolean = false;
@@ -27,7 +39,7 @@ export class WebSocketBridgePure {
   private channel: string = 'miff';
 
   constructor(opts: WebSocketBridgeOptions = {}){
-    this.logger = new StructuredLogger({ module: 'WebSocketBridgePure' });
+    
     this.url = opts.url;
     this.protocols = opts.protocols;
     this.useRealWebSocket = opts.useRealWebSocket || false;

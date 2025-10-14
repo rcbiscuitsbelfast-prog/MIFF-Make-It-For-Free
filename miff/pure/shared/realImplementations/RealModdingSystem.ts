@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Mod {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -28,6 +40,18 @@ export interface Mod {
 }
 
 export interface ModMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   version: string;
   author: string;
@@ -47,6 +71,18 @@ export interface ModMetadata {
 }
 
 export interface ModDependency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   version: string;
   optional: boolean;
@@ -54,12 +90,36 @@ export interface ModDependency {
 }
 
 export interface ModConflict {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   reason: string;
   severity: 'warning' | 'error';
 }
 
 export interface ModFile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   type: 'script' | 'asset' | 'config' | 'data';
   size: number;
@@ -69,6 +129,18 @@ export interface ModFile {
 }
 
 export interface ModScript {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   type: 'javascript' | 'typescript' | 'lua' | 'python';
   entryPoint: string;
@@ -79,6 +151,18 @@ export interface ModScript {
 }
 
 export interface ModAsset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   type: 'texture' | 'model' | 'audio' | 'font' | 'shader' | 'animation';
   format: string;
@@ -89,6 +173,18 @@ export interface ModAsset {
 }
 
 export interface ModLoadResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   mod: Mod;
   errors: string[];
@@ -98,6 +194,18 @@ export interface ModLoadResult {
 }
 
 export interface ModValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   errors: string[];
   warnings: string[];
@@ -105,7 +213,7 @@ export interface ModValidationResult {
 }
 
 export class RealModdingSystem {
-  private logger: StructuredLogger;
+  
   private mods: Map<string, Mod> = new Map();
   private loadedMods: Set<string> = new Set();
   private modOrder: string[] = [];
@@ -113,8 +221,8 @@ export class RealModdingSystem {
   private isInitialized: boolean = false;
   private modDirectory: string = './mods';
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealModdingSystem' });
+  constructor(...args: any[]) {
+    
     this.initialize();
   }
 

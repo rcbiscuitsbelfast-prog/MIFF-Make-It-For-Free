@@ -6,6 +6,18 @@
  */
 
 export interface EconomyConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   baseInflationRate: number; // Annual inflation rate
   marketVolatility: number; // 0-1, affects price fluctuations
   supplyDemandSensitivity: number; // How much supply/demand affects prices
@@ -14,6 +26,18 @@ export interface EconomyConfig {
 }
 
 export interface Currency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   symbol: string;
@@ -23,6 +47,18 @@ export interface Currency {
 }
 
 export interface PriceRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   itemId: string;
   basePrice: number;
@@ -34,6 +70,18 @@ export interface PriceRule {
 }
 
 export interface PriceModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   key: string;
   value: number;
   type: 'fixed' | 'percentage' | 'multiplier';
@@ -41,12 +89,36 @@ export interface PriceModifier {
 }
 
 export interface ModifierCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'time' | 'stock' | 'reputation' | 'event' | 'demand';
   operator: 'equals' | 'greater' | 'less' | 'between';
   value: any;
 }
 
 export interface VendorState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'general' | 'specialist' | 'black_market' | 'auction_house';
@@ -64,6 +136,18 @@ export interface VendorState {
 }
 
 export interface VendorInventoryItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   quantity: number;
   maxStock: number;
   restockRate: number; // Items per hour
@@ -73,6 +157,18 @@ export interface VendorInventoryItem {
 }
 
 export interface MarketData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   itemId: string;
   category: string;
   averagePrice: number;
@@ -84,6 +180,18 @@ export interface MarketData {
 }
 
 export interface EconomicEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'inflation' | 'deflation' | 'shortage' | 'surplus' | 'crisis' | 'boom';
@@ -100,6 +208,18 @@ export interface EconomicEvent {
 }
 
 export interface PriceResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   itemId: string;
   vendorId: string;
   currency: string;
@@ -119,6 +239,18 @@ export interface PriceResult {
 }
 
 export interface EconomyStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalVendors: number;
   totalItems: number;
   totalCurrencies: number;
@@ -132,6 +264,18 @@ export interface EconomyStats {
 }
 
 export interface TradeTransaction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   vendorId: string;
   itemId: string;
@@ -145,6 +289,18 @@ export interface TradeTransaction {
 }
 
 export interface EconomyOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

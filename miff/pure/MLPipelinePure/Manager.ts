@@ -12,6 +12,18 @@
  */
 
 export interface MLPipelineConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enablePipelineManagement: boolean;
   enableDataPreprocessing: boolean;
   enableModelTraining: boolean;
@@ -29,6 +41,18 @@ export interface MLPipelineConfig {
 }
 
 export interface MLPipelineManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MLPipelineManagerType;
@@ -53,6 +77,18 @@ export type MLPipelineManagerType = 'research' | 'production' | 'hybrid' | 'edge
 export type MLPipelineManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface MLPipeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PipelineType;
@@ -69,6 +105,18 @@ export type PipelineType = 'training' | 'inference' | 'preprocessing' | 'evaluat
 export type PipelineStatus = 'draft' | 'active' | 'paused' | 'completed' | 'failed';
 
 export interface PipelineStage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StageType;
@@ -84,6 +132,18 @@ export interface PipelineStage {
 export type StageType = 'data_ingestion' | 'preprocessing' | 'feature_engineering' | 'training' | 'validation' | 'deployment' | 'custom';
 
 export interface StageConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   processor: ProcessorSettings;
   resources: ResourceSettings;
   parameters: Record<string, any>;
@@ -91,6 +151,18 @@ export interface StageConfiguration {
 }
 
 export interface ProcessorSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ProcessorType;
   version: string;
   configuration: Record<string, any>;
@@ -100,6 +172,18 @@ export interface ProcessorSettings {
 export type ProcessorType = 'spark' | 'pandas' | 'numpy' | 'scikit_learn' | 'tensorflow' | 'pytorch' | 'custom';
 
 export interface ResourceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: number;
   memory: number;
   gpu: number;
@@ -108,6 +192,18 @@ export interface ResourceSettings {
 }
 
 export interface EnvironmentSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   variables: Record<string, string>;
   packages: string[];
   python: string;
@@ -116,6 +212,18 @@ export interface EnvironmentSettings {
 }
 
 export interface DockerSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   image: string;
   tag: string;
   registry: string;
@@ -123,6 +231,18 @@ export interface DockerSettings {
 }
 
 export interface StageInput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: InputType;
@@ -134,6 +254,18 @@ export interface StageInput {
 export type InputType = 'dataset' | 'model' | 'feature' | 'parameter' | 'custom';
 
 export interface DataSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   location: string;
   format: string;
@@ -144,6 +276,18 @@ export interface DataSource {
 export type SourceType = 'file' | 'database' | 'api' | 'stream' | 'custom';
 
 export interface CredentialSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CredentialType;
   value: string;
   encrypted: boolean;
@@ -153,6 +297,18 @@ export interface CredentialSettings {
 export type CredentialType = 'password' | 'token' | 'key' | 'certificate' | 'custom';
 
 export interface DataSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   fields: SchemaField[];
   constraints: SchemaConstraint[];
@@ -160,6 +316,18 @@ export interface DataSchema {
 }
 
 export interface SchemaField {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: FieldType;
   nullable: boolean;
@@ -170,6 +338,18 @@ export interface SchemaField {
 export type FieldType = 'string' | 'integer' | 'float' | 'boolean' | 'date' | 'array' | 'object' | 'custom';
 
 export interface FieldConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   parameters: Record<string, any>;
   message: string;
@@ -178,6 +358,18 @@ export interface FieldConstraint {
 export type ConstraintType = 'not_null' | 'unique' | 'range' | 'pattern' | 'custom';
 
 export interface SchemaConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: ConstraintType;
   fields: string[];
@@ -186,6 +378,18 @@ export interface SchemaConstraint {
 }
 
 export interface ValidationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: ValidationRule[];
   strict: boolean;
@@ -193,6 +397,18 @@ export interface ValidationSettings {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -203,6 +419,18 @@ export interface ValidationRule {
 export type RuleType = 'completeness' | 'accuracy' | 'consistency' | 'validity' | 'custom';
 
 export interface SamplingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   method: SamplingMethod;
   size: number;
@@ -212,6 +440,18 @@ export interface SamplingSettings {
 export type SamplingMethod = 'random' | 'stratified' | 'systematic' | 'custom';
 
 export interface StageOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: OutputType;
@@ -223,6 +463,18 @@ export interface StageOutput {
 export type OutputType = 'dataset' | 'model' | 'feature' | 'metric' | 'custom';
 
 export interface DataDestination {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DestinationType;
   location: string;
   format: string;
@@ -233,6 +485,18 @@ export interface DataDestination {
 export type DestinationType = 'file' | 'database' | 'api' | 'stream' | 'custom';
 
 export interface OutputFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FormatType;
   compression: CompressionSettings;
   encryption: EncryptionSettings;
@@ -242,6 +506,18 @@ export interface OutputFormat {
 export type FormatType = 'parquet' | 'csv' | 'json' | 'avro' | 'custom';
 
 export interface CompressionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -250,6 +526,18 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'gzip' | 'snappy' | 'lz4' | 'zstd' | 'custom';
 
 export interface EncryptionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: string;
   key: string;
@@ -257,6 +545,18 @@ export interface EncryptionSettings {
 }
 
 export interface PartitioningSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   fields: string[];
   strategy: PartitioningStrategy;
@@ -265,6 +565,18 @@ export interface PartitioningSettings {
 export type PartitioningStrategy = 'hash' | 'range' | 'list' | 'custom';
 
 export interface RetrySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   maxAttempts: number;
   delay: number;
@@ -275,6 +587,18 @@ export interface RetrySettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface TimeoutSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   duration: number;
   action: TimeoutAction;
@@ -283,6 +607,18 @@ export interface TimeoutSettings {
 export type TimeoutAction = 'fail' | 'retry' | 'skip' | 'custom';
 
 export interface PipelineConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   description: string;
   tags: string[];
@@ -294,6 +630,18 @@ export interface PipelineConfiguration {
 }
 
 export interface ParallelismSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   level: number;
   strategy: ParallelismStrategy;
@@ -303,6 +651,18 @@ export interface ParallelismSettings {
 export type ParallelismStrategy = 'fixed' | 'dynamic' | 'adaptive' | 'custom';
 
 export interface CheckpointSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   timeout: number;
@@ -311,6 +671,18 @@ export interface CheckpointSettings {
 }
 
 export interface PipelineSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   pattern: string;
   timezone: string;
@@ -321,6 +693,18 @@ export interface PipelineSchedule {
 }
 
 export interface NotificationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   channels: NotificationChannel[];
   events: NotificationEvent[];
@@ -328,6 +712,18 @@ export interface NotificationSettings {
 }
 
 export interface NotificationChannel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ChannelType;
   configuration: Record<string, any>;
   enabled: boolean;
@@ -336,6 +732,18 @@ export interface NotificationChannel {
 export type ChannelType = 'email' | 'sms' | 'slack' | 'webhook' | 'custom';
 
 export interface NotificationEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EventType;
   condition: string;
   enabled: boolean;
@@ -344,6 +752,18 @@ export interface NotificationEvent {
 export type EventType = 'start' | 'complete' | 'fail' | 'warning' | 'custom';
 
 export interface PipelineMonitoring {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   metrics: MonitoringMetric[];
   alerts: AlertRule[];
@@ -352,6 +772,18 @@ export interface PipelineMonitoring {
 }
 
 export interface MonitoringMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: MetricType;
   description: string;
@@ -363,6 +795,18 @@ export type MetricType = 'counter' | 'gauge' | 'histogram' | 'summary' | 'custom
 export type AggregationType = 'sum' | 'avg' | 'min' | 'max' | 'count' | 'custom';
 
 export interface AlertRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: string;
@@ -374,6 +818,18 @@ export interface AlertRule {
 export type AlertSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface AlertAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -382,6 +838,18 @@ export interface AlertAction {
 export type ActionType = 'email' | 'sms' | 'webhook' | 'custom';
 
 export interface LoggingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   level: LogLevel;
   format: LogFormat;
@@ -393,6 +861,18 @@ export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 export type LogFormat = 'json' | 'text' | 'xml' | 'custom';
 
 export interface TracingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   sampling: SamplingSettings;
@@ -400,12 +880,36 @@ export interface TracingSettings {
 }
 
 export interface TraceContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   propagation: string[];
   baggage: Record<string, string>;
 }
 
 export interface PipelinePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   throughput: number;
   latency: number;
   successRate: number;
@@ -415,6 +919,18 @@ export interface PipelinePerformance {
 }
 
 export interface ResourceUtilization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: number;
   memory: number;
   gpu: number;
@@ -423,6 +939,18 @@ export interface ResourceUtilization {
 }
 
 export interface MLModel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ModelType;
@@ -439,6 +967,18 @@ export type ModelType = 'classification' | 'regression' | 'clustering' | 'recomm
 export type ModelStatus = 'draft' | 'training' | 'trained' | 'deployed' | 'archived';
 
 export interface ModelArchitecture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   framework: MLFramework;
   version: string;
   layers: ModelLayer[];
@@ -449,6 +989,18 @@ export interface ModelArchitecture {
 export type MLFramework = 'tensorflow' | 'pytorch' | 'scikit_learn' | 'xgboost' | 'custom';
 
 export interface ModelLayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: LayerType;
   parameters: LayerParameters;
@@ -459,6 +1011,18 @@ export interface ModelLayer {
 export type LayerType = 'dense' | 'conv2d' | 'lstm' | 'gru' | 'attention' | 'custom';
 
 export interface LayerParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   units: number;
   kernelSize: number[];
   strides: number[];
@@ -467,6 +1031,18 @@ export interface LayerParameters {
 }
 
 export interface ActivationFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActivationType;
   parameters: Record<string, any>;
 }
@@ -474,6 +1050,18 @@ export interface ActivationFunction {
 export type ActivationType = 'relu' | 'sigmoid' | 'tanh' | 'softmax' | 'custom';
 
 export interface ModelParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   trainable: number;
   nonTrainable: number;
@@ -482,6 +1070,18 @@ export interface ModelParameters {
 }
 
 export interface HyperparameterSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   optimizer: OptimizerSettings;
   learningRate: LearningRateSettings;
   batchSize: number;
@@ -490,6 +1090,18 @@ export interface HyperparameterSettings {
 }
 
 export interface OptimizerSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: OptimizerType;
   parameters: Record<string, any>;
 }
@@ -497,6 +1109,18 @@ export interface OptimizerSettings {
 export type OptimizerType = 'adam' | 'sgd' | 'rmsprop' | 'adamw' | 'custom';
 
 export interface LearningRateSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   initial: number;
   schedule: LearningRateSchedule;
   decay: number;
@@ -504,6 +1128,18 @@ export interface LearningRateSettings {
 }
 
 export interface LearningRateSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ScheduleType;
   parameters: Record<string, any>;
 }
@@ -511,6 +1147,18 @@ export interface LearningRateSchedule {
 export type ScheduleType = 'constant' | 'exponential' | 'cosine' | 'step' | 'custom';
 
 export interface RegularizationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   l1: number;
   l2: number;
   dropout: number;
@@ -519,6 +1167,18 @@ export interface RegularizationSettings {
 }
 
 export interface EarlyStoppingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   patience: number;
   minDelta: number;
@@ -527,6 +1187,18 @@ export interface EarlyStoppingSettings {
 }
 
 export interface TrainingConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   dataset: string;
   validationSplit: number;
   shuffle: boolean;
@@ -537,6 +1209,18 @@ export interface TrainingConfiguration {
 }
 
 export interface AugmentationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   techniques: AugmentationTechnique[];
   probability: number;
@@ -544,6 +1228,18 @@ export interface AugmentationSettings {
 }
 
 export interface AugmentationTechnique {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AugmentationType;
   parameters: Record<string, any>;
   probability: number;
@@ -552,6 +1248,18 @@ export interface AugmentationTechnique {
 export type AugmentationType = 'rotation' | 'flip' | 'crop' | 'resize' | 'noise' | 'custom';
 
 export interface CallbackSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CallbackType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -560,6 +1268,18 @@ export interface CallbackSettings {
 export type CallbackType = 'early_stopping' | 'model_checkpoint' | 'reduce_lr' | 'tensorboard' | 'custom';
 
 export interface LossFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: LossType;
   parameters: Record<string, any>;
   weight: number;
@@ -568,6 +1288,18 @@ export interface LossFunction {
 export type LossType = 'mse' | 'mae' | 'categorical_crossentropy' | 'binary_crossentropy' | 'custom';
 
 export interface EvaluationConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   dataset: string;
   metrics: EvaluationMetric[];
   crossValidation: CrossValidationSettings;
@@ -575,6 +1307,18 @@ export interface EvaluationConfiguration {
 }
 
 export interface EvaluationMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: MetricType;
   parameters: Record<string, any>;
@@ -582,6 +1326,18 @@ export interface EvaluationMetric {
 }
 
 export interface CrossValidationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   folds: number;
   shuffle: boolean;
@@ -589,6 +1345,18 @@ export interface CrossValidationSettings {
 }
 
 export interface HoldoutSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   split: number;
   shuffle: boolean;
@@ -596,6 +1364,18 @@ export interface HoldoutSettings {
 }
 
 export interface DeploymentConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   target: DeploymentTarget;
   resources: ResourceSettings;
   scaling: ScalingSettings;
@@ -606,6 +1386,18 @@ export interface DeploymentConfiguration {
 export type DeploymentTarget = 'cpu' | 'gpu' | 'tpu' | 'edge' | 'custom';
 
 export interface ScalingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   min: number;
   max: number;
@@ -614,6 +1406,18 @@ export interface ScalingSettings {
 }
 
 export interface ScalingMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: MetricType;
   threshold: number;
   operator: ComparisonOperator;
@@ -622,6 +1426,18 @@ export interface ScalingMetric {
 export type ComparisonOperator = 'greater_than' | 'less_than' | 'equals' | 'custom';
 
 export interface SecuritySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   authentication: AuthenticationSettings;
   authorization: AuthorizationSettings;
@@ -630,6 +1446,18 @@ export interface SecuritySettings {
 }
 
 export interface AuthenticationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: AuthenticationType;
   parameters: Record<string, any>;
@@ -638,12 +1466,36 @@ export interface AuthenticationSettings {
 export type AuthenticationType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface AuthorizationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   policies: AuthorizationPolicy[];
   roles: AuthorizationRole[];
 }
 
 export interface AuthorizationPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   resource: string;
@@ -653,6 +1505,18 @@ export interface AuthorizationPolicy {
 }
 
 export interface PolicyCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: string;
   value: any;
@@ -661,6 +1525,18 @@ export interface PolicyCondition {
 export type PolicyEffect = 'allow' | 'deny';
 
 export interface AuthorizationRole {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   permissions: string[];
@@ -668,6 +1544,18 @@ export interface AuthorizationRole {
 }
 
 export interface NetworkSecuritySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   firewall: FirewallSettings;
   vpn: VpnSettings;
@@ -675,6 +1563,18 @@ export interface NetworkSecuritySettings {
 }
 
 export interface FirewallSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: FirewallRule[];
   defaultAction: FirewallAction;
@@ -683,6 +1583,18 @@ export interface FirewallSettings {
 export type FirewallAction = 'allow' | 'deny';
 
 export interface FirewallRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   direction: RuleDirection;
   protocol: string;
@@ -695,6 +1607,18 @@ export interface FirewallRule {
 export type RuleDirection = 'inbound' | 'outbound';
 
 export interface VpnSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: VpnType;
   configuration: Record<string, any>;
@@ -703,6 +1627,18 @@ export interface VpnSettings {
 export type VpnType = 'ipsec' | 'openvpn' | 'wireguard' | 'custom';
 
 export interface ProxySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: ProxyType;
   configuration: Record<string, any>;
@@ -711,6 +1647,18 @@ export interface ProxySettings {
 export type ProxyType = 'http' | 'socks' | 'transparent' | 'custom';
 
 export interface ModelPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accuracy: number;
   precision: number;
   recall: number;
@@ -723,6 +1671,18 @@ export interface ModelPerformance {
 }
 
 export interface MLDataset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DatasetType;
@@ -738,6 +1698,18 @@ export type DatasetType = 'training' | 'validation' | 'test' | 'inference' | 'cu
 export type DatasetStatus = 'raw' | 'processed' | 'ready' | 'archived';
 
 export interface DatasetStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   samples: number;
   features: number;
   classes: number;
@@ -746,12 +1718,36 @@ export interface DatasetStatistics {
 }
 
 export interface ClassDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   class: string;
   count: number;
   percentage: number;
 }
 
 export interface FeatureStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   feature: string;
   mean: number;
   std: number;
@@ -761,6 +1757,18 @@ export interface FeatureStatistics {
 }
 
 export interface DataQuality {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   score: number;
   metrics: QualityMetric[];
   rules: QualityRule[];
@@ -769,6 +1777,18 @@ export interface DataQuality {
 }
 
 export interface QualityMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: number;
   threshold: number;
@@ -779,6 +1799,18 @@ export interface QualityMetric {
 export type MetricStatus = 'pass' | 'fail' | 'warning' | 'unknown';
 
 export interface QualityRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -790,6 +1822,18 @@ export interface QualityRule {
 export type RuleSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface QualityIssue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: IssueType;
   severity: IssueSeverity;
@@ -804,6 +1848,18 @@ export type IssueType = 'missing' | 'invalid' | 'duplicate' | 'outlier' | 'custo
 export type IssueSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface MLExperiment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ExperimentType;
@@ -817,6 +1873,18 @@ export type ExperimentType = 'hyperparameter_tuning' | 'feature_selection' | 'mo
 export type ExperimentStatus = 'draft' | 'running' | 'completed' | 'failed';
 
 export interface ExperimentConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   objective: string;
   metrics: string[];
   parameters: HyperparameterSpace;
@@ -825,11 +1893,35 @@ export interface ExperimentConfiguration {
 }
 
 export interface HyperparameterSpace {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   parameters: Hyperparameter[];
   constraints: Constraint[];
 }
 
 export interface Hyperparameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: HyperparameterType;
   range: ValueRange;
@@ -840,24 +1932,72 @@ export type HyperparameterType = 'int' | 'float' | 'categorical' | 'boolean' | '
 export type DistributionType = 'uniform' | 'normal' | 'log_uniform' | 'log_normal' | 'custom';
 
 export interface ValueRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   step: number;
 }
 
 export interface Constraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   parameters: string[];
   condition: string;
 }
 
 export interface ExperimentResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bestTrial: Trial;
   trials: Trial[];
   statistics: ExperimentStatistics;
 }
 
 export interface Trial {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   parameters: Record<string, any>;
   results: Record<string, number>;
@@ -868,6 +2008,18 @@ export interface Trial {
 export type TrialStatus = 'pending' | 'running' | 'completed' | 'failed' | 'pruned';
 
 export interface ExperimentStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTrials: number;
   completedTrials: number;
   bestScore: number;
@@ -877,6 +2029,18 @@ export interface ExperimentStatistics {
 }
 
 export interface MLDeployment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DeploymentType;
@@ -892,6 +2056,18 @@ export type DeploymentType = 'batch' | 'real_time' | 'streaming' | 'edge' | 'cus
 export type DeploymentStatus = 'draft' | 'deploying' | 'active' | 'inactive' | 'failed';
 
 export interface DeploymentEndpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   url: string;
@@ -902,6 +2078,18 @@ export interface DeploymentEndpoint {
 }
 
 export interface RateLimitSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   requests: number;
   window: number;
@@ -909,6 +2097,18 @@ export interface RateLimitSettings {
 }
 
 export interface DeploymentPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   throughput: number;
   latency: number;
   successRate: number;
@@ -917,6 +2117,18 @@ export interface DeploymentPerformance {
 }
 
 export interface MLPipelinePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPipelines: number;
   activePipelines: number;
   totalModels: number;
@@ -931,6 +2143,18 @@ export interface MLPipelinePerformanceMetrics {
 }
 
 export interface MLPipelineAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPipelines: number;
   totalModels: number;
   averageExecutionTime: number;
@@ -940,6 +2164,18 @@ export interface MLPipelineAnalytics {
 }
 
 export interface PipelineTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PipelineType;
   count: number;
   percentage: number;
@@ -947,6 +2183,18 @@ export interface PipelineTypeDistribution {
 }
 
 export interface ModelTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ModelType;
   count: number;
   percentage: number;
@@ -954,6 +2202,18 @@ export interface ModelTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   pipelines: number;
   models: number;
@@ -965,6 +2225,18 @@ export interface PerformanceTrend {
 }
 
 export interface MLPipelineReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -976,6 +2248,18 @@ export interface MLPipelineReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -985,6 +2269,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -993,6 +2289,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -1001,6 +2309,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -1008,6 +2328,18 @@ export interface Version {
 }
 
 export interface MLPipelineOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

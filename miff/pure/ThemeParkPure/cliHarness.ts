@@ -41,13 +41,13 @@ import { ThemeParkPure, RideType, GuestType, StaffRole, ThemeParkRide, ThemePark
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class ThemeParkCLI {
-  private logger: StructuredLogger;
+  
   private themePark: ThemeParkPure;
   private rl: readline.Interface;
   private parkId: string | null = null;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'ThemeParkCLI' });
+  constructor(...args: any[]) {
+    
     this.themePark = new ThemeParkPure();
     this.rl = readline.createInterface({
       input: process.stdin,
@@ -598,7 +598,7 @@ Staff Roles: ride_operator, maintenance, security, janitor, manager
 }
 
 // Main execution
-async function main() {
+async function main(...args: any[]) {
   const cli = new ThemeParkCLI();
   await cli.start();
 }

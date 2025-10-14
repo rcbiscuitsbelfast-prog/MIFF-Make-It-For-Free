@@ -112,6 +112,18 @@ import {
 } from '../MobilePerformanceOptimizer';
 
 export interface RenderWorldGameState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   player: {
     position: { x: number; y: number; z: number };
     rotation: { x: number; y: number; z: number };
@@ -226,7 +238,7 @@ export interface RenderWorldGameState {
 }
 
 export class RenderWorldPure {
-  private logger: StructuredLogger;
+  
   private state: RenderWorldGameState;
   private engines: {
     combat: CombatEngine;
@@ -254,8 +266,8 @@ export class RenderWorldPure {
   private frameCount: number = 0;
   private lastFPSUpdate: number = 0;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RenderWorldPure' });
+  constructor(...args: any[]) {
+    
     this.state = this.initializeGameState();
     this.engines = this.initializeEngines();
     this.setupEventListeners();
@@ -393,7 +405,7 @@ export class RenderWorldPure {
     };
   }
 
-  private initializeEngines() {
+  private initializeEngines(...args: any[]) {
 //     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
@@ -425,7 +437,7 @@ export class RenderWorldPure {
     };
   }
 
-  private setupEventListeners() {
+  private setupEventListeners(...args: any[]) {
     EventBus.subscribe('spiritLens.pickup', (e: any) => this.handleSpiritLensPickup(e));
     EventBus.subscribe('spiritLens.use', (e: any) => this.handleSpiritLensUse(e));
     EventBus.subscribe('portal.activate', (e: any) => this.handlePortalActivation(e));
@@ -435,7 +447,7 @@ export class RenderWorldPure {
     EventBus.subscribe('world.scan', (e: any) => this.handleWorldScan(e));
   }
 
-  private generateWorld() {
+  private generateWorld(...args: any[]) {
     // Generate warehouse geometry using SceneBuilderPure
     this.generateWarehouseStructure();
     this.generateLightingSetup();
@@ -443,7 +455,7 @@ export class RenderWorldPure {
     this.generateCentralTable();
   }
 
-  private generateWarehouseStructure() {
+  private generateWarehouseStructure(...args: any[]) {
     // Main warehouse walls, floor, ceiling
     const warehouseGeometry = {
       floor: {
@@ -521,7 +533,7 @@ export class RenderWorldPure {
     return beams;
   }
 
-  private generateLightingSetup() {
+  private generateLightingSetup(...args: any[]) {
     const lighting = {
       ambient: {
         type: 'ambient',
@@ -569,7 +581,7 @@ export class RenderWorldPure {
     (this.engines.scene as any).addLighting?.('warehouse_lighting', lighting);
   }
 
-  private generatePortalFrames() {
+  private generatePortalFrames(...args: any[]) {
     const portalGeometry = {
       spiritTamerFrame: {
         type: 'frame',
@@ -612,7 +624,7 @@ export class RenderWorldPure {
     (this.engines.scene as any).addGeometry?.('portal_frames', portalGeometry);
   }
 
-  private generateCentralTable() {
+  private generateCentralTable(...args: any[]) {
     const tableGeometry = {
       tableTop: {
         type: 'cube',
@@ -652,7 +664,7 @@ export class RenderWorldPure {
     (this.engines.scene as any).addGeometry?.('central_table', tableGeometry);
   }
 
-  private setupSpiritLens() {
+  private setupSpiritLens(...args: any[]) {
     // Create Spirit Lens as an interactive item
     const spiritLens = new Item('spirit_lens', 'Spirit Lens', ItemType.KEY_ITEM, new ItemEffect(ItemEffectType.NONE, 0), 'any');
 
@@ -669,7 +681,7 @@ export class RenderWorldPure {
     });
   }
 
-  private setupNPCs() {
+  private setupNPCs(...args: any[]) {
     // Initialize NPC AI behaviors
     Object.values(this.state.world.npcs).forEach((npc: any) => {
       (this.engines.ai as any).registerBehavior?.(npc.id, {
@@ -1015,7 +1027,7 @@ export class RenderWorldPure {
     this.state.game.aiTime = 0; // Placeholder
   }
 
-  private renderHUD() {
+  private renderHUD(...args: any[]) {
     const hudData = {
       player: {
         position: this.state.player.position,
@@ -1037,7 +1049,7 @@ export class RenderWorldPure {
     (this.engines.hud as any).updateModel?.(hudData);
   }
 
-  private renderDebugInfo() {
+  private renderDebugInfo(...args: any[]) {
     const debugData = {
       performance: {
         fps: this.state.game.fps,
@@ -1059,13 +1071,13 @@ export class RenderWorldPure {
     EventBus.publish('debug.update', debugData);
   }
 
-  public render() {
+  public render(...args: any[]) {
     this.renderWorld();
     this.renderUI();
     this.renderEffects();
   }
 
-  private renderWorld() {
+  private renderWorld(...args: any[]) {
     // Render warehouse geometry with SceneBuilderPure
     (this.engines.scene as any).render?.();
 
@@ -1097,7 +1109,7 @@ export class RenderWorldPure {
     });
   }
 
-  private renderSpiritLens() {
+  private renderSpiritLens(...args: any[]) {
     EventBus.publish('render.spiritLens', {
       position: this.state.world.spiritLens.position,
       glowIntensity: this.state.world.spiritLens.glowIntensity,
@@ -1115,7 +1127,7 @@ export class RenderWorldPure {
     });
   }
 
-  private renderUI() {
+  private renderUI(...args: any[]) {
     // Render HUD elements
     if (this.state.ui.hudVisible) {
       EventBus.publish('render.hud', {});
@@ -1127,7 +1139,7 @@ export class RenderWorldPure {
     }
   }
 
-  private renderEffects() {
+  private renderEffects(...args: any[]) {
     // Render particle effects, post-processing
     EventBus.publish('render.effects', {
       glowEffects: true,

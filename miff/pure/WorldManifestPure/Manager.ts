@@ -11,6 +11,18 @@
  */
 
 export interface WorldManifestConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableManifestManagement: boolean;
   enableWorldDataManagement: boolean;
   enableManifestValidation: boolean;
@@ -27,6 +39,18 @@ export interface WorldManifestConfig {
 }
 
 export interface WorldManifestManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WorldManifestManagerType;
@@ -61,6 +85,18 @@ export type WorldManifestManagerType = 'game' | 'simulation' | 'virtual' | 'cust
 export type WorldManifestManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface WorldManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ManifestType;
@@ -78,6 +114,18 @@ export type ManifestType = 'world' | 'region' | 'chunk' | 'object' | 'custom';
 export type ManifestStatus = 'draft' | 'validated' | 'synchronized' | 'error';
 
 export interface ManifestData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   world: WorldInfo;
   regions: RegionInfo[];
   objects: ObjectInfo[];
@@ -86,6 +134,18 @@ export interface ManifestData {
 }
 
 export interface WorldInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WorldType;
@@ -99,6 +159,18 @@ export type WorldType = 'overworld' | 'nether' | 'end' | 'custom';
 export type WorldSize = 'small' | 'medium' | 'large' | 'infinite' | 'custom';
 
 export interface WorldGenerator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: GeneratorType;
   settings: GeneratorSettings;
   plugins: GeneratorPlugin[];
@@ -107,6 +179,18 @@ export interface WorldGenerator {
 export type GeneratorType = 'vanilla' | 'custom' | 'modded' | 'custom';
 
 export interface GeneratorSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   biomeSize: number;
   riverSize: number;
   seaLevel: number;
@@ -115,6 +199,18 @@ export interface GeneratorSettings {
 }
 
 export interface GeneratorPlugin {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -123,6 +219,18 @@ export interface GeneratorPlugin {
 }
 
 export interface RegionInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RegionType;
@@ -135,18 +243,54 @@ export interface RegionInfo {
 export type RegionType = 'overworld' | 'nether' | 'end' | 'custom';
 
 export interface RegionBounds {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: Vector3;
   max: Vector3;
   center: Vector3;
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface BiomeInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BiomeType;
@@ -160,6 +304,18 @@ export type BiomeType = 'desert' | 'forest' | 'plains' | 'mountains' | 'ocean' |
 export type PrecipitationType = 'none' | 'rain' | 'snow' | 'custom';
 
 export interface BiomeFeature {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: FeatureType;
@@ -171,6 +327,18 @@ export interface BiomeFeature {
 export type FeatureType = 'tree' | 'rock' | 'flower' | 'ore' | 'custom';
 
 export interface RegionProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: DifficultyLevel;
   spawnRate: number;
   lootMultiplier: number;
@@ -181,6 +349,18 @@ export interface RegionProperties {
 export type DifficultyLevel = 'peaceful' | 'easy' | 'normal' | 'hard' | 'custom';
 
 export interface WeatherConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: WeatherType;
   intensity: number;
   duration: number;
@@ -190,6 +370,18 @@ export interface WeatherConfig {
 export type WeatherType = 'clear' | 'rain' | 'snow' | 'storm' | 'custom';
 
 export interface WeatherEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EffectType;
   value: number;
   duration: number;
@@ -199,6 +391,18 @@ export interface WeatherEffect {
 export type EffectType = 'damage' | 'heal' | 'buff' | 'debuff' | 'custom';
 
 export interface AreaOfEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AOEType;
   radius: number;
   shape: AOEShape;
@@ -208,12 +412,36 @@ export type AOEType = 'none' | 'circle' | 'cone' | 'line' | 'custom';
 export type AOEShape = 'circle' | 'square' | 'triangle' | 'custom';
 
 export interface LightingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ambient: Color;
   directional: DirectionalLight;
   point: PointLight[];
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -221,12 +449,36 @@ export interface Color {
 }
 
 export interface DirectionalLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   direction: Vector3;
   color: Color;
   intensity: number;
 }
 
 export interface PointLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   color: Color;
   intensity: number;
@@ -234,6 +486,18 @@ export interface PointLight {
 }
 
 export interface ObjectInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ObjectType;
@@ -247,6 +511,18 @@ export interface ObjectInfo {
 export type ObjectType = 'entity' | 'block' | 'item' | 'structure' | 'custom';
 
 export interface ObjectProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: number;
   damage: number;
   speed: number;
@@ -256,6 +532,18 @@ export interface ObjectProperties {
 }
 
 export interface ObjectComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ComponentType;
   properties: Record<string, any>;
@@ -265,6 +553,18 @@ export interface ObjectComponent {
 export type ComponentType = 'physics' | 'render' | 'collision' | 'ai' | 'custom';
 
 export interface WorldProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gravity: number;
   time: WorldTime;
   weather: WeatherConfig;
@@ -273,6 +573,18 @@ export interface WorldProperties {
 }
 
 export interface WorldTime {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   day: number;
   hour: number;
   minute: number;
@@ -281,6 +593,18 @@ export interface WorldTime {
 }
 
 export interface PhysicsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   gravity: Vector3;
   airResistance: number;
@@ -289,6 +613,18 @@ export interface PhysicsConfig {
 }
 
 export interface WorldSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: DifficultyLevel;
   gameMode: GameMode;
   pvp: boolean;
@@ -300,6 +636,18 @@ export interface WorldSettings {
 export type GameMode = 'survival' | 'creative' | 'adventure' | 'spectator' | 'custom';
 
 export interface ManifestValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: ValidationRule[];
   schema: ValidationSchema;
@@ -307,6 +655,18 @@ export interface ManifestValidation {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -318,6 +678,18 @@ export interface ValidationRule {
 export type RuleType = 'required' | 'format' | 'range' | 'pattern' | 'custom';
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -327,6 +699,18 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface ValidationSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SchemaType;
   properties: SchemaProperty[];
   required: string[];
@@ -336,6 +720,18 @@ export interface ValidationSchema {
 export type SchemaType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'custom';
 
 export interface SchemaProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: PropertyType;
   format: string;
@@ -346,6 +742,18 @@ export interface SchemaProperty {
 export type PropertyType = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'custom';
 
 export interface ValidationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   passedValidations: number;
   failedValidations: number;
@@ -354,6 +762,18 @@ export interface ValidationPerformance {
 }
 
 export interface ManifestSynchronization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: SyncStrategy;
   frequency: number;
@@ -364,6 +784,18 @@ export interface ManifestSynchronization {
 export type SyncStrategy = 'push' | 'pull' | 'bidirectional' | 'custom';
 
 export interface ConflictResolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strategy: ConflictStrategy;
   priority: string;
   timeout: number;
@@ -372,6 +804,18 @@ export interface ConflictResolution {
 export type ConflictStrategy = 'last_write_wins' | 'first_write_wins' | 'merge' | 'custom';
 
 export interface SyncPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSyncs: number;
   successfulSyncs: number;
   failedSyncs: number;
@@ -380,6 +824,18 @@ export interface SyncPerformance {
 }
 
 export interface ManifestPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalManifests: number;
   averageSize: number;
   memoryUsage: number;
@@ -387,6 +843,18 @@ export interface ManifestPerformance {
 }
 
 export interface WorldData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DataType;
@@ -402,6 +870,18 @@ export type DataType = 'chunk' | 'region' | 'object' | 'metadata' | 'custom';
 export type DataStatus = 'loaded' | 'unloaded' | 'loading' | 'error';
 
 export interface DataContent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   format: ContentFormat;
   version: string;
   size: number;
@@ -412,6 +892,18 @@ export interface DataContent {
 export type ContentFormat = 'binary' | 'json' | 'xml' | 'custom';
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -422,6 +914,18 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'gzip' | 'lz4' | 'zstd' | 'custom';
 
 export interface EncryptionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: EncryptionAlgorithm;
   keyId: string;
@@ -431,6 +935,18 @@ export interface EncryptionConfig {
 export type EncryptionAlgorithm = 'aes256' | 'aes128' | 'rsa' | 'custom';
 
 export interface DataPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   loadTime: number;
   saveTime: number;
   memoryUsage: number;
@@ -439,6 +955,18 @@ export interface DataPerformance {
 }
 
 export interface ManifestValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ValidatorType;
@@ -453,6 +981,18 @@ export type ValidatorType = 'schema' | 'business' | 'data' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strict: boolean;
   timeout: number;
@@ -460,6 +1000,18 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidatorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   successRate: number;
   averageValidationTime: number;
@@ -467,6 +1019,18 @@ export interface ValidatorPerformance {
 }
 
 export interface WorldSynchronizer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SynchronizerType;
@@ -480,6 +1044,18 @@ export type SynchronizerType = 'real_time' | 'batch' | 'event_driven' | 'custom'
 export type SynchronizerStatus = 'active' | 'inactive' | 'error';
 
 export interface SynchronizerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   timeout: number;
@@ -488,6 +1064,18 @@ export interface SynchronizerConfiguration {
 }
 
 export interface SynchronizerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSyncs: number;
   successRate: number;
   averageSyncTime: number;
@@ -495,6 +1083,18 @@ export interface SynchronizerPerformance {
 }
 
 export interface WorldManifestPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalManifests: number;
   activeManifests: number;
   totalWorldData: number;
@@ -509,6 +1109,18 @@ export interface WorldManifestPerformanceMetrics {
 }
 
 export interface WorldManifestAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalManifests: number;
   totalWorldData: number;
   averageManifestSize: number;
@@ -518,6 +1130,18 @@ export interface WorldManifestAnalytics {
 }
 
 export interface ManifestTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ManifestType;
   count: number;
   percentage: number;
@@ -525,6 +1149,18 @@ export interface ManifestTypeDistribution {
 }
 
 export interface WorldTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: WorldType;
   count: number;
   percentage: number;
@@ -532,6 +1168,18 @@ export interface WorldTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   manifests: number;
   worldData: number;
@@ -542,6 +1190,18 @@ export interface PerformanceTrend {
 }
 
 export interface WorldManifestReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -553,6 +1213,18 @@ export interface WorldManifestReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -562,6 +1234,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -570,6 +1254,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -578,6 +1274,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -585,6 +1293,18 @@ export interface Version {
 }
 
 export interface WorldManifestOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

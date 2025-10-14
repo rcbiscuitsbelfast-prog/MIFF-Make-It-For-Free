@@ -12,6 +12,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface DialogueNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   text: string;
   speaker: string;
@@ -23,6 +35,18 @@ export interface DialogueNode {
 }
 
 export interface DialogueResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   text: string;
   nextNodeId?: string;
@@ -32,6 +56,18 @@ export interface DialogueResponse {
 }
 
 export interface DialogueCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'variable' | 'flag' | 'inventory' | 'relationship' | 'time' | 'random';
   key: string;
   operator: 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'exists';
@@ -40,6 +76,18 @@ export interface DialogueCondition {
 }
 
 export interface DialogueAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'set_variable' | 'set_flag' | 'add_item' | 'remove_item' | 'change_relationship' | 'play_sound' | 'show_animation' | 'trigger_event';
   key: string;
   value: any;
@@ -47,6 +95,18 @@ export interface DialogueAction {
 }
 
 export interface Character {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   personality: PersonalityTraits;
@@ -58,6 +118,18 @@ export interface Character {
 }
 
 export interface PersonalityTraits {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   openness: number; // 0-100
   conscientiousness: number; // 0-100
   extraversion: number; // 0-100
@@ -69,6 +141,18 @@ export interface PersonalityTraits {
 }
 
 export interface VoiceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pitch: number; // 0.5 - 2.0
   rate: number; // 0.5 - 2.0
   volume: number; // 0.0 - 1.0
@@ -78,6 +162,18 @@ export interface VoiceSettings {
 }
 
 export interface DialogueContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentSpeaker: string;
   participants: string[];
   location?: string;
@@ -91,6 +187,18 @@ export interface DialogueContext {
 }
 
 export interface DialogueSession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   participants: string[];
   currentNodeId?: string;
@@ -103,7 +211,7 @@ export interface DialogueSession {
 }
 
 export class RealDialogueEngine {
-  private logger: StructuredLogger;
+  
   private dialogueTrees: Map<string, DialogueNode[]> = new Map();
   private characters: Map<string, Character> = new Map();
   private activeSessions: Map<string, DialogueSession> = new Map();
@@ -111,8 +219,8 @@ export class RealDialogueEngine {
   private isInitialized: boolean = false;
   private voiceSynthesis?: SpeechSynthesis;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealDialogueEngine' });
+  constructor(...args: any[]) {
+    
     this.initializeDefaultCharacters();
     this.initializeVoiceSynthesis();
   }

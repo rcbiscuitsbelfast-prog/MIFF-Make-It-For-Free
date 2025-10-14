@@ -10,6 +10,18 @@
  */
 
 export interface RenderWorldConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRenderManagement: boolean;
   enableWorldRendering: boolean;
   enableSceneManagement: boolean;
@@ -26,6 +38,18 @@ export interface RenderWorldConfig {
 }
 
 export interface RenderWorldManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RenderWorldManagerType;
@@ -50,6 +74,18 @@ export type RenderWorldManagerType = 'game' | 'simulation' | 'visualization' | '
 export type RenderWorldManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface RenderWorld {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WorldType;
@@ -67,6 +103,18 @@ export type WorldType = '3d' | '2d' | 'hybrid' | 'custom';
 export type WorldStatus = 'loading' | 'ready' | 'rendering' | 'paused' | 'error';
 
 export interface RenderScene {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SceneType;
@@ -85,6 +133,18 @@ export type SceneType = 'main' | 'ui' | 'background' | 'custom';
 export type SceneStatus = 'loading' | 'ready' | 'rendering' | 'paused' | 'error';
 
 export interface RenderObject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ObjectType;
@@ -101,6 +161,18 @@ export type ObjectType = 'mesh' | 'light' | 'camera' | 'particle' | 'custom';
 export type ObjectStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface Geometry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: GeometryType;
   vertices: Vector3[];
   normals: Vector3[];
@@ -112,17 +184,53 @@ export interface Geometry {
 export type GeometryType = 'box' | 'sphere' | 'plane' | 'custom';
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Vector2 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
 
 export interface GeometryAttribute {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: AttributeType;
   data: any[];
@@ -132,6 +240,18 @@ export interface GeometryAttribute {
 export type AttributeType = 'float' | 'int' | 'vec2' | 'vec3' | 'vec4' | 'custom';
 
 export interface Transform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   rotation: Vector3;
   scale: Vector3;
@@ -139,10 +259,34 @@ export interface Transform {
 }
 
 export interface Matrix4 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   elements: number[];
 }
 
 export interface ObjectProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   visible: boolean;
   castShadow: boolean;
   receiveShadow: boolean;
@@ -152,6 +296,18 @@ export interface ObjectProperties {
 }
 
 export interface ObjectPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   drawCalls: number;
   triangles: number;
   vertices: number;
@@ -160,6 +316,18 @@ export interface ObjectPerformance {
 }
 
 export interface RenderCamera {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CameraType;
@@ -174,6 +342,18 @@ export type CameraType = 'perspective' | 'orthographic' | 'fisheye' | 'custom';
 export type CameraStatus = 'active' | 'inactive' | 'recording' | 'error';
 
 export interface CameraProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fov: number;
   near: number;
   far: number;
@@ -188,6 +368,18 @@ export interface CameraProperties {
 }
 
 export interface CameraPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   latency: number;
   resolution: Resolution;
@@ -196,12 +388,36 @@ export interface CameraPerformance {
 }
 
 export interface Resolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   aspectRatio: number;
 }
 
 export interface RenderLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LightType;
@@ -216,6 +432,18 @@ export type LightType = 'directional' | 'point' | 'spot' | 'area' | 'custom';
 export type LightStatus = 'active' | 'inactive' | 'error';
 
 export interface LightProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   intensity: number;
   distance: number;
@@ -228,6 +456,18 @@ export interface LightProperties {
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -235,6 +475,18 @@ export interface Color {
 }
 
 export interface ShadowProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mapSize: Resolution;
   camera: CameraProperties;
   bias: number;
@@ -243,12 +495,36 @@ export interface ShadowProperties {
 }
 
 export interface LightPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   drawCalls: number;
   memoryUsage: number;
   lastUpdated: number;
 }
 
 export interface RenderMaterial {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MaterialType;
@@ -264,6 +540,18 @@ export type MaterialType = 'basic' | 'lambert' | 'phong' | 'standard' | 'custom'
 export type MaterialStatus = 'active' | 'inactive' | 'error';
 
 export interface MaterialProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   opacity: number;
   transparent: boolean;
@@ -281,6 +569,18 @@ export type MaterialSide = 'front' | 'back' | 'double' | 'custom';
 export type BlendingMode = 'normal' | 'add' | 'subtract' | 'multiply' | 'custom';
 
 export interface MaterialTexture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TextureType;
@@ -291,6 +591,18 @@ export interface MaterialTexture {
 export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
 
 export interface TextureProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   wrapS: TextureWrap;
   wrapT: TextureWrap;
   minFilter: TextureFilter;
@@ -307,6 +619,18 @@ export type TextureFormat = 'rgba' | 'rgb' | 'luminance' | 'custom';
 export type TextureDataType = 'unsigned_byte' | 'float' | 'half_float' | 'custom';
 
 export interface MaterialShader {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ShaderType;
@@ -318,6 +642,18 @@ export interface MaterialShader {
 export type ShaderType = 'vertex' | 'fragment' | 'geometry' | 'custom';
 
 export interface ShaderUniform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: UniformType;
   value: any;
@@ -327,6 +663,18 @@ export interface ShaderUniform {
 export type UniformType = 'float' | 'int' | 'vec2' | 'vec3' | 'vec4' | 'mat3' | 'mat4' | 'sampler2d' | 'custom';
 
 export interface ShaderAttribute {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: AttributeType;
   location: number;
@@ -334,12 +682,36 @@ export interface ShaderAttribute {
 }
 
 export interface MaterialPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   drawCalls: number;
   memoryUsage: number;
   lastUsed: number;
 }
 
 export interface WorldProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gravity: Vector3;
   physics: PhysicsConfig;
   lighting: LightingConfig;
@@ -348,6 +720,18 @@ export interface WorldProperties {
 }
 
 export interface PhysicsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   gravity: Vector3;
   airResistance: number;
@@ -356,6 +740,18 @@ export interface PhysicsConfig {
 }
 
 export interface LightingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ambient: Color;
   directional: DirectionalLightConfig;
   point: PointLightConfig[];
@@ -363,6 +759,18 @@ export interface LightingConfig {
 }
 
 export interface DirectionalLightConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   intensity: number;
   direction: Vector3;
@@ -370,6 +778,18 @@ export interface DirectionalLightConfig {
 }
 
 export interface PointLightConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   intensity: number;
   position: Vector3;
@@ -379,6 +799,18 @@ export interface PointLightConfig {
 }
 
 export interface SpotLightConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   intensity: number;
   position: Vector3;
@@ -391,6 +823,18 @@ export interface SpotLightConfig {
 }
 
 export interface FogConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   color: Color;
   near: number;
@@ -399,6 +843,18 @@ export interface FogConfig {
 }
 
 export interface BackgroundConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: BackgroundType;
   color: Color;
   texture: string;
@@ -408,6 +864,18 @@ export interface BackgroundConfig {
 export type BackgroundType = 'color' | 'texture' | 'skybox' | 'custom';
 
 export interface SceneProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   autoUpdate: boolean;
   matrixAutoUpdate: boolean;
   visible: boolean;
@@ -416,6 +884,18 @@ export interface SceneProperties {
 }
 
 export interface WorldPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   drawCalls: number;
@@ -425,6 +905,18 @@ export interface WorldPerformance {
 }
 
 export interface ScenePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   drawCalls: number;
@@ -434,6 +926,18 @@ export interface ScenePerformance {
 }
 
 export interface RenderWorldPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalWorlds: number;
   activeWorlds: number;
   totalScenes: number;
@@ -449,6 +953,18 @@ export interface RenderWorldPerformanceMetrics {
 }
 
 export interface RenderWorldAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalWorlds: number;
   totalScenes: number;
   averageFPS: number;
@@ -458,6 +974,18 @@ export interface RenderWorldAnalytics {
 }
 
 export interface WorldTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: WorldType;
   count: number;
   percentage: number;
@@ -465,6 +993,18 @@ export interface WorldTypeDistribution {
 }
 
 export interface SceneTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SceneType;
   count: number;
   percentage: number;
@@ -472,6 +1012,18 @@ export interface SceneTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   worlds: number;
   scenes: number;
@@ -482,6 +1034,18 @@ export interface PerformanceTrend {
 }
 
 export interface RenderWorldReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -493,6 +1057,18 @@ export interface RenderWorldReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -502,6 +1078,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -510,6 +1098,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -518,6 +1118,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -525,6 +1137,18 @@ export interface Version {
 }
 
 export interface RenderWorldOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

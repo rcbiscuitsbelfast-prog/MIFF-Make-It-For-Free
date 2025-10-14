@@ -12,6 +12,18 @@
  */
 
 export interface DialogueConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableDialogueManagement: boolean;
   enableCharacterDialogue: boolean;
   enableDialogueTrees: boolean;
@@ -29,6 +41,18 @@ export interface DialogueConfig {
 }
 
 export interface DialogueManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DialogueManagerType;
@@ -52,6 +76,18 @@ export type DialogueManagerType = 'game' | 'visual_novel' | 'interactive_fiction
 export type DialogueManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Dialogue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DialogueType;
@@ -69,6 +105,18 @@ export type DialogueType = 'conversation' | 'monologue' | 'narration' | 'instruc
 export type DialogueStatus = 'draft' | 'review' | 'approved' | 'published' | 'archived';
 
 export interface DialogueContent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   text: string;
   language: string;
   translation: TranslationSettings;
@@ -77,6 +125,18 @@ export interface DialogueContent {
 }
 
 export interface TranslationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   languages: string[];
   current: string;
@@ -85,6 +145,18 @@ export interface TranslationSettings {
 }
 
 export interface FormattingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   font: FontSettings;
   color: ColorSettings;
   size: SizeSettings;
@@ -93,6 +165,18 @@ export interface FormattingSettings {
 }
 
 export interface FontSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   family: string;
   weight: string;
   style: string;
@@ -100,6 +184,18 @@ export interface FontSettings {
 }
 
 export interface ColorSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   text: string;
   background: string;
   highlight: string;
@@ -107,6 +203,18 @@ export interface ColorSettings {
 }
 
 export interface SizeSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   base: number;
   scale: number;
   min: number;
@@ -114,6 +222,18 @@ export interface SizeSettings {
 }
 
 export interface AlignmentSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   horizontal: HorizontalAlignment;
   vertical: VerticalAlignment;
   justify: boolean;
@@ -123,6 +243,18 @@ export type HorizontalAlignment = 'left' | 'center' | 'right' | 'justify';
 export type VerticalAlignment = 'top' | 'middle' | 'bottom';
 
 export interface TextEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TextEffectType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -131,12 +263,36 @@ export interface TextEffect {
 export type TextEffectType = 'fade' | 'typewriter' | 'highlight' | 'glow' | 'custom';
 
 export interface ValidationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   rules: ValidationRule[];
   strict: boolean;
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ValidationType;
   parameters: Record<string, any>;
   message: string;
@@ -145,6 +301,18 @@ export interface ValidationRule {
 export type ValidationType = 'length' | 'format' | 'content' | 'custom';
 
 export interface DialogueStructure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: StructureType;
   nodes: DialogueNode[];
   connections: DialogueConnection[];
@@ -156,6 +324,18 @@ export interface DialogueStructure {
 export type StructureType = 'linear' | 'tree' | 'graph' | 'custom';
 
 export interface DialogueNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: NodeType;
   content: string;
@@ -170,12 +350,36 @@ export interface DialogueNode {
 export type NodeType = 'speech' | 'choice' | 'condition' | 'action' | 'custom';
 
 export interface NodePosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface NodeProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   visible: boolean;
   interactive: boolean;
   skippable: boolean;
@@ -184,6 +388,18 @@ export interface NodeProperties {
 }
 
 export interface NodeCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ConditionType;
   parameters: Record<string, any>;
@@ -194,6 +410,18 @@ export interface NodeCondition {
 export type ConditionType = 'variable' | 'flag' | 'item' | 'level' | 'custom';
 
 export interface NodeAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ActionType;
   parameters: Record<string, any>;
@@ -204,6 +432,18 @@ export interface NodeAction {
 export type ActionType = 'set_variable' | 'set_flag' | 'give_item' | 'change_scene' | 'custom';
 
 export interface DialogueConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   from: string;
   to: string;
@@ -217,6 +457,18 @@ export interface DialogueConnection {
 export type ConnectionType = 'next' | 'choice' | 'condition' | 'action' | 'custom';
 
 export interface ConnectionCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ConditionType;
   parameters: Record<string, any>;
@@ -224,6 +476,18 @@ export interface ConnectionCondition {
 }
 
 export interface ConnectionAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ActionType;
   parameters: Record<string, any>;
@@ -231,6 +495,18 @@ export interface ConnectionAction {
 }
 
 export interface BranchingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: BranchingType;
   maxDepth: number;
@@ -241,6 +517,18 @@ export interface BranchingSettings {
 export type BranchingType = 'simple' | 'complex' | 'conditional' | 'custom';
 
 export interface VoiceActingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   voiceActor: string;
   language: string;
@@ -252,6 +540,18 @@ export interface VoiceActingSettings {
 }
 
 export interface AudioSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   file: string;
   format: AudioFormat;
@@ -264,6 +564,18 @@ export type AudioFormat = 'wav' | 'mp3' | 'ogg' | 'aac' | 'custom';
 export type AudioQuality = 'low' | 'medium' | 'high' | 'lossless';
 
 export interface CompressionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -273,6 +585,18 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'mp3' | 'aac' | 'ogg' | 'custom';
 
 export interface AudioEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AudioEffectType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -281,6 +605,18 @@ export interface AudioEffect {
 export type AudioEffectType = 'reverb' | 'echo' | 'distortion' | 'filter' | 'custom';
 
 export interface DialoguePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: number;
   wordCount: number;
   characterCount: number;
@@ -293,6 +629,18 @@ export type ComplexityLevel = 'simple' | 'moderate' | 'complex' | 'expert';
 export type ReadabilityScore = 'easy' | 'medium' | 'hard' | 'expert';
 
 export interface DialogueCharacter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CharacterType;
@@ -308,6 +656,18 @@ export type CharacterType = 'protagonist' | 'antagonist' | 'supporting' | 'npc' 
 export type CharacterStatus = 'active' | 'inactive' | 'archived' | 'error';
 
 export interface CharacterProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   age: number;
   gender: string;
   race: string;
@@ -318,6 +678,18 @@ export interface CharacterProfile {
 }
 
 export interface PersonalityTraits {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   traits: PersonalityTrait[];
   values: string[];
   fears: string[];
@@ -325,12 +697,36 @@ export interface PersonalityTraits {
 }
 
 export interface PersonalityTrait {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: number;
   description: string;
 }
 
 export interface CharacterRelationship {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   characterId: string;
   type: RelationshipType;
   strength: number;
@@ -340,6 +736,18 @@ export interface CharacterRelationship {
 export type RelationshipType = 'friend' | 'enemy' | 'family' | 'romantic' | 'custom';
 
 export interface VoiceProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   actor: string;
   language: string;
   accent: string;
@@ -350,6 +758,18 @@ export interface VoiceProfile {
 }
 
 export interface VoiceCharacteristic {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: VoiceCharacteristicType;
   value: number;
   description: string;
@@ -358,6 +778,18 @@ export interface VoiceCharacteristic {
 export type VoiceCharacteristicType = 'deep' | 'high' | 'raspy' | 'smooth' | 'custom';
 
 export interface AppearanceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   avatar: string;
   portrait: string;
   animations: CharacterAnimation[];
@@ -366,6 +798,18 @@ export interface AppearanceSettings {
 }
 
 export interface CharacterAnimation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AnimationType;
@@ -377,6 +821,18 @@ export interface CharacterAnimation {
 export type AnimationType = 'idle' | 'talking' | 'emotion' | 'action' | 'custom';
 
 export interface CharacterExpression {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   emotion: string;
@@ -385,6 +841,18 @@ export interface CharacterExpression {
 }
 
 export interface CharacterCostume {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CostumeType;
@@ -395,6 +863,18 @@ export interface CharacterCostume {
 export type CostumeType = 'default' | 'casual' | 'formal' | 'special' | 'custom';
 
 export interface BehaviorSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   personality: PersonalityTraits;
   speech: SpeechPatterns;
   reactions: ReactionPatterns;
@@ -402,6 +882,18 @@ export interface BehaviorSettings {
 }
 
 export interface SpeechPatterns {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   vocabulary: string[];
   phrases: string[];
   tone: string;
@@ -411,12 +903,36 @@ export interface SpeechPatterns {
 export type FormalityLevel = 'casual' | 'formal' | 'polite' | 'rude';
 
 export interface ReactionPatterns {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   emotions: EmotionalReaction[];
   triggers: ReactionTrigger[];
   responses: ReactionResponse[];
 }
 
 export interface EmotionalReaction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   emotion: string;
   intensity: number;
   duration: number;
@@ -424,6 +940,18 @@ export interface EmotionalReaction {
 }
 
 export interface ReactionTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TriggerType;
   condition: string;
   probability: number;
@@ -432,6 +960,18 @@ export interface ReactionTrigger {
 export type TriggerType = 'dialogue' | 'action' | 'event' | 'custom';
 
 export interface ReactionResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ResponseType;
   content: string;
   animation: string;
@@ -441,6 +981,18 @@ export interface ReactionResponse {
 export type ResponseType = 'dialogue' | 'animation' | 'sound' | 'custom';
 
 export interface CharacterPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   topics: string[];
   activities: string[];
   people: string[];
@@ -448,6 +1000,18 @@ export interface CharacterPreferences {
 }
 
 export interface Conversation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConversationType;
@@ -464,6 +1028,18 @@ export type ConversationType = 'story' | 'quest' | 'tutorial' | 'random' | 'cust
 export type ConversationStatus = 'draft' | 'active' | 'completed' | 'archived';
 
 export interface ConversationContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   scene: string;
   location: string;
   time: string;
@@ -473,6 +1049,18 @@ export interface ConversationContext {
 }
 
 export interface ConversationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   autoAdvance: boolean;
   skipEnabled: boolean;
   voiceEnabled: boolean;
@@ -481,6 +1069,18 @@ export interface ConversationSettings {
 }
 
 export interface ConversationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: number;
   wordCount: number;
   complexity: ComplexityLevel;
@@ -491,6 +1091,18 @@ export interface ConversationPerformance {
 export type EngagementScore = 'low' | 'medium' | 'high' | 'very_high';
 
 export interface VoiceActor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: VoiceActorType;
@@ -506,6 +1118,18 @@ export type VoiceActorType = 'professional' | 'amateur' | 'ai' | 'custom';
 export type VoiceActorStatus = 'available' | 'busy' | 'unavailable' | 'retired';
 
 export interface VoiceActorProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   age: number;
   gender: string;
   nationality: string;
@@ -515,6 +1139,18 @@ export interface VoiceActorProfile {
 }
 
 export interface VoiceActorSkill {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SkillType;
   level: SkillLevel;
   description: string;
@@ -524,6 +1160,18 @@ export type SkillType = 'acting' | 'singing' | 'accent' | 'emotion' | 'custom';
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 
 export interface AvailabilitySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   schedule: ScheduleSettings;
   timezone: string;
   rates: RateSettings;
@@ -531,17 +1179,53 @@ export interface AvailabilitySettings {
 }
 
 export interface ScheduleSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   days: string[];
   hours: TimeRange[];
   breaks: BreakSettings[];
 }
 
 export interface TimeRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: string;
   end: string;
 }
 
 export interface BreakSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: string;
   end: string;
   type: BreakType;
@@ -550,6 +1234,18 @@ export interface BreakSettings {
 export type BreakType = 'lunch' | 'rest' | 'personal' | 'custom';
 
 export interface RateSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hourly: number;
   project: number;
   currency: string;
@@ -557,6 +1253,18 @@ export interface RateSettings {
 }
 
 export interface ActorPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   projectTypes: string[];
   characterTypes: string[];
   workingHours: string[];
@@ -564,6 +1272,18 @@ export interface ActorPreferences {
 }
 
 export interface VoiceActorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalProjects: number;
   averageRating: number;
   completionRate: number;
@@ -572,6 +1292,18 @@ export interface VoiceActorPerformance {
 }
 
 export interface DialoguePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalDialogues: number;
   activeDialogues: number;
   totalCharacters: number;
@@ -585,6 +1317,18 @@ export interface DialoguePerformanceMetrics {
 }
 
 export interface DialogueAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalDialogues: number;
   totalConversations: number;
   averageDialogueLength: number;
@@ -594,6 +1338,18 @@ export interface DialogueAnalytics {
 }
 
 export interface DialogueTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DialogueType;
   count: number;
   percentage: number;
@@ -601,6 +1357,18 @@ export interface DialogueTypeDistribution {
 }
 
 export interface CharacterTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CharacterType;
   count: number;
   percentage: number;
@@ -608,6 +1376,18 @@ export interface CharacterTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   dialogues: number;
   conversations: number;
@@ -618,6 +1398,18 @@ export interface PerformanceTrend {
 }
 
 export interface DialogueReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -629,6 +1421,18 @@ export interface DialogueReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -638,6 +1442,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -646,6 +1462,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -654,6 +1482,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -661,6 +1501,18 @@ export interface Version {
 }
 
 export interface DialogueOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

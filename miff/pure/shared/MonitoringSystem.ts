@@ -11,6 +11,18 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SystemMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   cpu: {
     usage: number; // percentage
@@ -44,6 +56,18 @@ export interface SystemMetrics {
 }
 
 export interface ApplicationMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   requests: {
     total: number;
@@ -69,6 +93,18 @@ export interface ApplicationMetrics {
 }
 
 export interface ErrorInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   message: string;
   stack?: string;
@@ -79,6 +115,18 @@ export interface ErrorInfo {
 }
 
 export interface Alert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'cpu' | 'memory' | 'disk' | 'error' | 'performance' | 'custom';
   severity: 'info' | 'warning' | 'error' | 'critical';
@@ -91,6 +139,18 @@ export interface Alert {
 }
 
 export interface MonitoringConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   collectionInterval: number; // seconds
   retentionPeriod: number; // days
@@ -112,6 +172,18 @@ export interface MonitoringConfig {
 }
 
 export interface HealthCheck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   status: 'healthy' | 'unhealthy' | 'degraded';
   message: string;
@@ -121,7 +193,7 @@ export interface HealthCheck {
 }
 
 export class MonitoringSystem {
-  private logger: StructuredLogger;
+  
   private config: MonitoringConfig;
   private metrics: SystemMetrics[] = [];
   private appMetrics: ApplicationMetrics[] = [];
@@ -132,7 +204,7 @@ export class MonitoringSystem {
   private isRunning: boolean = false;
 
   constructor(config: Partial<MonitoringConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'MonitoringSystem' });
+    
     this.config = {
       enabled: true,
       collectionInterval: 30, // 30 seconds

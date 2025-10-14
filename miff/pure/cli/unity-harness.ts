@@ -15,11 +15,11 @@ import { AIPolicy } from '../AIPure/Manager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class UnityBridgeHarness {
-  private logger: StructuredLogger;
+  
   private bridge: UnityBridgeManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'UnityBridgeHarness' });
+  constructor(...args: any[]) {
+    
     const config: UnityBridgeConfiguration = {
       bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: UnityCommunicationProtocol.MESSAGE_PASSING,

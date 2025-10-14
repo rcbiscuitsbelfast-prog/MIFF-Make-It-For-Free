@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableDeviceManagement: boolean;
   enableContextManagement: boolean;
   enableProcessingPipeline: boolean;
@@ -33,6 +45,18 @@ export interface AudioSystemConfig {
 }
 
 export interface AudioSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SystemType;
@@ -49,6 +73,18 @@ export interface AudioSystem {
 }
 
 export interface AudioDevice {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DeviceType;
@@ -59,6 +95,18 @@ export interface AudioDevice {
 }
 
 export interface AudioContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ContextType;
@@ -71,6 +119,18 @@ export interface AudioContext {
 }
 
 export interface ProcessingPipeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   stages: ProcessingStage[];
   connections: PipelineConnection[];
   enabled: boolean;
@@ -79,6 +139,18 @@ export interface ProcessingPipeline {
 }
 
 export interface ProcessingStage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StageType;
@@ -89,6 +161,18 @@ export interface ProcessingStage {
 }
 
 export interface PipelineConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   sourceStage: string;
   targetStage: string;
@@ -98,6 +182,18 @@ export interface PipelineConnection {
 }
 
 export interface DeviceCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxChannels: number;
   maxSampleRate: number;
   supportedFormats: AudioFormat[];
@@ -107,6 +203,18 @@ export interface DeviceCapabilities {
 }
 
 export interface DeviceSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   volume: number; // 0 to 1
   mute: boolean;
   latency: number; // milliseconds
@@ -115,6 +223,18 @@ export interface DeviceSettings {
 }
 
 export interface ContextSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sampleRate: number;
   bufferSize: number;
   channels: number;
@@ -123,6 +243,18 @@ export interface ContextSettings {
 }
 
 export interface AudioFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sampleRate: number;
   channels: number;
   bitDepth: number;
@@ -130,10 +262,34 @@ export interface AudioFormat {
 }
 
 export interface StageParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   [key: string]: any;
 }
 
 export interface SystemPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpuUsage: number; // 0 to 1
   memoryUsage: number; // bytes
   latency: number; // milliseconds
@@ -143,6 +299,18 @@ export interface SystemPerformance {
 }
 
 export interface SystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSystems: number;
   activeSystems: number;
   totalDevices: number;
@@ -164,7 +332,7 @@ export type AudioEncoding = 'pcm' | 'mp3' | 'aac' | 'ogg' | 'wav' | 'flac';
 export type AudioQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export class AudioSystemManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -174,7 +342,7 @@ export class AudioSystemManager {
   private startTime: Date;
 
   constructor(config?: Partial<AudioSystemConfig>) {
-    this.logger = new StructuredLogger({ module: 'AudioSystemManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

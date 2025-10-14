@@ -13,11 +13,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class FinalTestCLI {
-  private logger: StructuredLogger;
+  
   private tester: FinalIntegrationTester;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'FinalTestCLI' });
+  constructor(...args: any[]) {
+    
     this.tester = new FinalIntegrationTester();
   }
 

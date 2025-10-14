@@ -20,13 +20,25 @@ import { FusionManager, FusionRules, PlayerContext } from './index.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   command: string;
   description: string;
   handler: (args: string[]) => void;
 }
 
 class FusionCli {
-  private logger: StructuredLogger;
+  
   private manager: FusionManager;
   private rules: FusionRules;
   private eventBus: EventBus;
@@ -34,8 +46,8 @@ class FusionCli {
   private isRunning: boolean = true;
   private context: PlayerContext;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'FusionCli' });
+  constructor(...args: any[]) {
+    
     this.eventBus = new EventBus();
     this.context = {
       playerId: 'cli_player',
@@ -479,7 +491,7 @@ class FusionCli {
 }
 
 // CLI entry point
-async function main() {
+async function main(...args: any[]) {
   const cli = new FusionCli();
   await cli.run();
 }

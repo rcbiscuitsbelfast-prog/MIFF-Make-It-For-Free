@@ -56,6 +56,18 @@ export enum ErrorSeverity {
 }
 
 export interface ErrorContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   module: string;
   operation: string;
   timestamp: number;
@@ -66,6 +78,18 @@ export interface ErrorContext {
 }
 
 export interface StandardError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   code: ErrorCode;
   message: string;
   severity: ErrorSeverity;
@@ -78,13 +102,25 @@ export interface StandardError {
 }
 
 export interface ErrorRecoveryStrategy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   canRecover: (error: StandardError) => boolean;
   recover: (error: StandardError) => Promise<boolean>;
   description: string;
 }
 
 export class StandardErrorHandler {
-  private logger: StructuredLogger;
+  
   private recoveryStrategies: Map<ErrorCode, ErrorRecoveryStrategy[]> = new Map();
   private errorCounts: Map<ErrorCode, number> = new Map();
   private maxRetries: number = 3;

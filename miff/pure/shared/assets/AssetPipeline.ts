@@ -6,6 +6,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface AssetConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sourcePath: string;
   outputPath: string;
   assetTypes: string[];
@@ -20,6 +32,18 @@ export interface AssetConfig {
 }
 
 export interface AssetInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   path: string;
   type: string;
@@ -34,6 +58,18 @@ export interface AssetInfo {
 }
 
 export interface PipelineStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAssets: number;
   processedAssets: number;
   failedAssets: number;
@@ -46,6 +82,18 @@ export interface PipelineStats {
 }
 
 export interface ProcessingTask {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   assetId: string;
   type: 'load' | 'process' | 'compress' | 'optimize' | 'cache';
   priority: number;
@@ -58,7 +106,7 @@ export interface ProcessingTask {
 }
 
 export class AssetPipeline {
-  private logger: StructuredLogger;
+  
   private config: AssetConfig;
   private assetRegistry: Map<string, AssetInfo> = new Map();
   private processingQueue: ProcessingTask[] = [];
@@ -70,7 +118,7 @@ export class AssetPipeline {
   private processingTimer?: NodeJS.Timeout;
 
   constructor(config: AssetConfig) {
-    this.logger = new StructuredLogger({ module: 'AssetPipeline' });
+    
     // Apply defaults without duplicating keys in a single object literal
     this.config = { ...config } as AssetConfig;
     this.config.optimizationLevel = this.config.optimizationLevel ?? 'high';
@@ -737,6 +785,18 @@ export class AssetPipeline {
 }
 
 interface Worker {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: number;
   busy: boolean;
   task: ProcessingTask | null;

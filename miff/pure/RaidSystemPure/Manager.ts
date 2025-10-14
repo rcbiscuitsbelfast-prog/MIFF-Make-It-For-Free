@@ -10,6 +10,18 @@
  */
 
 export interface RaidSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRaidManagement: boolean;
   enableRaidCreation: boolean;
   enableRaidMechanics: boolean;
@@ -26,6 +38,18 @@ export interface RaidSystemConfig {
 }
 
 export interface RaidSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RaidSystemManagerType;
@@ -49,6 +73,18 @@ export type RaidSystemManagerType = 'pve' | 'pvp' | 'hybrid' | 'custom';
 export type RaidSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Raid {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RaidType;
@@ -69,6 +105,18 @@ export type RaidStatus = 'preparing' | 'active' | 'paused' | 'completed' | 'fail
 export type RaidDifficulty = 'normal' | 'hard' | 'extreme' | 'savage' | 'ultimate' | 'custom';
 
 export interface RaidParticipant {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ParticipantType;
@@ -87,6 +135,18 @@ export type ParticipantStatus = 'active' | 'inactive' | 'defeated' | 'fled';
 export type RaidRole = 'tank' | 'healer' | 'dps' | 'support' | 'custom';
 
 export interface ParticipantStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: StatValue;
   mana: StatValue;
   stamina: StatValue;
@@ -100,6 +160,18 @@ export interface ParticipantStats {
 }
 
 export interface StatValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   current: number;
   maximum: number;
   base: number;
@@ -107,6 +179,18 @@ export interface StatValue {
 }
 
 export interface StatModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   source: string;
   type: ModifierType;
   value: number;
@@ -117,6 +201,18 @@ export interface StatModifier {
 export type ModifierType = 'add' | 'multiply' | 'percentage' | 'custom';
 
 export interface ParticipantEquipment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   weapon: EquipmentSlot;
   armor: EquipmentSlot[];
   accessories: EquipmentSlot[];
@@ -124,6 +220,18 @@ export interface ParticipantEquipment {
 }
 
 export interface EquipmentSlot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   itemId: string | null;
   item: EquipmentItem | null;
   durability: number;
@@ -131,6 +239,18 @@ export interface EquipmentSlot {
 }
 
 export interface EquipmentItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ItemType;
@@ -144,6 +264,18 @@ export type ItemType = 'weapon' | 'armor' | 'accessory' | 'consumable' | 'custom
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'custom';
 
 export interface ItemStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   damage: number;
   defense: number;
   durability: number;
@@ -152,6 +284,18 @@ export interface ItemStats {
 }
 
 export interface ItemEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EffectType;
   value: number;
   duration: number;
@@ -163,6 +307,18 @@ export type EffectType = 'damage' | 'heal' | 'buff' | 'debuff' | 'status' | 'cus
 export type TargetType = 'self' | 'ally' | 'enemy' | 'all' | 'custom';
 
 export interface ItemRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RequirementType;
   value: number;
   stat: string;
@@ -172,6 +328,18 @@ export interface ItemRequirement {
 export type RequirementType = 'stat' | 'level' | 'class' | 'custom';
 
 export interface Enchantment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EnchantmentType;
@@ -182,6 +350,18 @@ export interface Enchantment {
 export type EnchantmentType = 'fire' | 'ice' | 'lightning' | 'poison' | 'custom';
 
 export interface ConsumableSlot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   itemId: string;
   item: ConsumableItem;
   quantity: number;
@@ -189,6 +369,18 @@ export interface ConsumableSlot {
 }
 
 export interface ConsumableItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConsumableType;
@@ -200,6 +392,18 @@ export interface ConsumableItem {
 export type ConsumableType = 'potion' | 'food' | 'scroll' | 'bomb' | 'custom';
 
 export interface ParticipantAbility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AbilityType;
@@ -214,6 +418,18 @@ export interface ParticipantAbility {
 export type AbilityType = 'attack' | 'defense' | 'heal' | 'buff' | 'debuff' | 'custom';
 
 export interface AbilityCost {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: number;
   mana: number;
   stamina: number;
@@ -221,12 +437,36 @@ export interface AbilityCost {
 }
 
 export interface ItemCost {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   itemId: string;
   quantity: number;
   consumed: boolean;
 }
 
 export interface AreaOfEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AOEType;
   radius: number;
   shape: AOEShape;
@@ -237,6 +477,18 @@ export type AOEType = 'none' | 'circle' | 'cone' | 'line' | 'custom';
 export type AOEShape = 'circle' | 'square' | 'triangle' | 'custom';
 
 export interface AbilityEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EffectType;
   value: number;
@@ -246,6 +498,18 @@ export interface AbilityEffect {
 }
 
 export interface EffectCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -254,6 +518,18 @@ export interface EffectCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface AbilityRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RequirementType;
   value: number;
   stat: string;
@@ -261,6 +537,18 @@ export interface AbilityRequirement {
 }
 
 export interface ParticipantPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   actionsPerformed: number;
   damageDealt: number;
   damageTaken: number;
@@ -270,6 +558,18 @@ export interface ParticipantPerformance {
 }
 
 export interface RaidBoss {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BossType;
@@ -286,6 +586,18 @@ export type BossType = 'dragon' | 'demon' | 'giant' | 'elemental' | 'custom';
 export type BossStatus = 'idle' | 'active' | 'enraged' | 'defeated';
 
 export interface BossStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: StatValue;
   mana: StatValue;
   stamina: StatValue;
@@ -299,6 +611,18 @@ export interface BossStats {
 }
 
 export interface BossAbility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AbilityType;
@@ -312,6 +636,18 @@ export interface BossAbility {
 }
 
 export interface BossPhase {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   healthThreshold: number;
@@ -322,6 +658,18 @@ export interface BossPhase {
 }
 
 export interface BossPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAttacks: number;
   totalDamage: number;
   totalHealing: number;
@@ -330,6 +678,18 @@ export interface BossPerformance {
 }
 
 export interface RaidMechanic {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MechanicType;
@@ -346,6 +706,18 @@ export type MechanicType = 'damage' | 'heal' | 'movement' | 'environment' | 'cus
 export type MechanicStatus = 'inactive' | 'active' | 'completed' | 'failed';
 
 export interface MechanicTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TriggerType;
   condition: TriggerCondition;
   timing: TriggerTiming;
@@ -354,12 +726,36 @@ export interface MechanicTrigger {
 export type TriggerType = 'health' | 'time' | 'event' | 'custom';
 
 export interface TriggerCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
 }
 
 export interface TriggerTiming {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   delay: number;
   duration: number;
   repeat: boolean;
@@ -367,6 +763,18 @@ export interface TriggerTiming {
 }
 
 export interface MechanicEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EffectType;
   value: number;
   duration: number;
@@ -375,6 +783,18 @@ export interface MechanicEffect {
 }
 
 export interface MechanicRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RequirementType;
   value: number;
   stat: string;
@@ -382,6 +802,18 @@ export interface MechanicRequirement {
 }
 
 export interface MechanicPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalActivations: number;
   successRate: number;
   averageDuration: number;
@@ -389,6 +821,18 @@ export interface MechanicPerformance {
 }
 
 export interface RaidEnvironment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EnvironmentType;
@@ -401,6 +845,18 @@ export interface RaidEnvironment {
 export type EnvironmentType = 'dungeon' | 'castle' | 'temple' | 'arena' | 'custom';
 
 export interface EnvironmentProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: Vector3;
   obstacles: Obstacle[];
   cover: Cover[];
@@ -408,12 +864,36 @@ export interface EnvironmentProperties {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Obstacle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ObstacleType;
   position: Vector3;
@@ -424,6 +904,18 @@ export interface Obstacle {
 export type ObstacleType = 'wall' | 'pillar' | 'rock' | 'tree' | 'custom';
 
 export interface ObstacleProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   solid: boolean;
   destructible: boolean;
   health: number;
@@ -431,6 +923,18 @@ export interface ObstacleProperties {
 }
 
 export interface Cover {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: CoverType;
   position: Vector3;
@@ -441,6 +945,18 @@ export interface Cover {
 export type CoverType = 'full' | 'partial' | 'low' | 'high' | 'custom';
 
 export interface Hazard {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: HazardType;
   position: Vector3;
@@ -452,6 +968,18 @@ export interface Hazard {
 export type HazardType = 'fire' | 'poison' | 'electric' | 'spike' | 'custom';
 
 export interface HazardEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EffectType;
   value: number;
   duration: number;
@@ -459,6 +987,18 @@ export interface HazardEffect {
 }
 
 export interface EnvironmentEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EffectType;
   intensity: number;
@@ -467,12 +1007,36 @@ export interface EnvironmentEffect {
 }
 
 export interface LightingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ambient: Color;
   directional: DirectionalLight;
   point: PointLight[];
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -480,12 +1044,36 @@ export interface Color {
 }
 
 export interface DirectionalLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   direction: Vector3;
   color: Color;
   intensity: number;
 }
 
 export interface PointLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   color: Color;
   intensity: number;
@@ -493,6 +1081,18 @@ export interface PointLight {
 }
 
 export interface WeatherConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: WeatherType;
   intensity: number;
   effects: WeatherEffect[];
@@ -501,12 +1101,36 @@ export interface WeatherConfig {
 export type WeatherType = 'clear' | 'rain' | 'snow' | 'fog' | 'storm' | 'custom';
 
 export interface WeatherEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EffectType;
   value: number;
   area: AreaOfEffect;
 }
 
 export interface RaidRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxParticipants: number;
   minParticipants: number;
   timeLimit: number;
@@ -517,6 +1141,18 @@ export interface RaidRules {
 }
 
 export interface VictoryCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ConditionType;
   target: string;
@@ -527,6 +1163,18 @@ export interface VictoryCondition {
 export type ConditionType = 'defeat_boss' | 'survive_time' | 'reach_location' | 'custom';
 
 export interface DefeatCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ConditionType;
   target: string;
@@ -535,6 +1183,18 @@ export interface DefeatCondition {
 }
 
 export interface RaidTimeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   events: TimelineEvent[];
   currentTime: number;
   duration: number;
@@ -542,6 +1202,18 @@ export interface RaidTimeline {
 }
 
 export interface TimelineEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: number;
   type: EventType;
@@ -553,6 +1225,18 @@ export interface TimelineEvent {
 export type EventType = 'damage' | 'heal' | 'ability' | 'movement' | 'custom';
 
 export interface RaidPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   memoryUsage: number;
@@ -561,6 +1245,18 @@ export interface RaidPerformance {
 }
 
 export interface RaidSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRaids: number;
   activeRaids: number;
   totalParticipants: number;
@@ -575,6 +1271,18 @@ export interface RaidSystemPerformanceMetrics {
 }
 
 export interface RaidSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRaids: number;
   totalParticipants: number;
   averageRaidTime: number;
@@ -584,6 +1292,18 @@ export interface RaidSystemAnalytics {
 }
 
 export interface RaidTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RaidType;
   count: number;
   percentage: number;
@@ -591,6 +1311,18 @@ export interface RaidTypeDistribution {
 }
 
 export interface DifficultyDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: RaidDifficulty;
   count: number;
   percentage: number;
@@ -598,6 +1330,18 @@ export interface DifficultyDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   raids: number;
   participants: number;
@@ -608,6 +1352,18 @@ export interface PerformanceTrend {
 }
 
 export interface RaidSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -619,6 +1375,18 @@ export interface RaidSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -628,6 +1396,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -636,6 +1416,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -644,6 +1436,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -651,6 +1455,18 @@ export interface Version {
 }
 
 export interface RaidSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -5,6 +5,18 @@ import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface
 export interface SnapBuilderPureConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   debugMode: boolean;
   maxInstances: number;
@@ -18,6 +30,18 @@ export interface SnapBuilderPureConfig {
 
 // Main item interface
 export interface SnapBuilderPureItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: string;
@@ -33,6 +57,18 @@ export interface SnapBuilderPureItem {
 
 // Analytics interface
 export interface SnapBuilderPureAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalItems: number;
   activeItems: number;
   inactiveItems: number;
@@ -45,6 +81,18 @@ export interface SnapBuilderPureAnalytics {
 
 // Manager statistics
 export interface SnapBuilderPureStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalItems: number;
   activeItems: number;
   errorCount: number;
@@ -60,7 +108,7 @@ export class SnapBuilderPureManager {
   private analytics: SnapBuilderPureAnalytics = this.initializeAnalytics();
   private stats: SnapBuilderPureStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private errorHandler: StandardErrorHandler;
 

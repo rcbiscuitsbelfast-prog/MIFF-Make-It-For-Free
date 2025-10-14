@@ -43,6 +43,18 @@ export enum SpatialAudioMode {
 }
 
 export interface AudioBus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   volume: number;
@@ -54,12 +66,36 @@ export interface AudioBus {
 }
 
 export interface AudioSend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   busId: string;
   amount: number; // 0.0 to 1.0
   preFader: boolean;
 }
 
 export interface AudioEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AudioEffectType;
   enabled: boolean;
@@ -67,6 +103,18 @@ export interface AudioEffect {
 }
 
 export interface SpatialAudioSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
@@ -80,6 +128,18 @@ export interface SpatialAudioSource {
 }
 
 export interface AudioAnalysisData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frequencyData: Float32Array;
   timeDomainData: Float32Array;
   volume: number;
@@ -90,6 +150,18 @@ export interface AudioAnalysisData {
 }
 
 export interface MixingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sampleRate: number;
   bufferSize: number;
   channels: number;
@@ -105,6 +177,18 @@ export interface MixingConfig {
 }
 
 export interface AudioSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   audioData: AudioBuffer;
   loop: boolean;
@@ -120,7 +204,7 @@ export interface AudioSource {
 }
 
 export class AudioMixerPure {
-  private logger: StructuredLogger;
+  
   private config: MixingConfig;
   private audioContext: AudioContext | null = null;
   private masterGain: GainNode | null = null;
@@ -135,7 +219,7 @@ export class AudioMixerPure {
   private spatialEnabled = false;
 
   constructor(config: MixingConfig) {
-    this.logger = new StructuredLogger({ module: 'AudioMixerPure' });
+    
     this.config = config;
     this.initializeAudioContext();
     this.initializeBuses();

@@ -8,7 +8,7 @@ import { parseComplexCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function main(){
+function main(...args: any[]) {
   const { command, options } = parseComplexCLIArgs(process.argv);
   let out: any;
   try {

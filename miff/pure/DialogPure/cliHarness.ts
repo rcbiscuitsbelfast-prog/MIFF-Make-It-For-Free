@@ -12,7 +12,7 @@ type Cmd =
   | { op: 'dumpDialog'; dialogId: string }
   | { op: 'exportDialog'; dialogId: string };
 
-function main() {
+function main(...args: any[]) {
   const dialogsPath = process.argv[2] || path.resolve('DialogPure/sample_dialog.json');
   const commandsPath = process.argv[3] || '';
   const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(dialogsPath), 'utf-8'));
