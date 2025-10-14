@@ -831,14 +831,6 @@ export class DocumentationGenerator {
   private getExportType(sourceCode: string, name: string): 'class' | 'interface' | 'enum' | 'function' | 'type' | 'const' {
     if (sourceCode.includes(`class ${name}`)) return 'class';
     if (sourceCode.includes(`interface ${name}`)) return 'interface';
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     if (sourceCode.includes(`enum ${name}`)) return 'enum';
     if (sourceCode.includes(`function ${name}`)) return 'function';
     if (sourceCode.includes(`type ${name}`)) return 'type';

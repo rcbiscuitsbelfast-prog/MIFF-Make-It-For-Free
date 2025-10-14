@@ -79,18 +79,6 @@ class InterfaceCLI {
       console.info('\n❌ Non-Compliant Modules:');
       nonCompliant.forEach(result => {
         console.info(`  ${result.module} (${result.interface}): ${result.score}%`);
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
         if (result.missingMethods.length > 0) {
           console.info(`    Missing methods: ${result.missingMethods.join(', ')}`);
         }
