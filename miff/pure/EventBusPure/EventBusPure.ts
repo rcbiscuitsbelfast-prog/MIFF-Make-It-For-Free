@@ -21,6 +21,12 @@ export interface Event {
   source: string;
   priority: EventPriority;
   metadata: Record<string, any>;
+  
+  // Missing properties that are being accessed
+  amount?: number;
+  category?: string;
+  facility?: any;
+  staff?: any;
 }
 
 export enum EventPriority {

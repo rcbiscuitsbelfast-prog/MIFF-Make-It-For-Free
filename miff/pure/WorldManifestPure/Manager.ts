@@ -44,6 +44,17 @@ export interface WorldManifestManager {
   metadata: Record<string, any>;
   createdAt: number;
   updatedAt: number;
+  
+  // Missing methods that are being called
+  createWorld(worldId: string, name: string, width: number, height: number): { ok: boolean; world?: any; errors: string[] };
+  getWorld(worldId: string): { ok: boolean; world?: any; errors: string[] };
+  listWorlds(): { ok: boolean; worlds: any[]; errors: string[] };
+  addZone(worldId: string, zone: any): { ok: boolean; errors: string[] };
+  removeZone(worldId: string, zoneId: string): { ok: boolean; errors: string[] };
+  placeAsset(worldId: string, asset: any): { ok: boolean; errors: string[] };
+  removeAsset(worldId: string, assetId: string): { ok: boolean; errors: string[] };
+  findAssetsInArea(worldId: string, area: any): { ok: boolean; assets: any[]; errors: string[] };
+  generateWorld(worldId: string, options: any): { ok: boolean; world?: any; errors: string[] };
 }
 
 export type WorldManifestManagerType = 'game' | 'simulation' | 'virtual' | 'custom';
