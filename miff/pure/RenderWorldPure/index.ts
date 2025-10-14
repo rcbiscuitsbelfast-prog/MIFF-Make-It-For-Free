@@ -25,11 +25,6 @@ import {
   AIManager
 } from '../AIPure';
 
-import {
-  HUDPureUtils,
-  SpiritHUDState,
-  TurnHUDState
-} from '../HUDPure';
 import { HUDManager } from '../HUDPure/Manager';
 
 import {
@@ -37,24 +32,19 @@ import {
 } from '../SceneBuilderPure';
 
 import { EventBus } from '../EventBusPure/EventBusPure.js';
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-import {
-  AvatarSystem
-} from '../AvatarSystemPure';
-
-import {
-  type Node,
-  type Dialogue
-} from '../DialogueSystemPure';
+// import {
+//   type Node,
+//   type Dialogue
+// } from '../DialogueSystemPure';
 
 // New gameplay system imports
-import {
-  overlayFXManager,
-  OverlayFXManager,
-  OverlayEffectType,
-  OverlayEffectConfig
-} from '../OverlayFXPure';
+// import {
+//   overlayFXManager,
+//   OverlayFXManager,
+//   OverlayEffectType,
+//   OverlayEffectConfig
+// } from '../OverlayFXPure';
 
 import {
   perceptionFilterManager,

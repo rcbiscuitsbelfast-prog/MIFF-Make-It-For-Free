@@ -8,20 +8,8 @@
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SystemMetrics {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   timestamp: Date;
   cpu: {
     usage: number; // percentage
@@ -55,17 +43,6 @@ export interface SystemMetrics {
 }
 
 export interface ApplicationMetrics {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   timestamp: Date;
   requests: {
     total: number;
