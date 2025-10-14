@@ -1,4 +1,3 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * SlicePure - Overworld Battle Vertical Slice
  *
@@ -464,7 +463,7 @@ export class EncounterTableEntry implements IEncounterTableEntry {
     this.weight = weight;
     this.minLevel = minLevel;
     this.maxLevel = maxLevel;
-    this.conditions = conditions;
+    this.conditions = conditions ?? undefined;
   }
 
   /**
@@ -524,7 +523,7 @@ export class EncounterTableEntry implements IEncounterTableEntry {
   /**
    * Check if level is in range
    */
-  isLevelInRange(): boolean {
+  isLevelInRange(level: number): boolean {
     return level >= this.minLevel && level <= this.maxLevel;
   }
 
@@ -547,12 +546,12 @@ export class EncounterTableEntry implements IEncounterTableEntry {
    */
   static fromJSON(data: Record<string, any>): EncounterTableEntry {
     return new EncounterTableEntry(
-      data.zoneId,
-      data.spiritId,
-      data.weight,
-      data.minLevel,
-      data.maxLevel,
-      data.conditions
+      data['zoneId'],
+      data['spiritId'],
+      data['weight'],
+      data['minLevel'],
+      data['maxLevel'],
+      data['conditions']
     );
   }
 

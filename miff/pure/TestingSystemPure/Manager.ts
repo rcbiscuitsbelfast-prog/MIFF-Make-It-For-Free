@@ -38,17 +38,6 @@ export interface TestingSystemConfig {
 }
 
 export interface TestingSystemManager {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: TestingSystemManagerType;
   status: TestingSystemManagerStatus;
   testSuites: TestSuite[];
@@ -68,17 +57,6 @@ export type TestingSystemManagerType = 'unit' | 'integration' | 'e2e' | 'perform
 export type TestingSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface TestSuite {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: TestSuiteType;
   status: TestSuiteStatus;
   description: string;
@@ -92,17 +70,6 @@ export type TestSuiteType = 'unit' | 'integration' | 'e2e' | 'performance' | 'sm
 export type TestSuiteStatus = 'draft' | 'ready' | 'running' | 'completed' | 'failed' | 'paused';
 
 export interface TestSuiteConfiguration {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   parallel: boolean;
   maxConcurrency: number;
   timeout: number;

@@ -1,4 +1,3 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * TeamsPure - Team Management System
  *
@@ -513,7 +512,7 @@ export class TeamSlot implements ITeamSlot {
     }
 
     return this.requirements.every(requirement =>
-      this.spiritMeetsRequirement(spirit, requirement)
+      this.spiritMeetsRequirement(this.spirit, requirement)
     );
   }
 
@@ -576,9 +575,9 @@ export class TeamSlot implements ITeamSlot {
       data['isLocked'] || false
     );
 
-    if (data.spirit) {
+    if (data['spirit']) {
       // Create a minimally compliant spirit instance
-      const s = data.spirit as any;
+      const s = data['spirit'] as any;
       slot.spirit = {
         instanceId: String(s.instanceId || `spirit_${Date.now()}`),
         name: String(s.name || 'Unknown'),
@@ -669,12 +668,12 @@ export class TeamRules implements ITeamRules {
     this.enableSyncSynergy = enableSyncSynergy;
     this.allowDuplicates = allowDuplicates;
     this.requireBalance = requireBalance;
-    this.minAverageLevel = minAverageLevel;
-    this.maxLevelDifference = maxLevelDifference;
+    this.minAverageLevel = minAverageLevel ?? undefined;
+    this.maxLevelDifference = maxLevelDifference ?? undefined;
     this.requiredTypes = requiredTypes ? [...requiredTypes] : [];
     this.forbiddenTypes = forbiddenTypes ? [...forbiddenTypes] : [];
-    this.minDiversityScore = minDiversityScore;
-    this.minSyncSynergy = minSyncSynergy;
+    this.minDiversityScore = minDiversityScore ?? undefined;
+    this.minSyncSynergy = minSyncSynergy ?? undefined;
   }
 
   /**
