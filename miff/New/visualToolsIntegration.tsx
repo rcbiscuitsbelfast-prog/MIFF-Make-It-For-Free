@@ -55,7 +55,7 @@ export const EnhancedTileEditor: React.FC<EnhancedTileEditorProps> = ({
     onTileChange?.(x, y, selected);
     
     // Emit tile change event
-    mainOrchestrator.getRenderBridge()?.emit('tileChanged', { x, y, type: selected });
+    // mainOrchestrator.getRenderBridge()?.emit('tileChanged', { x, y, type: selected });
   }, [manager, selected, onTileChange, isEditing]);
 
   const handleTouch = useCallback((e: React.TouchEvent, x: number, y: number) => {
