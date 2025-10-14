@@ -30,7 +30,9 @@ export interface WorldManifest {
 	};
 }
 
-create($2);
+export const WorldManifestUtils = {
+	addTile: (world: WorldManifest, zoneId: string, x: number, y: number, assetId: string, layer: number): void => {
+		const zone = world.zones.find(z => z.id === zoneId);
 		if (!zone) throw new Error(`Zone not found: ${zoneId}`);
 		
 		// Remove existing tile at this position and layer
@@ -40,7 +42,7 @@ create($2);
 		zone.tiles.push({ x, y, assetId, layer });
 	},
 
-	removeTile(world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): void {
+	removeTile: (world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): void => {
 		const zone = world.zones.find(z => z.id === zoneId);
 		if (!zone) throw new Error(`Zone not found: ${zoneId}`);
 		
@@ -51,7 +53,7 @@ create($2);
 		}
 	},
 
-	getTile(world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): WorldTile! {
+	getTile: (world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): WorldTile | undefined => {
 		const zone = world.zones.find(z => z.id === zoneId);
 		if (!zone) return undefined;
 		
@@ -62,11 +64,11 @@ create($2);
 		}
 	},
 
-	exportJSON(world: WorldManifest): string {
+	exportJSON: (world: WorldManifest): string => {
 		return JSON.stringify(world, null, 2);
 	},
 
-	validate(world: WorldManifest): { valid: boolean; errors: string[] } {
+	validate: (world: WorldManifest): { valid: boolean; errors: string[] } => {
 		const errors: string[] = [];
 		
 		if (!world.schema || !world.schema.startsWith("miff.world")) {

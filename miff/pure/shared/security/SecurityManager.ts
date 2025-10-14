@@ -965,7 +965,7 @@ export class SecurityManager {
 /**
  * Default security manager instance
  */
-// export const defaultSecurityManager = new SecurityManager({
+export const defaultSecurityManager = new SecurityManager({
   enableAuthentication: true,
   enableAuthorization: true,
   enableEncryption: true,

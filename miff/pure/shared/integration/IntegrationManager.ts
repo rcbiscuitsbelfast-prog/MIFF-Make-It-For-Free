@@ -697,7 +697,7 @@ export class IntegrationManager {
 /**
  * Default integration manager instance
  */
-// export const defaultIntegrationManager = new IntegrationManager({
+export const defaultIntegrationManager = new IntegrationManager({
   eventBus: new (require('../../EventBusPure/EventBusPure').EventBus)(),
   maxIntegrations: 100,
   defaultTimeout: 5000,

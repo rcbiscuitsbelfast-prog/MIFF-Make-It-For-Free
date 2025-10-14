@@ -649,7 +649,9 @@ export function loadFixtureForScenario(scenarioName: string): any {
 /**
  * Validation checklist for scenario tests
  */
-return($2);
+export const validationChecklist = {
+  hooksResolved: (warnings: string[]): boolean => {
+    return !warnings.some(warning => warning.includes('[ReplayHook] Unresolved hooks:'));
   },
   
   unresolvedHooksDetected: (warnings: string[]): boolean => {

@@ -1230,7 +1230,7 @@ export class AuditSystem {
 /**
  * Default audit system instance
  */
-// export const defaultAuditSystem = new AuditSystem({
+export const defaultAuditSystem = new AuditSystem({
   config: {
     enabledCategories: Object.values(AuditCategory),
     severityThreshold: AuditLevel.LOW,
