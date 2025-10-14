@@ -714,7 +714,6 @@ export interface GodotBridgeStatistics {
 }
 
 export class GodotBridgeManager {
-  private logger: StructuredLogger;
   private configuration: GodotBridgeConfiguration;
   private connections: Map<string, GodotConnection> = new Map();
   private nodes: Map<string, GodotNodeBridge> = new Map();
@@ -736,7 +735,6 @@ export class GodotBridgeManager {
   private maxReconnectAttempts = 10;
 
   constructor(configuration: GodotBridgeConfiguration) {
-    this.logger = new StructuredLogger({ module: 'GodotBridgeManager' });
     this.configuration = configuration;
     this.performanceMetrics = this.initializePerformanceMetrics();
     this.statistics = this.initializeStatistics();

@@ -236,7 +236,6 @@ export interface SearchIndex {
  * Documentation Generator - Core documentation functionality
  */
 export class DocumentationGenerator {
-  private logger: StructuredLogger;
   private config: DocumentationConfig;
   private modules: Map<string, ModuleDocumentation> = new Map();
   private navigation: NavigationItem[] = [];
@@ -251,7 +250,6 @@ export class DocumentationGenerator {
   };
 
   constructor(config: DocumentationConfig) {
-    this.logger = new StructuredLogger({ module: 'DocumentationGenerator' });
     this.config = config;
     this.initialize();
   }
@@ -611,13 +609,13 @@ export class DocumentationGenerator {
     return 'const';
   }
 
-  private extractItemDescription(sourceCode: string, name: string): string {
+  private extractItemDescription(sourceCode: string, _name: string): string {
     const regex = new RegExp(`/\\*\\*\\s*\\n\\s*\\*\\s*(.+?)\\s*\\n\\s*\\*\\s*@`, 's');
     const match = sourceCode.match(regex);
     return match ? match[1].trim() : '';
   }
 
-  private extractItemDecorators(sourceCode: string, name: string): string[] {
+  private extractItemDecorators(sourceCode: string, _name: string): string[] {
     const decorators: string[] = [];
     const decoratorRegex = /@(\w+)/g;
     let match;
@@ -1053,19 +1051,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Placeholder methods for complex extractions
-  private extractClassMethods(sourceCode: string, className: string): MethodDocumentation[] {
+  private extractClassMethods(_sourceCode: string, _className: string): MethodDocumentation[] {
     return [];
   }
 
-  private extractClassProperties(sourceCode: string, className: string): PropertyDocumentation[] {
+  private extractClassProperties(_sourceCode: string, _className: string): PropertyDocumentation[] {
     return [];
   }
 
-  private extractClassConstructors(sourceCode: string, className: string): ConstructorDocumentation[] {
+  private extractClassConstructors(_sourceCode: string, _className: string): ConstructorDocumentation[] {
     return [];
   }
 
-  private extractInterfaceProperties(sourceCode: string, interfaceName: string): PropertyDocumentation[] {
+  private extractInterfaceProperties(_sourceCode: string, _interfaceName: string): PropertyDocumentation[] {
     return [];
   }
 

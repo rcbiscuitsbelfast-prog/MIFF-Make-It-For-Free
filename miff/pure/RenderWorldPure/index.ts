@@ -10,27 +10,17 @@
  */
 
 import {
-  CombatEngine,
-  SpiritInstance,
-  MoveData,
-  TypeEffectiveness
+  CombatEngine
 } from '../CombatPure/engine';
 
 import {
-  Item,
-  ItemEffect,
-  ItemType,
   ItemEffectType,
   ItemUsageManager,
-  IPlayerContext,
-  UsageResult,
-  UsageStatus
+  IPlayerContext
 } from '../ItemsPure';
 
 import {
   QuestsManager,
-  Quest,
-  QuestStep,
   QuestReward
 } from '../QuestsPure';
 

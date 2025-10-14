@@ -100,7 +100,6 @@ export interface PlatformStats {
  * and platform-specific features.
  */
 export class PlatformBridge {
-  private logger: StructuredLogger;
   private config: PlatformConfig;
   private renderTargets: Map<string, RenderTarget> = new Map();
   private inputDevices: Map<string, InputDevice> = new Map();
@@ -113,7 +112,6 @@ export class PlatformBridge {
   private networkBackend: any;
 
   constructor(config: PlatformConfig) {
-    this.logger = new StructuredLogger({ module: 'PlatformBridge' });
     this.config = config;
     this.capabilities = this.detectCapabilities();
     this.stats = this.initializeStats();
@@ -648,8 +646,8 @@ export class PlatformBridge {
   private createInputBackend(): any {
     return {
       pollEvents: () => [],
-      registerDevice: (device: InputDevice) => {},
-      unregisterDevice: (deviceId: string) => {}
+      registerDevice: (_device: InputDevice) => {},
+      unregisterDevice: (_deviceId: string) => {}
     };
   }
 
@@ -658,8 +656,8 @@ export class PlatformBridge {
    */
   private createAudioBackend(): any {
     return {
-      play: async (id: string, data: any, options: any) => {},
-      stop: (id: string) => true
+      play: async (_id: string, _data: any, _options: any) => {},
+      stop: (_id: string) => true
     };
   }
 

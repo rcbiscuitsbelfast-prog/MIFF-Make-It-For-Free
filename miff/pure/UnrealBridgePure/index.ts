@@ -1006,7 +1006,6 @@ export interface UnrealTickFunction {
 }
 
 export class UnrealBridgeManager {
-  private logger: StructuredLogger;
   private configuration: UnrealBridgeConfiguration;
   private connections: Map<string, UnrealConnection> = new Map();
   private actors: Map<string, UnrealActorBridge> = new Map();
@@ -1038,7 +1037,6 @@ export class UnrealBridgeManager {
   private maxReconnectAttempts = 10;
 
   constructor(configuration: UnrealBridgeConfiguration) {
-    this.logger = new StructuredLogger({ module: 'UnrealBridgeManager' });
     this.validateConfiguration(configuration);
     this.configuration = {
       ...configuration,

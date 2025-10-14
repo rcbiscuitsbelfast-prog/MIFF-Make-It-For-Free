@@ -204,7 +204,6 @@ export interface QuestGenerator {
 }
 
 export class AdvancedQuests {
-  private logger: StructuredLogger;
   private dynamicQuests: Map<string, DynamicQuest> = new Map();
   private questTemplates: Map<string, QuestTemplate> = new Map();
   private questHistory: Map<string, QuestHistoryEntry[]> = new Map();
@@ -212,7 +211,6 @@ export class AdvancedQuests {
   private questGenerators: Map<string, QuestGenerator> = new Map();
 
   constructor() {
-    this.logger = new StructuredLogger({ module: 'AdvancedQuests' });
     this.initializeDefaultTemplates();
     this.initializeDefaultGenerators();
   }
@@ -442,7 +440,7 @@ export class AdvancedQuests {
         type: rewardTemplate.type as any,
         value: Math.floor(Math.random() * (rewardTemplate.maxValue - rewardTemplate.minValue + 1)) + rewardTemplate.minValue,
         conditions: this.generateRewardConditions(rewardTemplate, context),
-        apply: (ctx) => {
+        apply: (_ctx) => {
           // Apply reward logic
           console.info(`Applied reward: ${rewardTemplate.type} = ${reward.value}`);
         }
