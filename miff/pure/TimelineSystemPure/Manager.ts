@@ -10,6 +10,18 @@
  */
 
 export interface TimelineSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableTimelineManagement: boolean;
   enableTimelineCreation: boolean;
   enableEventScheduling: boolean;
@@ -26,6 +38,18 @@ export interface TimelineSystemConfig {
 }
 
 export interface TimelineSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TimelineSystemManagerType;
@@ -49,6 +73,18 @@ export type TimelineSystemManagerType = 'linear' | 'parallel' | 'hierarchical' |
 export type TimelineSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Timeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TimelineType;
@@ -63,6 +99,18 @@ export type TimelineType = 'linear' | 'parallel' | 'hierarchical' | 'custom';
 export type TimelineStatus = 'draft' | 'active' | 'paused' | 'completed' | 'error';
 
 export interface TimelineConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: number;
   loop: boolean;
   autoStart: boolean;
@@ -75,6 +123,18 @@ export type TimelineDirection = 'forward' | 'backward' | 'ping_pong' | 'custom';
 export type EasingFunction = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
 
 export interface TimelinePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvents: number;
   executedEvents: number;
   averageExecutionTime: number;
@@ -82,6 +142,18 @@ export interface TimelinePerformance {
 }
 
 export interface TimelineEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EventType;
@@ -98,6 +170,18 @@ export type EventType = 'action' | 'animation' | 'sound' | 'custom';
 export type EventStatus = 'pending' | 'active' | 'completed' | 'cancelled';
 
 export interface EventConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   repeat: boolean;
   repeatCount: number;
@@ -108,6 +192,18 @@ export interface EventConfiguration {
 }
 
 export interface EventPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalExecutions: number;
   successfulExecutions: number;
   failedExecutions: number;
@@ -116,6 +212,18 @@ export interface EventPerformance {
 }
 
 export interface EventScheduler {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SchedulerType;
@@ -130,6 +238,18 @@ export type SchedulerType = 'time_based' | 'event_based' | 'priority_based' | 'c
 export type SchedulerStatus = 'active' | 'inactive' | 'error';
 
 export interface SchedulerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   maxConcurrent: number;
@@ -138,6 +258,18 @@ export interface SchedulerConfiguration {
 }
 
 export interface SchedulerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalScheduled: number;
   successfulScheduled: number;
   failedScheduled: number;
@@ -146,6 +278,18 @@ export interface SchedulerPerformance {
 }
 
 export interface EventExecutor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ExecutorType;
@@ -160,6 +304,18 @@ export type ExecutorType = 'immediate' | 'deferred' | 'batch' | 'custom';
 export type ExecutorStatus = 'active' | 'inactive' | 'error';
 
 export interface ExecutorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   maxConcurrent: number;
   timeout: number;
@@ -168,6 +324,18 @@ export interface ExecutorConfiguration {
 }
 
 export interface ExecutorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalExecuted: number;
   successfulExecuted: number;
   failedExecuted: number;
@@ -176,6 +344,18 @@ export interface ExecutorPerformance {
 }
 
 export interface TimelineSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTimelines: number;
   activeTimelines: number;
   totalEvents: number;
@@ -190,6 +370,18 @@ export interface TimelineSystemPerformanceMetrics {
 }
 
 export interface TimelineSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTimelines: number;
   totalEvents: number;
   averageExecutionTime: number;
@@ -199,6 +391,18 @@ export interface TimelineSystemAnalytics {
 }
 
 export interface TimelineTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TimelineType;
   count: number;
   percentage: number;
@@ -206,6 +410,18 @@ export interface TimelineTypeDistribution {
 }
 
 export interface EventTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EventType;
   count: number;
   percentage: number;
@@ -213,6 +429,18 @@ export interface EventTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   timelines: number;
   events: number;
@@ -223,6 +451,18 @@ export interface PerformanceTrend {
 }
 
 export interface TimelineSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -234,6 +474,18 @@ export interface TimelineSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -243,6 +495,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -251,6 +515,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -259,6 +535,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -266,6 +554,18 @@ export interface Version {
 }
 
 export interface TimelineSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

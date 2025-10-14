@@ -21,6 +21,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface APIGatewayConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRouting: boolean;
   enableLoadBalancing: boolean;
   enableAuthentication: boolean;
@@ -39,6 +51,18 @@ export interface APIGatewayConfig {
 }
 
 export interface APIGateway {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: GatewayType;
@@ -53,6 +77,18 @@ export interface APIGateway {
 }
 
 export interface APIRoute {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   path: string;
   method: HTTPMethod;
@@ -66,6 +102,18 @@ export interface APIRoute {
 }
 
 export interface APIPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -76,6 +124,18 @@ export interface APIPolicy {
 }
 
 export interface PolicyRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   condition: string;
   action: PolicyAction;
@@ -83,6 +143,18 @@ export interface PolicyRule {
 }
 
 export interface RateLimit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   requests: number;
   window: number; // milliseconds
@@ -91,12 +163,36 @@ export interface RateLimit {
 }
 
 export interface AuthenticationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: AuthType;
   parameters: Record<string, any>;
 }
 
 export interface AuthorizationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: AuthzType;
   roles: string[];
@@ -104,6 +200,18 @@ export interface AuthorizationConfig {
 }
 
 export interface CachingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   ttl: number; // milliseconds
   strategy: CacheStrategy;
@@ -111,6 +219,18 @@ export interface CachingConfig {
 }
 
 export interface GatewayAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRequests: number;
   successfulRequests: number;
   failedRequests: number;
@@ -130,7 +250,7 @@ export type AuthzType = 'rbac' | 'abac' | 'custom';
 export type CacheStrategy = 'memory' | 'redis' | 'file' | 'database';
 
 export class APIGatewayManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -140,7 +260,7 @@ export class APIGatewayManager {
   private startTime: Date;
 
   constructor(config?: Partial<APIGatewayConfig>) {
-    this.logger = new StructuredLogger({ module: 'APIGatewayManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
@@ -580,6 +700,18 @@ export class APIGatewayManager {
 
 // Additional interfaces for request/response
 export interface APIRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   method: HTTPMethod;
   headers: Record<string, string>;
@@ -589,6 +721,18 @@ export interface APIRequest {
 }
 
 export interface APIResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: number;
   headers: Record<string, string>;
   body: any;

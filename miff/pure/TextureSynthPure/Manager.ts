@@ -1,4 +1,16 @@
 export interface GradientOptions { 
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   colors: string[]; 
   width: number; 
   height: number; 
@@ -6,6 +18,18 @@ export interface GradientOptions {
 }
 
 export interface NoiseOptions { 
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'perlin'|'simplex'|'worley'; 
   width: number; 
   height: number; 

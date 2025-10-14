@@ -20,7 +20,7 @@ import {
 
 // Mock RNG Provider for CLI
 class MockRNGProvider {
-  private logger: StructuredLogger;
+  
   private seed: number = 0;
 
   setSeed(seed: number): void {
@@ -58,10 +58,10 @@ class BattleLoopPureCLI {
   };
   private battleHistory: BattleState[] = [];
   private currentTurn: number = 0;
-  private logger: StructuredLogger;
+  
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'MockRNGProvider' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

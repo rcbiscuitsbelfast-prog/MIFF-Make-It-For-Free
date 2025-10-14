@@ -9,6 +9,18 @@
  */
 
 export interface PerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   operation: string;
   duration: number;
   memoryBefore: number;
@@ -18,6 +30,18 @@ export interface PerformanceMetrics {
 }
 
 export interface OptimizationResult<T = any> {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   result: T;
   metrics: PerformanceMetrics;
   optimized: boolean;

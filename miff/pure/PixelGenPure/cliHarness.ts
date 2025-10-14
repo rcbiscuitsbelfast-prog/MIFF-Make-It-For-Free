@@ -8,6 +8,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PixelGenOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'generate' | 'list-presets' | 'create-preset' | 'demo' | 'dump';
   preset?: string;
   seed?: number;
@@ -21,7 +33,7 @@ interface PixelGenOperation {
   exportFormat?: string;
 }
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

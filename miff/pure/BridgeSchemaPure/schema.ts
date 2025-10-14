@@ -4,12 +4,36 @@
 export type RenderDataType = 'sprite' | 'text' | 'sound' | 'animation' | 'node' | 'component' | 'resource' | 'scene' | 'input';
 
 export interface Position3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z?: number;
 }
 
 export interface EngineHints {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   unity?: {
     gameObject?: string;
     component?: string;
@@ -31,6 +55,18 @@ export interface EngineHints {
 }
 
 export interface RenderData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RenderDataType;
   name?: string;
@@ -46,6 +82,18 @@ export interface RenderData {
 }
 
 export interface RenderSignal {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   parameters?: string[];
   connectedTo?: string[];
@@ -53,6 +101,18 @@ export interface RenderSignal {
 }
 
 export interface RenderPayload {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   renderData: RenderData[];
@@ -68,6 +128,18 @@ export interface RenderPayload {
 }
 
 export interface BridgeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   engine: 'unity' | 'web' | 'godot';
   version: string;
   language?: string;

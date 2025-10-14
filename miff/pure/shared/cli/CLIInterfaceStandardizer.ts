@@ -10,6 +10,18 @@ import * as path from 'path';
  */
 
 export interface CLICommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   options: CLIOption[];
@@ -20,6 +32,18 @@ export interface CLICommand {
 }
 
 export interface CLIOption {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   shortName?: string;
   description: string;
@@ -31,6 +55,18 @@ export interface CLIOption {
 }
 
 export interface CLIArgument {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   type: 'string' | 'number' | 'boolean' | 'file' | 'directory';
@@ -40,6 +76,18 @@ export interface CLIArgument {
 }
 
 export interface CLIConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   moduleName: string;
   version: string;
   description: string;
@@ -53,6 +101,18 @@ export interface CLIConfig {
 }
 
 export interface CLIParseResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   command: string;
   options: Record<string, any>;
   arguments: Record<string, any>;
@@ -62,6 +122,18 @@ export interface CLIParseResult {
 }
 
 export interface CLIExecutionResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   output: any;
   errors: string[];
@@ -71,6 +143,18 @@ export interface CLIExecutionResult {
 }
 
 export interface CLIHelpInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   moduleName: string;
   version: string;
   description: string;
@@ -90,13 +174,13 @@ export interface CLIHelpInfo {
 }
 
 export class CLIInterfaceStandardizer {
-  private logger: StructuredLogger;
+  
   private errorHandler: StandardErrorHandler;
   private config: CLIConfig;
   private isInitialized: boolean = false;
 
   constructor(config: CLIConfig) {
-    this.logger = new StructuredLogger({ module: 'CLIInterfaceStandardizer' });
+    
     this.errorHandler = new StandardErrorHandler();
     this.config = config;
   }
@@ -321,6 +405,18 @@ export class CLIInterfaceStandardizer {
 
     } catch (error) {
       issues.push(`Error analyzing CLI interface: ${error.message}`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     }
 
     return {
@@ -630,7 +726,7 @@ const cliConfig = {
   retryAttempts: 3
 };
 
-async function main() {
+async function main(...args: any[]) {
   const logger = new StructuredLogger({ module: '${moduleName}CLI' });
   const errorHandler = new StandardErrorHandler();
   

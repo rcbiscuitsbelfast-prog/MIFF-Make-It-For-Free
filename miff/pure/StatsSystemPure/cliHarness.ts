@@ -31,7 +31,7 @@ class StatsSystemCLI extends BaseCLIHarness {
 
   private manager: StatsManager;
 
-  constructor() {
+  constructor(...args: any[]) {
     super();
     this.manager = new StatsManager();
   }

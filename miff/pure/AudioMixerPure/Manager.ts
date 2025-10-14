@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioMixerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMultiChannelMixing: boolean;
   enableAudioEffects: boolean;
   enableRealTimeProcessing: boolean;
@@ -34,6 +46,18 @@ export interface AudioMixerConfig {
 }
 
 export interface AudioMixer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MixerType;
@@ -51,6 +75,18 @@ export interface AudioMixer {
 }
 
 export interface AudioChannel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ChannelType;
@@ -66,6 +102,18 @@ export interface AudioChannel {
 }
 
 export interface AudioEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EffectType;
@@ -77,6 +125,18 @@ export interface AudioEffect {
 }
 
 export interface AudioBus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BusType;
@@ -88,6 +148,18 @@ export interface AudioBus {
 }
 
 export interface AudioRouting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   inputs: RoutingNode[];
   outputs: RoutingNode[];
   connections: RoutingConnection[];
@@ -95,6 +167,18 @@ export interface AudioRouting {
 }
 
 export interface ChannelInput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   source: string;
   gain: number; // 0 to 1
   phase: boolean;
@@ -103,6 +187,18 @@ export interface ChannelInput {
 }
 
 export interface ChannelOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   destination: string;
   gain: number; // 0 to 1
   phase: boolean;
@@ -111,10 +207,34 @@ export interface ChannelOutput {
 }
 
 export interface EffectParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   [key: string]: any;
 }
 
 export interface RoutingNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: NodeType;
@@ -122,6 +242,18 @@ export interface RoutingNode {
 }
 
 export interface RoutingConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   source: string;
   destination: string;
@@ -130,12 +262,36 @@ export interface RoutingConnection {
 }
 
 export interface RoutingMatrix {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: number;
   connections: boolean[][];
   gains: number[][];
 }
 
 export interface MixerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpuUsage: number; // 0 to 1
   memoryUsage: number; // bytes
   latency: number; // milliseconds
@@ -144,6 +300,18 @@ export interface MixerPerformance {
 }
 
 export interface MixerAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMixers: number;
   activeMixers: number;
   totalChannels: number;
@@ -165,7 +333,7 @@ export type BusStatus = 'active' | 'inactive' | 'muted' | 'error';
 export type NodeType = 'input' | 'output' | 'channel' | 'bus' | 'effect';
 
 export class AudioMixerManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -175,7 +343,7 @@ export class AudioMixerManager {
   private startTime: Date;
 
   constructor(config?: Partial<AudioMixerConfig>) {
-    this.logger = new StructuredLogger({ module: 'AudioMixerManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

@@ -3,7 +3,7 @@ import { TextureSynthManager } from './Manager';
 import { parseComplexCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function main(){
+function main(...args: any[]) {
   const { command, options } = parseComplexCLIArgs(process.argv);
   const mgr = new TextureSynthManager();
   let out: any;

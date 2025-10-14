@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface MockImplementation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   filePath: string;
@@ -20,6 +32,18 @@ export interface MockImplementation {
 }
 
 export interface RuntimeFidelityResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   module: string;
   totalMocks: number;
   replacedMocks: number;
@@ -30,6 +54,18 @@ export interface RuntimeFidelityResult {
 }
 
 export interface TransportLayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'websocket' | 'http' | 'tcp' | 'udp' | 'ipc';
@@ -44,6 +80,18 @@ export interface TransportLayer {
 }
 
 export interface LifecycleHook {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   hook: 'onInit' | 'onStart' | 'onUpdate' | 'onDestroy' | 'onError';
@@ -53,6 +101,18 @@ export interface LifecycleHook {
 }
 
 export interface FidelityStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalModules: number;
   modulesWithMocks: number;
   totalMocks: number;
@@ -64,15 +124,15 @@ export interface FidelityStats {
 }
 
 export class RuntimeFidelityManager {
-  private logger: StructuredLogger;
+  
   private mockImplementations: Map<string, MockImplementation> = new Map();
   private transportLayers: Map<string, TransportLayer> = new Map();
   private lifecycleHooks: Map<string, LifecycleHook> = new Map();
   private results: Map<string, RuntimeFidelityResult> = new Map();
   private stats: FidelityStats;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RuntimeFidelityManager' });
+  constructor(...args: any[]) {
+    
     this.stats = this.initializeStats();
   }
 

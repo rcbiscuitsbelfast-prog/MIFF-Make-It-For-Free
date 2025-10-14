@@ -19,6 +19,18 @@ export type PetType = 'fire' | 'water' | 'earth' | 'air' | 'light' | 'dark' | 'n
 export type EggType = 'basic' | 'premium' | 'golden' | 'diamond' | 'cosmic';
 
 export interface PetStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: number;
   attack: number;
   defense: number;
@@ -28,6 +40,18 @@ export interface PetStats {
 }
 
 export interface Pet {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   species: string;
@@ -50,6 +74,18 @@ export interface Pet {
 }
 
 export interface Egg {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EggType;
   species: string;
@@ -63,6 +99,18 @@ export interface Egg {
 }
 
 export interface TradeOffer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   petId: string;
   ownerId: string;
@@ -75,6 +123,18 @@ export interface TradeOffer {
 }
 
 export interface CollectionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalPets: number;
   uniqueSpecies: number;
   averageRarity: number;

@@ -12,6 +12,18 @@
  */
 
 export interface NeuralNetworkConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableNeuralNetworkManagement: boolean;
   enableModelCreation: boolean;
   enableTrainingPipeline: boolean;
@@ -29,6 +41,18 @@ export interface NeuralNetworkConfig {
 }
 
 export interface NeuralNetworkManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: NeuralNetworkManagerType;
@@ -52,6 +76,18 @@ export type NeuralNetworkManagerType = 'research' | 'production' | 'education' |
 export type NeuralNetworkManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface NeuralNetworkModel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ModelType;
@@ -67,6 +103,18 @@ export type ModelType = 'feedforward' | 'cnn' | 'rnn' | 'lstm' | 'transformer' |
 export type ModelStatus = 'draft' | 'training' | 'trained' | 'deployed' | 'archived' | 'error';
 
 export interface ModelArchitecture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   layers: Layer[];
   connections: Connection[];
   activations: ActivationFunction[];
@@ -75,6 +123,18 @@ export interface ModelArchitecture {
 }
 
 export interface Layer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: LayerType;
   name: string;
@@ -87,6 +147,18 @@ export interface Layer {
 export type LayerType = 'dense' | 'conv2d' | 'conv3d' | 'lstm' | 'gru' | 'attention' | 'dropout' | 'batch_norm' | 'custom';
 
 export interface LayerParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   units: number;
   filters: number;
   kernelSize: number[];
@@ -99,6 +171,18 @@ export interface LayerParameters {
 }
 
 export interface Connection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   from: string;
   to: string;
   type: ConnectionType;
@@ -109,6 +193,18 @@ export interface Connection {
 export type ConnectionType = 'dense' | 'conv' | 'recurrent' | 'attention' | 'residual' | 'custom';
 
 export interface ActivationFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: ActivationType;
   parameters: Record<string, any>;
@@ -117,6 +213,18 @@ export interface ActivationFunction {
 export type ActivationType = 'relu' | 'sigmoid' | 'tanh' | 'softmax' | 'leaky_relu' | 'elu' | 'swish' | 'custom';
 
 export interface RegularizationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   l1: number;
   l2: number;
   dropout: number;
@@ -125,6 +233,18 @@ export interface RegularizationSettings {
 }
 
 export interface EarlyStoppingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   patience: number;
   minDelta: number;
@@ -133,6 +253,18 @@ export interface EarlyStoppingSettings {
 }
 
 export interface OptimizationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   optimizer: OptimizerSettings;
   learningRate: LearningRateSettings;
   momentum: number;
@@ -141,6 +273,18 @@ export interface OptimizationSettings {
 }
 
 export interface OptimizerSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: OptimizerType;
   parameters: Record<string, any>;
 }
@@ -148,6 +292,18 @@ export interface OptimizerSettings {
 export type OptimizerType = 'adam' | 'sgd' | 'rmsprop' | 'adagrad' | 'adamw' | 'custom';
 
 export interface LearningRateSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   initial: number;
   schedule: LearningRateSchedule;
   decay: number;
@@ -155,6 +311,18 @@ export interface LearningRateSettings {
 }
 
 export interface LearningRateSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ScheduleType;
   parameters: Record<string, any>;
 }
@@ -162,6 +330,18 @@ export interface LearningRateSchedule {
 export type ScheduleType = 'constant' | 'exponential' | 'cosine' | 'step' | 'custom';
 
 export interface GradientClippingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   method: ClippingMethod;
   value: number;
@@ -170,6 +350,18 @@ export interface GradientClippingSettings {
 export type ClippingMethod = 'norm' | 'value' | 'custom';
 
 export interface ModelParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   trainable: number;
   nonTrainable: number;
@@ -178,6 +370,18 @@ export interface ModelParameters {
 }
 
 export interface TrainingConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   epochs: number;
   batchSize: number;
   validationSplit: number;
@@ -188,6 +392,18 @@ export interface TrainingConfiguration {
 }
 
 export interface Callback {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CallbackType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -196,6 +412,18 @@ export interface Callback {
 export type CallbackType = 'early_stopping' | 'model_checkpoint' | 'reduce_lr' | 'tensorboard' | 'custom';
 
 export interface LossFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: LossType;
   parameters: Record<string, any>;
   weight: number;
@@ -204,6 +432,18 @@ export interface LossFunction {
 export type LossType = 'mse' | 'mae' | 'categorical_crossentropy' | 'binary_crossentropy' | 'sparse_categorical_crossentropy' | 'custom';
 
 export interface ModelPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accuracy: number;
   precision: number;
   recall: number;
@@ -216,6 +456,18 @@ export interface ModelPerformance {
 }
 
 export interface Dataset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DatasetType;
@@ -231,6 +483,18 @@ export type DatasetType = 'image' | 'text' | 'audio' | 'tabular' | 'time_series'
 export type DatasetStatus = 'raw' | 'processed' | 'ready' | 'error';
 
 export interface DataSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   path: string;
   format: string;
@@ -241,12 +505,36 @@ export interface DataSource {
 export type SourceType = 'file' | 'database' | 'api' | 'stream' | 'custom';
 
 export interface PreprocessingPipeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   steps: PreprocessingStep[];
   order: number[];
   parameters: Record<string, any>;
 }
 
 export interface PreprocessingStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: PreprocessingType;
   parameters: Record<string, any>;
@@ -256,6 +544,18 @@ export interface PreprocessingStep {
 export type PreprocessingType = 'normalize' | 'standardize' | 'resize' | 'augment' | 'encode' | 'filter' | 'custom';
 
 export interface DataSplit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   train: number;
   validation: number;
   test: number;
@@ -263,6 +563,18 @@ export interface DataSplit {
 }
 
 export interface DatasetStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   samples: number;
   features: number;
   classes: number;
@@ -271,12 +583,36 @@ export interface DatasetStatistics {
 }
 
 export interface ClassDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   class: string;
   count: number;
   percentage: number;
 }
 
 export interface FeatureStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   feature: string;
   mean: number;
   std: number;
@@ -286,6 +622,18 @@ export interface FeatureStatistics {
 }
 
 export interface TrainingJob {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   modelId: string;
@@ -300,6 +648,18 @@ export interface TrainingJob {
 export type TrainingJobStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 
 export interface TrainingProgress {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   epoch: number;
   totalEpochs: number;
   batch: number;
@@ -312,6 +672,18 @@ export interface TrainingProgress {
 }
 
 export interface TrainingResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   finalLoss: number;
   finalAccuracy: number;
   bestLoss: number;
@@ -322,6 +694,18 @@ export interface TrainingResults {
 }
 
 export interface Experiment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -336,6 +720,18 @@ export interface Experiment {
 export type ExperimentStatus = 'draft' | 'running' | 'completed' | 'failed' | 'archived';
 
 export interface ExperimentConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   objective: string;
   metrics: string[];
   parameters: HyperparameterSpace;
@@ -344,11 +740,35 @@ export interface ExperimentConfiguration {
 }
 
 export interface HyperparameterSpace {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   parameters: Hyperparameter[];
   constraints: Constraint[];
 }
 
 export interface Hyperparameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: HyperparameterType;
   range: ValueRange;
@@ -359,12 +779,36 @@ export type HyperparameterType = 'int' | 'float' | 'categorical' | 'boolean' | '
 export type DistributionType = 'uniform' | 'normal' | 'log_uniform' | 'log_normal' | 'custom';
 
 export interface ValueRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   step: number;
 }
 
 export interface Constraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   parameters: string[];
   condition: string;
@@ -373,12 +817,36 @@ export interface Constraint {
 export type ConstraintType = 'sum' | 'product' | 'ratio' | 'custom';
 
 export interface ExperimentResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bestTrial: Trial;
   trials: Trial[];
   statistics: ExperimentStatistics;
 }
 
 export interface Trial {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   parameters: Record<string, any>;
   results: Record<string, number>;
@@ -389,6 +857,18 @@ export interface Trial {
 export type TrialStatus = 'pending' | 'running' | 'completed' | 'failed' | 'pruned';
 
 export interface ExperimentStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTrials: number;
   completedTrials: number;
   bestScore: number;
@@ -398,6 +878,18 @@ export interface ExperimentStatistics {
 }
 
 export interface NeuralNetworkPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalModels: number;
   activeModels: number;
   totalDatasets: number;
@@ -411,6 +903,18 @@ export interface NeuralNetworkPerformanceMetrics {
 }
 
 export interface NeuralNetworkAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalModels: number;
   totalTrainingJobs: number;
   averageTrainingTime: number;
@@ -420,6 +924,18 @@ export interface NeuralNetworkAnalytics {
 }
 
 export interface ModelTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ModelType;
   count: number;
   percentage: number;
@@ -427,6 +943,18 @@ export interface ModelTypeDistribution {
 }
 
 export interface DatasetTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DatasetType;
   count: number;
   percentage: number;
@@ -434,6 +962,18 @@ export interface DatasetTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   models: number;
   trainingJobs: number;
@@ -444,6 +984,18 @@ export interface PerformanceTrend {
 }
 
 export interface NeuralNetworkReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -455,6 +1007,18 @@ export interface NeuralNetworkReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -464,6 +1028,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -472,6 +1048,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -480,6 +1068,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -487,6 +1087,18 @@ export interface Version {
 }
 
 export interface NeuralNetworkOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

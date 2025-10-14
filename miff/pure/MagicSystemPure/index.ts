@@ -15,6 +15,18 @@ type RNGPure = any;
 
 // Core interfaces and types
 export interface SpellElement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   color: string;
   description: string;
@@ -24,6 +36,18 @@ export interface SpellElement {
 }
 
 export interface SpellEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'damage' | 'heal' | 'buff' | 'debuff' | 'summon' | 'teleport' | 'shield' | 'curse' | 'bless';
   magnitude: number;
   duration?: number; // For effects with duration
@@ -35,6 +59,18 @@ export interface SpellEffect {
 }
 
 export interface SpellDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -57,6 +93,18 @@ export interface SpellDefinition {
 }
 
 export interface ManaPool {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   current: number;
   maximum: number;
   regenerationRate: number; // Mana per second
@@ -66,6 +114,18 @@ export interface ManaPool {
 }
 
 export interface SpellInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   definition: SpellDefinition;
   casterId: string;
   currentCooldown: number;
@@ -77,6 +137,18 @@ export interface SpellInstance {
 }
 
 export interface MagicCombatResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   spellInstance: SpellInstance;
   targets: string[];
   effectsApplied: SpellEffect[];
@@ -90,6 +162,18 @@ export interface MagicCombatResult {
 }
 
 export interface SpellSchool {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   color: string;
@@ -104,7 +188,7 @@ export interface SpellSchool {
 }
 
 export class MagicSystemPure {
-  private logger: StructuredLogger;
+  
   private spellDefinitions: Map<string, SpellDefinition> = new Map();
   private spellInstances: Map<string, Map<string, SpellInstance>> = new Map(); // casterId -> spellId -> instance
   private manaPools: Map<string, ManaPool> = new Map(); // entityId -> mana pool
@@ -121,7 +205,7 @@ export class MagicSystemPure {
     combatSystem: CombatPure,
     rng: RNGPure
   ) {
-    this.logger = new StructuredLogger({ module: 'MagicSystemPure' });
+    
     this.eventBus = eventBus;
     this.healthSystem = healthSystem;
     this.combatSystem = combatSystem;

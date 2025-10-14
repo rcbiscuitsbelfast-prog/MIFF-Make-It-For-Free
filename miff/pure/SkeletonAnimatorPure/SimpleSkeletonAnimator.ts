@@ -6,12 +6,36 @@
  */
 
 export interface Vec3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Quaternion {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -19,12 +43,36 @@ export interface Quaternion {
 }
 
 export interface Transform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vec3;
   rotation: Quaternion;
   scale: Vec3;
 }
 
 export interface RigNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'head' | 'neck' | 'torso' | 'limb' | 'joint';
@@ -35,6 +83,18 @@ export interface RigNode {
 }
 
 export interface RigConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -138,7 +198,7 @@ export class SimpleRigBuilder {
 export class SimpleSkeletonAnimator {
   private rigBuilder: SimpleRigBuilder;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rigBuilder = new SimpleRigBuilder();
   }
 
@@ -168,7 +228,7 @@ export class SimpleSkeletonAnimator {
 }
 
 // CLI Harness
-export function createCLI() {
+export function createCLI(...args: any[]) {
   return {
     async executeCommand(command: string, args: string[]): Promise<string> {
       const animator = new SimpleSkeletonAnimator();

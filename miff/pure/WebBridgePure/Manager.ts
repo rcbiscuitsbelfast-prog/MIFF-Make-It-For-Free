@@ -10,6 +10,18 @@
  */
 
 export interface WebBridgeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableBridgeManagement: boolean;
   enableBridgeCreation: boolean;
   enableAPIIntegration: boolean;
@@ -26,6 +38,18 @@ export interface WebBridgeConfig {
 }
 
 export interface WebBridgeManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WebBridgeManagerType;
@@ -49,6 +73,18 @@ export type WebBridgeManagerType = 'rest' | 'graphql' | 'websocket' | 'custom';
 export type WebBridgeManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface WebBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BridgeType;
@@ -65,6 +101,18 @@ export type BridgeType = 'http' | 'https' | 'websocket' | 'custom';
 export type BridgeStatus = 'active' | 'inactive' | 'error';
 
 export interface BridgeConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   host: string;
   port: number;
   protocol: Protocol;
@@ -77,6 +125,18 @@ export interface BridgeConfiguration {
 export type Protocol = 'http' | 'https' | 'ws' | 'wss' | 'custom';
 
 export interface SSLConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   cert: string;
   key: string;
@@ -85,6 +145,18 @@ export interface SSLConfig {
 }
 
 export interface AuthConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AuthType;
   credentials: Credentials;
   token: string;
@@ -94,6 +166,18 @@ export interface AuthConfig {
 export type AuthType = 'none' | 'basic' | 'bearer' | 'oauth' | 'custom';
 
 export interface Credentials {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   username: string;
   password: string;
   apiKey: string;
@@ -101,6 +185,18 @@ export interface Credentials {
 }
 
 export interface BridgePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRequests: number;
   successfulRequests: number;
   failedRequests: number;
@@ -109,6 +205,18 @@ export interface BridgePerformance {
 }
 
 export interface BridgeConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ConnectionType;
@@ -123,6 +231,18 @@ export type ConnectionType = 'persistent' | 'temporary' | 'pooled' | 'custom';
 export type ConnectionStatus = 'connected' | 'disconnected' | 'connecting' | 'error';
 
 export interface ConnectionConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   keepAlive: boolean;
   maxConnections: number;
   idleTimeout: number;
@@ -130,6 +250,18 @@ export interface ConnectionConfiguration {
 }
 
 export interface ConnectionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalConnections: number;
   activeConnections: number;
   averageResponseTime: number;
@@ -137,6 +269,18 @@ export interface ConnectionPerformance {
 }
 
 export interface BridgeAPI {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: APIType;
@@ -152,6 +296,18 @@ export type APIType = 'rest' | 'graphql' | 'rpc' | 'custom';
 export type APIStatus = 'active' | 'inactive' | 'deprecated' | 'error';
 
 export interface APIConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   basePath: string;
   methods: HTTPMethod[];
@@ -162,6 +318,18 @@ export interface APIConfiguration {
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'custom';
 
 export interface RateLimitConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   requests: number;
   window: number;
@@ -169,6 +337,18 @@ export interface RateLimitConfig {
 }
 
 export interface APIPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRequests: number;
   successfulRequests: number;
   failedRequests: number;
@@ -177,6 +357,18 @@ export interface APIPerformance {
 }
 
 export interface BridgeEndpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EndpointType;
@@ -194,6 +386,18 @@ export type EndpointType = 'rest' | 'graphql' | 'websocket' | 'custom';
 export type EndpointStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface EndpointConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   method: HTTPMethod;
   parameters: Parameter[];
@@ -203,6 +407,18 @@ export interface EndpointConfiguration {
 }
 
 export interface Parameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: ParameterType;
   required: boolean;
@@ -213,6 +429,18 @@ export interface Parameter {
 export type ParameterType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'custom';
 
 export interface Response {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: number;
   type: ResponseType;
   description: string;
@@ -222,6 +450,18 @@ export interface Response {
 export type ResponseType = 'success' | 'error' | 'custom';
 
 export interface Schema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SchemaType;
   properties: SchemaProperty[];
   required: string[];
@@ -230,6 +470,18 @@ export interface Schema {
 export type SchemaType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'custom';
 
 export interface SchemaProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: PropertyType;
   description: string;
@@ -239,6 +491,18 @@ export interface SchemaProperty {
 export type PropertyType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 'custom';
 
 export interface EndpointPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRequests: number;
   successfulRequests: number;
   failedRequests: number;
@@ -247,6 +511,18 @@ export interface EndpointPerformance {
 }
 
 export interface WebBridgePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalBridges: number;
   activeBridges: number;
   totalConnections: number;
@@ -261,6 +537,18 @@ export interface WebBridgePerformanceMetrics {
 }
 
 export interface WebBridgeAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalBridges: number;
   totalConnections: number;
   averageResponseTime: number;
@@ -270,6 +558,18 @@ export interface WebBridgeAnalytics {
 }
 
 export interface BridgeTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: BridgeType;
   count: number;
   percentage: number;
@@ -277,6 +577,18 @@ export interface BridgeTypeDistribution {
 }
 
 export interface APITypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: APIType;
   count: number;
   percentage: number;
@@ -284,6 +596,18 @@ export interface APITypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   bridges: number;
   connections: number;
@@ -294,6 +618,18 @@ export interface PerformanceTrend {
 }
 
 export interface WebBridgeReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -305,6 +641,18 @@ export interface WebBridgeReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -314,6 +662,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -322,6 +682,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -330,6 +702,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -337,6 +721,18 @@ export interface Version {
 }
 
 export interface WebBridgeOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

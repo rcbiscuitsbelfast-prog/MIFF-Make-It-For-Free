@@ -7,6 +7,18 @@
 
 
 export interface AIBehaviorTree {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   root: BehaviorNode;
@@ -15,6 +27,18 @@ export interface AIBehaviorTree {
 }
 
 export interface BehaviorNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'sequence' | 'selector' | 'parallel' | 'condition' | 'action' | 'decorator';
   name: string;
   children?: BehaviorNode[];
@@ -26,6 +50,18 @@ export interface BehaviorNode {
 }
 
 export interface AIMemory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   experiences: AIExperience[];
   patterns: Map<string, number>;
   preferences: Map<string, number>;
@@ -33,6 +69,18 @@ export interface AIMemory {
 }
 
 export interface AIExperience {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   context: any;
   action: string;
@@ -42,6 +90,18 @@ export interface AIExperience {
 }
 
 export interface NeuralNetwork {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   layers: number[];
   weights: number[][][];
   biases: number[][];
@@ -55,7 +115,7 @@ export class AdvancedAI {
   private learningRate: number = 0.1;
   private explorationRate: number = 0.3;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultBehaviorTrees();
     this.initializeDefaultNeuralNetworks();
   }

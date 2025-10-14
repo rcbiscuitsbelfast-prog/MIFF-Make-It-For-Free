@@ -10,6 +10,18 @@
  */
 
 export interface MiffAttributionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAttributionManagement: boolean;
   enableAttributionTracking: boolean;
   enableLicenseCompliance: boolean;
@@ -26,6 +38,18 @@ export interface MiffAttributionConfig {
 }
 
 export interface MiffAttributionManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MiffAttributionManagerType;
@@ -49,6 +73,18 @@ export type MiffAttributionManagerType = 'software' | 'content' | 'patent' | 'cu
 export type MiffAttributionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Attribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AttributionType;
@@ -65,6 +101,18 @@ export type AttributionType = 'copyright' | 'license' | 'patent' | 'trademark' |
 export type AttributionStatus = 'active' | 'inactive' | 'expired' | 'violated';
 
 export interface AttributionSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   url: string;
   version: string;
@@ -74,6 +122,18 @@ export interface AttributionSource {
 }
 
 export interface ContactInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   email: string;
   website: string;
   address: string;
@@ -81,6 +141,18 @@ export interface ContactInfo {
 }
 
 export interface AttributionRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RequirementType;
   description: string;
@@ -93,6 +165,18 @@ export type RequirementType = 'notice' | 'license' | 'source' | 'custom';
 export type RequirementFormat = 'text' | 'html' | 'markdown' | 'custom';
 
 export interface AttributionCompliance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: ComplianceStatus;
   score: number;
   violations: ComplianceViolation[];
@@ -104,6 +188,18 @@ export interface AttributionCompliance {
 export type ComplianceStatus = 'compliant' | 'non_compliant' | 'warning' | 'error';
 
 export interface ComplianceViolation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ViolationType;
   severity: ViolationSeverity;
@@ -117,6 +213,18 @@ export type ViolationType = 'missing' | 'incorrect' | 'incomplete' | 'custom';
 export type ViolationSeverity = 'low' | 'medium' | 'high' | 'critical' | 'custom';
 
 export interface Evidence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EvidenceType;
   source: string;
   data: any;
@@ -127,6 +235,18 @@ export interface Evidence {
 export type EvidenceType = 'file' | 'url' | 'text' | 'image' | 'custom';
 
 export interface ViolationResolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   description: string;
   actions: ResolutionAction[];
   timeline: ResolutionTimeline;
@@ -135,6 +255,18 @@ export interface ViolationResolution {
 }
 
 export interface ResolutionAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   description: string;
   completed: boolean;
@@ -145,12 +277,36 @@ export interface ResolutionAction {
 export type ActionType = 'add' | 'modify' | 'remove' | 'verify' | 'custom';
 
 export interface ResolutionTimeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   milestones: Milestone[];
 }
 
 export interface Milestone {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   date: number;
   status: MilestoneStatus;
@@ -160,6 +316,18 @@ export interface Milestone {
 export type MilestoneStatus = 'pending' | 'in_progress' | 'completed' | 'blocked' | 'custom';
 
 export interface ComplianceHistory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   status: ComplianceStatus;
   score: number;
@@ -168,6 +336,18 @@ export interface ComplianceHistory {
 }
 
 export interface AttributionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChecks: number;
   successfulChecks: number;
   failedChecks: number;
@@ -176,6 +356,18 @@ export interface AttributionPerformance {
 }
 
 export interface License {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LicenseType;
@@ -194,6 +386,18 @@ export type LicenseType = 'mit' | 'apache' | 'gpl' | 'bsd' | 'custom';
 export type LicenseStatus = 'active' | 'deprecated' | 'superseded' | 'custom';
 
 export interface LicenseProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   copyleft: boolean;
   commercial: boolean;
   modification: boolean;
@@ -203,6 +407,18 @@ export interface LicenseProperties {
 }
 
 export interface LicenseRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RequirementType;
   description: string;
@@ -212,12 +428,36 @@ export interface LicenseRequirement {
 }
 
 export interface LicensePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalUses: number;
   averageComplianceScore: number;
   lastUsed: number;
 }
 
 export interface ComplianceRecord {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   attributionId: string;
   licenseId: string;
@@ -231,6 +471,18 @@ export interface ComplianceRecord {
 }
 
 export interface CompliancePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChecks: number;
   successRate: number;
   averageCheckTime: number;
@@ -238,6 +490,18 @@ export interface CompliancePerformance {
 }
 
 export interface AttributionValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ValidatorType;
@@ -252,6 +516,18 @@ export type ValidatorType = 'syntax' | 'semantic' | 'compliance' | 'custom';
 export type ValidatorStatus = 'active' | 'inactive' | 'error';
 
 export interface ValidatorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strict: boolean;
   timeout: number;
@@ -259,6 +535,18 @@ export interface ValidatorConfiguration {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -270,6 +558,18 @@ export interface ValidationRule {
 export type RuleType = 'required' | 'format' | 'pattern' | 'custom';
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -279,6 +579,18 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'contains' | 'matches' | 'custom';
 
 export interface ValidatorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   successRate: number;
   averageValidationTime: number;
@@ -286,6 +598,18 @@ export interface ValidatorPerformance {
 }
 
 export interface MiffAttributionPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAttributions: number;
   activeAttributions: number;
   totalLicenses: number;
@@ -299,6 +623,18 @@ export interface MiffAttributionPerformanceMetrics {
 }
 
 export interface MiffAttributionAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAttributions: number;
   totalLicenses: number;
   averageComplianceScore: number;
@@ -308,6 +644,18 @@ export interface MiffAttributionAnalytics {
 }
 
 export interface AttributionTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AttributionType;
   count: number;
   percentage: number;
@@ -315,6 +663,18 @@ export interface AttributionTypeDistribution {
 }
 
 export interface LicenseTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: LicenseType;
   count: number;
   percentage: number;
@@ -322,6 +682,18 @@ export interface LicenseTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   attributions: number;
   licenses: number;
@@ -332,6 +704,18 @@ export interface PerformanceTrend {
 }
 
 export interface MiffAttributionReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -343,6 +727,18 @@ export interface MiffAttributionReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -352,6 +748,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -360,6 +768,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -368,6 +788,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -375,6 +807,18 @@ export interface Version {
 }
 
 export interface MiffAttributionOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -40,6 +40,18 @@ export enum ButtonState {
 }
 
 export interface ButtonStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   variant: ButtonVariant;
   size: ButtonSize;
   state: ButtonState;
@@ -72,6 +84,18 @@ export interface ButtonStyle {
 }
 
 export interface ButtonTheme {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   baseStyles: Record<ButtonVariant, Partial<ButtonStyle>>;
@@ -86,12 +110,12 @@ export interface ButtonTheme {
 }
 
 export class ButtonStyleManager {
-  private logger: StructuredLogger;
+  
   private themes: Map<string, ButtonTheme> = new Map();
   private currentTheme: string = 'default';
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'ButtonStyleManager' });
+  constructor(...args: any[]) {
+    
     this.initializeDefaultThemes();
   }
 

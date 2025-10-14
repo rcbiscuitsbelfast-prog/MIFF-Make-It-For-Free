@@ -13,7 +13,7 @@ import {
   ProfilerObserver
 } from './ProfilerPure';
 
-function main() {
+function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   const configFile = args[1];

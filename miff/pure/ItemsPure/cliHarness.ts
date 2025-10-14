@@ -33,7 +33,7 @@ class CLISpiritInstance extends Spirit implements ISpiritInstance {
   private fainted: boolean;
 
   constructor(id: string, name: string, maxHP: number = 100, currentHP?: number, syncLevel?: number) {
-    this.logger = new StructuredLogger({ module: 'class' });
+    
     this.id = id;
     this.name = name;
     this.maxHP = maxHP;
@@ -67,7 +67,7 @@ class ItemsPureCLI {
   private spirits: Map<string, MockSpiritInstance>;
   private items: Item[];
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

@@ -31,7 +31,7 @@ function parseFlags(args: string[]): Record<string, any> {
   return flags;
 }
 
-function showHelp() {
+function showHelp(...args: any[]) {
   console.info(`
 🎮 MIFF CLI - SplashScreen Commands
 
@@ -61,7 +61,7 @@ For more information, visit: https://rcbiscuitsbelfast-prog.github.io/renderworl
   `);
 }
 
-async function handlePreview() {
+async function handlePreview(...args: any[]) {
   const splashEnabled = !flags['no-splash'];
   const duration = flags['splash-duration'] || 3000;
   const theme = flags['splash-theme'] || 'dark';
@@ -103,7 +103,7 @@ async function handlePreview() {
   };
 }
 
-async function handleExportWeb() {
+async function handleExportWeb(...args: any[]) {
   const splashEnabled = !flags['no-splash'];
   const duration = flags['splash-duration'] || 3000;
   const output = flags['output'] || flags['o'] || './dist';
@@ -151,7 +151,7 @@ async function handleExportWeb() {
   };
 }
 
-async function handleBuildUnity() {
+async function handleBuildUnity(...args: any[]) {
   const splashEnabled = !flags['no-splash'];
   const duration = flags['splash-duration'] || 3000;
   const unityVersion = flags['unity-version'] || '2021.3';
@@ -195,7 +195,7 @@ async function handleBuildUnity() {
   };
 }
 
-async function main() {
+async function main(...args: any[]) {
   if (!command || command === 'help' || command === '--help' || command === '-h') {
     showHelp();
     return;

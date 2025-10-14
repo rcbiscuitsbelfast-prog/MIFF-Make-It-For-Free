@@ -12,6 +12,18 @@
  */
 
 export interface DrivingSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableVehiclePhysics: boolean;
   enableAIDriving: boolean;
   enableTrafficSimulation: boolean;
@@ -29,6 +41,18 @@ export interface DrivingSystemConfig {
 }
 
 export interface DrivingSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DrivingSystemManagerType;
@@ -52,6 +76,18 @@ export type DrivingSystemManagerType = 'simulation' | 'game' | 'training' | 'cus
 export type DrivingSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Vehicle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: VehicleType;
@@ -69,12 +105,36 @@ export type VehicleType = 'car' | 'truck' | 'motorcycle' | 'bus' | 'emergency' |
 export type VehicleStatus = 'idle' | 'driving' | 'parked' | 'crashed' | 'maintenance';
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Quaternion {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -82,6 +142,18 @@ export interface Quaternion {
 }
 
 export interface VehiclePhysics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mass: number;
   drag: number;
   angularDrag: number;
@@ -94,6 +166,18 @@ export interface VehiclePhysics {
 }
 
 export interface SuspensionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   spring: number;
   damper: number;
   restLength: number;
@@ -101,6 +185,18 @@ export interface SuspensionSettings {
 }
 
 export interface WheelSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   radius: number;
   width: number;
@@ -111,6 +207,18 @@ export interface WheelSettings {
 }
 
 export interface VehicleAI {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   behavior: AIBehavior;
   target: Vector3;
@@ -124,12 +232,36 @@ export interface VehicleAI {
 export type AIBehavior = 'follow_path' | 'avoid_obstacles' | 'overtake' | 'park' | 'emergency';
 
 export interface PathPoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   speed: number;
   timestamp: number;
 }
 
 export interface Road {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RoadType;
@@ -143,6 +275,18 @@ export interface Road {
 export type RoadType = 'highway' | 'street' | 'alley' | 'bridge' | 'tunnel';
 
 export interface Lane {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   direction: LaneDirection;
   width: number;
@@ -153,6 +297,18 @@ export interface Lane {
 export type LaneDirection = 'forward' | 'backward' | 'both' | 'turn_left' | 'turn_right' | 'u_turn';
 
 export interface LaneMarking {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: MarkingType;
   position: number;
   length: number;
@@ -162,6 +318,18 @@ export interface LaneMarking {
 export type MarkingType = 'solid' | 'dashed' | 'double' | 'zigzag' | 'stop';
 
 export interface LaneRestriction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RestrictionType;
   vehicles: VehicleType[];
   time: TimeRestriction;
@@ -170,12 +338,36 @@ export interface LaneRestriction {
 export type RestrictionType = 'no_entry' | 'no_parking' | 'speed_limit' | 'weight_limit' | 'height_limit';
 
 export interface TimeRestriction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   days: number[];
 }
 
 export interface TrafficLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: Vector3;
   state: TrafficLightState;
@@ -186,6 +378,18 @@ export interface TrafficLight {
 export type TrafficLightState = 'red' | 'yellow' | 'green' | 'flashing';
 
 export interface TrafficLightTiming {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   red: number;
   yellow: number;
   green: number;
@@ -193,6 +397,18 @@ export interface TrafficLightTiming {
 }
 
 export interface TrafficSensor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: Vector3;
   range: number;
@@ -203,6 +419,18 @@ export interface TrafficSensor {
 export type SensorType = 'pressure' | 'magnetic' | 'optical' | 'acoustic';
 
 export interface TrafficSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   density: number;
   flow: number;
   congestion: number;
@@ -212,6 +440,18 @@ export interface TrafficSystem {
 }
 
 export interface TrafficIncident {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: IncidentType;
   location: Vector3;
@@ -226,6 +466,18 @@ export type IncidentType = 'accident' | 'breakdown' | 'construction' | 'weather'
 export type IncidentSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface TrafficPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   time: TimePattern;
@@ -234,6 +486,18 @@ export interface TrafficPattern {
 }
 
 export interface TimePattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   days: number[];
@@ -241,18 +505,54 @@ export interface TimePattern {
 }
 
 export interface FlowPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   direction: Vector3;
   speed: number;
   volume: number;
 }
 
 export interface DensityPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   vehicles: number;
   spacing: number;
   distribution: string;
 }
 
 export interface TrafficRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RuleType;
   condition: RuleCondition;
@@ -264,6 +564,18 @@ export interface TrafficRule {
 export type RuleType = 'speed_limit' | 'lane_change' | 'overtaking' | 'parking' | 'emergency';
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   location: Vector3;
   radius: number;
   time: TimeRestriction;
@@ -272,18 +584,54 @@ export interface RuleCondition {
 }
 
 export interface WeatherCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   intensity: number;
   visibility: number;
 }
 
 export interface TrafficCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   density: number;
   speed: number;
   flow: number;
 }
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   duration: number;
@@ -292,6 +640,18 @@ export interface RuleAction {
 export type ActionType = 'limit_speed' | 'change_lane' | 'stop' | 'yield' | 'detour';
 
 export interface AISystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithms: AIAlgorithm[];
   behaviors: AIBehavior[];
@@ -300,6 +660,18 @@ export interface AISystem {
 }
 
 export interface AIAlgorithm {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AlgorithmType;
@@ -311,6 +683,18 @@ export interface AIAlgorithm {
 export type AlgorithmType = 'pathfinding' | 'behavior' | 'prediction' | 'optimization' | 'learning';
 
 export interface LearningSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   method: LearningMethod;
   data: TrainingData[];
@@ -321,6 +705,18 @@ export interface LearningSystem {
 export type LearningMethod = 'supervised' | 'unsupervised' | 'reinforcement' | 'deep_learning';
 
 export interface TrainingData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   input: Record<string, any>;
   output: Record<string, any>;
@@ -329,6 +725,18 @@ export interface TrainingData {
 }
 
 export interface AIModel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ModelType;
@@ -341,6 +749,18 @@ export interface AIModel {
 export type ModelType = 'neural_network' | 'decision_tree' | 'svm' | 'regression' | 'custom';
 
 export interface AIPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accuracy: number;
   speed: number;
   memory: number;
@@ -349,6 +769,18 @@ export interface AIPerformance {
 }
 
 export interface DrivingSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalVehicles: number;
   activeVehicles: number;
   totalRoads: number;
@@ -362,6 +794,18 @@ export interface DrivingSystemPerformanceMetrics {
 }
 
 export interface DrivingSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTrips: number;
   averageTripTime: number;
   averageSpeed: number;
@@ -372,6 +816,18 @@ export interface DrivingSystemAnalytics {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   vehicles: number;
   speed: number;
@@ -381,6 +837,18 @@ export interface PerformanceTrend {
 }
 
 export interface DrivingSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -392,6 +860,18 @@ export interface DrivingSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -401,6 +881,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -409,6 +901,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -417,6 +921,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -424,6 +940,18 @@ export interface Version {
 }
 
 export interface DrivingSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -16,7 +16,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
   private isInitialized: boolean = false;
 
   constructor(eventBus: EventBus, dataPath: string = 'data/capabilities') {
-    this.logger = new StructuredLogger({ module: 'CapabilityRegistryManager' });
+    
     super(eventBus);
     this.dataPath = dataPath;
   }

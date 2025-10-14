@@ -17,6 +17,18 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface PlayerStateConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRealTimeSync: boolean;
   enablePersistence: boolean;
   enableValidation: boolean;
@@ -31,6 +43,18 @@ export interface PlayerStateConfig {
 }
 
 export interface PlayerState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   userId: string;
   sessionId: string;
@@ -45,6 +69,18 @@ export interface PlayerState {
 }
 
 export interface PlayerStateData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Position3D;
   rotation: Rotation3D;
   velocity: Velocity3D;
@@ -65,12 +101,36 @@ export interface PlayerStateData {
 }
 
 export interface Position3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Rotation3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -78,12 +138,36 @@ export interface Rotation3D {
 }
 
 export interface Velocity3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface PlayerStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strength: number;
   dexterity: number;
   intelligence: number;
@@ -97,6 +181,18 @@ export interface PlayerStats {
 }
 
 export interface PlayerStatus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isOnline: boolean;
   isInCombat: boolean;
   isMoving: boolean;
@@ -109,6 +205,18 @@ export interface PlayerStatus {
 }
 
 export interface InventoryItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   itemId: string;
   quantity: number;
@@ -120,12 +228,36 @@ export interface InventoryItem {
 }
 
 export interface EquipmentSlot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   slot: string;
   item: InventoryItem | null;
   isLocked: boolean;
 }
 
 export interface Enchantment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   level: number;
   type: string;
@@ -133,6 +265,18 @@ export interface Enchantment {
 }
 
 export interface QuestProgress {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   questId: string;
   status: 'not_started' | 'in_progress' | 'completed' | 'failed';
   progress: number;
@@ -143,6 +287,18 @@ export interface QuestProgress {
 }
 
 export interface QuestObjective {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   type: string;
@@ -153,6 +309,18 @@ export interface QuestObjective {
 }
 
 export interface QuestReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   itemId: string;
   quantity: number;
@@ -160,6 +328,18 @@ export interface QuestReward {
 }
 
 export interface Achievement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -172,6 +352,18 @@ export interface Achievement {
 }
 
 export interface PlayerSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   graphics: GraphicsSettings;
   audio: AudioSettings;
   controls: ControlsSettings;
@@ -180,6 +372,18 @@ export interface PlayerSettings {
 }
 
 export interface GraphicsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resolution: string;
   fullscreen: boolean;
   vsync: boolean;
@@ -192,6 +396,18 @@ export interface GraphicsSettings {
 }
 
 export interface AudioSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   masterVolume: number;
   musicVolume: number;
   sfxVolume: number;
@@ -203,6 +419,18 @@ export interface AudioSettings {
 }
 
 export interface ControlsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mouseSensitivity: number;
   invertMouse: boolean;
   keyBindings: Map<string, string>;
@@ -214,6 +442,18 @@ export interface ControlsSettings {
 }
 
 export interface UISettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   scale: number;
   opacity: number;
   showFPS: boolean;
@@ -227,6 +467,18 @@ export interface UISettings {
 }
 
 export interface GameplaySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: 'easy' | 'normal' | 'hard' | 'expert';
   autoSave: boolean;
   autoSaveInterval: number;
@@ -238,6 +490,18 @@ export interface GameplaySettings {
 }
 
 export interface PlayerStateMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   created: number;
   lastModified: number;
   lastSynced: number;
@@ -252,6 +516,18 @@ export interface PlayerStateMetadata {
 }
 
 export interface StateConflict {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   playerId: string;
   field: string;
@@ -263,6 +539,18 @@ export interface StateConflict {
 }
 
 export interface StateValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   playerId: string;
   field: string;
@@ -274,6 +562,18 @@ export interface StateValidation {
 }
 
 export interface StateSync {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   playerId: string;
   stateId: string;
@@ -287,7 +587,7 @@ export interface StateSync {
 
 export class PlayerStateManager {
   private config: PlayerStateConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private states: Map<string, PlayerState> = new Map();
   private conflicts: Map<string, StateConflict> = new Map();

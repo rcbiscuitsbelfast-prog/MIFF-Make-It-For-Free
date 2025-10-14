@@ -50,14 +50,14 @@ export type ThemeState = {
 };
 
 export class OverlinkThemes {
-  private logger: StructuredLogger;
+  
   private state: ThemeState;
   private assetRegistry = new Map<string, ThemeAsset>();
   private reducerRegistry = new Map<string, ThemeDrawReducer>();
   private audioManager: any = null; // Will be AudioManager instance
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'OverlinkThemes' });
+  constructor(...args: any[]) {
+    
     this.state = {
       activeTheme: null,
       availableThemes: new Map(),

@@ -10,6 +10,18 @@
  */
 
 export interface RenderReplayConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableReplayManagement: boolean;
   enableReplayRecording: boolean;
   enableReplayPlayback: boolean;
@@ -27,6 +39,18 @@ export interface RenderReplayConfig {
 }
 
 export interface RenderReplayManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RenderReplayManagerType;
@@ -50,6 +74,18 @@ export type RenderReplayManagerType = 'gameplay' | 'cinematic' | 'debug' | 'cust
 export type RenderReplayManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface RenderReplay {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ReplayType;
@@ -69,6 +105,18 @@ export type ReplayType = 'full' | 'partial' | 'highlight' | 'custom';
 export type ReplayStatus = 'recording' | 'processing' | 'ready' | 'playing' | 'paused' | 'error';
 
 export interface Resolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   aspectRatio: number;
@@ -76,6 +124,18 @@ export interface Resolution {
 }
 
 export interface CompressionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -86,6 +146,18 @@ export interface CompressionConfig {
 export type CompressionAlgorithm = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
 
 export interface ReplayFrame {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: number;
   frameNumber: number;
@@ -95,6 +167,18 @@ export interface ReplayFrame {
 }
 
 export interface FrameData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DataType;
   format: DataFormat;
   size: number;
@@ -106,6 +190,18 @@ export type DataType = 'image' | 'video' | 'audio' | 'custom';
 export type DataFormat = 'png' | 'jpg' | 'webp' | 'mp4' | 'webm' | 'custom';
 
 export interface FrameCompression {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: CompressionAlgorithm;
   level: number;
   originalSize: number;
@@ -114,6 +210,18 @@ export interface FrameCompression {
 }
 
 export interface FrameMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   camera: CameraInfo;
   lighting: LightingInfo;
   objects: ObjectInfo[];
@@ -121,6 +229,18 @@ export interface FrameMetadata {
 }
 
 export interface CameraInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   rotation: Vector3;
   fov: number;
@@ -129,12 +249,36 @@ export interface CameraInfo {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface LightingInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ambient: Color;
   directional: DirectionalLight[];
   point: PointLight[];
@@ -142,6 +286,18 @@ export interface LightingInfo {
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -149,6 +305,18 @@ export interface Color {
 }
 
 export interface DirectionalLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   direction: Vector3;
   color: Color;
   intensity: number;
@@ -156,6 +324,18 @@ export interface DirectionalLight {
 }
 
 export interface PointLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   color: Color;
   intensity: number;
@@ -164,6 +344,18 @@ export interface PointLight {
 }
 
 export interface SpotLight {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   direction: Vector3;
   color: Color;
@@ -174,6 +366,18 @@ export interface SpotLight {
 }
 
 export interface ObjectInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ObjectType;
@@ -187,6 +391,18 @@ export interface ObjectInfo {
 export type ObjectType = 'mesh' | 'light' | 'camera' | 'particle' | 'custom';
 
 export interface MaterialInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   shader: string;
   properties: MaterialProperty[];
@@ -194,6 +410,18 @@ export interface MaterialInfo {
 }
 
 export interface MaterialProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: PropertyType;
   value: any;
@@ -202,6 +430,18 @@ export interface MaterialProperty {
 export type PropertyType = 'float' | 'vector3' | 'color' | 'texture' | 'custom';
 
 export interface TextureInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: TextureType;
   path: string;
@@ -212,6 +452,18 @@ export interface TextureInfo {
 export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
 
 export interface PerformanceInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   drawCalls: number;
@@ -222,6 +474,18 @@ export interface PerformanceInfo {
 }
 
 export interface ReplayMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   tags: string[];
@@ -233,6 +497,18 @@ export interface ReplayMetadata {
 }
 
 export interface GameSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   graphics: GraphicsSettings;
   audio: AudioSettings;
   controls: ControlSettings;
@@ -240,6 +516,18 @@ export interface GameSettings {
 }
 
 export interface GraphicsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   quality: GraphicsQuality;
   resolution: Resolution;
   fullscreen: boolean;
@@ -255,6 +543,18 @@ export type ShadowQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 export type LightingQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface AudioSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   masterVolume: number;
   musicVolume: number;
   sfxVolume: number;
@@ -264,6 +564,18 @@ export interface AudioSettings {
 }
 
 export interface ControlSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sensitivity: number;
   invertY: boolean;
   keyBindings: KeyBinding[];
@@ -271,6 +583,18 @@ export interface ControlSettings {
 }
 
 export interface KeyBinding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   action: string;
   key: string;
   modifier: string;
@@ -278,6 +602,18 @@ export interface KeyBinding {
 }
 
 export interface GameplaySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   difficulty: DifficultyLevel;
   autoSave: boolean;
   subtitles: boolean;
@@ -288,6 +624,18 @@ export interface GameplaySettings {
 export type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'expert' | 'custom';
 
 export interface ReplayPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFrames: number;
   averageFrameTime: number;
   memoryUsage: number;
@@ -297,6 +645,18 @@ export interface ReplayPerformance {
 }
 
 export interface ReplayRecording {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   status: RecordingStatus;
@@ -309,6 +669,18 @@ export interface ReplayRecording {
 export type RecordingStatus = 'preparing' | 'recording' | 'paused' | 'stopping' | 'completed' | 'error';
 
 export interface RecordingConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameRate: number;
   resolution: Resolution;
   compression: CompressionConfig;
@@ -321,6 +693,18 @@ export type RecordingQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 export type RecordingFormat = 'mp4' | 'webm' | 'avi' | 'mov' | 'custom';
 
 export interface AudioRecordingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   sampleRate: number;
   channels: number;
@@ -331,6 +715,18 @@ export interface AudioRecordingConfig {
 export type AudioCodec = 'aac' | 'mp3' | 'opus' | 'vorbis' | 'custom';
 
 export interface RecordingPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   framesRecorded: number;
   averageFrameTime: number;
   memoryUsage: number;
@@ -339,6 +735,18 @@ export interface RecordingPerformance {
 }
 
 export interface ReplayPlayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   status: PlayerStatus;
@@ -352,6 +760,18 @@ export interface ReplayPlayer {
 export type PlayerStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'stopped' | 'error';
 
 export interface PlayerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   autoPlay: boolean;
   loop: boolean;
   speed: number;
@@ -362,6 +782,18 @@ export interface PlayerConfiguration {
 export type PlaybackQuality = 'low' | 'medium' | 'high' | 'ultra' | 'custom';
 
 export interface ControlConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   showControls: boolean;
   showTimeline: boolean;
   showFrameCounter: boolean;
@@ -370,6 +802,18 @@ export interface ControlConfiguration {
 }
 
 export interface PlayerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   framesPlayed: number;
   averageFrameTime: number;
   droppedFrames: number;
@@ -378,6 +822,18 @@ export interface PlayerPerformance {
 }
 
 export interface ReplayCompressor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CompressorType;
@@ -391,6 +847,18 @@ export type CompressorType = 'h264' | 'h265' | 'vp9' | 'av1' | 'custom';
 export type CompressorStatus = 'idle' | 'compressing' | 'error';
 
 export interface CompressorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: CompressionAlgorithm;
   level: number;
   quality: number;
@@ -400,6 +868,18 @@ export interface CompressorConfiguration {
 }
 
 export interface CompressorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCompressed: number;
   averageCompressionTime: number;
   averageCompressionRatio: number;
@@ -408,6 +888,18 @@ export interface CompressorPerformance {
 }
 
 export interface RenderReplayPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalReplays: number;
   activeReplays: number;
   totalRecordings: number;
@@ -424,6 +916,18 @@ export interface RenderReplayPerformanceMetrics {
 }
 
 export interface RenderReplayAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalReplays: number;
   totalFrames: number;
   averageFrameRate: number;
@@ -433,6 +937,18 @@ export interface RenderReplayAnalytics {
 }
 
 export interface ReplayTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ReplayType;
   count: number;
   percentage: number;
@@ -440,6 +956,18 @@ export interface ReplayTypeDistribution {
 }
 
 export interface CompressionDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: CompressionAlgorithm;
   count: number;
   percentage: number;
@@ -447,6 +975,18 @@ export interface CompressionDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   replays: number;
   frames: number;
@@ -456,6 +996,18 @@ export interface PerformanceTrend {
 }
 
 export interface RenderReplayReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -467,6 +1019,18 @@ export interface RenderReplayReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -476,6 +1040,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -484,6 +1060,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -492,6 +1080,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -499,6 +1099,18 @@ export interface Version {
 }
 
 export interface RenderReplayOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

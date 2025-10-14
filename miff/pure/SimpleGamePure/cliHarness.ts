@@ -25,13 +25,13 @@ import {
 } from './index';
 
 class SimpleGameCLI {
-  private logger: StructuredLogger;
+  
   private rl: readline.Interface;
   private currentGame: any = null;
   private gameLoop: NodeJS.Timeout | null = null;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'SimpleGameCLI' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

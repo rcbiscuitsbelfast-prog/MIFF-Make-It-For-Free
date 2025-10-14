@@ -8,6 +8,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PlayerStateOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'create' | 'apply-input' | 'simulate' | 'serialize' | 'deserialize' | 'demo' | 'dump';
   playerId?: string;
   avatarPath?: string;
@@ -19,7 +31,7 @@ interface PlayerStateOperation {
   exportFormat?: string;
 }
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

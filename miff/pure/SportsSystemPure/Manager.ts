@@ -12,6 +12,18 @@
  */
 
 export interface SportsSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSportsManagement: boolean;
   enableGameMechanics: boolean;
   enablePlayerTracking: boolean;
@@ -29,6 +41,18 @@ export interface SportsSystemConfig {
 }
 
 export interface SportsSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SportsSystemManagerType;
@@ -54,6 +78,18 @@ export type SportsSystemManagerType = 'football' | 'basketball' | 'soccer' | 'te
 export type SportsSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Sport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SportType;
@@ -70,6 +106,18 @@ export type SportType = 'team' | 'individual' | 'racing' | 'combat' | 'custom';
 export type SportStatus = 'active' | 'inactive' | 'seasonal' | 'archived';
 
 export interface SportRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: DurationSettings;
   scoring: ScoringRules;
   penalties: PenaltyRules;
@@ -79,6 +127,18 @@ export interface SportRules {
 }
 
 export interface DurationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   matchTime: number;
   periods: number;
   periodTime: number;
@@ -87,6 +147,18 @@ export interface DurationSettings {
 }
 
 export interface BreakSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: BreakType;
   duration: number;
   position: number;
@@ -95,6 +167,18 @@ export interface BreakSettings {
 export type BreakType = 'halftime' | 'quarter' | 'timeout' | 'injury' | 'custom';
 
 export interface OvertimeSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   duration: number;
   suddenDeath: boolean;
@@ -102,6 +186,18 @@ export interface OvertimeSettings {
 }
 
 export interface ScoringRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   points: PointSystem;
   goals: GoalSystem;
   time: TimeSystem;
@@ -109,6 +205,18 @@ export interface ScoringRules {
 }
 
 export interface PointSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: number;
   secondary: number;
   bonus: number;
@@ -116,18 +224,54 @@ export interface PointSystem {
 }
 
 export interface GoalSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   types: GoalType[];
   values: Record<string, number>;
   conditions: GoalCondition[];
 }
 
 export interface GoalType {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: number;
   description: string;
 }
 
 export interface GoalCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   parameters: Record<string, any>;
   required: boolean;
@@ -136,6 +280,18 @@ export interface GoalCondition {
 export type ConditionType = 'distance' | 'position' | 'time' | 'custom';
 
 export interface TimeSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   precision: number;
   format: string;
@@ -143,30 +299,90 @@ export interface TimeSystem {
 }
 
 export interface BonusSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   types: BonusType[];
   conditions: BonusCondition[];
 }
 
 export interface BonusType {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: number;
   description: string;
 }
 
 export interface BonusCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   parameters: Record<string, any>;
   required: boolean;
 }
 
 export interface PenaltyRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   types: PenaltyType[];
   durations: Record<string, number>;
   consequences: PenaltyConsequence[];
 }
 
 export interface PenaltyType {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   severity: PenaltySeverity;
   description: string;
@@ -175,6 +391,18 @@ export interface PenaltyType {
 export type PenaltySeverity = 'minor' | 'major' | 'severe' | 'ejection';
 
 export interface PenaltyConsequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConsequenceType;
   duration: number;
   description: string;
@@ -183,6 +411,18 @@ export interface PenaltyConsequence {
 export type ConsequenceType = 'timeout' | 'suspension' | 'ejection' | 'fine' | 'custom';
 
 export interface SubstitutionRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   maxSubstitutions: number;
   timing: SubstitutionTiming;
@@ -190,18 +430,54 @@ export interface SubstitutionRules {
 }
 
 export interface SubstitutionTiming {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   allowed: string[];
   restrictions: string[];
   timeouts: boolean;
 }
 
 export interface PositionRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   positions: Position[];
   requirements: PositionRequirement[];
   restrictions: PositionRestriction[];
 }
 
 export interface Position {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   abbreviation: string;
@@ -209,6 +485,18 @@ export interface Position {
 }
 
 export interface PositionRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: string;
   skills: string[];
   experience: number;
@@ -216,6 +504,18 @@ export interface PositionRequirement {
 }
 
 export interface PhysicalRequirements {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   height: HeightRange;
   weight: WeightRange;
   speed: SpeedRange;
@@ -223,36 +523,108 @@ export interface PhysicalRequirements {
 }
 
 export interface HeightRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   unit: string;
 }
 
 export interface WeightRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   unit: string;
 }
 
 export interface SpeedRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   unit: string;
 }
 
 export interface StrengthRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   unit: string;
 }
 
 export interface PositionRestriction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: string;
   rules: string[];
   limitations: string[];
 }
 
 export interface EquipmentRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: EquipmentItem[];
   optional: EquipmentItem[];
   prohibited: EquipmentItem[];
@@ -260,6 +632,18 @@ export interface EquipmentRules {
 }
 
 export interface EquipmentItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EquipmentType;
@@ -270,6 +654,18 @@ export interface EquipmentItem {
 export type EquipmentType = 'uniform' | 'protective' | 'footwear' | 'accessories' | 'custom';
 
 export interface EquipmentSpecifications {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   material: string;
   size: string;
   color: string;
@@ -278,6 +674,18 @@ export interface EquipmentSpecifications {
 }
 
 export interface SafetyEquipment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SafetyType;
   required: boolean;
   standards: string[];
@@ -287,6 +695,18 @@ export interface SafetyEquipment {
 export type SafetyType = 'helmet' | 'padding' | 'gloves' | 'eyewear' | 'custom';
 
 export interface SafetyRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   protocols: SafetyProtocol[];
   equipment: SafetyEquipment[];
   medical: MedicalRequirements;
@@ -294,6 +714,18 @@ export interface SafetyRules {
 }
 
 export interface SafetyProtocol {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -302,6 +734,18 @@ export interface SafetyProtocol {
 }
 
 export interface ProtocolStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   order: number;
@@ -309,6 +753,18 @@ export interface ProtocolStep {
 }
 
 export interface MedicalRequirements {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   physical: PhysicalExam;
   mental: MentalExam;
   drug: DrugTest;
@@ -316,6 +772,18 @@ export interface MedicalRequirements {
 }
 
 export interface PhysicalExam {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   frequency: string;
   tests: string[];
@@ -323,6 +791,18 @@ export interface PhysicalExam {
 }
 
 export interface MentalExam {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   frequency: string;
   tests: string[];
@@ -330,6 +810,18 @@ export interface MentalExam {
 }
 
 export interface DrugTest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   frequency: string;
   substances: string[];
@@ -337,36 +829,108 @@ export interface DrugTest {
 }
 
 export interface VaccinationRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   vaccines: string[];
   exemptions: string[];
 }
 
 export interface InsuranceRequirements {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   personal: PersonalInsurance;
   liability: LiabilityInsurance;
   disability: DisabilityInsurance;
 }
 
 export interface PersonalInsurance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   coverage: number;
   deductible: number;
 }
 
 export interface LiabilityInsurance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   coverage: number;
   deductible: number;
 }
 
 export interface DisabilityInsurance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   coverage: number;
   deductible: number;
 }
 
 export interface Equipment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EquipmentType;
@@ -380,6 +944,18 @@ export interface Equipment {
 export type EquipmentStatus = 'available' | 'in_use' | 'maintenance' | 'retired';
 
 export interface MaintenanceSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   lastMaintenance: number;
   nextMaintenance: number;
   interval: number;
@@ -387,6 +963,18 @@ export interface MaintenanceSchedule {
 }
 
 export interface EquipmentPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   usage: number;
   efficiency: number;
   reliability: number;
@@ -394,6 +982,18 @@ export interface EquipmentPerformance {
 }
 
 export interface Venue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: VenueType;
@@ -409,6 +1009,18 @@ export type VenueType = 'stadium' | 'arena' | 'field' | 'court' | 'track' | 'cus
 export type VenueStatus = 'available' | 'occupied' | 'maintenance' | 'closed';
 
 export interface VenueLocation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   address: string;
   city: string;
   state: string;
@@ -418,11 +1030,35 @@ export interface VenueLocation {
 }
 
 export interface Coordinates {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latitude: number;
   longitude: number;
 }
 
 export interface CapacitySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   seating: SeatingConfiguration;
   standing: StandingConfiguration;
@@ -430,24 +1066,72 @@ export interface CapacitySettings {
 }
 
 export interface SeatingConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   general: number;
   premium: number;
   accessible: number;
 }
 
 export interface StandingConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   general: number;
   premium: number;
   accessible: number;
 }
 
 export interface VipConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   boxes: number;
   suites: number;
   lounges: number;
 }
 
 export interface Facility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: FacilityType;
@@ -460,6 +1144,18 @@ export type FacilityType = 'locker_room' | 'training' | 'medical' | 'concession'
 export type FacilityStatus = 'available' | 'occupied' | 'maintenance' | 'closed';
 
 export interface VenuePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   utilization: number;
   revenue: number;
   events: number;
@@ -468,6 +1164,18 @@ export interface VenuePerformance {
 }
 
 export interface Season {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   year: number;
@@ -481,6 +1189,18 @@ export interface Season {
 export type SeasonStatus = 'upcoming' | 'active' | 'completed' | 'cancelled';
 
 export interface SeasonSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startDate: number;
   endDate: number;
   matches: string[];
@@ -488,6 +1208,18 @@ export interface SeasonSchedule {
 }
 
 export interface PlayoffSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   format: PlayoffFormat;
   teams: number;
@@ -497,6 +1229,18 @@ export interface PlayoffSchedule {
 export type PlayoffFormat = 'single_elimination' | 'double_elimination' | 'round_robin' | 'custom';
 
 export interface PlayoffRound {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   teams: number;
   matches: number;
@@ -504,6 +1248,18 @@ export interface PlayoffRound {
 }
 
 export interface Standing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   teamId: string;
   position: number;
   points: number;
@@ -516,6 +1272,18 @@ export interface Standing {
 }
 
 export interface SeasonStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMatches: number;
   totalGoals: number;
   averageAttendance: number;
@@ -525,6 +1293,18 @@ export interface SeasonStatistics {
 }
 
 export interface SportPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   popularity: number;
   participation: number;
   revenue: number;
@@ -533,6 +1313,18 @@ export interface SportPerformance {
 }
 
 export interface SportsPlayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PlayerType;
@@ -548,6 +1340,18 @@ export type PlayerType = 'professional' | 'amateur' | 'youth' | 'veteran' | 'cus
 export type PlayerStatus = 'active' | 'injured' | 'suspended' | 'retired' | 'free_agent';
 
 export interface PlayerProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   personal: PersonalInfo;
   physical: PhysicalInfo;
   contact: ContactInfo;
@@ -555,6 +1359,18 @@ export interface PlayerProfile {
 }
 
 export interface PersonalInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   firstName: string;
   lastName: string;
   dateOfBirth: number;
@@ -565,6 +1381,18 @@ export interface PersonalInfo {
 }
 
 export interface PhysicalInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: string;
   dominantHand: string;
   jerseyNumber: number;
@@ -574,6 +1402,18 @@ export interface PhysicalInfo {
 }
 
 export interface Injury {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   severity: string;
@@ -583,6 +1423,18 @@ export interface Injury {
 }
 
 export interface ContactInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   email: string;
   phone: string;
   address: string;
@@ -590,6 +1442,18 @@ export interface ContactInfo {
 }
 
 export interface SocialMedia {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   twitter: string;
   instagram: string;
   facebook: string;
@@ -597,6 +1461,18 @@ export interface SocialMedia {
 }
 
 export interface EmergencyContact {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   relationship: string;
   phone: string;
@@ -604,6 +1480,18 @@ export interface EmergencyContact {
 }
 
 export interface PlayerStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   career: CareerStats;
   season: SeasonStats;
   recent: RecentStats;
@@ -611,6 +1499,18 @@ export interface PlayerStatistics {
 }
 
 export interface CareerStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   games: number;
   goals: number;
   assists: number;
@@ -620,6 +1520,18 @@ export interface CareerStats {
 }
 
 export interface SeasonStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   games: number;
   goals: number;
   assists: number;
@@ -629,6 +1541,18 @@ export interface SeasonStats {
 }
 
 export interface RecentStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   games: number;
   goals: number;
   assists: number;
@@ -638,6 +1562,18 @@ export interface RecentStats {
 }
 
 export interface Achievement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -649,6 +1585,18 @@ export interface Achievement {
 export type AchievementType = 'individual' | 'team' | 'league' | 'custom';
 
 export interface Contract {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   teamId: string;
   startDate: number;
@@ -660,6 +1608,18 @@ export interface Contract {
 }
 
 export interface Bonus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: BonusType;
   amount: number;
   conditions: string[];
@@ -667,6 +1627,18 @@ export interface Bonus {
 }
 
 export interface ContractClause {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ClauseType;
   description: string;
   conditions: string[];
@@ -677,6 +1649,18 @@ export type ClauseType = 'performance' | 'behavior' | 'injury' | 'custom';
 export type ContractStatus = 'active' | 'expired' | 'terminated' | 'suspended';
 
 export interface PlayerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rating: number;
   form: number;
   fitness: number;
@@ -685,6 +1669,18 @@ export interface PlayerPerformance {
 }
 
 export interface SportsTeam {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TeamType;
@@ -700,6 +1696,18 @@ export type TeamType = 'professional' | 'amateur' | 'youth' | 'college' | 'custo
 export type TeamStatus = 'active' | 'inactive' | 'suspended' | 'disbanded';
 
 export interface TeamProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   founded: number;
   city: string;
   state: string;
@@ -711,12 +1719,36 @@ export interface TeamProfile {
 }
 
 export interface TeamColors {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: string;
   secondary: string;
   accent: string;
 }
 
 export interface TeamRoster {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   players: RosterPlayer[];
   coaches: Coach[];
   staff: Staff[];
@@ -725,6 +1757,18 @@ export interface TeamRoster {
 }
 
 export interface RosterPlayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerId: string;
   position: string;
   jerseyNumber: number;
@@ -735,6 +1779,18 @@ export interface RosterPlayer {
 export type RosterStatus = 'active' | 'injured' | 'suspended' | 'reserve';
 
 export interface Coach {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: CoachRole;
@@ -746,6 +1802,18 @@ export interface Coach {
 export type CoachRole = 'head' | 'assistant' | 'specialist' | 'custom';
 
 export interface Staff {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: StaffRole;
@@ -756,6 +1824,18 @@ export interface Staff {
 export type StaffRole = 'manager' | 'trainer' | 'medical' | 'custom';
 
 export interface TeamManagement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   owner: Owner;
   generalManager: GeneralManager;
   coaches: Coach[];
@@ -763,6 +1843,18 @@ export interface TeamManagement {
 }
 
 export interface Owner {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   percentage: number;
@@ -770,6 +1862,18 @@ export interface Owner {
 }
 
 export interface GeneralManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   experience: number;
@@ -777,6 +1881,18 @@ export interface GeneralManager {
 }
 
 export interface TeamPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rating: number;
   form: number;
   chemistry: number;
@@ -785,6 +1901,18 @@ export interface TeamPerformance {
 }
 
 export interface League {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LeagueType;
@@ -800,6 +1928,18 @@ export type LeagueType = 'professional' | 'amateur' | 'youth' | 'college' | 'cus
 export type LeagueStatus = 'active' | 'inactive' | 'suspended' | 'dissolved';
 
 export interface LeagueStructure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   divisions: Division[];
   conferences: Conference[];
   playoffs: PlayoffStructure;
@@ -807,6 +1947,18 @@ export interface LeagueStructure {
 }
 
 export interface Division {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   teams: string[];
@@ -814,6 +1966,18 @@ export interface Division {
 }
 
 export interface Conference {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   divisions: string[];
@@ -821,6 +1985,18 @@ export interface Conference {
 }
 
 export interface PlayoffStructure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   format: PlayoffFormat;
   teams: number;
@@ -828,12 +2004,36 @@ export interface PlayoffStructure {
 }
 
 export interface PromotionRelegation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   teams: number;
   criteria: string[];
 }
 
 export interface LeaguePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   popularity: number;
   revenue: number;
   growth: number;
@@ -841,6 +2041,18 @@ export interface LeaguePerformance {
 }
 
 export interface Tournament {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: TournamentType;
@@ -857,6 +2069,18 @@ export type TournamentType = 'knockout' | 'round_robin' | 'swiss' | 'custom';
 export type TournamentStatus = 'upcoming' | 'active' | 'completed' | 'cancelled';
 
 export interface TournamentFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TournamentType;
   participants: number;
   rounds: number;
@@ -864,6 +2088,18 @@ export interface TournamentFormat {
 }
 
 export interface TournamentSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startDate: number;
   endDate: number;
   matches: string[];
@@ -871,6 +2107,18 @@ export interface TournamentSchedule {
 }
 
 export interface Bracket {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   round: number;
@@ -879,6 +2127,18 @@ export interface Bracket {
 }
 
 export interface TournamentPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   attendance: number;
   revenue: number;
   rating: number;
@@ -886,6 +2146,18 @@ export interface TournamentPerformance {
 }
 
 export interface Match {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MatchType;
@@ -903,6 +2175,18 @@ export type MatchType = 'regular' | 'playoff' | 'friendly' | 'exhibition' | 'cus
 export type MatchStatus = 'scheduled' | 'live' | 'completed' | 'cancelled' | 'postponed';
 
 export interface MatchParticipant {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   teamId: string;
   players: string[];
   score: number;
@@ -910,6 +2194,18 @@ export interface MatchParticipant {
 }
 
 export interface TeamMatchStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   goals: number;
   assists: number;
   shots: number;
@@ -919,6 +2215,18 @@ export interface TeamMatchStats {
 }
 
 export interface MatchSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number;
   duration: number;
@@ -926,6 +2234,18 @@ export interface MatchSchedule {
 }
 
 export interface MatchScore {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   home: number;
   away: number;
   periods: PeriodScore[];
@@ -933,12 +2253,36 @@ export interface MatchScore {
 }
 
 export interface PeriodScore {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: number;
   home: number;
   away: number;
 }
 
 export interface OvertimeScore {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   home: number;
   away: number;
@@ -946,6 +2290,18 @@ export interface OvertimeScore {
 }
 
 export interface MatchStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   attendance: number;
   revenue: number;
   duration: number;
@@ -953,6 +2309,18 @@ export interface MatchStatistics {
 }
 
 export interface MatchEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EventType;
   time: number;
@@ -964,6 +2332,18 @@ export interface MatchEvent {
 export type EventType = 'goal' | 'assist' | 'card' | 'substitution' | 'custom';
 
 export interface MatchPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rating: number;
   excitement: number;
   quality: number;
@@ -971,6 +2351,18 @@ export interface MatchPerformance {
 }
 
 export interface SportsSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSports: number;
   activeSports: number;
   totalPlayers: number;
@@ -985,6 +2377,18 @@ export interface SportsSystemPerformanceMetrics {
 }
 
 export interface SportsSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSports: number;
   totalPlayers: number;
   totalTeams: number;
@@ -995,6 +2399,18 @@ export interface SportsSystemAnalytics {
 }
 
 export interface SportTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SportType;
   count: number;
   percentage: number;
@@ -1002,6 +2418,18 @@ export interface SportTypeDistribution {
 }
 
 export interface TeamTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TeamType;
   count: number;
   percentage: number;
@@ -1009,6 +2437,18 @@ export interface TeamTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   sports: number;
   players: number;
@@ -1020,6 +2460,18 @@ export interface PerformanceTrend {
 }
 
 export interface SportsSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -1031,6 +2483,18 @@ export interface SportsSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -1040,6 +2504,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -1048,6 +2524,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -1056,6 +2544,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -1063,6 +2563,18 @@ export interface Version {
 }
 
 export interface SportsSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

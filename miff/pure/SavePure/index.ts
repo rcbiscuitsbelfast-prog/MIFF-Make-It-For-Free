@@ -38,6 +38,18 @@ export type SaveVersion = typeof SUPPORTED_VERSIONS[number];
  * Save validation result
  */
 export interface SaveValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isValid: boolean;
   warnings: string[];
   errors: string[];
@@ -49,6 +61,18 @@ export interface SaveValidationResult {
  * Save migration result
  */
 export interface SaveMigrationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   snapshot: SaveSnapshot;
   warnings: string[];
   migrated: boolean;
@@ -60,6 +84,18 @@ export interface SaveMigrationResult {
  * Save/load operation result
  */
 export interface SaveOperationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   message: string;
   snapshot?: any;
@@ -72,6 +108,18 @@ export interface SaveOperationResult {
  * Game entity interface (for spirit instances)
  */
 export interface IGameEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   level: number;
@@ -86,6 +134,18 @@ export interface IGameEntity {
  * Save snapshot interface - the core save data structure
  */
 export interface ISaveSnapshot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: SaveVersion;
   playerId: string;
   zoneId: string;
@@ -109,6 +169,18 @@ export interface ISaveSnapshot {
  * Save manager interface
  */
 export interface ISaveManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   saveGame(snapshot: ISaveSnapshot, filePath: string): Promise<SaveOperationResult>;
   loadGame(filePath: string): Promise<SaveOperationResult>;
   validateSnapshot(snapshot: ISaveSnapshot): SaveValidationResult;
@@ -124,6 +196,18 @@ export interface ISaveManager {
  * Save validator interface
  */
 export interface ISaveValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   validate(snapshot: ISaveSnapshot): SaveValidationResult;
   validateField(fieldName: string, value: any): boolean;
   validateVersion(version: string): boolean;
@@ -135,6 +219,18 @@ export interface ISaveValidator {
  * Save migrator interface
  */
 export interface ISaveMigrator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   migrate(snapshot: ISaveSnapshot, targetVersion?: SaveVersion): SaveMigrationResult;
   canMigrate(fromVersion: string, toVersion: string): boolean;
   getMigrationPath(fromVersion: string, toVersion: string): string[];
@@ -146,6 +242,18 @@ export interface ISaveMigrator {
  * Compression utility interface
  */
 export interface ICompressionUtil {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   compress(data: string): Promise<Uint8Array>;
   decompress(data: Uint8Array): Promise<string>;
   compressSync(data: string): Uint8Array;
@@ -156,6 +264,18 @@ export interface ICompressionUtil {
  * Encryption utility interface
  */
 export interface IEncryptionUtil {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   encrypt(data: string, key: string): Promise<string>;
   decrypt(data: string, key: string): Promise<string>;
   generateKey(): string;

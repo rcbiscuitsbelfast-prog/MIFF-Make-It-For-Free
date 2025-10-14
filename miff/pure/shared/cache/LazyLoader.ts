@@ -8,6 +8,18 @@ import { CacheManager } from './CacheManager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ModuleInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   path: string;
   dependencies: string[];
@@ -19,6 +31,18 @@ export interface ModuleInfo {
 }
 
 export interface LoadingStrategy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   modules: string[];
   trigger: 'immediate' | 'interaction' | 'idle' | 'manual';
@@ -27,7 +51,7 @@ export interface LoadingStrategy {
 }
 
 export class LazyLoader {
-  private logger: StructuredLogger;
+  
   private cacheManager: CacheManager;
   private moduleRegistry: Map<string, ModuleInfo> = new Map();
   private loadingStrategies: LoadingStrategy[] = [];
@@ -37,7 +61,7 @@ export class LazyLoader {
   private idleCallbackId?: number;
 
   constructor(cacheManager: CacheManager) {
-    this.logger = new StructuredLogger({ module: 'LazyLoader' });
+    
     this.cacheManager = cacheManager;
     this.initializeModuleRegistry();
     this.initializeLoadingStrategies();
@@ -137,7 +161,7 @@ export class LazyLoader {
   /**
    * Get loading statistics
    */
-  getLoadingStats() {
+  getLoadingStats(...args: any[]) {
     const modules = Array.from(this.moduleRegistry.values());
     const loadedCount = this.loadedModules.size;
     const cachedCount = Array.from(this.cacheManager.getEntriesByPattern('module:')).length;

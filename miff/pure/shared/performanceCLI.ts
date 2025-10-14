@@ -12,11 +12,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class PerformanceCLI {
-  private logger: StructuredLogger;
+  
   private optimizer: PerformanceOptimizer;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'PerformanceCLI' });
+  constructor(...args: any[]) {
+    
     this.optimizer = new PerformanceOptimizer();
   }
 

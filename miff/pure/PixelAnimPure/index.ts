@@ -1,10 +1,34 @@
 export interface AnimationFrame {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	frame: number;
 	duration: number; // milliseconds
 	layer: string; // filename or data URL
 }
 
 export interface Animation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	name: string;
 	frames: AnimationFrame[];
 	loop: boolean;
@@ -12,6 +36,18 @@ export interface Animation {
 }
 
 export interface SpriteSheet {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	width: number;
 	height: number;
 	frameWidth: number;

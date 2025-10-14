@@ -38,6 +38,18 @@ export enum IntegrationStatus {
 }
 
 export interface IntegrationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: IntegrationType;
@@ -56,6 +68,18 @@ export interface IntegrationConfig {
 }
 
 export interface IntegrationHealth {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: IntegrationStatus;
   lastCheck: Date;
   uptime: number;
@@ -69,6 +93,18 @@ export interface IntegrationHealth {
 }
 
 export interface IntegrationEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   integrationId: string;
   type: string;
@@ -81,6 +117,18 @@ export interface IntegrationEvent {
 }
 
 export interface IntegrationHook {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   integrationId: string;
   event: string;
@@ -92,6 +140,18 @@ export interface IntegrationHook {
 }
 
 export interface IntegrationMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvents: number;
   successfulEvents: number;
   failedEvents: number;
@@ -104,6 +164,18 @@ export interface IntegrationMetrics {
 }
 
 export interface IntegrationManagerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   eventBus: EventBus;
   maxIntegrations: number;
   defaultTimeout: number;

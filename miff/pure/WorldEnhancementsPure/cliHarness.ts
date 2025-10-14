@@ -6,8 +6,8 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type Cmd = { op:string; [k:string]:any };
 
 class OverlaySim {
-  private logger: StructuredLogger; log:string[]=[]; fadeIn(d:number){ this.log.push(`FADE_IN ${d}`);} fadeOut(d:number){ this.log.push(`FADE_OUT ${d}`);} tint(c:string,d:number){ this.log.push(`TINT ${c} ${d}`);} flash(c:string,d:number){ this.log.push(`FLASH ${c} ${d}`);} }
-class LightingSim { preset:string='day'; setPreset(p:string){ this.preset=p; } dump(){ return {preset:this.preset}; } }
+   log:string[]=[]; fadeIn(d:number){ this.log.push(`FADE_IN ${d}`);} fadeOut(d:number){ this.log.push(`FADE_OUT ${d}`);} tint(c:string,d:number){ this.log.push(`TINT ${c} ${d}`);} flash(c:string,d:number){ this.log.push(`FLASH ${c} ${d}`);} }
+class LightingSim { preset:string='day'; setPreset(p:string){ this.preset=p; } dump(...args: any[]) { return {preset:this.preset}; } }
 class TimedSim { events:{name:string,delay:number,repeat:number}[]=[]; schedule(n:string,d:number,r:number){ this.events.push({name:n,delay:d,repeat:r}); } }
 class ZoneSim { zones:Record<string,{enter:string,exit:string}> = {}; define(id:string,enter:string,exit:string){ this.zones[id]={enter,exit}; } enter(id:string){ /* log only */ } }
 
@@ -28,7 +28,7 @@ function run(cmds:Cmd[]){
   return { log, overlay: overlay.log, lighting: lighting.dump(), timed: timed.events, zones: zone.zones };
 }
 
-function main(){
+function main(...args: any[]) {
   const path = process.argv[2]; if(!path){ console.error('Usage: cliHarness.ts <commands.json>'); process.exit(1);} 
   const cmds:Cmd[] = SafeJSONParser.parse(fs.readFileSync(path,'utf-8'));
   const out = run(cmds);

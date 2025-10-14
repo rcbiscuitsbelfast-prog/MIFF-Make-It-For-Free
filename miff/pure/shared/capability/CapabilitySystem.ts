@@ -6,6 +6,18 @@ import { StructuredLogger } from '../logging/StructuredLogger';
  */
 
 export interface Capability {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -25,6 +37,18 @@ export interface Capability {
 }
 
 export interface CapabilityMethod {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   parameters: CapabilityParameter[];
@@ -35,6 +59,18 @@ export interface CapabilityMethod {
 }
 
 export interface CapabilityParameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: string;
   required: boolean;
@@ -43,6 +79,18 @@ export interface CapabilityParameter {
 }
 
 export interface CapabilityProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: string;
   description: string;
@@ -51,6 +99,18 @@ export interface CapabilityProperty {
 }
 
 export interface CapabilityEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   payload: string;
@@ -58,6 +118,18 @@ export interface CapabilityEvent {
 }
 
 export interface CapabilityDiscovery {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   moduleId: string;
   capabilities: Capability[];
   interfaces: string[];
@@ -66,6 +138,18 @@ export interface CapabilityDiscovery {
 }
 
 export interface CapabilityRegistry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   capabilities: Map<string, Capability>;
   modules: Map<string, CapabilityDiscovery>;
   categories: Map<string, string[]>;
@@ -74,12 +158,12 @@ export interface CapabilityRegistry {
 }
 
 export class CapabilitySystem {
-  private logger: StructuredLogger;
+  
   private registry: CapabilityRegistry;
   private isInitialized: boolean = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CapabilitySystem' });
+  constructor(...args: any[]) {
+    
     this.registry = {
       capabilities: new Map(),
       modules: new Map(),

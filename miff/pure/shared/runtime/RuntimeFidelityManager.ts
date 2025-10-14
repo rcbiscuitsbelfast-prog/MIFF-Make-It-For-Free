@@ -8,6 +8,18 @@ import { EventBus } from '../../EventBusPure/index';
  */
 
 export interface RuntimeFidelityConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strictMode: boolean;
   validationTimeout: number;
@@ -18,6 +30,18 @@ export interface RuntimeFidelityConfig {
 }
 
 export interface BridgeRuntimeInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bridgeId: string;
   bridgeType: 'network' | 'unity' | 'godot' | 'unreal' | 'web';
   version: string;
@@ -35,6 +59,18 @@ export interface BridgeRuntimeInfo {
 }
 
 export interface RuntimeFidelityReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   overallHealth: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
   bridgeCount: number;
   activeBridges: number;
@@ -52,6 +88,18 @@ export interface RuntimeFidelityReport {
 }
 
 export interface StandardizedBridgeInterface {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   // Core methods that all bridges must implement
   initialize(): Promise<void>;
   destroy(): Promise<void>;
@@ -79,7 +127,7 @@ export interface StandardizedBridgeInterface {
 }
 
 export class RuntimeFidelityManager {
-  private logger: StructuredLogger;
+  
   private errorHandler: StandardErrorHandler;
   private eventBus: EventBus;
   private config: RuntimeFidelityConfig;
@@ -89,7 +137,7 @@ export class RuntimeFidelityManager {
   private healthCheckInterval: NodeJS.Timeout | null = null;
 
   constructor(config?: Partial<RuntimeFidelityConfig>) {
-    this.logger = new StructuredLogger({ module: 'RuntimeFidelityManager' });
+    
     this.errorHandler = new StandardErrorHandler();
     this.eventBus = new EventBus();
     
@@ -334,6 +382,18 @@ export class RuntimeFidelityManager {
     for (const method of requiredMethods) {
       if (typeof bridgeInterface[method as keyof StandardizedBridgeInterface] !== 'function') {
         throw new Error(`Bridge interface missing required method: ${method}`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       }
     }
   }

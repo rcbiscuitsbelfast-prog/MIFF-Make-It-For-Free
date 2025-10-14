@@ -24,6 +24,18 @@ export type DialogResult = {
 };
 
 export interface Hooks {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   onDialogChoiceMade?: (dialogId: string, choiceId: string) => void;
   onDialogComplete?: (dialogId: string) => void;
   addItem?: (itemId: string, quantity?: number) => void;

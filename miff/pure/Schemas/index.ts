@@ -18,6 +18,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
  * Validation result interface
  */
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   /** Whether validation passed */
   isValid: boolean;
   /** List of validation errors */
@@ -30,6 +42,18 @@ export interface ValidationResult {
  * Schema definition interface
  */
 export interface SchemaDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   /** Required field names */
   required?: string[];
   /** Field type definitions */
@@ -43,6 +67,18 @@ export interface SchemaDefinition {
  * Field type definition
  */
 export interface FieldDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   /** Field type */
   type: 'string' | 'number' | 'boolean' | 'object' | 'array';
   /** Whether field is required */

@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface ButtonStyleConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableStyleDefinition: boolean;
   enableThemeSupport: boolean;
   enableAnimationEffects: boolean;
@@ -33,6 +45,18 @@ export interface ButtonStyleConfig {
 }
 
 export interface ButtonStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StyleType;
@@ -49,6 +73,18 @@ export interface ButtonStyle {
 }
 
 export interface StyleDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   properties: StyleProperties;
@@ -58,6 +94,18 @@ export interface StyleDefinition {
 }
 
 export interface StyleProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   backgroundColor: string;
   textColor: string;
   borderColor: string;
@@ -75,6 +123,18 @@ export interface StyleProperties {
 }
 
 export interface StyleState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   properties: Partial<StyleProperties>;
   transitions: StyleTransition[];
@@ -82,6 +142,18 @@ export interface StyleState {
 }
 
 export interface StyleVariant {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   properties: Partial<StyleProperties>;
   conditions: StyleCondition[];
@@ -89,6 +161,18 @@ export interface StyleVariant {
 }
 
 export interface StyleTransition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   property: string;
   duration: number; // milliseconds
   easing: EasingType;
@@ -97,6 +181,18 @@ export interface StyleTransition {
 }
 
 export interface StyleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   value: any;
   operator: ComparisonOperator;
@@ -104,6 +200,18 @@ export interface StyleCondition {
 }
 
 export interface StyleTheme {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   colors: ThemeColors;
   typography: ThemeTypography;
@@ -112,6 +220,18 @@ export interface StyleTheme {
 }
 
 export interface ThemeColors {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: string;
   secondary: string;
   accent: string;
@@ -122,6 +242,18 @@ export interface ThemeColors {
 }
 
 export interface ThemeTypography {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fontFamily: string;
   fontSize: number;
   fontWeight: string;
@@ -131,6 +263,18 @@ export interface ThemeTypography {
 }
 
 export interface ThemeSpacing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   xs: number;
   sm: number;
   md: number;
@@ -140,6 +284,18 @@ export interface ThemeSpacing {
 }
 
 export interface StyleAnimation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   effects: AnimationEffect[];
   duration: number; // milliseconds
@@ -148,6 +304,18 @@ export interface StyleAnimation {
 }
 
 export interface AnimationEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: EffectType;
   properties: Record<string, any>;
@@ -157,6 +325,18 @@ export interface AnimationEffect {
 }
 
 export interface StylePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   renderTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
@@ -165,6 +345,18 @@ export interface StylePerformance {
 }
 
 export interface StyleAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalStyles: number;
   activeStyles: number;
   totalThemes: number;
@@ -174,6 +366,18 @@ export interface StyleAnalytics {
 }
 
 export interface Padding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: number;
   right: number;
   bottom: number;
@@ -181,6 +385,18 @@ export interface Padding {
 }
 
 export interface Margin {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: number;
   right: number;
   bottom: number;
@@ -197,7 +413,7 @@ export type ComparisonOperator = 'equals' | 'not-equals' | 'greater-than' | 'les
 export type EffectType = 'fade' | 'slide' | 'scale' | 'rotate' | 'bounce' | 'custom';
 
 export class ButtonStyleManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -207,7 +423,7 @@ export class ButtonStyleManager {
   private startTime: Date;
 
   constructor(config?: Partial<ButtonStyleConfig>) {
-    this.logger = new StructuredLogger({ module: 'ButtonStyleManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

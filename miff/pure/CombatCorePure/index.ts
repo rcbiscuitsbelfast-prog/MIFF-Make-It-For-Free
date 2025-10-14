@@ -54,6 +54,18 @@ export enum CombatResult {
 }
 
 export interface CombatEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   level: number;
@@ -83,6 +95,18 @@ export interface CombatEntity {
 }
 
 export interface CombatStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strength: number;      // Physical damage, carrying capacity
   dexterity: number;     // Accuracy, dodge, ranged damage
   constitution: number;  // Health, physical resistance
@@ -96,6 +120,18 @@ export interface CombatStats {
 }
 
 export interface DamageResistances {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   physical: number;      // 0-100% resistance
   magical: number;
   fire: number;
@@ -109,6 +145,18 @@ export interface DamageResistances {
 }
 
 export interface StatusEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -124,6 +172,18 @@ export interface StatusEffect {
 }
 
 export interface StatModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   stat: keyof CombatStats;
   type: 'flat' | 'percentage' | 'multiplicative';
   value: number;
@@ -132,6 +192,18 @@ export interface StatModifier {
 }
 
 export interface CombatAbility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -152,6 +224,18 @@ export interface CombatAbility {
 }
 
 export interface AbilityEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'damage' | 'heal' | 'buff' | 'debuff' | 'summon' | 'teleport' | 'shield' | 'custom';
   target: 'self' | 'single' | 'aoe' | 'all' | 'random';
   value: number;
@@ -162,6 +246,18 @@ export interface AbilityEffect {
 }
 
 export interface AbilityRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'level' | 'stat' | 'item' | 'status' | 'resource';
   requirement: string;
   value: any;
@@ -169,6 +265,18 @@ export interface AbilityRequirement {
 }
 
 export interface EquipmentSlots {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   weapon?: EquipmentItem;
   offhand?: EquipmentItem;
   helmet?: EquipmentItem;
@@ -181,6 +289,18 @@ export interface EquipmentSlots {
 }
 
 export interface EquipmentItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'weapon' | 'armor' | 'accessory';
@@ -194,6 +314,18 @@ export interface EquipmentItem {
 }
 
 export interface Enchantment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -203,6 +335,18 @@ export interface Enchantment {
 }
 
 export interface AICombatProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   aggression: number;    // 0-1 (passive to aggressive)
   caution: number;       // 0-1 (reckless to cautious)
   intelligence: number;  // 0-1 (simple to complex)
@@ -213,6 +357,18 @@ export interface AICombatProfile {
 }
 
 export interface AIBehavior {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   trigger: string;
   conditions: string[];
   actions: string[];
@@ -221,6 +377,18 @@ export interface AIBehavior {
 }
 
 export interface CombatAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   entityId: string;
   abilityId: string;
@@ -232,6 +400,18 @@ export interface CombatAction {
 }
 
 export interface DamageCalculation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   baseDamage: number;
   damageType: DamageType;
   critical: boolean;
@@ -242,6 +422,18 @@ export interface DamageCalculation {
 }
 
 export interface DamageModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'resistance' | 'vulnerability' | 'armor' | 'shield' | 'buff' | 'debuff' | 'terrain' | 'weather';
   value: number;
   source: string;
@@ -249,6 +441,18 @@ export interface DamageModifier {
 }
 
 export interface CombatEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'action' | 'damage' | 'heal' | 'status' | 'turn' | 'phase' | 'victory' | 'defeat';
   timestamp: number;
@@ -259,6 +463,18 @@ export interface CombatEvent {
 }
 
 export interface CombatScenario {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -273,6 +489,18 @@ export interface CombatScenario {
 }
 
 export interface CombatEnvironment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'arena' | 'dungeon' | 'outdoor' | 'underwater' | 'space' | 'custom';
   size: { width: number; height: number; depth?: number };
   terrain: TerrainFeature[];
@@ -283,6 +511,18 @@ export interface CombatEnvironment {
 }
 
 export interface TerrainFeature {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   position: { x: number; y: number; z?: number };
@@ -291,6 +531,18 @@ export interface TerrainFeature {
 }
 
 export interface Hazard {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'fire' | 'poison' | 'lightning' | 'ice' | 'darkness' | 'custom';
   position: { x: number; y: number; z?: number };
@@ -301,6 +553,18 @@ export interface Hazard {
 }
 
 export interface EnvironmentModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'damage' | 'healing' | 'stat_boost' | 'stat_reduction' | 'speed' | 'accuracy' | 'evasion';
   target: 'all' | 'team' | 'enemy' | 'self';
   value: number;
@@ -308,6 +572,18 @@ export interface EnvironmentModifier {
 }
 
 export interface CombatRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   allowFriendlyFire: boolean;
   allowRetreat: boolean;
   allowSurrender: boolean;
@@ -346,6 +622,18 @@ export interface CombatRules {
 }
 
 export interface VictoryCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'eliminate_all' | 'eliminate_leader' | 'capture_point' | 'time_limit' | 'score_limit' | 'custom';
   target: string;
   value: any;
@@ -353,6 +641,18 @@ export interface VictoryCondition {
 }
 
 export interface DefeatCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'all_dead' | 'leader_dead' | 'point_lost' | 'time_expired' | 'score_reached' | 'custom';
   target: string;
   value: any;
@@ -360,6 +660,18 @@ export interface DefeatCondition {
 }
 
 export interface CombatSession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   scenarioId: string;
   startTime: number;
@@ -377,6 +689,18 @@ export interface CombatSession {
 }
 
 export interface CombatStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalDamage: number;
   totalHealing: number;
   totalActions: number;
@@ -392,7 +716,7 @@ export interface CombatStatistics {
 }
 
 export class CombatEngine {
-  private logger: StructuredLogger;
+  
   private sessions: Map<string, CombatSession> = new Map();
   private entities: Map<string, CombatEntity> = new Map();
   private scenarios: Map<string, CombatScenario> = new Map();
@@ -401,8 +725,8 @@ export class CombatEngine {
   private globalRules: CombatRules;
   private performanceMetrics: CombatPerformanceMetrics;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CombatEngine' });
+  constructor(...args: any[]) {
+    
     this.globalRules = this.createDefaultRules();
     this.performanceMetrics = this.initializePerformanceMetrics();
   }
@@ -1186,6 +1510,18 @@ export class CombatCore {
 
 // Supporting interfaces and types
 export interface CombatPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   activeSessions: number;
   averageSessionTime: number;
@@ -1198,6 +1534,18 @@ export interface CombatPerformanceMetrics {
 }
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   reason?: string;
 }

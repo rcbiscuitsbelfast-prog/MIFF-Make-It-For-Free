@@ -124,6 +124,18 @@ export enum UnrealCollisionChannel {
 }
 
 export interface UnrealBridgeConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bridgeType: UnrealBridgeType;
   communicationProtocol: UnrealCommunicationProtocol;
   unrealVersion: string;
@@ -171,6 +183,18 @@ export interface UnrealBridgeConfiguration {
 }
 
 export interface UnrealActorBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -229,6 +253,18 @@ export interface UnrealActorBridge {
 }
 
 export interface UnrealTransformBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   location: { x: number; y: number; z: number };
   rotation: { pitch: number; yaw: number; roll: number };
   scale: { x: number; y: number; z: number };
@@ -249,6 +285,18 @@ export interface UnrealTransformBridge {
 }
 
 export interface UnrealComponentBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -287,6 +335,18 @@ export interface UnrealComponentBridge {
 }
 
 export interface UnrealAssetBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: UnrealDataType;
@@ -320,6 +380,18 @@ export interface UnrealAssetBridge {
 }
 
 export interface UnrealSceneBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   path: string;
@@ -360,6 +432,18 @@ export interface UnrealSceneBridge {
 }
 
 export interface UnrealSystemBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'engine_subsystem' | 'editor_subsystem' | 'game_subsystem' | 'local_player_subsystem' | 'world_subsystem';
   subsystemName: string;
@@ -375,6 +459,18 @@ export interface UnrealSystemBridge {
 }
 
 export interface UnrealServiceBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'online_service' | 'platform_service' | 'game_service' | 'editor_service' | 'custom_service';
   serviceName: string;
@@ -399,6 +495,18 @@ export interface UnrealServiceBridge {
 }
 
 export interface UnrealBlueprintBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   path: string;
@@ -418,6 +526,18 @@ export interface UnrealBlueprintBridge {
 }
 
 export interface UnrealBlueprintVariable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: UnrealDataType;
   category: string;
@@ -434,6 +554,18 @@ export interface UnrealBlueprintVariable {
 }
 
 export interface UnrealBlueprintFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   signature: string;
   returnType: UnrealDataType;
@@ -455,6 +587,18 @@ export interface UnrealBlueprintFunction {
 }
 
 export interface UnrealBlueprintFunctionParameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: UnrealDataType;
   passByReference: boolean;
@@ -464,6 +608,18 @@ export interface UnrealBlueprintFunctionParameter {
 }
 
 export interface UnrealBlueprintMacro {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   parameters: UnrealBlueprintFunctionParameter[];
   localVariables: UnrealBlueprintVariable[];
@@ -472,6 +628,18 @@ export interface UnrealBlueprintMacro {
 }
 
 export interface UnrealEventGraph {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   nodes: any[];
   variables: UnrealBlueprintVariable[];
@@ -479,12 +647,36 @@ export interface UnrealEventGraph {
 }
 
 export interface UnrealConstructionScript {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   nodes: any[];
   variables: UnrealBlueprintVariable[];
   metadata: Record<string, any>;
 }
 
 export interface UnrealLevelBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   path: string;
@@ -512,6 +704,18 @@ export interface UnrealLevelBridge {
 }
 
 export interface UnrealWorldBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   worldType: 'game' | 'editor' | 'preview' | 'inactive';
@@ -544,6 +748,18 @@ export interface UnrealWorldBridge {
 }
 
 export interface UnrealGameModeBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -575,6 +791,18 @@ export interface UnrealGameModeBridge {
 }
 
 export interface UnrealGameStateBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -599,6 +827,18 @@ export interface UnrealGameStateBridge {
 }
 
 export interface UnrealPlayerControllerBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -634,6 +874,18 @@ export interface UnrealPlayerControllerBridge {
 }
 
 export interface UnrealAIControllerBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -672,6 +924,18 @@ export interface UnrealAIControllerBridge {
 }
 
 export interface UnrealPawnBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -697,6 +961,18 @@ export interface UnrealPawnBridge {
 }
 
 export interface UnrealCharacterBridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   className: string;
@@ -751,6 +1027,18 @@ export interface UnrealCharacterBridge {
 }
 
 export interface UnrealMessage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'command' | 'query' | 'event' | 'response' | 'error' | 'heartbeat' | 'broadcast' | 'rpc' | 'property_sync';
   source: string;
@@ -768,6 +1056,18 @@ export interface UnrealMessage {
 }
 
 export interface UnrealCommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   parameters: Record<string, any>;
@@ -781,6 +1081,18 @@ export interface UnrealCommand {
 }
 
 export interface RetryPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxRetries: number;
   backoffStrategy: 'linear' | 'exponential' | 'fixed' | 'fibonacci';
   backoffInterval: number;
@@ -792,6 +1104,18 @@ export interface RetryPolicy {
 }
 
 export interface RollbackStrategy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: 'compensating_action' | 'state_restoration' | 'snapshot' | 'manual';
   compensatingActions: UnrealCommand[];
@@ -801,6 +1125,18 @@ export interface RollbackStrategy {
 }
 
 export interface UnrealQuery {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   parameters: Record<string, any>;
@@ -814,6 +1150,18 @@ export interface UnrealQuery {
 }
 
 export interface UnrealEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   source: string;
@@ -826,6 +1174,18 @@ export interface UnrealEvent {
 }
 
 export interface UnrealResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   correlationId: string;
   success: boolean;
@@ -837,6 +1197,18 @@ export interface UnrealResponse {
 }
 
 export interface UnrealError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   code: string;
   message: string;
   stackTrace?: string;
@@ -851,6 +1223,18 @@ export interface UnrealError {
 }
 
 export interface UnrealConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'local' | 'remote' | 'embedded' | 'editor' | 'runtime';
   status: 'connected' | 'disconnected' | 'connecting' | 'error' | 'reconnecting' | 'paused';
@@ -865,6 +1249,18 @@ export interface UnrealConnection {
 }
 
 export interface UnrealPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameRate: number;
   frameTime: number;
   gameThreadTime: number;
@@ -933,6 +1329,18 @@ export interface UnrealPerformanceMetrics {
 }
 
 export interface UnrealBridgeStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMessages: number;
   messagesPerSecond: number;
   averageLatency: number;
@@ -988,6 +1396,18 @@ export interface UnrealBridgeStatistics {
 }
 
 export interface UnrealTickFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   tickInterval: number;
   bTickEvenWhenPaused: boolean;
   bCanEverTick: boolean;

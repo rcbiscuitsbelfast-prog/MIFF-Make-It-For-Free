@@ -121,7 +121,7 @@ class MockSpiritInstance {
     resourcePoints: number = 20,
     syncLevel?: number
   ) {
-    this.logger = new StructuredLogger({ module: 'MockRNGProvider' });
+    
     this.id = id;
     this.name = name;
     this.typeTag = typeTag;
@@ -220,7 +220,7 @@ class AIPureCLI {
   private moves: Map<string, MoveData>;
   private rng: MockRNGProvider;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

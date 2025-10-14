@@ -1,4 +1,16 @@
 export interface PerfSample {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   dtMs: number;
   tickStartMs: number;
   tickEndMs: number;
@@ -9,6 +21,18 @@ export interface PerfSample {
 }
 
 export interface PerfSnapshot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   avgDtMs: number;
   avgTickMs: number;
   maxTickMs: number;
@@ -22,6 +46,18 @@ export interface PerfSnapshot {
 }
 
 export interface PerfMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   samples: PerfSample[];
   snapshot: PerfSnapshot;
   history: PerfSnapshot[];
@@ -30,6 +66,18 @@ export interface PerfMetrics {
 }
 
 export interface PerfAlert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'performance' | 'memory' | 'fps' | 'latency';
   severity: 'low' | 'medium' | 'high' | 'critical';
@@ -41,6 +89,18 @@ export interface PerfAlert {
 }
 
 export interface PerfTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metric: string;
   direction: 'improving' | 'stable' | 'declining';
   change: number;
@@ -49,6 +109,18 @@ export interface PerfTrend {
 }
 
 export interface PerfConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxSamples: number;
   alertThresholds: {
     fps: { warning: number; critical: number };
@@ -62,6 +134,18 @@ export interface PerfConfig {
 }
 
 export interface PerfStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSamples: number;
   totalTicks: number;
   averageFPS: number;

@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface StatConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableModifiers: boolean;
   enableDependencies: boolean;
   enableProgression: boolean;
@@ -16,6 +28,18 @@ export interface StatConfig {
 }
 
 export interface Stat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   key: string;
   base: number;
   current?: number; // Calculated value after modifiers
@@ -25,6 +49,18 @@ export interface Stat {
 }
 
 export interface StatModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   statKey: string;
   value: number;
@@ -37,6 +73,18 @@ export interface StatModifier {
 }
 
 export interface ModifierCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'stat_threshold' | 'time' | 'event' | 'combination';
   operator: 'equals' | 'greater' | 'less' | 'between';
   value: any;
@@ -44,6 +92,18 @@ export interface ModifierCondition {
 }
 
 export interface StatDependency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   dependentStat: string;
   sourceStat: string;
   formula: string; // Mathematical formula (e.g., "source * 0.5 + 10")
@@ -51,6 +111,18 @@ export interface StatDependency {
 }
 
 export interface EntityStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   stats: Stat[];
   modifiers: StatModifier[];
@@ -60,6 +132,18 @@ export interface EntityStats {
 }
 
 export interface StatProgression {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entityId: string;
   statKey: string;
   history: Array<{
@@ -81,6 +165,18 @@ export interface StatProgression {
 }
 
 export interface StatsAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEntities: number;
   totalStats: number;
   totalModifiers: number;
@@ -92,6 +188,18 @@ export interface StatsAnalytics {
 }
 
 export interface StatCalculationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   statKey: string;
   baseValue: number;
   finalValue: number;
@@ -110,6 +218,18 @@ export interface StatCalculationResult {
 }
 
 export interface StatsOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;
@@ -117,14 +237,14 @@ export interface StatsOutput {
 }
 
 export class EnhancedStatsManager {
-  private logger: StructuredLogger;
+  
   private config: StatConfig;
   private entities: Map<string, EntityStats> = new Map();
   private progressions: Map<string, StatProgression> = new Map();
   private calculationCache: Map<string, { result: any; timestamp: number }> = new Map();
 
   constructor(config?: Partial<StatConfig>) {
-    this.logger = new StructuredLogger({ module: 'EnhancedStatsManager' });
+    
     this.config = {
       enableModifiers: true,
       enableDependencies: true,

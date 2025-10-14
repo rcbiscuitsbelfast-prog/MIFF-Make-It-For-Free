@@ -11,6 +11,18 @@
  */
 
 export interface GameLogicConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableGameLogicManagement: boolean;
   enableGameStateManagement: boolean;
   enablePlayerManagement: boolean;
@@ -27,6 +39,18 @@ export interface GameLogicConfig {
 }
 
 export interface GameLogicManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: GameLogicManagerType;
@@ -51,6 +75,18 @@ export type GameLogicManagerType = 'singleplayer' | 'multiplayer' | 'coop' | 'co
 export type GameLogicManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface GameState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: GameStateType;
@@ -66,6 +102,18 @@ export type GameStateType = 'menu' | 'playing' | 'paused' | 'game_over' | 'custo
 export type GameStateStatus = 'active' | 'inactive' | 'transitioning' | 'error';
 
 export interface GameStateData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   values: Record<string, any>;
   schema: GameStateSchema;
   version: string;
@@ -74,6 +122,18 @@ export interface GameStateData {
 }
 
 export interface GameStateSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SchemaType;
   properties: Record<string, PropertyDefinition>;
   required: string[];
@@ -84,6 +144,18 @@ export interface GameStateSchema {
 export type SchemaType = 'object' | 'array' | 'primitive' | 'custom';
 
 export interface PropertyDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: DataType;
   description: string;
   format: string;
@@ -99,6 +171,18 @@ export interface PropertyDefinition {
 export type DataType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'null' | 'custom';
 
 export interface SchemaConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   field: string;
   operator: ConstraintOperator;
@@ -110,6 +194,18 @@ export type ConstraintType = 'required' | 'type' | 'format' | 'range' | 'length'
 export type ConstraintOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'not_contains' | 'custom';
 
 export interface StateTransition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   from: string;
@@ -121,6 +217,18 @@ export interface StateTransition {
 }
 
 export interface TransitionCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   expression: string;
   variables: string[];
   operator: ConditionOperator;
@@ -130,6 +238,18 @@ export interface TransitionCondition {
 export type ConditionOperator = 'and' | 'or' | 'not' | 'equals' | 'custom';
 
 export interface TransitionAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   async: boolean;
@@ -139,6 +259,18 @@ export interface TransitionAction {
 export type ActionType = 'transform' | 'validate' | 'notify' | 'persist' | 'custom';
 
 export interface TransitionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalExecutions: number;
   successRate: number;
   averageExecutionTime: number;
@@ -146,6 +278,18 @@ export interface TransitionPerformance {
 }
 
 export interface GameStatePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accessCount: number;
   averageAccessTime: number;
   memoryUsage: number;
@@ -153,6 +297,18 @@ export interface GameStatePerformance {
 }
 
 export interface Player {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   status: PlayerStatus;
@@ -168,6 +324,18 @@ export interface Player {
 export type PlayerStatus = 'online' | 'offline' | 'away' | 'banned';
 
 export interface PlayerProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   displayName: string;
   avatar: string;
   level: number;
@@ -179,6 +347,18 @@ export interface PlayerProfile {
 }
 
 export interface PlayerPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: string;
   theme: string;
   notifications: NotificationSettings;
@@ -186,6 +366,18 @@ export interface PlayerPreferences {
 }
 
 export interface NotificationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   types: NotificationType[];
   frequency: NotificationFrequency;
@@ -195,6 +387,18 @@ export type NotificationType = 'achievement' | 'level_up' | 'message' | 'custom'
 export type NotificationFrequency = 'immediate' | 'daily' | 'weekly' | 'never';
 
 export interface PrivacySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   profileVisibility: VisibilityLevel;
   statsVisibility: VisibilityLevel;
   friendRequests: boolean;
@@ -203,6 +407,18 @@ export interface PrivacySettings {
 export type VisibilityLevel = 'public' | 'friends' | 'private';
 
 export interface PlayerStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   health: number;
   maxHealth: number;
   mana: number;
@@ -216,6 +432,18 @@ export interface PlayerStats {
 }
 
 export interface PlayerInventory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   items: InventoryItem[];
   maxSlots: number;
   usedSlots: number;
@@ -224,6 +452,18 @@ export interface PlayerInventory {
 }
 
 export interface InventoryItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   item: Item;
   quantity: number;
@@ -232,6 +472,18 @@ export interface InventoryItem {
 }
 
 export interface Item {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ItemType;
@@ -248,6 +500,18 @@ export type ItemType = 'weapon' | 'armor' | 'consumable' | 'material' | 'custom'
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface ItemEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EffectType;
   value: number;
   duration: number;
@@ -256,6 +520,18 @@ export interface ItemEffect {
 export type EffectType = 'damage' | 'healing' | 'buff' | 'debuff' | 'custom';
 
 export interface Achievement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -271,6 +547,18 @@ export type AchievementType = 'combat' | 'exploration' | 'social' | 'custom';
 export type AchievementStatus = 'locked' | 'in_progress' | 'completed';
 
 export interface AchievementReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RewardType;
   item: Item | null;
   gold: number;
@@ -281,6 +569,18 @@ export interface AchievementReward {
 export type RewardType = 'item' | 'gold' | 'experience' | 'title' | 'custom';
 
 export interface PlayerProgression {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: number;
   experience: number;
   experienceToNext: number;
@@ -291,6 +591,18 @@ export interface PlayerProgression {
 }
 
 export interface Quest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -306,6 +618,18 @@ export type QuestType = 'main' | 'side' | 'daily' | 'weekly' | 'custom';
 export type QuestStatus = 'available' | 'active' | 'completed' | 'failed';
 
 export interface QuestObjective {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   type: ObjectiveType;
@@ -319,6 +643,18 @@ export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'explore' | 'custom
 export type ObjectiveStatus = 'incomplete' | 'complete';
 
 export interface QuestReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RewardType;
   item: Item | null;
   gold: number;
@@ -327,6 +663,18 @@ export interface QuestReward {
 }
 
 export interface PlayerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playTime: number;
   sessions: number;
   averageSessionTime: number;
@@ -337,6 +685,18 @@ export interface PlayerPerformance {
 }
 
 export interface GameMechanic {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MechanicType;
@@ -351,6 +711,18 @@ export type MechanicType = 'combat' | 'movement' | 'inventory' | 'crafting' | 'c
 export type MechanicStatus = 'active' | 'inactive' | 'error';
 
 export interface MechanicConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   parameters: Record<string, any>;
   limits: MechanicLimits;
@@ -358,18 +730,54 @@ export interface MechanicConfiguration {
 }
 
 export interface MechanicLimits {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxUses: number;
   timeLimit: number;
   resourceCost: number;
 }
 
 export interface CooldownConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   duration: number;
   global: boolean;
 }
 
 export interface MechanicPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalUses: number;
   successRate: number;
   averageExecutionTime: number;
@@ -377,6 +785,18 @@ export interface MechanicPerformance {
 }
 
 export interface GameRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -392,6 +812,18 @@ export type RuleType = 'validation' | 'transformation' | 'enforcement' | 'custom
 export type RuleStatus = 'active' | 'inactive' | 'error';
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -402,6 +834,18 @@ export interface RuleCondition {
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   message: string;
@@ -411,6 +855,18 @@ export interface RuleAction {
 export type ActionSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface RulePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalExecutions: number;
   successRate: number;
   averageExecutionTime: number;
@@ -418,6 +874,18 @@ export interface RulePerformance {
 }
 
 export interface GameEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EventType;
@@ -433,12 +901,36 @@ export type EventType = 'player_action' | 'system_event' | 'game_state_change' |
 export type EventStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export interface EventData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   payload: any;
   context: EventContext;
 }
 
 export interface EventContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   player: string | null;
   gameState: string | null;
   location: string | null;
@@ -446,6 +938,18 @@ export interface EventContext {
 }
 
 export interface EventSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SourceType;
   id: string;
   name: string;
@@ -454,12 +958,36 @@ export interface EventSource {
 export type SourceType = 'player' | 'system' | 'external' | 'custom';
 
 export interface EventPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   processingTime: number;
   memoryUsage: number;
   lastProcessed: number;
 }
 
 export interface GameLogicPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalGameStates: number;
   activeGameStates: number;
   totalPlayers: number;
@@ -477,6 +1005,18 @@ export interface GameLogicPerformanceMetrics {
 }
 
 export interface GameLogicAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalGameStates: number;
   totalPlayers: number;
   totalEvents: number;
@@ -486,6 +1026,18 @@ export interface GameLogicAnalytics {
 }
 
 export interface GameStateTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: GameStateType;
   count: number;
   percentage: number;
@@ -493,6 +1045,18 @@ export interface GameStateTypeDistribution {
 }
 
 export interface PlayerStatusDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: PlayerStatus;
   count: number;
   percentage: number;
@@ -500,6 +1064,18 @@ export interface PlayerStatusDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   gameStates: number;
   players: number;
@@ -510,6 +1086,18 @@ export interface PerformanceTrend {
 }
 
 export interface GameLogicReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -521,6 +1109,18 @@ export interface GameLogicReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -530,6 +1130,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -538,6 +1150,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -546,6 +1170,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -553,6 +1189,18 @@ export interface Version {
 }
 
 export interface GameLogicOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

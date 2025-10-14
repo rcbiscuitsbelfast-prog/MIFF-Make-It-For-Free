@@ -106,6 +106,18 @@ export enum UnrealAssetType {
 }
 
 export interface PayloadConversionConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: PayloadConversionMode;
   targetEngineVersion: string;
   targetPlatform: string;
@@ -156,6 +168,18 @@ export interface PayloadConversionConfiguration {
 }
 
 export interface UnrealPayloadConversionResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   conversionId: string;
   conversionTime: number;
@@ -170,6 +194,18 @@ export interface UnrealPayloadConversionResult {
 }
 
 export interface UnrealMeshConversionOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetPlatform: string;
   enableCollision: boolean;
   collisionComplexity: 'simple' | 'complex' | 'detailed';
@@ -199,6 +235,18 @@ export interface UnrealMeshConversionOptions {
 }
 
 export interface UnrealMaterialConversionOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetPlatform: string;
   materialDomain: 'surface' | 'deferred_decal' | 'light_function' | 'volume' | 'post_process' | 'ui';
   blendMode: 'opaque' | 'masked' | 'translucent' | 'additive' | 'modulate' | 'alpha_composite';
@@ -233,6 +281,18 @@ export interface UnrealMaterialConversionOptions {
 }
 
 export interface UnrealAnimationConversionOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetPlatform: string;
   animationType: 'skeletal' | 'vertex' | 'rigid' | 'morph' | 'cloth' | 'hair';
   compression: 'none' | 'keyframe' | 'curve' | 'bitwise' | 'adaptive';
@@ -256,6 +316,18 @@ export interface UnrealAnimationConversionOptions {
 }
 
 export interface UnrealAudioConversionOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetPlatform: string;
   audioFormat: 'wav' | 'ogg' | 'mp3' | 'flac' | 'opus' | 'bink' | 'adpcm';
   quality: 'low' | 'medium' | 'high' | 'master';
@@ -282,6 +354,18 @@ export interface UnrealAudioConversionOptions {
 }
 
 export interface UnrealTextureConversionOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetPlatform: string;
   textureType: '2d' | 'cube' | 'volume' | 'array' | 'multisample' | 'render_target';
   compressionFormat: 'auto' | 'dxt1' | 'dxt3' | 'dxt5' | 'bc4' | 'bc5' | 'bc6h' | 'bc7' | 'etc1' | 'etc2' | 'astc' | 'pvrtc' | 'atc' | '3dc';
@@ -305,13 +389,13 @@ export interface UnrealTextureConversionOptions {
 }
 
 export class UnrealPayloadAdapterPure {
-  private logger: StructuredLogger;
+  
   private renderPayloadManager: RenderPayloadManager;
   private bridgeManager: UnrealBridgeManager;
   private conversionConfigurations: Map<string, PayloadConversionConfiguration> = new Map();
 
   constructor(renderPayloadManager: RenderPayloadManager, bridgeManager: UnrealBridgeManager) {
-    this.logger = new StructuredLogger({ module: 'UnrealPayloadAdapterPure' });
+    
     this.renderPayloadManager = renderPayloadManager;
     this.bridgeManager = bridgeManager;
     this.initializeDefaultConfigurations();

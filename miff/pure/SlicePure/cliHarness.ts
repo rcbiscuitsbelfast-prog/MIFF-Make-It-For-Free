@@ -24,7 +24,7 @@ import {
 
 // CLI Application
 class SlicePureCLI {
-  private logger: StructuredLogger;
+  
   private rl: readline.Interface;
   private currentState: PlayerState;
   private encounterController: IEncounterController;
@@ -37,8 +37,8 @@ class SlicePureCLI {
   private stepCount: number = 0;
   private encounterCount: number = 0;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'SlicePureCLI' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

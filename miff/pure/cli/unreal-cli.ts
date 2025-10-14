@@ -18,6 +18,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface UnrealCLIOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'connect' | 'disconnect' | 'test' | 'demo' | 'status' | 'config' | 'export' | 'import' | 'simulate' | 'build' | 'validate';
   module: string;
   data?: Record<string, unknown>;
@@ -29,7 +41,7 @@ interface UnrealCLIOperation {
   outputFile?: string;
 }
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
     console.error('Usage: tsx unreal-cli.ts <op> <module> [options...]');

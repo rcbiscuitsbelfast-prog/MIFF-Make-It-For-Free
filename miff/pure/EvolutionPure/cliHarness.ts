@@ -17,14 +17,14 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  * CLI Harness for EvolutionPure
  */
 export class EvolutionPureCLI {
-  private logger: StructuredLogger;
+  
   private evolutionManager: EvolutionManager;
   private rl: readline.Interface;
   private isRunning: boolean = false;
   private mockContext: IPlayerContext;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'EvolutionPureCLI' });
+  constructor(...args: any[]) {
+    
     this.mockContext = EvolutionUtils.createMockPlayerContext();
     this.evolutionManager = EvolutionManager.create(this.mockContext);
     this.rl = readline.createInterface({

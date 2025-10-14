@@ -63,6 +63,18 @@ export enum AssetBundleType {
 }
 
 export interface AssetManagerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   loadingStrategy: AssetLoadingStrategy;
   cachingStrategy: AssetCachingStrategy;
   optimizationLevel: AssetOptimizationLevel;
@@ -114,6 +126,18 @@ export interface AssetManagerConfiguration {
 }
 
 export interface AssetBundle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AssetBundleType;
@@ -136,6 +160,18 @@ export interface AssetBundle {
 }
 
 export interface AssetLoadingRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   assetId: string;
   priority: number;
@@ -152,6 +188,18 @@ export interface AssetLoadingRequest {
 }
 
 export interface AssetLoadingResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   requestId: string;
   success: boolean;
@@ -165,6 +213,18 @@ export interface AssetLoadingResponse {
 }
 
 export interface AssetStreamingRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   assetId: string;
   qualityLevel: 'low' | 'medium' | 'high' | 'ultra';
@@ -181,6 +241,18 @@ export interface AssetStreamingRequest {
 }
 
 export interface AssetStreamingResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   requestId: string;
   success: boolean;
@@ -197,6 +269,18 @@ export interface AssetStreamingResponse {
 }
 
 export interface AssetCacheEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   asset: UnrealAssetBridge;
   size: number;
@@ -212,6 +296,18 @@ export interface AssetCacheEntry {
 }
 
 export interface AssetOptimizationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   assetId: string;
   optimizationTime: number;
@@ -225,6 +321,18 @@ export interface AssetOptimizationResult {
 }
 
 export interface AssetManagerStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAssets: number;
   loadedAssets: number;
   loadingAssets: number;
@@ -259,6 +367,18 @@ export interface AssetManagerStatistics {
 }
 
 export interface AssetManagerMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpuTime: number;
   gpuTime: number;
   memory: number;
@@ -279,7 +399,7 @@ export interface AssetManagerMetrics {
 }
 
 export class UnrealAssetManagerPure {
-  private logger: StructuredLogger;
+  
   private bridgeManager: UnrealBridgeManager;
   private renderPayloadManager: RenderPayloadManager;
   private configuration: AssetManagerConfiguration;
@@ -297,7 +417,7 @@ export class UnrealAssetManagerPure {
     renderPayloadManager: RenderPayloadManager,
     configuration: AssetManagerConfiguration
   ) {
-    this.logger = new StructuredLogger({ module: 'UnrealAssetManagerPure' });
+    
     this.bridgeManager = bridgeManager;
     this.renderPayloadManager = renderPayloadManager;
     this.configuration = configuration;

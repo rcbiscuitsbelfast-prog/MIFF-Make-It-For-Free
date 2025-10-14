@@ -9,6 +9,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // Removed unused import of InputSystemPure
 
 export interface InputGesture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'tap' | 'double_tap' | 'long_press' | 'swipe' | 'pinch' | 'rotate' | 'custom';
@@ -19,6 +31,18 @@ export interface InputGesture {
 }
 
 export interface GesturePattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'sequence' | 'simultaneous' | 'timed' | 'custom';
   inputs: InputSequence[];
   timeWindow?: number;
@@ -26,6 +50,18 @@ export interface GesturePattern {
 }
 
 export interface InputSequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'key' | 'mouse' | 'touch' | 'gamepad' | 'custom';
   value: any;
   duration?: number;
@@ -35,6 +71,18 @@ export interface InputSequence {
 }
 
 export interface GestureThreshold {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minDistance?: number;
   maxDistance?: number;
   minDuration?: number;
@@ -45,6 +93,18 @@ export interface GestureThreshold {
 }
 
 export interface GestureData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gesture: InputGesture;
   inputs: InputData[];
   startTime: number;
@@ -57,6 +117,18 @@ export interface GestureData {
 }
 
 export interface InputData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'key' | 'mouse' | 'touch' | 'gamepad' | 'custom';
   value: any;
   position: { x: number; y: number };
@@ -67,6 +139,18 @@ export interface InputData {
 }
 
 export interface HapticFeedback {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'impact' | 'notification' | 'selection' | 'custom';
@@ -77,6 +161,18 @@ export interface HapticFeedback {
 }
 
 export interface HapticPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'single' | 'double' | 'triple' | 'continuous' | 'custom';
   intervals: number[];
   intensities: number[];
@@ -84,6 +180,18 @@ export interface HapticPattern {
 }
 
 export interface InputMapping {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   input: InputSequence;
@@ -95,6 +203,18 @@ export interface InputMapping {
 }
 
 export interface InputCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'key_state' | 'mouse_position' | 'touch_count' | 'gamepad_axis' | 'custom';
   value: any;
   operator: 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal';
@@ -102,6 +222,18 @@ export interface InputCondition {
 }
 
 export interface InputContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentInputs: InputData[];
   previousInputs: InputData[];
   mousePosition: { x: number; y: number };
@@ -111,6 +243,18 @@ export interface InputContext {
 }
 
 export interface GamepadState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   connected: boolean;
   buttons: boolean[];
   axes: number[];
@@ -119,6 +263,18 @@ export interface GamepadState {
 }
 
 export interface InputProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   mappings: InputMapping[];
@@ -129,6 +285,18 @@ export interface InputProfile {
 }
 
 export interface InputSensitivity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mouse: number;
   touch: number;
   gamepad: number;
@@ -136,7 +304,7 @@ export interface InputSensitivity {
 }
 
 export class AdvancedInput {
-  private logger: StructuredLogger;
+  
   private gestures: Map<string, InputGesture> = new Map();
   private hapticFeedbacks: Map<string, HapticFeedback> = new Map();
   private inputMappings: Map<string, InputMapping> = new Map();
@@ -147,8 +315,8 @@ export class AdvancedInput {
   private gestureRecognition: GestureRecognition;
   private hapticManager: HapticManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AdvancedInput' });
+  constructor(...args: any[]) {
+    
     this.gestureRecognition = new GestureRecognition(this);
     this.hapticManager = new HapticManager();
     this.initializeDefaultGestures();
@@ -737,6 +905,18 @@ class GestureRecognition {
 }
 
 interface GestureState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gestureId: string;
   startTime: number;
   inputs: InputData[];
@@ -814,6 +994,18 @@ class HapticManager {
 }
 
 interface HapticState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hapticId: string;
   startTime: number;
   currentStep: number;

@@ -17,6 +17,18 @@ export type FusionStatus = 'success' | 'incompatible_pair' | 'already_fused' | '
 export type TraitType = 'stat_boost' | 'ability_learned' | 'type_change' | 'evolution_trigger' | 'special_effect';
 
 export interface FusionTrait {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: TraitType;
   name: string;
@@ -27,6 +39,18 @@ export interface FusionTrait {
 }
 
 export interface FusionPairRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   speciesA: string;
   speciesB: string;
@@ -41,6 +65,18 @@ export interface FusionPairRule {
 }
 
 export interface PlayerContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerId: string;
   energy: number;
   level: number;
@@ -51,6 +87,18 @@ export interface PlayerContext {
 }
 
 export interface FusionResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: FusionStatus;
   message: string;
   newSpiritId?: string;
@@ -59,6 +107,18 @@ export interface FusionResult {
 }
 
 export interface FusionStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFusions: number;
   successfulFusions: number;
   failedFusions: number;
@@ -71,6 +131,18 @@ export interface FusionStats {
 }
 
 export interface FusionRulesStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRules: number;
   availablePairs: number;
   averageSuccessRate: number;

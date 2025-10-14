@@ -17,6 +17,18 @@ import * as path from 'path';
 import { StructuredLogger, LogLevel } from '../logging/StructuredLogger';
 
 export interface ModuleInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   path: string;
   description: string;
@@ -30,6 +42,18 @@ export interface ModuleInfo {
 }
 
 export interface ExportInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: 'class' | 'interface' | 'enum' | 'function' | 'type' | 'const' | 'default';
   description?: string;
@@ -37,6 +61,18 @@ export interface ExportInfo {
 }
 
 export interface InterfaceInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   properties: PropertyInfo[];
@@ -46,6 +82,18 @@ export interface InterfaceInfo {
 }
 
 export interface ClassInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   methods: MethodInfo[];
@@ -58,6 +106,18 @@ export interface ClassInfo {
 }
 
 export interface EnumInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   values: EnumValueInfo[];
@@ -65,6 +125,18 @@ export interface EnumInfo {
 }
 
 export interface FunctionInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   parameters: ParameterInfo[];
@@ -74,6 +146,18 @@ export interface FunctionInfo {
 }
 
 export interface TypeInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   definition: string;
@@ -82,6 +166,18 @@ export interface TypeInfo {
 }
 
 export interface MethodInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   parameters: ParameterInfo[];
@@ -94,6 +190,18 @@ export interface MethodInfo {
 }
 
 export interface PropertyInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   type: string;
@@ -105,6 +213,18 @@ export interface PropertyInfo {
 }
 
 export interface ParameterInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description?: string;
   type: string;
@@ -114,6 +234,18 @@ export interface ParameterInfo {
 }
 
 export interface EnumValueInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: string | number;
   description?: string;
@@ -121,6 +253,18 @@ export interface EnumValueInfo {
 }
 
 export interface DocumentationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   outputDir: string;
   includePrivate: boolean;
   includeSource: boolean;
@@ -130,7 +274,7 @@ export interface DocumentationConfig {
 }
 
 export class APIDocumentationGenerator {
-  private logger: StructuredLogger;
+  
   private config: DocumentationConfig;
   private modules: Map<string, ModuleInfo> = new Map();
 
@@ -315,8 +459,32 @@ export class APIDocumentationGenerator {
       
       // Parse interfaces
       if (line.startsWith('export interface ')) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
         const interfaceInfo = this.parseInterface(lines, i, filePath);
         if (interfaceInfo) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
           moduleInfo.interfaces.push(interfaceInfo);
         }
       }
@@ -367,6 +535,18 @@ export class APIDocumentationGenerator {
     const description = this.extractJSDocComment(lines, startIndex);
     
     const interfaceInfo: InterfaceInfo = {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       name,
       description,
       properties: [],
@@ -610,6 +790,18 @@ export class APIDocumentationGenerator {
     }
     
     for (const iface of moduleInfo.interfaces) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       if (iface.description) {
         return iface.description;
       }
@@ -724,8 +916,32 @@ export class APIDocumentationGenerator {
     
     // Interfaces
     if (moduleInfo.interfaces.length > 0) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       content += `## Interfaces\n\n`;
       for (const iface of moduleInfo.interfaces) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
         content += `### ${iface.name}\n\n`;
         if (iface.description) {
           content += `${iface.description}\n\n`;

@@ -12,6 +12,18 @@ import { PartyManager, KOHandler, PartyUtils } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLIState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   party: PartyManager;
   koHandler: KOHandler;
   selectedSlot: number;

@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'expired';
 
 export interface DynamicQuest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -27,12 +39,36 @@ export interface DynamicQuest {
 }
 
 export interface QuestPrerequisite {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'quest_completed' | 'level_required' | 'item_owned' | 'stat_threshold' | 'custom';
   value: any;
   check: (context: QuestContext) => boolean;
 }
 
 export interface DynamicQuestStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -48,18 +84,54 @@ export interface DynamicQuestStep {
 }
 
 export interface QuestStepCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'location' | 'time' | 'item' | 'stat' | 'custom';
   value: any;
   check: (context: QuestStepContext) => boolean;
 }
 
 export interface QuestStepReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'experience' | 'item' | 'currency' | 'stat' | 'custom';
   value: any;
   apply: (context: QuestStepContext) => void;
 }
 
 export interface DynamicQuestReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'experience' | 'item' | 'currency' | 'stat' | 'title' | 'unlock' | 'custom';
   value: any;
   conditions: QuestRewardCondition[];
@@ -67,30 +139,90 @@ export interface DynamicQuestReward {
 }
 
 export interface QuestRewardCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'completion_time' | 'difficulty_bonus' | 'perfect_completion' | 'custom';
   value: any;
   check: (context: QuestContext) => boolean;
 }
 
 export interface QuestCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'time_limit' | 'level_requirement' | 'item_requirement' | 'location_requirement' | 'custom';
   value: any;
   check: (context: QuestContext) => boolean;
 }
 
 export interface QuestTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'on_quest_start' | 'on_step_complete' | 'on_quest_complete' | 'on_failure' | 'custom';
   action: (context: QuestContext) => void;
   conditions?: QuestTriggerCondition[];
 }
 
 export interface QuestTriggerCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'probability' | 'time' | 'location' | 'custom';
   value: any;
   check: (context: QuestContext) => boolean;
 }
 
 export interface QuestMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   tags: string[];
   category: string;
   estimatedDuration: number;
@@ -102,6 +234,18 @@ export interface QuestMetadata {
 }
 
 export interface QuestContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   player: any;
   quest?: DynamicQuest;
   step?: DynamicQuestStep;
@@ -111,6 +255,18 @@ export interface QuestContext {
 }
 
 export interface QuestStepContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   player: any;
   quest: DynamicQuest;
   step: DynamicQuestStep;
@@ -119,6 +275,18 @@ export interface QuestStepContext {
 }
 
 export interface QuestTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   category: string;
@@ -129,6 +297,18 @@ export interface QuestTemplate {
 }
 
 export interface QuestStructure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   steps: QuestStepTemplate[];
   rewards: QuestRewardTemplate[];
   conditions: QuestConditionTemplate[];
@@ -136,6 +316,18 @@ export interface QuestStructure {
 }
 
 export interface QuestStepTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   minCount: number;
@@ -145,6 +337,18 @@ export interface QuestStepTemplate {
 }
 
 export interface QuestRewardTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   minValue: number;
@@ -153,12 +357,36 @@ export interface QuestRewardTemplate {
 }
 
 export interface QuestConditionTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   value: any;
 }
 
 export interface QuestTriggerTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   action: string;
@@ -166,30 +394,90 @@ export interface QuestTriggerTemplate {
 }
 
 export interface QuestStepConditionTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   value: any;
 }
 
 export interface QuestStepRewardTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   value: any;
 }
 
 export interface QuestRewardConditionTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   value: any;
 }
 
 export interface QuestTriggerConditionTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   weight: number;
   value: any;
 }
 
 export interface QuestVariable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: 'string' | 'number' | 'boolean' | 'array' | 'object';
   value: any;
@@ -197,6 +485,18 @@ export interface QuestVariable {
 }
 
 export interface QuestGenerator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'name' | 'description' | 'target' | 'location' | 'reward' | 'custom';
   template: string;
   variables: string[];
@@ -210,7 +510,7 @@ export class AdvancedQuests {
   private activeQuests: Set<string> = new Set();
   private questGenerators: Map<string, QuestGenerator> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultTemplates();
     this.initializeDefaultGenerators();
   }
@@ -889,6 +1189,18 @@ export class AdvancedQuests {
 }
 
 interface QuestHistoryEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   questId: string;
   playerId: string;
   status: string;

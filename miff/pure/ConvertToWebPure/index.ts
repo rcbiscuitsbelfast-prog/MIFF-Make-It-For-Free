@@ -39,6 +39,18 @@ export enum WebBuildType {
 }
 
 export interface WebProject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   projectName: string;
   version: string;
   description: string;
@@ -56,6 +68,18 @@ export interface WebProject {
 }
 
 export interface WebScene {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   htmlFile: string;
@@ -79,6 +103,18 @@ export interface WebScene {
 }
 
 export interface WebGameObject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'sprite' | 'container' | 'text' | 'graphics' | 'animated_sprite' | 'particle_emitter' | 'tilemap' | 'custom';
@@ -105,6 +141,18 @@ export interface WebGameObject {
 }
 
 export interface WebComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'renderer' | 'audio' | 'input' | 'physics' | 'animation' | 'particle' | 'custom';
   enabled: boolean;
@@ -114,6 +162,18 @@ export interface WebComponent {
 }
 
 export interface WebEventHandler {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   event: string;
   handler: string;
   priority: number;
@@ -123,6 +183,18 @@ export interface WebEventHandler {
 }
 
 export interface WebAnimation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   frames: WebAnimationFrame[];
@@ -137,6 +209,18 @@ export interface WebAnimation {
 }
 
 export interface WebAnimationFrame {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameNumber: number;
   texture: string;
   duration: number;
@@ -153,6 +237,18 @@ export interface WebAnimationFrame {
 }
 
 export interface WebSystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'rendering' | 'audio' | 'input' | 'physics' | 'animation' | 'network' | 'storage' | 'custom';
   priority: number;
@@ -163,6 +259,18 @@ export interface WebSystem {
 }
 
 export interface WebAsset {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'image' | 'audio' | 'video' | 'font' | 'json' | 'xml' | 'text' | 'binary' | 'atlas' | 'spritesheet';
@@ -178,6 +286,18 @@ export interface WebAsset {
 }
 
 export interface WebScript {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'javascript' | 'typescript';
@@ -193,6 +313,18 @@ export interface WebScript {
 }
 
 export interface WebStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'css' | 'scss' | 'sass' | 'less';
@@ -205,11 +337,35 @@ export interface WebStyle {
 }
 
 export interface WebMediaQuery {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   query: string;
   rules: Record<string, any>;
 }
 
 export interface WebSelector {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   selector: string;
   properties: Record<string, any>;
   specificity: number;
@@ -219,6 +375,18 @@ export interface WebSelector {
 }
 
 export interface WebConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   renderer: {
     type: WebRenderer;
     width: number;
@@ -315,6 +483,18 @@ export interface WebConfiguration {
 }
 
 export interface WebProjectMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   author: string;
   version: string;
   created: number;
@@ -338,6 +518,18 @@ export interface WebProjectMetadata {
 }
 
 export interface WebBuildResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   project: WebProject;
   output: {
@@ -354,6 +546,18 @@ export interface WebBuildResult {
 }
 
 export interface WebBuildStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   buildTime: number;
   fileCount: number;
   totalSize: number;
@@ -372,6 +576,18 @@ export interface WebBuildStatistics {
 }
 
 export interface WebEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'load' | 'update' | 'render' | 'input' | 'audio' | 'network' | 'error' | 'custom';
   timestamp: number;
@@ -383,7 +599,7 @@ export interface WebEvent {
 }
 
 export class WebConverter {
-  private logger: StructuredLogger;
+  
   private project: WebProject;
   private renderer: WebRenderer;
   private platform: WebPlatform;
@@ -396,7 +612,7 @@ export class WebConverter {
   private sceneMap: Map<string, WebScene> = new Map();
 
   constructor(options: ConversionOptions = {}) {
-    this.logger = new StructuredLogger({ module: 'WebConverter' });
+    
     this.options = {
       platform: WebPlatform.WEBGL,
       renderer: WebRenderer.PIXI_JS,
@@ -990,7 +1206,7 @@ export class ${scene.name.replace(/\s+/g, '')}Scene {
     this.systems = new Map();
   }
 
-  async init() {
+  async init(...args: any[]) {
     // Initialize scene
   }
 
@@ -1002,7 +1218,7 @@ export class ${scene.name.replace(/\s+/g, '')}Scene {
     // Render scene
   }
 
-  destroy() {
+  destroy(...args: any[]) {
     // Cleanup
   }
 }
@@ -1051,7 +1267,7 @@ export class ${system.type.charAt(0).toUpperCase() + system.type.slice(1)}System
     this.entities.delete(entity);
   }
 
-  destroy() {
+  destroy(...args: any[]) {
     // Cleanup
   }
 }
@@ -1353,6 +1569,18 @@ self.addEventListener('fetch', (event) => {
 
 // Supporting interfaces and types
 export interface ConversionOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   platform?: WebPlatform;
   renderer?: WebRenderer;
   audioSystem?: WebAudioSystem;
@@ -1369,6 +1597,18 @@ export interface ConversionOptions {
 }
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   valid: boolean;
   reason?: string;
 }

@@ -15,6 +15,18 @@ import { ExportIntegration } from './ExportIntegration';
 import { UIBuilder } from './UIBuilder';
 
 export interface TestResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   passed: boolean;
   error?: string;
@@ -23,6 +35,18 @@ export interface TestResult {
 }
 
 export interface TestSuite {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   tests: TestResult[];
   totalDuration: number;
@@ -33,7 +57,7 @@ export interface TestSuite {
 export class SkeletonAnimatorIntegrationTests {
   private manager: SkeletonAnimatorManager;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.manager = new SkeletonAnimatorManager();
   }
 

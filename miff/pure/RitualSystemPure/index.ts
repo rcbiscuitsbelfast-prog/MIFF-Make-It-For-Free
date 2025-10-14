@@ -14,6 +14,18 @@ type RNGPure = any;
 
 // Core interfaces and types
 export interface RitualParticipant {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: 'leader' | 'participant' | 'observer' | 'sacrifice';
@@ -28,6 +40,18 @@ export interface RitualParticipant {
 }
 
 export interface ParticipantRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'item' | 'mana' | 'skill' | 'level' | 'alignment' | 'permission';
   requirement: string; // Item ID, skill name, permission, etc.
   quantity?: number;
@@ -36,6 +60,18 @@ export interface ParticipantRequirement {
 }
 
 export interface ParticipantContribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'mana' | 'item' | 'time' | 'effort';
   value: number;
   description: string;
@@ -43,6 +79,18 @@ export interface ParticipantContribution {
 }
 
 export interface RitualStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -61,6 +109,18 @@ export interface RitualStep {
 }
 
 export interface StepRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'participants' | 'items' | 'mana' | 'time' | 'alignment' | 'environment';
   requirement: string;
   quantity?: number;
@@ -68,6 +128,18 @@ export interface StepRequirement {
 }
 
 export interface RitualEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'summon' | 'buff' | 'debuff' | 'damage' | 'heal' | 'create-item' | 'environmental' | 'status' | 'experience';
   target: 'participants' | 'area' | 'summoned' | 'global' | 'specific-entity';
   magnitude: number;
@@ -78,6 +150,18 @@ export interface RitualEffect {
 }
 
 export interface SummonedEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'creature' | 'spirit' | 'elemental' | 'construct' | 'avatar';
@@ -95,6 +179,18 @@ export interface SummonedEntity {
 }
 
 export interface RitualDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -123,6 +219,18 @@ export interface RitualDefinition {
 }
 
 export interface RitualReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'experience' | 'item' | 'knowledge' | 'ability' | 'summoned-entity' | 'permanent-buff';
   reward: string; // Item ID, ability name, etc.
   quantity?: number;
@@ -132,6 +240,18 @@ export interface RitualReward {
 }
 
 export interface RitualRisk {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'participant-damage' | 'mana-drain' | 'summoned-hostile' | 'environmental-damage' | 'permanent-debuff' | 'summon-failure';
   severity: 'minor' | 'moderate' | 'severe';
   chance: number; // 0-1 probability
@@ -140,6 +260,18 @@ export interface RitualRisk {
 }
 
 export interface RitualInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   definition: RitualDefinition;
   leaderId: string;
@@ -159,6 +291,18 @@ export interface RitualInstance {
 }
 
 export interface RitualResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   ritualId: string;
   leaderId: string;
@@ -176,6 +320,18 @@ export interface RitualResult {
 }
 
 export interface RitualConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxActiveRituals: number;
   maxParticipantsPerRitual: number;
   ritualTimeout: number; // Maximum time for a ritual
@@ -194,13 +350,25 @@ export interface RitualConfig {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export class RitualSystemPure {
-  private logger: StructuredLogger;
+  
   private ritualDefinitions: Map<string, RitualDefinition> = new Map();
   private activeRituals: Map<string, RitualInstance> = new Map();
   private completedRituals: RitualResult[] = [];
@@ -210,7 +378,7 @@ export class RitualSystemPure {
   private rng: RNGPure;
 
   constructor(eventBus: EventBus, rng: RNGPure) {
-    this.logger = new StructuredLogger({ module: 'RitualSystemPure' });
+    
     this.eventBus = eventBus;
     this.rng = rng;
     this.config = this.initializeConfig();

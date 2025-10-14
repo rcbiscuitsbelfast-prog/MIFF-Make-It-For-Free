@@ -39,7 +39,7 @@ class MockGameEntity implements IGameEntity {
     stats: Record<string, number> = {},
     statusEffects: string[] = []
   ) {
-    this.logger = new StructuredLogger({ module: 'MockGameEntity' });
+    
     this.id = id;
     this.name = name;
     this.level = level;
@@ -150,7 +150,7 @@ class SavePureCLI {
   private currentSnapshot: SaveSnapshot;
   private saveFilePath: string = './savegame.json';
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

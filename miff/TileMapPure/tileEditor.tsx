@@ -3,6 +3,18 @@ import { TileType } from './tileTypes';
 import { TileManager } from './tileManager';
 
 interface TileEditorProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   manager: TileManager;
 }
 

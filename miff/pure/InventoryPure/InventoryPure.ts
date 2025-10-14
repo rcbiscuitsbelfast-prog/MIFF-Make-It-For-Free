@@ -10,6 +10,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
  */
 
 export interface ItemDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -24,6 +36,18 @@ export interface ItemDefinition {
 }
 
 export interface ItemInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   definitionId: string;
   quantity: number;
@@ -36,6 +60,18 @@ export interface ItemInstance {
 }
 
 export interface ItemEnchantment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'damage' | 'defense' | 'utility' | 'special';
@@ -45,6 +81,18 @@ export interface ItemEnchantment {
 }
 
 export interface InventoryComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entityId: string;
   maxWeight: number;
   maxSlots: number;
@@ -55,6 +103,18 @@ export interface InventoryComponent {
 }
 
 export interface InventorySystem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   items: Map<string, ItemDefinition>;
   inventories: Map<string, InventoryComponent>;
   transactions: InventoryTransaction[];
@@ -62,6 +122,18 @@ export interface InventorySystem {
 }
 
 export interface InventoryTransaction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'add' | 'remove' | 'move' | 'equip' | 'unequip' | 'use' | 'split' | 'merge';
   entityId: string;
@@ -75,6 +147,18 @@ export interface InventoryTransaction {
 }
 
 export interface InventoryObserver {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   onItemAdded?: (transaction: InventoryTransaction) => void;
   onItemRemoved?: (transaction: InventoryTransaction) => void;
@@ -85,6 +169,18 @@ export interface InventoryObserver {
 }
 
 export interface InventoryQuery {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entityId?: string;
   itemType?: string;
   rarity?: string;
@@ -98,7 +194,7 @@ export class InventoryManager {
   private system: InventorySystem;
   private transactionIdCounter: number;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.system = {
       items: new Map(),
       inventories: new Map(),

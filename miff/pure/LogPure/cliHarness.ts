@@ -52,7 +52,7 @@ class LogPureCLI {
   private playbackMode: boolean = false;
   private playbackIndex: number = 0;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

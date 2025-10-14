@@ -12,6 +12,18 @@ import { PerfTimer, HighResPerfTimer, PerfUtils, defaultProfiler } from './index
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLITest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   fn: () => void | Promise<void>;
@@ -150,12 +162,12 @@ function createDemoTests(): CLITest[] {
       description: 'Object creation/destruction patterns',
       fn: () => {
         class TestObject {
-  private logger: StructuredLogger;
+  
           public value: number;
           public data: string;
 
           constructor(value: number) {
-    this.logger = new StructuredLogger({ module: 'TestObject' });
+    
             this.value = value;
             this.data = 'x'.repeat(100);
           }

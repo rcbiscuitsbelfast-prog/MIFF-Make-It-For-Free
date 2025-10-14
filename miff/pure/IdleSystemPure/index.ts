@@ -49,6 +49,18 @@ export type AchievementType = 'production' | 'upgrades' | 'time' | 'efficiency' 
  * Resource definition
  */
 export interface Resource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -68,6 +80,18 @@ export interface Resource {
  * Generator definition
  */
 export interface Generator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -91,6 +115,18 @@ export interface Generator {
  * Upgrade definition
  */
 export interface Upgrade {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -110,6 +146,18 @@ export interface Upgrade {
  * Upgrade effect on game mechanics
  */
 export interface UpgradeEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'multiplier' | 'unlock' | 'automation' | 'efficiency' | 'special';
   target: string;             // Target ID (generator, resource, etc.)
   value: number;              // Effect value
@@ -121,6 +169,18 @@ export interface UpgradeEffect {
  * Achievement definition
  */
 export interface Achievement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -137,6 +197,18 @@ export interface Achievement {
  * Achievement requirement
  */
 export interface AchievementRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'amount' | 'time' | 'count' | 'rate';
   target: string;             // Target ID or property
   value: number;
@@ -147,6 +219,18 @@ export interface AchievementRequirement {
  * Achievement reward
  */
 export interface AchievementReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'resource' | 'multiplier' | 'unlock' | 'special';
   target: string;
   value: number;
@@ -157,6 +241,18 @@ export interface AchievementReward {
  * Prestige configuration
  */
 export interface PrestigeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   tier: PrestigeTier;
   requirement: number;        // Required currency for prestige
   multiplier: number;         // Prestige bonus multiplier
@@ -170,6 +266,18 @@ export interface PrestigeConfig {
  * Idle system configuration
  */
 export interface IdleSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableOfflineProgress: boolean;
   offlineProgressMultiplier: number;
   saveInterval: number;       // Seconds between auto-saves
@@ -184,6 +292,18 @@ export interface IdleSystemConfig {
  * Integration hooks for other systems
  */
 export interface IdleIntegration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   onResourceChange?: (resourceId: string, oldAmount: number, newAmount: number) => void;
   onGeneratorPurchase?: (generatorId: string, amount: number) => void;
   onUpgradePurchase?: (upgradeId: string, level: number) => void;

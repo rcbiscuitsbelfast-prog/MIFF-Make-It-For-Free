@@ -3,6 +3,18 @@ import { TileManager } from '../TileMapPure/tileManager';
 import { TileType } from '../TileMapPure/tileTypes';
 
 interface ZoneEditorProps {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   manager: TileManager;
   onSave: () => void;
 }

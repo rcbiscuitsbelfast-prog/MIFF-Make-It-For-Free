@@ -12,6 +12,18 @@
  */
 
 export interface LoggingSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableLoggingManagement: boolean;
   enableLogCollection: boolean;
   enableLogProcessing: boolean;
@@ -30,6 +42,18 @@ export interface LoggingSystemConfig {
 }
 
 export interface LoggingSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LoggingSystemManagerType;
@@ -54,6 +78,18 @@ export type LoggingSystemManagerType = 'centralized' | 'distributed' | 'hybrid' 
 export type LoggingSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Logger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LoggerType;
@@ -70,6 +106,18 @@ export type LoggerType = 'application' | 'system' | 'security' | 'audit' | 'cust
 export type LoggerStatus = 'active' | 'inactive' | 'error';
 
 export interface LoggerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: LogLevel;
   appenders: string[];
   filters: string[];
@@ -81,6 +129,18 @@ export interface LoggerConfiguration {
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
 
 export interface BufferSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   size: number;
   flushInterval: number;
@@ -90,6 +150,18 @@ export interface BufferSettings {
 export type OverflowAction = 'block' | 'drop' | 'discard' | 'custom';
 
 export interface LoggerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLogs: number;
   logsPerSecond: number;
   averageLatency: number;
@@ -98,6 +170,18 @@ export interface LoggerPerformance {
 }
 
 export interface LogAppender {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AppenderType;
@@ -113,6 +197,18 @@ export type AppenderType = 'console' | 'file' | 'database' | 'network' | 'custom
 export type AppenderStatus = 'active' | 'inactive' | 'error';
 
 export interface AppenderConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   destination: string;
   format: string;
   rotation: RotationSettings;
@@ -122,6 +218,18 @@ export interface AppenderConfiguration {
 }
 
 export interface RotationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: RotationStrategy;
   maxSize: number;
@@ -133,6 +241,18 @@ export interface RotationSettings {
 export type RotationStrategy = 'size' | 'time' | 'both' | 'custom';
 
 export interface CompressionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: CompressionAlgorithm;
   level: number;
@@ -142,6 +262,18 @@ export interface CompressionSettings {
 export type CompressionAlgorithm = 'gzip' | 'bzip2' | 'lz4' | 'zstd' | 'custom';
 
 export interface EncryptionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithm: string;
   key: string;
@@ -149,6 +281,18 @@ export interface EncryptionSettings {
 }
 
 export interface BufferingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   size: number;
   flushInterval: number;
@@ -156,6 +300,18 @@ export interface BufferingSettings {
 }
 
 export interface AppenderPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLogs: number;
   logsPerSecond: number;
   averageLatency: number;
@@ -164,6 +320,18 @@ export interface AppenderPerformance {
 }
 
 export interface LogFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: FilterType;
@@ -177,12 +345,36 @@ export type FilterType = 'level' | 'pattern' | 'regex' | 'custom';
 export type FilterStatus = 'active' | 'inactive' | 'error';
 
 export interface FilterConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   conditions: FilterCondition[];
   logic: FilterLogic;
   actions: FilterAction[];
 }
 
 export interface FilterCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -193,6 +385,18 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'contains' | 'starts_w
 export type FilterLogic = 'and' | 'or' | 'not';
 
 export interface FilterAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -201,6 +405,18 @@ export interface FilterAction {
 export type ActionType = 'accept' | 'reject' | 'modify' | 'route' | 'custom';
 
 export interface FilterPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalProcessed: number;
   accepted: number;
   rejected: number;
@@ -210,6 +426,18 @@ export interface FilterPerformance {
 }
 
 export interface LogFormatter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: FormatterType;
@@ -223,6 +451,18 @@ export type FormatterType = 'pattern' | 'json' | 'xml' | 'csv' | 'custom';
 export type FormatterStatus = 'active' | 'inactive' | 'error';
 
 export interface FormatterConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pattern: string;
   fields: FormatterField[];
   encoding: string;
@@ -231,6 +471,18 @@ export interface FormatterConfiguration {
 }
 
 export interface FormatterField {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: FieldType;
   format: string;
@@ -241,6 +493,18 @@ export interface FormatterField {
 export type FieldType = 'timestamp' | 'level' | 'logger' | 'message' | 'thread' | 'custom';
 
 export interface FormatterPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFormatted: number;
   formatsPerSecond: number;
   averageLatency: number;
@@ -249,6 +513,18 @@ export interface FormatterPerformance {
 }
 
 export interface LogDestination {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DestinationType;
@@ -262,6 +538,18 @@ export type DestinationType = 'file' | 'database' | 'elasticsearch' | 'kafka' | 
 export type DestinationStatus = 'active' | 'inactive' | 'error';
 
 export interface DestinationConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   endpoint: string;
   credentials: CredentialSettings;
   connection: ConnectionSettings;
@@ -270,6 +558,18 @@ export interface DestinationConfiguration {
 }
 
 export interface CredentialSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CredentialType;
   value: string;
   encrypted: boolean;
@@ -279,6 +579,18 @@ export interface CredentialSettings {
 export type CredentialType = 'password' | 'token' | 'key' | 'certificate' | 'custom';
 
 export interface ConnectionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timeout: number;
   keepAlive: boolean;
   poolSize: number;
@@ -286,6 +598,18 @@ export interface ConnectionSettings {
 }
 
 export interface BatchSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   size: number;
   interval: number;
@@ -293,6 +617,18 @@ export interface BatchSettings {
 }
 
 export interface RetrySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   maxAttempts: number;
   delay: number;
@@ -303,6 +639,18 @@ export interface RetrySettings {
 export type BackoffStrategy = 'fixed' | 'exponential' | 'linear' | 'custom';
 
 export interface DestinationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLogs: number;
   logsPerSecond: number;
   averageLatency: number;
@@ -311,6 +659,18 @@ export interface DestinationPerformance {
 }
 
 export interface LoggingSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLoggers: number;
   activeLoggers: number;
   totalAppenders: number;
@@ -327,6 +687,18 @@ export interface LoggingSystemPerformanceMetrics {
 }
 
 export interface LoggingSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLogs: number;
   logsPerSecond: number;
   averageLatency: number;
@@ -336,6 +708,18 @@ export interface LoggingSystemAnalytics {
 }
 
 export interface LoggerTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: LoggerType;
   count: number;
   percentage: number;
@@ -343,6 +727,18 @@ export interface LoggerTypeDistribution {
 }
 
 export interface AppenderTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AppenderType;
   count: number;
   percentage: number;
@@ -350,6 +746,18 @@ export interface AppenderTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   loggers: number;
   appenders: number;
@@ -361,6 +769,18 @@ export interface PerformanceTrend {
 }
 
 export interface LoggingSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -372,6 +792,18 @@ export interface LoggingSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -381,6 +813,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -389,6 +833,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -397,6 +853,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -404,6 +872,18 @@ export interface Version {
 }
 
 export interface LoggingSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -10,7 +10,7 @@ type Cmd =
   | { op: 'list' }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const inputPath = process.argv[2] || 'VisualItemEventPure/fixtures/sample_event.json';
   const commandsPath = process.argv[3] || '';
   

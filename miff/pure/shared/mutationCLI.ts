@@ -15,11 +15,11 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class MutationCLI {
-  private logger: StructuredLogger;
+  
   private mutationTester: MutationTester;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'MutationCLI' });
+  constructor(...args: any[]) {
+    
     const testRunner = new JestTestRunner();
     this.mutationTester = new MutationTester(testRunner);
   }

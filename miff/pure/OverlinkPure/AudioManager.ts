@@ -66,7 +66,7 @@ export type AudioManagerOptions = {
 };
 
 export class AudioManager {
-  private logger: StructuredLogger;
+  
   private config: AudioBindingsConfig | null = null;
   private playbackState: AudioPlaybackState;
   private currentAudio: Map<string, any> = new Map();
@@ -74,8 +74,8 @@ export class AudioManager {
   private gainNodes: Map<string, any> = new Map();
   private fadeTimers: Map<string, NodeJS.Timeout> = new Map();
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AudioManager' });
+  constructor(...args: any[]) {
+    
     this.playbackState = {
       isPlaying: false,
       currentTheme: null,

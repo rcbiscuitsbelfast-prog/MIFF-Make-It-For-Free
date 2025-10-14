@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface CIEnforcerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableQualityChecks: boolean;
   enableCodeReview: boolean;
   enableSecurityScanning: boolean;
@@ -31,6 +43,18 @@ export interface CIEnforcerConfig {
 }
 
 export interface CIEnforcer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EnforcerType;
@@ -47,6 +71,18 @@ export interface CIEnforcer {
 }
 
 export interface EnforcerRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -58,6 +94,18 @@ export interface EnforcerRule {
 }
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ConditionType;
   operator: ConditionOperator;
@@ -66,6 +114,18 @@ export interface RuleCondition {
 }
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ActionType;
   parameters: Record<string, any>;
@@ -73,6 +133,18 @@ export interface RuleAction {
 }
 
 export interface EnforcerPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -82,6 +154,18 @@ export interface EnforcerPolicy {
 }
 
 export interface EnforcerCheck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CheckType;
@@ -94,6 +178,18 @@ export interface EnforcerCheck {
 }
 
 export interface CheckResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   passed: boolean;
   score: number; // 0-100
   issues: CheckIssue[];
@@ -102,6 +198,18 @@ export interface CheckResult {
 }
 
 export interface CheckIssue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: IssueType;
   severity: IssueSeverity;
@@ -113,6 +221,18 @@ export interface CheckIssue {
 }
 
 export interface EnforcerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChecks: number;
   passedChecks: number;
   failedChecks: number;
@@ -122,6 +242,18 @@ export interface EnforcerPerformance {
 }
 
 export interface EnforcerAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEnforcers: number;
   activeEnforcers: number;
   totalRules: number;
@@ -147,7 +279,7 @@ export type IssueType = 'error' | 'warning' | 'info' | 'security' | 'performance
 export type IssueSeverity = 'critical' | 'high' | 'medium' | 'low' | 'info';
 
 export class CIEnforcerManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -157,7 +289,7 @@ export class CIEnforcerManager {
   private startTime: Date;
 
   constructor(config?: Partial<CIEnforcerConfig>) {
-    this.logger = new StructuredLogger({ module: 'CIEnforcerManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

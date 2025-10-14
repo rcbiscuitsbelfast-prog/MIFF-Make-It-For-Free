@@ -21,13 +21,25 @@ import { SportType, TeamPosition } from './index.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   command: string;
   description: string;
   handler: (args: string[]) => void;
 }
 
 class SportsCli {
-  private logger: StructuredLogger;
+  
   private manager: SportsManager;
   private eventBus: EventBus;
   private commands: Map<string, CliCommand> = new Map();
@@ -37,7 +49,7 @@ class SportsCli {
   private demoMode: boolean = false;
 
   constructor(config?: SportsConfig) {
-    this.logger = new StructuredLogger({ module: 'SportsCli' });
+    
     this.eventBus = new EventBus();
     this.manager = new SportsManager(this.eventBus, config);
 
@@ -730,7 +742,7 @@ class SportsCli {
 }
 
 // CLI entry point
-async function main() {
+async function main(...args: any[]) {
   const config: SportsConfig = {
     maxGamesPerPlayer: 10,
     maxTeamsPerPlayer: 5,

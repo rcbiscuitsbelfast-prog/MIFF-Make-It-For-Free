@@ -9,6 +9,18 @@ import * as path from 'path';
  */
 
 export interface ModuleInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   path: string;
   hasManager: boolean;
@@ -21,11 +33,11 @@ export interface ModuleInfo {
 }
 
 export class CapabilityGenerator {
-  private logger: StructuredLogger;
+  
   private modules: Map<string, ModuleInfo> = new Map();
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CapabilityGenerator' });
+  constructor(...args: any[]) {
+    
   }
 
   /**
@@ -126,6 +138,18 @@ export class CapabilityGenerator {
     // Extract interfaces
     const interfaceMatches = content.match(/interface\s+(\w+)/g);
     if (interfaceMatches) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       moduleInfo.interfaces = interfaceMatches.map(match => 
         match.replace('interface ', '')
       );

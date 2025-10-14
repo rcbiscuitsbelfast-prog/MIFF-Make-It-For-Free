@@ -11,6 +11,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface INetworkTransport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   connect(peerId: string): Promise<boolean>;
   disconnect(peerId: string): void;
   send(peerId: string, data: Uint8Array): Promise<boolean>;
@@ -19,6 +31,18 @@ export interface INetworkTransport {
 }
 
 export interface NetworkConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxPlayers: number;
   tickRate: number;
   rollbackFrames: number;
@@ -26,6 +50,18 @@ export interface NetworkConfig {
 }
 
 export interface GameState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frame: number;
   inputs: Map<string, any>;
   entities: Map<string, any>;
@@ -33,7 +69,7 @@ export interface GameState {
 }
 
 export class Peer {
-  private logger: StructuredLogger;
+  
   public id: string;
   public isHost: boolean;
   public isConnected: boolean;
@@ -41,7 +77,7 @@ export class Peer {
   public lastSeen: number;
 
   constructor(id: string, isHost: boolean = false) {
-    this.logger = new StructuredLogger({ module: 'Peer' });
+    
     this.id = id;
     this.isHost = isHost;
     this.isConnected = false;

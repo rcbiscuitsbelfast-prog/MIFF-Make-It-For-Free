@@ -9,6 +9,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface BridgeSchemaOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'addSchema' | 'getSchema' | 'listSchemas' | 'validate' | 'convert' | 'generate' | 'addConversion' | 'stats' | 'export' | 'clearCache';
   schemaId?: string;
   engine?: string;
@@ -24,11 +36,11 @@ interface BridgeSchemaOperation {
 }
 
 class BridgeSchemaCLI {
-  private logger: StructuredLogger;
+  
   private manager: BridgeSchemaManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'BridgeSchemaCLI' });
+  constructor(...args: any[]) {
+    
     this.manager = new BridgeSchemaManager({
       version: '1.0.0',
       strict: true,
@@ -347,7 +359,7 @@ class BridgeSchemaCLI {
   }
 }
 
-async function main() {
+async function main(...args: any[]) {
   const cli = new BridgeSchemaCLI();
   
   if (process.argv.length < 3) {

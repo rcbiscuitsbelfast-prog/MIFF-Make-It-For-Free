@@ -12,6 +12,18 @@
  */
 
 export interface QuantumComputingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableQuantumManagement: boolean;
   enableCircuitDesign: boolean;
   enableAlgorithmImplementation: boolean;
@@ -29,6 +41,18 @@ export interface QuantumComputingConfig {
 }
 
 export interface QuantumComputingManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: QuantumComputingManagerType;
@@ -53,6 +77,18 @@ export type QuantumComputingManagerType = 'simulator' | 'hardware' | 'hybrid' | 
 export type QuantumComputingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface QuantumCircuit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CircuitType;
@@ -70,6 +106,18 @@ export type CircuitType = 'algorithm' | 'error_correction' | 'quantum_fourier' |
 export type CircuitStatus = 'draft' | 'compiled' | 'ready' | 'running' | 'completed' | 'error';
 
 export interface QuantumGate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: GateType;
   qubits: number[];
@@ -82,6 +130,18 @@ export interface QuantumGate {
 export type GateType = 'x' | 'y' | 'z' | 'h' | 'cnot' | 'toffoli' | 'fredkin' | 'custom';
 
 export interface GateParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   angle: number;
   phase: number;
   amplitude: number;
@@ -89,12 +149,36 @@ export interface GateParameters {
 }
 
 export interface GatePosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   layer: number;
 }
 
 export interface QuantumMeasurement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   qubits: number[];
   basis: MeasurementBasis;
@@ -105,6 +189,18 @@ export interface QuantumMeasurement {
 export type MeasurementBasis = 'computational' | 'hadamard' | 'custom';
 
 export interface Observable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ObservableType;
   matrix: number[][];
   eigenvalues: number[];
@@ -114,6 +210,18 @@ export interface Observable {
 export type ObservableType = 'pauli_x' | 'pauli_y' | 'pauli_z' | 'custom';
 
 export interface CircuitOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   level: OptimizationLevel;
   techniques: OptimizationTechnique[];
@@ -123,6 +231,18 @@ export interface CircuitOptimization {
 export type OptimizationLevel = 'none' | 'basic' | 'advanced' | 'maximum';
 
 export interface OptimizationTechnique {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TechniqueType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -131,6 +251,18 @@ export interface OptimizationTechnique {
 export type TechniqueType = 'gate_merging' | 'gate_decomposition' | 'circuit_compression' | 'custom';
 
 export interface OptimizationConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConstraintType;
   value: number;
   priority: number;
@@ -139,6 +271,18 @@ export interface OptimizationConstraint {
 export type ConstraintType = 'depth' | 'gate_count' | 'fidelity' | 'custom';
 
 export interface CircuitSimulation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   backend: SimulationBackend;
   shots: number;
@@ -149,6 +293,18 @@ export interface CircuitSimulation {
 export type SimulationBackend = 'statevector' | 'density_matrix' | 'stabilizer' | 'custom';
 
 export interface NoiseModel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   types: NoiseType[];
   parameters: Record<string, any>;
@@ -157,6 +313,18 @@ export interface NoiseModel {
 export type NoiseType = 'depolarizing' | 'amplitude_damping' | 'phase_damping' | 'custom';
 
 export interface SimulationOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   techniques: string[];
   memory: number;
@@ -164,6 +332,18 @@ export interface SimulationOptimization {
 }
 
 export interface CircuitPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   depth: number;
   gateCount: number;
   fidelity: number;
@@ -173,6 +353,18 @@ export interface CircuitPerformance {
 }
 
 export interface QuantumAlgorithm {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AlgorithmType;
@@ -189,6 +381,18 @@ export type AlgorithmType = 'search' | 'factorization' | 'optimization' | 'simul
 export type AlgorithmStatus = 'draft' | 'implemented' | 'tested' | 'optimized' | 'published';
 
 export interface AlgorithmComplexity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: ComplexityClass;
   space: ComplexityClass;
   gates: number;
@@ -198,6 +402,18 @@ export interface AlgorithmComplexity {
 export type ComplexityClass = 'constant' | 'logarithmic' | 'linear' | 'polynomial' | 'exponential';
 
 export interface AlgorithmImplementation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   language: ProgrammingLanguage;
   framework: QuantumFramework;
   version: string;
@@ -209,6 +425,18 @@ export type ProgrammingLanguage = 'python' | 'qsharp' | 'qiskit' | 'cirq' | 'cus
 export type QuantumFramework = 'qiskit' | 'cirq' | 'qsharp' | 'braket' | 'custom';
 
 export interface AlgorithmTest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   input: TestInput;
@@ -218,18 +446,54 @@ export interface AlgorithmTest {
 }
 
 export interface TestInput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   qubits: number;
   parameters: Record<string, any>;
   data: any;
 }
 
 export interface TestOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   result: any;
   probability: number;
   fidelity: number;
 }
 
 export interface AlgorithmApplication {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   domain: ApplicationDomain;
   problem: string;
   benefits: string[];
@@ -239,6 +503,18 @@ export interface AlgorithmApplication {
 export type ApplicationDomain = 'cryptography' | 'optimization' | 'simulation' | 'machine_learning' | 'custom';
 
 export interface AlgorithmPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   speedup: number;
   accuracy: number;
   scalability: number;
@@ -247,6 +523,18 @@ export interface AlgorithmPerformance {
 }
 
 export interface ResourceUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   qubits: number;
   gates: number;
   time: number;
@@ -254,6 +542,18 @@ export interface ResourceUsage {
 }
 
 export interface QuantumHardware {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: HardwareType;
@@ -269,6 +569,18 @@ export type HardwareType = 'superconducting' | 'trapped_ion' | 'photonic' | 'top
 export type HardwareStatus = 'online' | 'offline' | 'maintenance' | 'error';
 
 export interface HardwareSpecifications {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   qubits: number;
   coherenceTime: CoherenceTime;
   gateFidelity: FidelityMetrics;
@@ -277,6 +589,18 @@ export interface HardwareSpecifications {
 }
 
 export interface CoherenceTime {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   t1: number;
   t2: number;
   t2Star: number;
@@ -284,6 +608,18 @@ export interface CoherenceTime {
 }
 
 export interface FidelityMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   singleQubit: number;
   twoQubit: number;
   readout: number;
@@ -291,6 +627,18 @@ export interface FidelityMetrics {
 }
 
 export interface ConnectivitySpecs {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConnectivityType;
   maxDistance: number;
   couplingStrength: number;
@@ -300,6 +648,18 @@ export interface ConnectivitySpecs {
 export type ConnectivityType = 'nearest_neighbor' | 'all_to_all' | 'custom';
 
 export interface ArchitectureSpecs {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   layout: LayoutType;
   dimensions: number[];
   spacing: number;
@@ -309,24 +669,72 @@ export interface ArchitectureSpecs {
 export type LayoutType = 'linear' | 'grid' | 'hexagonal' | 'custom';
 
 export interface ConnectivityMap {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   qubits: QubitNode[];
   connections: QubitConnection[];
   routing: RoutingAlgorithm;
 }
 
 export interface QubitNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: number;
   position: Position3D;
   properties: QubitProperties;
 }
 
 export interface Position3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface QubitProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frequency: number;
   anharmonicity: number;
   coupling: number;
@@ -334,6 +742,18 @@ export interface QubitProperties {
 }
 
 export interface NoiseProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   t1: number;
   t2: number;
   readoutError: number;
@@ -341,6 +761,18 @@ export interface NoiseProperties {
 }
 
 export interface QubitConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   from: number;
   to: number;
   strength: number;
@@ -350,6 +782,18 @@ export interface QubitConnection {
 export type ConnectionType = 'direct' | 'mediated' | 'virtual' | 'custom';
 
 export interface RoutingAlgorithm {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RoutingType;
   parameters: Record<string, any>;
   optimization: boolean;
@@ -358,6 +802,18 @@ export interface RoutingAlgorithm {
 export type RoutingType = 'swap' | 'bridge' | 'custom';
 
 export interface CalibrationData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   lastCalibration: number;
   frequency: CalibrationValues;
   amplitude: CalibrationValues;
@@ -366,6 +822,18 @@ export interface CalibrationData {
 }
 
 export interface CalibrationValues {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   values: number[];
   errors: number[];
   drift: number;
@@ -373,6 +841,18 @@ export interface CalibrationValues {
 }
 
 export interface HardwarePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   utilization: number;
   queueTime: number;
   executionTime: number;
@@ -382,6 +862,18 @@ export interface HardwarePerformance {
 }
 
 export interface QuantumSimulation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SimulationType;
@@ -397,6 +889,18 @@ export type SimulationType = 'statevector' | 'density_matrix' | 'stabilizer' | '
 export type SimulationStatus = 'queued' | 'running' | 'completed' | 'failed';
 
 export interface SimulationParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shots: number;
   backend: string;
   noise: NoiseModel;
@@ -405,6 +909,18 @@ export interface SimulationParameters {
 }
 
 export interface SimulationResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   counts: CountsResult;
   statevector: StatevectorResult;
   expectation: ExpectationResult;
@@ -412,23 +928,71 @@ export interface SimulationResults {
 }
 
 export interface CountsResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   results: Record<string, number>;
   shots: number;
   probabilities: Record<string, number>;
 }
 
 export interface StatevectorResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   amplitudes: ComplexNumber[];
   probabilities: number[];
   phases: number[];
 }
 
 export interface ComplexNumber {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   real: number;
   imaginary: number;
 }
 
 export interface ExpectationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   observable: string;
   value: number;
   variance: number;
@@ -436,6 +1000,18 @@ export interface ExpectationResult {
 }
 
 export interface SimulationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   executionTime: number;
   memoryUsage: number;
   cpuUsage: number;
@@ -444,6 +1020,18 @@ export interface SimulationPerformance {
 }
 
 export interface QuantumExperiment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ExperimentType;
@@ -459,6 +1047,18 @@ export type ExperimentType = 'benchmark' | 'characterization' | 'algorithm' | 'c
 export type ExperimentStatus = 'planned' | 'running' | 'completed' | 'failed';
 
 export interface ExperimentMethodology {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   circuits: string[];
   measurements: string[];
   repetitions: number;
@@ -467,6 +1067,18 @@ export interface ExperimentMethodology {
 }
 
 export interface ControlGroup {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   conditions: Record<string, any>;
@@ -474,6 +1086,18 @@ export interface ControlGroup {
 }
 
 export interface ExperimentVariable {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: VariableType;
   range: ValueRange;
@@ -483,24 +1107,72 @@ export interface ExperimentVariable {
 export type VariableType = 'continuous' | 'discrete' | 'categorical' | 'custom';
 
 export interface ValueRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   step: number;
 }
 
 export interface ExperimentResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   data: ExperimentData[];
   statistics: ExperimentStatistics;
   visualizations: Visualization[];
 }
 
 export interface ExperimentData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   values: Record<string, any>;
   metadata: Record<string, any>;
 }
 
 export interface ExperimentStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mean: number;
   std: number;
   min: number;
@@ -509,6 +1181,18 @@ export interface ExperimentStatistics {
 }
 
 export interface Visualization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: VisualizationType;
   data: any;
   configuration: Record<string, any>;
@@ -517,6 +1201,18 @@ export interface Visualization {
 export type VisualizationType = 'plot' | 'histogram' | 'heatmap' | 'custom';
 
 export interface ExperimentAnalysis {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   conclusions: string[];
   insights: string[];
   recommendations: string[];
@@ -525,6 +1221,18 @@ export interface ExperimentAnalysis {
 }
 
 export interface QuantumComputingPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCircuits: number;
   activeCircuits: number;
   totalAlgorithms: number;
@@ -539,6 +1247,18 @@ export interface QuantumComputingPerformanceMetrics {
 }
 
 export interface QuantumComputingAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCircuits: number;
   totalAlgorithms: number;
   averageExecutionTime: number;
@@ -548,6 +1268,18 @@ export interface QuantumComputingAnalytics {
 }
 
 export interface CircuitTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CircuitType;
   count: number;
   percentage: number;
@@ -555,6 +1287,18 @@ export interface CircuitTypeDistribution {
 }
 
 export interface AlgorithmTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AlgorithmType;
   count: number;
   percentage: number;
@@ -562,6 +1306,18 @@ export interface AlgorithmTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   circuits: number;
   algorithms: number;
@@ -573,6 +1329,18 @@ export interface PerformanceTrend {
 }
 
 export interface QuantumComputingReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -584,6 +1352,18 @@ export interface QuantumComputingReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -593,6 +1373,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -601,6 +1393,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -609,6 +1413,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -616,6 +1432,18 @@ export interface Version {
 }
 
 export interface QuantumComputingOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

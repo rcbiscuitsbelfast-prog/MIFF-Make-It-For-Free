@@ -14,11 +14,11 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AssetCLI {
-  private logger: StructuredLogger;
+  
   private validator: AssetValidator;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AssetCLI' });
+  constructor(...args: any[]) {
+    
     this.validator = new AssetValidator();
   }
 

@@ -4,12 +4,36 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Mock WebSocketBridgePure interface for ZoneServerPure
 interface WebSocketBridgePure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   addMessageHandler(type: string, handler: (data: any) => void): void;
   send(data: any): void;
 }
 
 // Mock NetworkBridgePure interface for ZoneServerPure
 interface NetworkBridgePure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   addMessageHandler(type: string, handler: (data: any) => void): void;
   send(data: any): void;
 }
@@ -40,6 +64,18 @@ export enum LoadBalanceStrategy {
 }
 
 export interface ZoneServerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoneId: string;
   zoneType: ZoneType;
   maxPlayers: number;
@@ -51,6 +87,18 @@ export interface ZoneServerConfig {
 }
 
 export interface ZoneMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerCount: number;
   avgLatency: number;
   cpu: number;
@@ -61,6 +109,18 @@ export interface ZoneMetrics {
 }
 
 export interface ZoneTransition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerId: string;
   fromZone: string;
   toZone: string;
@@ -70,6 +130,18 @@ export interface ZoneTransition {
 }
 
 export interface ZoneConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoneId: string;
   connectionType: 'adjacent' | 'portal' | 'fast_travel' | 'walk';
   requirements?: string[];
@@ -78,6 +150,18 @@ export interface ZoneConnection {
 }
 
 export interface ZoneEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   description: string;
@@ -88,7 +172,7 @@ export interface ZoneEvent {
 }
 
 export class ZoneServerPure {
-  private logger: StructuredLogger;
+  
   private readonly config: ZoneServerConfig;
   private readonly players: Map<string, PlayerStateSnapshot> = new Map();
   private readonly zoneConnections: ZoneConnection[] = [];
@@ -104,7 +188,7 @@ export class ZoneServerPure {
   private eventSubscribers: Map<string, (event: any) => void> = new Map();
 
   constructor(config: ZoneServerConfig) {
-    this.logger = new StructuredLogger({ module: 'ZoneServerPure' });
+    
     this.config = config;
     this.zoneMetrics = this.initializeMetrics();
     this.initializeDefaultConnections();

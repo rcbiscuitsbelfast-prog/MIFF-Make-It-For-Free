@@ -36,11 +36,11 @@ import { ResolvedAvatar, AvatarStyle } from '../AvatarSystemPure/schema';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AvatarRendererWebCLI {
-  private logger: StructuredLogger;
+  
   private rl: readline.Interface;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AvatarRendererWebCLI' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -456,7 +456,7 @@ Some features may not work in Node.js environment.
 }
 
 // Main execution
-async function main() {
+async function main(...args: any[]) {
   const cli = new AvatarRendererWebCLI();
   await cli.start();
 }

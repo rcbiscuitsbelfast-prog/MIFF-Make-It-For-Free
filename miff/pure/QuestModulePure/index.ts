@@ -6,6 +6,18 @@ export type QuestStep = { id: string; description: string; triggers: QuestTrigge
 export type NormalizedQuest = { id: string; title: string; steps: Record<string, QuestStep>; start: string; rewards: QuestReward[]; timed?: { seconds: number } };
 
 export interface ParseResult { op: 'parse'; status: 'ok' | 'error'; issues: string[]; quest?: NormalizedQuest }
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 
 /**
  * parseQuestText - very small, deterministic parser for a simplified quest DSL

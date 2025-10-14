@@ -21,14 +21,14 @@ import {
 } from './types';
 
 export class UIBuilder {
-  private logger: StructuredLogger;
+  
   private skeletonState: SkeletonState;
   private uiState: UIState;
   private actionHistory: UIAction[] = [];
   private nextActionId: number = 0;
 
   constructor(skeletonState: SkeletonState) {
-    this.logger = new StructuredLogger({ module: 'UIBuilder' });
+    
     this.skeletonState = skeletonState;
     this.uiState = {
       mode: 'rig',

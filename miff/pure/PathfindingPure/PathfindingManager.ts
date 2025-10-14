@@ -6,6 +6,18 @@
  */
 
 export interface Grid {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   height: number;
   blocks: { x: number; y: number }[];
@@ -14,6 +26,18 @@ export interface Grid {
 }
 
 export interface Node {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   g?: number; // Cost from start
@@ -23,6 +47,18 @@ export interface Node {
 }
 
 export interface PathfindingRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   start: Node;
   goal: Node;
@@ -35,6 +71,18 @@ export interface PathfindingRequest {
 }
 
 export interface PathfindingResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   requestId: string;
   path: Node[];
   cost: number;
@@ -47,6 +95,18 @@ export interface PathfindingResult {
 }
 
 export interface PathfindingStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRequests: number;
   successfulPaths: number;
   failedPaths: number;
@@ -63,6 +123,18 @@ export interface PathfindingStats {
 }
 
 export interface PathfindingFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm?: string;
   heuristic?: string;
   minCost?: number;
@@ -73,6 +145,18 @@ export interface PathfindingFilter {
 }
 
 export interface PathfindingOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;
@@ -85,7 +169,7 @@ export class PathfindingManager {
   private results: PathfindingResult[] = [];
   private pathHistory: Map<string, Node[]> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     // Initialize with default grid
   }
 

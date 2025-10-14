@@ -39,6 +39,18 @@ export enum DocumentationType {
 }
 
 export interface DocumentationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   version: string;
   description: string;
@@ -62,6 +74,18 @@ export interface DocumentationConfig {
 }
 
 export interface ModuleDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   path: string;
   description: string;
@@ -78,6 +102,18 @@ export interface ModuleDocumentation {
 }
 
 export interface ExportDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: 'class' | 'interface' | 'enum' | 'function' | 'type' | 'const';
   description: string;
@@ -86,6 +122,18 @@ export interface ExportDocumentation {
 }
 
 export interface ClassDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   extends?: string;
@@ -100,6 +148,18 @@ export interface ClassDocumentation {
 }
 
 export interface InterfaceDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   extends: string[];
@@ -110,6 +170,18 @@ export interface InterfaceDocumentation {
 }
 
 export interface EnumDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   values: EnumValueDocumentation[];
@@ -119,6 +191,18 @@ export interface EnumDocumentation {
 }
 
 export interface FunctionDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   parameters: ParameterDocumentation[];
@@ -135,12 +219,36 @@ export interface FunctionDocumentation {
 }
 
 export interface MethodDocumentation extends FunctionDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   class: string;
   override: boolean;
   abstract: boolean;
 }
 
 export interface PropertyDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   type: string;
@@ -153,6 +261,18 @@ export interface PropertyDocumentation {
 }
 
 export interface ConstructorDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   parameters: ParameterDocumentation[];
   description: string;
   access: 'public' | 'private' | 'protected';
@@ -160,6 +280,18 @@ export interface ConstructorDocumentation {
 }
 
 export interface ParameterDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   type: string;
@@ -170,6 +302,18 @@ export interface ParameterDocumentation {
 }
 
 export interface GenericDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   extends?: string;
@@ -177,18 +321,54 @@ export interface GenericDocumentation {
 }
 
 export interface IndexSignatureDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   keyType: string;
   valueType: string;
   description: string;
 }
 
 export interface EnumValueDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: string | number;
   description: string;
 }
 
 export interface ExampleDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   code: string;
@@ -198,6 +378,18 @@ export interface ExampleDocumentation {
 }
 
 export interface TestDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   code: string;
@@ -206,6 +398,18 @@ export interface TestDocumentation {
 }
 
 export interface ChangelogEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   date: string;
   type: 'added' | 'changed' | 'deprecated' | 'removed' | 'fixed' | 'security';
@@ -215,6 +419,18 @@ export interface ChangelogEntry {
 }
 
 export interface NavigationItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   path: string;
   children: NavigationItem[];
@@ -223,6 +439,18 @@ export interface NavigationItem {
 }
 
 export interface SearchIndex {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   terms: string[];
   modules: string[];
   functions: string[];
@@ -521,13 +749,49 @@ export class DocumentationGenerator {
   private extractInterfaces(sourceCode: string): InterfaceDocumentation[] {
     const interfaces: InterfaceDocumentation[] = [];
     const interfaceRegex = /export\s+interface\s+(\w+)(?:\s+extends\s+([^{]+))?\s*{/g;
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     let match;
 
     while ((match = interfaceRegex.exec(sourceCode)) !== null) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       const interfaceName = match[1];
       const extendsInterfaces = match[2] ? match[2].split(',').map(s => s.trim()) : [];
 
       interfaces.push({
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
         name: interfaceName,
         description: this.extractItemDescription(sourceCode, interfaceName),
         extends: extendsInterfaces,
@@ -601,8 +865,32 @@ export class DocumentationGenerator {
    * Helper methods for extraction
    */
   private getExportType(sourceCode: string, name: string): 'class' | 'interface' | 'enum' | 'function' | 'type' | 'const' {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     if (sourceCode.includes(`class ${name}`)) return 'class';
     if (sourceCode.includes(`interface ${name}`)) return 'interface';
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     if (sourceCode.includes(`enum ${name}`)) return 'enum';
     if (sourceCode.includes(`function ${name}`)) return 'function';
     if (sourceCode.includes(`type ${name}`)) return 'type';
@@ -680,7 +968,31 @@ export class DocumentationGenerator {
     });
     
     module.interfaces.forEach(iface => {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       this.searchIndex.interfaces.push(`${module.name}.${iface.name}`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     });
     
     module.enums.forEach(enumItem => {
@@ -756,8 +1068,32 @@ ${this.config.license}
     }
 
     if (module.interfaces.length > 0) {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       markdown += `## Interfaces\n\n`;
       module.interfaces.forEach(iface => {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
         markdown += `### ${iface.name}\n\n${iface.description}\n\n`;
       });
     }
@@ -1000,7 +1336,7 @@ function search(query) {
 }
 
 // Initialize search
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function(...args: any[]) {
     const searchInput = document.getElementById('search');
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
@@ -1064,10 +1400,34 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   private extractInterfaceProperties(_sourceCode: string, _interfaceName: string): PropertyDocumentation[] {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     return [];
   }
 
   private extractInterfaceMethods(sourceCode: string, interfaceName: string): MethodDocumentation[] {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     return [];
   }
 

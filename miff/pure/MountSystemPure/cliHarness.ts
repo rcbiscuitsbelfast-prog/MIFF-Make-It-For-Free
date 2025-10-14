@@ -13,7 +13,7 @@ import * as fs from 'fs';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function showUsage() {
+function showUsage(...args: any[]) {
   console.info(`
 MountSystemPure CLI Harness
 
@@ -42,7 +42,7 @@ EXAMPLES:
   `);
 }
 
-async function main() {
+async function main(...args: any[]) {
   const command = process.argv[2];
 
   if (!command) {

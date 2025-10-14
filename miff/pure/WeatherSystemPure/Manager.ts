@@ -17,6 +17,18 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface WeatherSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRealTimeWeather: boolean;
   enableDynamicTransitions: boolean;
   enableEnvironmentalEffects: boolean;
@@ -29,6 +41,18 @@ export interface WeatherSystemConfig {
 }
 
 export interface WeatherData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   temperature: number;
   humidity: number;
   pressure: number;
@@ -43,6 +67,18 @@ export interface WeatherData {
 }
 
 export interface PrecipitationData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PrecipitationType;
   intensity: number;
   probability: number;
@@ -53,6 +89,18 @@ export interface PrecipitationData {
 }
 
 export interface CloudData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   coverage: number;
   altitude: number;
   thickness: number;
@@ -63,6 +111,18 @@ export interface CloudData {
 }
 
 export interface AirQualityData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   aqi: number;
   pm25: number;
   pm10: number;
@@ -74,6 +134,18 @@ export interface AirQualityData {
 }
 
 export interface WeatherZone {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   bounds: WeatherBounds;
@@ -85,6 +157,18 @@ export interface WeatherZone {
 }
 
 export interface WeatherBounds {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   minX: number;
   minY: number;
   minZ: number;
@@ -94,6 +178,18 @@ export interface WeatherBounds {
 }
 
 export interface WeatherEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EffectType;
   intensity: number;
@@ -105,6 +201,18 @@ export interface WeatherEffect {
 }
 
 export interface WeatherTransition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   fromWeather: WeatherData;
   toWeather: WeatherData;
@@ -117,6 +225,18 @@ export interface WeatherTransition {
 }
 
 export interface WeatherForecast {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   zoneId: string;
   forecasts: WeatherData[];
   startTime: number;
@@ -134,7 +254,7 @@ export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bo
 
 export class WeatherSystemManager {
   private config: WeatherSystemConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private isRunning: boolean = false;
   private zones: Map<string, WeatherZone> = new Map();

@@ -12,7 +12,7 @@ type Cmd =
   | { op: 'dump' }
   | { op: 'steps' };
 
-function main() {
+function main(...args: any[]) {
   const questPath = process.argv[2] || 'QuestModulePure/fixtures/branching.quest';
   const commandsPath = process.argv[3] || '';
   

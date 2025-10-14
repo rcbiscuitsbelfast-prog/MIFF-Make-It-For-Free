@@ -11,13 +11,13 @@ import TimeSystemPure, { TimeAcceleration } from './index.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class TimeSystemCLI {
-  private logger: StructuredLogger;
+  
   private timeSystem: TimeSystemPure;
   private eventBus: EventBus;
   private readline: any;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'TimeSystemCLI' });
+  constructor(...args: any[]) {
+    
     this.eventBus = new EventBus();
     this.timeSystem = new TimeSystemPure(this.eventBus);
     this.setupEventHandlers();

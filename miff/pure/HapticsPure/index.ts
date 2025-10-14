@@ -55,6 +55,18 @@ export enum HapticTarget {
 }
 
 export interface HapticDevice {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: HapticDeviceType;
@@ -69,6 +81,18 @@ export interface HapticDevice {
 }
 
 export interface HapticCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   supportsAmplitude: boolean;
   supportsFrequency: boolean;
   supportsWaveform: boolean;
@@ -81,6 +105,18 @@ export interface HapticCapabilities {
 }
 
 export interface HapticPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: HapticPatternType;
@@ -99,6 +135,18 @@ export interface HapticPattern {
 }
 
 export interface HapticSequenceItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timeOffset: number; // milliseconds from pattern start
   amplitude: number; // 0-1
   frequency: number; // Hz
@@ -108,6 +156,18 @@ export interface HapticSequenceItem {
 }
 
 export interface HapticEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   patternId: string;
   instanceId: string;
@@ -124,6 +184,18 @@ export interface HapticEffect {
 }
 
 export interface HapticEnvironment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'game' | 'menu' | 'loading' | 'cutscene' | 'combat' | 'exploration' | 'custom';
@@ -135,6 +207,18 @@ export interface HapticEnvironment {
 }
 
 export interface HapticEnvironmentSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   masterVolume: number; // 0-1
   masterIntensity: number; // 0-1
   frequencyRange: { min: number; max: number };
@@ -148,6 +232,18 @@ export interface HapticEnvironmentSettings {
 }
 
 export interface HapticEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'pattern' | 'sequence' | 'effect' | 'device' | 'environment' | 'system';
   timestamp: number;
@@ -159,6 +255,18 @@ export interface HapticEvent {
 }
 
 export interface HapticGesture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'tap' | 'swipe' | 'pinch' | 'rotate' | 'long_press' | 'multi_touch' | 'custom';
@@ -170,6 +278,18 @@ export interface HapticGesture {
 }
 
 export interface GestureRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'fingers' | 'pressure' | 'velocity' | 'distance' | 'angle' | 'custom';
   minValue: number;
   maxValue: number;
@@ -177,6 +297,18 @@ export interface GestureRequirement {
 }
 
 export interface HapticFeedback {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pattern: HapticPattern;
   delay: number;
   duration: number;
@@ -185,6 +317,18 @@ export interface HapticFeedback {
 }
 
 export interface HapticProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -197,6 +341,18 @@ export interface HapticProfile {
 }
 
 export interface HapticProfileSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   masterVolume: number;
   masterIntensity: number;
   frequencyMultiplier: number;
@@ -210,6 +366,18 @@ export interface HapticProfileSettings {
 }
 
 export interface HapticStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEffects: number;
   activeEffects: number;
   completedEffects: number;
@@ -225,6 +393,18 @@ export interface HapticStatistics {
 }
 
 export interface HapticConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   globalSettings: HapticGlobalSettings;
   deviceProfiles: Map<string, HapticProfile>;
   defaultPatterns: Map<string, HapticPattern>;
@@ -235,6 +415,18 @@ export interface HapticConfiguration {
 }
 
 export interface HapticGlobalSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   masterVolume: number;
   masterIntensity: number;
   enableAllDevices: boolean;
@@ -250,6 +442,18 @@ export interface HapticGlobalSettings {
 }
 
 export interface HapticResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   effectId: string;
   deviceId: string;
@@ -263,7 +467,7 @@ export interface HapticResponse {
 }
 
 export class HapticEngine {
-  private logger: StructuredLogger;
+  
   private devices: Map<string, HapticDevice> = new Map();
   private patterns: Map<string, HapticPattern> = new Map();
   private environments: Map<string, HapticEnvironment> = new Map();
@@ -275,8 +479,8 @@ export class HapticEngine {
   private gestureRecognizer: HapticGestureRecognizer;
   private isInitialized = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'HapticEngine' });
+  constructor(...args: any[]) {
+    
     this.configuration = this.createDefaultConfiguration();
     this.performanceMetrics = this.initializePerformanceMetrics();
     this.gestureRecognizer = new HapticGestureRecognizer();
@@ -1092,6 +1296,18 @@ export class HapticEngine {
 
 // Supporting interfaces and types
 export interface PlayOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   amplitude?: number;
   frequency?: number;
   priority?: HapticPriority;
@@ -1100,6 +1316,18 @@ export interface PlayOptions {
 }
 
 export interface GestureInput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'tap' | 'swipe' | 'pinch' | 'rotate' | 'custom';
   touches: TouchPoint[];
   duration: number;
@@ -1109,6 +1337,18 @@ export interface GestureInput {
 }
 
 export interface TouchPoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   x: number;
   y: number;
@@ -1117,6 +1357,18 @@ export interface TouchPoint {
 }
 
 export interface HapticPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvents: number;
   processedEvents: number;
   failedEvents: number;

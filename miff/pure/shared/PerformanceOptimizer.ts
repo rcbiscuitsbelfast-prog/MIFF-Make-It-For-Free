@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface PerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   memory: {
     heapUsed: number;
     heapTotal: number;
@@ -34,6 +46,18 @@ export interface PerformanceMetrics {
 }
 
 export interface OptimizationTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   type: 'memory' | 'cpu' | 'network' | 'cache';
@@ -46,6 +70,18 @@ export interface OptimizationTarget {
 }
 
 export interface MemoryOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   strategy: 'object_pooling' | 'lazy_loading' | 'garbage_collection' | 'memory_mapping' | 'compression';
@@ -56,6 +92,18 @@ export interface MemoryOptimization {
 }
 
 export interface CPUOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   strategy: 'async_processing' | 'worker_threads' | 'algorithm_optimization' | 'caching' | 'batching';
@@ -66,6 +114,18 @@ export interface CPUOptimization {
 }
 
 export interface NetworkOptimization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   strategy: 'compression' | 'batching' | 'connection_pooling' | 'caching' | 'protocol_optimization';
@@ -76,6 +136,18 @@ export interface NetworkOptimization {
 }
 
 export interface CacheStrategy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   type: 'lru' | 'lfu' | 'ttl' | 'write_through' | 'write_back';
@@ -87,6 +159,18 @@ export interface CacheStrategy {
 }
 
 export interface PerformanceReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   overallScore: number;
   memoryScore: number;
@@ -99,7 +183,7 @@ export interface PerformanceReport {
 }
 
 export class PerformanceOptimizer {
-  private logger: StructuredLogger;
+  
   private metrics: PerformanceMetrics;
   private optimizations: Map<string, OptimizationTarget> = new Map();
   private memoryOptimizations: Map<string, MemoryOptimization> = new Map();
@@ -108,8 +192,8 @@ export class PerformanceOptimizer {
   private cacheStrategies: Map<string, CacheStrategy> = new Map();
   private performanceHistory: PerformanceReport[] = [];
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'PerformanceOptimizer' });
+  constructor(...args: any[]) {
+    
     this.metrics = this.initializeMetrics();
   }
 

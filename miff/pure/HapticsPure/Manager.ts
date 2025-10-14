@@ -62,6 +62,18 @@ export type HapticPattern =
   | { type: 'adaptive'; basePattern: HapticPattern; modifiers: HapticModifier[] };
 
 export interface HapticModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   condition: string;
   property: 'intensity' | 'frequency' | 'duration' | 'waveform';
   value: any;
@@ -70,6 +82,18 @@ export interface HapticModifier {
 }
 
 export interface HapticRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   pattern: HapticPattern;
   at?: number; // epoch ms to trigger
@@ -80,6 +104,18 @@ export interface HapticRequest {
 }
 
 export interface HapticResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   status: 'scheduled' | 'played' | 'skipped' | 'error' | 'cancelled' | 'delayed';
   reason?: string;
@@ -90,6 +126,18 @@ export interface HapticResult {
 }
 
 export interface HapticDevice {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: HapticDeviceType;
   name: string;
@@ -103,6 +151,18 @@ export interface HapticDevice {
 }
 
 export interface HapticCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   supportsWaveforms: boolean;
   supportsAmplitudeControl: boolean;
   supportsFrequencyControl: boolean;
@@ -115,6 +175,18 @@ export interface HapticCapabilities {
 }
 
 export interface HapticSequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: HapticSequenceType;
@@ -126,6 +198,18 @@ export interface HapticSequence {
 }
 
 export interface HapticRhythmEngine {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   bpm: number;
@@ -139,6 +223,18 @@ export interface HapticRhythmEngine {
 }
 
 export interface HapticEnvironmentalResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   condition: string; // e.g., 'collision', 'proximity', 'health_low'
   threshold: number;
   pattern: HapticPattern;
@@ -147,6 +243,18 @@ export interface HapticEnvironmentalResponse {
 }
 
 export interface HapticsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableHapticFeedback: boolean;
   enableEnvironmentalResponses: boolean;
   enableRhythmEngine: boolean;
@@ -161,7 +269,7 @@ export interface HapticsConfig {
 
 export class HapticsManager {
   private config: HapticsConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private queue: HapticRequest[] = [];
   private devices: Map<string, HapticDevice> = new Map();

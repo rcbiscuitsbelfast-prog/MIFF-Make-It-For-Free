@@ -75,7 +75,7 @@ class CLISpiritInstance extends Spirit implements ISpiritInstance {
     specialDefense: number = 45,
     speed: number = 35
   ) {
-    this.logger = new StructuredLogger({ module: 'class' });
+    
     this.id = id;
     this.name = name;
     this.typeTag = typeTag;
@@ -193,7 +193,7 @@ class BattleAIPureCLI {
   private spirits: Map<string, MockSpiritInstance>;
   private moves: Map<string, MockMoveData>;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

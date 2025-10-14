@@ -56,8 +56,8 @@ import { RNGManager } from '../RNGPure/index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CLIRNG extends RNGManager {
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CLIEventBus' });
+  constructor(...args: any[]) {
+    
     super('magic_system_cli');
   }
 
@@ -76,7 +76,7 @@ class MagicSystemCLI {
   private currentCaster: string;
   private isRunning: boolean = false;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

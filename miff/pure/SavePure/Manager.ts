@@ -12,6 +12,18 @@
  */
 
 export interface SaveConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSaveManagement: boolean;
   enableDataSerialization: boolean;
   enableCompression: boolean;
@@ -28,6 +40,18 @@ export interface SaveConfig {
 }
 
 export interface SaveManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SaveManagerType;
@@ -51,6 +75,18 @@ export type SaveManagerType = 'game' | 'application' | 'database' | 'custom';
 export type SaveManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface SaveFile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -68,6 +104,18 @@ export type SaveType = 'manual' | 'auto' | 'quicksave' | 'autosave' | 'backup' |
 export type SaveStatus = 'valid' | 'invalid' | 'corrupted' | 'loading' | 'saving' | 'error';
 
 export interface SaveData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   format: DataFormat;
   compression: CompressionType;
   encoding: string;
@@ -80,6 +128,18 @@ export type DataFormat = 'json' | 'xml' | 'binary' | 'text' | 'custom';
 export type CompressionType = 'none' | 'gzip' | 'deflate' | 'brotli' | 'lz4' | 'custom';
 
 export interface SaveMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gameVersion: string;
   platform: string;
   userId: string;
@@ -91,6 +151,18 @@ export interface SaveMetadata {
 }
 
 export interface SaveIntegrity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   checksum: string;
   hash: string;
   signature: string;
@@ -100,6 +172,18 @@ export interface SaveIntegrity {
 }
 
 export interface IntegrityError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ErrorType;
   severity: ErrorSeverity;
   message: string;
@@ -111,6 +195,18 @@ export type ErrorType = 'checksum' | 'hash' | 'signature' | 'format' | 'version'
 export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface BackupFile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   saveId: string;
   name: string;
@@ -127,6 +223,18 @@ export type BackupType = 'automatic' | 'manual' | 'scheduled' | 'incremental' | 
 export type BackupStatus = 'active' | 'archived' | 'deleted' | 'error';
 
 export interface RetentionPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxAge: number; // days
   maxCount: number;
   autoDelete: boolean;
@@ -134,6 +242,18 @@ export interface RetentionPolicy {
 }
 
 export interface SaveTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -145,6 +265,18 @@ export interface SaveTemplate {
 }
 
 export interface ValidationRules {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: string[];
   optional: string[];
   types: Record<string, string>;
@@ -152,6 +284,18 @@ export interface ValidationRules {
 }
 
 export interface ValidationConstraint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   type: ConstraintType;
   value: any;
@@ -161,6 +305,18 @@ export interface ValidationConstraint {
 export type ConstraintType = 'min' | 'max' | 'pattern' | 'enum' | 'custom';
 
 export interface SaveSchema {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   version: string;
@@ -172,12 +328,36 @@ export interface SaveSchema {
 }
 
 export interface SchemaStructure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   root: SchemaNode;
   nodes: Record<string, SchemaNode>;
   relationships: SchemaRelationship[];
 }
 
 export interface SchemaNode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: NodeType;
@@ -190,6 +370,18 @@ export interface SchemaNode {
 export type NodeType = 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null' | 'custom';
 
 export interface SchemaProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: string;
   required: boolean;
@@ -198,6 +390,18 @@ export interface SchemaProperty {
 }
 
 export interface SchemaRelationship {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   from: string;
   to: string;
   type: RelationshipType;
@@ -208,6 +412,18 @@ export type RelationshipType = 'one_to_one' | 'one_to_many' | 'many_to_one' | 'm
 export type Cardinality = '1' | '0..1' | '1..*' | '0..*';
 
 export interface MigrationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fromVersion: string;
   toVersion: string;
   steps: MigrationStep[];
@@ -215,6 +431,18 @@ export interface MigrationRule {
 }
 
 export interface MigrationStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: StepType;
   field: string;
   operation: OperationType;
@@ -226,6 +454,18 @@ export type StepType = 'add' | 'remove' | 'modify' | 'rename' | 'transform' | 'c
 export type OperationType = 'set' | 'copy' | 'move' | 'delete' | 'calculate' | 'custom';
 
 export interface SavePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSaves: number;
   totalBackups: number;
   averageSaveSize: number;
@@ -238,6 +478,18 @@ export interface SavePerformanceMetrics {
 }
 
 export interface SaveAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSaves: number;
   averageSaveSize: number;
   averageSaveTime: number;
@@ -248,6 +500,18 @@ export interface SaveAnalytics {
 }
 
 export interface SaveTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SaveType;
   count: number;
   percentage: number;
@@ -255,6 +519,18 @@ export interface SaveTypeDistribution {
 }
 
 export interface CompressionEfficiency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CompressionType;
   averageRatio: number;
   averageTime: number;
@@ -262,6 +538,18 @@ export interface CompressionEfficiency {
 }
 
 export interface ValidationResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalValidations: number;
   successful: number;
   failed: number;
@@ -269,12 +557,36 @@ export interface ValidationResults {
 }
 
 export interface ErrorTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ErrorType;
   count: number;
   percentage: number;
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   saves: number;
   size: number;
@@ -284,6 +596,18 @@ export interface PerformanceTrend {
 }
 
 export interface SaveReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -295,6 +619,18 @@ export interface SaveReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -304,6 +640,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -312,6 +660,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -320,6 +680,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -327,6 +699,18 @@ export interface Version {
 }
 
 export interface SaveOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -61,6 +61,18 @@ export type SatisfactionLevel = 'very_dissatisfied' | 'dissatisfied' | 'neutral'
  * Restaurant facility definition
  */
 export interface RestaurantFacility {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -86,6 +98,18 @@ export interface RestaurantFacility {
  * Menu item definition
  */
 export interface MenuItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -108,6 +132,18 @@ export interface MenuItem {
  * Ingredient requirement for menu items
  */
 export interface IngredientRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ingredientId: string;
   quantity: number;
   quality: IngredientQuality;
@@ -118,6 +154,18 @@ export interface IngredientRequirement {
  * Cooking method for menu items
  */
 export interface CookingMethod {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'grill' | 'fry' | 'bake' | 'boil' | 'steam' | 'raw' | 'mix';
   equipment: string;         // Required equipment
   temperature?: number;       // Cooking temperature
@@ -129,6 +177,18 @@ export interface CookingMethod {
  * Customer order definition
  */
 export interface CustomerOrder {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   customerId: string;
   customerType: CustomerType;
@@ -150,6 +210,18 @@ export interface CustomerOrder {
  * Order item from menu
  */
 export interface OrderItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   menuItemId: string;
   quantity: number;
   customizations: string[];
@@ -161,6 +233,18 @@ export interface OrderItem {
  * Staff member in restaurant
  */
 export interface RestaurantStaff {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: RestaurantRole;
@@ -182,6 +266,18 @@ export interface RestaurantStaff {
  * Ingredient inventory item
  */
 export interface Ingredient {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -204,6 +300,18 @@ export interface Ingredient {
  * Kitchen equipment
  */
 export interface KitchenEquipment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -222,6 +330,18 @@ export interface KitchenEquipment {
  * Customer in restaurant
  */
 export interface RestaurantCustomer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CustomerType;
@@ -241,6 +361,18 @@ export interface RestaurantCustomer {
  * Restaurant statistics
  */
 export interface RestaurantStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRevenue: number;
   totalExpenses: number;
   netProfit: number;
@@ -260,6 +392,18 @@ export interface RestaurantStats {
  * Restaurant system configuration
  */
 export interface RestaurantSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   initialCapital: number;
   enableRushHours: boolean;
   enableSeasonalMenus: boolean;
@@ -276,6 +420,18 @@ export interface RestaurantSystemConfig {
  * Integration hooks for other systems
  */
 export interface RestaurantIntegration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   onOrderPlaced?: (order: CustomerOrder) => void;
   onOrderCompleted?: (order: CustomerOrder) => void;
   onCustomerSatisfied?: (customerId: string, satisfaction: number) => void;

@@ -35,7 +35,7 @@ function parseFlags(args: string[]): Flags {
   return flags;
 }
 
-function showHelp() {
+function showHelp(...args: any[]) {
   console.info(`
 🎬 MIFF CLI - CutScene Commands
 
@@ -93,7 +93,7 @@ For more information, visit: https://rcbiscuitsbelfast-prog.github.io/renderworl
   `);
 }
 
-async function handlePreview() {
+async function handlePreview(...args: any[]) {
   const inputFile = (flags['input'] || flags['i']) as string!;
   const fullscreen = Boolean(flags['fullscreen']);
   const noControls = Boolean(flags['no-controls']);
@@ -163,7 +163,7 @@ async function handlePreview() {
 type Engine = 'web' | 'unity' | 'unreal' | 'godot';
 type ExportFormat = 'json' | 'timeline' | 'sequencer' | 'scene' | 'html';
 
-async function handleExport() {
+async function handleExport(...args: any[]) {
   const inputFile = (flags['input'] || flags['i']) as string!;
   const outputDir = (flags['output'] || flags['o'] || './export') as string;
   const engine = ((flags['engine'] || flags['e'] || 'web') as string) as Engine;
@@ -276,7 +276,7 @@ function generateOutputFiles(engine: Engine, format: ExportFormat, outputDir: st
   return files;
 }
 
-async function handleValidate() {
+async function handleValidate(...args: any[]) {
   const inputFile = (flags['input'] || flags['i']) as string!;
   const strict = Boolean(flags['strict']);
   const fix = Boolean(flags['fix']);
@@ -348,7 +348,7 @@ async function handleValidate() {
   };
 }
 
-async function handleSimulate() {
+async function handleSimulate(...args: any[]) {
   const inputFile = (flags['input'] || flags['i']) as string!;
   const debug = Boolean(flags['debug']);
 
@@ -413,7 +413,7 @@ async function handleSimulate() {
   };
 }
 
-async function handleDemo() {
+async function handleDemo(...args: any[]) {
   const outputDir = (flags['output'] || flags['o'] || './demo-scenes') as string;
 
   if (Boolean(flags['verbose'])) {
@@ -461,7 +461,7 @@ async function handleDemo() {
   };
 }
 
-async function main() {
+async function main(...args: any[]) {
   if (!command || command === 'help' || command === '--help' || command === '-h') {
     showHelp();
     return;

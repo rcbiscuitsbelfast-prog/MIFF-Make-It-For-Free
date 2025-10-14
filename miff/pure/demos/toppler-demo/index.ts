@@ -26,11 +26,35 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Game Types and Interfaces
 interface Vector2D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
 
 interface GameObject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: Vector2D;
   velocity: Vector2D;
@@ -50,6 +74,18 @@ interface GameObject {
 }
 
 interface Level {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -66,6 +102,18 @@ interface Level {
 }
 
 interface Player {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector2D;
   velocity: Vector2D;
   size: Vector2D;
@@ -81,6 +129,18 @@ interface Player {
 }
 
 interface GameState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentLevel: number;
   player: Player;
   level: Level;
@@ -96,6 +156,18 @@ interface GameState {
 }
 
 interface InputState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   left: boolean;
   right: boolean;
   up: boolean;
@@ -226,7 +298,7 @@ const LEVEL_TEMPLATES: Record<string, Level[]> = {
 
 // Game Systems
 class TopplerGame {
-  private logger: StructuredLogger;
+  
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private gameState: GameState;
@@ -242,7 +314,7 @@ class TopplerGame {
   private keys: Set<string> = new Set();
 
   constructor(canvas: HTMLCanvasElement) {
-    this.logger = new StructuredLogger({ module: 'TopplerGame' });
+    
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d')!;
     this.gameState = this.createInitialState();
@@ -879,7 +951,7 @@ class TopplerGame {
 }
 
 // Demo Entry Point
-function main() {
+function main(...args: any[]) {
   console.info('🎮 Toppler Demo - MIFF Framework');
   console.info('================================');
   console.info('A physics-based puzzle platformer featuring:');

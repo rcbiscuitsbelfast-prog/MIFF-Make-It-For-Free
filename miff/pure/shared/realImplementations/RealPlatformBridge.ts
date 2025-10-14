@@ -12,6 +12,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface PlatformInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   version: string;
   architecture: string;
@@ -22,6 +34,18 @@ export interface PlatformInfo {
 }
 
 export interface PlatformCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   graphics: GraphicsCapabilities;
   audio: AudioCapabilities;
   input: InputCapabilities;
@@ -32,6 +56,18 @@ export interface PlatformCapabilities {
 }
 
 export interface GraphicsCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   webgl: boolean;
   webgl2: boolean;
   canvas: boolean;
@@ -45,6 +81,18 @@ export interface GraphicsCapabilities {
 }
 
 export interface AudioCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   webAudio: boolean;
   audioContext: boolean;
   mediaDevices: boolean;
@@ -55,6 +103,18 @@ export interface AudioCapabilities {
 }
 
 export interface InputCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   keyboard: boolean;
   mouse: boolean;
   touch: boolean;
@@ -66,6 +126,18 @@ export interface InputCapabilities {
 }
 
 export interface StorageCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   localStorage: boolean;
   sessionStorage: boolean;
   indexedDB: boolean;
@@ -76,6 +148,18 @@ export interface StorageCapabilities {
 }
 
 export interface NetworkCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   websocket: boolean;
   webrtc: boolean;
   fetch: boolean;
@@ -86,6 +170,18 @@ export interface NetworkCapabilities {
 }
 
 export interface SensorCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   accelerometer: boolean;
   gyroscope: boolean;
   magnetometer: boolean;
@@ -96,6 +192,18 @@ export interface SensorCapabilities {
 }
 
 export interface SecurityCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   https: boolean;
   secureContext: boolean;
   cors: boolean;
@@ -106,6 +214,18 @@ export interface SecurityCapabilities {
 }
 
 export interface DeviceInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'desktop' | 'mobile' | 'tablet' | 'tv' | 'unknown';
   os: string;
   browser: string;
@@ -128,6 +248,18 @@ export interface DeviceInfo {
 }
 
 export interface PlatformEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   data: any;
   timestamp: Date;
@@ -135,6 +267,18 @@ export interface PlatformEvent {
 }
 
 export interface PerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   memory: number;
@@ -146,7 +290,7 @@ export interface PerformanceMetrics {
 }
 
 export class RealPlatformBridge {
-  private logger: StructuredLogger;
+  
   private platformInfo: PlatformInfo;
   private deviceInfo: DeviceInfo;
   private eventHandlers: Map<string, Function[]> = new Map();
@@ -154,8 +298,8 @@ export class RealPlatformBridge {
   private isInitialized: boolean = false;
   private monitoringInterval?: NodeJS.Timeout;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealPlatformBridge' });
+  constructor(...args: any[]) {
+    
     this.platformInfo = this.detectPlatform();
     this.deviceInfo = this.detectDevice();
     this.performanceMetrics = this.initializePerformanceMetrics();

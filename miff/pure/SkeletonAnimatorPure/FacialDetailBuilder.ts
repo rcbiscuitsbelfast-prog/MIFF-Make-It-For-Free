@@ -10,13 +10,13 @@ import { RigConfig, FaceConfig, FaceFeature, MorphTarget, Vec3, Quaternion, Tran
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class FacialDetailBuilder {
-  private logger: StructuredLogger;
+  
   private rigConfig: RigConfig;
   private faceConfig: FaceConfig;
   private nextId: number = 0;
 
   constructor(rigConfig: RigConfig, initialFaceConfig?: Partial<FaceConfig>) {
-    this.logger = new StructuredLogger({ module: 'FacialDetailBuilder' });
+    
     this.rigConfig = rigConfig;
     this.faceConfig = {
       id: initialFaceConfig?.id || this.generateId(),

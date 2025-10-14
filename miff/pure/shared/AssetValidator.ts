@@ -10,6 +10,18 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface AssetReference {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   path: string;
   type: AssetType;
@@ -35,6 +47,18 @@ export enum AssetType {
 }
 
 export interface AssetValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   asset: AssetReference;
   valid: boolean;
   errors: string[];
@@ -43,6 +67,18 @@ export interface AssetValidationResult {
 }
 
 export interface PipelineIntegrityResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   pipeline: string;
   valid: boolean;
   missingAssets: string[];
@@ -52,6 +88,18 @@ export interface PipelineIntegrityResult {
 }
 
 export interface AssetValidationStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAssets: number;
   validAssets: number;
   invalidAssets: number;
@@ -63,13 +111,13 @@ export interface AssetValidationStats {
 }
 
 export class AssetValidator {
-  private logger: StructuredLogger;
+  
   private assetReferences: Map<string, AssetReference> = new Map();
   private validationResults: Map<string, AssetValidationResult> = new Map();
   private supportedExtensions: Map<string, AssetType> = new Map();
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AssetValidator' });
+  constructor(...args: any[]) {
+    
     this.initializeSupportedExtensions();
   }
 

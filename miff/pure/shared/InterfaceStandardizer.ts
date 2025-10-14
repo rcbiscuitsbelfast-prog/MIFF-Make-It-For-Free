@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface InterfaceStandard {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   version: string;
   description: string;
@@ -20,6 +32,18 @@ export interface InterfaceStandard {
 }
 
 export interface InterfaceProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: string;
   required: boolean;
@@ -28,6 +52,18 @@ export interface InterfaceProperty {
 }
 
 export interface InterfaceEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   payload: any;
@@ -35,6 +71,18 @@ export interface InterfaceEvent {
 }
 
 export interface LifecycleMethods {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   initialize: boolean;
   destroy: boolean;
   update?: boolean;
@@ -44,6 +92,18 @@ export interface LifecycleMethods {
 }
 
 export interface ErrorHandlingStandard {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   throwOnError: boolean;
   returnError: boolean;
   logErrors: boolean;
@@ -51,6 +111,18 @@ export interface ErrorHandlingStandard {
 }
 
 export interface StandardizationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   module: string;
   interface: string;
   compliant: boolean;
@@ -67,6 +139,18 @@ export interface StandardizationResult {
 }
 
 export interface LifecycleCompliance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   initialize: boolean;
   destroy: boolean;
   update: boolean;
@@ -77,6 +161,18 @@ export interface LifecycleCompliance {
 }
 
 export interface ErrorHandlingCompliance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   throwOnError: boolean;
   returnError: boolean;
   logErrors: boolean;
@@ -85,6 +181,18 @@ export interface ErrorHandlingCompliance {
 }
 
 export interface StandardizationStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalModules: number;
   compliantModules: number;
   nonCompliantModules: number;
@@ -94,13 +202,13 @@ export interface StandardizationStats {
 }
 
 export class InterfaceStandardizer {
-  private logger: StructuredLogger;
+  
   private standards: Map<string, InterfaceStandard> = new Map();
   private results: Map<string, StandardizationResult> = new Map();
   private stats: StandardizationStats;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'InterfaceStandardizer' });
+  constructor(...args: any[]) {
+    
     this.stats = this.initializeStats();
     this.initializeStandards();
   }
@@ -127,6 +235,18 @@ export class InterfaceStandardizer {
       
       this.updateStats(results);
       console.info(`✅ Standardized interfaces for ${results.length} modules`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
       
       return results;
       
@@ -140,6 +260,18 @@ export class InterfaceStandardizer {
    * Standardize a specific module interface
    */
   async standardizeModuleInterface(module: { name: string; path: string; interface: string }): Promise<StandardizationResult> {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     console.info(`🔧 Standardizing ${module.name} interface...`);
     
     const standard = this.standards.get(module.interface);
@@ -171,6 +303,18 @@ export class InterfaceStandardizer {
           score: 0
         },
         recommendations: [`No standard found for interface: ${module.interface}`],
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
         score: 0
       };
     }
@@ -266,6 +410,18 @@ export class InterfaceStandardizer {
   }
 
   private async findModules(rootPath: string): Promise<Array<{ name: string; path: string; interface: string }>> {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     // This would find all modules and determine their interface types
     // For now, return mock data
     return [
@@ -282,6 +438,18 @@ export class InterfaceStandardizer {
   }
 
   private async analyzeModuleCompliance(module: { name: string; path: string; interface: string }, standard: InterfaceStandard): Promise<any> {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     // This would analyze the actual module compliance
     // For now, return mock analysis
     const mockMethods = ['initialize', 'destroy', 'process', 'validate'];

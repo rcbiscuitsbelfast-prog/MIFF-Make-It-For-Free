@@ -1,4 +1,16 @@
 export interface SessionPlayerRef {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerId: string;
   avatar: string; // path to avatar manifest
   style: '3d' | '2d-side' | 'overlay';
@@ -7,6 +19,18 @@ export interface SessionPlayerRef {
 }
 
 export interface SessionManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   zone: string;
   players: SessionPlayerRef[];

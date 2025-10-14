@@ -61,6 +61,18 @@ export enum UnityCompressionMethod {
 }
 
 export interface UnityProjectSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   companyName: string;
   productName: string;
   version: string;
@@ -119,6 +131,18 @@ export interface UnityProjectSettings {
 }
 
 export interface UnityRenderSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fog: boolean;
   fogColor: { r: number; g: number; b: number; a: number };
   fogMode: string;
@@ -147,6 +171,18 @@ export interface UnityRenderSettings {
 }
 
 export interface UnityQualitySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentQuality: number;
   names: string[];
   pixelLightCount: number[];
@@ -192,6 +228,18 @@ export interface UnityQualitySettings {
 }
 
 export interface UnityPhysicsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   gravity: { x: number; y: number; z: number };
   defaultMaxAngularSpeed: number;
   bounceThreshold: number;
@@ -222,6 +270,18 @@ export interface UnityPhysicsSettings {
 }
 
 export interface UnityTimeSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fixedTimestep: number;
   maximumAllowedTimestep: number;
   timeScale: number;
@@ -245,6 +305,18 @@ export interface UnityTimeSettings {
 }
 
 export interface UnityAudioSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   driverCapabilities: string;
   speakerMode: string;
   defaultSpeakerMode: string;
@@ -266,6 +338,18 @@ export interface UnityAudioSettings {
 }
 
 export interface UnityPlayerSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   productName: string;
   companyName: string;
   productGUID: string;
@@ -399,6 +483,18 @@ export interface UnityPlayerSettings {
 }
 
 export interface UnityEditorSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   externalVersionControl: string;
   serializationMode: string;
   lineEndingsForNewScripts: string;
@@ -471,6 +567,18 @@ export interface UnityEditorSettings {
 }
 
 export interface UnityExportConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   target: UnityExportTarget;
   configuration: UnityBuildConfiguration;
   outputPath: string;
@@ -489,6 +597,18 @@ export interface UnityExportConfiguration {
 }
 
 export interface UnityBuildOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   development: boolean;
   allowDebugging: boolean;
   waitForPlayerConnection: boolean;
@@ -586,6 +706,18 @@ export interface UnityBuildOptions {
 }
 
 export interface UnityBuildReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   summary: UnityBuildSummary;
   steps: UnityBuildStep[];
   files: UnityBuildFile[];
@@ -714,6 +846,18 @@ export interface UnityBuildReport {
 }
 
 export interface UnityBuildSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   platform: string;
   platformGroup: string;
   options: string;
@@ -842,6 +986,18 @@ export interface UnityBuildSummary {
 }
 
 export interface UnityBuildFile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   path: string;
   size: number;
   hash: string;
@@ -852,6 +1008,18 @@ export interface UnityBuildFile {
 }
 
 export interface UnityBuildDependency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   version: string;
   type: string;
@@ -861,6 +1029,18 @@ export interface UnityBuildDependency {
 }
 
 export interface UnityBuildStrippingInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strippingLevel: string;
   managedStrippingLevel: string;
@@ -1031,6 +1211,18 @@ export interface UnityBuildStrippingInfo {
 }
 
 export interface UnityBuildStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   duration: number;
   depth: number;
@@ -1044,6 +1236,18 @@ export interface UnityBuildStep {
 }
 
 export interface UnityConversionReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   conversionId: string;
   startTime: number;
   endTime: number;
@@ -1058,6 +1262,18 @@ export interface UnityConversionReport {
 }
 
 export interface UnityAssetConversion {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sourcePath: string;
   targetPath: string;
   assetType: string;
@@ -1070,6 +1286,18 @@ export interface UnityAssetConversion {
 }
 
 export interface UnityConversionError {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sourcePath: string;
   errorCode: string;
   errorMessage: string;
@@ -1082,6 +1310,18 @@ export interface UnityConversionError {
 }
 
 export interface UnityConversionWarning {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sourcePath: string;
   warningCode: string;
   warningMessage: string;
@@ -1093,7 +1333,7 @@ export interface UnityConversionWarning {
 }
 
 export class UnityConverter {
-  private logger: StructuredLogger;
+  
   private projectSettings: UnityProjectSettings;
   private exportConfiguration: UnityExportConfiguration;
   private buildOptions: UnityBuildOptions;
@@ -1101,7 +1341,7 @@ export class UnityConverter {
   private isInitialized = false;
 
   constructor(projectSettings: UnityProjectSettings, exportConfiguration: UnityExportConfiguration) {
-    this.logger = new StructuredLogger({ module: 'UnityConverter' });
+    
     this.projectSettings = projectSettings;
     this.exportConfiguration = exportConfiguration;
     this.buildOptions = this.initializeBuildOptions();

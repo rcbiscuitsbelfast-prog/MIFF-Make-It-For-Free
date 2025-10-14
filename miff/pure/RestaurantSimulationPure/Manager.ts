@@ -12,6 +12,18 @@
  */
 
 export interface RestaurantSimulationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRestaurantManagement: boolean;
   enableCustomerSimulation: boolean;
   enableStaffManagement: boolean;
@@ -29,6 +41,18 @@ export interface RestaurantSimulationConfig {
 }
 
 export interface RestaurantSimulationManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RestaurantSimulationManagerType;
@@ -53,6 +77,18 @@ export type RestaurantSimulationManagerType = 'casual' | 'fine_dining' | 'fast_f
 export type RestaurantSimulationManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Restaurant {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RestaurantType;
@@ -69,6 +105,18 @@ export type RestaurantType = 'casual' | 'fine_dining' | 'fast_food' | 'cafe' | '
 export type RestaurantStatus = 'open' | 'closed' | 'maintenance' | 'error';
 
 export interface Location {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   address: string;
   city: string;
   state: string;
@@ -79,11 +127,35 @@ export interface Location {
 }
 
 export interface Coordinates {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latitude: number;
   longitude: number;
 }
 
 export interface CapacitySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxCustomers: number;
   maxTables: number;
   maxStaff: number;
@@ -92,6 +164,18 @@ export interface CapacitySettings {
 }
 
 export interface RestaurantLayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   tables: Table[];
   kitchen: KitchenLayout;
   bar: BarLayout;
@@ -101,6 +185,18 @@ export interface RestaurantLayout {
 }
 
 export interface Table {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   number: string;
   capacity: number;
@@ -114,6 +210,18 @@ export type TableType = 'booth' | 'table' | 'bar' | 'outdoor' | 'private' | 'cus
 export type TableStatus = 'available' | 'occupied' | 'reserved' | 'cleaning' | 'out_of_order';
 
 export interface TableLocation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -122,6 +230,18 @@ export interface TableLocation {
 }
 
 export interface Reservation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   customerId: string;
   date: number;
@@ -135,12 +255,36 @@ export interface Reservation {
 export type ReservationStatus = 'confirmed' | 'pending' | 'cancelled' | 'completed' | 'no_show';
 
 export interface KitchenLayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   stations: KitchenStation[];
   equipment: Equipment[];
   workflow: WorkflowStep[];
 }
 
 export interface KitchenStation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StationType;
@@ -154,6 +298,18 @@ export type StationType = 'prep' | 'cooking' | 'grill' | 'salad' | 'dessert' | '
 export type StationStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Equipment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EquipmentType;
@@ -167,6 +323,18 @@ export type EquipmentType = 'oven' | 'stove' | 'grill' | 'fryer' | 'refrigerator
 export type EquipmentStatus = 'operational' | 'maintenance' | 'broken' | 'idle';
 
 export interface MaintenanceSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   lastMaintenance: number;
   nextMaintenance: number;
   interval: number;
@@ -174,6 +342,18 @@ export interface MaintenanceSchedule {
 }
 
 export interface WorkflowStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   station: string;
@@ -183,12 +363,36 @@ export interface WorkflowStep {
 }
 
 export interface BarLayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   seats: BarSeat[];
   equipment: Equipment[];
   inventory: BarInventory[];
 }
 
 export interface BarSeat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   number: string;
   status: SeatStatus;
@@ -198,6 +402,18 @@ export interface BarSeat {
 export type SeatStatus = 'available' | 'occupied' | 'reserved' | 'cleaning';
 
 export interface BarInventory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   itemId: string;
   quantity: number;
   unit: string;
@@ -206,18 +422,54 @@ export interface BarInventory {
 }
 
 export interface WaitingArea {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   capacity: number;
   seating: WaitingSeat[];
   entertainment: EntertainmentItem[];
 }
 
 export interface WaitingSeat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   status: SeatStatus;
 }
 
 export interface EntertainmentItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   name: string;
@@ -225,6 +477,18 @@ export interface EntertainmentItem {
 }
 
 export interface Restroom {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RestroomType;
   capacity: number;
@@ -236,6 +500,18 @@ export type RestroomType = 'men' | 'women' | 'unisex' | 'family' | 'custom';
 export type RestroomStatus = 'available' | 'occupied' | 'cleaning' | 'out_of_order';
 
 export interface StorageArea {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StorageType;
@@ -248,6 +524,18 @@ export interface StorageArea {
 export type StorageType = 'dry' | 'cold' | 'frozen' | 'wine' | 'custom';
 
 export interface StorageInventory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   itemId: string;
   quantity: number;
   unit: string;
@@ -256,6 +544,18 @@ export interface StorageInventory {
 }
 
 export interface OperationsSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hours: OperatingHours;
   policies: RestaurantPolicies;
   procedures: Procedure[];
@@ -263,6 +563,18 @@ export interface OperationsSettings {
 }
 
 export interface OperatingHours {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   monday: DayHours;
   tuesday: DayHours;
   wednesday: DayHours;
@@ -273,12 +585,36 @@ export interface OperatingHours {
 }
 
 export interface DayHours {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   open: string;
   close: string;
   closed: boolean;
 }
 
 export interface RestaurantPolicies {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   reservations: ReservationPolicy;
   cancellations: CancellationPolicy;
   dressCode: DressCodePolicy;
@@ -287,6 +623,18 @@ export interface RestaurantPolicies {
 }
 
 export interface ReservationPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxAdvance: number;
   minAdvance: number;
   maxPartySize: number;
@@ -295,6 +643,18 @@ export interface ReservationPolicy {
 }
 
 export interface CancellationPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   freeCancellation: number;
   partialRefund: number;
   noRefund: number;
@@ -302,12 +662,36 @@ export interface CancellationPolicy {
 }
 
 export interface DressCodePolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required: boolean;
   description: string;
   enforcement: string;
 }
 
 export interface ChildrenPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   allowed: boolean;
   ageRestrictions: string;
   highChairs: boolean;
@@ -315,12 +699,36 @@ export interface ChildrenPolicy {
 }
 
 export interface PetPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   allowed: boolean;
   restrictions: string;
   areas: string[];
 }
 
 export interface Procedure {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -330,6 +738,18 @@ export interface Procedure {
 }
 
 export interface ProcedureStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   order: number;
@@ -338,6 +758,18 @@ export interface ProcedureStep {
 }
 
 export interface QualityStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   food: FoodStandards;
   service: ServiceStandards;
   cleanliness: CleanlinessStandards;
@@ -345,6 +777,18 @@ export interface QualityStandards {
 }
 
 export interface FoodStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   temperature: TemperatureStandards;
   presentation: PresentationStandards;
   taste: TasteStandards;
@@ -352,30 +796,90 @@ export interface FoodStandards {
 }
 
 export interface TemperatureStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hot: number;
   cold: number;
   tolerance: number;
 }
 
 export interface PresentationStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   plating: string;
   garnishes: string;
   consistency: string;
 }
 
 export interface TasteStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   seasoning: string;
   balance: string;
   freshness: string;
 }
 
 export interface NutritionStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   calories: number;
   allergens: string[];
   dietary: string[];
 }
 
 export interface ServiceStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   greeting: string;
   timing: TimingStandards;
   professionalism: string;
@@ -383,6 +887,18 @@ export interface ServiceStandards {
 }
 
 export interface TimingStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   seating: number;
   order: number;
   food: number;
@@ -390,6 +906,18 @@ export interface TimingStandards {
 }
 
 export interface CleanlinessStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frequency: string;
   methods: string[];
   supplies: string[];
@@ -397,6 +925,18 @@ export interface CleanlinessStandards {
 }
 
 export interface SafetyStandards {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   food: string;
   equipment: string;
   staff: string;
@@ -404,6 +944,18 @@ export interface SafetyStandards {
 }
 
 export interface FinancialSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   revenue: RevenueSettings;
   costs: CostSettings;
   pricing: PricingSettings;
@@ -411,12 +963,36 @@ export interface FinancialSettings {
 }
 
 export interface RevenueSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sources: RevenueSource[];
   targets: RevenueTarget[];
   tracking: RevenueTracking;
 }
 
 export interface RevenueSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RevenueType;
@@ -426,12 +1002,36 @@ export interface RevenueSource {
 export type RevenueType = 'food' | 'beverage' | 'alcohol' | 'service' | 'custom';
 
 export interface RevenueTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: string;
   amount: number;
   growth: number;
 }
 
 export interface RevenueTracking {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   daily: boolean;
   weekly: boolean;
   monthly: boolean;
@@ -439,12 +1039,36 @@ export interface RevenueTracking {
 }
 
 export interface CostSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   categories: CostCategory[];
   budgets: Budget[];
   controls: CostControl[];
 }
 
 export interface CostCategory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CostType;
@@ -454,12 +1078,36 @@ export interface CostCategory {
 export type CostType = 'food' | 'labor' | 'rent' | 'utilities' | 'marketing' | 'custom';
 
 export interface Budget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: string;
   amount: number;
   variance: number;
 }
 
 export interface CostControl {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category: string;
   method: string;
   threshold: number;
@@ -467,6 +1115,18 @@ export interface CostControl {
 }
 
 export interface PricingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strategy: PricingStrategy;
   margins: MarginSettings;
   discounts: DiscountSettings;
@@ -474,6 +1134,18 @@ export interface PricingSettings {
 }
 
 export interface PricingStrategy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: StrategyType;
   parameters: Record<string, any>;
 }
@@ -481,6 +1153,18 @@ export interface PricingStrategy {
 export type StrategyType = 'cost_plus' | 'competitive' | 'value_based' | 'dynamic' | 'custom';
 
 export interface MarginSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   food: number;
   beverage: number;
   alcohol: number;
@@ -488,12 +1172,36 @@ export interface MarginSettings {
 }
 
 export interface DiscountSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   types: DiscountType[];
   limits: DiscountLimit[];
   conditions: DiscountCondition[];
 }
 
 export interface DiscountType {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   percentage: number;
@@ -502,24 +1210,72 @@ export interface DiscountType {
 }
 
 export interface DiscountLimit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   max: number;
   period: string;
 }
 
 export interface DiscountCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   value: any;
   operator: string;
 }
 
 export interface PromotionSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   types: PromotionType[];
   schedules: PromotionSchedule[];
   targets: PromotionTarget[];
 }
 
 export interface PromotionType {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -528,6 +1284,18 @@ export interface PromotionType {
 }
 
 export interface PromotionSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   frequency: string;
@@ -535,12 +1303,36 @@ export interface PromotionSchedule {
 }
 
 export interface PromotionTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   criteria: string[];
   reach: number;
 }
 
 export interface ReportingSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frequency: string;
   formats: string[];
   recipients: string[];
@@ -548,6 +1340,18 @@ export interface ReportingSettings {
 }
 
 export interface Customer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CustomerType;
@@ -562,6 +1366,18 @@ export type CustomerType = 'regular' | 'vip' | 'new' | 'group' | 'custom';
 export type CustomerStatus = 'active' | 'inactive' | 'banned' | 'error';
 
 export interface CustomerProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   age: number;
   gender: string;
   occupation: string;
@@ -572,6 +1388,18 @@ export interface CustomerProfile {
 }
 
 export interface CustomerPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cuisine: string[];
   price: PriceRange;
   atmosphere: string[];
@@ -580,12 +1408,36 @@ export interface CustomerPreferences {
 }
 
 export interface PriceRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   min: number;
   max: number;
   currency: string;
 }
 
 export interface CustomerHistory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   visits: Visit[];
   orders: Order[];
   reviews: Review[];
@@ -594,6 +1446,18 @@ export interface CustomerHistory {
 }
 
 export interface Visit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   date: number;
   duration: number;
@@ -604,6 +1468,18 @@ export interface Visit {
 }
 
 export interface Order {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   customerId: string;
   tableId: string;
@@ -619,6 +1495,18 @@ export interface Order {
 export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'served' | 'paid' | 'cancelled';
 
 export interface OrderItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   menuItemId: string;
   quantity: number;
@@ -628,6 +1516,18 @@ export interface OrderItem {
 }
 
 export interface Review {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   rating: number;
   comment: string;
@@ -637,11 +1537,35 @@ export interface Review {
 }
 
 export interface ReviewCategory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category: string;
   rating: number;
 }
 
 export interface Complaint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ComplaintType;
   description: string;
@@ -656,6 +1580,18 @@ export type ComplaintSeverity = 'low' | 'medium' | 'high' | 'critical';
 export type ComplaintStatus = 'open' | 'investigating' | 'resolved' | 'closed';
 
 export interface Reward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RewardType;
   value: number;
@@ -668,6 +1604,18 @@ export interface Reward {
 export type RewardType = 'points' | 'discount' | 'free_item' | 'custom';
 
 export interface Staff {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StaffType;
@@ -682,6 +1630,18 @@ export type StaffType = 'manager' | 'server' | 'chef' | 'host' | 'bartender' | '
 export type StaffStatus = 'active' | 'inactive' | 'on_break' | 'off_duty' | 'error';
 
 export interface StaffProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   age: number;
   gender: string;
   experience: number;
@@ -691,12 +1651,36 @@ export interface StaffProfile {
 }
 
 export interface WorkSchedule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   shifts: Shift[];
   availability: Availability[];
   preferences: SchedulePreferences;
 }
 
 export interface Shift {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   date: number;
   start: string;
@@ -708,6 +1692,18 @@ export interface Shift {
 export type ShiftStatus = 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
 
 export interface Availability {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   day: string;
   start: string;
   end: string;
@@ -715,6 +1711,18 @@ export interface Availability {
 }
 
 export interface SchedulePreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxHours: number;
   minHours: number;
   preferredDays: string[];
@@ -722,6 +1730,18 @@ export interface SchedulePreferences {
 }
 
 export interface StaffPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rating: number;
   metrics: PerformanceMetric[];
   reviews: PerformanceReview[];
@@ -729,6 +1749,18 @@ export interface StaffPerformance {
 }
 
 export interface PerformanceMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   value: number;
   target: number;
@@ -736,6 +1768,18 @@ export interface PerformanceMetric {
 }
 
 export interface PerformanceReview {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   date: number;
   rating: number;
@@ -744,6 +1788,18 @@ export interface PerformanceReview {
 }
 
 export interface TrainingRecord {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   course: string;
   date: number;
@@ -752,6 +1808,18 @@ export interface TrainingRecord {
 }
 
 export interface Menu {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MenuType;
@@ -766,6 +1834,18 @@ export type MenuType = 'breakfast' | 'lunch' | 'dinner' | 'brunch' | 'happy_hour
 export type MenuStatus = 'active' | 'inactive' | 'draft' | 'error';
 
 export interface MenuItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -780,6 +1860,18 @@ export interface MenuItem {
 }
 
 export interface NutritionInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   calories: number;
   protein: number;
   carbs: number;
@@ -790,6 +1882,18 @@ export interface NutritionInfo {
 }
 
 export interface AvailabilitySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   always: boolean;
   days: string[];
   times: TimeRange[];
@@ -797,11 +1901,35 @@ export interface AvailabilitySettings {
 }
 
 export interface TimeRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: string;
   end: string;
 }
 
 export interface MenuCategory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -810,6 +1938,18 @@ export interface MenuCategory {
 }
 
 export interface RestaurantSimulationPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRestaurants: number;
   activeRestaurants: number;
   totalCustomers: number;
@@ -823,6 +1963,18 @@ export interface RestaurantSimulationPerformanceMetrics {
 }
 
 export interface RestaurantSimulationAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRestaurants: number;
   totalOrders: number;
   averageOrderValue: number;
@@ -832,6 +1984,18 @@ export interface RestaurantSimulationAnalytics {
 }
 
 export interface RestaurantTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RestaurantType;
   count: number;
   percentage: number;
@@ -839,6 +2003,18 @@ export interface RestaurantTypeDistribution {
 }
 
 export interface CustomerTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CustomerType;
   count: number;
   percentage: number;
@@ -846,6 +2022,18 @@ export interface CustomerTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   restaurants: number;
   customers: number;
@@ -857,6 +2045,18 @@ export interface PerformanceTrend {
 }
 
 export interface RestaurantSimulationReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -868,6 +2068,18 @@ export interface RestaurantSimulationReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -877,6 +2089,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -885,6 +2109,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -893,6 +2129,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -900,6 +2148,18 @@ export interface Version {
 }
 
 export interface RestaurantSimulationOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

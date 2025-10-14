@@ -3,12 +3,36 @@ import { EventEmitter } from 'events';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export interface WebSocketServerOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   port?: number;
   host?: string;
   enableRealWebSocket?: boolean;
 }
 
 export interface ClientConnection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   ws: WebSocket;
   lastSeen: number;

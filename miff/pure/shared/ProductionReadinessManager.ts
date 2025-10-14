@@ -12,6 +12,18 @@ import { SecurityHardening } from './SecurityHardening.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ProductionReadinessCheck {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   category: 'security' | 'performance' | 'reliability' | 'scalability' | 'monitoring' | 'deployment';
   name: string;
@@ -24,6 +36,18 @@ export interface ProductionReadinessCheck {
 }
 
 export interface DeploymentEnvironment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'development' | 'staging' | 'production';
@@ -35,6 +59,18 @@ export interface DeploymentEnvironment {
 }
 
 export interface EnvironmentConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   nodeVersion: string;
   npmVersion: string;
   memoryLimit: string;
@@ -46,6 +82,18 @@ export interface EnvironmentConfiguration {
 }
 
 export interface MonitoringConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   metrics: string[];
   alerts: AlertConfiguration[];
@@ -55,6 +103,18 @@ export interface MonitoringConfiguration {
 }
 
 export interface SecurityConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sslEnabled: boolean;
   authentication: string;
   authorization: string;
@@ -65,6 +125,18 @@ export interface SecurityConfiguration {
 }
 
 export interface AlertConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: string;
@@ -75,6 +147,18 @@ export interface AlertConfiguration {
 }
 
 export interface RateLimitConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   requestsPerMinute: number;
   burstLimit: number;
@@ -82,6 +166,18 @@ export interface RateLimitConfiguration {
 }
 
 export interface DeploymentPipeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   stages: PipelineStage[];
@@ -92,6 +188,18 @@ export interface DeploymentPipeline {
 }
 
 export interface PipelineStage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'build' | 'test' | 'deploy' | 'verify';
@@ -102,12 +210,36 @@ export interface PipelineStage {
 }
 
 export interface PipelineTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'push' | 'pull_request' | 'schedule' | 'manual';
   branch: string;
   conditions: string[];
 }
 
 export interface ProductionReadinessReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   overallScore: number;
   readinessLevel: 'production_ready' | 'staging_ready' | 'development_ready' | 'not_ready';
@@ -120,7 +252,7 @@ export interface ProductionReadinessReport {
 }
 
 export class ProductionReadinessManager {
-  private logger: StructuredLogger;
+  
   private checks: Map<string, ProductionReadinessCheck> = new Map();
   private environments: Map<string, DeploymentEnvironment> = new Map();
   private pipelines: Map<string, DeploymentPipeline> = new Map();
@@ -132,8 +264,8 @@ export class ProductionReadinessManager {
   private monitoringSystem: MonitoringSystem;
   private securityHardening: SecurityHardening;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'ProductionReadinessManager' });
+  constructor(...args: any[]) {
+    
     this.initializeDefaultChecks();
     this.initializeDefaultEnvironments();
     this.initializeDefaultPipelines();

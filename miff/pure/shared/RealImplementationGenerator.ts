@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface ImplementationTemplate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -17,6 +29,18 @@ export interface ImplementationTemplate {
 }
 
 export interface GeneratedImplementation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   moduleId: string;
   templateId: string;
@@ -28,6 +52,18 @@ export interface GeneratedImplementation {
 }
 
 export interface GenerationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetModules: string[];
   templateCategories: string[];
   includeTests: boolean;
@@ -37,13 +73,13 @@ export interface GenerationConfig {
 }
 
 export class RealImplementationGenerator {
-  private logger: StructuredLogger;
+  
   private templates: Map<string, ImplementationTemplate> = new Map();
   private generatedImplementations: Map<string, GeneratedImplementation> = new Map();
   private config: GenerationConfig;
 
   constructor(config: Partial<GenerationConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'RealImplementationGenerator' });
+    
     this.config = {
       targetModules: [],
       templateCategories: ['manager', 'processor', 'validator', 'bridge', 'converter'],

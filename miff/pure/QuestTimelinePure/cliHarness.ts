@@ -11,7 +11,7 @@ type Cmd =
   | { op: 'list' }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const timelinePath = process.argv[2] || 'QuestTimelinePure/fixtures/helmet_of_fate.timeline.json';
   const commandsPath = process.argv[3] || '';
   

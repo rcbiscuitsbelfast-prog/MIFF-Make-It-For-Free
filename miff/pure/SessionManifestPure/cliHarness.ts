@@ -9,6 +9,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SessionOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'create' | 'get' | 'list' | 'addPlayer' | 'removePlayer' | 'updateStatus' | 'delete' | 'cleanup' | 'stats' | 'simulate' | 'export' | 'validate';
   sessionId?: string;
   zone?: string;
@@ -25,16 +37,16 @@ interface SessionOperation {
 }
 
 class SessionManifestCLI {
-  private logger: StructuredLogger;
+  
   private manager: SessionManifestManager;
 
   constructor(config?: SessionConfig) {
-    this.logger = new StructuredLogger({ module: 'SessionManifestCLI' });
+    
     this.manager = new SessionManifestManager(config);
     this.initializeSampleSessions();
   }
 
-  private initializeSampleSessions() {
+  private initializeSampleSessions(...args: any[]) {
     // Create sample sessions for testing
     const sampleSessions = [
       {
@@ -401,7 +413,7 @@ class SessionManifestCLI {
   }
 }
 
-async function main() {
+async function main(...args: any[]) {
   const cli = new SessionManifestCLI();
   
   if (process.argv.length < 3) {

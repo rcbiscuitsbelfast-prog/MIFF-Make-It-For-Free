@@ -16,6 +16,18 @@ import { EventBus } from '../EventBusPure/EventBusPure.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface IntegrationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSplashScreen: boolean;
   splashScreenConfig: any;
   targetPlatform: 'web' | 'unity' | 'godot' | 'unreal';
@@ -24,6 +36,18 @@ interface IntegrationConfig {
 }
 
 interface CLICommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   flags: CLIFlag[];
@@ -31,6 +55,18 @@ interface CLICommand {
 }
 
 interface CLIFlag {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   shortName?: string;
   description: string;
@@ -39,13 +75,13 @@ interface CLIFlag {
 }
 
 export class SplashScreenIntegration {
-  private logger: StructuredLogger;
+  
   private splashScreen: SplashScreenPure;
   private config: IntegrationConfig;
   private cliCommands: Map<string, CLICommand> = new Map();
 
   constructor(config: Partial<IntegrationConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'SplashScreenIntegration' });
+    
     this.config = {
       enableSplashScreen: true,
       splashScreenConfig: SplashScreenPure.createDefaultConfig(),

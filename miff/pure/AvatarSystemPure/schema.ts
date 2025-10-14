@@ -1,6 +1,18 @@
 export type AvatarStyle = '3d' | '2d-side' | 'overlay' | 'pixel-art' | 'voxel' | 'skeletal';
 
 export interface AvatarComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   kind: 'head' | 'torso' | 'legs' | 'boots' | 'shirt' | 'cloak' | 'hat' | 'accessory' | 'weapon' | 'shield' | 'hair' | 'eyes' | 'mouth';
   id: string; // e.g. "tunic_blue_v1"
   variant?: string;
@@ -11,6 +23,18 @@ export interface AvatarComponent {
 }
 
 export interface AvatarAnchors {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   head?: { x: number; y: number };
   torso?: { x: number; y: number };
   feet?: { x: number; y: number };
@@ -18,6 +42,18 @@ export interface AvatarAnchors {
 }
 
 export interface AvatarAnimation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   idle?: string;
   walk?: string;
   run?: string;
@@ -31,6 +67,18 @@ export interface AvatarAnimation {
 }
 
 export interface AvatarLayers {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   body?: string; // url or asset id
   clothing?: string[];
   face?: string; // url or asset id
@@ -41,6 +89,18 @@ export interface AvatarLayers {
 }
 
 export interface AvatarCustomization {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   skinTone?: string;
   hairColor?: string;
   eyeColor?: string;
@@ -53,6 +113,18 @@ export interface AvatarCustomization {
 }
 
 export interface AvatarTattoo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: { x: number; y: number };
   scale: number;
@@ -62,6 +134,18 @@ export interface AvatarTattoo {
 }
 
 export interface AvatarScar {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: { x: number; y: number };
   scale: number;
@@ -70,12 +154,36 @@ export interface AvatarScar {
 }
 
 export interface AvatarModification {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   component: string;
   modification: 'remove' | 'replace' | 'add';
   data: any;
 }
 
 export interface AvatarManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   base: 'barbarian' | 'mage' | 'rogue' | string;
   clothing: string[];
   face: 'neutral' | 'smile' | 'angry' | string;
@@ -98,6 +206,18 @@ export interface AvatarManifest {
 }
 
 export interface ResolvedAvatar {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   manifest: AvatarManifest;
   // Style-agnostic canonical parts list
   components: AvatarComponent[];
@@ -115,6 +235,18 @@ export interface ResolvedAvatar {
 }
 
 export interface AvatarRenderData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   bounds: { min: { x: number; y: number; z: number }; max: { x: number; y: number; z: number } };
   materials: AvatarMaterial[];
   textures: AvatarTexture[];
@@ -124,6 +256,18 @@ export interface AvatarRenderData {
 }
 
 export interface AvatarMaterial {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   diffuse?: string;
@@ -137,6 +281,18 @@ export interface AvatarMaterial {
 }
 
 export interface AvatarTexture {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   url: string;
   type: 'diffuse' | 'normal' | 'specular' | 'emissive';
@@ -146,6 +302,18 @@ export interface AvatarTexture {
 }
 
 export interface AvatarMesh {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   vertices: number;
   triangles: number;
@@ -155,6 +323,18 @@ export interface AvatarMesh {
 }
 
 export interface AvatarAnimationState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentAnimation: string;
   time: number;
   speed: number;
@@ -165,6 +345,18 @@ export interface AvatarAnimationState {
 }
 
 export interface AvatarAnimationTransition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   from: string;
   to: string;
   duration: number;
@@ -172,12 +364,36 @@ export interface AvatarAnimationTransition {
 }
 
 export interface AvatarAnimationEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number;
   event: string;
   parameters?: Record<string, any>;
 }
 
 export interface AvatarOptimizations {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   instancing: boolean;
   culling: boolean;
   lod: boolean;

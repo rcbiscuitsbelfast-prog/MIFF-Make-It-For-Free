@@ -10,6 +10,18 @@
  */
 
 export interface StartMenuConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMenuManagement: boolean;
   enableMenuCreation: boolean;
   enableMenuNavigation: boolean;
@@ -26,6 +38,18 @@ export interface StartMenuConfig {
 }
 
 export interface StartMenuManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: StartMenuManagerType;
@@ -49,6 +73,18 @@ export type StartMenuManagerType = 'main' | 'settings' | 'game' | 'custom';
 export type StartMenuManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface StartMenu {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MenuType;
@@ -63,6 +99,18 @@ export type MenuType = 'main' | 'settings' | 'game' | 'custom';
 export type MenuStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface MenuConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   theme: MenuTheme;
@@ -72,6 +120,18 @@ export interface MenuConfiguration {
 }
 
 export interface MenuTheme {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   colors: ThemeColors;
   fonts: ThemeFonts;
@@ -79,6 +139,18 @@ export interface MenuTheme {
 }
 
 export interface ThemeColors {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: Color;
   secondary: Color;
   background: Color;
@@ -87,6 +159,18 @@ export interface ThemeColors {
 }
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -94,6 +178,18 @@ export interface Color {
 }
 
 export interface ThemeFonts {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: string;
   secondary: string;
   size: number;
@@ -103,12 +199,36 @@ export interface ThemeFonts {
 export type FontWeight = 'normal' | 'bold' | 'light' | 'custom';
 
 export interface ThemeStyles {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   borderRadius: number;
   shadow: ShadowStyle;
   border: BorderStyle;
 }
 
 export interface ShadowStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   color: Color;
   blur: number;
@@ -116,11 +236,35 @@ export interface ShadowStyle {
 }
 
 export interface Vector2 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
 
 export interface BorderStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   color: Color;
   width: number;
@@ -130,6 +274,18 @@ export interface BorderStyle {
 export type BorderType = 'solid' | 'dashed' | 'dotted' | 'custom';
 
 export interface MenuLayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: LayoutType;
   direction: LayoutDirection;
   spacing: number;
@@ -141,6 +297,18 @@ export type LayoutType = 'vertical' | 'horizontal' | 'grid' | 'custom';
 export type LayoutDirection = 'top_to_bottom' | 'bottom_to_top' | 'left_to_right' | 'right_to_left' | 'custom';
 
 export interface Padding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: number;
   right: number;
   bottom: number;
@@ -148,6 +316,18 @@ export interface Padding {
 }
 
 export interface Alignment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   horizontal: HorizontalAlignment;
   vertical: VerticalAlignment;
 }
@@ -156,6 +336,18 @@ export type HorizontalAlignment = 'left' | 'center' | 'right' | 'custom';
 export type VerticalAlignment = 'top' | 'center' | 'bottom' | 'custom';
 
 export interface MenuAnimation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AnimationType;
   duration: number;
@@ -168,6 +360,18 @@ export type AnimationType = 'fade' | 'slide' | 'scale' | 'custom';
 export type EasingFunction = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'custom';
 
 export interface MenuSound {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: SoundType;
   file: string;
@@ -178,12 +382,36 @@ export interface MenuSound {
 export type SoundType = 'click' | 'hover' | 'select' | 'custom';
 
 export interface MenuPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalItems: number;
   averageLoadTime: number;
   lastLoaded: number;
 }
 
 export interface MenuItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ItemType;
@@ -198,6 +426,18 @@ export type ItemType = 'button' | 'link' | 'separator' | 'custom';
 export type ItemStatus = 'active' | 'inactive' | 'disabled' | 'error';
 
 export interface ItemConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   text: string;
   icon: string;
   tooltip: string;
@@ -207,6 +447,18 @@ export interface ItemConfiguration {
 }
 
 export interface ItemAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   target: string;
   parameters: Record<string, any>;
@@ -216,6 +468,18 @@ export interface ItemAction {
 export type ActionType = 'navigate' | 'execute' | 'toggle' | 'custom';
 
 export interface ItemStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   backgroundColor: Color;
   fontSize: number;
@@ -225,6 +489,18 @@ export interface ItemStyle {
 }
 
 export interface Margin {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: number;
   right: number;
   bottom: number;
@@ -232,12 +508,36 @@ export interface Margin {
 }
 
 export interface ItemPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalClicks: number;
   averageResponseTime: number;
   lastClicked: number;
 }
 
 export interface MenuNavigation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: NavigationType;
@@ -252,6 +552,18 @@ export type NavigationType = 'breadcrumb' | 'tabs' | 'sidebar' | 'custom';
 export type NavigationStatus = 'active' | 'inactive' | 'error';
 
 export interface NavigationConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   showLabels: boolean;
   showIcons: boolean;
@@ -262,6 +574,18 @@ export interface NavigationConfiguration {
 export type Orientation = 'horizontal' | 'vertical' | 'custom';
 
 export interface NavigationStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   color: Color;
   backgroundColor: Color;
   fontSize: number;
@@ -271,12 +595,36 @@ export interface NavigationStyle {
 }
 
 export interface NavigationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalNavigations: number;
   averageNavigationTime: number;
   lastNavigation: number;
 }
 
 export interface MenuInteraction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: InteractionType;
@@ -291,6 +639,18 @@ export type InteractionType = 'click' | 'hover' | 'keyboard' | 'custom';
 export type InteractionStatus = 'active' | 'inactive' | 'error';
 
 export interface InteractionConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   timeout: number;
   retries: number;
@@ -298,6 +658,18 @@ export interface InteractionConfiguration {
 }
 
 export interface FeedbackConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   visual: boolean;
   audio: boolean;
   haptic: boolean;
@@ -305,6 +677,18 @@ export interface FeedbackConfig {
 }
 
 export interface InteractionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalInteractions: number;
   successfulInteractions: number;
   failedInteractions: number;
@@ -313,6 +697,18 @@ export interface InteractionPerformance {
 }
 
 export interface StartMenuPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMenus: number;
   activeMenus: number;
   totalItems: number;
@@ -326,6 +722,18 @@ export interface StartMenuPerformanceMetrics {
 }
 
 export interface StartMenuAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMenus: number;
   totalItems: number;
   averageLoadTime: number;
@@ -335,6 +743,18 @@ export interface StartMenuAnalytics {
 }
 
 export interface MenuTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: MenuType;
   count: number;
   percentage: number;
@@ -342,6 +762,18 @@ export interface MenuTypeDistribution {
 }
 
 export interface ItemTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ItemType;
   count: number;
   percentage: number;
@@ -349,6 +781,18 @@ export interface ItemTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   menus: number;
   items: number;
@@ -359,6 +803,18 @@ export interface PerformanceTrend {
 }
 
 export interface StartMenuReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -370,6 +826,18 @@ export interface StartMenuReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -379,6 +847,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -387,6 +867,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -395,6 +887,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -402,6 +906,18 @@ export interface Version {
 }
 
 export interface StartMenuOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

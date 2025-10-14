@@ -10,6 +10,18 @@
  */
 
 export interface PerfMetricsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableMetricsManagement: boolean;
   enableDataCollection: boolean;
   enableMetricsAggregation: boolean;
@@ -26,6 +38,18 @@ export interface PerfMetricsConfig {
 }
 
 export interface PerfMetricsManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PerfMetricsManagerType;
@@ -49,6 +73,18 @@ export type PerfMetricsManagerType = 'system' | 'application' | 'network' | 'cus
 export type PerfMetricsManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Metric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MetricType;
@@ -64,6 +100,18 @@ export type MetricType = 'counter' | 'gauge' | 'histogram' | 'custom';
 export type MetricStatus = 'active' | 'inactive' | 'error';
 
 export interface MetricData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   value: number;
   tags: Record<string, string>;
@@ -71,6 +119,18 @@ export interface MetricData {
 }
 
 export interface AggregationConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   functions: AggregationFunction[];
@@ -78,6 +138,18 @@ export interface AggregationConfig {
 }
 
 export interface AggregationFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FunctionType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -86,6 +158,18 @@ export interface AggregationFunction {
 export type FunctionType = 'sum' | 'average' | 'min' | 'max' | 'count' | 'custom';
 
 export interface AnalysisConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   algorithms: AnalysisAlgorithm[];
   thresholds: Threshold[];
@@ -93,6 +177,18 @@ export interface AnalysisConfig {
 }
 
 export interface AnalysisAlgorithm {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: AlgorithmType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -101,6 +197,18 @@ export interface AnalysisAlgorithm {
 export type AlgorithmType = 'trend' | 'anomaly' | 'forecast' | 'custom';
 
 export interface Threshold {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ThresholdType;
   value: number;
   operator: ThresholdOperator;
@@ -111,6 +219,18 @@ export type ThresholdType = 'warning' | 'critical' | 'custom';
 export type ThresholdOperator = 'greater_than' | 'less_than' | 'equals' | 'custom';
 
 export interface Alert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: AlertCondition;
@@ -119,6 +239,18 @@ export interface Alert {
 }
 
 export interface AlertCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metric: string;
   operator: ConditionOperator;
   value: number;
@@ -128,6 +260,18 @@ export interface AlertCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface AlertAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -136,6 +280,18 @@ export interface AlertAction {
 export type ActionType = 'email' | 'webhook' | 'log' | 'custom';
 
 export interface MetricPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalDataPoints: number;
   averageValue: number;
   lastValue: number;
@@ -143,6 +299,18 @@ export interface MetricPerformance {
 }
 
 export interface MetricCollector {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: CollectorType;
@@ -157,6 +325,18 @@ export type CollectorType = 'system' | 'application' | 'custom';
 export type CollectorStatus = 'active' | 'inactive' | 'error';
 
 export interface CollectorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   timeout: number;
@@ -165,6 +345,18 @@ export interface CollectorConfiguration {
 }
 
 export interface CollectorFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   pattern: string;
   enabled: boolean;
@@ -173,6 +365,18 @@ export interface CollectorFilter {
 export type FilterType = 'include' | 'exclude' | 'custom';
 
 export interface CollectorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCollections: number;
   successfulCollections: number;
   failedCollections: number;
@@ -181,6 +385,18 @@ export interface CollectorPerformance {
 }
 
 export interface MetricAggregator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AggregatorType;
@@ -195,6 +411,18 @@ export type AggregatorType = 'time_series' | 'statistical' | 'custom';
 export type AggregatorStatus = 'active' | 'inactive' | 'error';
 
 export interface AggregatorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   functions: AggregationFunction[];
@@ -202,6 +430,18 @@ export interface AggregatorConfiguration {
 }
 
 export interface AggregatorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAggregations: number;
   successfulAggregations: number;
   failedAggregations: number;
@@ -210,6 +450,18 @@ export interface AggregatorPerformance {
 }
 
 export interface MetricAnalyzer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AnalyzerType;
@@ -224,6 +476,18 @@ export type AnalyzerType = 'trend' | 'anomaly' | 'forecast' | 'custom';
 export type AnalyzerStatus = 'active' | 'inactive' | 'error';
 
 export interface AnalyzerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   algorithms: AnalysisAlgorithm[];
@@ -231,6 +495,18 @@ export interface AnalyzerConfiguration {
 }
 
 export interface AnalyzerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAnalyses: number;
   successfulAnalyses: number;
   failedAnalyses: number;
@@ -239,6 +515,18 @@ export interface AnalyzerPerformance {
 }
 
 export interface PerfMetricsPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMetrics: number;
   activeMetrics: number;
   totalCollectors: number;
@@ -253,6 +541,18 @@ export interface PerfMetricsPerformanceMetrics {
 }
 
 export interface PerfMetricsAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalMetrics: number;
   totalDataPoints: number;
   averageValue: number;
@@ -262,6 +562,18 @@ export interface PerfMetricsAnalytics {
 }
 
 export interface MetricTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: MetricType;
   count: number;
   percentage: number;
@@ -269,6 +581,18 @@ export interface MetricTypeDistribution {
 }
 
 export interface CollectorTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CollectorType;
   count: number;
   percentage: number;
@@ -276,6 +600,18 @@ export interface CollectorTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   metrics: number;
   dataPoints: number;
@@ -285,6 +621,18 @@ export interface PerformanceTrend {
 }
 
 export interface PerfMetricsReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -296,6 +644,18 @@ export interface PerfMetricsReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -305,6 +665,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -313,6 +685,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -321,6 +705,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -328,6 +724,18 @@ export interface Version {
 }
 
 export interface PerfMetricsOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

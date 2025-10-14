@@ -15,6 +15,18 @@ export enum ThreatLevel {
 }
 
 export interface ISpiritInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   level: number;
@@ -31,6 +43,18 @@ export interface ISpiritInstance {
 }
 
 export interface IMoveData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   moveId: string;
   name: string;
   category: MoveCategory | string;
@@ -43,6 +67,18 @@ export interface IMoveData {
 }
 
 export interface IAIDecisionProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   profileID: string;
   style: AIDecisionStyle;
   preferredTypes: string[];
@@ -57,6 +93,18 @@ export interface IAIDecisionProfile {
 }
 
 export interface IBattleAIController {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getDecisionProfile(): IAIDecisionProfile;
   setDecisionProfile(profile: IAIDecisionProfile): void;
   selectMove(spirit: ISpiritInstance | null, opponent: ISpiritInstance | null): string | null;
@@ -71,6 +119,18 @@ export interface IBattleAIController {
 }
 
 export interface IAIControllerManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   registerProfile(profile: IAIDecisionProfile): boolean;
   getProfile(id: string): IAIDecisionProfile | null;
   hasProfile(id: string): boolean;

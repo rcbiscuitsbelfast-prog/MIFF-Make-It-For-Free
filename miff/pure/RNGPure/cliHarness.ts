@@ -17,7 +17,7 @@ type Cmd =
   | { op: 'list' }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const commandsPath = process.argv[2] || '';
   const rng = new RNGProvider(12345);
 

@@ -12,6 +12,18 @@
  */
 
 export interface UIInterfaceConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableUIManagement: boolean;
   enableComponentSystem: boolean;
   enableLayoutSystem: boolean;
@@ -29,6 +41,18 @@ export interface UIInterfaceConfig {
 }
 
 export interface UIInterfaceManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: UIInterfaceManagerType;
@@ -52,6 +76,18 @@ export type UIInterfaceManagerType = 'web' | 'mobile' | 'desktop' | 'game' | 'cu
 export type UIInterfaceManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface UIComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ComponentType;
@@ -69,6 +105,18 @@ export type ComponentType = 'container' | 'button' | 'text' | 'image' | 'input' 
 export type ComponentStatus = 'active' | 'inactive' | 'hidden' | 'error';
 
 export interface ComponentProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   visible: boolean;
   enabled: boolean;
   focusable: boolean;
@@ -80,6 +128,18 @@ export interface ComponentProperties {
 }
 
 export interface LayoutProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Position;
   size: Size;
   margin: Spacing;
@@ -92,6 +152,18 @@ export interface LayoutProperties {
 }
 
 export interface Position {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PositionType;
   x: number;
   y: number;
@@ -101,6 +173,18 @@ export interface Position {
 export type PositionType = 'absolute' | 'relative' | 'fixed' | 'sticky' | 'static';
 
 export interface Size {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: SizeValue;
   height: SizeValue;
   minWidth: SizeValue;
@@ -110,6 +194,18 @@ export interface Size {
 }
 
 export interface SizeValue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   value: number;
   unit: SizeUnit;
   auto: boolean;
@@ -118,6 +214,18 @@ export interface SizeValue {
 export type SizeUnit = 'px' | 'em' | 'rem' | '%' | 'vh' | 'vw' | 'auto' | 'custom';
 
 export interface Spacing {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   top: number;
   right: number;
   bottom: number;
@@ -125,6 +233,18 @@ export interface Spacing {
 }
 
 export interface Border {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: number;
   style: BorderStyle;
   color: Color;
@@ -134,6 +254,18 @@ export interface Border {
 export type BorderStyle = 'solid' | 'dashed' | 'dotted' | 'double' | 'none' | 'custom';
 
 export interface Color {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   r: number;
   g: number;
   b: number;
@@ -143,6 +275,18 @@ export interface Color {
 export type DisplayType = 'block' | 'inline' | 'inline-block' | 'flex' | 'grid' | 'none' | 'custom';
 
 export interface FlexProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   direction: FlexDirection;
   wrap: FlexWrap;
   justify: JustifyContent;
@@ -158,6 +302,18 @@ export type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-betwe
 export type AlignItems = 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
 
 export interface GridProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   columns: GridTrack[];
   rows: GridTrack[];
   gap: GridGap;
@@ -168,23 +324,71 @@ export interface GridProperties {
 }
 
 export interface GridTrack {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   size: SizeValue;
   minSize: SizeValue;
   maxSize: SizeValue;
 }
 
 export interface GridGap {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   column: number;
   row: number;
 }
 
 export interface GridArea {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   start: GridPosition;
   end: GridPosition;
 }
 
 export interface GridPosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   column: number;
   row: number;
 }
@@ -193,6 +397,18 @@ export type GridAutoFlow = 'row' | 'column' | 'dense' | 'row-dense' | 'column-de
 export type GridAlignment = 'start' | 'end' | 'center' | 'stretch';
 
 export interface Transform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   translate: Vector3;
   rotate: Vector3;
   scale: Vector3;
@@ -201,17 +417,53 @@ export interface Transform {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Vector2 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
 
 export interface StyleProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   backgroundColor: Color;
   color: Color;
   font: FontProperties;
@@ -223,6 +475,18 @@ export interface StyleProperties {
 }
 
 export interface FontProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   family: string;
   size: number;
   weight: FontWeight;
@@ -238,6 +502,18 @@ export type FontStyle = 'normal' | 'italic' | 'oblique';
 export type FontVariant = 'normal' | 'small-caps';
 
 export interface TextProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   align: TextAlign;
   decoration: TextDecoration;
   transform: TextTransform;
@@ -254,6 +530,18 @@ export type WhiteSpace = 'normal' | 'nowrap' | 'pre' | 'pre-line' | 'pre-wrap';
 export type WordBreak = 'normal' | 'break-all' | 'keep-all' | 'break-word';
 
 export interface BackgroundProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   image: string;
   position: BackgroundPosition;
   size: BackgroundSize;
@@ -264,11 +552,35 @@ export interface BackgroundProperties {
 }
 
 export interface BackgroundPosition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
 
 export interface BackgroundSize {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   width: SizeValue;
   height: SizeValue;
 }
@@ -279,11 +591,35 @@ export type BackgroundClip = 'border-box' | 'padding-box' | 'content-box' | 'tex
 export type BackgroundOrigin = 'border-box' | 'padding-box' | 'content-box';
 
 export interface ShadowProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   boxShadow: BoxShadow[];
   textShadow: TextShadow[];
 }
 
 export interface BoxShadow {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   offsetX: number;
   offsetY: number;
   blur: number;
@@ -293,6 +629,18 @@ export interface BoxShadow {
 }
 
 export interface TextShadow {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   offsetX: number;
   offsetY: number;
   blur: number;
@@ -300,6 +648,18 @@ export interface TextShadow {
 }
 
 export interface AnimationProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   duration: number;
   timing: TimingFunction;
@@ -316,6 +676,18 @@ export type FillMode = 'none' | 'forwards' | 'backwards' | 'both';
 export type PlayState = 'running' | 'paused';
 
 export interface TransitionProperties {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   property: string;
   duration: number;
   timing: TimingFunction;
@@ -323,6 +695,18 @@ export interface TransitionProperties {
 }
 
 export interface EventHandler {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   event: EventType;
   handler: string;
@@ -335,6 +719,18 @@ export interface EventHandler {
 export type EventType = 'click' | 'hover' | 'focus' | 'blur' | 'change' | 'input' | 'submit' | 'custom';
 
 export interface UILayout {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LayoutType;
@@ -347,11 +743,35 @@ export interface UILayout {
 export type LayoutType = 'flex' | 'grid' | 'absolute' | 'relative' | 'custom';
 
 export interface ResponsiveSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   breakpoints: Breakpoint[];
   rules: ResponsiveRule[];
 }
 
 export interface Breakpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   minWidth: number;
   maxWidth: number;
@@ -359,11 +779,35 @@ export interface Breakpoint {
 }
 
 export interface ResponsiveRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   condition: string;
   properties: Partial<LayoutProperties>;
 }
 
 export interface UITheme {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ThemeType;
@@ -379,6 +823,18 @@ export interface UITheme {
 export type ThemeType = 'light' | 'dark' | 'custom';
 
 export interface ColorPalette {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   primary: Color;
   secondary: Color;
   accent: Color;
@@ -393,6 +849,18 @@ export interface ColorPalette {
 }
 
 export interface TypographySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fontFamily: string;
   fontSize: number;
   fontWeight: FontWeight;
@@ -402,6 +870,18 @@ export interface TypographySettings {
 }
 
 export interface HeadingStyles {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   h1: FontProperties;
   h2: FontProperties;
   h3: FontProperties;
@@ -411,6 +891,18 @@ export interface HeadingStyles {
 }
 
 export interface SpacingScale {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   xs: number;
   sm: number;
   md: number;
@@ -420,6 +912,18 @@ export interface SpacingScale {
 }
 
 export interface ShadowScale {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sm: BoxShadow;
   md: BoxShadow;
   lg: BoxShadow;
@@ -427,6 +931,18 @@ export interface ShadowScale {
 }
 
 export interface AnimationPresets {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fadeIn: AnimationProperties;
   fadeOut: AnimationProperties;
   slideIn: AnimationProperties;
@@ -436,6 +952,18 @@ export interface AnimationPresets {
 }
 
 export interface ComponentStyles {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   button: StyleProperties;
   input: StyleProperties;
   card: StyleProperties;
@@ -444,6 +972,18 @@ export interface ComponentStyles {
 }
 
 export interface UIEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EventType;
   target: string;
@@ -454,6 +994,18 @@ export interface UIEvent {
 }
 
 export interface EventData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   button: number;
@@ -464,6 +1016,18 @@ export interface EventData {
 }
 
 export interface UIInterfacePerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalComponents: number;
   activeComponents: number;
   totalLayouts: number;
@@ -476,6 +1040,18 @@ export interface UIInterfacePerformanceMetrics {
 }
 
 export interface UIInterfaceAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalComponents: number;
   totalEvents: number;
   averageRenderTime: number;
@@ -485,6 +1061,18 @@ export interface UIInterfaceAnalytics {
 }
 
 export interface ComponentTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ComponentType;
   count: number;
   percentage: number;
@@ -492,6 +1080,18 @@ export interface ComponentTypeDistribution {
 }
 
 export interface EventTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EventType;
   count: number;
   percentage: number;
@@ -499,6 +1099,18 @@ export interface EventTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   components: number;
   events: number;
@@ -509,6 +1121,18 @@ export interface PerformanceTrend {
 }
 
 export interface UIInterfaceReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -520,6 +1144,18 @@ export interface UIInterfaceReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -529,6 +1165,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -537,6 +1185,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -545,6 +1205,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -552,6 +1224,18 @@ export interface Version {
 }
 
 export interface UIInterfaceOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

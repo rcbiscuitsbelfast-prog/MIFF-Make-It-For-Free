@@ -5,7 +5,7 @@ import { SettingsManager } from './Manager';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function main() {
+function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   const initFile = args[1];

@@ -4,6 +4,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // Schema Version: v1
 
 export interface SettingsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   musicVolume: number;
   sfxVolume: number;
   language: string;
@@ -52,6 +64,18 @@ export interface SettingsConfig {
 }
 
 export interface SettingsValidation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isValid: boolean;
   errors: string[];
   warnings: string[];
@@ -59,6 +83,18 @@ export interface SettingsValidation {
 }
 
 export interface SettingsStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSettings: number;
   modifiedSettings: number;
   defaultSettings: number;
@@ -67,14 +103,14 @@ export interface SettingsStats {
 }
 
 export class SettingsManager {
-  private logger: StructuredLogger;
+  
   private settings: SettingsConfig;
   private defaults: SettingsConfig;
   private history: Array<{ timestamp: number; changes: Record<string, any> }> = [];
   private validationRules: Map<string, (value: any) => boolean> = new Map();
 
   constructor(initPath?: string) {
-    this.logger = new StructuredLogger({ module: 'SettingsManager' });
+    
     this.defaults = this.createDefaultSettings();
 
     if (initPath && this.fileExists(initPath)) {

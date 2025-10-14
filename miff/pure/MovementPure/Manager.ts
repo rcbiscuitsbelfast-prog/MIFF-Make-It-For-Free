@@ -10,17 +10,53 @@ import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer
 import { MemoryManager } from '../shared/memory/MemoryManager';
 
 export interface Vector2 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface MovementPattern {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'idle' | 'patrol' | 'follow' | 'flee' | 'wander' | 'seek' | 'pursue' | 'evade';
   speed: number;
@@ -34,6 +70,18 @@ export interface MovementPattern {
 }
 
 export interface MovementBehavior {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   aggression: number; // 0-100
   curiosity: number; // 0-100
   fear: number; // 0-100
@@ -43,6 +91,18 @@ export interface MovementBehavior {
 }
 
 export interface MovementEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   position: Vector2;
   velocity: Vector2;
@@ -55,6 +115,18 @@ export interface MovementEntity {
 }
 
 export interface MovementState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   current: 'idle' | 'moving' | 'stopping' | 'turning' | 'blocked' | 'stunned' | 'stuck';
   target?: Vector2;
   path?: Vector2[];
@@ -65,6 +137,18 @@ export interface MovementState {
 }
 
 export interface MovementResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entityId: string;
   newPosition: Vector2;
   newVelocity: Vector2;
@@ -75,6 +159,18 @@ export interface MovementResult {
 }
 
 export interface MovementEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'started' | 'stopped' | 'turned' | 'collided' | 'reached_waypoint' | 'stuck' | 'unstuck';
   entityId: string;
   timestamp: number;
@@ -82,6 +178,18 @@ export interface MovementEvent {
 }
 
 export interface MovementStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEntities: number;
   activeEntities: number;
   averageSpeed: number;
@@ -92,6 +200,18 @@ export interface MovementStats {
 }
 
 export interface MovementFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   patternType?: string;
   state?: string;
   minSpeed?: number;
@@ -100,6 +220,18 @@ export interface MovementFilter {
 }
 
 export interface MovementOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;
@@ -107,6 +239,18 @@ export interface MovementOutput {
 }
 
 export interface MovementConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableRealTimeUpdate: boolean;
   enableCollisionDetection: boolean;
   enablePathfinding: boolean;
@@ -124,7 +268,7 @@ export interface MovementConfig {
 
 export class MovementManager {
   private config: MovementConfig;
-  private logger: StructuredLogger;
+  
   private memoryId: string;
   private entities: Map<string, MovementEntity> = new Map();
   private events: MovementEvent[] = [];
@@ -218,7 +362,7 @@ export class MovementManager {
     console.info('MovementPure', 'Movement system stopped');
   }
 
-  private initializeDefaultPatterns() {
+  private initializeDefaultPatterns(...args: any[]) {
     // Default patterns are created when entities are added
   }
 

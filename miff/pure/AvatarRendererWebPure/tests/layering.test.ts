@@ -1,6 +1,6 @@
 import { AvatarSystemPure } from '../../AvatarSystemPure';
 
-function makeRegistry(){
+function makeRegistry(...args: any[]) {
   return { 
     version:'1.0.0', 
     items:[{ 

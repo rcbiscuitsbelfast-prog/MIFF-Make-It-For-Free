@@ -14,14 +14,14 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class GodotEditorCLI {
-  private logger: StructuredLogger;
+  
   private bridge: GodotBridgeManager;
   private projectPath: string;
   private scenePath: string;
   private isConnected = false;
 
   constructor(projectPath: string = './godot-project') {
-    this.logger = new StructuredLogger({ module: 'GodotEditorCLI' });
+    
     this.projectPath = path.resolve(projectPath);
     this.scenePath = path.join(this.projectPath, 'scenes');
 
@@ -506,7 +506,7 @@ enabled=${projectConfig.audio.enabled}`;
 }
 
 // CLI Interface
-async function main() {
+async function main(...args: any[]) {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
 

@@ -6,6 +6,18 @@
  */
 
 export interface StatModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   stat: string;
   value: number;
   type: 'additive' | 'multiplicative' | 'percentage';
@@ -14,6 +26,18 @@ export interface StatModifier {
 }
 
 export interface EquippedItem {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   slot: string;
@@ -29,6 +53,18 @@ export interface EquippedItem {
 }
 
 export interface Enchantment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   level: number;
@@ -38,6 +74,18 @@ export interface Enchantment {
 }
 
 export interface EquipmentSet {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   pieces: string[];
@@ -46,12 +94,36 @@ export interface EquipmentSet {
 }
 
 export interface SetBonus {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   piecesRequired: number;
   bonuses: StatModifier[];
   description: string;
 }
 
 export interface EquipmentStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalItems: number;
   itemsBySlot: Record<string, number>;
   itemsByRarity: Record<ItemRarity, number>;
@@ -62,6 +134,18 @@ export interface EquipmentStats {
 }
 
 export interface EquipmentFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   slot?: string;
   rarity?: ItemRarity;
   minLevel?: number;
@@ -72,6 +156,18 @@ export interface EquipmentFilter {
 }
 
 export interface EquipmentOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;
@@ -81,6 +177,18 @@ export interface EquipmentOutput {
 export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface Hooks {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   onEquip?: (item: EquippedItem) => void;
   onUnequip?: (slot: string, item?: EquippedItem) => void;
   onModifierApplied?: (modifier: StatModifier, item: EquippedItem) => void;
@@ -91,6 +199,18 @@ export interface Hooks {
 }
 
 export interface InventoryPort {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getQuantity: (itemId: string) => number;
   addItem: (itemId: string, quantity: number) => void;
   removeItem: (itemId: string, quantity: number) => boolean;

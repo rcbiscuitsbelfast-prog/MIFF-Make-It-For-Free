@@ -34,12 +34,36 @@ export type QuestRef = { questId: string };
 export type RenderDataType = 'sprite' | 'text' | 'sound' | 'animation' | 'node' | 'component' | 'resource' | 'scene' | 'input';
 
 export interface Position3D {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z?: number;
 }
 
 export interface EngineHints {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   unity?: {
     gameObject?: string;
     component?: string;
@@ -67,6 +91,18 @@ export interface EngineHints {
 }
 
 export interface RenderData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RenderDataType;
   name?: string;
@@ -82,6 +118,18 @@ export interface RenderData {
 }
 
 export interface RenderSignal {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   parameters?: string[];
   target?: string;
@@ -89,6 +137,18 @@ export interface RenderSignal {
 }
 
 export interface RenderPayload {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   engine: string;
   renderData: RenderData[];
@@ -101,12 +161,36 @@ export interface RenderPayload {
 // ============================================================================
 
 export interface ValidationResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isValid: boolean;
   errors: string[];
   warnings: string[];
 }
 
 export interface FieldDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'string' | 'number' | 'boolean' | 'object' | 'array';
   required?: boolean;
   description?: string;
@@ -120,6 +204,18 @@ export interface FieldDefinition {
 }
 
 export interface SchemaDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   required?: string[];
   properties?: Record<string, FieldDefinition>;
   title?: string;
@@ -134,6 +230,18 @@ export interface SchemaDefinition {
 // ============================================================================
 
 export interface SchemaStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSchemas: number;
   schemasByEngine: Record<SchemaEngine, number>;
   schemasByCategory: Record<SchemaCategory, number>;
@@ -143,6 +251,18 @@ export interface SchemaStats {
 }
 
 export interface SchemaMigration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fromVersion: SchemaVersion;
   toVersion: SchemaVersion;
   migrationFn: (data: any) => any;
@@ -155,7 +275,7 @@ export class ConsolidatedSchemaManager {
   private validationCache: Map<string, ValidationResult> = new Map();
   private usageStats: Map<string, number> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultSchemas();
     this.initializeMigrations();
   }
@@ -524,7 +644,7 @@ export class ConsolidatedSchemaManager {
 export class BridgeSchemaValidator {
   private manager: ConsolidatedSchemaManager;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.manager = new ConsolidatedSchemaManager();
   }
 

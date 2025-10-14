@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface ProfilerMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   category: string;
@@ -20,6 +32,18 @@ export interface ProfilerMetric {
 }
 
 export interface ProfilerSample {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   category: string;
@@ -32,6 +56,18 @@ export interface ProfilerSample {
 }
 
 export interface ProfilerFrame {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   frameNumber: number;
   timestamp: number;
   samples: Map<string, ProfilerSample>;
@@ -41,6 +77,18 @@ export interface ProfilerFrame {
 }
 
 export interface ProfilerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   maxFrames: number;
   sampleRate: number; // Hz
@@ -50,6 +98,18 @@ export interface ProfilerConfig {
 }
 
 export interface ProfilerReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   summary: {
     totalFrames: number;
     averageFrameTime: number;
@@ -69,6 +129,18 @@ export interface ProfilerReport {
 }
 
 export interface HotReloadConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   watchPaths: string[];
   reloadDelay: number;
@@ -77,7 +149,7 @@ export interface HotReloadConfig {
 }
 
 export class Profiler {
-  private logger: StructuredLogger;
+  
   private config: ProfilerConfig;
   private frames: ProfilerFrame[];
   private currentFrame?: ProfilerFrame;
@@ -87,7 +159,7 @@ export class Profiler {
   private isRunning: boolean;
 
   constructor(config: ProfilerConfig) {
-    this.logger = new StructuredLogger({ module: 'Profiler' });
+    
     this.config = config;
     this.frames = [];
     this.activeSamples = new Map();
@@ -428,6 +500,18 @@ export class Profiler {
 }
 
 export interface ProfilerObserver {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   onFrameEnd?: (frame: ProfilerFrame) => void;
   onSampleBegin?: (sample: ProfilerSample) => void;

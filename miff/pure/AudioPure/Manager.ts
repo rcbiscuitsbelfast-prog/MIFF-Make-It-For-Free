@@ -19,6 +19,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AudioConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enablePlayback: boolean;
   enableRecording: boolean;
   enableAudioEffects: boolean;
@@ -35,6 +47,18 @@ export interface AudioConfig {
 }
 
 export interface AudioSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SourceType;
@@ -50,6 +74,18 @@ export interface AudioSource {
 }
 
 export interface AudioData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   buffer: ArrayBuffer;
   format: AudioFormat;
   duration: number; // seconds
@@ -60,6 +96,18 @@ export interface AudioData {
 }
 
 export interface AudioFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sampleRate: number;
   channels: number;
   bitDepth: number;
@@ -68,6 +116,18 @@ export interface AudioFormat {
 }
 
 export interface AudioEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: EffectType;
@@ -78,6 +138,18 @@ export interface AudioEffect {
 }
 
 export interface AudioSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   volume: number; // 0 to 1
   pitch: number; // 0.5 to 2.0
   pan: number; // -1 to 1
@@ -89,6 +161,18 @@ export interface AudioSettings {
 }
 
 export interface SourceAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSources: number;
   activeSources: number;
   totalPlayTime: number;
@@ -98,6 +182,18 @@ export interface SourceAnalytics {
 }
 
 export interface EffectParameters {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   [key: string]: any;
 }
 
@@ -108,7 +204,7 @@ export type AudioCompression = 'none' | 'lossless' | 'lossy';
 export type EffectType = 'eq' | 'compressor' | 'reverb' | 'delay' | 'chorus' | 'distortion' | 'filter' | 'limiter';
 
 export class AudioManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -118,7 +214,7 @@ export class AudioManager {
   private startTime: Date;
 
   constructor(config?: Partial<AudioConfig>) {
-    this.logger = new StructuredLogger({ module: 'AudioManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

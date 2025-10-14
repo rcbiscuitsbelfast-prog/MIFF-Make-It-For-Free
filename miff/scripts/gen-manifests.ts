@@ -2,12 +2,36 @@ import fs from 'fs';
 import path from 'path';
 
 interface OrchestrationEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	name: string;
 	path: string;
 	type: 'scenario' | 'game';
 }
 
 interface ReleaseManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	name: string;
 	version: string;
 	artifacts: Array<{ name: string; path: string; type: string }>;
@@ -56,7 +80,7 @@ function buildReleaseManifest(baseDir: string): ReleaseManifest {
 	return { name: pkg.name || 'miff', version: pkg.version || '0.0.0', artifacts };
 }
 
-function main() {
+function main(...args: any[]) {
 	const root = process.cwd();
 	const orchestration = buildOrchestration(root);
 	const releaseManifest = buildReleaseManifest(root);

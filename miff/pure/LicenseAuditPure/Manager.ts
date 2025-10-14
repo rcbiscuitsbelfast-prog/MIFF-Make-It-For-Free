@@ -11,6 +11,18 @@
  */
 
 export interface LicenseAuditConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAuditManagement: boolean;
   enableLicenseTracking: boolean;
   enableComplianceMonitoring: boolean;
@@ -27,6 +39,18 @@ export interface LicenseAuditConfig {
 }
 
 export interface LicenseAuditManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LicenseAuditManagerType;
@@ -50,6 +74,18 @@ export type LicenseAuditManagerType = 'software' | 'content' | 'patent' | 'custo
 export type LicenseAuditManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface License {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LicenseType;
@@ -67,6 +103,18 @@ export type LicenseType = 'proprietary' | 'open_source' | 'commercial' | 'freewa
 export type LicenseStatus = 'active' | 'expired' | 'suspended' | 'revoked' | 'pending';
 
 export interface LicenseTerms {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   description: string;
   restrictions: string[];
   permissions: string[];
@@ -78,6 +126,18 @@ export interface LicenseTerms {
 }
 
 export interface WarrantyInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   provided: boolean;
   duration: number;
   coverage: string[];
@@ -85,6 +145,18 @@ export interface WarrantyInfo {
 }
 
 export interface LiabilityInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   limited: boolean;
   maximumAmount: number;
   exclusions: string[];
@@ -92,6 +164,18 @@ export interface LiabilityInfo {
 }
 
 export interface TerminationInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   conditions: string[];
   notice: number;
   consequences: string[];
@@ -99,6 +183,18 @@ export interface TerminationInfo {
 }
 
 export interface LicenseUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalUses: number;
   activeUses: number;
   maxUses: number;
@@ -109,6 +205,18 @@ export interface LicenseUsage {
 }
 
 export interface UsageHistory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   action: UsageAction;
   user: string;
@@ -119,6 +227,18 @@ export interface UsageHistory {
 export type UsageAction = 'start' | 'stop' | 'pause' | 'resume' | 'custom';
 
 export interface UsageTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: string;
   count: number;
   change: number;
@@ -128,6 +248,18 @@ export interface UsageTrend {
 export type TrendDirection = 'up' | 'down' | 'stable' | 'custom';
 
 export interface LicenseCompliance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: ComplianceStatus;
   score: number;
   violations: string[];
@@ -139,6 +271,18 @@ export interface LicenseCompliance {
 export type ComplianceStatus = 'compliant' | 'non_compliant' | 'warning' | 'error';
 
 export interface ComplianceHistory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   status: ComplianceStatus;
   score: number;
@@ -147,6 +291,18 @@ export interface ComplianceHistory {
 }
 
 export interface LicensePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   responseTime: number;
   availability: number;
   errorRate: number;
@@ -155,6 +311,18 @@ export interface LicensePerformance {
 }
 
 export interface AuditRecord {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: AuditType;
   status: AuditStatus;
@@ -174,6 +342,18 @@ export type AuditStatus = 'pending' | 'in_progress' | 'completed' | 'failed' | '
 export type AuditAction = 'check' | 'validate' | 'report' | 'alert' | 'custom';
 
 export interface AuditDetails {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   description: string;
   parameters: Record<string, any>;
   scope: AuditScope;
@@ -182,6 +362,18 @@ export interface AuditDetails {
 }
 
 export interface AuditScope {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   licenses: string[];
   users: string[];
   resources: string[];
@@ -189,6 +381,18 @@ export interface AuditScope {
 }
 
 export interface TimeRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   duration: number;
@@ -197,6 +401,18 @@ export interface TimeRange {
 export type AuditPriority = 'low' | 'medium' | 'high' | 'critical' | 'custom';
 
 export interface AuditResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   findings: Finding[];
   recommendations: Recommendation[];
@@ -205,6 +421,18 @@ export interface AuditResult {
 }
 
 export interface Finding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: FindingType;
   severity: FindingSeverity;
@@ -218,6 +446,18 @@ export type FindingType = 'violation' | 'anomaly' | 'risk' | 'opportunity' | 'cu
 export type FindingSeverity = 'low' | 'medium' | 'high' | 'critical' | 'custom';
 
 export interface Evidence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: EvidenceType;
   source: string;
   data: any;
@@ -228,6 +468,18 @@ export interface Evidence {
 export type EvidenceType = 'log' | 'metric' | 'document' | 'test' | 'custom';
 
 export interface ImpactAssessment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   financial: number;
   operational: number;
   reputational: number;
@@ -236,6 +488,18 @@ export interface ImpactAssessment {
 }
 
 export interface RemediationInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   description: string;
   effort: EffortEstimate;
   timeline: Timeline;
@@ -243,6 +507,18 @@ export interface RemediationInfo {
 }
 
 export interface EffortEstimate {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hours: number;
   complexity: ComplexityLevel;
   skills: string[];
@@ -251,12 +527,36 @@ export interface EffortEstimate {
 export type ComplexityLevel = 'low' | 'medium' | 'high' | 'expert' | 'custom';
 
 export interface Timeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   milestones: Milestone[];
 }
 
 export interface Milestone {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   date: number;
   status: MilestoneStatus;
@@ -266,6 +566,18 @@ export interface Milestone {
 export type MilestoneStatus = 'pending' | 'in_progress' | 'completed' | 'blocked' | 'custom';
 
 export interface ResourceRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ResourceType;
   name: string;
   quantity: number;
@@ -276,6 +588,18 @@ export interface ResourceRequirement {
 export type ResourceType = 'personnel' | 'equipment' | 'software' | 'external' | 'custom';
 
 export interface Recommendation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RecommendationType;
   priority: RecommendationPriority;
@@ -289,6 +613,18 @@ export type RecommendationType = 'process' | 'technology' | 'policy' | 'training
 export type RecommendationPriority = 'low' | 'medium' | 'high' | 'critical' | 'custom';
 
 export interface ImplementationPlan {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   phases: ImplementationPhase[];
   timeline: Timeline;
   resources: ResourceRequirement[];
@@ -296,6 +632,18 @@ export interface ImplementationPlan {
 }
 
 export interface ImplementationPhase {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   duration: number;
@@ -304,6 +652,18 @@ export interface ImplementationPhase {
 }
 
 export interface Risk {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   description: string;
   probability: number;
@@ -313,6 +673,18 @@ export interface Risk {
 }
 
 export interface Benefit {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: BenefitType;
   description: string;
   value: number;
@@ -322,6 +694,18 @@ export interface Benefit {
 export type BenefitType = 'financial' | 'operational' | 'strategic' | 'compliance' | 'custom';
 
 export interface Cost {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: CostType;
   description: string;
   amount: number;
@@ -332,6 +716,18 @@ export interface Cost {
 export type CostType = 'one_time' | 'recurring' | 'operational' | 'capital' | 'custom';
 
 export interface AuditPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   duration: number;
   resources: ResourceUsage;
   efficiency: number;
@@ -339,6 +735,18 @@ export interface AuditPerformance {
 }
 
 export interface ResourceUsage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: number;
   memory: number;
   storage: number;
@@ -346,6 +754,18 @@ export interface ResourceUsage {
 }
 
 export interface ComplianceRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -361,6 +781,18 @@ export type RuleType = 'usage' | 'security' | 'performance' | 'compliance' | 'cu
 export type RuleStatus = 'active' | 'inactive' | 'draft' | 'error';
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -370,6 +802,18 @@ export interface RuleCondition {
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -378,6 +822,18 @@ export interface RuleAction {
 export type ActionType = 'alert' | 'block' | 'log' | 'report' | 'custom';
 
 export interface RulePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvaluations: number;
   successRate: number;
   averageEvaluationTime: number;
@@ -385,6 +841,18 @@ export interface RulePerformance {
 }
 
 export interface Violation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ViolationType;
   severity: ViolationSeverity;
@@ -404,6 +872,18 @@ export type ViolationSeverity = 'low' | 'medium' | 'high' | 'critical' | 'custom
 export type ViolationStatus = 'open' | 'investigating' | 'resolved' | 'false_positive' | 'custom';
 
 export interface ViolationResolution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   description: string;
   actions: ResolutionAction[];
   timeline: Timeline;
@@ -412,6 +892,18 @@ export interface ViolationResolution {
 }
 
 export interface ResolutionAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   description: string;
   completed: boolean;
@@ -420,6 +912,18 @@ export interface ResolutionAction {
 }
 
 export interface ViolationPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   detectionTime: number;
   resolutionTime: number;
   effort: EffortEstimate;
@@ -427,6 +931,18 @@ export interface ViolationPerformance {
 }
 
 export interface LicenseAuditPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLicenses: number;
   activeLicenses: number;
   totalAuditRecords: number;
@@ -441,6 +957,18 @@ export interface LicenseAuditPerformanceMetrics {
 }
 
 export interface LicenseAuditAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalLicenses: number;
   totalAuditRecords: number;
   averageAuditTime: number;
@@ -450,6 +978,18 @@ export interface LicenseAuditAnalytics {
 }
 
 export interface LicenseTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: LicenseType;
   count: number;
   percentage: number;
@@ -457,6 +997,18 @@ export interface LicenseTypeDistribution {
 }
 
 export interface ViolationTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ViolationType;
   count: number;
   percentage: number;
@@ -464,6 +1016,18 @@ export interface ViolationTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   licenses: number;
   auditRecords: number;
@@ -474,6 +1038,18 @@ export interface PerformanceTrend {
 }
 
 export interface LicenseAuditReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -485,6 +1061,18 @@ export interface LicenseAuditReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -494,6 +1082,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -502,6 +1102,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -510,6 +1122,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -517,6 +1141,18 @@ export interface Version {
 }
 
 export interface LicenseAuditOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

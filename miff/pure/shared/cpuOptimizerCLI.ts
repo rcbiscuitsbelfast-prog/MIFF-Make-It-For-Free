@@ -13,11 +13,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CPUOptimizerCLI {
-  private logger: StructuredLogger;
+  
   private optimizer: CPUOptimizer;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CPUOptimizerCLI' });
+  constructor(...args: any[]) {
+    
     this.optimizer = new CPUOptimizer();
   }
 

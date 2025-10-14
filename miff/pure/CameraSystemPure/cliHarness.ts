@@ -16,7 +16,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Mock implementations for CLI
 class RealEventBus {
-  private logger: StructuredLogger;
+  
   private events: Map<string, Function[]> = new Map();
 
   emit(event: string, data: any) {
@@ -73,10 +73,10 @@ class CameraCLIHarness {
   private activeCamera: CameraInstance | null = null;
   private demoMode = false;
   private demoTimer?: NodeJS.Timeout;
-  private logger: StructuredLogger;
+  
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealEventBus' });
+  constructor(...args: any[]) {
+    
     this.eventBus = new RealEventBus();
     this.inputSystem = new RealInputSystem();
     this.rng = new MockRNG();
@@ -88,7 +88,7 @@ class CameraCLIHarness {
     this.setupInputActions();
   }
 
-  private setupEventListeners() {
+  private setupEventListeners(...args: any[]) {
     this.eventBus.on('camera:created', (data) => {
       console.info(`✅ Camera created: ${data.cameraId} (${data.cameraType})`);
       if (!this.activeCamera) {
@@ -113,7 +113,7 @@ class CameraCLIHarness {
     });
   }
 
-  private setupInputActions() {
+  private setupInputActions(...args: any[]) {
     this.inputSystem.registerAction('zoom_in', () => {
       if (this.activeCamera) {
         this.cameraSystem.adjustZoom(this.activeCamera.id, -1.0);
@@ -159,7 +159,7 @@ class CameraCLIHarness {
     });
   }
 
-  private displayHelp() {
+  private displayHelp(...args: any[]) {
     console.info('\n🎥 CameraSystemPure CLI Commands:');
     console.info('=' .repeat(50));
     console.info('📷 Camera Management:');
@@ -302,7 +302,7 @@ class CameraCLIHarness {
     }
   }
 
-  private async handleList() {
+  private async handleList(...args: any[]) {
     const cameras = this.cameraSystem.getAllCameras();
     console.info(`\n📷 Active Cameras (${cameras.length}):`);
     console.info('─'.repeat(60));
@@ -412,7 +412,7 @@ class CameraCLIHarness {
     }
   }
 
-  private async handleModes() {
+  private async handleModes(...args: any[]) {
     console.info('\n🎮 Available Camera Modes:');
     console.info('─'.repeat(40));
     console.info('1. chase        - Third-person following camera');
@@ -453,7 +453,7 @@ class CameraCLIHarness {
     }
   }
 
-  private async handlePaths() {
+  private async handlePaths(...args: any[]) {
     const paths = this.cameraSystem.getAllPaths();
     console.info(`\n🎬 Available Camera Paths (${paths.length}):`);
     console.info('─'.repeat(50));
@@ -467,7 +467,7 @@ class CameraCLIHarness {
     });
   }
 
-  private async handleStopPath() {
+  private async handleStopPath(...args: any[]) {
     if (!this.activeCamera) {
       console.info('❌ No active camera.');
       return;
@@ -515,7 +515,7 @@ class CameraCLIHarness {
     }
   }
 
-  private async handleEffects() {
+  private async handleEffects(...args: any[]) {
     if (!this.activeCamera) {
       console.info('❌ No active camera.');
       return;
@@ -540,7 +540,7 @@ class CameraCLIHarness {
     });
   }
 
-  private async handleConfig() {
+  private async handleConfig(...args: any[]) {
     const config = this.cameraSystem.getConfig();
     console.info('\n⚙️  Camera System Configuration:');
     console.info('─'.repeat(40));
@@ -582,7 +582,7 @@ class CameraCLIHarness {
     console.info(`✅ Render quality set to ${quality}`);
   }
 
-  private async handleStats() {
+  private async handleStats(...args: any[]) {
     const stats = this.cameraSystem.getStats();
     console.info('\n📊 Camera System Statistics:');
     console.info('─'.repeat(40));
@@ -597,7 +597,7 @@ class CameraCLIHarness {
     console.info(`Memory Usage: ${(stats.memoryUsage / 1024).toFixed(1)} KB`);
   }
 
-  private async handlePerformance() {
+  private async handlePerformance(...args: any[]) {
     const stats = this.cameraSystem.getStats();
     console.info('\n⚡ Performance Metrics:');
     console.info('─'.repeat(40));
@@ -734,7 +734,7 @@ class CameraCLIHarness {
     }, duration);
   }
 
-  public async run() {
+  public async run(...args: any[]) {
     console.info('🎥 CameraSystemPure CLI Harness');
     console.info('Type "help" for commands or "demo" for a demonstration');
     console.info('─'.repeat(60));
@@ -777,7 +777,7 @@ class CameraCLIHarness {
 }
 
 // Main execution
-async function main() {
+async function main(...args: any[]) {
   const cli = new CameraCLIHarness();
 
   if (process.argv.includes('--demo')) {

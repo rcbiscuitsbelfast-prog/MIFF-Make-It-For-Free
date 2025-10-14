@@ -1,4 +1,16 @@
 export interface WorldTile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	x: number;
 	y: number;
 	assetId: string;
@@ -6,6 +18,18 @@ export interface WorldTile {
 }
 
 export interface WorldZone {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	id: string;
 	name: string;
 	width: number;
@@ -19,6 +43,18 @@ export interface WorldZone {
 }
 
 export interface WorldManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	schema: string;
 	version: string;
 	zones: WorldZone[];

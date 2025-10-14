@@ -15,6 +15,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
  */
 
 export interface FusionPairRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   speciesA: string;
   speciesB: string;
@@ -29,6 +41,18 @@ export interface FusionPairRule {
 }
 
 export interface PlayerContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerId: string;
   energy: number;
   level: number;
@@ -39,12 +63,36 @@ export interface PlayerContext {
 }
 
 export interface Inventory {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getCount(itemId: string): number;
   hasItem(itemId: string): boolean;
   removeItem(itemId: string, count: number): boolean;
 }
 
 export interface FusionRulesStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalRules: number;
   availablePairs: number;
   averageSuccessRate: number;
@@ -58,7 +106,7 @@ export class FusionRules {
   private pairRules: FusionPairRule[] = [];
   private constraintValidators: Map<string, (context: PlayerContext, value: any) => boolean> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.initializeDefaultRules();
     this.initializeConstraintValidators();
   }

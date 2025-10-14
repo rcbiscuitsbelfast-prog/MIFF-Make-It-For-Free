@@ -8,6 +8,18 @@ import { HealthCheckSystem, HealthStatus } from '../health/HealthCheckSystem';
  */
 
 export interface MonitoringConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -17,6 +29,18 @@ export interface MonitoringConfig {
 }
 
 export interface AlertingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   channels: AlertChannel[];
   thresholds: AlertThresholds;
@@ -24,12 +48,36 @@ export interface AlertingConfig {
 }
 
 export interface AlertChannel {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'email' | 'slack' | 'webhook' | 'console';
   config: Record<string, any>;
   enabled: boolean;
 }
 
 export interface AlertThresholds {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: number;
   memory: number;
   disk: number;
@@ -38,6 +86,18 @@ export interface AlertThresholds {
 }
 
 export interface MetricsConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   collection: string[];
   retention: number;
@@ -45,6 +105,18 @@ export interface MetricsConfig {
 }
 
 export interface LoggingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   level: 'debug' | 'info' | 'warn' | 'error';
   retention: number;
@@ -52,6 +124,18 @@ export interface LoggingConfig {
 }
 
 export interface MonitoringMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   system: SystemMetrics;
   application: ApplicationMetrics;
@@ -60,6 +144,18 @@ export interface MonitoringMetrics {
 }
 
 export interface SystemMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   cpu: {
     usage: number;
     load: number[];
@@ -86,6 +182,18 @@ export interface SystemMetrics {
 }
 
 export interface ApplicationMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   uptime: number;
   version: string;
   requests: {
@@ -109,6 +217,18 @@ export interface ApplicationMetrics {
 }
 
 export interface PerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   operations: {
     total: number;
     successful: number;
@@ -129,6 +249,18 @@ export interface PerformanceMetrics {
 }
 
 export interface ErrorMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   total: number;
   rate: number;
   byType: Record<string, number>;
@@ -137,6 +269,18 @@ export interface ErrorMetrics {
 }
 
 export interface ErrorEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: Date;
   message: string;
   stack: string;
@@ -145,7 +289,7 @@ export interface ErrorEntry {
 }
 
 export class ProductionMonitor {
-  private logger: StructuredLogger;
+  
   private errorHandler: StandardErrorHandler;
   private healthCheckSystem: HealthCheckSystem;
   private config: MonitoringConfig;
@@ -156,7 +300,7 @@ export class ProductionMonitor {
   private monitoringInterval: NodeJS.Timeout | null = null;
 
   constructor(config?: Partial<MonitoringConfig>) {
-    this.logger = new StructuredLogger({ module: 'ProductionMonitor' });
+    
     this.errorHandler = new StandardErrorHandler();
     this.healthCheckSystem = new HealthCheckSystem();
     this.startTime = new Date();

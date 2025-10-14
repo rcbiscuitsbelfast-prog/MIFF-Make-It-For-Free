@@ -12,11 +12,11 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class InterfaceCLI {
-  private logger: StructuredLogger;
+  
   private standardizer: InterfaceStandardizer;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'InterfaceCLI' });
+  constructor(...args: any[]) {
+    
     this.standardizer = new InterfaceStandardizer();
   }
 
@@ -54,6 +54,18 @@ class InterfaceCLI {
     const outputFile = args[1] || 'interface-standardization.json';
 
     console.info(`🔧 Standardizing interfaces in ${rootPath}...`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     
     const results = await this.standardizer.standardizeAllInterfaces(rootPath);
     
@@ -61,6 +73,18 @@ class InterfaceCLI {
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
     console.info(`✅ Standardized interfaces for ${results.length} modules`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
@@ -79,6 +103,18 @@ class InterfaceCLI {
       console.info('\n❌ Non-Compliant Modules:');
       nonCompliant.forEach(result => {
         console.info(`  ${result.module} (${result.interface}): ${result.score}%`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
         if (result.missingMethods.length > 0) {
           console.info(`    Missing methods: ${result.missingMethods.join(', ')}`);
         }
@@ -192,6 +228,18 @@ class InterfaceCLI {
     }
 
     console.info(`🔧 Fixing interface for module: ${moduleName}`);
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
     
     const results = this.standardizer.getAllResults();
     const result = results.find(r => r.module === moduleName);

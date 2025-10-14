@@ -21,6 +21,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AIProfileConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableProfileManagement: boolean;
   enableBehaviorModification: boolean;
   enablePersonalityTraits: boolean;
@@ -37,6 +49,18 @@ export interface AIProfileConfig {
 }
 
 export interface AIProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ProfileType;
@@ -52,6 +76,18 @@ export interface AIProfile {
 }
 
 export interface PersonalityTrait {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   value: number; // -1 to 1
@@ -60,6 +96,18 @@ export interface PersonalityTrait {
 }
 
 export interface BehaviorModifier {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'aggression' | 'cooperation' | 'caution' | 'curiosity' | 'loyalty' | 'independence';
@@ -69,6 +117,18 @@ export interface BehaviorModifier {
 }
 
 export interface BehaviorCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'situation' | 'health' | 'ally_count' | 'enemy_count' | 'time' | 'location';
   target: string;
   operator: 'equals' | 'greater' | 'less' | 'contains';
@@ -76,6 +136,18 @@ export interface BehaviorCondition {
 }
 
 export interface AIPreference {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'combat_style' | 'exploration_style' | 'social_style' | 'resource_management';
@@ -85,6 +157,18 @@ export interface AIPreference {
 }
 
 export interface ProfileAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalProfiles: number;
   activeProfiles: number;
   averageTraitCount: number;
@@ -97,7 +181,7 @@ export type ProfileType = 'player' | 'npc' | 'companion' | 'enemy' | 'neutral';
 export type ProfileStatus = 'active' | 'inactive' | 'pending' | 'error';
 
 export class AIProfileIntegrationManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -107,7 +191,7 @@ export class AIProfileIntegrationManager {
   private startTime: Date;
 
   constructor(config?: Partial<AIProfileConfig>) {
-    this.logger = new StructuredLogger({ module: 'AIProfileIntegrationManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

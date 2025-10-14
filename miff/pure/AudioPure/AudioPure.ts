@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface AudioConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sampleRate: number;
   channels: number;
   bufferSize: number;
@@ -27,6 +39,18 @@ export interface AudioConfig {
 }
 
 export interface AudioEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'play' | 'stop' | 'pause' | 'volume' | 'spatial';
   soundId: string;
   timestamp: number;
@@ -34,6 +58,18 @@ export interface AudioEvent {
 }
 
 export interface SpatialAudioConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
   volume: number;
@@ -49,6 +85,18 @@ export interface SpatialAudioConfig {
 }
 
 export interface SoundDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   category: string;
@@ -62,7 +110,7 @@ export interface SoundDefinition {
 export type AudioCallback = (event: AudioEvent) => void;
 
 export class AudioSystem {
-  private logger: StructuredLogger;
+  
   private config: AudioConfig;
   private sounds: Map<string, SoundDefinition>;
   private activeSounds: Map<string, any>; // Sound instances
@@ -82,7 +130,7 @@ export class AudioSystem {
   private masterGain?: GainNode;
 
   constructor(config: AudioConfig, headless: boolean = false) {
-    this.logger = new StructuredLogger({ module: 'AudioSystem' });
+    
     this.config = config;
     this.sounds = new Map();
     this.activeSounds = new Map();

@@ -21,6 +21,18 @@ export enum PerceptionMode {
 }
 
 export interface PerceptionConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: PerceptionMode;
   intensity: number; // 0-1
   duration?: number; // milliseconds
@@ -29,6 +41,18 @@ export interface PerceptionConfig {
 }
 
 export interface ContextTrigger {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'proximity' | 'combat' | 'quest' | 'interaction' | 'stealth';
   threshold: number;
   targetMode: PerceptionMode;
@@ -36,6 +60,18 @@ export interface ContextTrigger {
 }
 
 export interface NPCInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'friendly' | 'neutral' | 'hostile' | 'quest' | 'merchant' | 'guard';
   position: { x: number; y: number; z: number };
@@ -45,6 +81,18 @@ export interface NPCInfo {
 }
 
 export interface InteractableInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'item' | 'door' | 'chest' | 'lever' | 'terminal' | 'portal';
   position: { x: number; y: number; z: number };

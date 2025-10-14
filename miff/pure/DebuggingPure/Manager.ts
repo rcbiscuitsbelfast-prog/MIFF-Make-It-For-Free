@@ -10,6 +10,18 @@
  */
 
 export interface DebuggingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableDebugManagement: boolean;
   enableSessionManagement: boolean;
   enableBreakpointHandling: boolean;
@@ -25,6 +37,18 @@ export interface DebuggingConfig {
 }
 
 export interface DebuggingManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DebuggingManagerType;
@@ -48,6 +72,18 @@ export type DebuggingManagerType = 'local' | 'remote' | 'hybrid' | 'custom';
 export type DebuggingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface DebugSession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SessionType;
@@ -65,6 +101,18 @@ export type SessionType = 'attach' | 'launch' | 'remote' | 'custom';
 export type SessionStatus = 'starting' | 'running' | 'paused' | 'stopped' | 'error';
 
 export interface DebugTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: TargetType;
   name: string;
   path: string;
@@ -76,6 +124,18 @@ export interface DebugTarget {
 export type TargetType = 'process' | 'script' | 'service' | 'custom';
 
 export interface SessionConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   autoStart: boolean;
   stopOnEntry: boolean;
   stopOnExit: boolean;
@@ -86,6 +146,18 @@ export interface SessionConfiguration {
 export type ConsoleType = 'internal' | 'external' | 'integrated' | 'custom';
 
 export interface LoggingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   level: LogLevel;
   output: string[];
@@ -95,6 +167,18 @@ export interface LoggingConfig {
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'custom';
 
 export interface SessionPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -104,6 +188,18 @@ export interface SessionPerformance {
 }
 
 export interface Breakpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BreakpointType;
@@ -119,6 +215,18 @@ export type BreakpointType = 'line' | 'function' | 'exception' | 'custom';
 export type BreakpointStatus = 'active' | 'inactive' | 'disabled' | 'error';
 
 export interface BreakpointLocation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   file: string;
   line: number;
   column: number;
@@ -127,6 +235,18 @@ export interface BreakpointLocation {
 }
 
 export interface BreakpointCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   expression: string;
   hitCount: number;
@@ -134,6 +254,18 @@ export interface BreakpointCondition {
 }
 
 export interface BreakpointAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   enabled: boolean;
@@ -142,12 +274,36 @@ export interface BreakpointAction {
 export type ActionType = 'log' | 'evaluate' | 'continue' | 'stop' | 'custom';
 
 export interface BreakpointPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalHits: number;
   averageHitTime: number;
   lastHit: number;
 }
 
 export interface Watchpoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: WatchpointType;
@@ -163,6 +319,18 @@ export type WatchpointType = 'variable' | 'expression' | 'memory' | 'custom';
 export type WatchpointStatus = 'active' | 'inactive' | 'error';
 
 export interface WatchpointScope {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   global: boolean;
   local: boolean;
   thread: boolean;
@@ -170,6 +338,18 @@ export interface WatchpointScope {
 }
 
 export interface WatchpointFormat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FormatType;
   radix: number;
   showType: boolean;
@@ -179,12 +359,36 @@ export interface WatchpointFormat {
 export type FormatType = 'auto' | 'hex' | 'decimal' | 'binary' | 'custom';
 
 export interface WatchpointPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvaluations: number;
   averageEvaluationTime: number;
   lastEvaluation: number;
 }
 
 export interface Profiler {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ProfilerType;
@@ -199,6 +403,18 @@ export type ProfilerType = 'cpu' | 'memory' | 'gpu' | 'custom';
 export type ProfilerStatus = 'idle' | 'profiling' | 'paused' | 'error';
 
 export interface ProfilerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   samplingRate: number;
   bufferSize: number;
   filters: ProfilerFilter[];
@@ -206,6 +422,18 @@ export interface ProfilerConfiguration {
 }
 
 export interface ProfilerFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   pattern: string;
   enabled: boolean;
@@ -214,6 +442,18 @@ export interface ProfilerFilter {
 export type FilterType = 'include' | 'exclude' | 'custom';
 
 export interface ProfilerOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   format: OutputFormat;
   destination: string;
   compression: boolean;
@@ -223,12 +463,36 @@ export interface ProfilerOutput {
 export type OutputFormat = 'json' | 'csv' | 'binary' | 'custom';
 
 export interface ProfilerData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   samples: ProfilerSample[];
   statistics: ProfilerStatistics;
   timeline: ProfilerTimeline;
 }
 
 export interface ProfilerSample {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   thread: string;
   function: string;
@@ -238,6 +502,18 @@ export interface ProfilerSample {
 }
 
 export interface ProfilerStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSamples: number;
   uniqueFunctions: number;
   averageExecutionTime: number;
@@ -246,12 +522,36 @@ export interface ProfilerStatistics {
 }
 
 export interface ProfilerTimeline {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number;
   events: TimelineEvent[];
 }
 
 export interface TimelineEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   type: EventType;
   data: Record<string, any>;
@@ -260,6 +560,18 @@ export interface TimelineEvent {
 export type EventType = 'function_entry' | 'function_exit' | 'memory_alloc' | 'memory_free' | 'custom';
 
 export interface ProfilerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalProfiles: number;
   averageProfileTime: number;
   memoryUsage: number;
@@ -267,6 +579,18 @@ export interface ProfilerPerformance {
 }
 
 export interface DebuggingPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   activeSessions: number;
   totalBreakpoints: number;
@@ -280,6 +604,18 @@ export interface DebuggingPerformanceMetrics {
 }
 
 export interface DebuggingAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalSessions: number;
   totalBreakpoints: number;
   averageSessionTime: number;
@@ -289,6 +625,18 @@ export interface DebuggingAnalytics {
 }
 
 export interface SessionTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: SessionType;
   count: number;
   percentage: number;
@@ -296,6 +644,18 @@ export interface SessionTypeDistribution {
 }
 
 export interface BreakpointTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: BreakpointType;
   count: number;
   percentage: number;
@@ -303,6 +663,18 @@ export interface BreakpointTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   sessions: number;
   breakpoints: number;
@@ -312,6 +684,18 @@ export interface PerformanceTrend {
 }
 
 export interface DebuggingReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -323,6 +707,18 @@ export interface DebuggingReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -332,6 +728,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -340,6 +748,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -348,6 +768,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -355,6 +787,18 @@ export interface Version {
 }
 
 export interface DebuggingOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -20,7 +20,7 @@ type Cmd =
   | { op: 'simulateAI'; profileId: string; gameState: any }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {

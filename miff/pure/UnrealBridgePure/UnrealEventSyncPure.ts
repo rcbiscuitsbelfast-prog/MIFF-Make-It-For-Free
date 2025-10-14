@@ -158,6 +158,18 @@ export enum EventScope {
 }
 
 export interface EventSyncConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   syncMode: EventSyncMode;
   enableEventBuffering: boolean;
   enableEventFiltering: boolean;
@@ -188,6 +200,18 @@ export interface EventSyncConfiguration {
 }
 
 export interface EventFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   eventTypes: UnrealEventType[];
@@ -200,6 +224,18 @@ export interface EventFilter {
 }
 
 export interface EventCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'starts_with' | 'ends_with' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'in' | 'not_in' | 'exists' | 'not_exists' | 'matches' | 'not_matches';
   value: any;
@@ -208,6 +244,18 @@ export interface EventCondition {
 }
 
 export interface EventTransformer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   eventTypes: UnrealEventType[];
@@ -219,6 +267,18 @@ export interface EventTransformer {
 }
 
 export interface EventValidator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   eventTypes: UnrealEventType[];
@@ -228,6 +288,18 @@ export interface EventValidator {
 }
 
 export interface ValidationRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   rule: 'required' | 'optional' | 'read_only' | 'write_only' | 'min_length' | 'max_length' | 'min_value' | 'max_value' | 'pattern' | 'enum' | 'custom';
   value: any;
@@ -236,6 +308,18 @@ export interface ValidationRule {
 }
 
 export interface EventMapping {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   miffEvent: string;
   unrealEvent: UnrealEventType;
   priority: EventPriority;
@@ -249,6 +333,18 @@ export interface EventMapping {
 }
 
 export interface EventSubscription {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   eventType: UnrealEventType;
   subscriber: string;
@@ -261,6 +357,18 @@ export interface EventSubscription {
 }
 
 export interface EventQueue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   priority: EventPriority;
@@ -276,6 +384,18 @@ export interface EventQueue {
 }
 
 export interface EventStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvents: number;
   processedEvents: number;
   filteredEvents: number;
@@ -302,7 +422,7 @@ export interface EventStatistics {
 }
 
 export class UnrealEventSyncPure {
-  private logger: StructuredLogger;
+  
   private bridgeManager: UnrealBridgeManager;
   private configuration: EventSyncConfiguration;
   private eventMappings: Map<string, EventMapping> = new Map();
@@ -321,7 +441,7 @@ export class UnrealEventSyncPure {
     bridgeManager: UnrealBridgeManager,
     configuration: EventSyncConfiguration
   ) {
-    this.logger = new StructuredLogger({ module: 'UnrealEventSyncPure' });
+    
     this.bridgeManager = bridgeManager;
     this.configuration = configuration;
     this.statistics = this.initializeStatistics();

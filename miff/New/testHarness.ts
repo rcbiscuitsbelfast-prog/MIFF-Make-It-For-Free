@@ -22,6 +22,18 @@ import { addItem } from './inventoryState';
 
 // Test configuration
 interface TestConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableVisual: boolean;
   enableAudio: boolean;
   enableTouch: boolean;

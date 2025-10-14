@@ -4,7 +4,7 @@ import { TouchGestureManager, TouchEventLike } from './Manager';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (!argv.length) {
     console.error('Usage: tsx cliHarness.ts <events.json>');

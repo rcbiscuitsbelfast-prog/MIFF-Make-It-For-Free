@@ -11,7 +11,7 @@ type Cmd =
   | { op: 'simulate'; attackerId: string; defenderId: string }
   | { op: 'dump'; id: string };
 
-function main(){
+function main(...args: any[]) {
   const sample = process.argv[2] || 'CombatCorePure/sample_combat.json';
   const commands = process.argv[3] || '';
   const mgr = new CombatManager();

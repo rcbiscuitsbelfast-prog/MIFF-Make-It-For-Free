@@ -8,6 +8,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface TransportMessage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: string;
   data: any;
@@ -15,6 +27,18 @@ export interface TransportMessage {
 }
 
 export interface TransportOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   url?: string;
   protocols?: string[];
   reconnectInterval?: number;
@@ -22,7 +46,7 @@ export interface TransportOptions {
 }
 
 export class RealTransport {
-  private logger: StructuredLogger;
+  
   private ws: WebSocket | null = null;
   private messageHandlers: Map<string, Function[]> = new Map();
   private reconnectAttempts = 0;
@@ -30,7 +54,7 @@ export class RealTransport {
   private isConnected = false;
 
   constructor(options: TransportOptions = {}) {
-    this.logger = new StructuredLogger({ module: 'RealTransport' });
+    
     this.options = {
       url: 'ws://localhost:8080',
       protocols: ['miff-protocol'],

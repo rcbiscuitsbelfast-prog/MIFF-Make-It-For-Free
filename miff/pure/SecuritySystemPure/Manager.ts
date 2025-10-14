@@ -12,6 +12,18 @@
  */
 
 export interface SecuritySystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableSecurityManagement: boolean;
   enableAuthentication: boolean;
   enableAuthorization: boolean;
@@ -30,6 +42,18 @@ export interface SecuritySystemConfig {
 }
 
 export interface SecuritySystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: SecuritySystemManagerType;
@@ -55,6 +79,18 @@ export type SecuritySystemManagerType = 'local' | 'ldap' | 'oauth' | 'saml' | 'c
 export type SecuritySystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface User {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   username: string;
   email: string;
@@ -71,6 +107,18 @@ export interface User {
 export type UserStatus = 'active' | 'inactive' | 'locked' | 'suspended' | 'pending';
 
 export interface UserProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   firstName: string;
   lastName: string;
   displayName: string;
@@ -81,6 +129,18 @@ export interface UserProfile {
 }
 
 export interface UserPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   theme: string;
   notifications: NotificationSettings;
   privacy: PrivacySettings;
@@ -88,6 +148,18 @@ export interface UserPreferences {
 }
 
 export interface NotificationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   email: boolean;
   push: boolean;
   sms: boolean;
@@ -97,6 +169,18 @@ export interface NotificationSettings {
 export type NotificationFrequency = 'immediate' | 'daily' | 'weekly' | 'never';
 
 export interface PrivacySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   profileVisibility: VisibilityLevel;
   dataSharing: boolean;
   analytics: boolean;
@@ -105,6 +189,18 @@ export interface PrivacySettings {
 export type VisibilityLevel = 'public' | 'friends' | 'private';
 
 export interface SecuritySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   twoFactor: boolean;
   biometric: boolean;
   sessionTimeout: number;
@@ -112,6 +208,18 @@ export interface SecuritySettings {
 }
 
 export interface UserCredentials {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   password: PasswordInfo;
   twoFactor: TwoFactorInfo;
   biometric: BiometricInfo;
@@ -119,6 +227,18 @@ export interface UserCredentials {
 }
 
 export interface PasswordInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   hash: string;
   salt: string;
   algorithm: HashAlgorithm;
@@ -130,6 +250,18 @@ export interface PasswordInfo {
 export type HashAlgorithm = 'bcrypt' | 'scrypt' | 'argon2' | 'pbkdf2' | 'custom';
 
 export interface TwoFactorInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   method: TwoFactorMethod;
   secret: string;
@@ -140,6 +272,18 @@ export interface TwoFactorInfo {
 export type TwoFactorMethod = 'totp' | 'sms' | 'email' | 'app' | 'custom';
 
 export interface BiometricInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   type: BiometricType;
   template: string;
@@ -149,6 +293,18 @@ export interface BiometricInfo {
 export type BiometricType = 'fingerprint' | 'face' | 'voice' | 'iris' | 'custom';
 
 export interface SocialLoginInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   provider: SocialProvider;
   id: string;
   email: string;
@@ -158,6 +314,18 @@ export interface SocialLoginInfo {
 export type SocialProvider = 'google' | 'facebook' | 'twitter' | 'linkedin' | 'github' | 'custom';
 
 export interface UserSecurity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   loginAttempts: number;
   lastLogin: number;
   lastFailedLogin: number;
@@ -168,6 +336,18 @@ export interface UserSecurity {
 }
 
 export interface DeviceInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: DeviceType;
@@ -181,6 +361,18 @@ export interface DeviceInfo {
 export type DeviceType = 'desktop' | 'mobile' | 'tablet' | 'custom';
 
 export interface SecurityFlag {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FlagType;
   severity: FlagSeverity;
   description: string;
@@ -192,6 +384,18 @@ export type FlagType = 'suspicious_login' | 'unusual_activity' | 'password_breac
 export type FlagSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface Session {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   userId: string;
   status: SessionStatus;
@@ -209,6 +413,18 @@ export interface Session {
 export type SessionStatus = 'active' | 'expired' | 'terminated' | 'suspended';
 
 export interface LocationInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   country: string;
   region: string;
   city: string;
@@ -217,11 +433,35 @@ export interface LocationInfo {
 }
 
 export interface Coordinates {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latitude: number;
   longitude: number;
 }
 
 export interface SessionSecurity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   encrypted: boolean;
   protocol: SecurityProtocol;
   cipher: CipherInfo;
@@ -232,6 +472,18 @@ export interface SessionSecurity {
 export type SecurityProtocol = 'tls' | 'ssl' | 'https' | 'custom';
 
 export interface CipherInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   algorithm: string;
   keySize: number;
   mode: string;
@@ -239,6 +491,18 @@ export interface CipherInfo {
 }
 
 export interface CertificateInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   issuer: string;
   subject: string;
   validFrom: number;
@@ -247,6 +511,18 @@ export interface CertificateInfo {
 }
 
 export interface Role {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -260,6 +536,18 @@ export interface Role {
 export type RoleStatus = 'active' | 'inactive' | 'deprecated';
 
 export interface RoleHierarchy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   level: number;
   parent: string | null;
   children: string[];
@@ -267,6 +555,18 @@ export interface RoleHierarchy {
 }
 
 export interface Permission {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -279,6 +579,18 @@ export interface Permission {
 export type PermissionAction = 'read' | 'write' | 'delete' | 'execute' | 'admin' | 'custom';
 
 export interface PermissionCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ConditionType;
   field: string;
   operator: ConditionOperator;
@@ -289,6 +601,18 @@ export type ConditionType = 'time' | 'location' | 'device' | 'ip' | 'custom';
 export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
 
 export interface SecurityPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -302,6 +626,18 @@ export type PolicyType = 'password' | 'session' | 'access' | 'data' | 'custom';
 export type PolicyStatus = 'active' | 'inactive' | 'draft';
 
 export interface PolicyRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: RuleCondition;
@@ -311,6 +647,18 @@ export interface PolicyRule {
 }
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -321,6 +669,18 @@ export interface RuleCondition {
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   severity: ActionSeverity;
@@ -330,6 +690,18 @@ export type ActionType = 'allow' | 'deny' | 'warn' | 'log' | 'custom';
 export type ActionSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface PolicyEnforcement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: EnforcementMode;
   timeout: number;
   retries: number;
@@ -339,6 +711,18 @@ export interface PolicyEnforcement {
 export type EnforcementMode = 'strict' | 'permissive' | 'warning' | 'custom';
 
 export interface EscalationInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   threshold: number;
   action: ActionType;
@@ -346,6 +730,18 @@ export interface EscalationInfo {
 }
 
 export interface SecurityThreat {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ThreatType;
   severity: ThreatSeverity;
@@ -362,6 +758,18 @@ export type ThreatSeverity = 'low' | 'medium' | 'high' | 'critical';
 export type ThreatStatus = 'detected' | 'investigating' | 'contained' | 'resolved';
 
 export interface ThreatSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   ipAddress: string;
   userAgent: string;
   location: LocationInfo;
@@ -370,6 +778,18 @@ export interface ThreatSource {
 }
 
 export interface ThreatTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   resource: string;
   user: string | null;
   system: string;
@@ -377,6 +797,18 @@ export interface ThreatTarget {
 }
 
 export interface ThreatDetection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   method: DetectionMethod;
   confidence: number;
   timestamp: number;
@@ -386,6 +818,18 @@ export interface ThreatDetection {
 export type DetectionMethod = 'signature' | 'behavioral' | 'anomaly' | 'custom';
 
 export interface ThreatIndicator {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: IndicatorType;
   value: string;
   confidence: number;
@@ -395,6 +839,18 @@ export interface ThreatIndicator {
 export type IndicatorType = 'ip' | 'domain' | 'hash' | 'pattern' | 'custom';
 
 export interface ThreatResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   action: ResponseAction;
   timestamp: number;
   automated: boolean;
@@ -405,6 +861,18 @@ export type ResponseAction = 'block' | 'quarantine' | 'alert' | 'investigate' | 
 export type ResponseResult = 'success' | 'partial' | 'failed' | 'pending';
 
 export interface SecuritySystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalUsers: number;
   activeUsers: number;
   totalSessions: number;
@@ -421,6 +889,18 @@ export interface SecuritySystemPerformanceMetrics {
 }
 
 export interface SecuritySystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalUsers: number;
   totalSessions: number;
   totalThreats: number;
@@ -430,12 +910,36 @@ export interface SecuritySystemAnalytics {
 }
 
 export interface UserStatusDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   status: UserStatus;
   count: number;
   percentage: number;
 }
 
 export interface ThreatTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ThreatType;
   count: number;
   percentage: number;
@@ -443,6 +947,18 @@ export interface ThreatTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   users: number;
   sessions: number;
@@ -453,6 +969,18 @@ export interface PerformanceTrend {
 }
 
 export interface SecuritySystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -464,6 +992,18 @@ export interface SecuritySystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -473,6 +1013,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -481,6 +1033,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -489,6 +1053,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -496,6 +1072,18 @@ export interface Version {
 }
 
 export interface SecuritySystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

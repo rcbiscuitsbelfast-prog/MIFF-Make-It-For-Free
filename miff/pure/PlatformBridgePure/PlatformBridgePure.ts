@@ -40,6 +40,18 @@ export enum InputType {
 }
 
 export interface PlatformConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   platform: Platform;
   renderBackend: RenderBackend;
   enableAudio: boolean;
@@ -54,6 +66,18 @@ export interface PlatformConfig {
 }
 
 export interface RenderTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'canvas' | 'texture' | 'framebuffer';
   width: number;
@@ -64,6 +88,18 @@ export interface RenderTarget {
 }
 
 export interface InputDevice {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: InputType;
   name: string;
@@ -73,6 +109,18 @@ export interface InputDevice {
 }
 
 export interface PlatformCapabilities {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   platform: Platform;
   renderBackends: RenderBackend[];
   inputTypes: InputType[];
@@ -84,6 +132,18 @@ export interface PlatformCapabilities {
 }
 
 export interface PlatformStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   fps: number;
   frameTime: number;
   memory: number;

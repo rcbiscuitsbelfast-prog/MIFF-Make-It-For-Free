@@ -3,6 +3,18 @@ type ModuleTag = 'core' | 'optional' | 'experimental' | 'deprecated';
 type RemixLevel = 'safe' | 'risky' | 'dangerous';
 
 interface RemixTaggingOverride {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   getEnhancedDependencies: (moduleId: string) => string[];
   getModuleTags: (moduleId: string) => ModuleTag[];
   getRemixLevel: (moduleId: string) => RemixLevel;

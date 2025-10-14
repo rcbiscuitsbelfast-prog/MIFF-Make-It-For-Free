@@ -9,6 +9,18 @@ import * as crypto from 'crypto';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export interface User {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   username: string;
   email: string;
@@ -20,6 +32,18 @@ export interface User {
 }
 
 export interface JWTClaims {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   sub: string; // user id
   username: string;
   email: string;
@@ -31,6 +55,18 @@ export interface JWTClaims {
 }
 
 export interface Session {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   userId: string;
   token: string;
@@ -44,6 +80,18 @@ export interface Session {
 }
 
 export interface AuthConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   jwtSecret: string;
   jwtExpiration: number; // seconds
   refreshTokenExpiration: number; // seconds
@@ -56,6 +104,18 @@ export interface AuthConfig {
 }
 
 export interface LoginRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   username: string;
   password: string;
   rememberMe?: boolean;
@@ -63,6 +123,18 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   token?: string;
   refreshToken?: string;
@@ -72,6 +144,18 @@ export interface LoginResponse {
 }
 
 export interface RegisterRequest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   username: string;
   email: string;
   password: string;
@@ -79,6 +163,18 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   user?: User;
   error?: string;

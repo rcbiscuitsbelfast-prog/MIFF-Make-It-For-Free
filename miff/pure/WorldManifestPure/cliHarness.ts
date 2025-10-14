@@ -7,6 +7,18 @@ import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WorldOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'create' | 'get' | 'list' | 'addZone' | 'removeZone' | 'placeAsset' | 'removeAsset' | 'findAssets' | 'generate' | 'validate' | 'stats' | 'export' | 'delete' | 'globalStats';
   worldId?: string;
   zoneId?: string;
@@ -26,11 +38,11 @@ interface WorldOperation {
 }
 
 class WorldManifestCLI {
-  private logger: StructuredLogger;
+  
   private manager: WorldManifestManager;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'WorldManifestCLI' });
+  constructor(...args: any[]) {
+    
     this.manager = new WorldManifestManager();
   }
 
@@ -457,7 +469,7 @@ class WorldManifestCLI {
   }
 }
 
-async function main() {
+async function main(...args: any[]) {
   const cli = new WorldManifestCLI();
   
   if (process.argv.length < 3) {

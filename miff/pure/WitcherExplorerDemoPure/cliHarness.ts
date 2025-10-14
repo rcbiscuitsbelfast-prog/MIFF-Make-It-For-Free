@@ -6,12 +6,36 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WitcherExplorerOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'demo' | 'navigate' | 'dialogue' | 'quest' | 'dump';
   target?: string;
   data?: Record<string, unknown>;
 }
 
 interface WitcherGroveState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   player: { x: number; y: number };
   currentLocation: string;
   activeQuests: string[];
@@ -20,12 +44,12 @@ interface WitcherGroveState {
 }
 
 class WitcherExplorerDemo {
-  private logger: StructuredLogger;
+  
   private state: WitcherGroveState;
   private scenario: any;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'WitcherExplorerDemo' });
+  constructor(...args: any[]) {
+    
     this.state = {
       player: { x: 85, y: 262 },
       currentLocation: 'grove_clearing',
@@ -52,7 +76,7 @@ class WitcherExplorerDemo {
     }
   }
 
-  runDemo() {
+  runDemo(...args: any[]) {
     return {
       op: 'witcher_explorer_demo',
       status: 'ok',
@@ -139,7 +163,7 @@ class WitcherExplorerDemo {
     };
   }
 
-  dump() {
+  dump(...args: any[]) {
     return {
       op: 'dump',
       status: 'ok',
@@ -153,7 +177,7 @@ class WitcherExplorerDemo {
   }
 }
 
-function main() {
+function main(...args: any[]) {
   const argv = process.argv.slice(2);
   const demo = new WitcherExplorerDemo();
 

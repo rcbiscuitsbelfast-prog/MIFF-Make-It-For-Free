@@ -10,6 +10,18 @@ export type Beat = { t: number; expected: boolean };
 export type Tap = { t: number };
 
 export interface TamingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	bpm?: number; // beats per minute
 	totalBeats?: number; // number of beats in the session
 	window?: number; // hit window in seconds (|tap - beat| <= window)
@@ -17,6 +29,18 @@ export interface TamingConfig {
 }
 
 export interface ScenarioConfig extends TamingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	dt?: number; // simulation step
 	taps?: Tap[]; // optional taps (if omitted, default script is used)
 }

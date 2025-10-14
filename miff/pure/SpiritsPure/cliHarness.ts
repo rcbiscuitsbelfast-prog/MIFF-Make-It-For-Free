@@ -24,15 +24,15 @@ import {
 
 // CLI Application
 class SpiritsPureCLI {
-  private logger: StructuredLogger;
+  
   private rl: readline.Interface;
   private collection: SpiritCollection;
   private filter: SpiritFilter;
   private sorter: SpiritSorter;
   private currentSortOption: SortOption = SortOption.ALPHABETICAL_ASC;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'SpiritsPureCLI' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

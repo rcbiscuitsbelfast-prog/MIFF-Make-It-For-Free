@@ -7,6 +7,18 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SceneBuilderOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'build' | 'validate' | 'export' | 'template' | 'info';
   template?: string;
   config?: Partial<SceneBuildConfiguration>;
@@ -14,7 +26,7 @@ interface SceneBuilderOperation {
   format?: SceneExportFormat;
 }
 
-async function main() {
+async function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op> [template] [output]');

@@ -7,6 +7,18 @@ import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
 
 export interface UnityGameObject {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   active: boolean;
   layer: number;
@@ -14,12 +26,36 @@ export interface UnityGameObject {
 }
 
 export interface UnityTransform {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number; w: number };
   scale: { x: number; y: number; z: number };
 }
 
 export interface UnityEntity {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   gameObject: UnityGameObject;
   transform: UnityTransform;
@@ -27,12 +63,36 @@ export interface UnityEntity {
 }
 
 export interface UnityComponent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: string;
   data: Record<string, unknown>;
   enabled: boolean;
 }
 
 export interface UnityRenderData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   entities: UnityEntity[];
   components: UnityComponent[];
   prefabs: string[];
@@ -41,6 +101,18 @@ export interface UnityRenderData {
 }
 
 export interface UnityBridgeOperation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: 'simulate' | 'render' | 'interop' | 'dump';
   module: string;
   data?: Record<string, unknown>;
@@ -48,6 +120,18 @@ export interface UnityBridgeOperation {
 }
 
 export interface UnityBridgeConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   targetVersion: string; // Unity version (e.g., "2022.3")
   useECS: boolean; // Use ECS or MonoBehaviour
   prefabPath: string; // Path to prefab assets
@@ -56,6 +140,18 @@ export interface UnityBridgeConfig {
 }
 
 export interface UnityBridgeOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   renderData?: UnityRenderData;
@@ -71,7 +167,7 @@ export class UnityBridge {
   private lootManager: LootTablesManager;
   private economyManager: EconomyManager;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.npcsManager = new NPCsManager();
     this.questsManager = new QuestsManager();
     this.combatManager = new CombatManager();

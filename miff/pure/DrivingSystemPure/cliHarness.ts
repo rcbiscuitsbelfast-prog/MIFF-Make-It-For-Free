@@ -19,7 +19,7 @@ import {
 
 // Mock dependencies for CLI demo
 class RealEventBus {
-  private logger: StructuredLogger;
+  
   emit(event: string, data: any) {
     console.info(`📡 Event: ${event}`, data);
   }
@@ -47,8 +47,8 @@ class DrivingSystemCLI {
   private currentSession: DrivingSession | null = null;
   private lastUpdateTime: number = Date.now();
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'RealEventBus' });
+  constructor(...args: any[]) {
+    
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

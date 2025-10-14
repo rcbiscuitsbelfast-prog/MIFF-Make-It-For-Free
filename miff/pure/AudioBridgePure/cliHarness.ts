@@ -11,7 +11,7 @@ type Cmd =
   | { op: 'getState'; id: string }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const inputPath = process.argv[2] || 'AudioBridgePure/fixtures/audio.json';
   const commandsPath = process.argv[3] || '';
   

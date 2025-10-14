@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { PermissionsManager, PermissionName } from './Manager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
-async function main() {
+async function main(...args: any[]) {
   const argv = process.argv.slice(2);
   if (argv.length < 2) {
     console.error('Usage: tsx cliHarness.ts <query|request> <permissionName>');

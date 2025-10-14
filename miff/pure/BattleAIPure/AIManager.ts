@@ -5,7 +5,7 @@ import { AIDecisionStyle, IAIDecisionProfile, IAIControllerManager, IBattleAICon
 export class AIControllerManager implements IAIControllerManager {
   private profiles: Map<string, IAIDecisionProfile> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     // Seed standard profiles
     this.createStandardProfiles();
   }

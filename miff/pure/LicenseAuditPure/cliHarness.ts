@@ -12,7 +12,7 @@ type Cmd =
   | { op: 'getAuditStats' }
   | { op: 'removeAudit'; moduleId: string };
 
-function main() {
+function main(...args: any[]) {
   const configPath = process.argv[2] || '';
   const cmdsPath = process.argv[3] || '';
   

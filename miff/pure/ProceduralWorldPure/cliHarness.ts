@@ -10,7 +10,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 function toInt(value: any, fallback: number): number { const n = parseInt(String(value)); return Number.isFinite(n) ? n : fallback; }
 function toFloat(value: any, fallback: number): number { const n = parseFloat(String(value)); return Number.isFinite(n) ? n : fallback; }
 
-function main() {
+function main(...args: any[]) {
   const { command, options } = parseComplexCLIArgs(process.argv);
   const mgr = new ProceduralWorldManager();
   const seed = toInt(options.seed ?? 1, 1);

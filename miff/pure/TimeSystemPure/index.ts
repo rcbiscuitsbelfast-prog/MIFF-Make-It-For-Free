@@ -14,6 +14,18 @@ export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 export type TimeAcceleration = 'paused' | 'x1' | 'x2' | 'x5' | 'x10' | 'x50' | 'x100' | 'max';
 
 export interface TimeData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentTime: number;
   realTime: number;
   timeOfDay: TimeOfDay;
@@ -29,6 +41,18 @@ export interface TimeData {
 }
 
 export interface TimeSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   initialTime?: number;
   dayLength?: number; // seconds per game day
   defaultAcceleration?: TimeAcceleration;

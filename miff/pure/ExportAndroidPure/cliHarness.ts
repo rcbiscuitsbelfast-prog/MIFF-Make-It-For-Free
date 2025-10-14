@@ -3,6 +3,18 @@ import path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface AndroidExportOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   preset: string;
   aab: boolean;
   project: string;
@@ -44,7 +56,7 @@ function parseArgs(argv: string[]): AndroidExportOptions {
   return opts as AndroidExportOptions;
 }
 
-function main() {
+function main(...args: any[]) {
   const opts = parseArgs(process.argv);
   // Placeholder validation: ensure project exists
   const projectPath = path.resolve(process.cwd(), opts.project);

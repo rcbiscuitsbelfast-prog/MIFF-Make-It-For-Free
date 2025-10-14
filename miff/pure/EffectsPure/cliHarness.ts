@@ -36,8 +36,8 @@ class MockEntityContext implements IEntityContext {
   private entityImmunities = new Map<string, string[]>();
   private currentPhase: EffectPhase = EffectPhase.PRE_TURN;
   
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'MockEntityContext' });
+  constructor(...args: any[]) {
+    
     // Initialize with realistic entity data
     this.initializeDefaultEntities();
   }
@@ -142,7 +142,7 @@ class EffectsPureCLI {
   private currentEntityId: string = 'player';
   private lastResolution?: EffectResolution;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

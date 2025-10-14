@@ -15,6 +15,18 @@ import { ExportIntegration } from './ExportIntegration';
 import { UIBuilder } from './UIBuilder';
 
 export interface CLICommand {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   args: string[];
@@ -25,7 +37,7 @@ export class SkeletonAnimatorCLI {
   private manager: SkeletonAnimatorManagerImpl;
   private commands: Map<string, CLICommand> = new Map();
 
-  constructor() {
+  constructor(...args: any[]) {
     this.manager = new SkeletonAnimatorManagerImpl();
     this.registerCommands();
   }

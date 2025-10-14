@@ -18,6 +18,18 @@ export type GamePhase = 'lobby' | 'role_assignment' | 'discussion' | 'voting' | 
 export type VoteType = 'skip' | 'accuse' | 'defend' | 'special';
 
 export interface GamePlayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   role: GameRole;
@@ -31,6 +43,18 @@ export interface GamePlayer {
 }
 
 export interface GameVote {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   voterId: string;
   targetId: string;
   voteType: VoteType;
@@ -39,6 +63,18 @@ export interface GameVote {
 }
 
 export interface DiscussionRound {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   phase: GamePhase;
   startTime: number;
@@ -48,6 +84,18 @@ export interface DiscussionRound {
 }
 
 export interface GameMessage {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   playerId: string;
   message: string;
   timestamp: number;
@@ -55,6 +103,18 @@ export interface GameMessage {
 }
 
 export interface VotingResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   votes: Map<string, number>; // playerId -> vote count
   eliminated: string[];
   skipped: boolean;
@@ -62,6 +122,18 @@ export interface VotingResults {
 }
 
 export interface AbilityEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   abilityId: string;
   targetId?: string;
   effectType: 'kill' | 'protect' | 'investigate' | 'block' | 'redirect' | 'special';

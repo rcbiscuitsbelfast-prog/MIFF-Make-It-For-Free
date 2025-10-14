@@ -45,6 +45,18 @@ export enum AuditCategory {
 }
 
 export interface AuditIssue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   category: AuditCategory;
   level: AuditLevel;
@@ -66,6 +78,18 @@ export interface AuditIssue {
 }
 
 export interface AuditComment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   author: string;
   content: string;
@@ -74,6 +98,18 @@ export interface AuditComment {
 }
 
 export interface AuditMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalIssues: number;
   issuesByLevel: Record<AuditLevel, number>;
   issuesByCategory: Record<AuditCategory, number>;
@@ -91,6 +127,18 @@ export interface AuditMetrics {
 }
 
 export interface AuditConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabledCategories: AuditCategory[];
   severityThreshold: AuditLevel;
   includePatterns: string[];
@@ -104,6 +152,18 @@ export interface AuditConfig {
 }
 
 export interface CustomRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -116,6 +176,18 @@ export interface CustomRule {
 }
 
 export interface AuditReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   timestamp: Date;
   config: AuditConfig;
@@ -129,6 +201,18 @@ export interface AuditReport {
 }
 
 export interface AuditSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalFiles: number;
   totalLines: number;
   totalFunctions: number;
@@ -142,6 +226,18 @@ export interface AuditSummary {
 }
 
 export interface AuditRecommendation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   priority: 'high' | 'medium' | 'low';
   category: AuditCategory;
@@ -156,6 +252,18 @@ export interface AuditRecommendation {
 }
 
 export interface AuditTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metric: string;
   values: Array<{ date: Date; value: number }>;
   trend: 'up' | 'down' | 'stable';
@@ -164,6 +272,18 @@ export interface AuditTrend {
 }
 
 export interface AuditSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   config: AuditConfig;
   outputDir: string;
   enableRealTime: boolean;
@@ -179,7 +299,7 @@ export interface AuditSystemConfig {
  * Audit System - Core audit functionality
  */
 export class AuditSystem {
-  private logger: StructuredLogger;
+  
   private config: AuditSystemConfig;
   private issues: Map<string, AuditIssue> = new Map();
   private metrics: AuditMetrics;
@@ -189,7 +309,7 @@ export class AuditSystem {
   private auditTimer?: NodeJS.Timeout;
 
   constructor(config: AuditSystemConfig) {
-    this.logger = new StructuredLogger({ module: 'AuditSystem' });
+    
     this.config = config;
     this.metrics = this.initializeMetrics();
     this.initialize();

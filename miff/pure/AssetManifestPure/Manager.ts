@@ -20,6 +20,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface AssetManifestConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableAssetCataloging: boolean;
   enableDependencyTracking: boolean;
   enableAssetVersioning: boolean;
@@ -36,6 +48,18 @@ export interface AssetManifestConfig {
 }
 
 export interface AssetManifest {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ManifestType;
@@ -52,6 +76,18 @@ export interface AssetManifest {
 }
 
 export interface AssetEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: AssetType;
@@ -66,6 +102,18 @@ export interface AssetEntry {
 }
 
 export interface AssetDependency {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   assetId: string;
   dependencyId: string;
@@ -76,6 +124,18 @@ export interface AssetDependency {
 }
 
 export interface VersioningInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   currentVersion: string;
   previousVersions: string[];
   updateAvailable: boolean;
@@ -85,6 +145,18 @@ export interface VersioningInfo {
 }
 
 export interface CachingInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   strategy: CacheStrategy;
   ttl: number; // milliseconds
@@ -94,6 +166,18 @@ export interface CachingInfo {
 }
 
 export interface ManifestAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAssets: number;
   loadedAssets: number;
   cachedAssets: number;
@@ -110,7 +194,7 @@ export type DependencyType = 'required' | 'optional' | 'conditional' | 'exclusiv
 export type CacheStrategy = 'memory' | 'disk' | 'hybrid' | 'none';
 
 export class AssetManifestManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -120,7 +204,7 @@ export class AssetManifestManager {
   private startTime: Date;
 
   constructor(config?: Partial<AssetManifestConfig>) {
-    this.logger = new StructuredLogger({ module: 'AssetManifestManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

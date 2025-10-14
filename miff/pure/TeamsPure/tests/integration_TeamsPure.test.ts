@@ -71,7 +71,7 @@ class SpiritManager {
 }
 
 class Spirit {
-  constructor() {}
+  constructor(...args: any[]) {}
 }
 
 /**

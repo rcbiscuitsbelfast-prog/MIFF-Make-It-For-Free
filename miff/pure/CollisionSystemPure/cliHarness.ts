@@ -18,7 +18,7 @@ type Cmd =
   | { op: 'demo' }
   | { op: 'help' };
 
-function main(){
+function main(...args: any[]) {
   try {
     const sample = process.argv[2] || 'CollisionSystemPure/sample_boxes.json';
     const commands = process.argv[3] || '';
@@ -207,7 +207,7 @@ function runDemo(mgr: CollisionManager): any {
   };
 }
 
-function showHelp() {
+function showHelp(...args: any[]) {
   console.info(`
 CollisionSystemPure CLI - Advanced 2D Collision Detection
 

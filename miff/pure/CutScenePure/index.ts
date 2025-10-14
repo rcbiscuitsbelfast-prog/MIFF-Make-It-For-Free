@@ -25,7 +25,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Animation system for cut scenes
 class AnimationPure {
-  private logger: StructuredLogger;
+  
   private activeAnimations: Map<string, any> = new Map();
 
   async playAnimation(animationId: string, target: any): Promise<void> {
@@ -382,6 +382,18 @@ class AvatarSystemPureStub {
 }
 
 interface CutSceneConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -393,6 +405,18 @@ interface CutSceneConfig {
 }
 
 interface CutSceneTrack {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: 'camera' | 'dialogue' | 'event' | 'audio' | 'animation' | 'custom';
@@ -403,6 +427,18 @@ interface CutSceneTrack {
 }
 
 interface CutSceneAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   trackId: string;
   timestamp: number;
@@ -412,6 +448,18 @@ interface CutSceneAction {
 }
 
 interface CutSceneCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'time' | 'event' | 'variable' | 'user_input';
   operator: 'equals' | 'greater_than' | 'less_than' | 'contains' | 'exists';
   target: string;
@@ -420,6 +468,18 @@ interface CutSceneCondition {
 }
 
 export interface CutSceneDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   config: CutSceneConfig;
   tracks: CutSceneTrack[];
   actions: CutSceneAction[];
@@ -429,6 +489,18 @@ export interface CutSceneDefinition {
 }
 
 interface CutSceneBranch {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: CutSceneCondition;
@@ -438,6 +510,18 @@ interface CutSceneBranch {
 }
 
 interface CutSceneEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   timestamp: number;
@@ -446,6 +530,18 @@ interface CutSceneEvent {
 }
 
 interface CutSceneState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   isPlaying: boolean;
   isPaused: boolean;
   currentTime: number;
@@ -470,7 +566,7 @@ export class CutSceneEngine {
   private cutScene: CutScenePure;
 
   constructor(definition: CutSceneDefinition) {
-    this.logger = new StructuredLogger({ module: 'AnimationPure' });
+    
     this.cutScene = new CutScenePure(definition);
   }
 
@@ -528,29 +624,29 @@ export class CutSceneEngine {
 export class CutSceneWebBridge {
   generateCutSceneScript(): string {
     return `
-function CutSceneWebBridge() {
+function CutSceneWebBridge(...args: any[]) {
   this.definition = ${JSON.stringify(definition, null, 2)};
   this.isPlaying = false;
   this.currentTime = 0;
   this.startTime = 0;
 }
 
-CutSceneWebBridge.prototype.playCutScene = function() {
+CutSceneWebBridge.prototype.playCutScene = function(...args: any[]) {
   this.isPlaying = true;
   this.startTime = performance.now();
   this.update();
 };
 
-CutSceneWebBridge.prototype.pauseCutScene = function() {
+CutSceneWebBridge.prototype.pauseCutScene = function(...args: any[]) {
   this.isPlaying = false;
 };
 
-CutSceneWebBridge.prototype.stopCutScene = function() {
+CutSceneWebBridge.prototype.stopCutScene = function(...args: any[]) {
   this.isPlaying = false;
   this.currentTime = 0;
 };
 
-CutSceneWebBridge.prototype.update = function() {
+CutSceneWebBridge.prototype.update = function(...args: any[]) {
   if (!this.isPlaying) return;
 
   const now = performance.now();

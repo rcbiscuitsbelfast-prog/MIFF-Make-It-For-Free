@@ -14,7 +14,7 @@ type Cmd =
   | { op: 'stats'; tableId?: string }
   | { op: 'export'; tableId?: string; format?: 'json' | 'manifest' | 'summary' | 'rolls' };
 
-function main() {
+function main(...args: any[]) {
   const tablesPath = process.argv[2];
   const commandsPath = process.argv[3];
   

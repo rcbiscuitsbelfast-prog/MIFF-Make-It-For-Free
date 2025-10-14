@@ -51,6 +51,18 @@ export enum ExportStatus {
 }
 
 export interface ExportConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   engine: ExportEngine;
   platform: ExportPlatform;
   version?: string;
@@ -64,6 +76,18 @@ export interface ExportConfig {
 }
 
 export interface ExportStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -77,6 +101,18 @@ export interface ExportStep {
 }
 
 export interface ExportAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalAssets: number;
   totalSize: number;
   compressionRatio: number;
@@ -92,6 +128,18 @@ export interface ExportAnalytics {
 }
 
 export interface ExportResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   success: boolean;
   engine: ExportEngine;
   platform: ExportPlatform;
@@ -106,6 +154,18 @@ export interface ExportResult {
 }
 
 export interface ExportPipelineConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableProfiling: boolean;
   enableValidation: boolean;
   enableOptimization: boolean;
@@ -117,7 +177,7 @@ export interface ExportPipelineConfig {
 }
 
 export class ExportPipelinePure {
-  private logger: StructuredLogger;
+  
   private config: ExportPipelineConfig;
   private activeExports: Map<string, ExportResult> = new Map();
   private godotConverter?: ConvertToGodotManager;
@@ -125,7 +185,7 @@ export class ExportPipelinePure {
   private stepCounter = 0;
 
   constructor(config: Partial<ExportPipelineConfig> = {}) {
-    this.logger = new StructuredLogger({ module: 'ExportPipelinePure' });
+    
     this.config = {
       enableProfiling: true,
       enableValidation: true,
@@ -918,12 +978,12 @@ console.info('Platform: ${config.platform}');
 const renderData = ${JSON.stringify(renderPayload.renderData || [], null, 2)};
 
 // Initialize game
-function initGame() {
+function initGame(...args: any[]) {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     
     // Basic game loop
-    function gameLoop() {
+    function gameLoop(...args: any[]) {
         ctx.fillStyle = '#000';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         

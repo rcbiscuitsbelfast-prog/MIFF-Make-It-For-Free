@@ -11,6 +11,18 @@
  */
 
 export interface ErrorHandlingConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableErrorHandlingManagement: boolean;
   enableErrorDetection: boolean;
   enableErrorLogging: boolean;
@@ -28,6 +40,18 @@ export interface ErrorHandlingConfig {
 }
 
 export interface ErrorHandlingManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ErrorHandlingManagerType;
@@ -52,6 +76,18 @@ export type ErrorHandlingManagerType = 'system' | 'application' | 'network' | 'd
 export type ErrorHandlingManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Error {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ErrorType;
@@ -71,6 +107,18 @@ export type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
 export type ErrorStatus = 'new' | 'acknowledged' | 'investigating' | 'resolved' | 'ignored';
 
 export interface ErrorContext {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   source: ErrorSource;
   environment: ErrorEnvironment;
   user: ErrorUser;
@@ -79,6 +127,18 @@ export interface ErrorContext {
 }
 
 export interface ErrorSource {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   file: string;
   function: string;
   line: number;
@@ -88,6 +148,18 @@ export interface ErrorSource {
 }
 
 export interface ErrorEnvironment {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   os: string;
   browser: string;
   device: string;
@@ -97,6 +169,18 @@ export interface ErrorEnvironment {
 }
 
 export interface ErrorUser {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   email: string;
@@ -105,6 +189,18 @@ export interface ErrorUser {
 }
 
 export interface ErrorSession {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   startTime: number;
   duration: number;
@@ -114,6 +210,18 @@ export interface ErrorSession {
 }
 
 export interface ErrorClassification {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   category: ErrorCategory;
   subcategory: string;
   tags: string[];
@@ -124,6 +232,18 @@ export interface ErrorClassification {
 export type ErrorCategory = 'input' | 'processing' | 'output' | 'system' | 'custom';
 
 export interface ErrorRecovery {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   strategy: RecoveryStrategy;
   attempts: number;
   maxAttempts: number;
@@ -135,6 +255,18 @@ export interface ErrorRecovery {
 export type RecoveryStrategy = 'retry' | 'fallback' | 'ignore' | 'escalate' | 'custom';
 
 export interface RecoveryAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   success: boolean;
@@ -145,6 +277,18 @@ export interface RecoveryAction {
 export type ActionType = 'retry' | 'fallback' | 'notify' | 'log' | 'custom';
 
 export interface ErrorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   occurrenceCount: number;
   averageResolutionTime: number;
   lastOccurrence: number;
@@ -153,6 +297,18 @@ export interface ErrorPerformance {
 }
 
 export interface ErrorHandler {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: HandlerType;
@@ -167,6 +323,18 @@ export type HandlerType = 'catch' | 'finally' | 'global' | 'custom';
 export type HandlerStatus = 'active' | 'inactive' | 'error';
 
 export interface HandlerConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   priority: number;
   timeout: number;
@@ -176,6 +344,18 @@ export interface HandlerConfiguration {
 }
 
 export interface HandlerFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   field: string;
   operator: FilterOperator;
@@ -187,6 +367,18 @@ export type FilterType = 'error_type' | 'severity' | 'source' | 'custom';
 export type FilterOperator = 'equals' | 'not_equals' | 'contains' | 'starts_with' | 'custom';
 
 export interface HandlerRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: RuleCondition;
@@ -196,6 +388,18 @@ export interface HandlerRule {
 }
 
 export interface RuleCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   field: string;
   operator: ConditionOperator;
   value: any;
@@ -207,6 +411,18 @@ export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less
 export type LogicalOperator = 'and' | 'or' | 'not' | 'custom';
 
 export interface RuleAction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ActionType;
   parameters: Record<string, any>;
   message: string;
@@ -216,6 +432,18 @@ export interface RuleAction {
 export type ActionSeverity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface HandlerPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalHandled: number;
   successRate: number;
   averageHandlingTime: number;
@@ -223,6 +451,18 @@ export interface HandlerPerformance {
 }
 
 export interface ErrorPolicy {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -237,6 +477,18 @@ export type PolicyType = 'prevention' | 'detection' | 'response' | 'custom';
 export type PolicyStatus = 'active' | 'inactive' | 'draft';
 
 export interface PolicyRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: RuleCondition;
@@ -246,6 +498,18 @@ export interface PolicyRule {
 }
 
 export interface PolicyEnforcement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   mode: EnforcementMode;
   timeout: number;
   retries: number;
@@ -255,6 +519,18 @@ export interface PolicyEnforcement {
 export type EnforcementMode = 'strict' | 'permissive' | 'warning' | 'custom';
 
 export interface EscalationInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   threshold: number;
   action: ActionType;
@@ -262,6 +538,18 @@ export interface EscalationInfo {
 }
 
 export interface PolicyPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalEvaluations: number;
   successRate: number;
   averageEvaluationTime: number;
@@ -269,6 +557,18 @@ export interface PolicyPerformance {
 }
 
 export interface ErrorReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ReportType;
@@ -284,6 +584,18 @@ export type ReportType = 'summary' | 'detailed' | 'trend' | 'custom';
 export type ReportStatus = 'generating' | 'completed' | 'failed';
 
 export interface ReportSummary {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalErrors: number;
   resolvedErrors: number;
   unresolvedErrors: number;
@@ -293,6 +605,18 @@ export interface ReportSummary {
 }
 
 export interface TrendInfo {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   period: string;
   count: number;
   change: number;
@@ -302,6 +626,18 @@ export interface TrendInfo {
 export type TrendDirection = 'up' | 'down' | 'stable' | 'custom';
 
 export interface ReportDetails {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   errors: ErrorDetail[];
   handlers: HandlerDetail[];
   policies: PolicyDetail[];
@@ -309,6 +645,18 @@ export interface ReportDetails {
 }
 
 export interface ErrorDetail {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: ErrorType;
   severity: ErrorSeverity;
@@ -319,6 +667,18 @@ export interface ErrorDetail {
 }
 
 export interface HandlerDetail {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: HandlerType;
@@ -328,6 +688,18 @@ export interface HandlerDetail {
 }
 
 export interface PolicyDetail {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PolicyType;
@@ -337,6 +709,18 @@ export interface PolicyDetail {
 }
 
 export interface PerformanceDetail {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   averageResolutionTime: number;
   slowestResolution: number;
   fastestResolution: number;
@@ -345,6 +729,18 @@ export interface PerformanceDetail {
 }
 
 export interface ErrorMonitor {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: MonitorType;
@@ -360,6 +756,18 @@ export type MonitorType = 'error_rate' | 'resolution_time' | 'error_pattern' | '
 export type MonitorStatus = 'active' | 'inactive' | 'error';
 
 export interface MonitorConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   interval: number;
   threshold: number;
   enabled: boolean;
@@ -367,6 +775,18 @@ export interface MonitorConfiguration {
 }
 
 export interface MonitorFilter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: FilterType;
   field: string;
   operator: FilterOperator;
@@ -375,6 +795,18 @@ export interface MonitorFilter {
 }
 
 export interface MonitorMetric {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   type: MetricType;
   value: number;
@@ -386,6 +818,18 @@ export interface MonitorMetric {
 export type MetricType = 'counter' | 'gauge' | 'histogram' | 'custom';
 
 export interface MonitorAlert {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   condition: AlertCondition;
@@ -395,6 +839,18 @@ export interface MonitorAlert {
 }
 
 export interface AlertCondition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   metric: string;
   operator: ConditionOperator;
   threshold: number;
@@ -402,6 +858,18 @@ export interface AlertCondition {
 }
 
 export interface MonitorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalChecks: number;
   successRate: number;
   averageResponseTime: number;
@@ -409,6 +877,18 @@ export interface MonitorPerformance {
 }
 
 export interface ErrorHandlingPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalErrors: number;
   newErrors: number;
   resolvedErrors: number;
@@ -426,6 +906,18 @@ export interface ErrorHandlingPerformanceMetrics {
 }
 
 export interface ErrorHandlingAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalErrors: number;
   totalHandlers: number;
   averageResolutionTime: number;
@@ -435,6 +927,18 @@ export interface ErrorHandlingAnalytics {
 }
 
 export interface ErrorTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ErrorType;
   count: number;
   percentage: number;
@@ -442,6 +946,18 @@ export interface ErrorTypeDistribution {
 }
 
 export interface ErrorSeverityDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   severity: ErrorSeverity;
   count: number;
   percentage: number;
@@ -449,6 +965,18 @@ export interface ErrorSeverityDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   errors: number;
   handlers: number;
@@ -459,6 +987,18 @@ export interface PerformanceTrend {
 }
 
 export interface ErrorHandlingReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -470,6 +1010,18 @@ export interface ErrorHandlingReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -479,6 +1031,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -487,6 +1051,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -495,6 +1071,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -502,6 +1090,18 @@ export interface Version {
 }
 
 export interface ErrorHandlingOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

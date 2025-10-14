@@ -14,6 +14,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Core interfaces and types
 export interface CameraDefinition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -29,6 +41,18 @@ export interface CameraDefinition {
 }
 
 export interface CameraMode {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: 'chase' | 'orbit' | 'first-person' | 'fixed' | 'cinematic' | 'debug' | 'custom';
   parameters: Map<string, any>;
   updateFunction: string;
@@ -39,6 +63,18 @@ export interface CameraMode {
 export type CameraModeType = 'chase' | 'orbit' | 'first-person' | 'fixed' | 'cinematic' | 'debug' | 'custom';
 
 export interface CameraSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   // Position and orientation
   position: Vector3;
   target: Vector3;
@@ -74,6 +110,18 @@ export interface CameraSettings {
 }
 
 export interface CameraTransition {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   fromMode: string;
@@ -88,6 +136,18 @@ export interface CameraTransition {
 }
 
 export interface CameraKeyframe {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number; // Time in transition (0-1)
   position: Vector3;
   rotation: Quaternion;
@@ -97,6 +157,18 @@ export interface CameraKeyframe {
 }
 
 export interface CameraTransitionEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number;
   event: string;
   parameters: Map<string, any>;
@@ -104,6 +176,18 @@ export interface CameraTransitionEvent {
 }
 
 export interface CameraConstraints {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   // Movement boundaries
   positionBounds?: {
     min: Vector3;
@@ -138,6 +222,18 @@ export interface CameraConstraints {
 }
 
 export interface CameraEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -151,6 +247,18 @@ export interface CameraEffect {
 }
 
 export interface CameraVisualStyle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   filter: string;
   overlay: string;
   crosshair: boolean;
@@ -164,6 +272,18 @@ export interface CameraVisualStyle {
 }
 
 export interface CameraMetadata {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   author: string;
   version: string;
   compatibility: string[];
@@ -174,6 +294,18 @@ export interface CameraMetadata {
 }
 
 export interface CameraInstance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   definition: CameraDefinition;
   currentSettings: CameraSettings;
@@ -187,6 +319,18 @@ export interface CameraInstance {
 }
 
 export interface CameraPath {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -202,6 +346,18 @@ export interface CameraPath {
 }
 
 export interface CameraWaypoint {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   rotation: Quaternion;
   fov: number;
@@ -214,6 +370,18 @@ export interface CameraWaypoint {
 }
 
 export interface CameraPathEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   time: number;
   event: string;
   parameters: Map<string, any>;
@@ -221,6 +389,18 @@ export interface CameraPathEvent {
 }
 
 export interface CameraState {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   position: Vector3;
   rotation: Quaternion;
   velocity: Vector3;
@@ -238,6 +418,18 @@ export interface CameraState {
 }
 
 export interface CameraPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   updateTime: number;
   renderTime: number;
   collisionChecks: number;
@@ -250,6 +442,18 @@ export interface CameraPerformanceMetrics {
 }
 
 export interface CinematicSequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -268,6 +472,18 @@ export interface CinematicSequence {
 }
 
 export interface CameraShot {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   cameraId: string;
@@ -284,6 +500,18 @@ export interface CameraShot {
 }
 
 export interface Subtitle {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   startTime: number;
   endTime: number;
   text: string;
@@ -293,6 +521,18 @@ export interface Subtitle {
 }
 
 export interface CinematicEffect {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: 'fade' | 'blur' | 'shake' | 'color' | 'filter' | 'overlay';
   startTime: number;
@@ -302,12 +542,36 @@ export interface CinematicEffect {
 }
 
 export interface Vector3 {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
 }
 
 export interface Quaternion {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   x: number;
   y: number;
   z: number;
@@ -315,6 +579,18 @@ export interface Quaternion {
 }
 
 export interface CameraConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   defaultMode: string;
   enableDebugCamera: boolean;
   enableCinematicMode: boolean;
@@ -338,6 +614,18 @@ export interface CameraConfig {
 }
 
 export interface CameraStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalCameras: number;
   activeCameras: number;
   modeSwitches: number;
@@ -353,7 +641,7 @@ export interface CameraStats {
 }
 
 export class CameraSystemPure {
-  private logger: StructuredLogger;
+  
   private cameraDefinitions: Map<string, CameraDefinition> = new Map();
   private activeCameras: Map<string, CameraInstance> = new Map();
   private cameraPaths: Map<string, CameraPath> = new Map();
@@ -371,7 +659,7 @@ export class CameraSystemPure {
     inputSystem: InputMapper,
     rng: RNGProvider
   ) {
-    this.logger = new StructuredLogger({ module: 'CameraSystemPure' });
+    
     this.eventBus = eventBus;
     this.inputSystem = inputSystem;
     this.rng = rng;

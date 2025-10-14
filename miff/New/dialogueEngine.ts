@@ -1,6 +1,18 @@
 type DialogueLine = string;
 
 export interface DialogueSequence {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   lines: DialogueLine[];
   currentIndex: number;

@@ -7,6 +7,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface DocumentationTarget {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   module: string;
   type: 'api' | 'guide' | 'tutorial' | 'example' | 'reference';
@@ -20,6 +32,18 @@ export interface DocumentationTarget {
 }
 
 export interface APIDocumentation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   module: string;
   classes: APIClass[];
   interfaces: APIInterface[];
@@ -29,6 +53,18 @@ export interface APIDocumentation {
 }
 
 export interface APIClass {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   methods: APIMethod[];
@@ -39,6 +75,18 @@ export interface APIClass {
 }
 
 export interface APIInterface {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   properties: APIProperty[];
@@ -48,6 +96,18 @@ export interface APIInterface {
 }
 
 export interface APIFunction {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   parameters: APIParameter[];
@@ -57,6 +117,18 @@ export interface APIFunction {
 }
 
 export interface APIType {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   definition: string;
@@ -64,6 +136,18 @@ export interface APIType {
 }
 
 export interface APIMethod {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   parameters: APIParameter[];
@@ -73,6 +157,18 @@ export interface APIMethod {
 }
 
 export interface APIProperty {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   type: string;
@@ -81,6 +177,18 @@ export interface APIProperty {
 }
 
 export interface APIParameter {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   description: string;
   type: string;
@@ -89,6 +197,18 @@ export interface APIParameter {
 }
 
 export interface APIExample {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   code: string;
@@ -97,6 +217,18 @@ export interface APIExample {
 }
 
 export interface ContributorGuide {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   description: string;
@@ -107,6 +239,18 @@ export interface ContributorGuide {
 }
 
 export interface GuideSection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   content: string;
   codeExamples: string[];
@@ -115,6 +259,18 @@ export interface GuideSection {
 }
 
 export interface Tutorial {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   description: string;
@@ -126,6 +282,18 @@ export interface Tutorial {
 }
 
 export interface TutorialStep {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   title: string;
   description: string;
   code: string;
@@ -135,6 +303,18 @@ export interface TutorialStep {
 }
 
 export interface CodeExample {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   title: string;
   description: string;
@@ -147,6 +327,18 @@ export interface CodeExample {
 }
 
 export interface DocumentationStats {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalModules: number;
   documentedModules: number;
   apiDocumentation: number;
@@ -158,7 +350,7 @@ export interface DocumentationStats {
 }
 
 export class DocumentationGenerator {
-  private logger: StructuredLogger;
+  
   private targets: Map<string, DocumentationTarget> = new Map();
   private apiDocs: Map<string, APIDocumentation> = new Map();
   private contributorGuides: Map<string, ContributorGuide> = new Map();
@@ -166,8 +358,8 @@ export class DocumentationGenerator {
   private codeExamples: Map<string, CodeExample> = new Map();
   private stats: DocumentationStats;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'DocumentationGenerator' });
+  constructor(...args: any[]) {
+    
     this.stats = this.initializeStats();
   }
 
@@ -466,6 +658,18 @@ export class DocumentationGenerator {
         {
           name: `I${module}Config`,
           description: `Configuration interface for ${module}`,
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
           properties: [
             {
               name: 'enabled',

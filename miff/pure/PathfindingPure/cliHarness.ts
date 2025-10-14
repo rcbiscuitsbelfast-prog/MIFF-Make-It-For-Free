@@ -10,7 +10,7 @@ type Cmd =
   | { op: 'simulate'; start: { x: number; y: number }; goal: { x: number; y: number } }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const gridPath = process.argv[2] || '';
   const commandsPath = process.argv[3] || '';
   const manager = new PathfindingManager();

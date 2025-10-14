@@ -45,13 +45,13 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AvatarSystemCLI {
-  private logger: StructuredLogger;
+  
   private avatarSystem: AvatarSystemPure;
   private rl: readline.Interface;
   private registry: AvatarRegistry;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'AvatarSystemCLI' });
+  constructor(...args: any[]) {
+    
     this.avatarSystem = new AvatarSystemPure();
     this.registry = this.createSampleRegistry();
 
@@ -475,7 +475,7 @@ Available commands:
 }
 
 // Main execution
-async function main() {
+async function main(...args: any[]) {
   const cli = new AvatarSystemCLI();
   await cli.start();
 }

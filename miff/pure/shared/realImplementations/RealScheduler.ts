@@ -10,6 +10,18 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
  */
 
 export interface Task {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   priority: number;
@@ -27,6 +39,18 @@ export interface Task {
 }
 
 export interface ScheduleRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   cronExpression: string;
@@ -39,6 +63,18 @@ export interface ScheduleRule {
 }
 
 export interface SchedulerConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxConcurrentTasks: number;
   defaultTimeout: number;
   defaultMaxRetries: number;
@@ -48,6 +84,18 @@ export interface SchedulerConfig {
 }
 
 export interface SchedulerMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalTasks: number;
   pendingTasks: number;
   runningTasks: number;
@@ -60,7 +108,7 @@ export interface SchedulerMetrics {
 }
 
 export class RealScheduler {
-  private logger: StructuredLogger;
+  
   private tasks: Map<string, Task> = new Map();
   private scheduleRules: Map<string, ScheduleRule> = new Map();
   private runningTasks: Set<string> = new Set();
@@ -72,7 +120,7 @@ export class RealScheduler {
   private nextTaskId: number = 1;
 
   constructor(config?: Partial<SchedulerConfig>) {
-    this.logger = new StructuredLogger({ module: 'RealScheduler' });
+    
     this.config = {
       maxConcurrentTasks: 10,
       defaultTimeout: 30000,

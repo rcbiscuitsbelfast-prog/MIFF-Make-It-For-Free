@@ -18,6 +18,18 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 export interface BridgeInspectorConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableHealthMonitoring: boolean;
   enablePerformanceAnalysis: boolean;
   enableErrorDetection: boolean;
@@ -31,6 +43,18 @@ export interface BridgeInspectorConfig {
 }
 
 export interface BridgeInspector {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: InspectorType;
@@ -47,6 +71,18 @@ export interface BridgeInspector {
 }
 
 export interface Bridge {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: BridgeType;
@@ -58,6 +94,18 @@ export interface Bridge {
 }
 
 export interface Inspection {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   bridgeId: string;
   type: InspectionType;
@@ -69,6 +117,18 @@ export interface Inspection {
 }
 
 export interface InspectionReport {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   bridgeId: string;
   inspectionId: string;
@@ -81,6 +141,18 @@ export interface InspectionReport {
 }
 
 export interface BridgeHealth {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   overall: HealthStatus;
   components: ComponentHealth[];
   lastChecked: Date;
@@ -88,6 +160,18 @@ export interface BridgeHealth {
 }
 
 export interface ComponentHealth {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   status: HealthStatus;
   score: number; // 0-100
@@ -96,6 +180,18 @@ export interface ComponentHealth {
 }
 
 export interface Issue {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: IssueType;
   severity: IssueSeverity;
@@ -106,6 +202,18 @@ export interface Issue {
 }
 
 export interface BridgePerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   latency: number; // milliseconds
   throughput: number; // requests per second
   errorRate: number; // 0-1
@@ -114,6 +222,18 @@ export interface BridgePerformance {
 }
 
 export interface BridgeConfiguration {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   settings: Record<string, any>;
   features: string[];
   limits: ConfigurationLimits;
@@ -121,6 +241,18 @@ export interface BridgeConfiguration {
 }
 
 export interface ConfigurationLimits {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   maxConnections: number;
   maxRequests: number;
   timeout: number; // milliseconds
@@ -128,6 +260,18 @@ export interface ConfigurationLimits {
 }
 
 export interface InspectionResults {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   passed: boolean;
   score: number; // 0-100
   checks: CheckResult[];
@@ -136,6 +280,18 @@ export interface InspectionResults {
 }
 
 export interface CheckResult {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   name: string;
   passed: boolean;
   score: number; // 0-100
@@ -145,6 +301,18 @@ export interface CheckResult {
 }
 
 export interface Finding {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: FindingType;
   severity: FindingSeverity;
@@ -155,6 +323,18 @@ export interface Finding {
 }
 
 export interface Recommendation {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: RecommendationType;
   priority: RecommendationPriority;
@@ -165,6 +345,18 @@ export interface Recommendation {
 }
 
 export interface InspectorPerformance {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   inspectionsPerformed: number;
   averageInspectionTime: number; // milliseconds
   successRate: number; // 0-1
@@ -174,6 +366,18 @@ export interface InspectorPerformance {
 }
 
 export interface InspectorAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalBridges: number;
   activeBridges: number;
   totalInspections: number;
@@ -200,7 +404,7 @@ export type RecommendationType = 'fix' | 'optimize' | 'upgrade' | 'configure' | 
 export type RecommendationPriority = 'low' | 'medium' | 'high' | 'urgent';
 
 export class BridgeInspectorManager {
-  private logger: StructuredLogger;
+  
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
@@ -210,7 +414,7 @@ export class BridgeInspectorManager {
   private startTime: Date;
 
   constructor(config?: Partial<BridgeInspectorConfig>) {
-    this.logger = new StructuredLogger({ module: 'BridgeInspectorManager' });
+    
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();

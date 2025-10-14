@@ -12,6 +12,18 @@
  */
 
 export interface ScoreSystemConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enableScoreManagement: boolean;
   enableScoreCalculation: boolean;
   enableLeaderboards: boolean;
@@ -29,6 +41,18 @@ export interface ScoreSystemConfig {
 }
 
 export interface ScoreSystemManager {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: ScoreSystemManagerType;
@@ -53,6 +77,18 @@ export type ScoreSystemManagerType = 'game' | 'competition' | 'educational' | 'f
 export type ScoreSystemManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Score {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   playerId: string;
   gameId: string;
@@ -74,6 +110,18 @@ export type ScoreType = 'points' | 'time' | 'accuracy' | 'combo' | 'streak' | 'c
 export type ScoreCategory = 'gameplay' | 'achievement' | 'bonus' | 'penalty' | 'custom';
 
 export interface Leaderboard {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: LeaderboardType;
@@ -92,12 +140,36 @@ export type LeaderboardType = 'global' | 'friends' | 'local' | 'regional' | 'cus
 export type LeaderboardScope = 'all_time' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
 
 export interface TimeRange {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   start: number;
   end: number;
   duration: number;
 }
 
 export interface LeaderboardEntry {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   rank: number;
   playerId: string;
   playerName: string;
@@ -107,6 +179,18 @@ export interface LeaderboardEntry {
 }
 
 export interface LeaderboardRule {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: RuleType;
@@ -117,6 +201,18 @@ export interface LeaderboardRule {
 export type RuleType = 'minimum_score' | 'maximum_entries' | 'time_limit' | 'validation' | 'custom';
 
 export interface ScorePlayer {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   type: PlayerType;
@@ -131,6 +227,18 @@ export type PlayerType = 'guest' | 'registered' | 'premium' | 'admin' | 'custom'
 export type PlayerStatus = 'active' | 'inactive' | 'banned' | 'suspended';
 
 export interface PlayerProfile {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   avatar: string;
   level: number;
   experience: number;
@@ -142,6 +250,18 @@ export interface PlayerProfile {
 }
 
 export interface PlayerStatistics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalScores: number;
   averageScore: number;
   highestScore: number;
@@ -153,6 +273,18 @@ export interface PlayerStatistics {
 }
 
 export interface PlayerPreferences {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   privacy: PrivacySettings;
   notifications: NotificationSettings;
   display: DisplaySettings;
@@ -161,6 +293,18 @@ export interface PlayerPreferences {
 }
 
 export interface PrivacySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   showScores: boolean;
   showProfile: boolean;
   showActivity: boolean;
@@ -168,6 +312,18 @@ export interface PrivacySettings {
 }
 
 export interface NotificationSettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   scoreUpdates: boolean;
   achievements: boolean;
   leaderboards: boolean;
@@ -175,6 +331,18 @@ export interface NotificationSettings {
 }
 
 export interface DisplaySettings {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   theme: string;
   fontSize: number;
   colorScheme: string;
@@ -182,6 +350,18 @@ export interface DisplaySettings {
 }
 
 export interface Achievement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   name: string;
   description: string;
@@ -201,6 +381,18 @@ export type AchievementType = 'score' | 'time' | 'combo' | 'streak' | 'collectio
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
 export interface AchievementRequirement {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RequirementType;
   target: number;
   current: number;
@@ -212,6 +404,18 @@ export type RequirementType = 'score' | 'time' | 'combo' | 'streak' | 'games' | 
 export type ComparisonOperator = 'equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal';
 
 export interface AchievementReward {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: RewardType;
   value: number;
   description: string;
@@ -222,6 +426,18 @@ export interface AchievementReward {
 export type RewardType = 'points' | 'experience' | 'unlock' | 'badge' | 'custom';
 
 export interface ScoreEvent {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   id: string;
   type: EventType;
   playerId: string;
@@ -235,6 +451,18 @@ export interface ScoreEvent {
 export type EventType = 'score_created' | 'score_updated' | 'score_deleted' | 'leaderboard_updated' | 'achievement_unlocked' | 'custom';
 
 export interface EventData {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   oldValue: any;
   newValue: any;
   changes: Record<string, any>;
@@ -242,6 +470,18 @@ export interface EventData {
 }
 
 export interface ScoreSystemPerformanceMetrics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalScores: number;
   totalPlayers: number;
   totalLeaderboards: number;
@@ -255,6 +495,18 @@ export interface ScoreSystemPerformanceMetrics {
 }
 
 export interface ScoreSystemAnalytics {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   totalScores: number;
   totalPlayers: number;
   averageScore: number;
@@ -264,6 +516,18 @@ export interface ScoreSystemAnalytics {
 }
 
 export interface ScoreTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: ScoreType;
   count: number;
   percentage: number;
@@ -271,6 +535,18 @@ export interface ScoreTypeDistribution {
 }
 
 export interface PlayerTypeDistribution {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   type: PlayerType;
   count: number;
   percentage: number;
@@ -278,6 +554,18 @@ export interface PlayerTypeDistribution {
 }
 
 export interface PerformanceTrend {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   timestamp: number;
   scores: number;
   players: number;
@@ -288,6 +576,18 @@ export interface PerformanceTrend {
 }
 
 export interface ScoreSystemReporting {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   format: 'json' | 'csv' | 'xml';
@@ -299,6 +599,18 @@ export interface ScoreSystemReporting {
 }
 
 export interface CloudSyncConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   provider: string;
   region: string;
@@ -308,6 +620,18 @@ export interface CloudSyncConfig {
 }
 
 export interface BackupConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   interval: number;
   retention: number;
@@ -316,6 +640,18 @@ export interface BackupConfig {
 }
 
 export interface VersioningConfig {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   enabled: boolean;
   currentVersion: string;
   versions: Version[];
@@ -324,6 +660,18 @@ export interface VersioningConfig {
 }
 
 export interface Version {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   version: string;
   timestamp: number;
   changes: string[];
@@ -331,6 +679,18 @@ export interface Version {
 }
 
 export interface ScoreSystemOutput {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   op: string;
   status: 'ok' | 'error';
   result?: any;

@@ -22,13 +22,13 @@ const EventBus: CoreEventBus = createEventBus();
 
 // Web Bridge Implementation
 export class CutSceneWebBridge {
-  private logger: StructuredLogger;
+  
   private cutScene: CutScenePure | null = null;
   private container: HTMLElement | null = null;
   private isInitialized = false;
 
-  constructor() {
-    this.logger = new StructuredLogger({ module: 'CutSceneWebBridge' });
+  constructor(...args: any[]) {
+    
     this.setupEventListeners();
   }
 
@@ -54,7 +54,7 @@ export class CutSceneWebBridge {
     return `
 <!-- CutScenePure Web Integration -->
 <script>
-(function() {
+(function(...args: any[]) {
   'use strict';
 
   // CutSceneWebPlayer class for browser-based playback
@@ -71,7 +71,7 @@ export class CutSceneWebBridge {
       this.initialize();
     }
 
-    initialize() {
+    initialize(...args: any[]) {
       // Create container for cut scene elements
       this.container = document.createElement('div');
       this.container.id = 'cutscene-container';
@@ -105,7 +105,7 @@ export class CutSceneWebBridge {
       console.info('🎬 CutSceneWebPlayer initialized');
     }
 
-    async play() {
+    async play(...args: any[]) {
       if (this.isPlaying) return;
 
       this.isPlaying = true;
@@ -123,7 +123,7 @@ export class CutSceneWebBridge {
       this.startPlaybackLoop();
     }
 
-    stop() {
+    stop(...args: any[]) {
       if (!this.isPlaying) return;
 
       this.isPlaying = false;
@@ -134,7 +134,7 @@ export class CutSceneWebBridge {
       console.info('⏹️ Cut scene stopped');
     }
 
-    startPlaybackLoop() {
+    startPlaybackLoop(...args: any[]) {
       const loop = (currentTime) => {
         if (!this.isPlaying) return;
 
@@ -155,7 +155,7 @@ export class CutSceneWebBridge {
       this.animationFrame = requestAnimationFrame(loop);
     }
 
-    updateTracks() {
+    updateTracks(...args: any[]) {
       const progress = this.currentTime / this.definition.config.duration;
 
       this.definition.tracks.forEach(track => {
@@ -247,7 +247,7 @@ export class CutSceneWebBridge {
       dialogueElement.style.opacity = '1';
     }
 
-    processActions() {
+    processActions(...args: any[]) {
       this.definition.actions.forEach(action => {
         if (action.timestamp <= this.currentTime &&
             !this.completedActions.has(action.id)) {
@@ -343,7 +343,7 @@ export class CutSceneUnityBridge {
   private cutScene: CutScenePure | null = null;
   private isInitialized = false;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.setupEventListeners();
   }
 
@@ -515,7 +515,7 @@ export class CutSceneGodotBridge {
   private cutScene: CutScenePure | null = null;
   private isInitialized = false;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.setupEventListeners();
   }
 
@@ -728,7 +728,7 @@ export class CutSceneUnrealBridge {
   private cutScene: CutScenePure | null = null;
   private isInitialized = false;
 
-  constructor() {
+  constructor(...args: any[]) {
     this.setupEventListeners();
   }
 

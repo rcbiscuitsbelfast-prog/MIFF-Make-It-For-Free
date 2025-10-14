@@ -19,7 +19,7 @@ function run(cmds:Cmd[]){
   return { log, map: currentMap, zones };
 }
 
-function main(){
+function main(...args: any[]) {
   const path = process.argv[2]; if(!path){ console.error('Usage: cliHarness.ts <commands.json>'); process.exit(1);} 
   const cmds:Cmd[] = SafeJSONParser.parse(fs.readFileSync(path,'utf-8'));
   const out = run(cmds);

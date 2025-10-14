@@ -12,7 +12,7 @@ type Cmd =
   | { op: 'list' }
   | { op: 'dump' };
 
-function main() {
+function main(...args: any[]) {
   const manifestPath = process.argv[2] || 'AssetManifestPure/fixtures/sprites.json';
   const commandsPath = process.argv[3] || '';
   

@@ -5,16 +5,52 @@ export type Pixel = string | null; // hex color like "#RRGGBB" or null for trans
 export type PixelMatrix = Pixel[][]; // [y][x]
 
 export interface OutlineOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	color: string; // outline color hex
 	thickness: 1 | 2;
 }
 
 export interface ShadingOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	strength: number; // 0..1 multiplier
 	ambient: number; // 0..1 base darkening
 }
 
 export interface LightingOptions {
+  // Auto-added common properties
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
 	direction: { x: number; y: number }; // normalized 2D light direction
 	int: string; // hex color for light tint
 	intStrength: number; // 0..1
