@@ -1,5 +1,17 @@
-URIs($2); width: number; height: number; direction?: 'horizontal'|'vertical'; }
-export interface NoiseOptions { type: 'perlin'|'simplex'|'worley'; width: number; height: number; octaves?: number; seed?: number; }
+export interface GradientOptions { 
+  colors: string[]; 
+  width: number; 
+  height: number; 
+  direction?: 'horizontal'|'vertical'; 
+}
+
+export interface NoiseOptions { 
+  type: 'perlin'|'simplex'|'worley'; 
+  width: number; 
+  height: number; 
+  octaves?: number; 
+  seed?: number; 
+}
 
 function hexToRgb(hex: string){ const m = hex.replace('#',''); const n = parseInt(m.length===3? m.split('').map(c=>c+c).join(''): m,16); return [(n>>16)&255,(n>>8)&255,n&255]; }
 function lerp(a:number,b:number,t:number){ return a+(b-a)*t; }

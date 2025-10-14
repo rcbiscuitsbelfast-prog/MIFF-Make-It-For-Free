@@ -1844,8 +1844,8 @@ export const TeamUtils = {
   /**
    * Create team with balanced composition
    */
-  createBalancedTeam(): ITeam {
-    return Team.create(teamName, teamName, 'Balanced team composition', 6, TeamRules.balanced());*/
+  createBalancedTeam: (): ITeam => {
+    return Team.create('balanced', 'Balanced Team', 'Balanced team composition', 6, TeamRules.balanced());
   },
 
   /**

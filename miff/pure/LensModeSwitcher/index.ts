@@ -471,7 +471,7 @@ export class LensModeSwitcher {
 }
 
 // Export default instance
-// export const lensModeSwitcher = new LensModeSwitcher(
+export const lensModeSwitcher = new LensModeSwitcher(
   perceptionFilterManager,
   scanFeedbackManager,
   overlayFXManager

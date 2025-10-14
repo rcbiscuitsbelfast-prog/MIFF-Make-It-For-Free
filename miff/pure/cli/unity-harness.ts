@@ -67,7 +67,7 @@ export class UnityBridgeHarness {
         []
       );
 
-//       const move = new MoveData(
+      const move = new MoveData(
         'unity_slash',
         'Unity Slash',
         MoveCategory.PHYSICAL,
