@@ -749,18 +749,6 @@ export class DocumentationGenerator {
   private extractInterfaces(sourceCode: string): InterfaceDocumentation[] {
     const interfaces: InterfaceDocumentation[] = [];
     const interfaceRegex = /export\s+interface\s+(\w+)(?:\s+extends\s+([^{]+))?\s*{/g;
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     let match;
 
     while ((match = interfaceRegex.exec(sourceCode)) !== null) {
