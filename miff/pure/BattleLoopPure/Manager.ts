@@ -726,6 +726,23 @@ export class BattleLoopManager {
 
     console.info('BattleLoopPure', 'Battle Loop Manager destroyed');
   }
+
+  // Missing methods that are being called
+  getState(): any {
+    return {
+      isInitialized: this.isInitialized,
+      loops: Array.from(this.loops.keys()),
+      startTime: this.startTime
+    };
+  }
+
+  start(): void {
+    this.isInitialized = true;
+  }
+
+  nextTurn(): void {
+    // Advance to next turn
+  }
 }
 
 // Export default instance

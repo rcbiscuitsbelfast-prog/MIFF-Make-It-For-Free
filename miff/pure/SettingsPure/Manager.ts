@@ -46,6 +46,18 @@ export interface SettingsManager {
   metadata: Record<string, any>;
   createdAt: number;
   updatedAt: number;
+  
+  // Missing methods that are being called
+  get(key: string): any;
+  set(key: string, value: any): boolean;
+  getCategory(category: string): any;
+  setCategory(category: string, settings: any): boolean;
+  validate(): boolean;
+  reset(): void;
+  resetCategory(category: string): void;
+  getHistory(): any[];
+  getStats(): any;
+  export(): any;
 }
 
 export type SettingsManagerType = 'application' | 'game' | 'user' | 'system' | 'custom';

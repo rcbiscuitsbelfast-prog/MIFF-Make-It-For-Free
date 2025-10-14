@@ -58,6 +58,7 @@ class BattleLoopPureCLI {
   };
   private battleHistory: BattleState[] = [];
   private currentTurn: number = 0;
+  private logger: StructuredLogger;
 
   constructor() {
     this.logger = new StructuredLogger({ module: 'MockRNGProvider' });

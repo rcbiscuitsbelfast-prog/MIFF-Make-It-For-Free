@@ -73,6 +73,7 @@ class CameraCLIHarness {
   private activeCamera: CameraInstance | null = null;
   private demoMode = false;
   private demoTimer?: NodeJS.Timeout;
+  private logger: StructuredLogger;
 
   constructor() {
     this.logger = new StructuredLogger({ module: 'RealEventBus' });

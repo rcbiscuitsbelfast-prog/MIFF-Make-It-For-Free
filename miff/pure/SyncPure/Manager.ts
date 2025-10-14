@@ -47,6 +47,14 @@ export interface SyncManager {
   versioning: VersioningConfig;
   metadata: Record<string, any>;
   createdAt: number;
+  
+  // Missing methods that are being called
+  getAllSpirits(): any[];
+  getStatistics(): any;
+  getSyncEntry(spiritId: string): any;
+  processSyncEvent(event: any): void;
+  getSyncLevel(spiritId: string): number;
+  increaseSync(spiritId: string, amount: number): void;
   updatedAt: number;
 }
 

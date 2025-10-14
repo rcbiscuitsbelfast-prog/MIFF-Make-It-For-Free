@@ -42,6 +42,12 @@ export interface HUDManager {
   versioning: VersioningConfig;
   metadata: Record<string, any>;
   createdAt: number;
+  
+  // Missing methods that are being called
+  getModel(): any;
+  render(): void;
+  updateSpirit(spiritId: string, data: any): void;
+  changePhase(phase: string): void;
   updatedAt: number;
 }
 

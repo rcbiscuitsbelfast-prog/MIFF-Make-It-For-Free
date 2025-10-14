@@ -5,7 +5,7 @@
  * of all skeleton animator modules
  */
 
-import { SkeletonAnimatorManager } from './Manager';
+import { SkeletonAnimatorManagerImpl } from './Manager';
 import { RigBuilder } from './RigBuilder';
 import { LimbAttachment } from './LimbAttachment';
 import { SkinMeshGenerator } from './SkinMeshGenerator';
@@ -22,11 +22,11 @@ export interface CLICommand {
 }
 
 export class SkeletonAnimatorCLI {
-  private manager: SkeletonAnimatorManager;
+  private manager: SkeletonAnimatorManagerImpl;
   private commands: Map<string, CLICommand> = new Map();
 
   constructor() {
-    this.manager = new SkeletonAnimatorManager();
+    this.manager = new SkeletonAnimatorManagerImpl();
     this.registerCommands();
   }
 

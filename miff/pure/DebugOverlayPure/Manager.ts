@@ -31,6 +31,18 @@ export interface DebugOverlayConfig {
   enableHotkeys: boolean;
   enableAutoHide: boolean;
   autoHideDelay: number;
+  
+  // Missing properties that are being accessed
+  showOp?: boolean;
+  showStatus?: boolean;
+  showIssues?: boolean;
+  showTimestamps?: boolean;
+  showRenderData?: boolean;
+  showEngineHints?: boolean;
+  showSignals?: boolean;
+  showMetadata?: boolean;
+  colorize?: boolean;
+  compact?: boolean;
 }
 
 export interface OverlayPosition {

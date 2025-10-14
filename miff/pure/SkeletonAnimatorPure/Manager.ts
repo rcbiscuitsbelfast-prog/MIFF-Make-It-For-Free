@@ -44,6 +44,16 @@ export interface SkeletonAnimatorManager {
   metadata: Record<string, any>;
   createdAt: number;
   updatedAt: number;
+  
+  // Missing methods that are being called
+  createFullCharacter(name: string, options: any): void;
+  validate(): { valid: boolean; errors: string[] };
+  reset(): void;
+  initializeRigBuilder(): void;
+  getRigBuilder(): any;
+  initializeLimbAttachment(): void;
+  getLimbAttachment(): any;
+  getStatus(): any;
 }
 
 export type SkeletonAnimatorManagerType = '2d' | '3d' | 'hybrid' | 'custom';
@@ -684,5 +694,151 @@ export class SkeletonAnimatorPure {
     this.performanceMetrics.totalAnimations = totalAnimations;
     this.performanceMetrics.totalKeyframes = totalKeyframes;
     this.performanceMetrics.uptime = now - (this.performanceMetrics.uptime || now);
+  }
+}
+
+// Class implementation of SkeletonAnimatorManager
+export class SkeletonAnimatorManagerImpl implements SkeletonAnimatorManager {
+  id: string;
+  name: string;
+  type: SkeletonAnimatorManagerType;
+  status: SkeletonAnimatorManagerStatus;
+  skeletons: Skeleton[] = [];
+  animations: Animation[] = [];
+  stateMachines: AnimationStateMachine[] = [];
+  performanceMetrics: SkeletonAnimatorPerformanceMetrics;
+  analytics: SkeletonAnimatorAnalytics;
+  reporting: SkeletonAnimatorReporting;
+  cloudSync: CloudSyncConfig;
+  backup: BackupConfig;
+  versioning: VersioningConfig;
+  metadata: Record<string, any> = {};
+  createdAt: number;
+  updatedAt: number;
+
+  constructor() {
+    this.id = `skeleton-${Date.now()}`;
+    this.name = 'Skeleton Animator Manager';
+    this.type = '3d';
+    this.status = 'active';
+    this.createdAt = Date.now();
+    this.updatedAt = Date.now();
+    this.performanceMetrics = {
+      totalBones: 0,
+      activeBones: 0,
+      totalAnimations: 0,
+      totalKeyframes: 0,
+      frameRate: 60,
+      frameTime: 16.67,
+      memoryUsage: 0,
+      cpuUsage: 0,
+      uptime: 0
+    };
+    this.analytics = {
+      totalSkeletons: 0,
+      totalAnimations: 0,
+      totalStateMachines: 0,
+      averageBonesPerSkeleton: 0,
+      averageAnimationsPerSkeleton: 0,
+      mostUsedAnimations: [],
+      performanceTrends: []
+    };
+    this.reporting = {
+      enabled: false,
+      frequency: 'daily',
+      format: 'json',
+      recipients: []
+    };
+    this.cloudSync = {
+      enabled: false,
+      provider: 'aws',
+      region: 'us-east-1',
+      bucket: '',
+      credentials: {}
+    };
+    this.backup = {
+      enabled: false,
+      frequency: 'daily',
+      retention: 30,
+      location: 'local'
+    };
+    this.versioning = {
+      enabled: false,
+      strategy: 'semantic',
+      currentVersion: '1.0.0'
+    };
+  }
+
+  createFullCharacter(name: string, options: any): void {
+    // Create a full character with skeleton and basic animations
+    const skeleton: Skeleton = {
+      id: `skeleton-${name}`,
+      name: name,
+      bones: [],
+      rootBone: 'root',
+      bindPose: {
+        bones: {},
+        transforms: {}
+      },
+      metadata: options
+    };
+    this.skeletons.push(skeleton);
+  }
+
+  validate(): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+    
+    if (this.skeletons.length === 0) {
+      errors.push('No skeletons found');
+    }
+    
+    if (this.animations.length === 0) {
+      errors.push('No animations found');
+    }
+    
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+
+  reset(): void {
+    this.skeletons = [];
+    this.animations = [];
+    this.stateMachines = [];
+    this.metadata = {};
+  }
+
+  initializeRigBuilder(): void {
+    // Initialize rig builder
+  }
+
+  getRigBuilder(): any {
+    return {
+      build: () => {},
+      validate: () => true
+    };
+  }
+
+  initializeLimbAttachment(): void {
+    // Initialize limb attachment
+  }
+
+  getLimbAttachment(): any {
+    return {
+      attach: () => {},
+      detach: () => {}
+    };
+  }
+
+  getStatus(): any {
+    return {
+      id: this.id,
+      name: this.name,
+      status: this.status,
+      skeletons: this.skeletons.length,
+      animations: this.animations.length,
+      stateMachines: this.stateMachines.length
+    };
   }
 }

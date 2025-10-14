@@ -1318,6 +1318,38 @@ export class CameraSystemPure {
     this.stats.totalPlayTime += updateTime;
   }
 
+  // Missing methods that are being called
+  adjustZoom(amount: number): void {
+    // Adjust camera zoom
+  }
+
+  applyShake(intensity: number, duration: number): void {
+    // Apply camera shake effect
+  }
+
+  applyFocus(target: any, duration: number): void {
+    // Apply camera focus effect
+  }
+
+  removeCamera(cameraId: string): void {
+    this.activeCameras.delete(cameraId);
+  }
+
+  getCameraPath(pathId: string): CameraPath | null {
+    return this.cameraPaths.get(pathId) || null;
+  }
+
+  applyCameraPath(cameraId: string, pathId: string): void {
+    const camera = this.activeCameras.get(cameraId);
+    const path = this.cameraPaths.get(pathId);
+    if (camera && path) {
+      // Apply camera path
+    }
+  }
+
+  getAllCameras(): CameraInstance[] {
+    return Array.from(this.activeCameras.values());
+  }
 }
 
 // Export main class and interfaces

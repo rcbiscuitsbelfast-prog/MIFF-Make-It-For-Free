@@ -42,6 +42,12 @@ export interface EvolutionManager {
   metadata: Record<string, any>;
   createdAt: number;
   updatedAt: number;
+  
+  // Missing methods that are being called
+  registerSpeciesEvolution(evolution: any): void;
+  canEvolve(spiritId: string): boolean;
+  getEvolutionTarget(spiritId: string): any;
+  evolveSpirit(spiritId: string): boolean;
 }
 
 export type EvolutionManagerType = 'genetic' | 'neural' | 'swarm' | 'custom';

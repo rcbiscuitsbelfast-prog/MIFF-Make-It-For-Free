@@ -28,6 +28,11 @@ class SlicePureCLI {
   private rl: readline.Interface;
   private currentState: PlayerState;
   private encounterController: IEncounterController;
+  
+  // Missing properties that are being accessed
+  public currentHp: number = 72;
+  public maxHp: number = 72;
+  public statusEffects: string[] = [];
   private rng: RNGProvider;
   private stepCount: number = 0;
   private encounterCount: number = 0;

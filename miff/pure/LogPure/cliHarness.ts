@@ -27,6 +27,23 @@ import {
   IBattleEffect
 } from './index';
 
+// Custom logger that extends console
+const customConsole = {
+  ...console,
+  logPhaseChange: (phase: BattlePhase) => {
+    console.log(`🔄 Phase Change: ${phase}`);
+  },
+  logSystem: (message: string, category: LogCategory, level: LogLevel) => {
+    console.log(`[${level}] ${category}: ${message}`);
+  },
+  logAction: (action: IBattleAction, result: IBattleResult) => {
+    console.log(`⚔️ Action: ${action.moveId} -> ${result.damage || 0} damage`);
+  },
+  logEffect: (effect: IBattleEffect) => {
+    console.log(`✨ Effect: ${effect.name} - ${effect.description}`);
+  }
+};
+
 // CLI Application
 class LogPureCLI {
   private rl: readline.Interface;
@@ -60,10 +77,10 @@ class LogPureCLI {
    */
   private simulateBattleLog(): void {
     // Log battle start
-    console.logPhaseChange(BattlePhase.PRE_TURN);
+    customConsole.logPhaseChange(BattlePhase.PRE_TURN);
 
     // Simulate turn 1
-    console.logSystem('Battle started between Fire Spirit and Water Spirit', LogCategory.BATTLE, LogLevel.INFO);
+    customConsole.logSystem('Battle started between Fire Spirit and Water Spirit', LogCategory.BATTLE, LogLevel.INFO);
 
     const action1: IBattleAction = {
       actorId: 1,
@@ -73,9 +90,9 @@ class LogPureCLI {
     };
 
     const result1: IBattleResult = BattleResult.withDamage(45);
-    console.logAction(action1, result1);
+    customConsole.logAction(action1, result1);
 
-    console.logEffect(BattleEffect.create('burn', 'Applied burn effect', 1, 2, { duration: 3 }));
+    customConsole.logEffect(BattleEffect.create('burn', 'Applied burn effect', 1, 2, { duration: 3 }));
 
     // Simulate turn 2
     console.logPhaseChange(BattlePhase.SELECT_ACTION);

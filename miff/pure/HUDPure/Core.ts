@@ -347,6 +347,7 @@ export enum HUDUpdateType {
 export interface IHUDUpdateEvent {
   type: HUDUpdateType;
   spiritId?: string;
+  timestamp?: number;
 }
 
 export class HUDManager {
