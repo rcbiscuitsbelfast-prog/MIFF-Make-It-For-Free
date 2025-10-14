@@ -5,46 +5,10 @@ import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export type Facing = 'up'|'down'|'left'|'right';
 export interface Vec2 { x: number; y: number }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 
 export interface PlayerConfig { speed: number; }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 
 export interface PlayerState {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   pos: Vec2;
   vel: Vec2;
   facing: Facing;
@@ -90,32 +54,8 @@ function clamp(n: number, a: number, b: number): number { return Math.max(a, Mat
 export default { createPlayerState, reducePlayer };
 
 export interface Vector2 { x: number; y: number }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 
 export interface InputState {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   left: boolean;
   right: boolean;
   up: boolean;
@@ -125,53 +65,17 @@ export interface InputState {
 }
 
 export interface PlayerIdentity {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   playerId: string;
   team?: string;
   status?: 'active' | 'inactive' | 'disconnected';
 }
 
 export interface PlayerAvatarRef {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   manifestPath: string; // path to avatar manifest json
   style: '3d' | '2d-side' | 'overlay';
 }
 
 export interface PlayerStateSnapshot {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   identity: PlayerIdentity;
   avatar: PlayerAvatarRef;
   position: Vector2;

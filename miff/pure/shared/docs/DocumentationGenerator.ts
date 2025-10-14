@@ -908,31 +908,7 @@ export class DocumentationGenerator {
     });
     
     module.interfaces.forEach(iface => {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
       this.searchIndex.interfaces.push(`${module.name}.${iface.name}`);
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     });
     
     module.enums.forEach(enumItem => {
@@ -1008,32 +984,8 @@ ${this.config.license}
     }
 
     if (module.interfaces.length > 0) {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
       markdown += `## Interfaces\n\n`;
       module.interfaces.forEach(iface => {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
         markdown += `### ${iface.name}\n\n${iface.description}\n\n`;
       });
     }
@@ -1340,34 +1292,10 @@ document.addEventListener('DOMContentLoaded', function(...args: any[]) {
   }
 
   private extractInterfaceProperties(_sourceCode: string, _interfaceName: string): PropertyDocumentation[] {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     return [];
   }
 
   private extractInterfaceMethods(sourceCode: string, interfaceName: string): MethodDocumentation[] {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     return [];
   }
 

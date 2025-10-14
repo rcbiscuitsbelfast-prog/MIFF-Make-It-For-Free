@@ -374,18 +374,6 @@ export class InterfaceStandardizer {
   }
 
   private async findModules(rootPath: string): Promise<Array<{ name: string; path: string; interface: string }>> {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     // This would find all modules and determine their interface types
     // For now, return mock data
     return [
@@ -402,18 +390,6 @@ export class InterfaceStandardizer {
   }
 
   private async analyzeModuleCompliance(module: { name: string; path: string; interface: string }, standard: InterfaceStandard): Promise<any> {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     // This would analyze the actual module compliance
     // For now, return mock analysis
     const mockMethods = ['initialize', 'destroy', 'process', 'validate'];
