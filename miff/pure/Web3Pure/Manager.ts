@@ -321,7 +321,7 @@ export class Web3Pure {
   /**
    * Create a new Web3 manager
    */
-  createManager(): Web3Output {
+  createManager(managerData: any = {}): Web3Output {
     if (!this.config.enableBlockchainConnection) {
       return {
         op: 'create-manager',

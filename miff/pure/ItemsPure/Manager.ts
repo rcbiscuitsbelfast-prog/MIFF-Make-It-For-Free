@@ -460,7 +460,7 @@ export class ItemsPure {
   /**
    * Create a new items manager
    */
-  createManager(): ItemsOutput {
+  createManager(managerData: any = {}): ItemsOutput {
     if (!this.config.enableItemManagement) {
       return {
         op: 'create-manager',

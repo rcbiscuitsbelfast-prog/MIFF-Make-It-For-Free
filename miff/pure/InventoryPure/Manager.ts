@@ -272,7 +272,7 @@ export class InventoryPure {
   /**
    * Create a new inventory manager
    */
-  createManager(): InventoryOutput {
+  createManager(managerData: any = {}): InventoryOutput {
     if (!this.config.enableItemStorage) {
       return {
         op: 'create-manager',

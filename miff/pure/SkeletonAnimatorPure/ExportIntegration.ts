@@ -60,7 +60,7 @@ export class ExportIntegration {
   /**
    * Export as .gbpg format (MIFF Game Bundle Package)
    */
-  exportAsGbpkg(): string {
+  exportAsGbpkg(exportConfig: any): string {
     const gbpkgData = {
       format: 'gbpkg-v1',
       version: '1.0.0',

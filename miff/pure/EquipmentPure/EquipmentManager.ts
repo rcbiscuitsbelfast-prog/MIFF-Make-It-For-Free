@@ -127,7 +127,7 @@ export class EquipmentManager {
   /**
    * Sync with inventory system
    */
-  syncInventory(): EquipmentOutput {
+  syncInventory(port: any): EquipmentOutput {
     this.inventory = port;
     return {
       op: 'sync-inventory',
@@ -150,7 +150,7 @@ export class EquipmentManager {
   /**
    * Get equipped item in slot
    */
-  getEquipped(): EquipmentOutput {
+  getEquipped(slot: string): EquipmentOutput {
     const item = this.equipped.get(slot);
     if (!item) {
       return {
@@ -235,7 +235,7 @@ export class EquipmentManager {
   /**
    * Unequip item from slot
    */
-  unequip(): EquipmentOutput {
+  unequip(slot: string): EquipmentOutput {
     const prev = this.equipped.get(slot);
     if (!prev) {
       return {
@@ -261,7 +261,7 @@ export class EquipmentManager {
   /**
    * Add enchantment to item
    */
-  addEnchantment(): EquipmentOutput {
+  addEnchantment(slot: string, enchantment: any): EquipmentOutput {
     const item = this.equipped.get(slot);
     if (!item) {
       return {

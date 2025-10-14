@@ -439,7 +439,7 @@ export class RecommendationSystemPure {
   /**
    * Create a new recommendation system manager
    */
-  createManager(): RecommendationSystemOutput {
+  createManager(managerData: any = {}): RecommendationSystemOutput {
     if (!this.config.enableRecommendationManagement) {
       return {
         op: 'create-manager',

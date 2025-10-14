@@ -482,7 +482,7 @@ export class DrivingSystemPure {
   /**
    * Create a new driving system manager
    */
-  createManager(): DrivingSystemOutput {
+  createManager(managerData: any = {}): DrivingSystemOutput {
     if (!this.config.enableVehiclePhysics) {
       return {
         op: 'create-manager',

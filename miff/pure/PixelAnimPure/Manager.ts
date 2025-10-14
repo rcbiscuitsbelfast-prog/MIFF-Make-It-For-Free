@@ -415,7 +415,7 @@ export class PixelAnimPure {
   /**
    * Create a new pixel animation manager
    */
-  createManager(): PixelAnimOutput {
+  createManager(managerData: any = {}): PixelAnimOutput {
     if (!this.config.enableAnimationManagement) {
       return {
         op: 'create-manager',
