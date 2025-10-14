@@ -131,7 +131,7 @@ export class StatusEffectsManager {
   /**
    * Create a new status entity
    */
-  createEntity(): StatusOutput {
+  createEntity(id: string, maxHp: number, effects: any[] = []): StatusOutput {
     if (this.entities.has(id)) {
       return {
         op: 'create',
@@ -161,7 +161,7 @@ export class StatusEffectsManager {
   /**
    * Apply status effect to entity
    */
-  applyEffect(): StatusOutput {
+  applyEffect(entityId: string, effect: any): StatusOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {

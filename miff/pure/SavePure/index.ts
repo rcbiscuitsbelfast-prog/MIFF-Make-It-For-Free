@@ -1,4 +1,21 @@
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+
+/**
+ * Performance optimization utilities
+ */
+class PerformanceOptimizer {
+  static optimizeObjectCloning(obj: any, deep: boolean = false): { result: any } {
+    if (deep) {
+      return { result: JSON.parse(JSON.stringify(obj)) };
+    }
+    return { result: { ...obj } };
+  }
+
+  static optimizeObjectMerging(target: any, updates: any): { result: any } {
+    return { result: { ...target, ...updates } };
+  }
+}
+
 /**
  * SavePure - Game Save/Load System
  *
@@ -378,7 +395,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Add party member
    */
-  addPartyMember(): void {
+  addPartyMember(entity: any): void {
     this.partyRoster.push({ ...entity });
     this.updateTimestamp();
     this.computeChecksum();
@@ -387,7 +404,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Remove party member
    */
-  removePartyMember(): boolean {
+  removePartyMember(entityId: string): boolean {
     const index = this.partyRoster.findIndex(member => member.id === entityId);
     if (index >= 0) {
       this.partyRoster.splice(index, 1);
@@ -401,12 +418,12 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Update party member
    */
-  updatePartyMember(): boolean {
+  updatePartyMember(entityId: string, updates: any): boolean {
     const member = this.partyRoster.find(m => m.id === entityId);
     if (member) {
       // Optimized: Use PerformanceOptimizer.optimizeObjectMerging
-    // Original: Object.assign(member, updates)
-    PerformanceOptimizer.optimizeObjectMerging(member, updates).result;
+      // Original: Object.assign(member, updates)
+      Object.assign(member, PerformanceOptimizer.optimizeObjectMerging(member, updates).result);
       this.updateTimestamp();
       this.computeChecksum();
       return true;
@@ -417,7 +434,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Add inventory item
    */
-  addInventoryItem(): void {
+  addInventoryItem(itemId: string, quantity: number): void {
     this.inventory[itemId] = (this.inventory[itemId] || 0) + quantity;
     if (this.inventory[itemId] <= 0) {
       delete this.inventory[itemId];
@@ -429,7 +446,7 @@ export class SaveSnapshot implements ISaveSnapshot {
   /**
    * Remove inventory item
    */
-  removeInventoryItem(): boolean {
+  removeInventoryItem(itemId: string, quantity: number): boolean {
     const currentQuantity = this.inventory[itemId] || 0;
     if (currentQuantity >= quantity) {
       this.inventory[itemId] -= quantity;

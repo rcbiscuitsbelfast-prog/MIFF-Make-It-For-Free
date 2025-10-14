@@ -170,7 +170,7 @@ export class AIProfileManager {
   /**
    * Create a new AI profile
    */
-  createProfile(): AIOutput {
+  createProfile(profile: any): AIOutput {
     if (this.profiles.has(profile.id)) {
       return {
         op: 'create-profile',
@@ -191,7 +191,7 @@ export class AIProfileManager {
   /**
    * Get AI profile by ID
    */
-  getProfile(): AIOutput {
+  getProfile(npcId: string): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {
@@ -210,7 +210,7 @@ export class AIProfileManager {
   /**
    * Update AI profile
    */
-  updateProfile(): AIOutput {
+  updateProfile(npcId: string, updates: any): AIOutput {
     const profile = this.profiles.get(npcId);
     if (!profile) {
       return {

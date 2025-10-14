@@ -440,7 +440,7 @@ export class IndustryLeadershipPure {
   /**
    * Create a new industry leadership manager
    */
-  createManager(): IndustryLeadershipOutput {
+  createManager(managerData: any = {}): IndustryLeadershipOutput {
     if (!this.config.enableIndustryAnalysis) {
       return {
         op: 'create-manager',
@@ -531,7 +531,7 @@ export class IndustryLeadershipPure {
   /**
    * Get manager by ID
    */
-  getManager(): IndustryLeadershipOutput {
+  getManager(managerId: string): IndustryLeadershipOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

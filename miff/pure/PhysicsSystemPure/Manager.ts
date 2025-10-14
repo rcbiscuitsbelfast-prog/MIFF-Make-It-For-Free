@@ -378,7 +378,7 @@ export class PhysicsSystemPure {
   /**
    * Create a new physics system manager
    */
-  createManager(): PhysicsSystemOutput {
+  createManager(managerData: any = {}): PhysicsSystemOutput {
     if (!this.config.enablePhysicsManagement) {
       return {
         op: 'create-manager',
@@ -467,7 +467,7 @@ export class PhysicsSystemPure {
   /**
    * Get manager by ID
    */
-  getManager(): PhysicsSystemOutput {
+  getManager(managerId: string): PhysicsSystemOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

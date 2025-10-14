@@ -320,7 +320,7 @@ export class PhysicsPure {
   /**
    * Create a new physics manager
    */
-  createManager(): PhysicsOutput {
+  createManager(managerData: any = {}): PhysicsOutput {
     if (!this.config.enableRigidBodyDynamics) {
       return {
         op: 'create-manager',
@@ -411,7 +411,7 @@ export class PhysicsPure {
   /**
    * Get manager by ID
    */
-  getManager(): PhysicsOutput {
+  getManager(managerId: string): PhysicsOutput {
     const manager = this.managers.get(managerId);
     if (!manager) {
       return {

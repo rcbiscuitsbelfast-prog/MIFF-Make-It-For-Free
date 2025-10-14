@@ -451,7 +451,7 @@ export class BattleEffect implements IBattleEffect {
   /**
    * Check if effect has specific trigger
    */
-  hasTrigger(): boolean {
+  hasTrigger(trigger: number): boolean {
     return (this.triggers & trigger) !== 0;
   }
 
@@ -671,7 +671,7 @@ export class ActiveEffect implements IActiveEffect {
   /**
    * Tick effect (update time-based duration)
    */
-  tick(): void {
+  tick(deltaTime: number): void {
     if (this.effect.durationSeconds > 0) {
       this.remainingSeconds = Math.max(0, this.remainingSeconds - deltaTime);
     }

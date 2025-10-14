@@ -15,6 +15,26 @@ import {
   type MagicCombatResult
 } from './index';
 
+// Simple implementations for missing classes
+class StructuredLogger {
+  constructor(config: any) {
+    // Simple logger implementation
+  }
+}
+
+enum LogLevel {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error'
+}
+
+class MemoryManager {
+  static registerObject(id: string, obj: any, type: string) {
+    // Simple memory management
+  }
+}
+
 export class MagicManager {
   private entitySpells: Map<string, Set<string>> = new Map();
   private magicSystem: MagicSystemPure;
@@ -40,7 +60,7 @@ export class MagicManager {
   /**
    * Create a new spell definition
    */
-  createSpellDefinition(): SpellDefinition {
+  createSpellDefinition(spellData: any = {}): SpellDefinition {
     const spell: SpellDefinition = {
       id: spellData.id || this.generateSpellId(),
       name: spellData.name || 'Unnamed Spell',

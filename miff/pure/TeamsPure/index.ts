@@ -380,14 +380,14 @@ export class ValidationResult implements IValidationResult {
   /**
    * Add warning
    */
-  addWarning(): void {
+  addWarning(warning: string): void {
     this.warnings.push(warning);
   }
 
   /**
    * Add error
    */
-  addError(): void {
+  addError(error: string): void {
     this.errors.push(error);
     this.isValid = false;
   }
@@ -761,7 +761,7 @@ export class TeamRules implements ITeamRules {
   /**
    * Validate team
    */
-  validateTeam(): IValidationResult {
+  validateTeam(team: ITeam, spiritSync?: Map<string, number>): IValidationResult {
     const spirits = team.spirits;
     const warnings: string[] = [];
     const errors: string[] = [];
@@ -1084,7 +1084,7 @@ export class Team implements ITeam {
   /**
    * Add spirit to team
    */
-  addSpirit(): TeamOperationResult {
+  addSpirit(spirit: ISpiritInstance): TeamOperationResult {
     // Check if spirit already exists (by instanceId)
     if (this.spirits.some(s => s.instanceId === spirit.instanceId)) {
       return TeamOperationResult.DUPLICATE_SPIRIT;

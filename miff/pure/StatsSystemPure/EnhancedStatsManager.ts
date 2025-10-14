@@ -168,7 +168,7 @@ export class EnhancedStatsManager {
   /**
    * Create entity with stats
    */
-  createEntity(): StatsOutput {
+  createEntity(id: string, stats: any[] = []): StatsOutput {
     if (this.entities.has(id)) {
       return {
         op: 'create_entity',
@@ -198,7 +198,7 @@ export class EnhancedStatsManager {
   /**
    * Add or update stat
    */
-  setStat(): StatsOutput {
+  setStat(entityId: string, statKey: string, baseValue: number, category: string, description?: string): StatsOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
       return {
