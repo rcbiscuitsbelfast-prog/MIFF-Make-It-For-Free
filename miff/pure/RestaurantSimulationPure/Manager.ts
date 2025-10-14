@@ -40,17 +40,6 @@ export interface RestaurantSimulationConfig {
 }
 
 export interface RestaurantSimulationManager {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: RestaurantSimulationManagerType;
   status: RestaurantSimulationManagerStatus;
   restaurants: Restaurant[];
@@ -70,17 +59,6 @@ export type RestaurantSimulationManagerType = 'casual' | 'fine_dining' | 'fast_f
 export type RestaurantSimulationManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface Restaurant {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: RestaurantType;
   status: RestaurantStatus;
   location: Location;

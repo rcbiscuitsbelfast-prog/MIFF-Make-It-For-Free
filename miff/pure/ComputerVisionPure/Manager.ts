@@ -40,17 +40,6 @@ export interface ComputerVisionConfig {
 }
 
 export interface ComputerVisionManager {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: ComputerVisionManagerType;
   status: ComputerVisionManagerStatus;
   models: VisionModel[];
@@ -70,17 +59,6 @@ export type ComputerVisionManagerType = 'research' | 'production' | 'surveillanc
 export type ComputerVisionManagerStatus = 'active' | 'inactive' | 'maintenance' | 'error';
 
 export interface VisionModel {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: ModelType;
   status: ModelStatus;
   architecture: ModelArchitecture;

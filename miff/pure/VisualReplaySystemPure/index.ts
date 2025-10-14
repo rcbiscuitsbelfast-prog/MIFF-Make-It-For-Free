@@ -87,17 +87,6 @@ export interface AudioState {
 }
 
 export interface ReplayFrame {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   frameNumber: number;
   gameState: GameState;
   inputState: InputState;
@@ -140,17 +129,6 @@ export interface InputState {
 }
 
 export interface VisualHook {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   type: 'sprite' | 'animation' | 'particle' | 'sound' | 'ui' | 'camera' | 'light';
   target: string;
   action: 'show' | 'hide' | 'play' | 'stop' | 'update' | 'trigger';
