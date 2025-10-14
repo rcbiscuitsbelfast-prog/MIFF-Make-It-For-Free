@@ -46,6 +46,9 @@ export interface AvatarAssetRegistry {
   createdAt: Date;
   updatedAt: Date;
   version: string;
+  
+  // Missing property that is being accessed
+  items: AvatarAsset[];
 }
 
 export interface AvatarAsset {

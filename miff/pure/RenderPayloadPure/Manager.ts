@@ -30,6 +30,11 @@ export interface BuildResult {
     dataSize: number;
     complexity: number;
   };
+  
+  // Missing properties that are being accessed
+  ok: boolean;
+  result?: RenderPayload;
+  errors: string[];
 }
 
 export interface AssetReference {
