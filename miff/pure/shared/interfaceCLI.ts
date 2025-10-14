@@ -54,18 +54,6 @@ class InterfaceCLI {
     const outputFile = args[1] || 'interface-standardization.json';
 
     console.info(`🔧 Standardizing interfaces in ${rootPath}...`);
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     
     const results = await this.standardizer.standardizeAllInterfaces(rootPath);
     

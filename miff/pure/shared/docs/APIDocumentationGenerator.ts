@@ -459,24 +459,8 @@ export class APIDocumentationGenerator {
       
       // Parse interfaces
       if (line.startsWith('export interface ')) {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
         const interfaceInfo = this.parseInterface(lines, i, filePath);
         if (interfaceInfo) {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
   data?: any;
   result?: any;
   errors?: string[];

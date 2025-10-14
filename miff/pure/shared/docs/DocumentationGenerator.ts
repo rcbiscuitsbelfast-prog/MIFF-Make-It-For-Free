@@ -752,26 +752,10 @@ export class DocumentationGenerator {
     let match;
 
     while ((match = interfaceRegex.exec(sourceCode)) !== null) {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
       const interfaceName = match[1];
       const extendsInterfaces = match[2] ? match[2].split(',').map(s => s.trim()) : [];
 
       interfaces.push({
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
   data?: any;
   result?: any;
   errors?: string[];
