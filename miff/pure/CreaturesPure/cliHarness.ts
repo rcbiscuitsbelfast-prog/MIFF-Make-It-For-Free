@@ -5,44 +5,8 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Minimal in-memory data model to avoid Unity deps
 interface Stats { level:number; hp:number; attack:number; defense:number; speed:number }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 interface Creature { id:string; nameId:string; speciesId:string; isCaptured:boolean; stats:Stats; moves:string[] }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 interface Species { id:string; nameId:string; baseHp:number; baseAttack:number; baseDefense:number; baseSpeed:number; captureRate:number; allowedMoves:string[] }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 
 const rand = (max:number)=>Math.floor(Math.random()*max);
 

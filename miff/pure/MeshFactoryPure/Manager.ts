@@ -36,18 +36,6 @@ export interface TreeParams {
   canopySegments: number;
 }
 export interface RockParams { radius: number; segments: number; noise: number; seed?: number; }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 
 function clamp(v: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, v)); }
 function toInt(v: any, f: number) { const n = parseInt(String(v)); return Number.isFinite(n) ? n : f; }

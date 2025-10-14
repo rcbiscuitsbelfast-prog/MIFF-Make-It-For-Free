@@ -5,59 +5,11 @@
 export type JointName = 'root'|'spine'|'neck'|'head'|'shoulder_l'|'shoulder_r'|'elbow_l'|'elbow_r'|'hand_l'|'hand_r'|'hip_l'|'hip_r'|'knee_l'|'knee_r'|'foot_l'|'foot_r';
 
 export interface JointPose { rot: number; x?: number; y?: number; }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 export interface PoseDefinition { name: string; joints: Partial<Record<JointName, JointPose>>; durationMs?: number; }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 
 export interface RigConfig { joints: JointName[]; defaultPose: PoseDefinition; poses: PoseDefinition[]; transitions?: Array<{ from: string; to: string; blendMs: number }>; }
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
 
 export interface RigState {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
   current: string;
   next?: string;
   blendMs: number;
