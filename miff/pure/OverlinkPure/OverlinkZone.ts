@@ -8,6 +8,8 @@ import { AudioManager } from './AudioManager';
 // BadgeSystem and CreditsRenderer - minimal stub classes for typing/constructability
 class BadgeSystem {
   assignBadge(): void {
+    // Badge assignment logic
+  }
   getContributorBadges(_contributorId: string): any[] { return []; }
   displayBadges(_contributorId?: string, _options?: any): any[] { return []; }
   getCLIPreview(_contributorId?: string): string { return ''; }

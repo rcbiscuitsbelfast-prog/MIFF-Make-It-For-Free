@@ -30,31 +30,7 @@ export interface WorldManifest {
 	};
 }
 
-/* export const WorldManifestPure = {
-	create(): WorldManifest {
-		return {
-			schema: "miff.world.v1",
-			version: "1.0.0",
-			zones: [{
-				id: zoneId,
-				name: zoneName,
-				width,
-				height,
-				tiles: [],
-				metadata: {
-					style: "pixel-topdown",
-					generated: false
-				}
-			}],
-			metadata: {
-				title: zoneName,
-				created: new Date().toISOString()
-			}
-		};*/
-	},
-
-	addTile(world: WorldManifest, zoneId: string, x: number, y: number, assetId: string, layer: number = 1): void {
-		const zone = world.zones.find(z => z.id === zoneId);
+create($2);
 		if (!zone) throw new Error(`Zone not found: ${zoneId}`);
 		
 		// Remove existing tile at this position and layer

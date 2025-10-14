@@ -1433,25 +1433,25 @@ export class OverworldBattleSliceTool {
 /**
  * Utility functions for slice operations
  */
-/* export const SliceUtils = {
+export const SliceUtils = {
   /**
    * Generate random seed
    */
-  generateRandomSeed(): number {
-    return Math.floor(Math.random() * 1000000);*/
+  generateRandomSeed: (): number => {
+    return Math.floor(Math.random() * 1000000);
   },
 
   /**
    * Create demo player state
    */
-  createDemoPlayerState(): PlayerState {
+  createDemoPlayerState: (): PlayerState => {
     return new PlayerState('newhaven', 'grass', TimeOfDay.DAY, 0, { x: 10, y: 10 }, 'sunny');
   },
 
   /**
    * Create demo encounter table
    */
-  createDemoEncounterTable(): EncounterTable {
+  createDemoEncounterTable: (): EncounterTable => {
     const table = new EncounterTable('newhaven');
 
     table.addEntry(EncounterTableEntry.create('newhaven', 'ember', 40, 3, 5));

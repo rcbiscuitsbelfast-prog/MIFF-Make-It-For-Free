@@ -1,10 +1,4 @@
-/*
-  SaveLoadPure v1 - Engine-agnostic save/load manager with multi-slot, autosave, and rollback.
-  - Schema v11: adds `saves` map and `currentSlot` to GameDataV11
-  - Migration from v10: If input resembles v10 (no `saves`, but has xp/levels/etc), wrap it under saves["migrated-xp"].
-*/
-
-export type QuestStatus = 'Active' | 'Completed' | 'Failed';
+v10($2);
 
 // Minimal GameData V11 used by the CLI (extend safely in engine runtime)
 export interface GameDataV11 {

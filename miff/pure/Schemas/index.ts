@@ -262,22 +262,22 @@ export class SchemaValidator {
 /**
  * Utility functions for common schema operations
  */
-/* export const SchemaUtils = {
+export const SchemaUtils = {
   /**
    * Create a string field definition
    */
-  stringField(): FieldDefinition {
+  stringField: (required: boolean = false, description?: string): FieldDefinition => {
     return {
       type: 'string',
       required,
       description
-    };*/
+    };
   },
 
   /**
    * Create a number field definition
    */
-  numberField(): FieldDefinition {
+  numberField: (required: boolean = false, description?: string): FieldDefinition => {
     return {
       type: 'number',
       required,
@@ -288,7 +288,7 @@ export class SchemaValidator {
   /**
    * Create a boolean field definition
    */
-  booleanField(): FieldDefinition {
+  booleanField: (required: boolean = false, description?: string): FieldDefinition => {
     return {
       type: 'boolean',
       required,
@@ -299,7 +299,7 @@ export class SchemaValidator {
   /**
    * Create an object field definition
    */
-  objectField(): FieldDefinition {
+  objectField: (required: boolean = false, properties?: Record<string, FieldDefinition>, description?: string): FieldDefinition => {
     return {
       type: 'object',
       required,
@@ -311,7 +311,7 @@ export class SchemaValidator {
   /**
    * Create an array field definition
    */
-  arrayField(): FieldDefinition {
+  arrayField: (required: boolean = false, itemType?: FieldDefinition, description?: string): FieldDefinition => {
     return {
       type: 'array',
       required,

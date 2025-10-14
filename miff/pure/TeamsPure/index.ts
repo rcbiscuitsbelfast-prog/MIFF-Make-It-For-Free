@@ -1795,27 +1795,27 @@ export class TeamManager implements ITeamManager {
 /**
  * Utility functions for team operations
  */
-/* export const TeamUtils = {
+export const TeamUtils = {
   /**
    * Generate unique team ID
    */
-  generateTeamId(): string {
+  generateTeamId: (): string => {
     return `team_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   },
 
   /**
    * Generate unique spirit instance ID
    */
-  generateSpiritInstanceId(): string {
+  generateSpiritInstanceId: (): string => {
     return `spirit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   },
 
   /**
    * Create default spirit instance
    */
-  createDefaultSpiritInstance(): ISpiritInstance {
+  createDefaultSpiritInstance: (): ISpiritInstance => {
     return {
-      instanceId: this.generateSpiritInstanceId(),
+      instanceId: TeamUtils.generateSpiritInstanceId(),
       name: 'Default Spirit',
       level: 1,
       type: 'normal',
@@ -2848,7 +2848,7 @@ export class SyncManager implements ISyncManager {
     }
     return false;
   }
-}
+};
 
 // Export default instances
 // export const defaultTeamManager = new TeamManager();

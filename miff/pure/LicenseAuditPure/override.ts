@@ -26,7 +26,7 @@ interface LicenseAuditOverride {
   checkCompatibility: (license1: LicenseType, license2: LicenseType) => LicenseCompatibility;
 }
 
-/* export const licenseAuditOverride: LicenseAuditOverride = {
+export const licenseAuditOverride: LicenseAuditOverride = {
   getSpecialLicense: (moduleId: string): LicenseInfo | null => {
     const specialLicenses: Record<string, LicenseInfo> = {
       'SchemaPure': {
@@ -52,7 +52,7 @@ interface LicenseAuditOverride {
         sourceCodeRequired: false,
         derivativeWorks: 'allowed'
       }
-    };*/
+    };
     
     return specialLicenses[moduleId] || null;
   },

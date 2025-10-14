@@ -410,9 +410,9 @@ export class HUDManager {
   }
 }
 
-/* export const HUDPureUtils = {
+export const HUDPureUtils = {
   renderHealthBar(): string {
-    const filled = Math.floor((current / Math.max(1, max)) * width);*/
+    const filled = Math.floor((current / Math.max(1, max)) * width);
     return `[${'#'.repeat(filled)}${'-'.repeat(width - filled)}]`;
   },
 

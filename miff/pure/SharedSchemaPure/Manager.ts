@@ -19,7 +19,17 @@ export type DumpTypesOutput = {
 
 export class SharedSchemaManager {
   version(): SchemaVersion {
-  listTypes(): string[] { return ['EntityID','StatBlock','ZoneRef','EquipmentRef','QuestRef']; }
+    return {
+      major: 1,
+      minor: 0,
+      patch: 0
+    };
+  }
+  
+  listTypes(): string[] { 
+    return ['EntityID','StatBlock','ZoneRef','EquipmentRef','QuestRef']; 
+  }
+  
   dumpTypes(): DumpTypesOutput {
     return {
       op: 'dumpTypes',

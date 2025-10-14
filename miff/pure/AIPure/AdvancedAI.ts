@@ -63,7 +63,7 @@ export class AdvancedAI {
   /**
    * Create a new behavior tree
    */
-  createBehaviorTree(): AIBehaviorTree {
+  createBehaviorTree(id: string, name: string, root: BehaviorNode): AIBehaviorTree {
     const tree: AIBehaviorTree = {
       id,
       name,
@@ -232,7 +232,7 @@ export class AdvancedAI {
   /**
    * Learn from experience
    */
-  learnFromExperience(): void {
+  learnFromExperience(aiId: string, experience: AIExperience): void {
     let memory = this.memories.get(aiId);
     if (!memory) {
       memory = {
@@ -318,7 +318,7 @@ export class AdvancedAI {
   /**
    * Train neural network
    */
-  trainNeuralNetwork(): void {
+  trainNeuralNetwork(aiId: string, inputs: number[], expectedOutputs: number[]): void {
     const network = this.neuralNetworks.get(aiId);
     if (!network) {
       throw new Error(`Neural network for AI ${aiId} not found`);
@@ -344,44 +344,13 @@ export class AdvancedAI {
    */
   private initializeDefaultBehaviorTrees(): void {
     // Combat behavior tree
-    /*
-    const combatTree = this.createBehaviorTree('combat', 'Combat AI', {
-      type: 'selector',
-      name: 'Combat Root',
-      children: [
-        {
-          type: 'condition',
-          name: 'Check Health',
-          condition: 'low_health'
-        },
-        {
-          type: 'action',
-          name: 'Heal',
-          action: 'heal'
-        },
-        {
-          type: 'condition',
-          name: 'Check Advantage',
-          condition: 'has_advantage'
-        },
-        {
-          type: 'action',
-          name: 'Attack',
-          action: 'attack'
-        },
-        {
-          type: 'action',
-          name: 'Defend',
-          action: 'defend'
-        }
-      ]
-    });
-    */
-
-    // Add combat conditions
-    this.addCondition('combat', 'low_health', (context) => {
-      return context.health < context.maxHealth * 0.3;
-    });
+    const combatRoot: BehaviorNode = {
+      type: 'sequence',
+      name: 'combat_sequence',
+      children: []
+    };
+    
+    this.createBehaviorTree('combat', 'Combat AI', combatRoot);
 
     this.addCondition('combat', 'has_advantage', (context) => {
       return context.advantage > 0.6;

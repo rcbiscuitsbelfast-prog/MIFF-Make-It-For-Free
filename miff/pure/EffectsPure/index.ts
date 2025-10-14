@@ -1529,12 +1529,12 @@ export class EffectManager implements IEffectManager {
 /**
  * Utility functions for effect operations
  */
-/* export const EffectUtils = {
+export const EffectUtils = {
   /**
    * Create default entity context for testing
    */
   createDefaultEntityContext(): IEntityContext {
-    const entityStats = new Map<string, Map<string, number>>();*/
+    const entityStats = new Map<string, Map<string, number>>();
 
     return {
       getEntityStat: (entityId: string, stat: TargetStat) => {
