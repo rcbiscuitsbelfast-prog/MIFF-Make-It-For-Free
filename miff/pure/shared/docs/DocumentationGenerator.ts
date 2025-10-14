@@ -756,14 +756,6 @@ export class DocumentationGenerator {
       const extendsInterfaces = match[2] ? match[2].split(',').map(s => s.trim()) : [];
 
       interfaces.push({
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
         name: interfaceName,
         description: this.extractItemDescription(sourceCode, interfaceName),
         extends: extendsInterfaces,

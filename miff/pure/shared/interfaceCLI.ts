@@ -61,18 +61,6 @@ class InterfaceCLI {
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
     console.info(`✅ Standardized interfaces for ${results.length} modules`);
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary

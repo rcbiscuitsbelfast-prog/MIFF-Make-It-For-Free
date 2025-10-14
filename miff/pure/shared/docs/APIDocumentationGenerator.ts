@@ -461,14 +461,6 @@ export class APIDocumentationGenerator {
       if (line.startsWith('export interface ')) {
         const interfaceInfo = this.parseInterface(lines, i, filePath);
         if (interfaceInfo) {
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
           moduleInfo.interfaces.push(interfaceInfo);
         }
       }

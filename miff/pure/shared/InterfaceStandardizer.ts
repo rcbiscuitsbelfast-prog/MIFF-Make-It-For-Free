@@ -248,18 +248,6 @@ export class InterfaceStandardizer {
    * Standardize a specific module interface
    */
   async standardizeModuleInterface(module: { name: string; path: string; interface: string }): Promise<StandardizationResult> {
-  // Auto-added common properties
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
     console.info(`🔧 Standardizing ${module.name} interface...`);
     
     const standard = this.standards.get(module.interface);
