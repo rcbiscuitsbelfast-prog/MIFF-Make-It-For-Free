@@ -8,6 +8,8 @@
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
+import { log } from '/logging/StructuredLogger';
+
 
 export interface SystemMetrics {
   timestamp: Date;
@@ -248,7 +250,7 @@ export class MonitoringSystem {
         console.info(`📊 Metrics collected - CPU: ${systemMetrics.cpu.usage.toFixed(1)}%, Memory: ${systemMetrics.memory.usage.toFixed(1)}%`);
       }
     } catch (error) {
-      console.error('Failed to collect metrics:', error);
+      log.error('Failed to collect metrics:', error);
     }
   }
 

@@ -1,6 +1,8 @@
 import { execFileSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('ExportAndroidPure CLI', () => {
   const project = path.resolve('docs/godot');
@@ -38,7 +40,7 @@ describe('ExportAndroidPure CLI', () => {
       '--ks-pass', 'x',
       '--key-pass', 'y'
     ], { encoding: 'utf-8' });
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.op).toBe('export:android');
     expect(result.status).toBe('ok');
     const aabPath = path.join(outDir, 'app.aab');

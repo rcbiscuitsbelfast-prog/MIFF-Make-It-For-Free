@@ -1,6 +1,8 @@
 import { execFileSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 function runCLI(grid: number[][]) {
   const cli = path.resolve('miff/pure/PathfindingPure/cliHarness.ts');
@@ -19,7 +21,7 @@ function runCLI(grid: number[][]) {
     'ts-node', '--compiler-options', '{"module":"commonjs"}',
     cli, gridFile, path.resolve('miff/pure/PathfindingPure/tests/commands.json')
   ], { encoding: 'utf-8' });
-  return JSON.parse(out);
+  return SafeJSONParser.parse(out);
 }
 
 function randomGrid(width: number, height: number, density: number, seed: number) {

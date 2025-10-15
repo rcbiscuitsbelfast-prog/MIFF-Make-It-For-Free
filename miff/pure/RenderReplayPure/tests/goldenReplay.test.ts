@@ -3,6 +3,8 @@ import { execFileSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import { RenderPayload  } from '../../shared/ConsolidatedSchema';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('RenderReplayPure Golden Tests', () => {
   const cliPath = path.resolve(__dirname, '../cliHarness.ts');
@@ -33,7 +35,7 @@ describe('RenderReplayPure Golden Tests', () => {
       const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
-      const jsonOutput = JSON.parse(jsonMatch![1]);
+      const jsonOutput = SafeJSONParser.parse(jsonMatch![1]);
       expect(jsonOutput.op).toBe('replay');
       expect(jsonOutput.status).toBe('ok');
       expect(jsonOutput.session).toBeDefined();
@@ -60,7 +62,7 @@ describe('RenderReplayPure Golden Tests', () => {
       const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
-      const jsonOutput = JSON.parse(jsonMatch![1]);
+      const jsonOutput = SafeJSONParser.parse(jsonMatch![1]);
       expect(jsonOutput.op).toBe('replay');
       expect(jsonOutput.status).toBe('ok');
       expect(jsonOutput.session.config.engine).toBe('web');
@@ -88,7 +90,7 @@ describe('RenderReplayPure Golden Tests', () => {
       const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
       expect(jsonMatch).toBeTruthy();
       
-      const jsonOutput = JSON.parse(jsonMatch![1]);
+      const jsonOutput = SafeJSONParser.parse(jsonMatch![1]);
       expect(jsonOutput.op).toBe('replay');
       expect(jsonOutput.status).toBe('ok');
       expect(jsonOutput.session.config.engine).toBe('godot');
@@ -131,7 +133,7 @@ describe('RenderReplayPure Golden Tests', () => {
         const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
         expect(jsonMatch).toBeTruthy();
         
-        const jsonOutput = JSON.parse(jsonMatch![1]);
+        const jsonOutput = SafeJSONParser.parse(jsonMatch![1]);
         expect(jsonOutput.op).toBe('replay');
         expect(jsonOutput.status).toBe('ok');
         expect(jsonOutput.session.steps).toHaveLength(1);
@@ -181,7 +183,7 @@ describe('RenderReplayPure Golden Tests', () => {
         const jsonMatch = result.match(/📄 JSON Output:\s*\n([\s\S]*)/);
         expect(jsonMatch).toBeTruthy();
         
-        const jsonOutput = JSON.parse(jsonMatch![1]);
+        const jsonOutput = SafeJSONParser.parse(jsonMatch![1]);
         expect(jsonOutput.op).toBe('replay');
         expect(jsonOutput.status).toBe('ok');
         expect(jsonOutput.session.steps).toHaveLength(1);
@@ -427,7 +429,7 @@ describe('RenderReplayPure Golden Tests', () => {
 
       // Verify exported file
       expect(fs.existsSync('test_export.json')).toBe(true);
-      const exportedContent = JSON.parse(fs.readFileSync('test_export.json', 'utf-8'));
+      const exportedContent = SafeJSONParser.parse(fs.readFileSync('test_export.json', 'utf-8'));
       expect(exportedContent.sessionId).toBe(replayResult.session.sessionId);
       expect(exportedContent.config.engine).toBe('web');
       expect(exportedContent.steps).toHaveLength(1);

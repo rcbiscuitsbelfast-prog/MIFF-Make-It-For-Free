@@ -6,6 +6,8 @@ import { UnrealEventSyncPure } from '../UnrealEventSyncPure';
 import { UnrealEditorHarnessPure, UnrealEditorConfiguration } from '../UnrealEditorHarnessPure';
 import { RenderPayloadManager } from '../../RenderPayloadPure';
 import { SceneBuilderManager } from '../../SceneBuilderPure';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('UnrealEditorHarnessPure Golden Tests', () => {
 
@@ -251,7 +253,7 @@ describe('UnrealEditorHarnessPure Golden Tests', () => {
     expect(report).toBeDefined();
     expect(typeof report).toBe('string');
 
-    const reportData = JSON.parse(report);
+    const reportData = SafeJSONParser.parse(report);
     expect(reportData.harness).toBeDefined();
     expect(reportData.harness.name).toBe('UnrealEditorHarnessPure');
     expect(reportData.harness.version).toBe('1.0.0');

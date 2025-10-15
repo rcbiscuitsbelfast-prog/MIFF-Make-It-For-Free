@@ -10,7 +10,7 @@
 import { AssetValidator, AssetType } from './AssetValidator.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AssetCLI {

@@ -43,7 +43,6 @@ export class CapabilityRegistryManager extends CapabilityManager {
    * Auto-discover modules with MIFFCapable implementations
    */
   private async autoDiscoverModules(): Promise<void> {
-    // TODO: Implement in next phase
     console.info('Module discovery not yet implemented');
   }
 

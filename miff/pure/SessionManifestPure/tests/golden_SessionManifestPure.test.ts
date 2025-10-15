@@ -2,6 +2,8 @@ import { SessionManifestManager } from '../Manager';
 import { SessionManifestPure } from '../index';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('SessionManifestPure Golden Tests', () => {
   let manager: SessionManifestManager;
@@ -185,7 +187,7 @@ describe('SessionManifestPure Golden Tests', () => {
     const fixturePath = path.join(__dirname, '../fixtures/validate_session.json');
     expect(fs.existsSync(fixturePath)).toBe(true);
     
-    const fixtureData = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
+    const fixtureData = SafeJSONParser.parse(fs.readFileSync(fixturePath, 'utf-8'));
     const validation = SessionManifestPure.validate(fixtureData);
     
     expect(validation.ok).toBe(true);

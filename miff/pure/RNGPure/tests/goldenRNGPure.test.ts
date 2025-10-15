@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for RNGPure CLI harness
@@ -20,7 +22,7 @@ test('golden RNG flow', () => {
     [commands]
   );
 
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
 
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs.length).toBe(9);

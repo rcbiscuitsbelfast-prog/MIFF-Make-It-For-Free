@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for AssetValidatorPure
@@ -24,7 +26,7 @@ describe('AssetValidatorPure golden tests', () => {
       [validationFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify validation report structure
     expect(result.op).toBe('validate');
@@ -147,7 +149,7 @@ describe('AssetValidatorPure golden tests', () => {
         [tempFixturePath]
       );
       
-      const result = JSON.parse(out);
+      const result = SafeJSONParser.parse(out);
       
       // Verify validation passes in non-strict mode
       expect(result.status).toBe('ok');
@@ -214,7 +216,7 @@ describe('AssetValidatorPure golden tests', () => {
         [tempFixturePath]
       );
       
-      const result = JSON.parse(out);
+      const result = SafeJSONParser.parse(out);
       
       // Verify validation fails due to platform mismatch
       expect(result.status).toBe('error');
@@ -278,7 +280,7 @@ describe('AssetValidatorPure golden tests', () => {
         [tempFixturePath]
       );
       
-      const result = JSON.parse(out);
+      const result = SafeJSONParser.parse(out);
       
       // Verify validation fails due to invalid license
       expect(result.status).toBe('error');

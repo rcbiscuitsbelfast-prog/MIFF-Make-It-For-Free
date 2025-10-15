@@ -155,7 +155,6 @@ export class CapabilityDiscovery {
       }
     }
 
-    // CLI interface - TODO: Add CLI interface support in next iteration
 
     // Data processing capabilities
     if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {

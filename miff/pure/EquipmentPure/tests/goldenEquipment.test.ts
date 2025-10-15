@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden equipment flow', () => {
 	const root = path.resolve(__dirname, '..');
 	const equipment = path.resolve(root, 'sample_equipment.json');
 	const commands = path.resolve(root, 'tests/commands.json');
   const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [equipment, commands]);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   // Assert deterministic shape and key fields without relying on external fixture count
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs.length).toBe(6);

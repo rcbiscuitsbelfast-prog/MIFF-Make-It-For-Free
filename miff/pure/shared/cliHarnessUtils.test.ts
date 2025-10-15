@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '/security/SafeJSONParser';
+
 /**
  * Test suite for CLI Harness Utilities
  * 
@@ -117,9 +119,9 @@ describe('CLI Harness Utilities', () => {
       const formatted = formatOutput(testData);
       
       expect(typeof formatted).toBe('string');
-      expect(() => JSON.parse(formatted)).not.toThrow();
+      expect(() => SafeJSONParser.parse(formatted)).not.toThrow();
       
-      const parsed = JSON.parse(formatted);
+      const parsed = SafeJSONParser.parse(formatted);
       expect(parsed).toEqual(testData);
     });
   });

@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden node graph executes and wires results', () => {
 	const root = path.resolve(__dirname, '..');
@@ -13,7 +15,7 @@ test('golden node graph executes and wires results', () => {
 	const tmp = path.resolve(root, 'tests/tmp_graph.json');
 	fs.writeFileSync(tmp, JSON.stringify(def));
 	const out = (global as any).testUtils.runCLI(cli, ['graph:run', '--file', tmp, '--seed', '42']);
-	const got = JSON.parse(out);
+	const got = SafeJSONParser.parse(out);
 	expect(got.outputs[0].results.noiseA.texture.width).toBe(4);
 	expect(got.outputs[0].results.treeA.mesh.metadata.type).toBe('tree');
 });

@@ -2,6 +2,8 @@ import { BridgeSchemaManager, SchemaDefinition, ConversionRule } from '../Manage
 import { BridgeSchema, BridgeSchemaConfig } from '../index';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('BridgeSchemaPure Golden Tests', () => {
   let manager: BridgeSchemaManager;
@@ -265,7 +267,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     const unityFixturePath = path.join(__dirname, '../fixtures/unity_data.json');
     expect(fs.existsSync(unityFixturePath)).toBe(true);
     
-    const unityData = JSON.parse(fs.readFileSync(unityFixturePath, 'utf-8'));
+    const unityData = SafeJSONParser.parse(fs.readFileSync(unityFixturePath, 'utf-8'));
     const unityValidation = manager.validateAgainstSchema('unity-bridge-v1', unityData);
     // The validation is currently failing due to a bug in the validation logic
     // For now, just check that the validation was attempted
@@ -276,7 +278,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     const webFixturePath = path.join(__dirname, '../fixtures/web_data.json');
     expect(fs.existsSync(webFixturePath)).toBe(true);
     
-    const webData = JSON.parse(fs.readFileSync(webFixturePath, 'utf-8'));
+    const webData = SafeJSONParser.parse(fs.readFileSync(webFixturePath, 'utf-8'));
     const webValidation = manager.validateAgainstSchema('web-bridge-v1', webData);
     expect(webValidation.ok).toBe(true);
     // expect(webValidation.result?.valid).toBe(true);
@@ -285,7 +287,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     const customSchemaPath = path.join(__dirname, '../fixtures/custom_schema.json');
     expect(fs.existsSync(customSchemaPath)).toBe(true);
     
-    const customSchemaData = JSON.parse(fs.readFileSync(customSchemaPath, 'utf-8'));
+    const customSchemaData = SafeJSONParser.parse(fs.readFileSync(customSchemaPath, 'utf-8'));
     const addResult = manager.addSchema(customSchemaData);
     // The addSchema method might be failing due to validation issues
     // For now, just check that the method was called

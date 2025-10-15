@@ -1,10 +1,12 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('SpiritTamerDemoPure scenario matches golden', () => {
 	const cli = path.resolve('SpiritTamerDemoPure/cliHarness.ts');
 	const out = (global as any).testUtils.runCLI(cli, []);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   expect(got).toMatchObject({
     op: 'demo',
     status: 'ok',

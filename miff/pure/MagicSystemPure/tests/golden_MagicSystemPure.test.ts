@@ -10,6 +10,8 @@ import { EventBus } from '../../EventsPure/index';
 import { HealthSystemPure } from '../../HealthSystemPure/index';
 import { CombatPure } from '../../CombatPure/index';
 import { RNGPure } from '../../RNGPure/index';
+import { log } from '../../shared/logging/StructuredLogger';
+
 
 // Import realistic test implementations
 import { TestImplementationFactory } from '../../shared/testing/TestImplementationFactory';
@@ -135,7 +137,7 @@ describe('MagicSystemPure Golden Tests', () => {
     test('should successfully cast learned spells', () => {
       const spells = magicSystem.getAllSpellDefinitions();
       if (spells.length === 0) {
-        console.warn('No spells available for testing');
+        log.warn('No spells available for testing');
         return;
       }
 
@@ -191,7 +193,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const damageSpell = spells.find(s => s.effects.some(e => e.type === 'damage'));
 
       if (!damageSpell) {
-        console.warn('No damage spells available for testing');
+        log.warn('No damage spells available for testing');
         return;
       }
 
@@ -212,7 +214,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const healSpell = spells.find(s => s.effects.some(e => e.type === 'heal'));
 
       if (!healSpell) {
-        console.warn('No healing spells available for testing');
+        log.warn('No healing spells available for testing');
         return;
       }
 
@@ -323,7 +325,7 @@ describe('MagicSystemPure Golden Tests', () => {
       const healSpell = spells.find(s => s.effects.some(e => e.type === 'heal'));
 
       if (!damageSpell || !healSpell) {
-        console.warn('Damage or healing spells not available');
+        log.warn('Damage or healing spells not available');
         return;
       }
 

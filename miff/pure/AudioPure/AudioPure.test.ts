@@ -5,6 +5,8 @@
  */
 
 import { AudioSystem, AudioConfig, SoundDefinition, SpatialAudioConfig, AudioEvent } from './AudioPure';
+import { log } from '../shared/logging/StructuredLogger';
+
 
 describe('AudioPure', () => {
   let config: AudioConfig;
@@ -106,11 +108,11 @@ describe('AudioPure', () => {
         const result = limitedAudioSystem.playSound('test-sound');
         const afterSize = limitedAudioSystem.getActiveSounds().length;
         results.push(result);
-        console.log(`Call ${i + 1}: result=${result}, beforeSize=${beforeSize}, afterSize=${afterSize}`);
+        log.info(`Call ${i + 1}: result=${result}, beforeSize=${beforeSize}, afterSize=${afterSize}`);
       }
 
-      console.log('Final results:', results);
-      console.log('Final active sounds:', limitedAudioSystem.getActiveSounds());
+      log.info('Final results:', results);
+      log.info('Final active sounds:', limitedAudioSystem.getActiveSounds());
 
       // First 2 should succeed, last 2 should return null
       expect(results[0]).toBeTruthy();

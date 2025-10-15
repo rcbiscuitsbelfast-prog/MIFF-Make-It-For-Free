@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden validateAll output', () => {
 	const root = path.resolve(__dirname, '..');
 	const input = path.resolve(root, 'sample_input.json');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [input, '', commands]);
-	const got = JSON.parse(out);
-	const expected = JSON.parse(fs.readFileSync(path.resolve(root, 'expected_output.json'), 'utf-8'));
+	const got = SafeJSONParser.parse(out);
+	const expected = SafeJSONParser.parse(fs.readFileSync(path.resolve(root, 'expected_output.json'), 'utf-8'));
 	expect(got).toEqual(expected);
 });

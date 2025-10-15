@@ -6,6 +6,8 @@
  */
 
 import {
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
   BattleLogger,
   BattleLogEntry,
   BattleResult,
@@ -495,7 +497,7 @@ describe('LogPure Golden Tests', () => {
       expect(jsonExport).toContain('Test message');
       expect(jsonExport).toContain(LogCategory.SYSTEM);
 
-      const parsed = JSON.parse(jsonExport);
+      const parsed = SafeJSONParser.parse(jsonExport);
       expect(Array.isArray(parsed)).toBe(true);
       expect(parsed).toHaveLength(1);
     });

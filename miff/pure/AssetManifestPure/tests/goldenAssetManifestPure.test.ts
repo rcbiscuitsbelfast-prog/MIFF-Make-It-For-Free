@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden asset manifest flow', () => {
   const root = path.resolve(__dirname, '..');
   const manifest = path.resolve(root, 'fixtures/sprites.json');
   const commands = path.resolve(root, 'tests/commands.json');
   const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [manifest, commands]);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs[0]).toMatchObject({ op: 'normalize', result: expect.objectContaining({ assets: expect.any(Array) }) });

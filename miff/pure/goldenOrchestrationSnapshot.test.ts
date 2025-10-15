@@ -8,6 +8,10 @@
 import fs from 'fs';
 import path from 'path';
 import { execFileSync } from 'child_process';
+import { SafeJSONParser } from 'shared/security/SafeJSONParser';
+import { log } from 'shared/logging/StructuredLogger';
+
+
 
 interface DemoModule {
   // Auto-added common properties
@@ -53,7 +57,7 @@ function runCLI(cliPath: string, args: string[] = []): any {
       }).unref();
     }
     
-    return JSON.parse(output);
+    return SafeJSONParser.parse(output);
   } catch (error) {
     throw new Error(`CLI execution failed: ${error instanceof Error ? error.message : String(error)}`);
   }
@@ -110,11 +114,11 @@ describe('Golden Orchestration Fidelity Tests', () => {
     test.each(demoModules)('$name should return runScenario format', async ({ name, cliHarness, scenarioId }) => {
       // Skip if CLI harness doesn't exist
       if (!fs.existsSync(path.resolve(__dirname, '../../', cliHarness))) {
-        console.warn(`⚠️ Skipping ${name} - CLI harness not found: ${cliHarness}`);
+        log.warn(`⚠️ Skipping ${name} - CLI harness not found: ${cliHarness}`);
         return;
       }
 
-      console.log(`🧪 Testing ${name} CLI output format...`);
+      log.info(`🧪 Testing ${name} CLI output format...`);
       
       const result = runCLI(cliHarness);
       
@@ -148,7 +152,7 @@ describe('Golden Orchestration Fidelity Tests', () => {
           break;
       }
       
-      console.log(`✅ ${name} structure validation passed`);
+      log.info(`✅ ${name} structure validation passed`);
     });
   });
 
@@ -156,7 +160,7 @@ describe('Golden Orchestration Fidelity Tests', () => {
     test.each(demoModules)('$name finalState should match snapshot', async ({ name, cliHarness }) => {
       const fullPath = path.resolve(__dirname, '../../', cliHarness);
       if (!fs.existsSync(fullPath)) {
-        console.warn(`⚠️ Skipping ${name} snapshot test - CLI harness not found`);
+        log.warn(`⚠️ Skipping ${name} snapshot test - CLI harness not found`);
         return;
       }
 
@@ -165,7 +169,7 @@ describe('Golden Orchestration Fidelity Tests', () => {
       // Snapshot test for finalState
       expect(result.finalState).toMatchSnapshot(`${name}-finalState`);
       
-      console.log(`📸 ${name} finalState snapshot captured`);
+      log.info(`📸 ${name} finalState snapshot captured`);
     });
   });
 
@@ -173,7 +177,7 @@ describe('Golden Orchestration Fidelity Tests', () => {
     test.each(demoModules)('$name events should match snapshot', async ({ name, cliHarness }) => {
       const fullPath = path.resolve(__dirname, '../../', cliHarness);
       if (!fs.existsSync(fullPath)) {
-        console.warn(`⚠️ Skipping ${name} events snapshot test - CLI harness not found`);
+        log.warn(`⚠️ Skipping ${name} events snapshot test - CLI harness not found`);
         return;
       }
 
@@ -182,7 +186,7 @@ describe('Golden Orchestration Fidelity Tests', () => {
       // Snapshot test for events
       expect(result.events).toMatchSnapshot(`${name}-events`);
       
-      console.log(`📸 ${name} events snapshot captured`);
+      log.info(`📸 ${name} events snapshot captured`);
     });
   });
 
@@ -190,7 +194,7 @@ describe('Golden Orchestration Fidelity Tests', () => {
     test.each(demoModules)('$name should be compatible with golden fixture format', async ({ name, cliHarness, scenarioId }) => {
       const fullPath = path.resolve(__dirname, '../../', cliHarness);
       if (!fs.existsSync(fullPath)) {
-        console.warn(`⚠️ Skipping ${name} compatibility test - CLI harness not found`);
+        log.warn(`⚠️ Skipping ${name} compatibility test - CLI harness not found`);
         return;
       }
 
@@ -218,7 +222,7 @@ describe('Golden Orchestration Fidelity Tests', () => {
       // Snapshot the golden format
       expect(goldenFormat).toMatchSnapshot(`${name}-golden-format`);
       
-      console.log(`✅ ${name} golden fixture compatibility confirmed`);
+      log.info(`✅ ${name} golden fixture compatibility confirmed`);
     });
   });
 });

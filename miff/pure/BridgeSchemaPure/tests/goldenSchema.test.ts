@@ -1,13 +1,17 @@
 import { BridgeSchemaValidator, RenderData, RenderPayload, RenderDataType } from '../schema';
 import fs from 'fs';
 import path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+import { log } from '../../shared/logging/StructuredLogger';
+
+
 
 describe('BridgeSchemaPure Golden Tests', () => {
   const samplePath = path.resolve(__dirname, '../sample_render.json');
 
   beforeAll(() => {
-    console.log('Looking for sample file at:', samplePath);
-    console.log('File exists:', fs.existsSync(samplePath));
+    log.info('Looking for sample file at:', samplePath);
+    log.info('File exists:', fs.existsSync(samplePath));
     expect(fs.existsSync(samplePath)).toBe(true);
   });
 
@@ -303,7 +307,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
   describe('Sample Data Validation', () => {
     test('✓ validates sample render data from file', () => {
       const fileContent = fs.readFileSync(samplePath, 'utf-8');
-      const sampleData = JSON.parse(fileContent);
+      const sampleData = SafeJSONParser.parse(fileContent);
       
       // Test the actual structure being read (fixtures file)
       if (sampleData.op === 'render' && sampleData.renderData) {
@@ -326,7 +330,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     });
 
     test('✓ validates engine conversion examples', () => {
-      const sampleData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
+      const sampleData = SafeJSONParser.parse(fs.readFileSync(samplePath, 'utf-8'));
       
       // Skip this test if reading fixtures file (doesn't have engine_conversions)
       if (sampleData.op === 'render' && sampleData.renderData) {
@@ -354,7 +358,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     });
 
     test('✓ validates validation examples', () => {
-      const sampleData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
+      const sampleData = SafeJSONParser.parse(fs.readFileSync(samplePath, 'utf-8'));
       
       // Skip this test if reading fixtures file (doesn't have validation_examples)
       if (sampleData.op === 'render' && sampleData.renderData) {

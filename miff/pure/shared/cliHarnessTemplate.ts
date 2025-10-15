@@ -14,7 +14,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Standard CLI operation types

@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden physics flow', () => {
 	const root = path.resolve(__dirname, '..');
 	const sample = path.resolve(root, 'sample_world.json');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [sample, commands]);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs[0]).toMatchObject({ op: 'list', ids: expect.arrayContaining(['ball1']) });
   // commands.json first analytics; list is outputs[0], analytics at [1], then step at [2]

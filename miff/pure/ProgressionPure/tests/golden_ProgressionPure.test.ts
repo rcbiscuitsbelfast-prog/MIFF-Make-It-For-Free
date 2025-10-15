@@ -10,6 +10,8 @@
  */
 
 import {
+import { log } from '../../shared/logging/StructuredLogger';
+
   XPManager,
   XPCurve,
   XPCurveType,
@@ -51,7 +53,7 @@ class MockSpiritInstance implements SpiritInstance {
   }
 
   levelUp?(): void {
-    console.log(`${this.speciesId} leveled up!`);
+    log.info(`${this.speciesId} leveled up!`);
   }
 }
 

@@ -1,5 +1,7 @@
 import { execFileSync } from 'child_process';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('CameraBridgePure Contract', () => {
   const cli = path.resolve('miff/pure/CameraBridgePure/cliHarness.ts');
@@ -9,7 +11,7 @@ describe('CameraBridgePure Contract', () => {
       'ts-node', '--compiler-options', '{"module":"commonjs"}',
       cli
     ], { encoding: 'utf-8' });
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     expect(result && typeof result).toBe('object');
     expect(result.op || 'camera').toBeDefined();
     expect(result.status || 'ok').toBeDefined();

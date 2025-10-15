@@ -21,7 +21,7 @@ import { DebugOverlayManager } from '../../DebugOverlayPure/index';
 import { SaveManager } from '../../SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Game Types and Interfaces

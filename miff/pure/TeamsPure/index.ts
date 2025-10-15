@@ -1,3 +1,5 @@
+import { log } from '../shared/logging/StructuredLogger';
+
 /**
  * TeamsPure - Team Management System
  *
@@ -1902,7 +1904,7 @@ export const TeamUtils = {
       if (result !== TeamOperationResult.SUCCESS) {
         // If adding to active team fails, try reserves
         if (team.spirits.length < team.maxSize) {
-          console.warn(`Failed to add spirit ${sortedSpirits[i].name} to team: ${result}`);
+          log.warn(`Failed to add spirit ${sortedSpirits[i].name} to team: ${result}`);
         }
       }
     }

@@ -1,6 +1,8 @@
 import { execFileSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('ExportWebPure CLI dry run', () => {
   const project = path.resolve('docs/godot');
@@ -30,7 +32,7 @@ describe('ExportWebPure CLI dry run', () => {
       '--deploy', 'pages'
     ], { encoding: 'utf-8' });
 
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.op).toBe('export:web');
     expect(result.status).toBe('ok');
     expect(fs.existsSync(path.join(outDir, 'preload.manifest.json'))).toBe(true);

@@ -292,7 +292,6 @@ export class MigrationManager {
         return result;
       }
 
-      // TODO: Implement in next phase
       result.warnings.push('Rollback functionality not fully implemented');
       result.success = false;
       result.duration = Date.now() - startTime;

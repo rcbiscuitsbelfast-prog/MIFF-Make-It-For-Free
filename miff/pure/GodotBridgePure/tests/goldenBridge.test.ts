@@ -1,4 +1,6 @@
 import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../index';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('GodotBridgePure Golden Tests', () => {
 
@@ -21,7 +23,7 @@ describe('GodotBridgePure Golden Tests', () => {
         testFile
       ], { encoding: 'utf-8' });
 
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('simulate');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
@@ -54,7 +56,7 @@ describe('GodotBridgePure Golden Tests', () => {
         testFile
       ], { encoding: 'utf-8' });
 
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
@@ -94,7 +96,7 @@ describe('GodotBridgePure Golden Tests', () => {
         testFile
       ], { encoding: 'utf-8' });
 
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('interop');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
@@ -114,7 +116,7 @@ describe('GodotBridgePure Golden Tests', () => {
       'npcs'
     ], { encoding: 'utf-8' });
 
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.op).toBe('dump');
     expect(result.status).toBe('ok');
     expect(result.renderData).toBeDefined();
@@ -145,7 +147,7 @@ describe('GodotBridgePure Golden Tests', () => {
         testFile
       ], { encoding: 'utf-8' });
 
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
@@ -181,7 +183,7 @@ describe('GodotBridgePure Golden Tests', () => {
         testFile
       ], { encoding: 'utf-8' });
 
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
@@ -225,7 +227,7 @@ describe('GodotBridgePure Golden Tests', () => {
         configFile
       ], { encoding: 'utf-8' });
 
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
@@ -270,7 +272,7 @@ describe('GodotBridgePure Golden Tests', () => {
         configFile
       ], { encoding: 'utf-8' });
 
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();

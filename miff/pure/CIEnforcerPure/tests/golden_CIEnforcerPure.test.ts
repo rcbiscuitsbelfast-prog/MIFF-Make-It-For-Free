@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for CIEnforcerPure
@@ -23,7 +25,7 @@ describe('CIEnforcerPure golden tests', () => {
       [enforcementFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify enforcement report structure
     expect(result.op).toBe('enforce');
@@ -89,7 +91,7 @@ describe('CIEnforcerPure golden tests', () => {
         [tempFixturePath]
       );
       
-      const result = JSON.parse(out);
+      const result = SafeJSONParser.parse(out);
       
       // Verify single module enforcement
       expect(result.modules).toHaveLength(1);
@@ -116,7 +118,7 @@ describe('CIEnforcerPure golden tests', () => {
       [enforcementFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Find specific rule results
     const goldenTestsRule = result.results.find((r: any) => r.ruleId === 'golden_tests_present');
@@ -174,7 +176,7 @@ describe('CIEnforcerPure golden tests', () => {
       [enforcementFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify compliance calculation
     const testingResults = result.results.filter((r: any) => r.category === 'testing');
@@ -236,7 +238,7 @@ describe('CIEnforcerPure golden tests', () => {
       [enforcementFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Find rules with metrics
     const rulesWithMetrics = result.results.filter((r: any) => r.metrics);

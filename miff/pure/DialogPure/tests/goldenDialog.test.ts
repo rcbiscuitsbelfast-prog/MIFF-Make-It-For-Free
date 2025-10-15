@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden dialog simulation', () => {
 	const root = path.resolve(__dirname, '..');
 	const dialog = path.resolve(root, 'sample_dialog.json');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [dialog, commands]);
-	const got = JSON.parse(out);
+	const got = SafeJSONParser.parse(out);
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs.length).toBe(3);
   // first op is listDialogs; subsequent outputs may not include an op field

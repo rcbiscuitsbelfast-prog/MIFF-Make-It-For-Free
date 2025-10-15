@@ -6,6 +6,8 @@
  */
 
 import {
+import { log } from '../../shared/logging/StructuredLogger';
+
   SyncManager,
   SyncEvent,
   SyncChallenge,
@@ -684,7 +686,7 @@ describe('SyncPure Golden Tests', () => {
         );
 
         totalSyncGained += syncGain;
-        console.log(`Challenge ${index + 1}: +${syncGain} sync (${(accuracies[index] * 100).toFixed(1)}% accuracy)`);
+        log.info(`Challenge ${index + 1}: +${syncGain} sync (${(accuracies[index] * 100).toFixed(1)}% accuracy)`);
       });
 
       const finalLevel = syncManager.getSyncLevel('musician');
@@ -716,7 +718,7 @@ describe('SyncPure Golden Tests', () => {
 
       testEvents.forEach((event, index) => {
         syncManager.processSyncEvent('analyst', event);
-        console.log(`Event ${index + 1}: ${event.getSummary()}`);
+        log.info(`Event ${index + 1}: ${event.getSummary()}`);
       });
 
       // Analyze history

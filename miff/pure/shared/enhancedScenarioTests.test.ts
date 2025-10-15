@@ -11,6 +11,8 @@
 
 import { runCLI, registerReplayHooks, loadFixtureForScenario, validationChecklist } from './enhancedCliHarnessUtils';
 import * as path from 'path';
+import { SafeJSONParser } from '/security/SafeJSONParser';
+
 
 /**
  * Test suite for enhanced scenario orchestration
@@ -33,7 +35,7 @@ describe('Enhanced Scenario Orchestration', () => {
       const cliPath = path.resolve(`miff/pure/${moduleName}/cliHarness.ts`);
       
       const result = await runCLI(cliPath, []);
-      const parsedResult = JSON.parse(result);
+      const parsedResult = SafeJSONParser.parse(result);
       
       // Validate runCLI returns proper format with full payload
       if (scenarioId === 'visual_replay') {
@@ -131,7 +133,7 @@ describe('Enhanced Scenario Orchestration', () => {
     for (const testCase of testCases) {
       const cliPath = path.resolve(`miff/pure/${testCase.module}/cliHarness.ts`);
       const result = await runCLI(cliPath, []);
-      const parsedResult = JSON.parse(result);
+      const parsedResult = SafeJSONParser.parse(result);
       
       expect(parsedResult.finalState).toMatchObject(testCase.expectedState);
     }
@@ -160,7 +162,7 @@ describe('Enhanced Scenario Orchestration', () => {
     for (const testCase of testCases) {
       const cliPath = path.resolve(`miff/pure/${testCase.module}/cliHarness.ts`);
       const result = await runCLI(cliPath, []);
-      const parsedResult = JSON.parse(result);
+      const parsedResult = SafeJSONParser.parse(result);
       
       expect(parsedResult.outputs).toEqual(testCase.expectedOutputs);
     }
@@ -169,7 +171,7 @@ describe('Enhanced Scenario Orchestration', () => {
   test('Log collection and formatting', async () => {
     const cliPath = path.resolve('miff/pure/CombatCorePure/cliHarness.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = SafeJSONParser.parse(result);
     
     expect(parsedResult.logs).toBeDefined();
     expect(Array.isArray(parsedResult.logs)).toBe(true);
@@ -184,7 +186,7 @@ describe('Enhanced Scenario Orchestration', () => {
   test('Error handling for unknown scenarios', async () => {
     const cliPath = path.resolve('miff/pure/UnknownModule/cliHarness.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = SafeJSONParser.parse(result);
     
     // Should fall back to demo mode
     expect(parsedResult.op).toBe('demo');
@@ -195,7 +197,7 @@ describe('Enhanced Scenario Orchestration', () => {
   test('Backward compatibility with existing mock responses', async () => {
     const cliPath = path.resolve('miff/pure/TopplerDemoPure/cliHarness.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = SafeJSONParser.parse(result);
     
     // Should return scenario format for TopplerDemoPure
     expect(parsedResult.op).toBe('scenario');
@@ -212,7 +214,7 @@ describe('VisualReplaySystemPure Integration', () => {
   test('Complete replay session with all hooks', async () => {
     const cliPath = path.resolve('miff/pure/VisualReplaySystemPure/cliHarness.ts');
     const result = await runCLI(cliPath, []);
-    const parsedResult = JSON.parse(result);
+    const parsedResult = SafeJSONParser.parse(result);
     
     // Should return replay format
     expect(parsedResult.op).toBe('replay');
@@ -290,7 +292,7 @@ describe('Performance and Reliability', () => {
     
     // All scenarios should complete successfully
     results.forEach(result => {
-      const parsed = JSON.parse(result);
+      const parsed = SafeJSONParser.parse(result);
       expect(parsed.status).toBe('ok');
     });
   });
@@ -301,7 +303,7 @@ describe('Performance and Reliability', () => {
     // Run multiple times to test memory stability
     for (let i = 0; i < 10; i++) {
       const result = await runCLI(cliPath, []);
-      const parsed = JSON.parse(result);
+      const parsed = SafeJSONParser.parse(result);
       expect(parsed.op).toBe('replay');
     }
   });
@@ -309,7 +311,7 @@ describe('Performance and Reliability', () => {
   test('Error recovery and graceful degradation', async () => {
     // Test with invalid path
     const result = await runCLI('/invalid/path/cliHarness.ts', []);
-    const parsed = JSON.parse(result);
+    const parsed = SafeJSONParser.parse(result);
     
     expect(parsed.op).toBe('error');
     expect(parsed.status).toBe('error');

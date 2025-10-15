@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden terrain + biomes + rivers deterministic', () => {
 	const root = path.resolve(__dirname, '..');
 	const cli = path.resolve(root, 'cliHarness.ts');
 
 	const out1 = (global as any).testUtils.runCLI(cli, ['world:generate-terrain', '--seed', '123', '--size', '32x24', '--noise', 'perlin']);
-	const got1 = JSON.parse(out1);
+	const got1 = SafeJSONParser.parse(out1);
 	expect(Array.isArray(got1.outputs)).toBe(true);
 	const heightmap = (got1.outputs[0].heightmap as number[][]);
 	expect(heightmap.length).toBe(24);
@@ -19,13 +21,13 @@ test('golden terrain + biomes + rivers deterministic', () => {
 	const tmpHeight = path.resolve(root, 'tests/tmp_heightmap.json');
 	fs.writeFileSync(tmpHeight, JSON.stringify(heightmap));
 	const out2 = (global as any).testUtils.runCLI(cli, ['world:apply-biomes', '--heightmap', tmpHeight, '--rules', biomeSchema, '--seed', '123']);
-	const got2 = JSON.parse(out2);
+	const got2 = SafeJSONParser.parse(out2);
 	const biomes = got2.outputs[0].biomes as string[][];
 	expect(biomes.length).toBe(24);
 	expect(biomes[0].length).toBe(32);
 
 	const out3 = (global as any).testUtils.runCLI(cli, ['world:carve-rivers', '--heightmap', tmpHeight, '--threshold', '0.01', '--seed', '123']);
-	const got3 = JSON.parse(out3);
+	const got3 = SafeJSONParser.parse(out3);
 	const rivers = got3.outputs[0].rivers as any[];
 	expect(Array.isArray(rivers)).toBe(true);
 	expect(rivers.length).toBeGreaterThanOrEqual(1);

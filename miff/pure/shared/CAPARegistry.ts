@@ -9,7 +9,7 @@ import { CAPAEntry, CAPACategory, CAPASeverity, CAPAStatus, CAPARegistry, CAPAMe
 import { EventBus } from '../EventBusPure/index';
 import * as fs from 'fs';
 import * as path from 'path';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class CAPARegistryManager {

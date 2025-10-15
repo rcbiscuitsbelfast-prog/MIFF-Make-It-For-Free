@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden save/load/delete/rollback flow', () => {
   const root = path.resolve(__dirname, '..');
@@ -23,7 +25,7 @@ test('golden save/load/delete/rollback flow', () => {
   fs.writeFileSync(cmdsPath, JSON.stringify(commands, null, 2));
 
   const out = (global as any).testUtils.runCLI(harness, [cmdsPath, saveFile]);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
 
   // Basic invariants (timestamps are dynamic, so avoid strict equality)
   expect(got).toHaveProperty('data');

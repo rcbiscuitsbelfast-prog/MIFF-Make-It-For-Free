@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for QuestSystemPure
@@ -23,7 +25,7 @@ describe('QuestSystemPure golden tests', () => {
       [questFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify quest state was updated correctly
     expect(result.questState).toBeDefined();
@@ -180,7 +182,7 @@ describe('QuestSystemPure golden tests', () => {
         [tempFixturePath]
       );
       
-      const result = JSON.parse(out);
+      const result = SafeJSONParser.parse(out);
       
       // Verify quest is active but not complete
       const quest = result.questState.quests.quest_herb_collection;
@@ -278,7 +280,7 @@ describe('QuestSystemPure golden tests', () => {
         [tempFixturePath]
       );
       
-      const result = JSON.parse(out);
+      const result = SafeJSONParser.parse(out);
       
       // Verify quest failed
       const quest = result.questState.quests.quest_timed;

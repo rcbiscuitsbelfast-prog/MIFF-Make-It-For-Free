@@ -15,6 +15,8 @@
  */
 
 import {
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
   CutScenePure,
   CutSceneEngine,
   CutSceneWebBridge,
@@ -540,7 +542,7 @@ describe('CutScenePure Golden Tests', () => {
       expect(jsonString).toContain(definition.config.name);
 
       // Verify it's valid JSON
-      const parsed = JSON.parse(jsonString);
+      const parsed = SafeJSONParser.parse(jsonString);
       expect(parsed.config).toBeDefined();
       expect(parsed.tracks).toBeDefined();
       expect(parsed.actions).toBeDefined();

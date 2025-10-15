@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for VisualReplaySystemPure
@@ -24,7 +26,7 @@ describe('VisualReplaySystemPure golden tests', () => {
       [replayFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify replay result structure
     expect(result.op).toBe('replay');
@@ -78,7 +80,7 @@ describe('VisualReplaySystemPure golden tests', () => {
       [replayFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     const { statistics } = result;
     
     // Verify basic statistics
@@ -127,7 +129,7 @@ describe('VisualReplaySystemPure golden tests', () => {
       [replayFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     const { analysis } = result;
     
     // Verify analysis structure
@@ -176,19 +178,19 @@ describe('VisualReplaySystemPure golden tests', () => {
       [replayFixture]
     );
     
-    const jsonResult = JSON.parse(jsonOut);
+    const jsonResult = SafeJSONParser.parse(jsonOut);
     expect(jsonResult.op).toBe('replay');
     expect(jsonResult.session).toBeDefined();
     
     // Test CSV export - create temp file with proper content
     const tempCsvFixture = path.resolve(root, 'fixtures/temp_csv.json');
     const originalContent = fs.readFileSync(replayFixture, 'utf-8');
-    const csvData = JSON.parse(originalContent);
+    const csvData = SafeJSONParser.parse(originalContent);
     csvData.exportFormat = 'csv';
     fs.writeFileSync(tempCsvFixture, JSON.stringify(csvData, null, 2));
     
     // Verify the temp file has required fields
-    const tempContent = JSON.parse(fs.readFileSync(tempCsvFixture, 'utf-8'));
+    const tempContent = SafeJSONParser.parse(fs.readFileSync(tempCsvFixture, 'utf-8'));
     expect(tempContent.scenarioId).toBeDefined();
     expect(tempContent.config).toBeDefined();
     expect(tempContent.exportFormat).toBe('csv');
@@ -199,7 +201,7 @@ describe('VisualReplaySystemPure golden tests', () => {
         [tempCsvFixture]
       );
       
-      const csvResult = JSON.parse(csvOut);
+      const csvResult = SafeJSONParser.parse(csvOut);
       expect(csvResult.op).toBe('replay');
       expect(csvResult.session).toBeDefined();
       
@@ -208,7 +210,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     }
     
     // Test summary export
-    const summaryFixture = JSON.parse(fs.readFileSync(replayFixture, 'utf-8'));
+    const summaryFixture = SafeJSONParser.parse(fs.readFileSync(replayFixture, 'utf-8'));
     summaryFixture.exportFormat = 'summary';
     
     const tempSummaryFixture = path.resolve(root, 'fixtures/temp_summary.json');
@@ -220,7 +222,7 @@ describe('VisualReplaySystemPure golden tests', () => {
         [tempSummaryFixture]
       );
       
-      const summaryResult = JSON.parse(summaryOut);
+      const summaryResult = SafeJSONParser.parse(summaryOut);
       expect(summaryResult.op).toBe('replay');
       expect(summaryResult.session).toBeDefined();
       
@@ -238,7 +240,7 @@ describe('VisualReplaySystemPure golden tests', () => {
       [replayFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify visual hook types
     const allHooks = result.frames.flatMap((f: any) => f.visualHooks);
@@ -289,7 +291,7 @@ describe('VisualReplaySystemPure golden tests', () => {
       [replayFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify frame metadata
     result.frames.forEach((frame: any) => {
@@ -334,7 +336,7 @@ describe('VisualReplaySystemPure golden tests', () => {
       [replayFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify input state capture
     result.frames.forEach((frame: any) => {

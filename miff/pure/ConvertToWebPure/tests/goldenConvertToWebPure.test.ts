@@ -1,6 +1,8 @@
 import path from 'path';
 import { ConvertToWebManager } from '../Manager';
 import { RenderPayload  } from '../../shared/ConsolidatedSchema';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('manager converts sample payload to web items', () => {
   const sample:RenderPayload = require('../../BridgeSchemaPure/sample_render.json').examples.ui_rendering.unified;
@@ -14,7 +16,7 @@ test('manager converts sample payload to web items', () => {
 test('CLI converts file', () => {
   const file = path.resolve('miff/pure/BridgeSchemaPure/sample_render.json');
   const out = (global as any).testUtils.runCLI(path.resolve('miff/pure/ConvertToWebPure/cliHarness.ts'), [file]);
-  const j = JSON.parse(out);
+  const j = SafeJSONParser.parse(out);
   expect(j.engine).toBe('web');
   expect(Array.isArray(j.items)).toBe(true);
 });

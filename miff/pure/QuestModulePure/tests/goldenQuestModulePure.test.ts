@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden quest module flow', () => {
   const root = path.resolve(__dirname, '..');
   const quest = path.resolve(root, 'fixtures/branching.quest');
   const commands = path.resolve(root, 'tests/commands.json');
   const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [quest, commands]);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs[0]).toMatchObject({ op: 'parse', status: 'ok', quest: expect.objectContaining({ id: 'quest_branch' }) });

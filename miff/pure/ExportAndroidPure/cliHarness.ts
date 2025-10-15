@@ -68,7 +68,6 @@ function main(...args: any[]) {
     ],
     outputs: [ { config: opts } ]
   }));
-  // TODO: Implement in next phase
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

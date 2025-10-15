@@ -793,7 +793,7 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   /**
    * Add modifier
    */
-  add(): void {
+  add(type: ModifierType, value: number, isMultiplicative: boolean): void {
     if (isMultiplicative) {
       this.multiplicative.push({ type, value });
     } else {
@@ -804,7 +804,7 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   /**
    * Apply modifiers to base value
    */
-  apply(): number {
+  apply(baseValue: number): number {
     // Apply additive modifiers first (flat + percent)
     let result = baseValue;
 
@@ -1021,28 +1021,28 @@ export class EffectResolution implements IEffectResolution {
   /**
    * Add resolved effect
    */
-  addResolvedEffect(): void {
+  addResolvedEffect(effect: IBattleEffect): void {
     this.resolvedEffects.push(effect);
   }
 
   /**
    * Add applied effect
    */
-  addAppliedEffect(): void {
+  addAppliedEffect(effect: IBattleEffect, result: any): void {
     this.appliedEffects.push({ effect, result });
   }
 
   /**
    * Add expired effect
    */
-  addExpiredEffect(): void {
+  addExpiredEffect(effect: IBattleEffect, reason: string): void {
     this.expiredEffects.push({ effect, reason });
   }
 
   /**
    * Add stat change
    */
-  addStatChange(): void {
+  addStatChange(stat: string, change: number): void {
     const current = this.statChanges.get(stat) || 0;
     this.statChanges.set(stat, current + change);
   }
@@ -1050,7 +1050,7 @@ export class EffectResolution implements IEffectResolution {
   /**
    * Add event
    */
-  addEvent(): void {
+  addEvent(event: any): void {
     this.events.push(event);
   }
 
@@ -1189,7 +1189,7 @@ export class EffectResolver implements IEffectResolver {
   /**
    * Resolve effects with context
    */
-  resolveEffects(): EffectResolution {
+  resolveEffects(phase: EffectPhase, effects: ActiveEffect[], context: any, entityId: string): EffectResolution {
     const resolution = EffectResolution.create();
     const resolvedEffects = this.resolveQueue(phase, effects, context.getEntityImmunities(entityId));
 

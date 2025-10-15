@@ -676,7 +676,7 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Check if challenge has tag
    */
-  hasTag(): boolean {
+  hasTag(tag: string): boolean {
     return this.tags.includes(tag);
   }
 
@@ -799,7 +799,7 @@ export class ChallengeRuleset implements IChallengeRuleset {
   /**
    * Check if party complies with rules
    */
-  isCompliant(): boolean {
+  isCompliant(partySpiritTypes: string[], items: string[]): boolean {
     // Check spirit type restrictions
     if (this.allowedSpiritTypes.length > 0) {
       for (const spiritType of partySpiritTypes) {

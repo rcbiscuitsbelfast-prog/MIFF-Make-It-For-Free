@@ -1,5 +1,9 @@
 import { execFileSync } from 'child_process';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+import { log } from '../../shared/logging/StructuredLogger';
+
+
 
 describe('WebSocketBridgePure Contract', () => {
   const cli = path.resolve('miff/pure/WebSocketBridgePure/index.ts');
@@ -9,10 +13,10 @@ describe('WebSocketBridgePure Contract', () => {
     const code = `
       import * as mod from '${cli.replace(/\\/g,'/')}';
       const keys = Object.keys(mod).sort();
-      console.log(JSON.stringify({ keys }, null, 2));
+      log.info(JSON.stringify({ keys }, null, 2));
     `;
     const out = execFileSync('npx', ['ts-node', '-e', code], { encoding: 'utf-8' });
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     expect(Array.isArray(result.keys)).toBe(true);
     expect(result.keys.length).toBeGreaterThan(0);
   });

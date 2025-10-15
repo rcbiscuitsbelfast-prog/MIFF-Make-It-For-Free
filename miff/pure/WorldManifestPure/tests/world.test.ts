@@ -1,4 +1,6 @@
 import { WorldManifestPure } from '../index';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('WorldManifestPure', () => {
   test('creates world with correct structure', () => {
@@ -88,7 +90,7 @@ describe('WorldManifestPure', () => {
   test('exports JSON correctly', () => {
     const world = WorldManifestPure.create('export', 'Export Test', 8, 8);
     const json = WorldManifestPure.exportJSON(world);
-    const parsed = JSON.parse(json);
+    const parsed = SafeJSONParser.parse(json);
     
     expect(parsed.schema).toBe('miff.world.v1');
     expect(parsed.zones).toHaveLength(1);

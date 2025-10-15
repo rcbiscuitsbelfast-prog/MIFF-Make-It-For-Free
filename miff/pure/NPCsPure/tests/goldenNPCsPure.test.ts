@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('NPCsPure Golden Tests', () => {
   const cliPath = path.resolve('NPCsPure/cliHarness.ts');
@@ -15,8 +17,8 @@ describe('NPCsPure Golden Tests', () => {
 
   test('✓ list NPCs returns expected output', () => {
     const output = (global as any).testUtils.runCLI(cliPath, ['list']);
-    const result = JSON.parse(output);
-    const expected = JSON.parse(fs.readFileSync(expectedPath, 'utf-8'));
+    const result = SafeJSONParser.parse(output);
+    const expected = SafeJSONParser.parse(fs.readFileSync(expectedPath, 'utf-8'));
 
     expect(result.op).toBe('list');
     expect(result.status).toBe('ok');
@@ -36,8 +38,8 @@ describe('NPCsPure Golden Tests', () => {
 
   test('✓ simulate NPC returns expected output', () => {
     const output = (global as any).testUtils.runCLI(cliPath, ['simulate', 'npc_001', '3600']);
-    const result = JSON.parse(output);
-    const expected = JSON.parse(fs.readFileSync(expectedPath, 'utf-8'));
+    const result = SafeJSONParser.parse(output);
+    const expected = SafeJSONParser.parse(fs.readFileSync(expectedPath, 'utf-8'));
 
     expect(result.op).toBe('simulate');
     expect(result.status).toBe('ok');
@@ -82,7 +84,7 @@ describe('NPCsPure Golden Tests', () => {
 
     try {
       const output = (global as any).testUtils.runCLI(cliPath, ['create', testFile]);
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('create');
       expect(result.status).toBe('ok');
       expect(result.result).toHaveProperty('id', 'npc_test');
@@ -97,7 +99,7 @@ describe('NPCsPure Golden Tests', () => {
 
   test('✓ get NPC by ID', () => {
     const output = (global as any).testUtils.runCLI(cliPath, ['get', 'npc_001']);
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.op).toBe('get');
     expect(result.status).toBe('ok');
     expect(result.result).toHaveProperty('id', 'npc_001');
@@ -106,7 +108,7 @@ describe('NPCsPure Golden Tests', () => {
 
   test('✓ list NPCs with filter', () => {
     const output = (global as any).testUtils.runCLI(cliPath, ['list', 'zoneId=zone_village']);
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.op).toBe('list');
     expect(result.status).toBe('ok');
     expect(Array.isArray(result.result)).toBe(true);
@@ -138,7 +140,7 @@ describe('NPCsPure Golden Tests', () => {
 
       // Delete the NPC
       const output = (global as any).testUtils.runCLI(cliPath, ['delete', 'npc_delete_test']);
-      const result = JSON.parse(output);
+      const result = SafeJSONParser.parse(output);
       expect(result.op).toBe('delete');
       expect(result.status).toBe('ok');
     } finally {
@@ -151,7 +153,7 @@ describe('NPCsPure Golden Tests', () => {
 
   test('✓ dump all NPCs', () => {
     const output = (global as any).testUtils.runCLI(cliPath, ['dump']);
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.op).toBe('dump');
     expect(result.status).toBe('ok');
     expect(Array.isArray(result.result)).toBe(true);

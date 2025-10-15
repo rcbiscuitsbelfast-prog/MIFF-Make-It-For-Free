@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+
 /**
  * SavePure Manager - Advanced Save System Management
  *
@@ -1019,7 +1021,7 @@ export class SavePure {
   private deserializeData(data: string, format: DataFormat): any {
     switch (format) {
       case 'json':
-        return JSON.parse(data);
+        return SafeJSONParser.parse(data);
       case 'xml':
         // Simple XML parsing - in reality this would use a proper XML parser
         return { xml: data };

@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for NavigationSystemPure CLI harness
@@ -21,7 +23,7 @@ test('golden navigation system flow', () => {
     [grid]
   );
   
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   
   // Verify expected structure
   expect(got.outputs).toBeDefined();

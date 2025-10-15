@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden quest scenario', () => {
 	const root = path.resolve(__dirname, '..');
 	const harness = path.resolve(root, 'cliHarness.ts');
 	const scenario = path.resolve(root, 'scenario.json');
 	const out = (global as any).testUtils.runCLI(harness, [scenario, 'run']);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   expect(got.outputs[0].op).toBe('runScenario');
   expect(got.outputs[0].status).toBe('ok');
   expect(got.outputs[0].finalState).toMatchObject({

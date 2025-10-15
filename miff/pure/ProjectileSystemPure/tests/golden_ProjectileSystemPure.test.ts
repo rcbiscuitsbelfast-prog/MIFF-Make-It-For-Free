@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for ProjectileSystemPure CLI harness
@@ -21,7 +23,7 @@ test('golden projectile system flow', () => {
     [projectiles]
   );
   
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   
   // Verify expected structure and deterministic behavior
   expect(got.op).toBe('projectiles.step');

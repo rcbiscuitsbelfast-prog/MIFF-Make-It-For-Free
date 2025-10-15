@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { RenderPayloadBuilder, createSampleFrame } from '../Manager';
 import { BridgeSchemaValidator  } from '../../shared/ConsolidatedSchema';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('builder creates valid sample frame', () => {
   const payload = createSampleFrame();
@@ -12,7 +14,7 @@ test('builder creates valid sample frame', () => {
 
 test('CLI build-sample outputs a payload', () => {
   const out = (global as any).testUtils.runCLI(path.resolve('RenderPayloadPure/cliHarness.ts'), ['build-sample']);
-  const j = JSON.parse(out);
+  const j = SafeJSONParser.parse(out);
   expect(j.op).toBe('buildSample');
   expect(j.status).toBe('ok');
   expect(j.payload).toBeDefined();
@@ -29,7 +31,7 @@ test('CLI validate reports issues for invalid payload', () => {
   fs.writeFileSync(tmp, JSON.stringify(invalid));
   try{
     const out = (global as any).testUtils.runCLI(path.resolve('RenderPayloadPure/cliHarness.ts'), ['validate', tmp]);
-    const j = JSON.parse(out);
+    const j = SafeJSONParser.parse(out);
     expect(j.op).toBe('validate');
     expect(j.status).toBe('error');
     expect(j.issues.some((x:string)=>x.includes('Invalid render type'))).toBe(true);

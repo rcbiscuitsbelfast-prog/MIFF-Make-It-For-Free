@@ -6,6 +6,8 @@
  */
 
 import { PerfTimer, HighResPerfTimer, PerfProfiler, PerfUtils, PerfResult, PerfSummary } from '../index';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('PerfPure Golden Tests', () => {
   beforeEach(() => {
@@ -231,7 +233,7 @@ describe('PerfPure Golden Tests', () => {
       timer.dispose();
 
       const json = profiler.exportToJSON();
-      const parsed = JSON.parse(json);
+      const parsed = SafeJSONParser.parse(json);
 
       expect(typeof parsed.enabled).toBe('boolean');
       expect(Array.isArray(parsed.results)).toBe(true);

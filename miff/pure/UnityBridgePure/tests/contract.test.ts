@@ -1,5 +1,7 @@
 import { execFileSync } from 'child_process';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('UnityBridgePure Contract', () => {
   const cli = path.resolve('miff/pure/ConvertToUnityPure/cliHarness.ts');
@@ -10,7 +12,7 @@ describe('UnityBridgePure Contract', () => {
       'ts-node', '--compiler-options', '{"module":"commonjs"}',
       cli, sample
     ], { encoding: 'utf-8' });
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     // Invariants: op tag, engine tag, items/issues arrays present
     expect(result.op === 'convert:unity' || result.op === 'convert').toBe(true);
     expect(result.engine).toBe('unity');

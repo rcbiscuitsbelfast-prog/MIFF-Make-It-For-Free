@@ -16,6 +16,8 @@
 import { EventBus } from '../../EventBusPure/EventBusPure';
 import { PetCollectionManager, PetCollectionConfig } from '../Manager';
 import { PetRarity, EggType, PetType } from '../index';
+import { log } from '../../shared/logging/StructuredLogger';
+
 
 interface TestResult {
   // Auto-added common properties
@@ -93,7 +95,7 @@ describe('PetCollectionPure Golden Tests', () => {
 });
 
 export async function performGoldenTests(): Promise<TestResult[]> {
-  console.log('🐾 Starting PetCollectionPure Golden Tests...\n');
+  log.info('🐾 Starting PetCollectionPure Golden Tests...\n');
 
   const results: TestResult[] = [];
 
@@ -122,9 +124,9 @@ export async function performGoldenTests(): Promise<TestResult[]> {
   const total = results.length;
   const successRate = (passed / total) * 100;
 
-  console.log('\n📊 Golden Test Results:');
-  console.log(`   Passed: ${passed}/${total} (${successRate.toFixed(1)}%)`);
-  console.log(`   Failed: ${total - passed}/${total}`);
+  log.info('\n📊 Golden Test Results:');
+  log.info(`   Passed: ${passed}/${total} (${successRate.toFixed(1)}%)`);
+  log.info(`   Failed: ${total - passed}/${total}`);
 
   return results;
 }
@@ -660,7 +662,7 @@ function createIntegrationSuite(): GoldenTestSuite {
 }
 
 async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
-  console.log(`\n🐾 Running ${suite.name} tests...`);
+  log.info(`\n🐾 Running ${suite.name} tests...`);
 
   if (suite.setup) {
     await suite.setup();
@@ -677,14 +679,14 @@ async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
       result.duration = performance.now() - startTime;
 
       if (result.passed) {
-        console.log(`   ✅ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
+        log.info(`   ✅ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
       } else {
-        console.log(`   ❌ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
+        log.info(`   ❌ Test ${i + 1}: ${result.message} (${result.duration.toFixed(2)}ms)`);
       }
 
       results.push(result);
     } catch (error) {
-      console.log(`   💥 Test ${i + 1}: Exception thrown - ${error.message}`);
+      log.info(`   💥 Test ${i + 1}: Exception thrown - ${error.message}`);
       results.push({
         passed: false,
         message: `Exception: ${error.message}`,

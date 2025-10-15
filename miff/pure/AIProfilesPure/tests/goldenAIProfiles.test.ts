@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden AI profiles flow', () => {
 	const root = path.resolve(__dirname, '..');
 	const profiles = path.resolve(root, 'sample_profiles.json');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [profiles, commands]);
-	const got = JSON.parse(out);
+	const got = SafeJSONParser.parse(out);
 	
 	// Test the structure and key elements instead of exact match
 	expect(got).toHaveProperty('log');

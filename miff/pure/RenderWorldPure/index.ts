@@ -10,6 +10,8 @@
  */
 
 import {
+import { log } from '../shared/logging/StructuredLogger';
+
   CombatEngine
 } from '../CombatPure/engine';
 
@@ -1489,7 +1491,7 @@ export class RenderWorldPure {
     if (!this.engines.mobilePerformance.isPerformanceAcceptable()) {
       const recommendations = this.engines.mobilePerformance.getOptimizationRecommendations();
       if (recommendations.length > 0) {
-        console.warn('Performance optimization recommendations:', recommendations);
+        log.warn('Performance optimization recommendations:', recommendations);
       }
     }
   }

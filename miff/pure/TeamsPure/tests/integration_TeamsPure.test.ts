@@ -12,6 +12,8 @@
 import { TeamManager, TeamRules, TeamUtils, TeamOperationResult, ValidationStatus } from '../index';
 import { CombatEngine, SpiritInstance, MoveData, TypeEffectiveness, Stats } from '../../CombatPure/engine';
 import { Item, ItemEffect, UsageResult, ItemUsageManager, IPlayerContext, ItemType, ItemEffectType } from '../../ItemsPure/index';
+import { log } from '../../shared/logging/StructuredLogger';
+
 
 // Mock the missing modules for integration testing
 class SpiritSyncEntry {
@@ -527,19 +529,19 @@ describe('TeamsPure Integration Tests', () => {
       playerSpirits.forEach(spirit => {
         const result = teamManager.addSpiritToTeam(playerTeam.teamId, spirit);
         if (result !== TeamOperationResult.SUCCESS) {
-          console.log(`Failed to add player spirit ${spirit.name}: ${result}`);
+          log.info(`Failed to add player spirit ${spirit.name}: ${result}`);
           // Check team validation
           const validation = playerTeam.rules.validateTeam(playerTeam);
-          console.log(`Team validation: ${validation.status} - ${validation.message}`);
+          log.info(`Team validation: ${validation.status} - ${validation.message}`);
         }
       });
       enemySpirits.forEach(spirit => {
         const result = teamManager.addSpiritToTeam(enemyTeam.teamId, spirit);
         if (result !== TeamOperationResult.SUCCESS) {
-          console.log(`Failed to add enemy spirit ${spirit.name}: ${result}`);
+          log.info(`Failed to add enemy spirit ${spirit.name}: ${result}`);
           // Check team validation
           const validation = enemyTeam.rules.validateTeam(enemyTeam);
-          console.log(`Team validation: ${validation.status} - ${validation.message}`);
+          log.info(`Team validation: ${validation.status} - ${validation.message}`);
         }
       });
 
@@ -872,5 +874,5 @@ describe('TeamsPure Integration Tests', () => {
     });
   });
 
-  console.log('✅ TeamsPure Integration Tests completed successfully');
+  log.info('✅ TeamsPure Integration Tests completed successfully');
 });

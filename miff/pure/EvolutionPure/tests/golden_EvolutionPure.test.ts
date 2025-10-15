@@ -10,6 +10,8 @@
  */
 
 import {
+import { log } from '../../shared/logging/StructuredLogger';
+
   EvolutionManager,
   EvolutionCondition,
   SpeciesEvolutionData,
@@ -52,7 +54,7 @@ class MockEvolutionSpirit implements IEvolutionSpiritInstance {
 
   evolve(newSpeciesId: string): void {
     this.speciesId = newSpeciesId;
-    console.log(`Evolved ${this.speciesId} to ${newSpeciesId}`);
+    log.info(`Evolved ${this.speciesId} to ${newSpeciesId}`);
   }
 
   getSyncPercentage(): number {
@@ -1279,5 +1281,5 @@ describe('EvolutionPure Golden Tests', () => {
     });
   });
 
-  console.log('✅ EvolutionPure Golden Tests completed successfully');
+  log.info('✅ EvolutionPure Golden Tests completed successfully');
 });

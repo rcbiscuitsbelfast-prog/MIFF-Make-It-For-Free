@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for RemixAuditPure
@@ -23,7 +25,7 @@ describe('RemixAuditPure golden tests', () => {
       [auditFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify audit report structure
     expect(result.op).toBe('audit');
@@ -86,7 +88,7 @@ describe('RemixAuditPure golden tests', () => {
         [tempFixturePath]
       );
       
-      const result = JSON.parse(out);
+      const result = SafeJSONParser.parse(out);
       
       // Verify single module audit
       expect(result.modules).toHaveLength(1);
@@ -113,7 +115,7 @@ describe('RemixAuditPure golden tests', () => {
       [auditFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Find specific rule results
     const licenseRule = result.results.find((r: any) => r.ruleId === 'license_present');
@@ -157,7 +159,7 @@ describe('RemixAuditPure golden tests', () => {
       [auditFixture]
     );
     
-    const result = JSON.parse(out);
+    const result = SafeJSONParser.parse(out);
     
     // Verify compliance calculation
     const licensingResults = result.results.filter((r: any) => r.category === 'licensing');

@@ -1,3 +1,5 @@
+import { log } from '../shared/logging/StructuredLogger';
+
 // UnrealBridgePure - Unreal Engine bridge system for MIFF framework
 // Schema Version: v1.0
 // Compatible with Unreal Engine 4.27+ and 5.x
@@ -1509,7 +1511,7 @@ export class UnrealBridgeManager {
       this.isInitialized = true;
       console.info('[UnrealBridgeManager] Unreal bridge initialized successfully');
     } catch (error) {
-      console.error('[UnrealBridgeManager] Failed to initialize Unreal bridge:', error);
+      log.error('[UnrealBridgeManager] Failed to initialize Unreal bridge:', error);
       throw new Error(`Unreal bridge initialization failed: ${error}`);
     }
   }
@@ -1739,7 +1741,7 @@ export class UnrealBridgeManager {
       console.info(`[UnrealBridgeManager] Successfully connected to Unreal instance: ${target}`);
       return connection;
     } catch (error) {
-      console.error(`[UnrealBridgeManager] Connection failed: ${error}`);
+      log.error(`[UnrealBridgeManager] Connection failed: ${error}`);
       throw error;
     }
   }
@@ -1865,7 +1867,7 @@ export class UnrealBridgeManager {
 
       return true;
     } catch (error) {
-      console.error(`[UnrealBridgeManager] Failed to send message: ${error}`);
+      log.error(`[UnrealBridgeManager] Failed to send message: ${error}`);
       return false;
     }
   }
@@ -1897,7 +1899,7 @@ export class UnrealBridgeManager {
         await this.processPropertySyncMessage(message);
         break;
       default:
-        console.warn(`[UnrealBridgeManager] Unknown message type: ${message.type}`);
+        log.warn(`[UnrealBridgeManager] Unknown message type: ${message.type}`);
     }
   }
 

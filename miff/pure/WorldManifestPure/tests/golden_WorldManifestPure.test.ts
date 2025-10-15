@@ -2,6 +2,8 @@ import { WorldManifestManager, WorldGenerationConfig } from '../Manager';
 import { WorldManifestPure } from '../index';
 import * as fs from 'fs';
 import * as path from 'path';
+import { log } from '../../shared/logging/StructuredLogger';
+
 
 describe('WorldManifestPure Golden Tests', () => {
   let manager: WorldManifestManager;
@@ -325,7 +327,7 @@ describe('WorldManifestPure Golden Tests', () => {
     // Get anchors for specific asset
     const oakAnchors = cleanManager.getAssetAnchors('tree-oak');
     expect(oakAnchors.ok).toBe(true);
-    console.log('Oak anchors:', JSON.stringify(oakAnchors.anchors, null, 2));
+    log.info('Oak anchors:', JSON.stringify(oakAnchors.anchors, null, 2));
     // Should have at least 2 from our test, plus any from sample worlds
     expect(oakAnchors.anchors.length).toBeGreaterThanOrEqual(2);
     expect(oakAnchors.anchors.every(a => a.assetId === 'tree-oak')).toBe(true);

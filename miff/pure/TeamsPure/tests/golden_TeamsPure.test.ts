@@ -9,6 +9,7 @@
  * @license MIT
  */
 
+import { log } from '../../shared/logging/StructuredLogger';
 import {
   TeamManager,
   Team,
@@ -1429,5 +1430,5 @@ describe('TeamsPure Golden Tests', () => {
     });
   });
 
-  console.log('✅ TeamsPure Golden Tests completed successfully');
+  log.info('✅ TeamsPure Golden Tests completed successfully');
 });

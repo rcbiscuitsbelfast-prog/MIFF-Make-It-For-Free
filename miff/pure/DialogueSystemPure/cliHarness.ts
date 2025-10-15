@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { nextNode, Dialogue, Node } from './index';
+import { log } from '../shared/logging/StructuredLogger';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';

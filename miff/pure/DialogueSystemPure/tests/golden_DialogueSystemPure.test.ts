@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for DialogueSystemPure CLI harness
@@ -21,7 +23,7 @@ test('golden dialogue system flow', () => {
     [dialogue]
   );
   
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   
   // Verify expected structure
   expect(got.op).toBe('dialogue.next');

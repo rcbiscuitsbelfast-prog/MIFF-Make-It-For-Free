@@ -1,4 +1,4 @@
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '../security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Transport Implementation

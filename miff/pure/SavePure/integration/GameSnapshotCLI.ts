@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 import { handleSuccess, handleError, parseKeyValueArgs } from '../../shared/cliHarnessUtils';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const sessionPath = '/workspace/session/sessionState.json';

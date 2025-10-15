@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden pathfinding flow', () => {
 	const root = path.resolve(__dirname, '..');
 	const grid = path.resolve(root, 'sample_grid.json');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [grid, commands]);
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   expect(Array.isArray(got.outputs)).toBe(true);
   expect(got.outputs[0]).toMatchObject({ op: 'list', grid: expect.any(Array) });
   expect(got.outputs[1]).toMatchObject({ op: 'simulate', path: expect.any(Array) });

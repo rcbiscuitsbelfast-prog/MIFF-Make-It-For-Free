@@ -1,11 +1,13 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 test('golden time flow', () => {
 	const root = path.resolve(__dirname, '..');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [commands]);
-	const got = JSON.parse(out);
+	const got = SafeJSONParser.parse(out);
 	
 	// Define expected output directly in the test to avoid file system issues
 	const expected = {

@@ -6,7 +6,7 @@
  */
 
 import * as crypto from 'crypto';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '/security/SafeJSONParser';
 
 export interface User {
   id?: string;

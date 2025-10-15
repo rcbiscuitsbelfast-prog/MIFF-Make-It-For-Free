@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import { parseQuestText, validateQuest } from '../index';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 describe('Building Quest Tutorial - golden', () => {
   test('fixture parses and validates', () => {
-    const fixture = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../../presets/scenarios/buildingQuestTutorial.fixture.json'), 'utf-8'));
+    const fixture = SafeJSONParser.parse(fs.readFileSync(path.resolve(__dirname, '../../../../presets/scenarios/buildingQuestTutorial.fixture.json'), 'utf-8'));
     // Convert JSON structure into the module DSL text to exercise parser and validator
     const lines: string[] = [];
     lines.push(`id: ${fixture.id}`);

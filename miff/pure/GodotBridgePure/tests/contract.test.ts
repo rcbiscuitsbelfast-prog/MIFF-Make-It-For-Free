@@ -1,6 +1,8 @@
 import { execFileSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 function stableStringify(value: unknown): string {
   return JSON.stringify(value, Object.keys(value as any).sort(), 2);
@@ -37,7 +39,7 @@ describe('GodotBridgePure Contract - RenderPayload parity and schema stability',
       cfgFile
     ], { encoding: 'utf-8' });
 
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.op).toBe('render');
     expect(result.status).toBe('ok');
     expect(result.renderData).toBeDefined();
@@ -80,7 +82,7 @@ describe('GodotBridgePure Contract - RenderPayload parity and schema stability',
       cfgFile
     ], { encoding: 'utf-8' });
 
-    const result = JSON.parse(output);
+    const result = SafeJSONParser.parse(output);
     expect(result.status).toBe('ok');
     expect(result.renderData).toBeDefined();
     const scripts: string[] = result.renderData.scripts || [];

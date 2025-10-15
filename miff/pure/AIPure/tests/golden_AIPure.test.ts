@@ -19,6 +19,8 @@ import {
   IRNGProvider
 } from '../index';
 import { MoveCategory } from '../../miff/pure/CombatPure/engine';
+import { log } from '../../shared/logging/StructuredLogger';
+
 
 // Mock RNG provider for testing
 class MockRNGProvider implements IRNGProvider {
@@ -603,8 +605,8 @@ describe('AIPure Golden Tests', () => {
       const lowHpRNG = new MockRNGProvider();
       lowHpRNG.setNextFloat(1.0); // Ensure consistent behavior
       const lowHpAction = ai.selectAction(spirit, opponent, moves, lowHpRNG);
-      console.log('Low HP Action:', lowHpAction);
-      console.log('Spirit HP:', spirit.currentHP, '/', spirit.maxHP);
+      log.info('Low HP Action:', lowHpAction);
+      log.info('Spirit HP:', spirit.currentHP, '/', spirit.maxHP);
       expect(lowHpAction.moveId).toBe('heal'); // Should force heal when HP below 30%
     });
 

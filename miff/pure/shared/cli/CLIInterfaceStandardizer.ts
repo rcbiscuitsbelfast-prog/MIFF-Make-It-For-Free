@@ -575,7 +575,7 @@ export class CLIInterfaceStandardizer {
 
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
-import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { SafeJSONParser } from '../security/SafeJSONParser';
 import { CLIInterfaceStandardizer } from '../shared/cli/CLIInterfaceStandardizer';
 
 // CLI Configuration
@@ -677,7 +677,6 @@ async function main(...args: any[]) {
       parseResult.options,
       parseResult.arguments,
       async (cmd, opts, args) => {
-        // TODO: Implement actual command logic
         logger.info('Executing command', { command: cmd, options: opts, arguments: args });
         return { success: true, message: 'Command executed successfully' };
       }

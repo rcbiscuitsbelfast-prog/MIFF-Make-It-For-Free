@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
+
 
 /**
  * Golden test for AudioBridgePure CLI harness
@@ -21,7 +23,7 @@ test('golden audio bridge flow', () => {
     [audio]
   );
   
-  const got = JSON.parse(out);
+  const got = SafeJSONParser.parse(out);
   
   // Verify expected structure
   expect(got.outputs).toBeDefined();
