@@ -5,15 +5,25 @@
  * Tests cover item creation, effects, usage, validation, and integration scenarios.
  */
 
+import {
   Item,
+import {
   ItemEffect,
+import {
   ItemUsageManager,
+import {
   UsageResult,
+import {
   ItemType,
+import {
   ItemEffectType,
+import {
   UsageStatus,
+import {
   ItemUtils,
+import {
   IPlayerContext,
+import {
   ISpiritInstance
 } from '../index';
 

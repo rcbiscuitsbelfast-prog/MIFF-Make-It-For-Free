@@ -10,15 +10,25 @@
  */
 
 
+import {
   EvolutionManager,
+import {
   EvolutionCondition,
+import {
   SpeciesEvolutionData,
+import {
   EvolutionResult,
+import {
   EvolutionUtils,
+import {
   EvolutionStatus,
+import {
   EvolutionConditionType,
+import {
   TimeOfDay,
+import {
   IEvolutionSpiritInstance,
+import {
   IPlayerContext
 } from '../index';
 

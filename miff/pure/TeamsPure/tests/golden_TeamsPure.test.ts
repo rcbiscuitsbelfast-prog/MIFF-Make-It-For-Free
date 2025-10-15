@@ -9,6 +9,7 @@
  * @license MIT
  */
 
+import {
   TeamManager,
   Team,
   TeamRules,

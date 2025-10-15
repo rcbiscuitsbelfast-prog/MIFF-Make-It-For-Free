@@ -5,6 +5,7 @@
  * Tests cover reward generation, drop tables, weighted selection, and integration scenarios.
  */
 
+import {
   RewardManager,
   DropResolver,
   DropTable,

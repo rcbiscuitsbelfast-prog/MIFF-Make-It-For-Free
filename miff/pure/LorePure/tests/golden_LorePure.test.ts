@@ -5,16 +5,27 @@
  * Tests cover lore entries, unlock conditions, filtering, statistics, and integration scenarios.
  */
 
+import {
   LoreCodexManager,
+import {
   LoreEntry,
+import {
   LoreUnlockCondition,
+import {
   LoreUtils,
+import {
   LoreCategory,
+import {
   LoreConditionType,
+import {
   LoreUnlockState,
+import {
   ILoreFilter,
+import {
   IPlayerContext,
+import {
   ILoreEntry,
+import {
   ILoreUnlockCondition
 } from '../index';
 

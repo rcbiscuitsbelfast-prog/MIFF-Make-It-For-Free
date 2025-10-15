@@ -5,16 +5,27 @@
  * Tests cover type effectiveness, damage calculation, combat mechanics, and battle resolution.
  */
 
+import {
   TypeEffectiveness,
+import {
   MoveData,
+import {
   MoveCategory,
+import {
   SpiritInstance,
+import {
   DamageCalculator,
+import {
   BattleEngine,
+import {
   CombatUtils,
+import {
   ICombatant,
+import {
   IBattleAction,
+import {
   ActionSource,
+import {
   IRNGProvider
 } from '../index';
 
