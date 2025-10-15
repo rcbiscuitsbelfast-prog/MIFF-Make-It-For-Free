@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { ChallengesPureManager } from './Manager';
+import { ChallengesManager } from './Manager';
 
-describe('ChallengesPureManager', () => {
-  let manager: ChallengesPureManager;
+describe('ChallengesManager', () => {
+  let manager: ChallengesManager;
 
   beforeEach(async () => {
-    manager = new ChallengesPureManager({
+    manager = new ChallengesManager({
       enabled: true,
       debugMode: false,
       maxInstances: 100,

@@ -261,7 +261,7 @@ export class StandardErrorHandler {
   /**
    * Add a recovery strategy
    */
-  addRecoveryStrategy(): void {
+  addRecoveryStrategy(code: string, strategy: ErrorRecoveryStrategy): void {
     if (!this.recoveryStrategies.has(code)) {
       this.recoveryStrategies.set(code, []);
     }

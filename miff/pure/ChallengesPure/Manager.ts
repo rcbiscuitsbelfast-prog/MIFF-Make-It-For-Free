@@ -214,7 +214,7 @@ export class ChallengesManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.logger = new StructuredLogger('ChallengesManager');
+    this.logger = StructuredLogger.getInstance('ChallengesManager');
     this.startTime = new Date();
 
     this.config = {
@@ -258,7 +258,7 @@ export class ChallengesManager {
       this.logger.info('Challenges System initialized successfully');
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -295,7 +295,7 @@ export class ChallengesManager {
       return challenges;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -340,7 +340,7 @@ export class ChallengesManager {
       return updatedChallenges;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -367,7 +367,7 @@ export class ChallengesManager {
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -432,7 +432,7 @@ export class ChallengesManager {
       return challenge;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return null;
     }
   }
@@ -465,7 +465,7 @@ export class ChallengesManager {
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return false;
     }
   }
@@ -512,7 +512,7 @@ export class ChallengesManager {
       return progress;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return null;
     }
   }
@@ -556,7 +556,7 @@ export class ChallengesManager {
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return false;
     }
   }
@@ -593,7 +593,7 @@ export class ChallengesManager {
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return false;
     }
   }
@@ -622,7 +622,7 @@ export class ChallengesManager {
       return challenge.progress;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return null;
     }
   }
@@ -645,7 +645,7 @@ export class ChallengesManager {
       return challenges.challenges.filter(c => c.category === category);
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return [];
     }
   }
@@ -668,7 +668,7 @@ export class ChallengesManager {
       return challenges.challenges.filter(c => c.difficulty === difficulty);
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return [];
     }
   }
@@ -796,12 +796,12 @@ export class ChallengesManager {
    * Destroy the Challenges System
    */
   async destroy(): Promise<void> {
-    this.logger.info('ChallengesPure', 'Destroying Challenges System...');
+    this.logger.info('Destroying Challenges System...', undefined, 'ChallengesPure');
 
     this.challenges.clear();
     this.isInitialized = false;
 
-    this.logger.info('ChallengesPure', 'Challenges System destroyed');
+    this.logger.info('Challenges System destroyed', undefined, 'ChallengesPure');
   }
 }
 
