@@ -19,6 +19,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { typeGuards } from '../shared/types/TypeGuards';
 
 export interface AIProfileConfig {
   id?: string;
@@ -259,7 +260,7 @@ export class AIProfileIntegrationManager {
       return profile;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -293,7 +294,7 @@ export class AIProfileIntegrationManager {
       const updatedProfile: AIProfile = {
         ...profile,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(profile.version)
       };
 
@@ -304,7 +305,7 @@ export class AIProfileIntegrationManager {
       return updatedProfile;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -331,7 +332,7 @@ export class AIProfileIntegrationManager {
       return true;
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
@@ -372,7 +373,7 @@ export class AIProfileIntegrationManager {
   /**
    * Calculate behavior influence based on traits and preferences
    */
-  calculateBehaviorInfluence(): number {
+  calculateBehaviorInfluence(profile: AIProfile, action: string): number {
     if (!this.isInitialized) {
       throw new Error('AI Profile Integration Manager not initialized');
     }
@@ -394,7 +395,7 @@ export class AIProfileIntegrationManager {
       return Math.max(-1, Math.min(1, influence));
 
     } catch (error) {
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError(error);
       return 0;
     }
   }
@@ -431,7 +432,8 @@ export class AIProfileIntegrationManager {
       }
     };
 
-    const actionInfluence = traitActionMap[trait.name]?.[action] || 0;
+    const traitMap = traitActionMap[trait.name];
+    const actionInfluence = traitMap?.[action] || 0;
     return trait.value * actionInfluence;
   }
 
