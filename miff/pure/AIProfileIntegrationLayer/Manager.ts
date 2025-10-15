@@ -15,7 +15,7 @@
  * @author MIFF Framework
  */
 
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
+// import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
@@ -253,7 +253,9 @@ export class AIProfileIntegrationManager {
         }
       };
 
-      this.profiles.set(profile.id, profile);
+      if (profile.id) {
+        this.profiles.set(profile.id, profile);
+      }
       this.updateAnalytics();
 
       console.info('AI profile created', { profileId: profile.id, profileName: profile.name });

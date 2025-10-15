@@ -30,7 +30,7 @@ export class TypeGuards {
   private logger: StructuredLogger;
 
   constructor() {
-    this.logger = new StructuredLogger('TypeGuards');
+    this.logger = StructuredLogger.getInstance('TypeGuards');
   }
 
   static getInstance(): TypeGuards {
@@ -55,7 +55,7 @@ export class TypeGuards {
     return typeof value === 'boolean';
   }
 
-  static isObject(value: any): value is object {
+  static isObject(value: any): value is Record<string, any> {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
   }
 
