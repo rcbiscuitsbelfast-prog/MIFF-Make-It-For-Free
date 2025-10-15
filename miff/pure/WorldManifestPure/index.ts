@@ -34,9 +34,6 @@ export interface WorldZone {
   style?: string;
   preset?: string;
   generated?: boolean;
-	};
-}
-
 }
 
 export interface WorldManifest {
@@ -58,26 +55,23 @@ export interface WorldManifest {
   description?: string;
   created?: string;
   author?: string;
-
-}
-	};
 }
 
 export const WorldManifestUtils = {
 	addTile: (world: WorldManifest, zoneId: string, x: number, y: number, assetId: string, layer: number): void => {
-  const zone = world.zones.find(z => z.id === zoneId);
-  if (!zone) throw new Error(`Zone not found: ${zoneId}`);
+		const zone = world.zones.find(z => z.id === zoneId);
+		if (!zone) throw new Error(`Zone not found: ${zoneId}`);
 		
 		// Remove existing tile at this position and layer
-  zone.tiles = zone.tiles.filter(t => !(t.x === x && t.y === y && t.layer === layer));
+		zone.tiles = zone.tiles.filter(t => !(t.x === x && t.y === y && t.layer === layer));
 		
 		// Add new tile
-  zone.tiles.push({ x, y, assetId, layer });
+		zone.tiles.push({ x, y, assetId, layer });
 	},
 
 	removeTile: (world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): void => {
-  const zone = world.zones.find(z => z.id === zoneId);
-  if (!zone) throw new Error(`Zone not found: ${zoneId}`);
+		const zone = world.zones.find(z => z.id === zoneId);
+		if (!zone) throw new Error(`Zone not found: ${zoneId}`);
 		
 		if (layer !== undefined) {
 			zone.tiles = zone.tiles.filter(t => !(t.x === x && t.y === y && t.layer === layer));
@@ -87,8 +81,8 @@ export const WorldManifestUtils = {
 	},
 
 	getTile: (world: WorldManifest, zoneId: string, x: number, y: number, layer?: number): WorldTile | undefined => {
-  const zone = world.zones.find(z => z.id === zoneId);
-  if (!zone) return undefined;
+		const zone = world.zones.find(z => z.id === zoneId);
+		if (!zone) return undefined;
 		
 		if (layer !== undefined) {
 			return zone.tiles.find(t => t.x === x && t.y === y && t.layer === layer);
@@ -98,11 +92,11 @@ export const WorldManifestUtils = {
 	},
 
 	exportJSON: (world: WorldManifest): string => {
-  return JSON.stringify(world, null, 2);
+		return JSON.stringify(world, null, 2);
 	},
 
 	validate: (world: WorldManifest): { valid: boolean; errors: string[] } => {
-  const errors: string[] = [];
+		const errors: string[] = [];
 		
 		if (!world.schema || !world.schema.startsWith("miff.world")) {
 			errors.push("Invalid or missing schema");

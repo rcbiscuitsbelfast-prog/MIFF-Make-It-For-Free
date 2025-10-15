@@ -42,8 +42,6 @@ export interface ICombatant {
   [key: string]: any;
   };
 
-}
-}
 
 export interface IBattleAction {
   id?: string;

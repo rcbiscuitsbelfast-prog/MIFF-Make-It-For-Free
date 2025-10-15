@@ -141,8 +141,6 @@ export interface RenderPayload {
   optimization?: boolean;
   };
 
-}
-}
 
 export interface RenderData {
   id?: string;

@@ -204,8 +204,6 @@ export interface GodotScene {
   exportPreset: string;
   };
 
-}
-}
 
 export interface GodotProject {
   id?: string;
