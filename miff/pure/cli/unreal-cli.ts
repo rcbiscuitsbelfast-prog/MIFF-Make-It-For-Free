@@ -41,29 +41,30 @@ interface UnrealCLIOperation {
 }
 
 function main(...args: any[]) {
+  const logger = new StructuredLogger('UnrealCLI');
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx unreal-cli.ts <op> <module> [options...]');
-    console.error('Operations:');
-    console.error('  connect    - Connect to Unreal Editor');
-    console.error('  disconnect - Disconnect from Unreal Editor');
-    console.error('  test       - Run tests (all, bridge, payload, scene, assets, events, integration, performance)');
-    console.error('  demo       - Run demos (combat, items, ai, scene, full, default)');
-    console.error('  status     - Get current status');
-    console.error('  config     - Manage configuration');
-    console.error('  export     - Export data');
-    console.error('  import     - Import data');
-    console.error('  simulate   - Run simulation');
-    console.error('  build      - Build Unreal project');
-    console.error('  validate   - Validate setup');
-    console.error('');
-    console.error('Examples:');
-    console.error('  tsx unreal-cli.ts connect combat');
-    console.error('  tsx unreal-cli.ts test all');
-    console.error('  tsx unreal-cli.ts demo combat');
-    console.error('  tsx unreal-cli.ts status');
-    console.error('  tsx unreal-cli.ts config update enableDebugLogging true');
-    console.error('  tsx unreal-cli.ts export scene markdown scene-report.md');
+    logger.error('Usage: tsx unreal-cli.ts <op> <module> [options...]');
+    logger.error('Operations:');
+    logger.error('  connect    - Connect to Unreal Editor');
+    logger.error('  disconnect - Disconnect from Unreal Editor');
+    logger.error('  test       - Run tests (all, bridge, payload, scene, assets, events, integration, performance)');
+    logger.error('  demo       - Run demos (combat, items, ai, scene, full, default)');
+    logger.error('  status     - Get current status');
+    logger.error('  config     - Manage configuration');
+    logger.error('  export     - Export data');
+    logger.error('  import     - Import data');
+    logger.error('  simulate   - Run simulation');
+    logger.error('  build      - Build Unreal project');
+    logger.error('  validate   - Validate setup');
+    logger.error('');
+    logger.error('Examples:');
+    logger.error('  tsx unreal-cli.ts connect combat');
+    logger.error('  tsx unreal-cli.ts test all');
+    logger.error('  tsx unreal-cli.ts demo combat');
+    logger.error('  tsx unreal-cli.ts status');
+    logger.error('  tsx unreal-cli.ts config update enableDebugLogging true');
+    logger.error('  tsx unreal-cli.ts export scene markdown scene-report.md');
     process.exit(1);
   }
 
@@ -175,7 +176,7 @@ function main(...args: any[]) {
     executeOperation(harness, input);
 
   } catch (error) {
-    console.error('Error:', error);
+    logger.error('Error:', error);
     process.exit(1);
   }
 
@@ -381,10 +382,10 @@ function main(...args: any[]) {
           throw new Error(`Unknown operation: ${input.op}`);
       }
 
-      console.info(JSON.stringify(result, null, 2));
+      logger.info(JSON.stringify(result, null, 2));
 
     } catch (error) {
-      console.error('Error executing operation:', error);
+      logger.error('Error executing operation:', error);
       result = {
         op: input.op,
         status: 'error',
@@ -395,7 +396,7 @@ function main(...args: any[]) {
           stack: error instanceof Error ? error.stack : undefined
         }
       };
-      console.info(JSON.stringify(result, null, 2));
+      logger.info(JSON.stringify(result, null, 2));
       process.exit(1);
     }
   }
