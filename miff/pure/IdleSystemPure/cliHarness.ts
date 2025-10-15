@@ -18,7 +18,7 @@
 
 import { EventBus } from '../EventBusPure/index.js';
 import IdleSystemPure from './index.js';
-import IdleManagerPure from './Manager.js';
+import { IdleSystemPure as IdleManagerPure } from './Manager.js';
 import * as fs from 'fs';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 

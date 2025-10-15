@@ -16,7 +16,7 @@
 
 import { EventBus } from '../EventBusPure/index.js';
 import WeatherSystemPure, { WeatherType, WeatherIntensity } from './index.js';
-import WeatherManagerPure from './Manager.js';
+import { WeatherSystemManager as WeatherManagerPure } from './Manager.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

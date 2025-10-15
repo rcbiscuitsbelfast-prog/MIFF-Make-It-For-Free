@@ -26,7 +26,7 @@ interface GodotBridgeOperation {
   format?: 'json' | 'csv' | 'markdown' | 'html';
 }
 
-function main(...args: any[]) {
+function main(..._args: any[]) { // @ts-ignore {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');

@@ -18,7 +18,7 @@
 
 import { EventBus } from '../EventBusPure/index.js';
 import TycoonSystemPure from './index.js';
-import TycoonManagerPure from './Manager.js';
+import { TycoonSystemManager as TycoonManagerPure } from './Manager.js';
 import * as fs from 'fs';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
