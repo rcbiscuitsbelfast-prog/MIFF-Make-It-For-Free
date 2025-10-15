@@ -203,6 +203,8 @@ export interface GodotScene {
   exportPlatform: string;
   exportPreset: string;
   };
+
+}
 }
 
 export interface GodotProject {

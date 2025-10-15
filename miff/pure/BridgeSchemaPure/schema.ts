@@ -114,7 +114,7 @@ export interface RenderPayload {
   frameId?: string;
   frameName?: string;
   };
-}
+
 
 export interface BridgeConfig {
   id?: string;

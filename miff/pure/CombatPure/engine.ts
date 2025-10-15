@@ -41,6 +41,8 @@ export interface ICombatant {
   fled?: boolean;
   [key: string]: any;
   };
+
+}
 }
 
 export interface IBattleAction {

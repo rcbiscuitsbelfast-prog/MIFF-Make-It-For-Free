@@ -140,6 +140,8 @@ export interface RenderPayload {
   quality?: string;
   optimization?: boolean;
   };
+
+}
 }
 
 export interface RenderData {

@@ -37,6 +37,8 @@ export interface WorldZone {
 	};
 }
 
+}
+
 export interface WorldManifest {
   id?: string;
   name?: string;
@@ -56,6 +58,8 @@ export interface WorldManifest {
   description?: string;
   created?: string;
   author?: string;
+
+}
 	};
 }
 
