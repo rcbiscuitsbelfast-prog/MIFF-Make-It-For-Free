@@ -341,6 +341,7 @@ export class CharacterSystemManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: CharacterSystemConfig;
   private systems: Map<string, CharacterSystem> = new Map();
   private isInitialized: boolean = false;
@@ -351,6 +352,7 @@ export class CharacterSystemManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('CharacterSystemManager');
     this.startTime = new Date();
 
     this.config = {
@@ -373,12 +375,12 @@ export class CharacterSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('CharacterSystemPure', 'Character System already initialized');
+      this.logger.warn('CharacterSystemPure', 'Character System already initialized');
       return;
     }
 
     try {
-      console.info('CharacterSystemPure', 'Initializing Character System...');
+      this.logger.info('CharacterSystemPure', 'Initializing Character System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -391,7 +393,7 @@ export class CharacterSystemManager {
       }
 
       this.isInitialized = true;
-      console.info('CharacterSystemPure', 'Character System initialized successfully');
+      this.logger.info('CharacterSystemPure', 'Character System initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -429,7 +431,7 @@ export class CharacterSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Character system created', { systemId: system.id, systemName: system.name });
+      this.logger.info('Character system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
@@ -460,7 +462,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -474,7 +476,7 @@ export class CharacterSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Character system updated', { systemId, systemName: updatedSystem.name });
+      this.logger.info('Character system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
@@ -494,14 +496,14 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Character system deleted', { systemId, systemName: system.name });
+      this.logger.info('Character system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
@@ -554,7 +556,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -566,7 +568,7 @@ export class CharacterSystemManager {
       system.characters.push(character);
       this.updateAnalytics();
 
-      console.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
+      this.logger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error) {
@@ -586,20 +588,20 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const characterIndex = system.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       system.characters.splice(characterIndex, 1);
       this.updateAnalytics();
 
-      console.info('Character removed from system', { systemId, characterId });
+      this.logger.info('Character removed from system', { systemId, characterId });
       return true;
 
     } catch (error) {
@@ -619,13 +621,13 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
@@ -652,13 +654,13 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
@@ -686,20 +688,20 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       // Find animation in system
       const animationClip = system.animations.animations.find(a => a.name === animationName);
       if (!animationClip) {
-        console.warn('Animation not found', { systemId, animationName });
+        this.logger.warn('Animation not found', { systemId, animationName });
         return false;
       }
 
@@ -739,19 +741,19 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       const animation = character.animations.find(a => a.name === animationName);
       if (!animation) {
-        console.warn('Animation not found', { systemId, characterId, animationName });
+        this.logger.warn('Animation not found', { systemId, characterId, animationName });
         return false;
       }
 
@@ -778,7 +780,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -801,7 +803,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return [];
       }
 
@@ -925,12 +927,12 @@ export class CharacterSystemManager {
    * Destroy the Character System
    */
   async destroy(): Promise<void> {
-    console.info('CharacterSystemPure', 'Destroying Character System...');
+    this.logger.info('CharacterSystemPure', 'Destroying Character System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    console.info('CharacterSystemPure', 'Character System destroyed');
+    this.logger.info('CharacterSystemPure', 'Character System destroyed');
   }
 }
 

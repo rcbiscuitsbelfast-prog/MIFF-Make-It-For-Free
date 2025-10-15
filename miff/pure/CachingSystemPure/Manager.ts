@@ -189,6 +189,7 @@ export class CachingSystemManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: CachingSystemConfig;
   private systems: Map<string, CachingSystem> = new Map();
   private isInitialized: boolean = false;
@@ -199,6 +200,7 @@ export class CachingSystemManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('CachingSystemManager');
     this.startTime = new Date();
 
     this.config = {
@@ -221,12 +223,12 @@ export class CachingSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('CachingSystemPure', 'Caching System already initialized');
+      this.logger.warn('CachingSystemPure', 'Caching System already initialized');
       return;
     }
 
     try {
-      console.info('CachingSystemPure', 'Initializing Caching System...');
+      this.logger.info('CachingSystemPure', 'Initializing Caching System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -239,7 +241,7 @@ export class CachingSystemManager {
       }
 
       this.isInitialized = true;
-      console.info('CachingSystemPure', 'Caching System initialized successfully');
+      this.logger.info('CachingSystemPure', 'Caching System initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -276,7 +278,7 @@ export class CachingSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Caching system created', { systemId: system.id, systemName: system.name });
+      this.logger.info('Caching system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
@@ -307,7 +309,7 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -321,7 +323,7 @@ export class CachingSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Caching system updated', { systemId, systemName: updatedSystem.name });
+      this.logger.info('Caching system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
@@ -341,14 +343,14 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Caching system deleted', { systemId, systemName: system.name });
+      this.logger.info('Caching system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
@@ -401,7 +403,7 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -413,7 +415,7 @@ export class CachingSystemManager {
       system.caches.push(cache);
       this.updateAnalytics();
 
-      console.info('Cache added to system', { systemId, cacheId: cache.id, cacheName: cache.name });
+      this.logger.info('Cache added to system', { systemId, cacheId: cache.id, cacheName: cache.name });
       return cache;
 
     } catch (error) {
@@ -433,20 +435,20 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const cacheIndex = system.caches.findIndex(c => c.id === cacheId);
       if (cacheIndex === -1) {
-        console.warn('Cache not found', { systemId, cacheId });
+        this.logger.warn('Cache not found', { systemId, cacheId });
         return false;
       }
 
       system.caches.splice(cacheIndex, 1);
       this.updateAnalytics();
 
-      console.info('Cache removed from system', { systemId, cacheId });
+      this.logger.info('Cache removed from system', { systemId, cacheId });
       return true;
 
     } catch (error) {
@@ -466,13 +468,13 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { systemId, cacheId });
+        this.logger.warn('Cache not found', { systemId, cacheId });
         return null;
       }
 
@@ -514,13 +516,13 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { systemId, cacheId });
+        this.logger.warn('Cache not found', { systemId, cacheId });
         return false;
       }
 
@@ -566,13 +568,13 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { systemId, cacheId });
+        this.logger.warn('Cache not found', { systemId, cacheId });
         return false;
       }
 
@@ -601,20 +603,20 @@ export class CachingSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const cache = system.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { systemId, cacheId });
+        this.logger.warn('Cache not found', { systemId, cacheId });
         return false;
       }
 
       cache.entries = [];
       this.updateAnalytics();
 
-      console.info('Cache cleared', { systemId, cacheId });
+      this.logger.info('Cache cleared', { systemId, cacheId });
       return true;
 
     } catch (error) {
@@ -818,12 +820,12 @@ export class CachingSystemManager {
    * Destroy the Caching System
    */
   async destroy(): Promise<void> {
-    console.info('CachingSystemPure', 'Destroying Caching System...');
+    this.logger.info('CachingSystemPure', 'Destroying Caching System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    console.info('CachingSystemPure', 'Caching System destroyed');
+    this.logger.info('CachingSystemPure', 'Caching System destroyed');
   }
 }
 

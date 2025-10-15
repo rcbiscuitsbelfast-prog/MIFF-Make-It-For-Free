@@ -189,6 +189,7 @@ export class CacheManagerManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: CacheManagerConfig;
   private managers: Map<string, CacheManager> = new Map();
   private isInitialized: boolean = false;
@@ -199,6 +200,7 @@ export class CacheManagerManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('CacheManagerManager');
     this.startTime = new Date();
 
     this.config = {
@@ -221,12 +223,12 @@ export class CacheManagerManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('CacheManagerPure', 'Cache Manager already initialized');
+      this.logger.warn('CacheManagerPure', 'Cache Manager already initialized');
       return;
     }
 
     try {
-      console.info('CacheManagerPure', 'Initializing Cache Manager...');
+      this.logger.info('CacheManagerPure', 'Initializing Cache Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -239,7 +241,7 @@ export class CacheManagerManager {
       }
 
       this.isInitialized = true;
-      console.info('CacheManagerPure', 'Cache Manager initialized successfully');
+      this.logger.info('CacheManagerPure', 'Cache Manager initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -276,7 +278,7 @@ export class CacheManagerManager {
       this.managers.set(manager.id, manager);
       this.updateAnalytics();
 
-      console.info('Cache manager created', { managerId: manager.id, managerName: manager.name });
+      this.logger.info('Cache manager created', { managerId: manager.id, managerName: manager.name });
       return manager;
 
     } catch (error) {
@@ -307,7 +309,7 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return null;
       }
 
@@ -321,7 +323,7 @@ export class CacheManagerManager {
       this.managers.set(managerId, updatedManager);
       this.updateAnalytics();
 
-      console.info('Cache manager updated', { managerId, managerName: updatedManager.name });
+      this.logger.info('Cache manager updated', { managerId, managerName: updatedManager.name });
       return updatedManager;
 
     } catch (error) {
@@ -341,14 +343,14 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return false;
       }
 
       this.managers.delete(managerId);
       this.updateAnalytics();
 
-      console.info('Cache manager deleted', { managerId, managerName: manager.name });
+      this.logger.info('Cache manager deleted', { managerId, managerName: manager.name });
       return true;
 
     } catch (error) {
@@ -401,7 +403,7 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return null;
       }
 
@@ -413,7 +415,7 @@ export class CacheManagerManager {
       manager.caches.push(cache);
       this.updateAnalytics();
 
-      console.info('Cache added to manager', { managerId, cacheId: cache.id, cacheName: cache.name });
+      this.logger.info('Cache added to manager', { managerId, cacheId: cache.id, cacheName: cache.name });
       return cache;
 
     } catch (error) {
@@ -433,20 +435,20 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return false;
       }
 
       const cacheIndex = manager.caches.findIndex(c => c.id === cacheId);
       if (cacheIndex === -1) {
-        console.warn('Cache not found', { managerId, cacheId });
+        this.logger.warn('Cache not found', { managerId, cacheId });
         return false;
       }
 
       manager.caches.splice(cacheIndex, 1);
       this.updateAnalytics();
 
-      console.info('Cache removed from manager', { managerId, cacheId });
+      this.logger.info('Cache removed from manager', { managerId, cacheId });
       return true;
 
     } catch (error) {
@@ -466,13 +468,13 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return null;
       }
 
       const cache = manager.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { managerId, cacheId });
+        this.logger.warn('Cache not found', { managerId, cacheId });
         return null;
       }
 
@@ -514,13 +516,13 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return false;
       }
 
       const cache = manager.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { managerId, cacheId });
+        this.logger.warn('Cache not found', { managerId, cacheId });
         return false;
       }
 
@@ -566,13 +568,13 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return false;
       }
 
       const cache = manager.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { managerId, cacheId });
+        this.logger.warn('Cache not found', { managerId, cacheId });
         return false;
       }
 
@@ -601,20 +603,20 @@ export class CacheManagerManager {
     try {
       const manager = this.managers.get(managerId);
       if (!manager) {
-        console.warn('Manager not found', { managerId });
+        this.logger.warn('Manager not found', { managerId });
         return false;
       }
 
       const cache = manager.caches.find(c => c.id === cacheId);
       if (!cache) {
-        console.warn('Cache not found', { managerId, cacheId });
+        this.logger.warn('Cache not found', { managerId, cacheId });
         return false;
       }
 
       cache.entries = [];
       this.updateAnalytics();
 
-      console.info('Cache cleared', { managerId, cacheId });
+      this.logger.info('Cache cleared', { managerId, cacheId });
       return true;
 
     } catch (error) {
@@ -818,12 +820,12 @@ export class CacheManagerManager {
    * Destroy the Cache Manager
    */
   async destroy(): Promise<void> {
-    console.info('CacheManagerPure', 'Destroying Cache Manager...');
+    this.logger.info('CacheManagerPure', 'Destroying Cache Manager...');
 
     this.managers.clear();
     this.isInitialized = false;
 
-    console.info('CacheManagerPure', 'Cache Manager destroyed');
+    this.logger.info('CacheManagerPure', 'Cache Manager destroyed');
   }
 }
 

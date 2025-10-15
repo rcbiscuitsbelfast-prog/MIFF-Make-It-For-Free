@@ -22,6 +22,7 @@ type AvatarSystemPure = any;
 import { PixelAnimPure } from '../PixelAnimPure';
 import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { timerOptimizer } from '../shared/performance/TimerOptimizer';
 
 // Animation system for cut scenes
 class AnimationPure {
@@ -42,18 +43,22 @@ class AnimationPure {
 
       this.activeAnimations.set(animationId, animation);
 
-      // Simulate animation progress
+      // Simulate animation progress using optimized timer
       return new Promise((resolve) => {
-        const updateInterval = setInterval(() => {
+        const frameId = timerOptimizer.requestAnimationFrame((timestamp) => {
           animation.progress = Math.min(1, (Date.now() - animation.startTime) / animation.duration);
           
           if (animation.progress >= 1) {
             animation.completed = true;
-            clearInterval(updateInterval);
+            timerOptimizer.cancelAnimationFrame(frameId);
             this.activeAnimations.delete(animationId);
             resolve();
           }
-        }, 16); // ~60fps
+        }, {
+          id: `animation_${animationId}`,
+          duration: animation.duration,
+          enableLogging: true
+        });
       });
     } catch (error) {
       console.error(`Animation error: ${error}`);
@@ -145,8 +150,13 @@ class DialogueSystemPureStub {
         completed: false
       };
 
-      // Simulate dialogue loading
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Simulate dialogue loading using optimized timer
+      await new Promise(resolve => {
+        timerOptimizer.setTimeout(resolve, 100, {
+          id: `dialogue_load_${dialogueId}`,
+          enableLogging: true
+        });
+      });
       
       console.info(`Started dialogue: ${dialogueId}`);
     } catch (error) {
@@ -202,18 +212,22 @@ class CameraSystemPureStub {
 
       this.activeTransitions.set(transitionId, transition);
 
-      // Simulate camera transition
+      // Simulate camera transition using optimized timer
       return new Promise((resolve) => {
-        const updateInterval = setInterval(() => {
+        const frameId = timerOptimizer.requestAnimationFrame((timestamp) => {
           transition.progress = Math.min(1, (Date.now() - transition.startTime) / transition.duration);
           
           if (transition.progress >= 1) {
             transition.completed = true;
-            clearInterval(updateInterval);
+            timerOptimizer.cancelAnimationFrame(frameId);
             this.activeTransitions.delete(transitionId);
             resolve();
           }
-        }, 16); // ~60fps
+        }, {
+          id: `transition_${transitionId}`,
+          duration: transition.duration,
+          enableLogging: true
+        });
       });
     } catch (error) {
       console.error(`Camera transition error: ${error}`);
@@ -270,14 +284,17 @@ class AudioPureStub {
 
       this.activeSounds.set(soundId, sound);
 
-      // Simulate sound playback
+      // Simulate sound playback using optimized timer
       return new Promise((resolve) => {
         if (!sound.loop) {
-          setTimeout(() => {
+          timerOptimizer.setTimeout(() => {
             sound.playing = false;
             this.activeSounds.delete(soundId);
             resolve();
-          }, sound.duration);
+          }, sound.duration, {
+            id: `sound_${soundId}`,
+            enableLogging: true
+          });
         } else {
           resolve();
         }
@@ -922,7 +939,10 @@ export class CutScenePure {
             if (!this.state.isPaused) {
               resolve(void 0);
             } else {
-              setTimeout(checkPaused, 16); // Check every frame
+              timerOptimizer.setTimeout(checkPaused, 16, {
+                id: `pause_check_${Date.now()}`,
+                enableLogging: false
+              }); // Check every frame
             }
           };
           checkPaused();
@@ -942,8 +962,13 @@ export class CutScenePure {
       // Check for branching conditions
       this.evaluateBranches(currentTime);
 
-      // Small delay to prevent blocking
-      await new Promise(resolve => setTimeout(resolve, 16)); // ~60fps
+      // Small delay to prevent blocking using optimized timer
+      await new Promise(resolve => {
+        timerOptimizer.setTimeout(resolve, 16, {
+          id: `frame_delay_${Date.now()}`,
+          enableLogging: false
+        });
+      }); // ~60fps
     }
 
     if (this.state.isPlaying) {

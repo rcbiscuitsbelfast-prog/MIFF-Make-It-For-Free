@@ -278,6 +278,7 @@ export class CloudStorageManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: CloudStorageConfig;
   private storages: Map<string, CloudStorage> = new Map();
   private isInitialized: boolean = false;
@@ -288,6 +289,7 @@ export class CloudStorageManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('CloudStorageManager');
     this.startTime = new Date();
 
     this.config = {
@@ -310,12 +312,12 @@ export class CloudStorageManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('CloudStoragePure', 'Cloud Storage already initialized');
+      this.logger.warn('CloudStoragePure', 'Cloud Storage already initialized');
       return;
     }
 
     try {
-      console.info('CloudStoragePure', 'Initializing Cloud Storage...');
+      this.logger.info('CloudStoragePure', 'Initializing Cloud Storage...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -328,7 +330,7 @@ export class CloudStorageManager {
       }
 
       this.isInitialized = true;
-      console.info('CloudStoragePure', 'Cloud Storage initialized successfully');
+      this.logger.info('CloudStoragePure', 'Cloud Storage initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -367,7 +369,7 @@ export class CloudStorageManager {
       this.storages.set(storage.id, storage);
       this.updateAnalytics();
 
-      console.info('Cloud storage created', { storageId: storage.id, storageName: storage.name });
+      this.logger.info('Cloud storage created', { storageId: storage.id, storageName: storage.name });
       return storage;
 
     } catch (error) {
@@ -398,7 +400,7 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return null;
       }
 
@@ -412,7 +414,7 @@ export class CloudStorageManager {
       this.storages.set(storageId, updatedStorage);
       this.updateAnalytics();
 
-      console.info('Cloud storage updated', { storageId, storageName: updatedStorage.name });
+      this.logger.info('Cloud storage updated', { storageId, storageName: updatedStorage.name });
       return updatedStorage;
 
     } catch (error) {
@@ -432,14 +434,14 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return false;
       }
 
       this.storages.delete(storageId);
       this.updateAnalytics();
 
-      console.info('Cloud storage deleted', { storageId, storageName: storage.name });
+      this.logger.info('Cloud storage deleted', { storageId, storageName: storage.name });
       return true;
 
     } catch (error) {
@@ -492,7 +494,7 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return null;
       }
 
@@ -504,7 +506,7 @@ export class CloudStorageManager {
       storage.providers.push(provider);
       this.updateAnalytics();
 
-      console.info('Provider added to storage', { storageId, providerId: provider.id, providerName: provider.name });
+      this.logger.info('Provider added to storage', { storageId, providerId: provider.id, providerName: provider.name });
       return provider;
 
     } catch (error) {
@@ -524,20 +526,20 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return false;
       }
 
       const providerIndex = storage.providers.findIndex(p => p.id === providerId);
       if (providerIndex === -1) {
-        console.warn('Provider not found', { storageId, providerId });
+        this.logger.warn('Provider not found', { storageId, providerId });
         return false;
       }
 
       storage.providers.splice(providerIndex, 1);
       this.updateAnalytics();
 
-      console.info('Provider removed from storage', { storageId, providerId });
+      this.logger.info('Provider removed from storage', { storageId, providerId });
       return true;
 
     } catch (error) {
@@ -557,13 +559,13 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return null;
       }
 
       const provider = storage.providers.find(p => p.id === fileData.provider);
       if (!provider) {
-        console.warn('Provider not found', { storageId, providerId: fileData.provider });
+        this.logger.warn('Provider not found', { storageId, providerId: fileData.provider });
         return null;
       }
 
@@ -578,7 +580,7 @@ export class CloudStorageManager {
       storage.files.push(file);
       this.updateAnalytics();
 
-      console.info('File uploaded', { storageId, fileId: file.id, fileName: file.name });
+      this.logger.info('File uploaded', { storageId, fileId: file.id, fileName: file.name });
       return file;
 
     } catch (error) {
@@ -598,20 +600,20 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return null;
       }
 
       const file = storage.files.find(f => f.id === fileId);
       if (!file) {
-        console.warn('File not found', { storageId, fileId });
+        this.logger.warn('File not found', { storageId, fileId });
         return null;
       }
 
       file.lastModified = new Date();
       this.updateAnalytics();
 
-      console.info('File downloaded', { storageId, fileId, fileName: file.name });
+      this.logger.info('File downloaded', { storageId, fileId, fileName: file.name });
       return file;
 
     } catch (error) {
@@ -631,20 +633,20 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return false;
       }
 
       const fileIndex = storage.files.findIndex(f => f.id === fileId);
       if (fileIndex === -1) {
-        console.warn('File not found', { storageId, fileId });
+        this.logger.warn('File not found', { storageId, fileId });
         return false;
       }
 
       storage.files.splice(fileIndex, 1);
       this.updateAnalytics();
 
-      console.info('File deleted', { storageId, fileId });
+      this.logger.info('File deleted', { storageId, fileId });
       return true;
 
     } catch (error) {
@@ -664,7 +666,7 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return null;
       }
 
@@ -677,7 +679,7 @@ export class CloudStorageManager {
       storage.buckets.push(bucket);
       this.updateAnalytics();
 
-      console.info('Bucket created', { storageId, bucketId: bucket.id, bucketName: bucket.name });
+      this.logger.info('Bucket created', { storageId, bucketId: bucket.id, bucketName: bucket.name });
       return bucket;
 
     } catch (error) {
@@ -697,20 +699,20 @@ export class CloudStorageManager {
     try {
       const storage = this.storages.get(storageId);
       if (!storage) {
-        console.warn('Storage not found', { storageId });
+        this.logger.warn('Storage not found', { storageId });
         return false;
       }
 
       const bucketIndex = storage.buckets.findIndex(b => b.id === bucketId);
       if (bucketIndex === -1) {
-        console.warn('Bucket not found', { storageId, bucketId });
+        this.logger.warn('Bucket not found', { storageId, bucketId });
         return false;
       }
 
       storage.buckets.splice(bucketIndex, 1);
       this.updateAnalytics();
 
-      console.info('Bucket deleted', { storageId, bucketId });
+      this.logger.info('Bucket deleted', { storageId, bucketId });
       return true;
 
     } catch (error) {
@@ -857,12 +859,12 @@ export class CloudStorageManager {
    * Destroy the Cloud Storage
    */
   async destroy(): Promise<void> {
-    console.info('CloudStoragePure', 'Destroying Cloud Storage...');
+    this.logger.info('CloudStoragePure', 'Destroying Cloud Storage...');
 
     this.storages.clear();
     this.isInitialized = false;
 
-    console.info('CloudStoragePure', 'Cloud Storage destroyed');
+    this.logger.info('CloudStoragePure', 'Cloud Storage destroyed');
   }
 }
 

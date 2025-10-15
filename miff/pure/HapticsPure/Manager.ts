@@ -248,6 +248,7 @@ export interface HapticsConfig {
 
 export class HapticsManager {
   private config: HapticsConfig;
+  private logger: StructuredLogger;
   
   private memoryId: string;
   private queue: HapticRequest[] = [];
@@ -303,7 +304,7 @@ export class HapticsManager {
     this.initializeEnvironmentalResponses();
     this.startUpdateLoop();
 
-    console.info('HapticsManager initialized', {
+    this.logger.info('HapticsManager initialized', {
       config: this.config,
       memoryId: this.memoryId
     });
@@ -314,11 +315,11 @@ export class HapticsManager {
    */
   public start(): void {
     if (this.updateInterval) {
-      console.warn('HapticsPure', 'Haptic system is already running');
+      this.logger.warn('HapticsPure', 'Haptic system is already running');
       return;
     }
 
-    console.info('HapticsPure', 'Starting haptic feedback system');
+    this.logger.info('HapticsPure', 'Starting haptic feedback system');
     this.startUpdateLoop();
   }
 
@@ -327,11 +328,11 @@ export class HapticsManager {
    */
   public stop(): void {
     if (!this.updateInterval) {
-      console.warn('HapticsPure', 'Haptic system is not running');
+      this.logger.warn('HapticsPure', 'Haptic system is not running');
       return;
     }
 
-    console.info('HapticsPure', 'Stopping haptic feedback system');
+    this.logger.info('HapticsPure', 'Stopping haptic feedback system');
 
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
@@ -358,7 +359,7 @@ export class HapticsManager {
    */
   public playPattern(pattern: HapticPattern, deviceType?: HapticDeviceType, priority: number = 1): string {
     if (!this.config.enableHapticFeedback) {
-      console.warn('HapticsPure', 'Haptic feedback is disabled');
+      this.logger.warn('HapticsPure', 'Haptic feedback is disabled');
       return '';
     }
 
@@ -372,7 +373,7 @@ export class HapticsManager {
     };
 
     this.queue.push(request);
-    console.debug('Haptic pattern queued', { requestId, pattern: pattern.type, priority });
+    this.logger.debug('Haptic pattern queued', { requestId, pattern: pattern.type, priority });
 
     return requestId;
   }
@@ -445,7 +446,7 @@ export class HapticsManager {
     };
 
     this.sequences.set(sequenceId, sequence);
-    console.info('Haptic sequence created', { sequenceId, name, patternCount: patterns.length });
+    this.logger.info('Haptic sequence created', { sequenceId, name, patternCount: patterns.length });
 
     return sequenceId;
   }
@@ -456,7 +457,7 @@ export class HapticsManager {
   public playSequence(sequenceId: string, intensity: number = this.config.defaultIntensity): string {
     const sequence = this.sequences.get(sequenceId);
     if (!sequence) {
-      console.warn('Haptic sequence not found', { sequenceId });
+      this.logger.warn('Haptic sequence not found', { sequenceId });
       return '';
     }
 
@@ -483,7 +484,7 @@ export class HapticsManager {
     };
 
     playNextPattern();
-    console.info('Haptic sequence started', { sequenceId, requestId });
+    this.logger.info('Haptic sequence started', { sequenceId, requestId });
 
     return requestId;
   }
@@ -507,7 +508,7 @@ export class HapticsManager {
     };
 
     this.rhythmEngines.set(engineId, engine);
-    console.info('Rhythm engine created', { engineId, name, bpm });
+    this.logger.info('Rhythm engine created', { engineId, name, bpm });
 
     return engineId;
   }
@@ -518,12 +519,12 @@ export class HapticsManager {
   public addRhythmPattern(engineId: string, patternName: string, patterns: HapticPattern[]): boolean {
     const engine = this.rhythmEngines.get(engineId);
     if (!engine) {
-      console.warn('Rhythm engine not found', { engineId });
+      this.logger.warn('Rhythm engine not found', { engineId });
       return false;
     }
 
     engine.patterns.set(patternName, patterns);
-    console.debug('Rhythm pattern added', { engineId, patternName, patternCount: patterns.length });
+    this.logger.debug('Rhythm pattern added', { engineId, patternName, patternCount: patterns.length });
     return true;
   }
 
@@ -533,7 +534,7 @@ export class HapticsManager {
   public startRhythmEngine(engineId: string, patternName?: string): boolean {
     const engine = this.rhythmEngines.get(engineId);
     if (!engine) {
-      console.warn('Rhythm engine not found', { engineId });
+      this.logger.warn('Rhythm engine not found', { engineId });
       return false;
     }
 
@@ -543,7 +544,7 @@ export class HapticsManager {
 
     engine.playing = true;
     engine.position = 0;
-    console.info('Rhythm engine started', { engineId, pattern: engine.currentPattern });
+    this.logger.info('Rhythm engine started', { engineId, pattern: engine.currentPattern });
     return true;
   }
 
@@ -553,12 +554,12 @@ export class HapticsManager {
   public stopRhythmEngine(engineId: string): boolean {
     const engine = this.rhythmEngines.get(engineId);
     if (!engine) {
-      console.warn('Rhythm engine not found', { engineId });
+      this.logger.warn('Rhythm engine not found', { engineId });
       return false;
     }
 
     engine.playing = false;
-    console.info('Rhythm engine stopped', { engineId });
+    this.logger.info('Rhythm engine stopped', { engineId });
     return true;
   }
 
@@ -574,7 +575,7 @@ export class HapticsManager {
     };
 
     this.environmentalResponses.push(response);
-    console.info('Environmental response added', { condition, threshold, cooldown });
+    this.logger.info('Environmental response added', { condition, threshold, cooldown });
   }
 
   /**
@@ -593,7 +594,7 @@ export class HapticsManager {
 
     response.lastTriggered = now;
     this.playPattern(response.pattern);
-    console.debug('Environmental response triggered', { condition, value, threshold: response.threshold });
+    this.logger.debug('Environmental response triggered', { condition, value, threshold: response.threshold });
   }
 
   /**
@@ -601,7 +602,7 @@ export class HapticsManager {
    */
   public registerDevice(device: HapticDevice): void {
     this.devices.set(device.id, device);
-    console.info('Haptic device registered', { deviceId: device.id, type: device.type, name: device.name });
+    this.logger.info('Haptic device registered', { deviceId: device.id, type: device.type, name: device.name });
   }
 
   /**
@@ -610,12 +611,12 @@ export class HapticsManager {
   public unregisterDevice(deviceId: string): boolean {
     const device = this.devices.get(deviceId);
     if (!device) {
-      console.warn('Haptic device not found', { deviceId });
+      this.logger.warn('Haptic device not found', { deviceId });
       return false;
     }
 
     this.devices.delete(deviceId);
-    console.info('Haptic device unregistered', { deviceId, type: device.type });
+    this.logger.info('Haptic device unregistered', { deviceId, type: device.type });
     return true;
   }
 
@@ -639,12 +640,12 @@ export class HapticsManager {
   public cancelRequest(requestId: string): boolean {
     const requestIndex = this.queue.findIndex(req => req.id === requestId);
     if (requestIndex === -1) {
-      console.warn('Haptic request not found', { requestId });
+      this.logger.warn('Haptic request not found', { requestId });
       return false;
     }
 
     this.queue.splice(requestIndex, 1);
-    console.debug('Haptic request cancelled', { requestId });
+    this.logger.debug('Haptic request cancelled', { requestId });
     return true;
   }
 
@@ -654,7 +655,7 @@ export class HapticsManager {
   public cancelAllRequests(): void {
     this.queue = [];
     this.activeRequests.clear();
-    console.info('HapticsPure', 'All haptic requests cancelled');
+    this.logger.info('HapticsPure', 'All haptic requests cancelled');
   }
 
   /**
@@ -684,7 +685,7 @@ export class HapticsManager {
   private executeHapticRequest(request: HapticRequest): void {
     const device = this.selectDevice(request.device);
     if (!device) {
-      console.warn('No suitable device found for haptic request', { requestId: request.id });
+      this.logger.warn('No suitable device found for haptic request', { requestId: request.id });
       return;
     }
 
@@ -700,7 +701,7 @@ export class HapticsManager {
     // Simulate haptic execution
     this.simulateHapticExecution(request, device, result);
 
-    console.debug('Haptic request executed', { requestId: request.id, deviceId: device.id });
+    this.logger.debug('Haptic request executed', { requestId: request.id, deviceId: device.id });
   }
 
   /**
@@ -901,7 +902,7 @@ export class HapticsManager {
    */
   public updateConfig(newConfig: Partial<HapticsConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    console.info('HapticsManager configuration updated', { config: this.config });
+    this.logger.info('HapticsManager configuration updated', { config: this.config });
   }
 
   /**
@@ -910,6 +911,6 @@ export class HapticsManager {
   public destroy(): void {
     this.stop();
     MemoryManager.unregisterObject(this.memoryId);
-    console.info('HapticsPure', 'HapticsManager destroyed');
+    this.logger.info('HapticsPure', 'HapticsManager destroyed');
   }
 }

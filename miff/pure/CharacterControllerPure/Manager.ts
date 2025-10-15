@@ -333,6 +333,7 @@ export class CharacterControllerManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: CharacterControllerConfig;
   private controllers: Map<string, CharacterController> = new Map();
   private isInitialized: boolean = false;
@@ -343,6 +344,7 @@ export class CharacterControllerManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('CharacterControllerManager');
     this.startTime = new Date();
 
     this.config = {
@@ -365,12 +367,12 @@ export class CharacterControllerManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('CharacterControllerPure', 'Character Controller already initialized');
+      this.logger.warn('CharacterControllerPure', 'Character Controller already initialized');
       return;
     }
 
     try {
-      console.info('CharacterControllerPure', 'Initializing Character Controller...');
+      this.logger.info('CharacterControllerPure', 'Initializing Character Controller...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -383,7 +385,7 @@ export class CharacterControllerManager {
       }
 
       this.isInitialized = true;
-      console.info('CharacterControllerPure', 'Character Controller initialized successfully');
+      this.logger.info('CharacterControllerPure', 'Character Controller initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -421,7 +423,7 @@ export class CharacterControllerManager {
       this.controllers.set(controller.id, controller);
       this.updateAnalytics();
 
-      console.info('Character controller created', { controllerId: controller.id, controllerName: controller.name });
+      this.logger.info('Character controller created', { controllerId: controller.id, controllerName: controller.name });
       return controller;
 
     } catch (error) {
@@ -452,7 +454,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return null;
       }
 
@@ -466,7 +468,7 @@ export class CharacterControllerManager {
       this.controllers.set(controllerId, updatedController);
       this.updateAnalytics();
 
-      console.info('Character controller updated', { controllerId, controllerName: updatedController.name });
+      this.logger.info('Character controller updated', { controllerId, controllerName: updatedController.name });
       return updatedController;
 
     } catch (error) {
@@ -486,14 +488,14 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return false;
       }
 
       this.controllers.delete(controllerId);
       this.updateAnalytics();
 
-      console.info('Character controller deleted', { controllerId, controllerName: controller.name });
+      this.logger.info('Character controller deleted', { controllerId, controllerName: controller.name });
       return true;
 
     } catch (error) {
@@ -546,7 +548,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return null;
       }
 
@@ -558,7 +560,7 @@ export class CharacterControllerManager {
       controller.characters.push(character);
       this.updateAnalytics();
 
-      console.info('Character added to controller', { controllerId, characterId: character.id, characterName: character.name });
+      this.logger.info('Character added to controller', { controllerId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error) {
@@ -578,20 +580,20 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return false;
       }
 
       const characterIndex = controller.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        console.warn('Character not found', { controllerId, characterId });
+        this.logger.warn('Character not found', { controllerId, characterId });
         return false;
       }
 
       controller.characters.splice(characterIndex, 1);
       this.updateAnalytics();
 
-      console.info('Character removed from controller', { controllerId, characterId });
+      this.logger.info('Character removed from controller', { controllerId, characterId });
       return true;
 
     } catch (error) {
@@ -611,13 +613,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { controllerId, characterId });
+        this.logger.warn('Character not found', { controllerId, characterId });
         return false;
       }
 
@@ -644,13 +646,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { controllerId, characterId });
+        this.logger.warn('Character not found', { controllerId, characterId });
         return false;
       }
 
@@ -678,13 +680,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { controllerId, characterId });
+        this.logger.warn('Character not found', { controllerId, characterId });
         return false;
       }
 
@@ -724,13 +726,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { controllerId, characterId });
+        this.logger.warn('Character not found', { controllerId, characterId });
         return false;
       }
 
@@ -760,7 +762,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return null;
       }
 
@@ -783,7 +785,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        console.warn('Controller not found', { controllerId });
+        this.logger.warn('Controller not found', { controllerId });
         return [];
       }
 
@@ -899,12 +901,12 @@ export class CharacterControllerManager {
    * Destroy the Character Controller
    */
   async destroy(): Promise<void> {
-    console.info('CharacterControllerPure', 'Destroying Character Controller...');
+    this.logger.info('CharacterControllerPure', 'Destroying Character Controller...');
 
     this.controllers.clear();
     this.isInitialized = false;
 
-    console.info('CharacterControllerPure', 'Character Controller destroyed');
+    this.logger.info('CharacterControllerPure', 'Character Controller destroyed');
   }
 }
 

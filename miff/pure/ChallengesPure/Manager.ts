@@ -202,6 +202,7 @@ export class ChallengesManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: ChallengesConfig;
   private challenges: Map<string, Challenges> = new Map();
   private isInitialized: boolean = false;
@@ -212,6 +213,7 @@ export class ChallengesManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('ChallengesManager');
     this.startTime = new Date();
 
     this.config = {
@@ -234,12 +236,12 @@ export class ChallengesManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('ChallengesPure', 'Challenges System already initialized');
+      this.logger.warn('Challenges System already initialized');
       return;
     }
 
     try {
-      console.info('ChallengesPure', 'Initializing Challenges System...');
+      this.logger.info('Initializing Challenges System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceTracking) {
@@ -252,7 +254,7 @@ export class ChallengesManager {
       }
 
       this.isInitialized = true;
-      console.info('ChallengesPure', 'Challenges System initialized successfully');
+      this.logger.info('Challenges System initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -288,7 +290,7 @@ export class ChallengesManager {
       this.challenges.set(challenges.id, challenges);
       this.updateAnalytics();
 
-      console.info('Challenges system created', { challengesId: challenges.id, challengesName: challenges.name });
+      this.logger.info('Challenges system created', { challengesId: challenges.id, challengesName: challenges.name });
       return challenges;
 
     } catch (error) {
@@ -319,7 +321,7 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return null;
       }
 
@@ -333,7 +335,7 @@ export class ChallengesManager {
       this.challenges.set(challengesId, updatedChallenges);
       this.updateAnalytics();
 
-      console.info('Challenges system updated', { challengesId, challengesName: updatedChallenges.name });
+      this.logger.info('Challenges system updated', { challengesId, challengesName: updatedChallenges.name });
       return updatedChallenges;
 
     } catch (error) {
@@ -353,14 +355,14 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return false;
       }
 
       this.challenges.delete(challengesId);
       this.updateAnalytics();
 
-      console.info('Challenges system deleted', { challengesId, challengesName: challenges.name });
+      this.logger.info('Challenges system deleted', { challengesId, challengesName: challenges.name });
       return true;
 
     } catch (error) {
@@ -413,7 +415,7 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return null;
       }
 
@@ -425,7 +427,7 @@ export class ChallengesManager {
       challenges.challenges.push(challenge);
       this.updateAnalytics();
 
-      console.info('Challenge added to system', { challengesId, challengeId: challenge.id, challengeName: challenge.name });
+      this.logger.info('Challenge added to system', { challengesId, challengeId: challenge.id, challengeName: challenge.name });
       return challenge;
 
     } catch (error) {
@@ -445,20 +447,20 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return false;
       }
 
       const challengeIndex = challenges.challenges.findIndex(c => c.id === challengeId);
       if (challengeIndex === -1) {
-        console.warn('Challenge not found', { challengesId, challengeId });
+        this.logger.warn('Challenge not found', { challengesId, challengeId });
         return false;
       }
 
       challenges.challenges.splice(challengeIndex, 1);
       this.updateAnalytics();
 
-      console.info('Challenge removed from system', { challengesId, challengeId });
+      this.logger.info('Challenge removed from system', { challengesId, challengeId });
       return true;
 
     } catch (error) {
@@ -478,18 +480,18 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return null;
       }
 
       const challenge = challenges.challenges.find(c => c.id === challengeId);
       if (!challenge) {
-        console.warn('Challenge not found', { challengesId, challengeId });
+        this.logger.warn('Challenge not found', { challengesId, challengeId });
         return null;
       }
 
       if (challenge.status !== 'active') {
-        console.warn('Challenge not active', { challengesId, challengeId, status: challenge.status });
+        this.logger.warn('Challenge not active', { challengesId, challengeId, status: challenge.status });
         return null;
       }
 
@@ -505,7 +507,7 @@ export class ChallengesManager {
 
       this.updateAnalytics();
 
-      console.info('Challenge started', { challengesId, challengeId, userId, progressId: progress.id });
+      this.logger.info('Challenge started', { challengesId, challengeId, userId, progressId: progress.id });
       return progress;
 
     } catch (error) {
@@ -525,13 +527,13 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return false;
       }
 
       const challenge = challenges.challenges.find(c => c.id === challengeId);
       if (!challenge) {
-        console.warn('Challenge not found', { challengesId, challengeId });
+        this.logger.warn('Challenge not found', { challengesId, challengeId });
         return false;
       }
 
@@ -544,12 +546,12 @@ export class ChallengesManager {
         challenge.progress.completedAt = new Date();
         challenge.status = 'completed';
         
-        console.info('Challenge completed', { challengesId, challengeId, userId });
+        this.logger.info('Challenge completed', { challengesId, challengeId, userId });
       }
 
       this.updateAnalytics();
 
-      console.debug('Challenge progress updated', { challengesId, challengeId, userId, progress: challenge.progress.progress });
+      this.logger.debug('Challenge progress updated', { challengesId, challengeId, userId, progress: challenge.progress.progress });
       return true;
 
     } catch (error) {
@@ -569,13 +571,13 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return false;
       }
 
       const challenge = challenges.challenges.find(c => c.id === challengeId);
       if (!challenge) {
-        console.warn('Challenge not found', { challengesId, challengeId });
+        this.logger.warn('Challenge not found', { challengesId, challengeId });
         return false;
       }
 
@@ -586,7 +588,7 @@ export class ChallengesManager {
 
       this.updateAnalytics();
 
-      console.info('Challenge completed', { challengesId, challengeId, userId });
+      this.logger.info('Challenge completed', { challengesId, challengeId, userId });
       return true;
 
     } catch (error) {
@@ -606,13 +608,13 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return null;
       }
 
       const challenge = challenges.challenges.find(c => c.id === challengeId);
       if (!challenge) {
-        console.warn('Challenge not found', { challengesId, challengeId });
+        this.logger.warn('Challenge not found', { challengesId, challengeId });
         return null;
       }
 
@@ -635,7 +637,7 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return [];
       }
 
@@ -658,7 +660,7 @@ export class ChallengesManager {
     try {
       const challenges = this.challenges.get(challengesId);
       if (!challenges) {
-        console.warn('Challenges system not found', { challengesId });
+        this.logger.warn('Challenges system not found', { challengesId });
         return [];
       }
 
@@ -783,12 +785,12 @@ export class ChallengesManager {
    * Destroy the Challenges System
    */
   async destroy(): Promise<void> {
-    console.info('ChallengesPure', 'Destroying Challenges System...');
+    this.logger.info('ChallengesPure', 'Destroying Challenges System...');
 
     this.challenges.clear();
     this.isInitialized = false;
 
-    console.info('ChallengesPure', 'Challenges System destroyed');
+    this.logger.info('ChallengesPure', 'Challenges System destroyed');
   }
 }
 

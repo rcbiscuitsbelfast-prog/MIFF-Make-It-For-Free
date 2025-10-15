@@ -302,6 +302,7 @@ export class AudioMixerManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: AudioMixerConfig;
   private mixers: Map<string, AudioMixer> = new Map();
   private isInitialized: boolean = false;
@@ -312,6 +313,7 @@ export class AudioMixerManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('AudioMixerManager');
     this.startTime = new Date();
 
     this.config = {
@@ -336,12 +338,12 @@ export class AudioMixerManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('AudioMixerPure', 'Audio Mixer Manager already initialized');
+      this.logger.warn('AudioMixerPure', 'Audio Mixer Manager already initialized');
       return;
     }
 
     try {
-      console.info('AudioMixerPure', 'Initializing Audio Mixer Manager...');
+      this.logger.info('AudioMixerPure', 'Initializing Audio Mixer Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -354,7 +356,7 @@ export class AudioMixerManager {
       }
 
       this.isInitialized = true;
-      console.info('AudioMixerPure', 'Audio Mixer Manager initialized successfully');
+      this.logger.info('AudioMixerPure', 'Audio Mixer Manager initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -392,7 +394,7 @@ export class AudioMixerManager {
       this.mixers.set(mixer.id, mixer);
       this.updateAnalytics();
 
-      console.info('Audio mixer created', { mixerId: mixer.id, mixerName: mixer.name });
+      this.logger.info('Audio mixer created', { mixerId: mixer.id, mixerName: mixer.name });
       return mixer;
 
     } catch (error) {
@@ -423,7 +425,7 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return null;
       }
 
@@ -437,7 +439,7 @@ export class AudioMixerManager {
       this.mixers.set(mixerId, updatedMixer);
       this.updateAnalytics();
 
-      console.info('Audio mixer updated', { mixerId, mixerName: updatedMixer.name });
+      this.logger.info('Audio mixer updated', { mixerId, mixerName: updatedMixer.name });
       return updatedMixer;
 
     } catch (error) {
@@ -457,14 +459,14 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return false;
       }
 
       this.mixers.delete(mixerId);
       this.updateAnalytics();
 
-      console.info('Audio mixer deleted', { mixerId, mixerName: mixer.name });
+      this.logger.info('Audio mixer deleted', { mixerId, mixerName: mixer.name });
       return true;
 
     } catch (error) {
@@ -517,7 +519,7 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return null;
       }
 
@@ -529,7 +531,7 @@ export class AudioMixerManager {
       mixer.channels.push(channel);
       this.updateAnalytics();
 
-      console.info('Channel added to mixer', { mixerId, channelId: channel.id, channelName: channel.name });
+      this.logger.info('Channel added to mixer', { mixerId, channelId: channel.id, channelName: channel.name });
       return channel;
 
     } catch (error) {
@@ -549,20 +551,20 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return false;
       }
 
       const channelIndex = mixer.channels.findIndex(channel => channel.id === channelId);
       if (channelIndex === -1) {
-        console.warn('Channel not found', { mixerId, channelId });
+        this.logger.warn('Channel not found', { mixerId, channelId });
         return false;
       }
 
       mixer.channels.splice(channelIndex, 1);
       this.updateAnalytics();
 
-      console.info('Channel removed from mixer', { mixerId, channelId });
+      this.logger.info('Channel removed from mixer', { mixerId, channelId });
       return true;
 
     } catch (error) {
@@ -582,7 +584,7 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return null;
       }
 
@@ -594,7 +596,7 @@ export class AudioMixerManager {
       mixer.effects.push(effect);
       this.updateAnalytics();
 
-      console.info('Effect added to mixer', { mixerId, effectId: effect.id, effectName: effect.name });
+      this.logger.info('Effect added to mixer', { mixerId, effectId: effect.id, effectName: effect.name });
       return effect;
 
     } catch (error) {
@@ -614,20 +616,20 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return false;
       }
 
       const effectIndex = mixer.effects.findIndex(effect => effect.id === effectId);
       if (effectIndex === -1) {
-        console.warn('Effect not found', { mixerId, effectId });
+        this.logger.warn('Effect not found', { mixerId, effectId });
         return false;
       }
 
       mixer.effects.splice(effectIndex, 1);
       this.updateAnalytics();
 
-      console.info('Effect removed from mixer', { mixerId, effectId });
+      this.logger.info('Effect removed from mixer', { mixerId, effectId });
       return true;
 
     } catch (error) {
@@ -647,13 +649,13 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return false;
       }
 
       const channel = mixer.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { mixerId, channelId });
+        this.logger.warn('Channel not found', { mixerId, channelId });
         return false;
       }
 
@@ -678,13 +680,13 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return false;
       }
 
       const channel = mixer.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { mixerId, channelId });
+        this.logger.warn('Channel not found', { mixerId, channelId });
         return false;
       }
 
@@ -709,13 +711,13 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return false;
       }
 
       const channel = mixer.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { mixerId, channelId });
+        this.logger.warn('Channel not found', { mixerId, channelId });
         return false;
       }
 
@@ -740,13 +742,13 @@ export class AudioMixerManager {
     try {
       const mixer = this.mixers.get(mixerId);
       if (!mixer) {
-        console.warn('Mixer not found', { mixerId });
+        this.logger.warn('Mixer not found', { mixerId });
         return false;
       }
 
       const channel = mixer.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { mixerId, channelId });
+        this.logger.warn('Channel not found', { mixerId, channelId });
         return false;
       }
 
@@ -881,12 +883,12 @@ export class AudioMixerManager {
    * Destroy the Audio Mixer Manager
    */
   async destroy(): Promise<void> {
-    console.info('AudioMixerPure', 'Destroying Audio Mixer Manager...');
+    this.logger.info('AudioMixerPure', 'Destroying Audio Mixer Manager...');
 
     this.mixers.clear();
     this.isInitialized = false;
 
-    console.info('AudioMixerPure', 'Audio Mixer Manager destroyed');
+    this.logger.info('AudioMixerPure', 'Audio Mixer Manager destroyed');
   }
 }
 
