@@ -1,0 +1,5 @@
+miff/pure/RenderWorldPure/index.ts(13,1): error TS1003: Identifier expected.
+miff/pure/RenderWorldPure/index.ts(13,8): error TS1005: ',' expected.
+miff/pure/RenderWorldPure/index.ts(13,16): error TS1005: ';' expected.
+miff/pure/RenderWorldPure/index.ts(16,1): error TS1128: Declaration or statement expected.
+miff/pure/RenderWorldPure/index.ts(16,3): error TS1434: Unexpected keyword or identifier.

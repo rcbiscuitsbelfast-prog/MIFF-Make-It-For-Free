@@ -9,9 +9,9 @@
  * @license MIT
  */
 
-import {
 import { log } from '../shared/logging/StructuredLogger';
 
+import {
   CombatEngine
 } from '../CombatPure/engine';
 
