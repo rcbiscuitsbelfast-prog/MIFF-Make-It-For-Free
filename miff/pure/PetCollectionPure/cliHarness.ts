@@ -17,7 +17,7 @@
 
 import { EventBus } from '../EventBusPure/EventBusPure';
 import { PetCollectionManager, PetCollectionConfig } from './Manager.js';
-import { EggType } from './index.js';
+import { EggType } from './Manager.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {

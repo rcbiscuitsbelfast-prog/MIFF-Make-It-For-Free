@@ -15,7 +15,7 @@ import {
   defaultStub,
   parseCLIArgs,
   formatOutput
-} from '../../miff/pure/shared/cliHarnessUtils';
+} from '../../shared/cliHarnessUtils';
 
 import { spiritTamerDemo } from './index';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';

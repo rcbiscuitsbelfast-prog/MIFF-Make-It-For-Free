@@ -16,7 +16,8 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
-import { FusionManager, FusionRules, PlayerContext } from './index.js';
+import { FusionManager, FusionRules } from './index.js';
+import { PlayerContext } from './Manager';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {

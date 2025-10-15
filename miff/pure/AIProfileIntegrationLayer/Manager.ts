@@ -239,8 +239,8 @@ export class AIProfileIntegrationManager {
       const profile: AIProfile = {
         ...profileData,
         id: this.generateProfileId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalProfiles: 0,
