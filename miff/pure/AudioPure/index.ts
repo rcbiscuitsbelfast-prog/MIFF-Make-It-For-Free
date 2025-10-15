@@ -797,12 +797,12 @@ export interface AudioProject {
   metadata?: Record<string, any>;
   sources: AudioSource[];
 
+}
 interface AudioExportConfig {
   mixerStrips: AudioMixerStrip[];
   masterBus: AudioBus;
   exportTime: string;
   engineVersion: string;
-  };
 }
 
 export interface SecurityConfiguration {
