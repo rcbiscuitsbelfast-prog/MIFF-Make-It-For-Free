@@ -106,71 +106,64 @@ MIFF includes **18 active workflows** covering all aspects of development, quali
 
 ---
 
-## 🌐 **MIFF Unified Experience Hub**
+## 🌐 Web Demos
 
-### **🎮 Complete MIFF Ecosystem**
-Experience the full power of MIFF through our unified GitHub Pages site featuring professional navigation and seamless access to all framework experiences.
+### **Live Examples**
+The framework includes web-based demos and tools hosted on GitHub Pages.
 
-**🔗 [Launch MIFF Unified Site](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)**
+**🔗 [Main Site](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)**
 
-*Professional landing page with navigation to all MIFF experiences, built with the framework's modular architecture and hosted as a single GitHub Pages deployment.*
+Landing page with links to various demos and documentation.
 
-### **🎯 Individual Experiences**
-- **🎮 [MIFF Sampler](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/)** - Interactive game demos
-- **🛠️ [MIFF Studio](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)** - Advanced scene builder
-- **🌐 [RenderWorld Hub](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)** - AI-native preview engine
-- **📚 [Documentation](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/docs-site/)** - Comprehensive guides & API
+### **Available Demos**
+- **[Sampler](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/)** - Interactive game demos
+- **[Studio](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)** - Scene builder tool
+- **[RenderWorld](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)** - Preview engine
+- **[Documentation](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/docs-site/)** - Guides and API docs
 
-*All experiences built with MIFF's 157+ modular systems, featuring real-time rendering, AI integration, and cross-platform deployment. ✅ All links verified and working.*
+#### **Features**
+- Dark/light theme support with preference persistence
+- Responsive design for desktop, tablet, and mobile
+- Minimal dependencies for fast loading
+- Unified navigation between demos
+- Shared asset system
 
-#### **✨ Key Features**
-- **🎯 Professional Landing Page** with unified navigation to all MIFF experiences
-- **🌙 Dark/Light Theme Support** with user preference persistence and accessibility
-- **📱 Responsive Design** optimized for desktop, tablet, and mobile devices
-- **⚡ Performance Optimized** with minimal dependencies and fast loading times
-- **🔄 Seamless Navigation** between all MIFF experiences in one deployment
-- **🎨 Consistent Branding** with shared assets and professional styling
+#### **Gameplay Systems**
+- Overlay effects (blur, vignette, scan lines, chromatic aberration)
+- Perception filters (scan mode, danger zones, NPC auras)
+- Lens mode switching (normal, scan, combat, stealth)
+- UI system with theme support
+- Interactable object management
 
-#### **🎮 New Gameplay Systems**
-- **🧿 Overlay Effects** - Stateless visual effects (blur, vignette, scan lines, chromatic aberration)
-- **🔍 Perception Filters** - Contextual overlays (scan mode, danger zones, NPC auras)
-- **📡 Scan Feedback** - Wireframe overlays, pulse animations, progress tracking
-- **🔄 Lens Mode Switching** - Seamless view mode transitions (normal, scan, combat, stealth)
-- **🎨 Button Styling** - Stateless UI system with theme support and responsive design
-- **🎒 Interactable Registry** - Central management of interactive objects and behaviors
-- **📱 Mobile Performance** - Adaptive quality adjustment and real-time optimization
-
-#### **🚀 Mobile-First Performance**
-- **⚡ Adaptive Quality** - Automatic adjustment based on device capabilities
-- **📊 Real-Time Monitoring** - Frame rate, memory usage, and performance statistics
-- **🔋 Battery Optimization** - Power saving modes and thermal throttling support
-- **🌐 Cross-Platform** - Unity, Godot, Unreal, Android, and Web export ready
+#### **Performance Features**
+- Adaptive quality adjustment for different devices
+- Frame rate and memory monitoring
+- Mobile and desktop optimization
+- Cross-platform export (Unity, Godot, Unreal, Web)
 
 ---
 
-## 🏆 **Framework Achievement Summary**
+## 🏆 Framework Status
 
-### **🎯 Mission Accomplished: 157+ Modules Complete**
-- ✅ **All 157+ Pure modules** implemented to 95%+ completion
-- ✅ **99.2% Test Coverage** with 4,370+ comprehensive tests
-- ✅ **Zero Security Vulnerabilities** confirmed across all systems
-- ✅ **Enterprise-Grade Quality** maintained throughout
-- ✅ **Neural Network Integration** for advanced AI capabilities
-- ✅ **Multi-Engine Compatibility** (Unity, Godot, Web, Unreal)
-- ✅ **Complete Documentation** with 104 README files
+### **Current State**
+- 234 Pure modules implemented
+- 1,224 test files with 12,209 test cases
+- 0 npm security vulnerabilities (as of Oct 2025)
+- Multi-engine compatibility (Unity, Godot, Web, Unreal)
+- 258 documentation files
 
-### **🔬 Technical Excellence**
-- **Advanced AI Systems** with machine learning and neural networks
-- **Comprehensive Game Mechanics** with 200+ item effects
-- **Real-Time Systems** with performance monitoring
-- **Modular Architecture** supporting 100,000+ concurrent users
-- **Production-Ready** for commercial deployment
+### **Technical Features**
+- AI systems with machine learning integration
+- Game mechanics including combat, dialogue, quests, physics
+- Real-time systems with performance monitoring
+- Modular architecture with engine-agnostic design
+- Active development and ongoing improvements
 
 ---
 
-MIFF is a modular, engine‑agnostic, CLI‑first game framework for building, remixing, and exporting games across Web, Unity, and Godot. It is designed for both programmers and non‑coders, with a focus on remix‑safe content and prompt‑driven creation.
+MIFF is a modular, engine-agnostic game framework for building and exporting games across Web, Unity, and Godot. It provides self-contained modules for common game systems (combat, dialogue, physics, quests, etc.) that can be used independently or combined.
 
-— Modular. Remix‑Safe. Prompt‑Driven.
+The framework is designed to work across multiple engines and platforms, with a focus on modularity and code reuse.
 
 ## Overview
 
@@ -232,12 +225,12 @@ node cli/test-cli.cjs --demo toppler
 - **Security:** Zero vulnerabilities confirmed
 - **Documentation:** 104 comprehensive README files
 
-## For Non‑Coders: Remix Without Writing Code
+## Getting Started Without Code
 
-- Use the live Sampler and Studio to preview and tweak modules/themes.
-- Replace assets under `miff/assets/` (keep licenses remix‑safe) and refresh the page.
-- Use `cli/test-cli.cjs` to run demos with custom parameters.
-- Export to Web HTML with presets (see docs site) — no build tools required.
+- Use the web-based Sampler and Studio to preview modules
+- Replace assets in `miff/assets/` (following license requirements)
+- Use `cli/test-cli.cjs` to run demos with different parameters
+- Export to Web HTML using available presets
 
 ## Project Structure (high level)
 
@@ -437,9 +430,9 @@ MIFF provides comprehensive templates for building game components:
 
 ---
 
-## Transparency & Tone
+## Project Status
 
-We aim to be humble, transparent, and contributor‑friendly. MIFF is a living project: modules ship when they are deterministic, documented, and remix‑safe. See `COMPLETE_MODULE_AUDIT.md` and audit reports in the repo root for details.
+MIFF is actively developed. Modules are added when they are tested, documented, and stable. See [STATUS.md](STATUS.md) for current progress and [docs/audit/](docs/audit/) for detailed reports.
 
 ## Appendix: Popular Modules
 
