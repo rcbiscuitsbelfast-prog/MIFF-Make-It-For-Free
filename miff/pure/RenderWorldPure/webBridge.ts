@@ -12,6 +12,7 @@
 import { RenderWorldPure } from './index';
 import { EventBus } from '../EventBusPure/EventBusPure.js';
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { eventListenerManager } from '../shared/memory/EventListenerManager';
 
 interface WebRendererConfig {
   // Auto-added common properties
@@ -257,23 +258,107 @@ export class RenderWorldWebBridge {
 
   private setupEventListeners(): void {
     // Keyboard controls
-    document.addEventListener('keydown', this.handleKeyDown.bind(this));
-    document.addEventListener('keyup', this.handleKeyUp.bind(this));
+    eventListenerManager.addEventListener({
+      id: 'webBridge_keydown',
+      target: document,
+      event: 'keydown',
+      listener: this.handleKeyDown.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
+    
+    eventListenerManager.addEventListener({
+      id: 'webBridge_keyup',
+      target: document,
+      event: 'keyup',
+      listener: this.handleKeyUp.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
 
     // Mouse controls
-    this.config.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
-    this.config.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-    this.config.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    eventListenerManager.addEventListener({
+      id: 'webBridge_mousedown',
+      target: this.config.canvas,
+      event: 'mousedown',
+      listener: this.handleMouseDown.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
+    
+    eventListenerManager.addEventListener({
+      id: 'webBridge_mousemove',
+      target: this.config.canvas,
+      event: 'mousemove',
+      listener: this.handleMouseMove.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
+    
+    eventListenerManager.addEventListener({
+      id: 'webBridge_mouseup',
+      target: this.config.canvas,
+      event: 'mouseup',
+      listener: this.handleMouseUp.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
 
     // Touch controls for mobile
-    this.config.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
-    this.config.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this));
-    this.config.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this));
+    eventListenerManager.addEventListener({
+      id: 'webBridge_touchstart',
+      target: this.config.canvas,
+      event: 'touchstart',
+      listener: this.handleTouchStart.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
+    
+    eventListenerManager.addEventListener({
+      id: 'webBridge_touchmove',
+      target: this.config.canvas,
+      event: 'touchmove',
+      listener: this.handleTouchMove.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
+    
+    eventListenerManager.addEventListener({
+      id: 'webBridge_touchend',
+      target: this.config.canvas,
+      event: 'touchend',
+      listener: this.handleTouchEnd.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
 
     // Window events
-    window.addEventListener('resize', this.handleResize.bind(this));
-    window.addEventListener('blur', this.handleBlur.bind(this));
-    window.addEventListener('focus', this.handleFocus.bind(this));
+    eventListenerManager.addEventListener({
+      id: 'webBridge_resize',
+      target: window,
+      event: 'resize',
+      listener: this.handleResize.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
+    
+    eventListenerManager.addEventListener({
+      id: 'webBridge_blur',
+      target: window,
+      event: 'blur',
+      listener: this.handleBlur.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
+    
+    eventListenerManager.addEventListener({
+      id: 'webBridge_focus',
+      target: window,
+      event: 'focus',
+      listener: this.handleFocus.bind(this),
+      enableLogging: true,
+      autoCleanup: true
+    });
   }
 
   private initializeRenderer(): void {
@@ -706,6 +791,11 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     if (this.state.animationId) {
       cancelAnimationFrame(this.state.animationId);
     }
+
+    // Clean up event listeners using EventListenerManager
+    eventListenerManager.removeAllListenersForTarget(document);
+    eventListenerManager.removeAllListenersForTarget(this.config.canvas);
+    eventListenerManager.removeAllListenersForTarget(window);
 
     const gl = this.gl;
     if (gl) {

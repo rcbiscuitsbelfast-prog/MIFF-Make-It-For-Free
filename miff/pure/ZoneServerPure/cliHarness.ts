@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { timerOptimizer } from '../shared/performance/TimerOptimizer';
 
 /**
  * ZoneServerPure CLI Harness
@@ -224,7 +225,7 @@ async function main(): Promise<void> {
       let tickCount = 0;
       const maxTicks = 120; // 2 seconds at 60 TPS
 
-      const simulation = setInterval(() => {
+      const simulationId = timerOptimizer.setInterval(() => {
         tickCount++;
 
         // Update all zones
@@ -239,7 +240,7 @@ async function main(): Promise<void> {
 
         // Stop simulation
         if (tickCount >= maxTicks) {
-          clearInterval(simulation);
+          timerOptimizer.clearInterval(simulationId);
           console.info('\n6. Simulation complete - showing final statistics...\n');
 
           // Show final zone statistics
@@ -560,7 +561,7 @@ async function main(): Promise<void> {
       let tickCount = 0;
       const startTime = Date.now();
 
-      const stressTest = setInterval(() => {
+      const stressTestId = timerOptimizer.setInterval(() => {
         tickCount++;
         const tickStart = performance.now();
 
@@ -579,7 +580,7 @@ async function main(): Promise<void> {
 
         // Stop after 30 seconds
         if (tickCount >= 1800) { // 30 seconds * 60 TPS
-          clearInterval(stressTest);
+          timerOptimizer.clearInterval(stressTestId);
           const finalMetrics = zoneServer.getZoneMetrics();
           const totalTime = (Date.now() - startTime) / 1000;
 
@@ -668,7 +669,7 @@ async function main(): Promise<void> {
       console.info('Testing inter-zone communication...\n');
 
       let networkTick = 0;
-      const networkTest = setInterval(() => {
+      const networkTestId = timerOptimizer.setInterval(() => {
         networkTick++;
 
         // Update all zones
@@ -699,7 +700,7 @@ async function main(): Promise<void> {
 
         // Stop after 30 seconds
         if (networkTick >= 1800) {
-          clearInterval(networkTest);
+          timerOptimizer.clearInterval(networkTestId);
           console.info('\n=== NETWORK TEST COMPLETE ===');
           console.info('✅ Inter-zone communication working');
           console.info('✅ Load balancing functioning');
@@ -767,7 +768,7 @@ async function main(): Promise<void> {
       let tickCount = 0;
       const startTime = Date.now();
 
-      const simulation = setInterval(() => {
+      const simulationId = timerOptimizer.setInterval(() => {
         tickCount++;
         zoneServer.tick();
 
@@ -780,7 +781,7 @@ async function main(): Promise<void> {
           console.info(`⏱️  ${elapsed.toFixed(1)}s / ${duration}s | Players: ${metrics.playerCount} | CPU: ${(metrics.cpuUsage * 100).toFixed(1)}% | Events: ${zoneServer.getActiveZoneEvents().length}`);
 
           if (remaining <= 0) {
-            clearInterval(simulation);
+            timerOptimizer.clearInterval(simulationId);
             console.info('\n=== SIMULATION COMPLETE ===');
             console.info('✅ ZoneServerPure simulation successful');
             console.info('✅ Event system working');

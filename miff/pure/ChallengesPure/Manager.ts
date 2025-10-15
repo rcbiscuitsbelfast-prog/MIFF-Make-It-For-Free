@@ -16,6 +16,7 @@ import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
+import { loopOptimizer } from '../shared/performance/LoopOptimizer';
 
 export interface ChallengesConfig {
   id?: string;
@@ -763,18 +764,28 @@ export class ChallengesManager {
       locked: 0
     };
 
-    for (const challenges of challenges) {
-      for (const challenge of challenges.challenges) {
-        challengesByType[challenge.type]++;
-        challengesByStatus[challenge.status]++;
+    // Optimized nested loop using LoopOptimizer
+    const optimizationResult = loopOptimizer.optimizeNestedLoops(
+      challenges,
+      (challenges) => challenges.challenges,
+      (outerItem, innerItem, outerIndex, innerIndex) => {
+        // Process each challenge
+      },
+      { challengesByType, challengesByStatus },
+      (result, outerItem, innerItem) => {
+        result.challengesByType[innerItem.type]++;
+        result.challengesByStatus[innerItem.status]++;
+        return result;
       }
-    }
+    );
+
+    const { challengesByType: optimizedChallengesByType, challengesByStatus: optimizedChallengesByStatus } = optimizationResult.result;
 
     return {
       totalChallenges,
       activeChallenges,
-      challengesByType,
-      challengesByStatus,
+      challengesByType: optimizedChallengesByType,
+      challengesByStatus: optimizedChallengesByStatus,
       totalCompletions,
       averageProgress: Math.round(averageProgress * 100) / 100,
       uptime: Date.now() - this.startTime.getTime()
