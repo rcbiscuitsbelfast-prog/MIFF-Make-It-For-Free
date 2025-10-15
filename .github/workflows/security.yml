@@ -33,8 +33,9 @@ jobs:
 
     - name: Run npm audit
       run: |
+        set -euo pipefail
         echo "🔍 Running npm security audit..."
-        npm audit --audit-level=moderate || echo "⚠️ Audit issues found but continuing"
+        npm audit --audit-level=moderate
 
     - name: Run Snyk security scan
       uses: snyk/actions/node@master
@@ -42,7 +43,7 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         args: --severity-threshold=high
-      continue-on-error: true
+      continue-on-error: false
 
     - name: Check for vulnerabilities
       run: |
