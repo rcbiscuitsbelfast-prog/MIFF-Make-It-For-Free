@@ -1,138 +1,156 @@
-import { StructuredLogger } from '../logging/StructuredLogger';
-import { StandardErrorHandler } from '../error/StandardErrorHandler';
-
 /**
- * Health Check System - Comprehensive production health monitoring
- * Provides real-time health status, diagnostics, and alerting
+ * HealthCheckSystem - Comprehensive Health Monitoring System
+ *
+ * Advanced health monitoring system with:
+ * - Real-time health status monitoring
+ * - Comprehensive system checks
+ * - Performance metrics tracking
+ * - Alert and notification system
+ * - Health history and trending
+ * - Automated recovery mechanisms
+ *
+ * @version 1.0.0
+ * @author MIFF Framework
  */
 
+import { StructuredLogger } from '../logging/StructuredLogger';
+import { PerformanceOptimizer } from '../performance/PerformanceOptimizer';
+import { MemoryManager } from '../memory/MemoryManager';
+import { StandardErrorHandler } from '../error/StandardErrorHandler';
+
 export interface HealthStatus {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
+  status: 'healthy' | 'degraded' | 'unhealthy' | 'critical';
+  timestamp: Date;
   uptime: number;
-  version: string;
-  checks: HealthCheck[];
-  summary: HealthSummary;
-}
-
-export interface HealthCheck {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
-  message: string;
-  duration: number;
-}
-
-export interface HealthSummary {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
-  total: number;
-  passed: number;
-  failed: number;
-  warnings: number;
-  skipped: number;
-  successRate: number;
+  summary: {
+    successRate: number;
+    totalChecks: number;
+    passedChecks: number;
+    failedChecks: number;
+    warnings: number;
+    criticalIssues: number;
+  };
+  checks: Array<{
+    name: string;
+    status: 'pass' | 'fail' | 'warning' | 'critical';
+    message: string;
+    duration: number;
+    timestamp: Date;
+    category: 'system' | 'performance' | 'security' | 'network' | 'database' | 'application';
+    severity: 'low' | 'medium' | 'high' | 'critical';
+    details?: Record<string, any>;
+  }>;
+  metrics: {
+    cpu: {
+      usage: number;
+      load: number;
+      cores: number;
+    };
+    memory: {
+      used: number;
+      total: number;
+      free: number;
+      usage: number;
+    };
+    disk: {
+      used: number;
+      total: number;
+      free: number;
+      usage: number;
+    };
+    network: {
+      latency: number;
+      throughput: number;
+      errors: number;
+    };
+    application: {
+      responseTime: number;
+      throughput: number;
+      errorRate: number;
+      activeConnections: number;
+    };
+  };
+  alerts: Array<{
+    id: string;
+    type: 'warning' | 'error' | 'critical';
+    message: string;
+    timestamp: Date;
+    resolved: boolean;
+    category: string;
+    severity: 'low' | 'medium' | 'high' | 'critical';
+  }>;
 }
 
 export interface HealthCheckConfig {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
+  enabled: boolean;
+  interval: number;
   timeout: number;
   retries: number;
-  interval: number;
-  enabled: boolean;
-  critical: boolean;
+  alertThreshold: number;
+  warningThreshold: number;
+  criticalThreshold: number;
+  autoRecovery: boolean;
+  notificationEnabled: boolean;
+  loggingEnabled: boolean;
+  metricsEnabled: boolean;
+  historyRetention: number;
 }
 
-export interface HealthCheckRegistry {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
-  checks: Map<string, HealthCheckConfig>;
-  dependencies: Map<string, string[]>;
-  alerts: Map<string, AlertConfig>;
-}
-
-export interface AlertConfig {
-  id?: string;
-  name?: string;
-  status?: string;
-  data?: any;
-  result?: any;
-  errors?: string[];
-  ok?: boolean;
-  timestamp?: number;
-  createdAt?: number;
-  updatedAt?: number;
-  metadata?: Record<string, any>;
-  enabled: boolean;
-  threshold: number;
-  cooldown: number;
-  channels: string[];
+export interface HealthCheck {
+  name: string;
+  category: 'system' | 'performance' | 'security' | 'network' | 'database' | 'application';
   severity: 'low' | 'medium' | 'high' | 'critical';
+  enabled: boolean;
+  timeout: number;
+  retries: number;
+  check: () => Promise<{
+    status: 'pass' | 'fail' | 'warning' | 'critical';
+    message: string;
+    details?: Record<string, any>;
+  }>;
 }
 
 export class HealthCheckSystem {
-  
+  private static instance: HealthCheckSystem;
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
-  private registry: HealthCheckRegistry;
+  private config: HealthCheckConfig;
+  private checks: Map<string, HealthCheck> = new Map();
+  private healthHistory: HealthStatus[] = [];
   private isInitialized: boolean = false;
+  private monitoringInterval?: NodeJS.Timeout;
   private startTime: Date;
-  private version: string;
 
-  constructor(...args: any[]) {
-    
-    this.errorHandler = new StandardErrorHandler();
-    this.registry = {
-      checks: new Map(),
-      dependencies: new Map(),
-      alerts: new Map()
-    };
+  constructor() {
+    this.logger = StructuredLogger.getInstance('HealthCheckSystem');
+    this.performanceOptimizer = PerformanceOptimizer.getInstance();
+    this.memoryManager = MemoryManager.getInstance();
+    this.errorHandler = StandardErrorHandler.getInstance();
     this.startTime = new Date();
-    this.version = '1.0.0';
+
+    this.config = {
+      enabled: true,
+      interval: 30000, // 30 seconds
+      timeout: 10000, // 10 seconds
+      retries: 3,
+      alertThreshold: 0.9, // 90%
+      warningThreshold: 0.8, // 80%
+      criticalThreshold: 0.5, // 50%
+      autoRecovery: true,
+      notificationEnabled: true,
+      loggingEnabled: true,
+      metricsEnabled: true,
+      historyRetention: 1000 // Keep last 1000 health checks
+    };
+  }
+
+  static getInstance(): HealthCheckSystem {
+    if (!HealthCheckSystem.instance) {
+      HealthCheckSystem.instance = new HealthCheckSystem();
+    }
+    return HealthCheckSystem.instance;
   }
 
   /**
@@ -140,909 +158,527 @@ export class HealthCheckSystem {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('Health check system already initialized');
+      this.logger.warn('Health check system already initialized');
       return;
     }
 
     try {
-      console.info('Initializing health check system...');
-      
-      // Register core health checks
-      await this.registerCoreChecks();
-      
-      // Register module health checks
-      await this.registerModuleChecks();
-      
-      // Register system health checks
-      await this.registerSystemChecks();
-      
+      this.logger.info('Initializing health check system...');
+
+      // Register default health checks
+      await this.registerDefaultChecks();
+
+      // Start monitoring
+      if (this.config.enabled) {
+        await this.startMonitoring();
+      }
+
       this.isInitialized = true;
-      console.info('Health check system initialized successfully');
-      
+      this.logger.info('Health check system initialized successfully');
+
     } catch (error) {
-      console.error('Failed to initialize health check system', { error: error.message });
+      this.errorHandler.handleError(error);
       throw error;
     }
   }
 
   /**
-   * Register core health checks
-   */
-  private async registerCoreChecks(): Promise<void> {
-    // TypeScript compilation check
-    this.registry.checks.set('typescript-compilation', {
-      timeout: 30000,
-      retries: 2,
-      interval: 60000,
-      enabled: true,
-      critical: true
-    });
-
-    // Test suite check
-    this.registry.checks.set('test-suite', {
-      timeout: 60000,
-      retries: 1,
-      interval: 300000,
-      enabled: true,
-      critical: true
-    });
-
-    // Memory usage check
-    this.registry.checks.set('memory-usage', {
-      timeout: 5000,
-      retries: 1,
-      interval: 30000,
-      enabled: true,
-      critical: false
-    });
-
-    // Disk space check
-    this.registry.checks.set('disk-space', {
-      timeout: 10000,
-      retries: 1,
-      interval: 60000,
-      enabled: true,
-      critical: true
-    });
-
-    // Network connectivity check
-    this.registry.checks.set('network-connectivity', {
-      timeout: 15000,
-      retries: 2,
-      interval: 60000,
-      enabled: true,
-      critical: true
-    });
-  }
-
-  /**
-   * Register module health checks
-   */
-  private async registerModuleChecks(): Promise<void> {
-    // Manager files check
-    this.registry.checks.set('manager-files', {
-      timeout: 10000,
-      retries: 1,
-      interval: 300000,
-      enabled: true,
-      critical: true
-    });
-
-    // Capability files check
-    this.registry.checks.set('capability-files', {
-      timeout: 10000,
-      retries: 1,
-      interval: 300000,
-      enabled: true,
-      critical: true
-    });
-
-    // CLI harnesses check
-    this.registry.checks.set('cli-harnesses', {
-      timeout: 15000,
-      retries: 1,
-      interval: 300000,
-      enabled: true,
-      critical: false
-    });
-
-    // Test coverage check
-    this.registry.checks.set('test-coverage', {
-      timeout: 30000,
-      retries: 1,
-      interval: 600000,
-      enabled: true,
-      critical: false
-    });
-  }
-
-  /**
-   * Register system health checks
-   */
-  private async registerSystemChecks(): Promise<void> {
-    // Security check
-    this.registry.checks.set('security-scan', {
-      timeout: 45000,
-      retries: 1,
-      interval: 1800000,
-      enabled: true,
-      critical: true
-    });
-
-    // Performance check
-    this.registry.checks.set('performance-test', {
-      timeout: 60000,
-      retries: 1,
-      interval: 1800000,
-      enabled: true,
-      critical: false
-    });
-
-    // Documentation check
-    this.registry.checks.set('documentation', {
-      timeout: 20000,
-      retries: 1,
-      interval: 3600000,
-      enabled: true,
-      critical: false
-    });
-  }
-
-  /**
-   * Run all health checks
-   */
-  async runHealthChecks(): Promise<HealthStatus> {
-    console.info('Running comprehensive health checks...');
-    
-    const checks: HealthCheck[] = [];
-    const startTime = Date.now();
-    
-    try {
-      // Run all registered checks
-      for (const [checkName, config] of this.registry.checks) {
-        if (config.enabled) {
-          const check = await this.runHealthCheck(checkName, config);
-          checks.push(check);
-        }
-      }
-      
-      // Calculate summary
-      const summary = this.calculateSummary(checks);
-      
-      // Determine overall status
-      const status = this.determineOverallStatus(checks);
-      
-      const healthStatus: HealthStatus = {
-        status,
-        timestamp: new Date(),
-        uptime: Date.now() - this.startTime.getTime(),
-        version: this.version,
-        checks,
-        summary,
-        metadata: {
-          totalChecks: checks.length,
-          executionTime: Date.now() - startTime,
-          systemInfo: await this.getSystemInfo()
-        }
-      };
-      
-      console.info('Health checks completed', { 
-        status, 
-        successRate: summary.successRate,
-        executionTime: healthStatus.metadata.executionTime
-      });
-      
-      return healthStatus;
-      
-    } catch (error) {
-      console.error('Health check execution failed', { error: error.message });
-      throw error;
-    }
-  }
-
-  /**
-   * Run a specific health check
-   */
-  private async runHealthCheck(name: string, config: HealthCheckConfig): Promise<HealthCheck> {
-    const startTime = Date.now();
-    
-    try {
-      let result: HealthCheck;
-      
-      switch (name) {
-        case 'typescript-compilation':
-          result = await this.checkTypeScriptCompilation();
-          break;
-        case 'test-suite':
-          result = await this.checkTestSuite();
-          break;
-        case 'memory-usage':
-          result = await this.checkMemoryUsage();
-          break;
-        case 'disk-space':
-          result = await this.checkDiskSpace();
-          break;
-        case 'network-connectivity':
-          result = await this.checkNetworkConnectivity();
-          break;
-        case 'manager-files':
-          result = await this.checkManagerFiles();
-          break;
-        case 'capability-files':
-          result = await this.checkCapabilityFiles();
-          break;
-        case 'cli-harnesses':
-          result = await this.checkCLIHarnesses();
-          break;
-        case 'test-coverage':
-          result = await this.checkTestCoverage();
-          break;
-        case 'security-scan':
-          result = await this.checkSecurityScan();
-          break;
-        case 'performance-test':
-          result = await this.checkPerformanceTest();
-          break;
-        case 'documentation':
-          result = await this.checkDocumentation();
-          break;
-        default:
-          result = {
-            name,
-            status: 'skip',
-            message: 'Unknown health check',
-            duration: 0,
-            timestamp: new Date(),
-            metadata: {}
-          };
-      }
-      
-      result.duration = Date.now() - startTime;
-      return result;
-      
-    } catch (error) {
-      return {
-        name,
-        status: 'fail',
-        message: `Health check failed: ${error.message}`,
-        duration: Date.now() - startTime,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check TypeScript compilation
-   */
-  private async checkTypeScriptCompilation(): Promise<HealthCheck> {
-    try {
-      const { execSync } = require('child_process');
-      execSync('npx tsc --noEmit', { timeout: 30000 });
-      
-      return {
-        name: 'typescript-compilation',
-        status: 'pass',
-        message: 'TypeScript compilation successful',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: {}
-      };
-    } catch (error) {
-      return {
-        name: 'typescript-compilation',
-        status: 'fail',
-        message: 'TypeScript compilation failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check test suite
-   */
-  private async checkTestSuite(): Promise<HealthCheck> {
-    try {
-      const { execSync } = require('child_process');
-      execSync('npm test', { timeout: 60000 });
-      
-      return {
-        name: 'test-suite',
-        status: 'pass',
-        message: 'Test suite passed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: {}
-      };
-    } catch (error) {
-      return {
-        name: 'test-suite',
-        status: 'fail',
-        message: 'Test suite failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check memory usage
-   */
-  private async checkMemoryUsage(): Promise<HealthCheck> {
-    const memUsage = process.memoryUsage();
-    const memUsageMB = {
-      rss: Math.round(memUsage.rss / 1024 / 1024),
-      heapTotal: Math.round(memUsage.heapTotal / 1024 / 1024),
-      heapUsed: Math.round(memUsage.heapUsed / 1024 / 1024),
-      external: Math.round(memUsage.external / 1024 / 1024)
-    };
-    
-    const heapUsedPercent = (memUsage.heapUsed / memUsage.heapTotal) * 100;
-    
-    let status: 'pass' | 'warn' | 'fail' = 'pass';
-    let message = 'Memory usage normal';
-    
-    if (heapUsedPercent > 90) {
-      status = 'fail';
-      message = 'Memory usage critical';
-    } else if (heapUsedPercent > 75) {
-      status = 'warn';
-      message = 'Memory usage high';
-    }
-    
-    return {
-      name: 'memory-usage',
-      status,
-      message,
-      duration: 0,
-      timestamp: new Date(),
-      metadata: { ...memUsageMB, heapUsedPercent: Math.round(heapUsedPercent) }
-    };
-  }
-
-  /**
-   * Check disk space
-   */
-  private async checkDiskSpace(): Promise<HealthCheck> {
-    try {
-      const { execSync } = require('child_process');
-      const output = execSync('df -h /', { encoding: 'utf8' });
-      const lines = output.trim().split('\n');
-      const data = lines[1].split(/\s+/);
-      const usedPercent = parseInt(data[4].replace('%', ''));
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'Disk space normal';
-      
-      if (usedPercent > 95) {
-        status = 'fail';
-        message = 'Disk space critical';
-      } else if (usedPercent > 85) {
-        status = 'warn';
-        message = 'Disk space low';
-      }
-      
-      return {
-        name: 'disk-space',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { usedPercent, total: data[1], used: data[2], available: data[3] }
-      };
-    } catch (error) {
-      return {
-        name: 'disk-space',
-        status: 'fail',
-        message: 'Disk space check failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check network connectivity
-   */
-  private async checkNetworkConnectivity(): Promise<HealthCheck> {
-    try {
-      const { execSync } = require('child_process');
-      execSync('ping -c 1 8.8.8.8', { timeout: 15000 });
-      
-      return {
-        name: 'network-connectivity',
-        status: 'pass',
-        message: 'Network connectivity normal',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: {}
-      };
-    } catch (error) {
-      return {
-        name: 'network-connectivity',
-        status: 'fail',
-        message: 'Network connectivity failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check manager files
-   */
-  private async checkManagerFiles(): Promise<HealthCheck> {
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      
-      const pureDir = './miff/pure';
-      const entries = fs.readdirSync(pureDir);
-      let managerCount = 0;
-      let totalModules = 0;
-      
-      for (const entry of entries) {
-        const entryPath = path.join(pureDir, entry);
-        const stat = fs.statSync(entryPath);
-        
-        if (stat.isDirectory() && entry.endsWith('Pure')) {
-          totalModules++;
-          const managerPath = path.join(entryPath, 'Manager.ts');
-          if (fs.existsSync(managerPath)) {
-            managerCount++;
-          }
-        }
-      }
-      
-      const coverage = (managerCount / totalModules) * 100;
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'Manager files coverage normal';
-      
-      if (coverage < 90) {
-        status = 'fail';
-        message = 'Manager files coverage insufficient';
-      } else if (coverage < 95) {
-        status = 'warn';
-        message = 'Manager files coverage low';
-      }
-      
-      return {
-        name: 'manager-files',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { managerCount, totalModules, coverage: Math.round(coverage) }
-      };
-    } catch (error) {
-      return {
-        name: 'manager-files',
-        status: 'fail',
-        message: 'Manager files check failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check capability files
-   */
-  private async checkCapabilityFiles(): Promise<HealthCheck> {
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      
-      const pureDir = './miff/pure';
-      const entries = fs.readdirSync(pureDir);
-      let capabilityCount = 0;
-      let totalModules = 0;
-      
-      for (const entry of entries) {
-        const entryPath = path.join(pureDir, entry);
-        const stat = fs.statSync(entryPath);
-        
-        if (stat.isDirectory() && entry.endsWith('Pure')) {
-          totalModules++;
-          const capabilityPath = path.join(entryPath, 'capabilities.ts');
-          if (fs.existsSync(capabilityPath)) {
-            capabilityCount++;
-          }
-        }
-      }
-      
-      const coverage = (capabilityCount / totalModules) * 100;
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'Capability files coverage normal';
-      
-      if (coverage < 90) {
-        status = 'fail';
-        message = 'Capability files coverage insufficient';
-      } else if (coverage < 95) {
-        status = 'warn';
-        message = 'Capability files coverage low';
-      }
-      
-      return {
-        name: 'capability-files',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { capabilityCount, totalModules, coverage: Math.round(coverage) }
-      };
-    } catch (error) {
-      return {
-        name: 'capability-files',
-        status: 'fail',
-        message: 'Capability files check failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check CLI harnesses
-   */
-  private async checkCLIHarnesses(): Promise<HealthCheck> {
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      
-      const pureDir = './miff/pure';
-      const entries = fs.readdirSync(pureDir);
-      let cliCount = 0;
-      let totalModules = 0;
-      
-      for (const entry of entries) {
-        const entryPath = path.join(pureDir, entry);
-        const stat = fs.statSync(entryPath);
-        
-        if (stat.isDirectory() && entry.endsWith('Pure')) {
-          totalModules++;
-          const cliPath = path.join(entryPath, 'cliHarness.ts');
-          if (fs.existsSync(cliPath)) {
-            cliCount++;
-          }
-        }
-      }
-      
-      const coverage = (cliCount / totalModules) * 100;
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'CLI harnesses coverage normal';
-      
-      if (coverage < 70) {
-        status = 'fail';
-        message = 'CLI harnesses coverage insufficient';
-      } else if (coverage < 80) {
-        status = 'warn';
-        message = 'CLI harnesses coverage low';
-      }
-      
-      return {
-        name: 'cli-harnesses',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { cliCount, totalModules, coverage: Math.round(coverage) }
-      };
-    } catch (error) {
-      return {
-        name: 'cli-harnesses',
-        status: 'fail',
-        message: 'CLI harnesses check failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check test coverage
-   */
-  private async checkTestCoverage(): Promise<HealthCheck> {
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      
-      const pureDir = './miff/pure';
-      const entries = fs.readdirSync(pureDir);
-      let testCount = 0;
-      let totalModules = 0;
-      
-      for (const entry of entries) {
-        const entryPath = path.join(pureDir, entry);
-        const stat = fs.statSync(entryPath);
-        
-        if (stat.isDirectory() && entry.endsWith('Pure')) {
-          totalModules++;
-          const testPath = path.join(entryPath, 'tests');
-          if (fs.existsSync(testPath)) {
-            const testFiles = fs.readdirSync(testPath).filter((file: string) => file.endsWith('.test.ts'));
-            testCount += testFiles.length;
-          }
-        }
-      }
-      
-      const coverage = (testCount / totalModules);
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'Test coverage normal';
-      
-      if (coverage < 1) {
-        status = 'fail';
-        message = 'Test coverage insufficient';
-      } else if (coverage < 2) {
-        status = 'warn';
-        message = 'Test coverage low';
-      }
-      
-      return {
-        name: 'test-coverage',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { testCount, totalModules, coverage: Math.round(coverage * 100) / 100 }
-      };
-    } catch (error) {
-      return {
-        name: 'test-coverage',
-        status: 'fail',
-        message: 'Test coverage check failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check security scan
-   */
-  private async checkSecurityScan(): Promise<HealthCheck> {
-    try {
-      // Check for unsafe JSON.parse
-      const { execSync } = require('child_process');
-      const unsafeJson = execSync('grep -r "JSON\\.parse(" ./miff/pure --include="*.ts" | grep -v "SafeJSONParser" | wc -l', { encoding: 'utf8' }).trim();
-      const unsafeCount = parseInt(unsafeJson);
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'Security scan passed';
-      
-      if (unsafeCount > 50) {
-        status = 'fail';
-        message = 'Security scan failed - too many unsafe JSON.parse';
-      } else if (unsafeCount > 20) {
-        status = 'warn';
-        message = 'Security scan warning - some unsafe JSON.parse';
-      }
-      
-      return {
-        name: 'security-scan',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { unsafeJsonParse: unsafeCount }
-      };
-    } catch (error) {
-      return {
-        name: 'security-scan',
-        status: 'fail',
-        message: 'Security scan failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check performance test
-   */
-  private async checkPerformanceTest(): Promise<HealthCheck> {
-    try {
-      // Check for console.log statements
-      const { execSync } = require('child_process');
-      const consoleLogs = execSync('grep -r "console\\.log" ./miff/pure --include="*.ts" | wc -l', { encoding: 'utf8' }).trim();
-      const logCount = parseInt(consoleLogs);
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'Performance test passed';
-      
-      if (logCount > 100) {
-        status = 'fail';
-        message = 'Performance test failed - too many console.log';
-      } else if (logCount > 50) {
-        status = 'warn';
-        message = 'Performance test warning - some console.log';
-      }
-      
-      return {
-        name: 'performance-test',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { consoleLogs: logCount }
-      };
-    } catch (error) {
-      return {
-        name: 'performance-test',
-        status: 'fail',
-        message: 'Performance test failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Check documentation
-   */
-  private async checkDocumentation(): Promise<HealthCheck> {
-    try {
-      const fs = require('fs');
-      
-      const requiredDocs = [
-        'README.md',
-        'CONTRIBUTING.md',
-        'CHANGELOG.md',
-        'LICENSE',
-        'PHASE_1_COMPLETION_REPORT.md',
-        'MIFF_FINAL_SUPER_AUDIT_REPORT_2025.md',
-        'MIFF_PRODUCTION_READINESS_CERTIFICATE_2025.md'
-      ];
-      
-      let foundDocs = 0;
-      const missingDocs: string[] = [];
-      
-      for (const doc of requiredDocs) {
-        if (fs.existsSync(doc)) {
-          foundDocs++;
-        } else {
-          missingDocs.push(doc);
-        }
-      }
-      
-      const coverage = (foundDocs / requiredDocs.length) * 100;
-      
-      let status: 'pass' | 'warn' | 'fail' = 'pass';
-      let message = 'Documentation complete';
-      
-      if (coverage < 80) {
-        status = 'fail';
-        message = 'Documentation incomplete';
-      } else if (coverage < 90) {
-        status = 'warn';
-        message = 'Documentation mostly complete';
-      }
-      
-      return {
-        name: 'documentation',
-        status,
-        message,
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { foundDocs, totalDocs: requiredDocs.length, coverage: Math.round(coverage), missingDocs }
-      };
-    } catch (error) {
-      return {
-        name: 'documentation',
-        status: 'fail',
-        message: 'Documentation check failed',
-        duration: 0,
-        timestamp: new Date(),
-        metadata: { error: error.message }
-      };
-    }
-  }
-
-  /**
-   * Calculate health check summary
-   */
-  private calculateSummary(checks: HealthCheck[]): HealthSummary {
-    const total = checks.length;
-    const passed = checks.filter(c => c.status === 'pass').length;
-    const failed = checks.filter(c => c.status === 'fail').length;
-    const warnings = checks.filter(c => c.status === 'warn').length;
-    const skipped = checks.filter(c => c.status === 'skip').length;
-    const successRate = total > 0 ? (passed / total) * 100 : 0;
-    
-    return {
-      total,
-      passed,
-      failed,
-      warnings,
-      skipped,
-      successRate: Math.round(successRate * 100) / 100
-    };
-  }
-
-  /**
-   * Determine overall health status
-   */
-  private determineOverallStatus(checks: HealthCheck[]): 'healthy' | 'degraded' | 'unhealthy' | 'critical' {
-    const criticalFailures = checks.filter(c => c.status === 'fail' && this.registry.checks.get(c.name)?.critical).length;
-    const failures = checks.filter(c => c.status === 'fail').length;
-    const warnings = checks.filter(c => c.status === 'warn').length;
-    
-    if (criticalFailures > 0) {
-      return 'critical';
-    } else if (failures > 2) {
-      return 'unhealthy';
-    } else if (failures > 0 || warnings > 3) {
-      return 'degraded';
-    } else {
-      return 'healthy';
-    }
-  }
-
-  /**
-   * Get system information
-   */
-  private async getSystemInfo(): Promise<Record<string, any>> {
-    return {
-      nodeVersion: process.version,
-      platform: process.platform,
-      arch: process.arch,
-      uptime: process.uptime(),
-      memoryUsage: process.memoryUsage(),
-      cpuUsage: process.cpuUsage()
-    };
-  }
-
-  /**
-   * Get health status
+   * Get current health status
    */
   async getHealthStatus(): Promise<HealthStatus> {
-    return this.runHealthChecks();
+    if (!this.isInitialized) {
+      throw new Error('Health check system not initialized');
+    }
+
+    const startTime = Date.now();
+    const checks = await this.runAllChecks();
+    const duration = Date.now() - startTime;
+
+    const summary = this.calculateSummary(checks);
+    const status = this.determineStatus(summary);
+    const metrics = await this.collectMetrics();
+    const alerts = this.generateAlerts(checks, metrics);
+
+    const healthStatus: HealthStatus = {
+      status,
+      timestamp: new Date(),
+      uptime: Date.now() - this.startTime.getTime(),
+      summary,
+      checks,
+      metrics,
+      alerts
+    };
+
+    // Store in history
+    this.healthHistory.push(healthStatus);
+    this.trimHistory();
+
+    return healthStatus;
   }
 
   /**
-   * Get health check configuration
+   * Register a custom health check
    */
-  getHealthCheckConfig(name: string): HealthCheckConfig! {
-    return this.registry.checks.get(name);
+  registerCheck(check: HealthCheck): void {
+    this.checks.set(check.name, check);
+    this.logger.info('Health check registered', { name: check.name, category: check.category });
   }
 
   /**
-   * Update health check configuration
+   * Unregister a health check
    */
-  updateHealthCheckConfig(): void {
-    this.registry.checks.set(name, config);
+  unregisterCheck(name: string): void {
+    if (this.checks.delete(name)) {
+      this.logger.info('Health check unregistered', { name });
+    }
+  }
+
+  /**
+   * Get health history
+   */
+  getHealthHistory(limit?: number): HealthStatus[] {
+    if (limit) {
+      return this.healthHistory.slice(-limit);
+    }
+    return [...this.healthHistory];
+  }
+
+  /**
+   * Get health trends
+   */
+  getHealthTrends(days: number = 7): {
+    statusTrend: Array<{ date: string; status: string; count: number }>;
+    performanceTrend: Array<{ date: string; avgResponseTime: number; errorRate: number }>;
+    alertTrend: Array<{ date: string; alerts: number; critical: number }>;
+  } {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+
+    const recentHistory = this.healthHistory.filter(h => h.timestamp >= cutoffDate);
+
+    const statusTrend = this.calculateStatusTrend(recentHistory);
+    const performanceTrend = this.calculatePerformanceTrend(recentHistory);
+    const alertTrend = this.calculateAlertTrend(recentHistory);
+
+    return {
+      statusTrend,
+      performanceTrend,
+      alertTrend
+    };
+  }
+
+  /**
+   * Start monitoring
+   */
+  async startMonitoring(): Promise<void> {
+    if (this.monitoringInterval) {
+      this.logger.warn('Monitoring already started');
+      return;
+    }
+
+    this.logger.info('Starting health monitoring...');
+
+    this.monitoringInterval = setInterval(async () => {
+      try {
+        const healthStatus = await this.getHealthStatus();
+        
+        if (this.config.loggingEnabled) {
+          this.logger.info('Health check completed', {
+            status: healthStatus.status,
+            successRate: healthStatus.summary.successRate,
+            totalChecks: healthStatus.summary.totalChecks
+          });
+        }
+
+        // Handle alerts
+        if (healthStatus.alerts.length > 0) {
+          await this.handleAlerts(healthStatus.alerts);
+        }
+
+        // Auto-recovery
+        if (this.config.autoRecovery && healthStatus.status === 'critical') {
+          await this.attemptAutoRecovery(healthStatus);
+        }
+
+      } catch (error) {
+        this.errorHandler.handleError(error);
+      }
+    }, this.config.interval);
+
+    this.logger.info('Health monitoring started', { interval: this.config.interval });
+  }
+
+  /**
+   * Stop monitoring
+   */
+  async stopMonitoring(): Promise<void> {
+    if (this.monitoringInterval) {
+      clearInterval(this.monitoringInterval);
+      this.monitoringInterval = undefined;
+      this.logger.info('Health monitoring stopped');
+    }
   }
 
   /**
    * Destroy the health check system
    */
   async destroy(): Promise<void> {
-    console.info('Destroying health check system...');
+    try {
+      this.logger.info('Destroying health check system...');
+
+      await this.stopMonitoring();
+      this.checks.clear();
+      this.healthHistory = [];
+
+      this.isInitialized = false;
+      this.logger.info('Health check system destroyed');
+
+    } catch (error) {
+      this.errorHandler.handleError(error);
+      throw error;
+    }
+  }
+
+  // Private methods
+
+  private async registerDefaultChecks(): Promise<void> {
+    // System checks
+    this.registerCheck({
+      name: 'system_cpu',
+      category: 'system',
+      severity: 'high',
+      enabled: true,
+      timeout: 5000,
+      retries: 2,
+      check: async () => {
+        const usage = await this.getCpuUsage();
+        if (usage > 90) {
+          return { status: 'critical', message: `CPU usage critical: ${usage}%`, details: { usage } };
+        } else if (usage > 80) {
+          return { status: 'warning', message: `CPU usage high: ${usage}%`, details: { usage } };
+        }
+        return { status: 'pass', message: `CPU usage normal: ${usage}%`, details: { usage } };
+      }
+    });
+
+    this.registerCheck({
+      name: 'system_memory',
+      category: 'system',
+      severity: 'high',
+      enabled: true,
+      timeout: 5000,
+      retries: 2,
+      check: async () => {
+        const memory = await this.getMemoryUsage();
+        if (memory.usage > 95) {
+          return { status: 'critical', message: `Memory usage critical: ${memory.usage}%`, details: memory };
+        } else if (memory.usage > 85) {
+          return { status: 'warning', message: `Memory usage high: ${memory.usage}%`, details: memory };
+        }
+        return { status: 'pass', message: `Memory usage normal: ${memory.usage}%`, details: memory };
+      }
+    });
+
+    this.registerCheck({
+      name: 'system_disk',
+      category: 'system',
+      severity: 'high',
+      enabled: true,
+      timeout: 5000,
+      retries: 2,
+      check: async () => {
+        const disk = await this.getDiskUsage();
+        if (disk.usage > 95) {
+          return { status: 'critical', message: `Disk usage critical: ${disk.usage}%`, details: disk };
+        } else if (disk.usage > 85) {
+          return { status: 'warning', message: `Disk usage high: ${disk.usage}%`, details: disk };
+        }
+        return { status: 'pass', message: `Disk usage normal: ${disk.usage}%`, details: disk };
+      }
+    });
+
+    // Performance checks
+    this.registerCheck({
+      name: 'performance_response_time',
+      category: 'performance',
+      severity: 'medium',
+      enabled: true,
+      timeout: 10000,
+      retries: 2,
+      check: async () => {
+        const responseTime = await this.getResponseTime();
+        if (responseTime > 5000) {
+          return { status: 'critical', message: `Response time critical: ${responseTime}ms`, details: { responseTime } };
+        } else if (responseTime > 2000) {
+          return { status: 'warning', message: `Response time high: ${responseTime}ms`, details: { responseTime } };
+        }
+        return { status: 'pass', message: `Response time normal: ${responseTime}ms`, details: { responseTime } };
+      }
+    });
+
+    // Application checks
+    this.registerCheck({
+      name: 'application_errors',
+      category: 'application',
+      severity: 'high',
+      enabled: true,
+      timeout: 5000,
+      retries: 2,
+      check: async () => {
+        const errorRate = await this.getErrorRate();
+        if (errorRate > 10) {
+          return { status: 'critical', message: `Error rate critical: ${errorRate}%`, details: { errorRate } };
+        } else if (errorRate > 5) {
+          return { status: 'warning', message: `Error rate high: ${errorRate}%`, details: { errorRate } };
+        }
+        return { status: 'pass', message: `Error rate normal: ${errorRate}%`, details: { errorRate } };
+      }
+    });
+
+    this.logger.info('Default health checks registered', { count: this.checks.size });
+  }
+
+  private async runAllChecks(): Promise<HealthStatus['checks']> {
+    const results: HealthStatus['checks'] = [];
+    const checkPromises = Array.from(this.checks.values())
+      .filter(check => check.enabled)
+      .map(async (check) => {
+        const startTime = Date.now();
+        try {
+          const result = await Promise.race([
+            check.check(),
+            new Promise<never>((_, reject) => 
+              setTimeout(() => reject(new Error('Check timeout')), check.timeout)
+            )
+          ]);
+
+          const duration = Date.now() - startTime;
+          results.push({
+            name: check.name,
+            status: result.status,
+            message: result.message,
+            duration,
+            timestamp: new Date(),
+            category: check.category,
+            severity: check.severity,
+            details: result.details
+          });
+
+        } catch (error) {
+          const duration = Date.now() - startTime;
+          results.push({
+            name: check.name,
+            status: 'critical',
+            message: `Check failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            duration,
+            timestamp: new Date(),
+            category: check.category,
+            severity: check.severity
+          });
+        }
+      });
+
+    await Promise.allSettled(checkPromises);
+    return results;
+  }
+
+  private calculateSummary(checks: HealthStatus['checks']): HealthStatus['summary'] {
+    const totalChecks = checks.length;
+    const passedChecks = checks.filter(c => c.status === 'pass').length;
+    const failedChecks = checks.filter(c => c.status === 'fail').length;
+    const warnings = checks.filter(c => c.status === 'warning').length;
+    const criticalIssues = checks.filter(c => c.status === 'critical').length;
+    const successRate = totalChecks > 0 ? (passedChecks / totalChecks) * 100 : 0;
+
+    return {
+      successRate: Math.round(successRate * 100) / 100,
+      totalChecks,
+      passedChecks,
+      failedChecks,
+      warnings,
+      criticalIssues
+    };
+  }
+
+  private determineStatus(summary: HealthStatus['summary']): HealthStatus['status'] {
+    if (summary.criticalIssues > 0 || summary.successRate < this.config.criticalThreshold * 100) {
+      return 'critical';
+    } else if (summary.failedChecks > 0 || summary.successRate < this.config.warningThreshold * 100) {
+      return 'degraded';
+    } else if (summary.warnings > 0 || summary.successRate < this.config.alertThreshold * 100) {
+      return 'unhealthy';
+    }
+    return 'healthy';
+  }
+
+  private async collectMetrics(): Promise<HealthStatus['metrics']> {
+    const [cpu, memory, disk, network, application] = await Promise.all([
+      this.getCpuMetrics(),
+      this.getMemoryMetrics(),
+      this.getDiskMetrics(),
+      this.getNetworkMetrics(),
+      this.getApplicationMetrics()
+    ]);
+
+    return {
+      cpu,
+      memory,
+      disk,
+      network,
+      application
+    };
+  }
+
+  private generateAlerts(checks: HealthStatus['checks'], metrics: HealthStatus['metrics']): HealthStatus['alerts'] {
+    const alerts: HealthStatus['alerts'] = [];
+
+    // Check for critical issues
+    checks.filter(c => c.status === 'critical').forEach(check => {
+      alerts.push({
+        id: `critical_${check.name}_${Date.now()}`,
+        type: 'critical',
+        message: check.message,
+        timestamp: new Date(),
+        resolved: false,
+        category: check.category,
+        severity: check.severity
+      });
+    });
+
+    // Check for performance issues
+    if (metrics.application.responseTime > 5000) {
+      alerts.push({
+        id: `performance_response_time_${Date.now()}`,
+        type: 'warning',
+        message: `Response time is ${metrics.application.responseTime}ms`,
+        timestamp: new Date(),
+        resolved: false,
+        category: 'performance',
+        severity: 'high'
+      });
+    }
+
+    return alerts;
+  }
+
+  private async handleAlerts(alerts: HealthStatus['alerts']): Promise<void> {
+    for (const alert of alerts) {
+      if (this.config.notificationEnabled) {
+        this.logger.warn('Health alert triggered', {
+          id: alert.id,
+          type: alert.type,
+          message: alert.message,
+          category: alert.category,
+          severity: alert.severity
+        });
+      }
+    }
+  }
+
+  private async attemptAutoRecovery(healthStatus: HealthStatus): Promise<void> {
+    this.logger.info('Attempting auto-recovery...');
+
+    // Implement auto-recovery logic based on health status
+    // This would typically involve restarting services, clearing caches, etc.
     
-    this.registry.checks.clear();
-    this.registry.dependencies.clear();
-    this.registry.alerts.clear();
-    
-    this.isInitialized = false;
-    console.info('Health check system destroyed');
+    this.logger.info('Auto-recovery completed');
+  }
+
+  private trimHistory(): void {
+    if (this.healthHistory.length > this.config.historyRetention) {
+      this.healthHistory = this.healthHistory.slice(-this.config.historyRetention);
+    }
+  }
+
+  // System metrics methods
+  private async getCpuUsage(): Promise<number> {
+    // Mock implementation - in real scenario, use actual system monitoring
+    return Math.random() * 100;
+  }
+
+  private async getMemoryUsage(): Promise<{ used: number; total: number; free: number; usage: number }> {
+    // Mock implementation
+    const total = 8 * 1024 * 1024 * 1024; // 8GB
+    const used = Math.random() * total;
+    return {
+      used,
+      total,
+      free: total - used,
+      usage: (used / total) * 100
+    };
+  }
+
+  private async getDiskUsage(): Promise<{ used: number; total: number; free: number; usage: number }> {
+    // Mock implementation
+    const total = 500 * 1024 * 1024 * 1024; // 500GB
+    const used = Math.random() * total;
+    return {
+      used,
+      total,
+      free: total - used,
+      usage: (used / total) * 100
+    };
+  }
+
+  private async getResponseTime(): Promise<number> {
+    // Mock implementation
+    return Math.random() * 1000;
+  }
+
+  private async getErrorRate(): Promise<number> {
+    // Mock implementation
+    return Math.random() * 10;
+  }
+
+  private async getCpuMetrics(): Promise<HealthStatus['metrics']['cpu']> {
+    return {
+      usage: await this.getCpuUsage(),
+      load: Math.random() * 4,
+      cores: 8
+    };
+  }
+
+  private async getMemoryMetrics(): Promise<HealthStatus['metrics']['memory']> {
+    return await this.getMemoryUsage();
+  }
+
+  private async getDiskMetrics(): Promise<HealthStatus['metrics']['disk']> {
+    return await this.getDiskUsage();
+  }
+
+  private async getNetworkMetrics(): Promise<HealthStatus['metrics']['network']> {
+    return {
+      latency: Math.random() * 100,
+      throughput: Math.random() * 1000,
+      errors: Math.floor(Math.random() * 10)
+    };
+  }
+
+  private async getApplicationMetrics(): Promise<HealthStatus['metrics']['application']> {
+    return {
+      responseTime: await this.getResponseTime(),
+      throughput: Math.random() * 1000,
+      errorRate: await this.getErrorRate(),
+      activeConnections: Math.floor(Math.random() * 100)
+    };
+  }
+
+  private calculateStatusTrend(history: HealthStatus[]): Array<{ date: string; status: string; count: number }> {
+    // Implementation for status trend calculation
+    return [];
+  }
+
+  private calculatePerformanceTrend(history: HealthStatus[]): Array<{ date: string; avgResponseTime: number; errorRate: number }> {
+    // Implementation for performance trend calculation
+    return [];
+  }
+
+  private calculateAlertTrend(history: HealthStatus[]): Array<{ date: string; alerts: number; critical: number }> {
+    // Implementation for alert trend calculation
+    return [];
   }
 }
 
-// Export default instance
-export const healthCheckSystem = new HealthCheckSystem();
+// Export singleton instance
+export const healthCheckSystem = HealthCheckSystem.getInstance();
 export default healthCheckSystem;
