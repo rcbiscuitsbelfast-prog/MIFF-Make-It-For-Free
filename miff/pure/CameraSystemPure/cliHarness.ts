@@ -8,11 +8,11 @@
  */
 
 import { CameraSystemPure, CameraInstance } from './index';
-import { RNGPure } from '../../RNGPure/index';
+import { RNGPure } from '../RNGPure/index';
 import * as fs from 'fs';
 import * as path from 'path';
 import readline from 'readline';
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from './shared/logging/StructuredLogger';
 
 // Mock implementations for CLI
 class RealEventBus {

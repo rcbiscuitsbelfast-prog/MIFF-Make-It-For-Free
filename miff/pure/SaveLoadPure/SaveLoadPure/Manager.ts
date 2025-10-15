@@ -1,6 +1,6 @@
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
-import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
-import { MemoryManager } from '../shared/memory/MemoryManager';
+import { StructuredLogger } from '../../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../../shared/memory/MemoryManager';
 import { StandardErrorHandler } from '../shared/error/StandardErrorHandler';
 
 // Configuration interface

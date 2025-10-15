@@ -17,7 +17,7 @@ import { RenderPayload } from './shared/ConsolidatedSchema.js';
 import { ConvertToGodotManager, GodotExportConfig, GodotVersion, GodotPlatform, OptimizationLevel } from './ConvertToGodotPure/Manager';
 import { ConvertToUnityManager, UnityConvertedPayload } from './ConvertToUnityPure/Manager';
 import { ConvertToWebManager } from './ConvertToWebPure/Manager';
-import { StructuredLogger } from '../shared/logging/StructuredLogger';
+import { StructuredLogger } from './shared/logging/StructuredLogger';
 
 export enum ExportEngine {
   GODOT = 'godot',
