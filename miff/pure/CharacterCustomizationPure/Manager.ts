@@ -471,6 +471,7 @@ export class CharacterCustomizationManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: CharacterCustomizationConfig;
   private systems: Map<string, CharacterCustomization> = new Map();
   private isInitialized: boolean = false;
@@ -481,6 +482,7 @@ export class CharacterCustomizationManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('CharacterCustomizationManager');
     this.startTime = new Date();
 
     this.config = {
@@ -503,12 +505,12 @@ export class CharacterCustomizationManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('CharacterCustomizationPure', 'Character Customization System already initialized');
+      this.logger.warn('Character Customization System already initialized');
       return;
     }
 
     try {
-      console.info('CharacterCustomizationPure', 'Initializing Character Customization System...');
+      this.logger.info('Initializing Character Customization System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -521,7 +523,7 @@ export class CharacterCustomizationManager {
       }
 
       this.isInitialized = true;
-      console.info('CharacterCustomizationPure', 'Character Customization System initialized successfully');
+      this.logger.info('Character Customization System initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -559,7 +561,7 @@ export class CharacterCustomizationManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Character customization system created', { systemId: system.id, systemName: system.name });
+      this.logger.info('Character customization system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
@@ -590,7 +592,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -604,7 +606,7 @@ export class CharacterCustomizationManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Character customization system updated', { systemId, systemName: updatedSystem.name });
+      this.logger.info('Character customization system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
@@ -624,14 +626,14 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Character customization system deleted', { systemId, systemName: system.name });
+      this.logger.info('Character customization system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
@@ -684,7 +686,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -696,7 +698,7 @@ export class CharacterCustomizationManager {
       system.characters.push(character);
       this.updateAnalytics();
 
-      console.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
+      this.logger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error) {
@@ -716,20 +718,20 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const characterIndex = system.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       system.characters.splice(characterIndex, 1);
       this.updateAnalytics();
 
-      console.info('Character removed from system', { systemId, characterId });
+      this.logger.info('Character removed from system', { systemId, characterId });
       return true;
 
     } catch (error) {
@@ -749,20 +751,20 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       character.appearance = { ...character.appearance, ...appearance };
       this.updateAnalytics();
 
-      console.debug('Character appearance updated', { systemId, characterId });
+      this.logger.debug('Character appearance updated', { systemId, characterId });
       return true;
 
     } catch (error) {
@@ -782,20 +784,20 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       character.customization = { ...character.customization, ...customization };
       this.updateAnalytics();
 
-      console.debug('Character customization updated', { systemId, characterId });
+      this.logger.debug('Character customization updated', { systemId, characterId });
       return true;
 
     } catch (error) {
@@ -815,26 +817,26 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       const preset = system.presets.find(p => p.id === presetId);
       if (!preset) {
-        console.warn('Preset not found', { systemId, presetId });
+        this.logger.warn('Preset not found', { systemId, presetId });
         return false;
       }
 
       character.customization = { ...preset.customization };
       this.updateAnalytics();
 
-      console.info('Preset applied to character', { systemId, characterId, presetId });
+      this.logger.info('Preset applied to character', { systemId, characterId, presetId });
       return true;
 
     } catch (error) {
@@ -854,13 +856,13 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        console.warn('Character not found', { systemId, characterId });
+        this.logger.warn('Character not found', { systemId, characterId });
         return null;
       }
 
@@ -873,7 +875,7 @@ export class CharacterCustomizationManager {
       system.presets.push(preset);
       this.updateAnalytics();
 
-      console.info('Preset created from character', { systemId, characterId, presetId: preset.id });
+      this.logger.info('Preset created from character', { systemId, characterId, presetId: preset.id });
       return preset;
 
     } catch (error) {
@@ -893,7 +895,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -905,7 +907,7 @@ export class CharacterCustomizationManager {
       system.assets.push(asset);
       this.updateAnalytics();
 
-      console.info('Asset added to system', { systemId, assetId: asset.id, assetName: asset.name });
+      this.logger.info('Asset added to system', { systemId, assetId: asset.id, assetName: asset.name });
       return asset;
 
     } catch (error) {
@@ -925,20 +927,20 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const assetIndex = system.assets.findIndex(a => a.id === assetId);
       if (assetIndex === -1) {
-        console.warn('Asset not found', { systemId, assetId });
+        this.logger.warn('Asset not found', { systemId, assetId });
         return false;
       }
 
       system.assets.splice(assetIndex, 1);
       this.updateAnalytics();
 
-      console.info('Asset removed from system', { systemId, assetId });
+      this.logger.info('Asset removed from system', { systemId, assetId });
       return true;
 
     } catch (error) {
@@ -958,7 +960,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -981,7 +983,7 @@ export class CharacterCustomizationManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return [];
       }
 
@@ -1111,12 +1113,12 @@ export class CharacterCustomizationManager {
    * Destroy the Character Customization System
    */
   async destroy(): Promise<void> {
-    console.info('CharacterCustomizationPure', 'Destroying Character Customization System...');
+    this.logger.info('CharacterCustomizationPure', 'Destroying Character Customization System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    console.info('CharacterCustomizationPure', 'Character Customization System destroyed');
+    this.logger.info('CharacterCustomizationPure', 'Character Customization System destroyed');
   }
 }
 

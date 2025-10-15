@@ -269,6 +269,7 @@ export class ChatSystemManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: ChatSystemConfig;
   private systems: Map<string, ChatSystem> = new Map();
   private isInitialized: boolean = false;
@@ -279,6 +280,7 @@ export class ChatSystemManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('ChatSystemManager');
     this.startTime = new Date();
 
     this.config = {
@@ -301,12 +303,12 @@ export class ChatSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('ChatSystemPure', 'Chat System already initialized');
+      this.logger.warn('Chat System already initialized');
       return;
     }
 
     try {
-      console.info('ChatSystemPure', 'Initializing Chat System...');
+      this.logger.info('Initializing Chat System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -319,7 +321,7 @@ export class ChatSystemManager {
       }
 
       this.isInitialized = true;
-      console.info('ChatSystemPure', 'Chat System initialized successfully');
+      this.logger.info('Chat System initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -357,7 +359,7 @@ export class ChatSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      console.info('Chat system created', { systemId: system.id, systemName: system.name });
+      this.logger.info('Chat system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error) {
@@ -388,7 +390,7 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -402,7 +404,7 @@ export class ChatSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      console.info('Chat system updated', { systemId, systemName: updatedSystem.name });
+      this.logger.info('Chat system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error) {
@@ -422,14 +424,14 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      console.info('Chat system deleted', { systemId, systemName: system.name });
+      this.logger.info('Chat system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error) {
@@ -482,7 +484,7 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -496,7 +498,7 @@ export class ChatSystemManager {
       system.channels.push(channel);
       this.updateAnalytics();
 
-      console.info('Channel added to system', { systemId, channelId: channel.id, channelName: channel.name });
+      this.logger.info('Channel added to system', { systemId, channelId: channel.id, channelName: channel.name });
       return channel;
 
     } catch (error) {
@@ -516,20 +518,20 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const channelIndex = system.channels.findIndex(c => c.id === channelId);
       if (channelIndex === -1) {
-        console.warn('Channel not found', { systemId, channelId });
+        this.logger.warn('Channel not found', { systemId, channelId });
         return false;
       }
 
       system.channels.splice(channelIndex, 1);
       this.updateAnalytics();
 
-      console.info('Channel removed from system', { systemId, channelId });
+      this.logger.info('Channel removed from system', { systemId, channelId });
       return true;
 
     } catch (error) {
@@ -549,7 +551,7 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
@@ -561,7 +563,7 @@ export class ChatSystemManager {
       system.users.push(user);
       this.updateAnalytics();
 
-      console.info('User added to system', { systemId, userId: user.id, userName: user.name });
+      this.logger.info('User added to system', { systemId, userId: user.id, userName: user.name });
       return user;
 
     } catch (error) {
@@ -581,20 +583,20 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const userIndex = system.users.findIndex(u => u.id === userId);
       if (userIndex === -1) {
-        console.warn('User not found', { systemId, userId });
+        this.logger.warn('User not found', { systemId, userId });
         return false;
       }
 
       system.users.splice(userIndex, 1);
       this.updateAnalytics();
 
-      console.info('User removed from system', { systemId, userId });
+      this.logger.info('User removed from system', { systemId, userId });
       return true;
 
     } catch (error) {
@@ -614,25 +616,25 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return null;
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { systemId, channelId });
+        this.logger.warn('Channel not found', { systemId, channelId });
         return null;
       }
 
       const user = system.users.find(u => u.id === userId);
       if (!user) {
-        console.warn('User not found', { systemId, userId });
+        this.logger.warn('User not found', { systemId, userId });
         return null;
       }
 
       // Check if user is in channel
       if (!channel.users.includes(userId)) {
-        console.warn('User not in channel', { systemId, channelId, userId });
+        this.logger.warn('User not in channel', { systemId, channelId, userId });
         return null;
       }
 
@@ -652,7 +654,7 @@ export class ChatSystemManager {
       system.messages.push(message);
       this.updateAnalytics();
 
-      console.info('Message sent', { systemId, channelId, userId, messageId: message.id });
+      this.logger.info('Message sent', { systemId, channelId, userId, messageId: message.id });
       return message;
 
     } catch (error) {
@@ -672,13 +674,13 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return [];
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { systemId, channelId });
+        this.logger.warn('Channel not found', { systemId, channelId });
         return [];
       }
 
@@ -703,25 +705,25 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { systemId, channelId });
+        this.logger.warn('Channel not found', { systemId, channelId });
         return false;
       }
 
       if (channel.users.includes(userId)) {
-        console.warn('User already in channel', { systemId, channelId, userId });
+        this.logger.warn('User already in channel', { systemId, channelId, userId });
         return false;
       }
 
       channel.users.push(userId);
       this.updateAnalytics();
 
-      console.info('User joined channel', { systemId, channelId, userId });
+      this.logger.info('User joined channel', { systemId, channelId, userId });
       return true;
 
     } catch (error) {
@@ -741,26 +743,26 @@ export class ChatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        console.warn('System not found', { systemId });
+        this.logger.warn('System not found', { systemId });
         return false;
       }
 
       const channel = system.channels.find(c => c.id === channelId);
       if (!channel) {
-        console.warn('Channel not found', { systemId, channelId });
+        this.logger.warn('Channel not found', { systemId, channelId });
         return false;
       }
 
       const userIndex = channel.users.indexOf(userId);
       if (userIndex === -1) {
-        console.warn('User not in channel', { systemId, channelId, userId });
+        this.logger.warn('User not in channel', { systemId, channelId, userId });
         return false;
       }
 
       channel.users.splice(userIndex, 1);
       this.updateAnalytics();
 
-      console.info('User left channel', { systemId, channelId, userId });
+      this.logger.info('User left channel', { systemId, channelId, userId });
       return true;
 
     } catch (error) {
@@ -888,12 +890,12 @@ export class ChatSystemManager {
    * Destroy the Chat System
    */
   async destroy(): Promise<void> {
-    console.info('ChatSystemPure', 'Destroying Chat System...');
+    this.logger.info('Destroying Chat System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    console.info('ChatSystemPure', 'Chat System destroyed');
+    this.logger.info('Chat System destroyed');
   }
 }
 

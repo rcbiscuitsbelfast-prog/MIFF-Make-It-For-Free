@@ -348,6 +348,7 @@ export class BlockBuilderManager {
   private performanceOptimizer: PerformanceOptimizer;
   private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private logger: StructuredLogger;
   private config: BlockBuilderConfig;
   private builders: Map<string, BlockBuilder> = new Map();
   private isInitialized: boolean = false;
@@ -358,6 +359,7 @@ export class BlockBuilderManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
+    this.logger = new StructuredLogger('BlockBuilderManager');
     this.startTime = new Date();
 
     this.config = {
@@ -381,12 +383,12 @@ export class BlockBuilderManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.warn('BlockBuilderPure', 'Block Builder Manager already initialized');
+      this.logger.warn('BlockBuilderPure', 'Block Builder Manager already initialized');
       return;
     }
 
     try {
-      console.info('BlockBuilderPure', 'Initializing Block Builder Manager...');
+      this.logger.info('BlockBuilderPure', 'Initializing Block Builder Manager...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -399,7 +401,7 @@ export class BlockBuilderManager {
       }
 
       this.isInitialized = true;
-      console.info('BlockBuilderPure', 'Block Builder Manager initialized successfully');
+      this.logger.info('BlockBuilderPure', 'Block Builder Manager initialized successfully');
 
     } catch (error) {
       this.errorHandler.handleError($1);
@@ -435,7 +437,7 @@ export class BlockBuilderManager {
       this.builders.set(builder.id, builder);
       this.updateAnalytics();
 
-      console.info('Block builder created', { builderId: builder.id, builderName: builder.name });
+      this.logger.info('Block builder created', { builderId: builder.id, builderName: builder.name });
       return builder;
 
     } catch (error) {
@@ -466,7 +468,7 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return null;
       }
 
@@ -480,7 +482,7 @@ export class BlockBuilderManager {
       this.builders.set(builderId, updatedBuilder);
       this.updateAnalytics();
 
-      console.info('Block builder updated', { builderId, builderName: updatedBuilder.name });
+      this.logger.info('Block builder updated', { builderId, builderName: updatedBuilder.name });
       return updatedBuilder;
 
     } catch (error) {
@@ -500,14 +502,14 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return false;
       }
 
       this.builders.delete(builderId);
       this.updateAnalytics();
 
-      console.info('Block builder deleted', { builderId, builderName: builder.name });
+      this.logger.info('Block builder deleted', { builderId, builderName: builder.name });
       return true;
 
     } catch (error) {
@@ -560,7 +562,7 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return null;
       }
 
@@ -572,7 +574,7 @@ export class BlockBuilderManager {
       builder.blocks.push(block);
       this.updateAnalytics();
 
-      console.info('Block created', { builderId, blockId: block.id, blockName: block.name });
+      this.logger.info('Block created', { builderId, blockId: block.id, blockName: block.name });
       return block;
 
     } catch (error) {
@@ -592,13 +594,13 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return null;
       }
 
       const block = builder.blocks.find(b => b.id === blockId);
       if (!block) {
-        console.warn('Block not found', { builderId, blockId });
+        this.logger.warn('Block not found', { builderId, blockId });
         return null;
       }
 
@@ -611,7 +613,7 @@ export class BlockBuilderManager {
       builder.blocks[blockIndex] = updatedBlock;
       this.updateAnalytics();
 
-      console.info('Block updated', { builderId, blockId, blockName: updatedBlock.name });
+      this.logger.info('Block updated', { builderId, blockId, blockName: updatedBlock.name });
       return updatedBlock;
 
     } catch (error) {
@@ -631,20 +633,20 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return false;
       }
 
       const blockIndex = builder.blocks.findIndex(b => b.id === blockId);
       if (blockIndex === -1) {
-        console.warn('Block not found', { builderId, blockId });
+        this.logger.warn('Block not found', { builderId, blockId });
         return false;
       }
 
       builder.blocks.splice(blockIndex, 1);
       this.updateAnalytics();
 
-      console.info('Block deleted', { builderId, blockId });
+      this.logger.info('Block deleted', { builderId, blockId });
       return true;
 
     } catch (error) {
@@ -664,7 +666,7 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return null;
       }
 
@@ -676,7 +678,7 @@ export class BlockBuilderManager {
       builder.buildings.push(building);
       this.updateAnalytics();
 
-      console.info('Building created', { builderId, buildingId: building.id, buildingName: building.name });
+      this.logger.info('Building created', { builderId, buildingId: building.id, buildingName: building.name });
       return building;
 
     } catch (error) {
@@ -696,13 +698,13 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return null;
       }
 
       const building = builder.buildings.find(b => b.id === buildingId);
       if (!building) {
-        console.warn('Building not found', { builderId, buildingId });
+        this.logger.warn('Building not found', { builderId, buildingId });
         return null;
       }
 
@@ -715,7 +717,7 @@ export class BlockBuilderManager {
       builder.buildings[buildingIndex] = updatedBuilding;
       this.updateAnalytics();
 
-      console.info('Building updated', { builderId, buildingId, buildingName: updatedBuilding.name });
+      this.logger.info('Building updated', { builderId, buildingId, buildingName: updatedBuilding.name });
       return updatedBuilding;
 
     } catch (error) {
@@ -735,20 +737,20 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return false;
       }
 
       const buildingIndex = builder.buildings.findIndex(b => b.id === buildingId);
       if (buildingIndex === -1) {
-        console.warn('Building not found', { builderId, buildingId });
+        this.logger.warn('Building not found', { builderId, buildingId });
         return false;
       }
 
       builder.buildings.splice(buildingIndex, 1);
       this.updateAnalytics();
 
-      console.info('Building deleted', { builderId, buildingId });
+      this.logger.info('Building deleted', { builderId, buildingId });
       return true;
 
     } catch (error) {
@@ -768,18 +770,18 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return false;
       }
 
       const block = builder.blocks.find(b => b.id === blockId);
       if (!block) {
-        console.warn('Block not found', { builderId, blockId });
+        this.logger.warn('Block not found', { builderId, blockId });
         return false;
       }
 
       block.position = newPosition;
-      console.debug('Block moved', { builderId, blockId, newPosition });
+      this.logger.debug('Block moved', { builderId, blockId, newPosition });
       return true;
 
     } catch (error) {
@@ -799,18 +801,18 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return false;
       }
 
       const block = builder.blocks.find(b => b.id === blockId);
       if (!block) {
-        console.warn('Block not found', { builderId, blockId });
+        this.logger.warn('Block not found', { builderId, blockId });
         return false;
       }
 
       block.rotation = newRotation;
-      console.debug('Block rotated', { builderId, blockId, newRotation });
+      this.logger.debug('Block rotated', { builderId, blockId, newRotation });
       return true;
 
     } catch (error) {
@@ -830,18 +832,18 @@ export class BlockBuilderManager {
     try {
       const builder = this.builders.get(builderId);
       if (!builder) {
-        console.warn('Builder not found', { builderId });
+        this.logger.warn('Builder not found', { builderId });
         return false;
       }
 
       const block = builder.blocks.find(b => b.id === blockId);
       if (!block) {
-        console.warn('Block not found', { builderId, blockId });
+        this.logger.warn('Block not found', { builderId, blockId });
         return false;
       }
 
       block.scale = newScale;
-      console.debug('Block scaled', { builderId, blockId, newScale });
+      this.logger.debug('Block scaled', { builderId, blockId, newScale });
       return true;
 
     } catch (error) {
@@ -960,12 +962,12 @@ export class BlockBuilderManager {
    * Destroy the Block Builder Manager
    */
   async destroy(): Promise<void> {
-    console.info('BlockBuilderPure', 'Destroying Block Builder Manager...');
+    this.logger.info('BlockBuilderPure', 'Destroying Block Builder Manager...');
 
     this.builders.clear();
     this.isInitialized = false;
 
-    console.info('BlockBuilderPure', 'Block Builder Manager destroyed');
+    this.logger.info('BlockBuilderPure', 'Block Builder Manager destroyed');
   }
 }
 
