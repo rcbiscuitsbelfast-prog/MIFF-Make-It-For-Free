@@ -1,0 +1,1944 @@
+
+> miff-framework@1.0.0 test
+> jest --config jest.pure.config.cjs --coverage --passWithNoTests --testPathPattern=LogPure --passWithNoTests
+
+FAIL miff/pure/LogPure/tests/golden_LogPure.test.ts
+  ● Test suite failed to run
+
+    [96mmiff/pure/LogPure/tests/golden_LogPure.test.ts[0m:[93m23[0m:[93m1[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+    [7m23[0m } from '../index';
+    [7m  [0m [91m~[0m
+    [96mmiff/pure/LogPure/tests/golden_LogPure.test.ts[0m:[93m23[0m:[93m3[0m - [91merror[0m[90m TS1434: [0mUnexpected keyword or identifier.
+
+    [7m23[0m } from '../index';
+    [7m  [0m [91m  ~~~~[0m
+
+FAIL miff/pure/LogPure/Manager.test.ts
+  ● LogPureManager › Initialization › should initialize successfully
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Initialization › should have default configuration
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Item Management › should create items
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Item Management › should retrieve items by ID
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Item Management › should get all items
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Item Management › should update items
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Item Management › should delete items
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Analytics and Statistics › should provide analytics
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Analytics and Statistics › should provide statistics
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Error Handling › should handle invalid item updates gracefully
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Error Handling › should handle invalid item deletions gracefully
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Performance › should handle multiple item operations efficiently
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+  ● LogPureManager › Cleanup › should destroy manager without errors
+
+    TypeError: Manager_1.LogPureManager is not a constructor
+
+       6 |
+       7 |   beforeEach(async () => {
+    >  8 |     manager = new LogPureManager({
+         |               ^
+       9 |       enabled: true,
+      10 |       debugMode: false,
+      11 |       maxInstances: 100,
+
+      at Object.<anonymous> (miff/pure/LogPure/Manager.test.ts:8:15)
+
+FAIL miff/pure/DialogPure/Manager.test.ts
+  ● DialogPureManager › Initialization › should initialize successfully
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Initialization › should have default configuration
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Item Management › should create items
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Item Management › should retrieve items by ID
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Item Management › should get all items
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Item Management › should update items
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Item Management › should delete items
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Analytics and Statistics › should provide analytics
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Analytics and Statistics › should provide statistics
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Error Handling › should handle invalid item updates gracefully
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Error Handling › should handle invalid item deletions gracefully
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Performance › should handle multiple item operations efficiently
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+  ● DialogPureManager › Cleanup › should destroy manager without errors
+
+    TypeError: MemoryManager_1.MemoryManager.registerInstance is not a function
+
+      124 |     });
+      125 |
+    > 126 |     this.memoryId = MemoryManager.registerInstance(this, 'DialogPureManager');
+          |                                   ^
+      127 |     this.errorHandler = new StandardErrorHandler(this.logger);
+      128 |     
+      129 |     console.info('DialogPureManager initialized', {
+
+      at new registerInstance (miff/pure/DialogPure/Manager.ts:126:35)
+      at Object.<anonymous> (miff/pure/DialogPure/Manager.test.ts:8:15)
+
+FAIL miff/pure/LogPure/capabilities.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'capabilities' from 'miff/pure/LogPure/capabilities.test.ts'
+
+    However, Jest was able to find:
+    	'./capabilities.test.ts'
+    	'./capabilities.ts'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+      4 |  */
+      5 |
+    > 6 | import { capabilities } from 'capabilities';
+        | ^
+      7 |
+      8 | describe('capabilities', () => {
+      9 |   let instance: capabilities;
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (miff/pure/LogPure/capabilities.test.ts:6:1)
+
+FAIL miff/pure/DialogPure/capabilities.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'capabilities' from 'miff/pure/DialogPure/capabilities.test.ts'
+
+    However, Jest was able to find:
+    	'./capabilities.test.ts'
+    	'./capabilities.ts'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+      4 |  */
+      5 |
+    > 6 | import { capabilities } from 'capabilities';
+        | ^
+      7 |
+      8 | describe('capabilities', () => {
+      9 |   let instance: capabilities;
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (miff/pure/DialogPure/capabilities.test.ts:6:1)
+
+FAIL miff/pure/LogPure/cliHarness.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'cliHarness' from 'miff/pure/LogPure/cliHarness.test.ts'
+
+    However, Jest was able to find:
+    	'./cliHarness.test.ts'
+    	'./cliHarness.ts'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+      4 |  */
+      5 |
+    > 6 | import { cliHarness } from 'cliHarness';
+        | ^
+      7 |
+      8 | describe('cliHarness', () => {
+      9 |   let instance: cliHarness;
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (miff/pure/LogPure/cliHarness.test.ts:6:1)
+
+FAIL miff/pure/DialogPure/cliHarness.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'cliHarness' from 'miff/pure/DialogPure/cliHarness.test.ts'
+
+    However, Jest was able to find:
+    	'./cliHarness.test.ts'
+    	'./cliHarness.ts'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+      4 |  */
+      5 |
+    > 6 | import { cliHarness } from 'cliHarness';
+        | ^
+      7 |
+      8 | describe('cliHarness', () => {
+      9 |   let instance: cliHarness;
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (miff/pure/DialogPure/cliHarness.test.ts:6:1)
+
+FAIL miff/pure/DialogPure/DialogSim.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'DialogSim' from 'miff/pure/DialogPure/DialogSim.test.ts'
+
+    However, Jest was able to find:
+    	'./DialogSim.test.ts'
+    	'./DialogSim.ts'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+      4 |  */
+      5 |
+    > 6 | import { DialogSim } from 'DialogSim';
+        | ^
+      7 |
+      8 | describe('DialogSim', () => {
+      9 |   let instance: DialogSim;
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (miff/pure/DialogPure/DialogSim.test.ts:6:1)
+
+FAIL miff/pure/LogPure/index.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'index' from 'miff/pure/LogPure/index.test.ts'
+
+    However, Jest was able to find:
+    	'./index.test.ts'
+    	'./index.ts'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+      4 |  */
+      5 |
+    > 6 | import { index } from 'index';
+        | ^
+      7 |
+      8 | describe('index', () => {
+      9 |   let instance: index;
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (miff/pure/LogPure/index.test.ts:6:1)
+
+FAIL miff/pure/DialogPure/index.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'index' from 'miff/pure/DialogPure/index.test.ts'
+
+    However, Jest was able to find:
+    	'./index.test.ts'
+    	'./index.ts'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'json', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+      4 |  */
+      5 |
+    > 6 | import { index } from 'index';
+        | ^
+      7 |
+      8 | describe('index', () => {
+      9 |   let instance: index;
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (miff/pure/DialogPure/index.test.ts:6:1)
+
+npm warn exec The following package was not found and will be installed: tsx@4.20.6
+/workspace/miff/pure/DialogPure/cliHarness.ts:19
+  const sim = new DialogSim({
+              ^
+
+
+ReferenceError: DialogSim is not defined
+    at main (/workspace/miff/pure/DialogPure/cliHarness.ts:19:15)
+    at path (/workspace/miff/pure/DialogPure/cliHarness.ts:46:53)
+    at Object.<anonymous> (/workspace/miff/pure/DialogPure/cliHarness.ts:46:58)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object.transformer (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1104)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at cjsLoader (node:internal/modules/esm/translators:309:5)
+
+Node.js v22.20.0
+FAIL miff/pure/DialogPure/tests/goldenDialog.test.ts (5.636 s)
+  ● golden dialog simulation
+
+    Command failed: npx tsx /workspace/miff/pure/DialogPure/cliHarness.ts /workspace/miff/pure/DialogPure/sample_dialog.json /workspace/miff/pure/DialogPure/tests/commands.json
+    npm warn exec The following package was not found and will be installed: tsx@4.20.6
+    /workspace/miff/pure/DialogPure/cliHarness.ts:19
+      const sim = new DialogSim({
+                  ^
+
+
+    ReferenceError: DialogSim is not defined
+
+      17 |   const commandsPath = process.argv[3] || '';
+      18 |   const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(dialogsPath), 'utf-8'));
+    > 19 |   const sim = new DialogSim({
+         |               ^
+      20 |     onDialogChoiceMade: (d, c) => {/* hook for remix */},
+      21 |     onDialogComplete: (d) => {/* hook for remix */},
+      22 |     addItem: (id, q) => {/* hook for remix */},
+
+      at main (miff/pure/DialogPure/cliHarness.ts:19:15)
+      at path (miff/pure/DialogPure/cliHarness.ts:46:53)
+      at Object.<anonymous> (miff/pure/DialogPure/cliHarness.ts:46:58)
+      at Object.transformer (../home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1104)
+      Node.js v22.20.0
+      at Object.runCLI (tests/jest.setup.cjs:34:17)
+      at Object.<anonymous> (miff/pure/DialogPure/tests/goldenDialog.test.ts:10:40)
+
+Failed to collect coverage from /workspace/miff/pure/CombatPure/engine.ts
+ERROR: /workspace/miff/pure/CombatPure/engine.ts: A 'get' accessor must not have any formal parameters. (599:4)
+
+  597 |      * Get combatants map (for testing purposes)
+  598 |      */
+> 599 |     get combatants(...args) {
+      |     ^
+  600 |         return this.state.combatants;
+  601 |     }
+  602 |     /**
+STACK: SyntaxError: /workspace/miff/pure/CombatPure/engine.ts: A 'get' accessor must not have any formal parameters. (599:4)
+
+  597 |      * Get combatants map (for testing purposes)
+  598 |      */
+> 599 |     get combatants(...args) {
+      |     ^
+  600 |         return this.state.combatants;
+  601 |     }
+  602 |     /**
+    at constructor (/workspace/node_modules/@babel/parser/lib/index.js:367:19)
+    at Parser.raise (/workspace/node_modules/@babel/parser/lib/index.js:6630:19)
+    at Parser.checkGetterSetterParams (/workspace/node_modules/@babel/parser/lib/index.js:11938:12)
+    at Parser.parseClassMemberWithIsStatic (/workspace/node_modules/@babel/parser/lib/index.js:13662:12)
+    at Parser.parseClassMember (/workspace/node_modules/@babel/parser/lib/index.js:13572:10)
+    at /workspace/node_modules/@babel/parser/lib/index.js:13526:14
+    at Parser.withSmartMixTopicForbiddingContext (/workspace/node_modules/@babel/parser/lib/index.js:12413:14)
+    at Parser.parseClassBody (/workspace/node_modules/@babel/parser/lib/index.js:13508:10)
+    at Parser.parseClass (/workspace/node_modules/@babel/parser/lib/index.js:13483:22)
+    at Parser.parseStatementContent (/workspace/node_modules/@babel/parser/lib/index.js:12803:21)
+    at Parser.parseStatementLike (/workspace/node_modules/@babel/parser/lib/index.js:12776:17)
+    at Parser.parseModuleItem (/workspace/node_modules/@babel/parser/lib/index.js:12753:17)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13325:36)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseProgram (/workspace/node_modules/@babel/parser/lib/index.js:12634:10)
+    at Parser.parseTopLevel (/workspace/node_modules/@babel/parser/lib/index.js:12624:25)
+    at Parser.parse (/workspace/node_modules/@babel/parser/lib/index.js:14501:10)
+    at parse (/workspace/node_modules/@babel/parser/lib/index.js:14535:38)
+    at parser (/workspace/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/workspace/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/workspace/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/workspace/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/workspace/node_modules/gensync/index.js:251:28)
+    at sync (/workspace/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/workspace/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at transformSync (/workspace/node_modules/@babel/core/lib/transform.js:42:76)
+    at ScriptTransformer._instrumentFile (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:389:46)
+    at ScriptTransformer._buildTransformResult (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:491:33)
+    at ScriptTransformer.transformSourceAsync (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:608:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async generateEmptyCoverage (/workspace/node_modules/@jest/reporters/build/generateEmptyCoverage.js:127:20)
+Failed to collect coverage from /workspace/miff/pure/ExportAndroidPure/cli.ts
+ERROR: /workspace/miff/pure/ExportAndroidPure/cli.ts: Identifier 'args' has already been declared. (80:23)
+
+  78 | }
+  79 | function ensureDir(dir) { fs.mkdirSync(dir, { recursive: true }); }
+> 80 | async function main(...args) {
+     |                        ^
+  81 |     const argv = process.argv.slice(2);
+  82 |     if (!argv.length || argv[0] === 'help') {
+  83 |         console.info('export:android --project ./docs/godot --output ./build/android --aab --keystore ./keystore.jks --alias app --ks-pass secret --key-pass secret');
+STACK: SyntaxError: /workspace/miff/pure/ExportAndroidPure/cli.ts: Identifier 'args' has already been declared. (80:23)
+
+  78 | }
+  79 | function ensureDir(dir) { fs.mkdirSync(dir, { recursive: true }); }
+> 80 | async function main(...args) {
+     |                        ^
+  81 |     const argv = process.argv.slice(2);
+  82 |     if (!argv.length || argv[0] === 'help') {
+  83 |         console.info('export:android --project ./docs/godot --output ./build/android --aab --keystore ./keystore.jks --alias app --ks-pass secret --key-pass secret');
+    at constructor (/workspace/node_modules/@babel/parser/lib/index.js:367:19)
+    at Parser.raise (/workspace/node_modules/@babel/parser/lib/index.js:6630:19)
+    at ScopeHandler.checkRedeclarationInScope (/workspace/node_modules/@babel/parser/lib/index.js:1647:19)
+    at ScopeHandler.declareName (/workspace/node_modules/@babel/parser/lib/index.js:1630:14)
+    at Parser.declareNameFromIdentifier (/workspace/node_modules/@babel/parser/lib/index.js:7594:16)
+    at Parser.checkIdentifier (/workspace/node_modules/@babel/parser/lib/index.js:7590:12)
+    at Parser.checkLVal (/workspace/node_modules/@babel/parser/lib/index.js:7529:12)
+    at Parser.checkLVal (/workspace/node_modules/@babel/parser/lib/index.js:7571:12)
+    at Parser.checkParams (/workspace/node_modules/@babel/parser/lib/index.js:12141:12)
+    at Parser.<anonymous> (/workspace/node_modules/@babel/parser/lib/index.js:12116:14)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13341:48)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseBlock (/workspace/node_modules/@babel/parser/lib/index.js:13306:10)
+    at Parser.parseFunctionBody (/workspace/node_modules/@babel/parser/lib/index.js:12110:24)
+    at Parser.parseFunctionBodyAndFinish (/workspace/node_modules/@babel/parser/lib/index.js:12096:10)
+    at /workspace/node_modules/@babel/parser/lib/index.js:13454:12
+    at Parser.withSmartMixTopicForbiddingContext (/workspace/node_modules/@babel/parser/lib/index.js:12413:14)
+    at Parser.parseFunction (/workspace/node_modules/@babel/parser/lib/index.js:13453:10)
+    at Parser.parseFunctionStatement (/workspace/node_modules/@babel/parser/lib/index.js:13134:17)
+    at Parser.parseStatementContent (/workspace/node_modules/@babel/parser/lib/index.js:12899:25)
+    at Parser.parseStatementLike (/workspace/node_modules/@babel/parser/lib/index.js:12776:17)
+    at Parser.parseModuleItem (/workspace/node_modules/@babel/parser/lib/index.js:12753:17)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13325:36)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseProgram (/workspace/node_modules/@babel/parser/lib/index.js:12634:10)
+    at Parser.parseTopLevel (/workspace/node_modules/@babel/parser/lib/index.js:12624:25)
+    at Parser.parse (/workspace/node_modules/@babel/parser/lib/index.js:14501:10)
+    at parse (/workspace/node_modules/@babel/parser/lib/index.js:14535:38)
+    at parser (/workspace/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/workspace/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/workspace/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/workspace/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/workspace/node_modules/gensync/index.js:251:28)
+    at sync (/workspace/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/workspace/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at transformSync (/workspace/node_modules/@babel/core/lib/transform.js:42:76)
+    at ScriptTransformer._instrumentFile (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:389:46)
+    at ScriptTransformer._buildTransformResult (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:491:33)
+    at ScriptTransformer.transformSourceAsync (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:608:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async generateEmptyCoverage (/workspace/node_modules/@jest/reporters/build/generateEmptyCoverage.js:127:20)
+Failed to collect coverage from /workspace/miff/pure/GodotBridgePure/Bridge.ts
+ERROR: /workspace/miff/pure/GodotBridgePure/Bridge.ts: A 'get' accessor must not have any formal parameters. (153:20)
+
+  151 |                     inputs,
+  152 |                     // Add animals/entities alias to satisfy tests expecting entities array
+> 153 |                     get entities(...args) { return nodes; }
+      |                     ^
+  154 |                 }
+  155 |             };
+  156 |         }
+STACK: SyntaxError: /workspace/miff/pure/GodotBridgePure/Bridge.ts: A 'get' accessor must not have any formal parameters. (153:20)
+
+  151 |                     inputs,
+  152 |                     // Add animals/entities alias to satisfy tests expecting entities array
+> 153 |                     get entities(...args) { return nodes; }
+      |                     ^
+  154 |                 }
+  155 |             };
+  156 |         }
+    at constructor (/workspace/node_modules/@babel/parser/lib/index.js:367:19)
+    at Parser.raise (/workspace/node_modules/@babel/parser/lib/index.js:6630:19)
+    at Parser.checkGetterSetterParams (/workspace/node_modules/@babel/parser/lib/index.js:11938:12)
+    at Parser.parseObjectMethod (/workspace/node_modules/@babel/parser/lib/index.js:11947:12)
+    at Parser.parseObjPropValue (/workspace/node_modules/@babel/parser/lib/index.js:11988:23)
+    at Parser.parsePropertyDefinition (/workspace/node_modules/@babel/parser/lib/index.js:11925:17)
+    at Parser.parseObjectLike (/workspace/node_modules/@babel/parser/lib/index.js:11840:21)
+    at Parser.parseExprAtom (/workspace/node_modules/@babel/parser/lib/index.js:11343:23)
+    at Parser.parseExprSubscripts (/workspace/node_modules/@babel/parser/lib/index.js:11085:23)
+    at Parser.parseUpdate (/workspace/node_modules/@babel/parser/lib/index.js:11070:21)
+    at Parser.parseMaybeUnary (/workspace/node_modules/@babel/parser/lib/index.js:11050:23)
+    at Parser.parseMaybeUnaryOrPrivate (/workspace/node_modules/@babel/parser/lib/index.js:10903:61)
+    at Parser.parseExprOps (/workspace/node_modules/@babel/parser/lib/index.js:10908:23)
+    at Parser.parseMaybeConditional (/workspace/node_modules/@babel/parser/lib/index.js:10885:23)
+    at Parser.parseMaybeAssign (/workspace/node_modules/@babel/parser/lib/index.js:10835:21)
+    at /workspace/node_modules/@babel/parser/lib/index.js:10804:39
+    at Parser.allowInAnd (/workspace/node_modules/@babel/parser/lib/index.js:12436:12)
+    at Parser.parseMaybeAssignAllowIn (/workspace/node_modules/@babel/parser/lib/index.js:10804:17)
+    at Parser.parseMaybeAssignAllowInOrVoidPattern (/workspace/node_modules/@babel/parser/lib/index.js:12503:17)
+    at Parser.parseObjectProperty (/workspace/node_modules/@babel/parser/lib/index.js:11960:83)
+    at Parser.parseObjPropValue (/workspace/node_modules/@babel/parser/lib/index.js:11988:100)
+    at Parser.parsePropertyDefinition (/workspace/node_modules/@babel/parser/lib/index.js:11925:17)
+    at Parser.parseObjectLike (/workspace/node_modules/@babel/parser/lib/index.js:11840:21)
+    at Parser.parseExprAtom (/workspace/node_modules/@babel/parser/lib/index.js:11343:23)
+    at Parser.parseExprSubscripts (/workspace/node_modules/@babel/parser/lib/index.js:11085:23)
+    at Parser.parseUpdate (/workspace/node_modules/@babel/parser/lib/index.js:11070:21)
+    at Parser.parseMaybeUnary (/workspace/node_modules/@babel/parser/lib/index.js:11050:23)
+    at Parser.parseMaybeUnaryOrPrivate (/workspace/node_modules/@babel/parser/lib/index.js:10903:61)
+    at Parser.parseExprOps (/workspace/node_modules/@babel/parser/lib/index.js:10908:23)
+    at Parser.parseMaybeConditional (/workspace/node_modules/@babel/parser/lib/index.js:10885:23)
+    at Parser.parseMaybeAssign (/workspace/node_modules/@babel/parser/lib/index.js:10835:21)
+    at Parser.parseExpressionBase (/workspace/node_modules/@babel/parser/lib/index.js:10788:23)
+    at /workspace/node_modules/@babel/parser/lib/index.js:10784:39
+    at Parser.allowInAnd (/workspace/node_modules/@babel/parser/lib/index.js:12431:16)
+    at Parser.parseExpression (/workspace/node_modules/@babel/parser/lib/index.js:10784:17)
+    at Parser.parseReturnStatement (/workspace/node_modules/@babel/parser/lib/index.js:13151:28)
+    at Parser.parseStatementContent (/workspace/node_modules/@babel/parser/lib/index.js:12807:21)
+    at Parser.parseStatementLike (/workspace/node_modules/@babel/parser/lib/index.js:12776:17)
+    at Parser.parseStatementListItem (/workspace/node_modules/@babel/parser/lib/index.js:12756:17)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13325:61)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseBlock (/workspace/node_modules/@babel/parser/lib/index.js:13306:10)
+    at Parser.parseTryStatement (/workspace/node_modules/@babel/parser/lib/index.js:13214:23)
+    at Parser.parseStatementContent (/workspace/node_modules/@babel/parser/lib/index.js:12813:21)
+    at Parser.parseStatementLike (/workspace/node_modules/@babel/parser/lib/index.js:12776:17)
+    at Parser.parseStatementListItem (/workspace/node_modules/@babel/parser/lib/index.js:12756:17)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13325:61)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseBlock (/workspace/node_modules/@babel/parser/lib/index.js:13306:10)
+    at Parser.parseFunctionBody (/workspace/node_modules/@babel/parser/lib/index.js:12110:24)
+Failed to collect coverage from /workspace/miff/pure/cli/godot-editor-cli.ts
+ERROR: /workspace/miff/pure/cli/godot-editor-cli.ts: Identifier 'args' has already been declared. (486:23)
+
+  484 | exports.GodotEditorCLI = GodotEditorCLI;
+  485 | // CLI Interface
+> 486 | async function main(...args) {
+      |                        ^
+  487 |     const args = process.argv.slice(2);
+  488 |     const command = args[0] || 'help';
+  489 |     const projectPath = args[1] || './godot-project';
+STACK: SyntaxError: /workspace/miff/pure/cli/godot-editor-cli.ts: Identifier 'args' has already been declared. (486:23)
+
+  484 | exports.GodotEditorCLI = GodotEditorCLI;
+  485 | // CLI Interface
+> 486 | async function main(...args) {
+      |                        ^
+  487 |     const args = process.argv.slice(2);
+  488 |     const command = args[0] || 'help';
+  489 |     const projectPath = args[1] || './godot-project';
+    at constructor (/workspace/node_modules/@babel/parser/lib/index.js:367:19)
+    at Parser.raise (/workspace/node_modules/@babel/parser/lib/index.js:6630:19)
+    at ScopeHandler.checkRedeclarationInScope (/workspace/node_modules/@babel/parser/lib/index.js:1647:19)
+    at ScopeHandler.declareName (/workspace/node_modules/@babel/parser/lib/index.js:1630:14)
+    at Parser.declareNameFromIdentifier (/workspace/node_modules/@babel/parser/lib/index.js:7594:16)
+    at Parser.checkIdentifier (/workspace/node_modules/@babel/parser/lib/index.js:7590:12)
+    at Parser.checkLVal (/workspace/node_modules/@babel/parser/lib/index.js:7529:12)
+    at Parser.checkLVal (/workspace/node_modules/@babel/parser/lib/index.js:7571:12)
+    at Parser.checkParams (/workspace/node_modules/@babel/parser/lib/index.js:12141:12)
+    at Parser.<anonymous> (/workspace/node_modules/@babel/parser/lib/index.js:12116:14)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13341:48)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseBlock (/workspace/node_modules/@babel/parser/lib/index.js:13306:10)
+    at Parser.parseFunctionBody (/workspace/node_modules/@babel/parser/lib/index.js:12110:24)
+    at Parser.parseFunctionBodyAndFinish (/workspace/node_modules/@babel/parser/lib/index.js:12096:10)
+    at /workspace/node_modules/@babel/parser/lib/index.js:13454:12
+    at Parser.withSmartMixTopicForbiddingContext (/workspace/node_modules/@babel/parser/lib/index.js:12413:14)
+    at Parser.parseFunction (/workspace/node_modules/@babel/parser/lib/index.js:13453:10)
+    at Parser.parseFunctionStatement (/workspace/node_modules/@babel/parser/lib/index.js:13134:17)
+    at Parser.parseStatementContent (/workspace/node_modules/@babel/parser/lib/index.js:12899:25)
+    at Parser.parseStatementLike (/workspace/node_modules/@babel/parser/lib/index.js:12776:17)
+    at Parser.parseModuleItem (/workspace/node_modules/@babel/parser/lib/index.js:12753:17)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13325:36)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseProgram (/workspace/node_modules/@babel/parser/lib/index.js:12634:10)
+    at Parser.parseTopLevel (/workspace/node_modules/@babel/parser/lib/index.js:12624:25)
+    at Parser.parse (/workspace/node_modules/@babel/parser/lib/index.js:14501:10)
+    at parse (/workspace/node_modules/@babel/parser/lib/index.js:14535:38)
+    at parser (/workspace/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/workspace/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/workspace/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/workspace/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/workspace/node_modules/gensync/index.js:251:28)
+    at sync (/workspace/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/workspace/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at transformSync (/workspace/node_modules/@babel/core/lib/transform.js:42:76)
+    at ScriptTransformer._instrumentFile (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:389:46)
+    at ScriptTransformer._buildTransformResult (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:491:33)
+    at ScriptTransformer.transformSourceAsync (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:608:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async generateEmptyCoverage (/workspace/node_modules/@jest/reporters/build/generateEmptyCoverage.js:127:20)
+Failed to collect coverage from /workspace/miff/pure/cli/unity-editor-cli.ts
+ERROR: /workspace/miff/pure/cli/unity-editor-cli.ts: Identifier 'args' has already been declared. (784:23)
+
+  782 | exports.UnityEditorCLI = UnityEditorCLI;
+  783 | // CLI Interface
+> 784 | async function main(...args) {
+      |                        ^
+  785 |     const args = process.argv.slice(2);
+  786 |     const command = args[0] || 'help';
+  787 |     const projectPath = args[1] || './unity-project';
+STACK: SyntaxError: /workspace/miff/pure/cli/unity-editor-cli.ts: Identifier 'args' has already been declared. (784:23)
+
+  782 | exports.UnityEditorCLI = UnityEditorCLI;
+  783 | // CLI Interface
+> 784 | async function main(...args) {
+      |                        ^
+  785 |     const args = process.argv.slice(2);
+  786 |     const command = args[0] || 'help';
+  787 |     const projectPath = args[1] || './unity-project';
+    at constructor (/workspace/node_modules/@babel/parser/lib/index.js:367:19)
+    at Parser.raise (/workspace/node_modules/@babel/parser/lib/index.js:6630:19)
+    at ScopeHandler.checkRedeclarationInScope (/workspace/node_modules/@babel/parser/lib/index.js:1647:19)
+    at ScopeHandler.declareName (/workspace/node_modules/@babel/parser/lib/index.js:1630:14)
+    at Parser.declareNameFromIdentifier (/workspace/node_modules/@babel/parser/lib/index.js:7594:16)
+    at Parser.checkIdentifier (/workspace/node_modules/@babel/parser/lib/index.js:7590:12)
+    at Parser.checkLVal (/workspace/node_modules/@babel/parser/lib/index.js:7529:12)
+    at Parser.checkLVal (/workspace/node_modules/@babel/parser/lib/index.js:7571:12)
+    at Parser.checkParams (/workspace/node_modules/@babel/parser/lib/index.js:12141:12)
+    at Parser.<anonymous> (/workspace/node_modules/@babel/parser/lib/index.js:12116:14)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13341:48)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseBlock (/workspace/node_modules/@babel/parser/lib/index.js:13306:10)
+    at Parser.parseFunctionBody (/workspace/node_modules/@babel/parser/lib/index.js:12110:24)
+    at Parser.parseFunctionBodyAndFinish (/workspace/node_modules/@babel/parser/lib/index.js:12096:10)
+    at /workspace/node_modules/@babel/parser/lib/index.js:13454:12
+    at Parser.withSmartMixTopicForbiddingContext (/workspace/node_modules/@babel/parser/lib/index.js:12413:14)
+    at Parser.parseFunction (/workspace/node_modules/@babel/parser/lib/index.js:13453:10)
+    at Parser.parseFunctionStatement (/workspace/node_modules/@babel/parser/lib/index.js:13134:17)
+    at Parser.parseStatementContent (/workspace/node_modules/@babel/parser/lib/index.js:12899:25)
+    at Parser.parseStatementLike (/workspace/node_modules/@babel/parser/lib/index.js:12776:17)
+    at Parser.parseModuleItem (/workspace/node_modules/@babel/parser/lib/index.js:12753:17)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13325:36)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseProgram (/workspace/node_modules/@babel/parser/lib/index.js:12634:10)
+    at Parser.parseTopLevel (/workspace/node_modules/@babel/parser/lib/index.js:12624:25)
+    at Parser.parse (/workspace/node_modules/@babel/parser/lib/index.js:14501:10)
+    at parse (/workspace/node_modules/@babel/parser/lib/index.js:14535:38)
+    at parser (/workspace/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/workspace/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/workspace/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/workspace/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/workspace/node_modules/gensync/index.js:251:28)
+    at sync (/workspace/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/workspace/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at transformSync (/workspace/node_modules/@babel/core/lib/transform.js:42:76)
+    at ScriptTransformer._instrumentFile (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:389:46)
+    at ScriptTransformer._buildTransformResult (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:491:33)
+    at ScriptTransformer.transformSourceAsync (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:608:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async generateEmptyCoverage (/workspace/node_modules/@jest/reporters/build/generateEmptyCoverage.js:127:20)
+Failed to collect coverage from /workspace/miff/pure/shared/cli/CLIInterfaceStandardizer.ts
+ERROR: /workspace/miff/pure/shared/cli/CLIInterfaceStandardizer.ts: Binding 'arguments' in strict mode. (113:43)
+
+  111 |      * Execute a CLI command
+  112 |      */
+> 113 |     async executeCommand(command, options, arguments, handler) {
+      |                                            ^
+  114 |         const startTime = Date.now();
+  115 |         const result = {
+  116 |             success: false,
+STACK: SyntaxError: /workspace/miff/pure/shared/cli/CLIInterfaceStandardizer.ts: Binding 'arguments' in strict mode. (113:43)
+
+  111 |      * Execute a CLI command
+  112 |      */
+> 113 |     async executeCommand(command, options, arguments, handler) {
+      |                                            ^
+  114 |         const startTime = Date.now();
+  115 |         const result = {
+  116 |             success: false,
+    at constructor (/workspace/node_modules/@babel/parser/lib/index.js:367:19)
+    at Parser.raise (/workspace/node_modules/@babel/parser/lib/index.js:6630:19)
+    at Parser.checkIdentifier (/workspace/node_modules/@babel/parser/lib/index.js:7581:14)
+    at Parser.checkLVal (/workspace/node_modules/@babel/parser/lib/index.js:7529:12)
+    at Parser.checkParams (/workspace/node_modules/@babel/parser/lib/index.js:12141:12)
+    at Parser.<anonymous> (/workspace/node_modules/@babel/parser/lib/index.js:12116:14)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13341:48)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseBlock (/workspace/node_modules/@babel/parser/lib/index.js:13306:10)
+    at Parser.parseFunctionBody (/workspace/node_modules/@babel/parser/lib/index.js:12110:24)
+    at Parser.parseFunctionBodyAndFinish (/workspace/node_modules/@babel/parser/lib/index.js:12096:10)
+    at Parser.parseMethod (/workspace/node_modules/@babel/parser/lib/index.js:12054:31)
+    at Parser.pushClassMethod (/workspace/node_modules/@babel/parser/lib/index.js:13736:30)
+    at Parser.parseClassMemberWithIsStatic (/workspace/node_modules/@babel/parser/lib/index.js:13647:14)
+    at Parser.parseClassMember (/workspace/node_modules/@babel/parser/lib/index.js:13572:10)
+    at /workspace/node_modules/@babel/parser/lib/index.js:13526:14
+    at Parser.withSmartMixTopicForbiddingContext (/workspace/node_modules/@babel/parser/lib/index.js:12413:14)
+    at Parser.parseClassBody (/workspace/node_modules/@babel/parser/lib/index.js:13508:10)
+    at Parser.parseClass (/workspace/node_modules/@babel/parser/lib/index.js:13483:22)
+    at Parser.parseStatementContent (/workspace/node_modules/@babel/parser/lib/index.js:12803:21)
+    at Parser.parseStatementLike (/workspace/node_modules/@babel/parser/lib/index.js:12776:17)
+    at Parser.parseModuleItem (/workspace/node_modules/@babel/parser/lib/index.js:12753:17)
+    at Parser.parseBlockOrModuleBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13325:36)
+    at Parser.parseBlockBody (/workspace/node_modules/@babel/parser/lib/index.js:13318:10)
+    at Parser.parseProgram (/workspace/node_modules/@babel/parser/lib/index.js:12634:10)
+    at Parser.parseTopLevel (/workspace/node_modules/@babel/parser/lib/index.js:12624:25)
+    at Parser.parse (/workspace/node_modules/@babel/parser/lib/index.js:14501:10)
+    at parse (/workspace/node_modules/@babel/parser/lib/index.js:14535:38)
+    at parser (/workspace/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/workspace/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/workspace/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/workspace/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at evaluateSync (/workspace/node_modules/gensync/index.js:251:28)
+    at sync (/workspace/node_modules/gensync/index.js:89:14)
+    at stopHiding - secret - don't use this - v1 (/workspace/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at transformSync (/workspace/node_modules/@babel/core/lib/transform.js:42:76)
+    at ScriptTransformer._instrumentFile (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:389:46)
+    at ScriptTransformer._buildTransformResult (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:491:33)
+    at ScriptTransformer.transformSourceAsync (/workspace/node_modules/@jest/transform/build/ScriptTransformer.js:608:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async generateEmptyCoverage (/workspace/node_modules/@jest/reporters/build/generateEmptyCoverage.js:127:20)
+-------------------------------------|---------|----------|---------|---------|-------------------
+File                                 | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------------------------|---------|----------|---------|---------|-------------------
+All files                            |    0.13 |     0.04 |    0.06 |    0.14 |                   
+ pure                                |       0 |        0 |       0 |       0 |                   
+  ExportPipelinePure.ts              |       0 |        0 |       0 |       0 | 17-1226           
+ pure/AIProfileIntegrationLayer      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 19-574            
+ pure/AIProfilesPure                 |       0 |        0 |       0 |       0 |                   
+  AIProfileManager.ts                |       0 |        0 |       0 |       0 | 197-801           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 18-764            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/AIPure                         |       0 |        0 |       0 |       0 |                   
+  AdvancedAI.ts                      |       0 |        0 |       0 |       0 | 100-489           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 18-773            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/APIGatewayPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 19-721            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/ARVRPure                       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 18-690            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/AdvancedRenderingPure          |       0 |      100 |     100 |       0 |                   
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/AnimationSystemPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-704            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/AssetManifestPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 18-655            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |       0 |       0 | 7-129             
+ pure/AssetValidatorPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-651            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |       0 |       0 | 7-125             
+ pure/AudioBridgePure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-764            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/AudioMixerPure                 |       0 |        0 |       0 |       0 |                   
+  AudioMixerPure.ts                  |       0 |        0 |       0 |       0 | 17-959            
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-897            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/AudioPure                      |       0 |        0 |       0 |       0 |                   
+  AudioPure.ts                       |       0 |        0 |       0 |       0 | 103-748           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-760            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-79              
+ pure/AudioSystemPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-899            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/AvatarAssetRegistryPure        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-779            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/AvatarRendererGodotPure        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-922            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/AvatarRendererWebPure          |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 18-924            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/AvatarSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 18-935            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  schema.ts                          |       0 |        0 |       0 |       0 | 379-380           
+ pure/BackupSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 18-969            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/BattleAIPure                   |       0 |        0 |       0 |       0 |                   
+  AIController.ts                    |       0 |        0 |       0 |       0 | 1-66              
+  AIDecisionProfile.ts               |       0 |        0 |       0 |       0 | 1-154             
+  AIManager.ts                       |       0 |        0 |       0 |       0 | 1-87              
+  AIUtils.ts                         |       0 |        0 |       0 |       0 | 1-78              
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-1047           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  types.ts                           |       0 |        0 |       0 |       0 | 3-14              
+ pure/BattleLoopPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-865            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/BlockBuilderPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-976            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/BlockchainPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-820            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/BridgeInspectorPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-921            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/BridgeSchemaPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-840            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  schema.ts                          |       0 |        0 |       0 |       0 | 143-464           
+ pure/ButtonStylePure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-799            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/CIEnforcerPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-923            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CacheManagerPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-834            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/CachingSystemPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-834            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/CameraBridgePure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-960            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CameraSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-922            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ChainManagerPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 45-302            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ChainValidatorPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-861            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ChallengesPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-810            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CharacterControllerPure        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-915            
+ pure/CharacterCustomizationPure     |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-1127           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/CharacterGeneratorPure         |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-385             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/CharacterSystemPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-941            
+ pure/ChatSystemPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-904            
+ pure/CloudGamingPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 877-1092          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/CloudStoragePure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-873            
+ pure/ClueSystemPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CollisionSystemPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 638-971           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CombatCorePure                 |       0 |        0 |       0 |       0 |                   
+  CombatCoreCapable.ts               |       0 |      100 |       0 |       0 | 19-600            
+  CombatManager.ts                   |       0 |        0 |       0 |       0 | 11-46             
+  Manager.ts                         |       0 |      100 |       0 |       0 | 1                 
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-166             
+ pure/CombatPure                     |       0 |        0 |       0 |       0 |                   
+  AdvancedCombat.ts                  |       0 |        0 |       0 |       0 | 223-807           
+  CombatCapable.ts                   |       0 |      100 |       0 |       0 | 18-529            
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1485-1697         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |       0 |       0 | 7-110             
+ pure/CombatScenarioPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CombatSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-940            
+ pure/ComputerVisionPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1351-1680         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/ConfigManagerPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-891            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/ContentManagementPure          |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-905            
+ pure/ConvertToGodotPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 914-1378          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-71              
+ pure/ConvertToUnityPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 2-27              
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-71              
+ pure/ConvertToWebPure               |       0 |        0 |       0 |       0 |                   
+  CanvasPlayer.ts                    |       0 |        0 |       0 |       0 | 15-149            
+  Manager.ts                         |       0 |        0 |       0 |       0 | 2-27              
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CraftingPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 567-944           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |       0 |       0 | 7-89              
+ pure/CreaturesPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/CryptocurrencyPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 453-856           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/CutScenePure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1332-1545         
+  bridges.ts                         |       0 |      100 |       0 |       0 | 16-1073           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+  cli.ts                             |       0 |        0 |       0 |       0 | 21-525            
+ pure/CutsceneSystemPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1332-1545         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/DataAnalysisPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-983            
+ pure/DataLakePure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1655-1908         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/DataMiningPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 617-1074          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/DataPipelinePure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1171-1384         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/DataProcessingPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-1123           
+ pure/DataStoragePure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-960            
+ pure/DataVisualizationPure          |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1193-1642         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/DataWarehousePure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 829-1241          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/DatabasePure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 752-971           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/DebugOverlayPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-1120           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/DebuggingPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 739-941           
+ pure/DeploymentSystemPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 794-1108          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/DialogPure                     |    8.02 |        0 |    9.09 |    8.72 |                   
+  DialogSim.ts                       |       0 |        0 |       0 |       0 | 45-133            
+  Manager.ts                         |   14.77 |        0 |   14.28 |   15.11 | 127-340,372-388   
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/DialoguePure                   |       0 |        0 |       0 |       0 |                   
+  DialoguePure.ts                    |       0 |      100 |       0 |       0 | 1-2               
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1410-1611         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/DialogueSystemPure             |       0 |        0 |       0 |       0 |                   
+  DialogueSystemCapable.ts           |       0 |      100 |       0 |       0 | 19-458            
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |       0 |       0 | 7-92              
+ pure/DrivingSystemPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 885-1344          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/EconomyPure                    |       0 |        0 |       0 |       0 |                   
+  EnhancedManager.ts                 |       0 |        0 |       0 |       0 | 285-1024          
+  Manager.ts                         |       0 |      100 |       0 |       0 | 2                 
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/EcosystemExpansionPure         |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 875-1298          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/EdgeComputingPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 935-1384          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/EffectsPure                    |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1099-1302         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/EncounterPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1401-1606         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/EntityLinkerPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 87-513            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/EquipmentPure                  |       0 |        0 |       0 |       0 |                   
+  EquipmentManager.ts                |       0 |        0 |       0 |       0 | 197-894           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 25-62             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-67              
+ pure/ErrorHandlingPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1009-1231         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/EventBusPure                   |       0 |        0 |       0 |       0 |                   
+  EventBusPure.ts                    |       0 |        0 |       0 |       0 | 39-898            
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1244-1458         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/EventSystemPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 756-1060          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/EventsPure                     |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/EvolutionPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 734-939           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ExportAndroidPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ExportWebPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cli.ts                             |       0 |        0 |       0 |       0 | 3-73              
+ pure/FusionPure                     |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 17-398            
+  Rules.ts                           |       0 |        0 |       0 |       0 | 1-451             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/GameLogicPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1105-1329         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/GameMenuPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/GodotBridgePure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 832-1061          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/GraphicsPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1236-1464         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/HUDPure                        |       0 |        0 |       0 |       0 |                   
+  Core.ts                            |       0 |        0 |       0 |       0 | 3-464             
+  Manager.ts                         |       0 |        0 |       0 |       0 | 897-1274          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/HapticsPure                    |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-914            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/HealthSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 125-529           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/IdleSystemPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 624-839           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/IndustryLeadershipPure         |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 706-1115          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/InputPure                      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/InputSystemPure                |       0 |        0 |       0 |       0 |                   
+  AdvancedInput.ts                   |       0 |        0 |       0 |       0 | 281-965           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 636-1097          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/InteractableRegistryPure       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/InventoryPure                  |       0 |        0 |       0 |       0 |                   
+  InventoryCapable.ts                |       0 |      100 |       0 |       0 | 19-442            
+  InventoryPure.ts                   |       0 |        0 |       0 |       0 | 1-615             
+  Manager.ts                         |       0 |        0 |       0 |       0 | 406-879           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/IoTPure                        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1115-1439         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/ItemsPure                      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 855-1358          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/JointAnimPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 551-960           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/LicenseAuditPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1067-1272         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+  override.ts                        |       0 |        0 |       0 |       0 | 50-117            
+ pure/LogPure                        |    3.03 |        0 |       0 |    3.22 |                   
+  Manager.ts                         |    3.22 |        0 |       0 |    3.44 | 584-777           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/LoggingSystemPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 822-1037          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/LootTablesPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 521-953           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/LorePure                       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/MLPipelinePure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 2176-2383         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/MagicSystemPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 25-468            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/MeshFactoryPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 37-119            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/MessageQueuePure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 819-1055          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/MiffAttributionPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 751-951           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+  override.ts                        |       0 |      100 |       0 |       0 | 3-6               
+ pure/ModdingPure                    |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  ModdingPure.ts                     |       0 |        0 |       0 |       0 | 15-959            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/MonitoringSystemPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1278-1504         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/MountSystemPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  MountSystem.ts                     |       0 |        0 |       0 |       0 | 4-584             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/MovementPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 8-1017            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/NPCsPure                       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1034-1444         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/NaturalLanguageProcessingPure  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 396-845           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/NavigationSystemPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/NetworkBridgePure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  NetworkBridgeCapable.ts            |       0 |      100 |       0 |       0 | 19-350            
+  NetworkBridgePure.ts               |       0 |        0 |       0 |       0 | 1-421             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/NetworkPure                    |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 994-1210          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/NeuralNetworkPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1024-1341         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/NodeGraphPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 52-83             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/NotificationSystemPure         |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1006-1218         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/ObstacleCoursePure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/OverlayFXPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/OverlinkPure                   |       0 |        0 |       0 |       0 |                   
+  AudioManager.ts                    |       0 |        0 |       0 |       0 | 68-610            
+  Manager.ts                         |       0 |        0 |       0 |       0 | 869-1075          
+  OverlinkThemes.ts                  |       0 |        0 |       0 |       0 | 52-448            
+  OverlinkZone.ts                    |       0 |        0 |       0 |       0 | 5-478             
+  RemixLineageTracker.ts             |       0 |        0 |       0 |       0 | 1-421             
+  ScenarioPackOverlinkPure.ts        |       0 |        0 |       0 |       0 | 5-286             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PartyPure                      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PathfindingPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  PathfindingManager.ts              |       0 |        0 |       0 |       0 | 153-746           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PerfMetricsPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 680-891           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PerfPure                       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  PerfTimer.ts                       |       0 |        0 |       0 |       0 | 28-335            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PermissionsPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 20-55             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PetCollectionPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-759            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PhysicsPure                    |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 484-935           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/PhysicsSystemPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 669-1104          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PixelAnimPure                  |       0 |        0 |       0 |       0 |                   
+  Animator.ts                        |       0 |      100 |       0 |       0 | 35-61             
+  Manager.ts                         |       0 |        0 |       0 |       0 | 756-1185          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-85              
+ pure/PixelDrawPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PixelGenPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PlatformBridgePure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  PlatformBridgePure.ts              |       0 |        0 |       0 |       0 | 16-1024           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/PlayerStatePure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-1015           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/PrefabBuilderPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 990-1196          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ProceduralWorldPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1531-1723         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ProfilerPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-805            
+  ProfilerPure.ts                    |       0 |        0 |       0 |       0 | 136-533           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/ProgressionPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 516-722           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ProjectileSystemPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/QuantumComputingPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1338-1545         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/QuestModulePure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-724            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/QuestScenarioPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 763-973           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/QuestSystemPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/QuestTimelinePure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/QuestsPure                     |       0 |        0 |       0 |       0 |                   
+  AdvancedQuests.ts                  |       0 |        0 |       0 |       0 | 465-1143          
+  Manager.ts                         |       0 |        0 |       0 |       0 | 621-826           
+  QuestsCapable.ts                   |       0 |      100 |       0 |       0 | 19-472            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RNGPure                        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RacingSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/RaidSystemPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1358-1563         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RecommendationSystemPure       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 792-1239          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/RemixAuditPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RemixModePure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/RemixTaggingPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 727-961           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  override.ts                        |       0 |        0 |       0 |       0 | 24-57             
+ pure/RenderPayloadPure              |       0 |        0 |       0 |       0 |                   
+  GameStateToFrames.ts               |       0 |        0 |       0 |       0 | 114-140           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 11-683            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RenderReplayPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1032-1248         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RenderWorldPure                |       0 |        0 |       0 |       0 |                   
+  AdvancedRendering.ts               |       0 |        0 |       0 |       0 | 236-853           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1064-1275         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  webBridge.ts                       |       0 |        0 |       0 |       0 | 12-866            
+ pure/ResourceManagerPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 868-1072          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/RestaurantSimulationPure       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1965-2167         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/RewardsPure                    |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RhythmChallengePure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RhythmSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/RitualSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 21-544            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SaveLoadPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  SaveLoadManager.ts                 |       0 |        0 |       0 |       0 | 1-188             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SaveLoadPure/SaveLoadPure      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+ pure/SavePure                       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-1143            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SavePure/integration           |       0 |        0 |     100 |       0 |                   
+  GameSnapshotCLI.ts                 |       0 |        0 |     100 |       0 | 2-29              
+ pure/SceneBuilderPure               |       0 |        0 |       0 |       0 |                   
+  Builder.ts                         |       0 |        0 |       0 |       0 | 35-57             
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1124-1521         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-82              
+ pure/ScoreSystemPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 639-841           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SecuritySystemPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1003-1222         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/ServiceDiscoveryPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1867-2074         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/SessionManifestPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1236-1438         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |       0 |       0 | 7-115             
+ pure/SettingsPure                   |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 587-1116          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SharedSchemaPure               |       0 |      100 |       0 |       0 |                   
+  Manager.ts                         |       0 |      100 |       0 |       0 | 20-34             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/SimpleGamePure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SkeletonAnimatorPure           |       0 |        0 |       0 |       0 |                   
+  AnimationSequencer.ts              |       0 |        0 |       0 |       0 | 11-629            
+  ExportIntegration.ts               |       0 |        0 |       0 |       0 | 19-652            
+  FacialDetailBuilder.ts             |       0 |        0 |       0 |       0 | 12-479            
+  LimbAttachment.ts                  |       0 |        0 |       0 |       0 | 10-562            
+  Manager.ts                         |       0 |        0 |       0 |       0 | 559-1102          
+  RigBuilder.ts                      |       0 |        0 |       0 |       0 | 9-304             
+  SimpleSkeletonAnimator.ts          |       0 |        0 |       0 |       0 | 95-248            
+  SkinMeshGenerator.ts               |       0 |        0 |       0 |       0 | 10-442            
+  UIBuilder.ts                       |       0 |        0 |       0 |       0 | 1-598             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  integrationTests.ts                |       0 |        0 |       0 |       0 | 8-1284            
+ pure/SkillTreePure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  SkillTreeManager.ts                |       0 |        0 |       0 |       0 | 85-434            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SlicePure                      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 794-999           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SnapBuilderPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SocialDeductionPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-543            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SpeechRecognitionPure          |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 524-1051          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/SpiritTamerDemoPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 798-1218          
+  ScenarioPackSpiritTamerDemoPure.ts |       0 |        0 |       0 |       0 | 6-190             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/SpiritsPure                    |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SplashScreenPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 624-822           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cli.ts                             |       0 |        0 |       0 |       0 | 17-239            
+  integration.ts                     |       0 |        0 |       0 |       0 | 14-557            
+ pure/SportsSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 2365-2578         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/StartMenuPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 855-1055          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/StateManagerPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 871-1075          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/StatsSystemPure                |       0 |        0 |       0 |       0 |                   
+  EnhancedStatsManager.ts            |       0 |        0 |       0 |       0 | 220-1021          
+  Manager.ts                         |       0 |      100 |       0 |       0 | 2                 
+  StatsManager.ts                    |       0 |        0 |       0 |       0 | 4-13              
+  StatsSystemCapable.ts              |       0 |      100 |       0 |       0 | 19-426            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cli.ts                             |       0 |        0 |       0 |       0 | 3-142             
+ pure/StatusEffectsPure              |       0 |        0 |       0 |       0 |                   
+  AdvancedStatusEffects.ts           |       0 |        0 |       0 |       0 | 139-590           
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1024-1223         
+  StatusEffectsManager.ts            |       0 |        0 |       0 |       0 | 166-731           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |     100 |       0 | 7-90              
+ pure/StorySystemPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 79-471            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SurvivalSystemPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 608-809           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SyncManagerPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/SyncPure                       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 402-863           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/TeamsPure                      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 68-90             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+  cliHarnessWrapper.ts               |       0 |        0 |       0 |       0 | 7-84              
+  strategicCliHarness.ts             |       0 |        0 |       0 |       0 | 10-720            
+ pure/TeleportationSystemPure        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 950-1323          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/TestHarnessPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 535-735           
+  TestHarnessPure.ts                 |       0 |        0 |       0 |       0 | 160-698           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/TestingSystemPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 962-1175          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/TextureSynthPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 40-92             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ThemeParkPure                  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/TimeSeriesAnalysisPure         |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 629-1244          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/TimeSystemPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 121-520           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/TimelineSystemPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 524-729           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/TopplerDemoPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1468-1669         
+  ScenarioPackTopplerDemoPure.ts     |       0 |        0 |       0 |       0 | 5-177             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/TouchGesturePure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 40-115            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/TutorialScenarioPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 571-776           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/TycoonSystemPure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 16-944            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/UIInterfacePure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1160-1607         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/UnityBridgePure                |       0 |        0 |       0 |       0 |                   
+  Bridge.ts                          |       0 |        0 |       0 |       0 | 1-408             
+  Manager.ts                         |       0 |        0 |       0 |       0 | 768-973           
+  UnityBridgeCapable.ts              |       0 |      100 |       0 |       0 | 10-919            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/UnrealBridgePure               |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-837            
+  UnrealAssetManagerPure.ts          |       0 |        0 |       0 |       0 | 8-1486            
+  UnrealEditorHarnessPure.ts         |       0 |        0 |       0 |       0 | 4-1354            
+  UnrealEventSyncPure.ts             |       0 |        0 |       0 |       0 | 7-1433            
+  UnrealPayloadAdapterPure.ts        |       0 |        0 |       0 |       0 | 5-1927            
+  UnrealSceneBuilderPure.ts          |       0 |        0 |       0 |       0 | 4-1420            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/ValidationPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 670-886           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ValidationSystemPure           |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 821-1027          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/VisualItemEventPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 642-847           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/VisualReplaySystemPure         |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 917-1129          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/WeatherSystemPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 15-768            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/Web3Pure                       |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 468-862           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/WebBridgePure                  |       0 |        0 |       0 |       0 |                   
+  Bridge.ts                          |       0 |        0 |       0 |       0 | 1-300             
+  Manager.ts                         |       0 |        0 |       0 |       0 | 680-885           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/WebSocketBridgePure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 386-810           
+  WebSocketBridgeCapable.ts          |       0 |      100 |       0 |       0 | 19-380            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/WebSocketServerPure            |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 370-750           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/WitcherExplorerDemoPure        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1307-1510         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-76              
+ pure/WorkflowEnginePure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 995-1220          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-75              
+ pure/WorldEnhancementsPure          |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/WorldLayoutPure                |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 583-782           
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/WorldManifestPure              |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1210-1412         
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/XPLevelingPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 622-1160          
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/ZoneServerPure                 |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 14-378            
+  ZoneServer.ts                      |       0 |        0 |       0 |       0 | 1-746             
+  capabilities.ts                    |       0 |      100 |     100 |       0 | 6-77              
+ pure/cli                            |       0 |        0 |       0 |       0 |                   
+  bridge-cli.ts                      |       0 |        0 |       0 |       0 | 16-304            
+  integration.ts                     |       0 |      100 |       0 |       0 | 1-2               
+  unity-harness.ts                   |       0 |        0 |       0 |       0 | 11-308            
+  unreal-cli.ts                      |       0 |        0 |       0 |       0 | 6-593             
+ pure/demos/RenderPayloadPure        |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+ pure/demos/SaveLoadPure             |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+ pure/demos/SpiritTamerDemoPure      |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+ pure/demos/TopplerDemoPure          |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 1-388             
+ pure/demos/WitcherExplorerDemoPure  |       0 |        0 |       0 |       0 |                   
+  Manager.ts                         |       0 |        0 |       0 |       0 | 955-1170          
+ pure/shared                         |       0 |        0 |       0 |       0 |                   
+  AssetValidator.ts                  |       0 |        0 |       0 |       0 | 9-579             
+  AuthenticationSystem.ts            |       0 |        0 |       0 |       0 | 8-577             
+  BaseManager.ts                     |       0 |        0 |       0 |       0 | 8-492             
+  CAPARegistry.ts                    |       0 |        0 |       0 |       0 | 8-493             
+  CAPASystem.ts                      |       0 |        0 |       0 |       0 | 39-413            
+  CPUOptimizer.ts                    |       0 |        0 |       0 |       0 | 111-624           
+  CapabilityDiscovery.ts             |       0 |        0 |       0 |       0 | 9-462             
+  CapabilityRegistry.ts              |       0 |        0 |       0 |       0 | 8-141             
+  ConsolidatedSchema.ts              |       0 |        0 |       0 |       0 | 257-665           
+  DocumentationGenerator.ts          |       0 |        0 |       0 |       0 | 325-776           
+  FinalIntegrationTester.ts          |       0 |        0 |       0 |       0 | 285-904           
+  InterfaceStandardizer.ts           |       0 |        0 |       0 |       0 | 192-639           
+  MIFFCapable.ts                     |       0 |        0 |       0 |       0 | 943-1164          
+  MigrationSystem.ts                 |       0 |        0 |       0 |       0 | 107-522           
+  MonitoringSystem.ts                |       0 |        0 |       0 |       0 | 8-734             
+  MutationTesting.ts                 |       0 |        0 |       0 |       0 | 30-493            
+  PerformanceOptimizer.ts            |       0 |        0 |       0 |       0 | 172-661           
+  ProductionReadinessManager.ts      |       0 |        0 |       0 |       0 | 8-1143            
+  RealImplementationGenerator.ts     |       0 |        0 |       0 |       0 | 68-446            
+  RuntimeFidelityManager.ts          |       0 |        0 |       0 |       0 | 116-454           
+  SecurityHardening.ts               |       0 |        0 |       0 |       0 | 8-686             
+  SessionManager.ts                  |       0 |        0 |       0 |       0 | 98-534            
+  TestCoverageAnalyzer.ts            |       0 |        0 |       0 |       0 | 81-403            
+  TestInfrastructure.ts              |       0 |        0 |       0 |       0 | 117-407           
+  assetCLI.ts                        |       0 |        0 |       0 |       0 | 10-321            
+  capaCLI.ts                         |       0 |        0 |       0 |       0 | 10-379            
+  capabilityCLI.ts                   |       0 |        0 |       0 |       0 | 10-409            
+  cliHarnessTemplate.ts              |       0 |        0 |       0 |       0 | 15-304            
+  cliHarnessUtils.ts                 |       0 |        0 |       0 |       0 | 1-188             
+  coverageCLI.ts                     |       0 |        0 |       0 |       0 | 9-214             
+  cpuOptimizerCLI.ts                 |       0 |        0 |       0 |       0 | 10-322            
+  docsCLI.ts                         |       0 |        0 |       0 |       0 | 9-448             
+  enhancedCliHarnessUtils.ts         |       0 |        0 |       0 |       0 | 81-698            
+  exportUtils.ts                     |       0 |        0 |       0 |       0 | 37-320            
+  fidelityCLI.ts                     |       0 |        0 |       0 |       0 | 9-351             
+  finalTestCLI.ts                    |       0 |        0 |       0 |       0 | 10-584            
+  interfaceCLI.ts                    |       0 |        0 |       0 |       0 | 9-404             
+  migrationCLI.ts                    |       0 |        0 |       0 |       0 | 10-294            
+  mutationCLI.ts                     |       0 |        0 |       0 |       0 | 10-269            
+  performanceCLI.ts                  |       0 |        0 |       0 |       0 | 9-418             
+  productionCLI.ts                   |       0 |        0 |       0 |       0 | 10-482            
+  securityCLI.ts                     |       0 |        0 |       0 |       0 | 10-404            
+  testInfrastructureCLI.ts           |       0 |        0 |       0 |       0 | 10-309            
+  testStubs.ts                       |       0 |      100 |       0 |       0 | 13-25             
+  testUtils.ts                       |       0 |        0 |       0 |       0 | 2-3               
+ pure/shared/assets                  |       0 |        0 |       0 |       0 |                   
+  AssetPipeline.ts                   |       0 |        0 |       0 |       0 | 101-775           
+ pure/shared/audit                   |       0 |        0 |       0 |       0 |                   
+  AuditSystem.ts                     |       0 |        0 |       0 |       0 | 17-1332           
+ pure/shared/build                   |       0 |        0 |       0 |       0 |                   
+  BuildOptimizer.ts                  |       0 |        0 |       0 |       0 | 38-331            
+ pure/shared/cache                   |       0 |        0 |       0 |       0 |                   
+  CacheManager.ts                    |       0 |        0 |       0 |       0 | 74-608            
+  LazyLoader.ts                      |       0 |        0 |       0 |       0 | 49-441            
+ pure/shared/capability              |       0 |        0 |       0 |       0 |                   
+  CapabilityGenerator.ts             |       0 |        0 |       0 |       0 | 3-455             
+  CapabilitySystem.ts                |       0 |        0 |       0 |       0 | 142-589           
+ pure/shared/deployment              |       0 |        0 |       0 |       0 |                   
+  ProductionDeployment.ts            |       0 |        0 |       0 |       0 | 16-568            
+ pure/shared/docs                    |       0 |        0 |       0 |       0 |                   
+  APIDocumentationGenerator.ts       |       0 |        0 |       0 |       0 | 15-1036           
+  DocumentationGenerator.ts          |       0 |        0 |       0 |       0 | 16-1320           
+ pure/shared/error                   |    29.7 |    12.12 |       8 |      30 |                   
+  StandardErrorHandler.ts            |    29.7 |    12.12 |       8 |      30 | 119-439           
+ pure/shared/errors                  |       0 |        0 |       0 |       0 |                   
+  MIFFError.ts                       |       0 |        0 |       0 |       0 | 6-311             
+ pure/shared/health                  |       0 |        0 |       0 |       0 |                   
+  HealthCheckSystem.ts               |       0 |        0 |       0 |       0 | 16-684            
+ pure/shared/integration             |       0 |        0 |       0 |       0 |                   
+  IntegrationManager.ts              |       0 |        0 |       0 |       0 | 23-759            
+ pure/shared/logging                 |   14.47 |       16 |    8.33 |   15.06 |                   
+  StructuredLogger.ts                |   14.47 |       16 |    8.33 |   15.06 | 59-314            
+ pure/shared/memory                  |    3.81 |        0 |       0 |    3.86 |                   
+  EventListenerManager.ts            |       0 |        0 |       0 |       0 | 14-364            
+  MemoryManager.ts                   |    7.03 |        0 |       0 |     7.2 | 80-420            
+ pure/shared/mobile                  |       0 |        0 |       0 |       0 |                   
+  MobileOptimizer.ts                 |       0 |        0 |       0 |       0 | 76-885            
+ pure/shared/mocks                   |       0 |        0 |       0 |       0 |                   
+  mockBrowserAPIs.ts                 |       0 |      100 |       0 |       0 | 8-24              
+  mockCanvas.ts                      |       0 |      100 |     100 |       0 | 8                 
+  mockConsole.ts                     |       0 |      100 |     100 |       0 | 8                 
+  mockDialogueEngine.ts              |       0 |      100 |       0 |       0 | 8-21              
+  mockDocument.ts                    |       0 |        0 |       0 |       0 | 8-15              
+  mockEventBus.ts                    |       0 |      100 |       0 |       0 | 8                 
+  mockExport.ts                      |       0 |      100 |     100 |       0 | 8                 
+  mockFileSystem.ts                  |       0 |        0 |       0 |       0 | 8-13              
+  mockInventory.ts                   |       0 |      100 |     100 |       0 | 8                 
+  mockModdingSystem.ts               |       0 |      100 |     100 |       0 | 8                 
+  mockPlatformBridge.ts              |       0 |      100 |     100 |       0 | 8                 
+  mockProcess.ts                     |       0 |      100 |     100 |       0 | 8                 
+  mockQuestSystem.ts                 |       0 |      100 |     100 |       0 | 8                 
+  mockScheduler.ts                   |       0 |      100 |       0 |       0 | 8-13              
+  mockTimers.ts                      |       0 |      100 |     100 |       0 | 8                 
+  mockTransport.ts                   |       0 |      100 |     100 |       0 | 8                 
+  mockUtils.ts                       |       0 |        0 |       0 |       0 | 8-57              
+ pure/shared/monitoring              |       0 |        0 |       0 |       0 |                   
+  ProductionMonitor.ts               |       0 |        0 |       0 |       0 | 16-772            
+ pure/shared/optimization            |       0 |        0 |       0 |       0 |                   
+  BundleOptimizer.ts                 |       0 |        0 |       0 |       0 | 79-586            
+ pure/shared/performance             |       0 |        0 |       0 |       0 |                   
+  LoopOptimizer.ts                   |       0 |        0 |       0 |       0 | 14-359            
+  PerformanceMonitor.ts              |       0 |        0 |       0 |       0 | 43-341            
+  PerformanceOptimizer.ts            |       0 |        0 |       0 |       0 | 48-455            
+  TimerOptimizer.ts                  |       0 |        0 |       0 |       0 | 14-328            
+ pure/shared/realImplementations     |       0 |        0 |       0 |       0 |                   
+  RealAISystem.ts                    |       0 |        0 |       0 |       0 | 101-594           
+  RealBrowserAPIs.ts                 |       0 |        0 |       0 |       0 | 1-585             
+  RealCanvas.ts                      |       0 |        0 |       0 |       0 | 1-499             
+  RealConsole.ts                     |       0 |        0 |       0 |       0 | 87-416            
+  RealDialogueEngine.ts              |       0 |        0 |       0 |       0 | 194-742           
+  RealEventBus.ts                    |       0 |        0 |       0 |       0 | 8-263             
+  RealFileSystem.ts                  |       0 |        0 |       0 |       0 | 8-378             
+  RealModdingSystem.ts               |       0 |        0 |       0 |       0 | 197-683           
+  RealPlatformBridge.ts              |       0 |        0 |       0 |       0 | 276-922           
+  RealProcess.ts                     |       0 |        0 |       0 |       0 | 95-433            
+  RealQuestSystem.ts                 |       0 |        0 |       0 |       0 | 89-432            
+  RealScheduler.ts                   |       0 |        0 |       0 |       0 | 97-501            
+  RealTransport.ts                   |       0 |        0 |       0 |       0 | 1-178             
+  RealUtils.ts                       |       0 |        0 |       0 |       0 | 168-622           
+  RealValidation.ts                  |       0 |        0 |       0 |       0 | 102-644           
+  RealWindow.ts                      |       0 |        0 |       0 |       0 | 1-383             
+ pure/shared/runtime                 |       0 |        0 |       0 |       0 |                   
+  RuntimeFidelityManager.ts          |       0 |        0 |       0 |       0 | 2-585             
+ pure/shared/schema                  |       0 |        0 |       0 |       0 |                   
+  SchemaStandardizer.ts              |       0 |        0 |       0 |       0 | 138-615           
+ pure/shared/security                |    0.62 |        0 |       0 |    0.64 |                   
+  InputSanitizer.ts                  |       0 |        0 |       0 |       0 | 49-465            
+  SafeExpressionEvaluator.ts         |       0 |        0 |       0 |       0 | 42-330            
+  SafeJSONParser.ts                  |    7.81 |        0 |       0 |    7.81 | 28-170            
+  SafeObjectUtils.ts                 |       0 |        0 |       0 |       0 | 29-313            
+  SafePathUtils.ts                   |       0 |        0 |       0 |       0 | 11-300            
+  SecurityManager.ts                 |       0 |        0 |       0 |       0 | 18-1041           
+ pure/shared/testing                 |       0 |        0 |       0 |       0 |                   
+  EnhancedTestRunner.ts              |       0 |        0 |       0 |       0 | 6-361             
+  TestImplementationFactory.ts       |       0 |        0 |       0 |       0 | 2-476             
+  TestRunner.ts                      |       0 |        0 |       0 |       0 | 18-1084           
+ pure/shared/types                   |       0 |        0 |       0 |       0 |                   
+  GenericTypes.ts                    |       0 |        0 |       0 |       0 | 11-362            
+  InterfaceValidator.ts              |       0 |        0 |       0 |       0 | 11-451            
+  TypeGuards.ts                      |       0 |        0 |       0 |       0 | 11-477            
+ pure/shared/validation              |       0 |        0 |       0 |       0 |                   
+  AssetPipelineValidator.ts          |       0 |        0 |       0 |       0 | 2-671             
+-------------------------------------|---------|----------|---------|---------|-------------------
+Jest: "global" coverage threshold for statements (30%) not met: 0.13%
+Jest: "global" coverage threshold for branches (30%) not met: 0.04%
+Jest: "global" coverage threshold for lines (30%) not met: 0.14%
+Jest: "global" coverage threshold for functions (30%) not met: 0.06%
+Test Suites: 11 failed, 11 total
+Tests:       27 failed, 27 total
+Snapshots:   0 total
+Time:        62.329 s
+Ran all test suites matching /LogPure/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
