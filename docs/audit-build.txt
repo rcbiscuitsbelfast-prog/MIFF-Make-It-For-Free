@@ -1,0 +1,40 @@
+
+> miff-docs@1.0.0 build
+> astro build
+
+▶ Astro collects anonymous usage data.
+  This information helps us improve Astro.
+  Run "astro telemetry disable" to opt-out.
+  https://astro.build/telemetry
+
+[MDX] remark-gfm not applied.
+[MDX] remark-toc not applied.
+To inherit Markdown plugins in MDX, please use explicit imports in your config instead of "strings." See Markdown docs: https://docs.astro.build/en/guides/markdown-content/#markdown-plugins
+[MDX] rehype-slug not applied.
+[MDX] rehype-autolink-headings not applied.
+To inherit Markdown plugins in MDX, please use explicit imports in your config instead of "strings." See Markdown docs: https://docs.astro.build/en/guides/markdown-content/#markdown-plugins
+17:38:03 [types] Generated 229ms
+17:38:03 [build] output: "static"
+17:38:03 [build] directory: /workspace/docs/dist/
+17:38:03 [build] Collecting build info...
+17:38:03 [build] ✓ Completed in 405ms.
+17:38:03 [build] Building static entrypoints...
+17:38:08 [vite] ✓ built in 5.04s
+17:38:08 [build] ✓ Completed in 5.15s.
+
+ generating static routes 
+17:38:08 ▶ src/pages/404.astro
+17:38:08   └─ /404.html (+64ms)
+17:38:08 ▶ src/pages/docs/index.astro
+17:38:08   └─ /docs/index.html (+19ms)
+17:38:08 ▶ src/pages/forum/index.astro
+17:38:08   └─ /forum/index.html (+7ms)
+17:38:08 ▶ src/pages/modules/index.astro
+17:38:08   └─ /modules/index.html (+9ms)
+17:38:08 ▶ src/pages/index.astro
+17:38:08   └─ /index.html (+6ms)
+17:38:08 ✓ Completed in 135ms.
+
+17:38:08 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+17:38:08 [build] 5 page(s) built in 5.75s
+17:38:08 [build] Complete!

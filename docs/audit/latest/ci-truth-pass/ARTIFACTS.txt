@@ -1,0 +1,24 @@
+Local artifacts:
+docs/audit/latest/ci-truth-pass/local/build.exit
+docs/audit/latest/ci-truth-pass/local/build.txt
+docs/audit/latest/ci-truth-pass/local/jest-list.exit
+docs/audit/latest/ci-truth-pass/local/jest-tests.count
+docs/audit/latest/ci-truth-pass/local/jest.txt
+docs/audit/latest/ci-truth-pass/local/lint.exit
+docs/audit/latest/ci-truth-pass/local/lint.txt
+docs/audit/latest/ci-truth-pass/local/npm-audit.exit
+docs/audit/latest/ci-truth-pass/local/npm-audit.json
+docs/audit/latest/ci-truth-pass/local/security-scan.exit
+docs/audit/latest/ci-truth-pass/local/security-scan.txt
+docs/audit/latest/ci-truth-pass/local/test-list.json
+docs/audit/latest/ci-truth-pass/local/type-check.exit
+docs/audit/latest/ci-truth-pass/local/type-check.txt
+
+Master artifacts:
+docs/audit/latest/ci-truth-pass/master/git-status.exit
+docs/audit/latest/ci-truth-pass/master/git-status.txt
+docs/audit/latest/ci-truth-pass/master/jest-list.exit
+docs/audit/latest/ci-truth-pass/master/jest.txt
+docs/audit/latest/ci-truth-pass/master/npm-ci.exit
+docs/audit/latest/ci-truth-pass/master/npm-ci.txt
+docs/audit/latest/ci-truth-pass/master/test-list.json
