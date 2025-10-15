@@ -18,3 +18,17 @@ logs/
 site/legacy/
 # Ignore core dumps
 core
+
+# Reports (generated)
+reports/*.json
+reports/**/*.json
+
+# Backups (local only)
+backups/
+
+# Additional
+dist/
+coverage/
+.tsbuildinfo
+*.log
+
