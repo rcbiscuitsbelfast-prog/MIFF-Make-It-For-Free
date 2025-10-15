@@ -16,7 +16,6 @@
 import { EventBus } from '../../EventBusPure/index';
 import { SocialDeductionManager, SocialDeductionConfig } from '../Manager';
 import { GamePhase, GameRole } from '../index';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 interface TestResult {

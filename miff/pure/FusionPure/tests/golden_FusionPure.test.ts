@@ -9,7 +9,6 @@
  * @license MIT
  */
 
-import {
   FusionManager,
   FusionRules,
   PlayerContext,

@@ -5,7 +5,6 @@
  * Tests cover policy creation, AI decision making, battle simulation, and integration scenarios.
  */
 
-import {
   AIManager,
   AIPolicy,
   BattleAI,
@@ -19,7 +18,6 @@ import {
   IRNGProvider
 } from '../index';
 import { MoveCategory } from '../../miff/pure/CombatPure/engine';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 // Mock RNG provider for testing

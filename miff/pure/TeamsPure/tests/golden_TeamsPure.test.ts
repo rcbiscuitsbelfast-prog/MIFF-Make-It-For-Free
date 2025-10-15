@@ -9,8 +9,6 @@
  * @license MIT
  */
 
-import { log } from '../../shared/logging/StructuredLogger';
-import {
   TeamManager,
   Team,
   TeamRules,

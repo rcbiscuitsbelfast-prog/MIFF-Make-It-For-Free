@@ -9,7 +9,6 @@ import fs from 'fs';
 import path from 'path';
 import { execFileSync } from 'child_process';
 import { SafeJSONParser } from 'shared/security/SafeJSONParser';
-import { log } from 'shared/logging/StructuredLogger';
 
 
 

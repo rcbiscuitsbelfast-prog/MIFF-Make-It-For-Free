@@ -5,7 +5,6 @@
  * Tests cover encounter tables, triggers, weighted selection, and integration scenarios.
  */
 
-import {
   EncounterController,
   EncounterTable,
   EncounterTrigger,

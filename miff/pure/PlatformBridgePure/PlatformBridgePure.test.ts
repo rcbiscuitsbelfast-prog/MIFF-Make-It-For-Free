@@ -4,7 +4,6 @@
  * Tests platform detection, render targets, input devices, and backend management.
  */
 
-import {
   createPlatformBridge,
   createPlatformManager,
   createAutoPlatformBridge,

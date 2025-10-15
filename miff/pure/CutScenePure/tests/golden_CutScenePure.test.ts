@@ -14,7 +14,6 @@
  * @license MIT
  */
 
-import {
 import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
 
   CutScenePure,

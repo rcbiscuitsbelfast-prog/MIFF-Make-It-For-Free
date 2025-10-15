@@ -5,7 +5,6 @@
  */
 
 import { AudioSystem, AudioConfig, SoundDefinition, SpatialAudioConfig, AudioEvent } from './AudioPure';
-import { log } from '../shared/logging/StructuredLogger';
 
 
 describe('AudioPure', () => {

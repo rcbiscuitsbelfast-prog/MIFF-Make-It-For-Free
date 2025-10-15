@@ -5,7 +5,6 @@
  * Tests cover effects, managers, resolvers, aggregators, and integration scenarios.
  */
 
-import {
   EffectManager,
   BattleEffect,
   ActiveEffect,

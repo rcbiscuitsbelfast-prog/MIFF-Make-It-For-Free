@@ -10,7 +10,6 @@ import { EventBus } from '../../EventsPure/index';
 import { HealthSystemPure } from '../../HealthSystemPure/index';
 import { CombatPure } from '../../CombatPure/index';
 import { RNGPure } from '../../RNGPure/index';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 // Import realistic test implementations

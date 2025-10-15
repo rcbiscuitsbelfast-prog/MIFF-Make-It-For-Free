@@ -5,8 +5,6 @@
  * Tests cover sync management, event processing, challenges, and statistics.
  */
 
-import {
-import { log } from '../../shared/logging/StructuredLogger';
 
   SyncManager,
   SyncEvent,

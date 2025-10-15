@@ -5,7 +5,6 @@
  * Tests cover item creation, effects, usage, validation, and integration scenarios.
  */
 
-import {
   Item,
   ItemEffect,
   ItemUsageManager,

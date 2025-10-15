@@ -9,8 +9,6 @@
  * @license MIT
  */
 
-import {
-import { log } from '../../shared/logging/StructuredLogger';
 
   XPManager,
   XPCurve,

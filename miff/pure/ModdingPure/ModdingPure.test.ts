@@ -4,7 +4,6 @@
  * Tests plugin discovery, asset pipeline, and export functionality.
  */
 
-import {
   createModdingSystem,
   createPluginDiscovery,
   createAssetPipeline,

@@ -1,7 +1,6 @@
 import { execFileSync } from 'child_process';
 import * as path from 'path';
 import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 

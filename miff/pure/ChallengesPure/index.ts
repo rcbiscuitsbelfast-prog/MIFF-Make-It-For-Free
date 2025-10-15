@@ -683,14 +683,14 @@ export class BattleChallenge implements IBattleChallenge {
   /**
    * Check if challenge matches all tags
    */
-  hasAllTags(): boolean {
+  hasAllTags(tags: string[]): boolean {
     return tags.every(tag => this.tags.includes(tag));
   }
 
   /**
    * Check if challenge matches any tags
    */
-  hasAnyTag(): boolean {
+  hasAnyTag(tags: string[]): boolean {
     return tags.some(tag => this.tags.includes(tag));
   }
 
@@ -1117,7 +1117,7 @@ export class ChallengeManager implements IChallengeManager {
   /**
    * Register challenge
    */
-  registerChallenge(): boolean {
+  registerChallenge(challenge: IBattleChallenge): boolean {
     if (!challenge || !challenge.challengeId || challenge.challengeId.trim() === '') {
       console.warn('Invalid challenge registration: missing or empty challenge ID');
       return false;

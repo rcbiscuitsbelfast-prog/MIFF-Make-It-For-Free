@@ -5,7 +5,6 @@
  * Tests cover type effectiveness, damage calculation, combat mechanics, and battle resolution.
  */
 
-import {
   TypeEffectiveness,
   MoveData,
   MoveCategory,

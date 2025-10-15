@@ -12,7 +12,6 @@
 import { TeamManager, TeamRules, TeamUtils, TeamOperationResult, ValidationStatus } from '../index';
 import { CombatEngine, SpiritInstance, MoveData, TypeEffectiveness, Stats } from '../../CombatPure/engine';
 import { Item, ItemEffect, UsageResult, ItemUsageManager, IPlayerContext, ItemType, ItemEffectType } from '../../ItemsPure/index';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 // Mock the missing modules for integration testing

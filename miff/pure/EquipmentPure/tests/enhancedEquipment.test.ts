@@ -9,7 +9,6 @@
  * @license MIT
  */
 
-import {
   EquipmentManager,
   StatModifier,
   Enchantment,

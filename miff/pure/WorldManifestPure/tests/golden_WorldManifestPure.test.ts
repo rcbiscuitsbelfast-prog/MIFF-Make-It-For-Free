@@ -2,7 +2,6 @@ import { WorldManifestManager, WorldGenerationConfig } from '../Manager';
 import { WorldManifestPure } from '../index';
 import * as fs from 'fs';
 import * as path from 'path';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 describe('WorldManifestPure Golden Tests', () => {

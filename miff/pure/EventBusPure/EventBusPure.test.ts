@@ -4,7 +4,6 @@
  * Tests event bus, routing, filtering, replication, and scheduling functionality.
  */
 
-import {
   createEventBus,
   createEventRouter,
   createEventFilter,

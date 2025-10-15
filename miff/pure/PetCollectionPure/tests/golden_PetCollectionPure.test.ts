@@ -16,7 +16,6 @@
 import { EventBus } from '../../EventBusPure/EventBusPure';
 import { PetCollectionManager, PetCollectionConfig } from '../Manager';
 import { PetRarity, EggType, PetType } from '../index';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 interface TestResult {

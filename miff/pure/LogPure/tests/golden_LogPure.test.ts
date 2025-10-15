@@ -5,7 +5,6 @@
  * Tests cover logging functionality, filtering, validation, export/import, and integration scenarios.
  */
 
-import {
 import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
 
   BattleLogger,

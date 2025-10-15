@@ -5,7 +5,6 @@
  * Tests cover challenges, rulesets, results, managers, and integration scenarios.
  */
 
-import {
   ChallengeManager,
   BattleChallenge,
   ChallengeResult,

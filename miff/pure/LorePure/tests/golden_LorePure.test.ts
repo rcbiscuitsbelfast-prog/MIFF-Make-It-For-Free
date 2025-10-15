@@ -5,7 +5,6 @@
  * Tests cover lore entries, unlock conditions, filtering, statistics, and integration scenarios.
  */
 
-import {
   LoreCodexManager,
   LoreEntry,
   LoreUnlockCondition,

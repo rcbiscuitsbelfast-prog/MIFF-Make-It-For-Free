@@ -2,7 +2,6 @@ import { BridgeSchemaValidator, RenderData, RenderPayload, RenderDataType } from
 import fs from 'fs';
 import path from 'path';
 import { SafeJSONParser } from '../../shared/security/SafeJSONParser';
-import { log } from '../../shared/logging/StructuredLogger';
 
 
 
