@@ -54,14 +54,11 @@ export interface CloudStorage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StorageType;
-  status: StorageStatus;
   providers: StorageProvider[];
   files: StorageFile[];
   buckets: StorageBucket[];
   performance: StoragePerformance;
   analytics: StorageAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface StorageProvider {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProviderType;
-  status: ProviderStatus;
   credentials: ProviderCredentials;
   settings: ProviderSettings;
 }
@@ -134,7 +130,6 @@ export interface StorageFile {
   path: string;
   size: number; // bytes
   type: FileType;
-  status: FileStatus;
   provider: string; // Provider ID
   bucket: string; // Bucket ID
   checksum: string;
@@ -156,7 +151,6 @@ export interface StorageBucket {
   metadata?: Record<string, any>;
   provider: string; // Provider ID
   region: string;
-  status: BucketStatus;
   files: string[]; // File IDs
   settings: BucketSettings;
 }

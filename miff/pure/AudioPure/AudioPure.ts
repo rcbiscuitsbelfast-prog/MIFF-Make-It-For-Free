@@ -51,7 +51,6 @@ export interface AudioEvent {
   metadata?: Record<string, any>;
   type: 'play' | 'stop' | 'pause' | 'volume' | 'spatial';
   soundId: string;
-  data?: any;
 }
 
 export interface SpatialAudioConfig {
@@ -97,7 +96,6 @@ export interface SoundDefinition {
   pitch: number;
   loop: boolean;
   spatial: boolean;
-  data?: Uint8Array; // Audio data in PCM format
 }
 
 export type AudioCallback = (event: AudioEvent) => void;

@@ -59,13 +59,10 @@ export interface ARVRDevice {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeviceType;
-  status: DeviceStatus;
   capabilities: DeviceCapabilities;
   tracking: TrackingData;
   haptics: HapticData;
   analytics: DeviceAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -109,7 +106,6 @@ export interface TrackingData {
   velocity: Vector3;
   angularVelocity: Vector3;
   confidence: number; // 0 to 1
-  timestamp: Date;
 }
 
 export interface HapticData {

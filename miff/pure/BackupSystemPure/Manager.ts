@@ -59,15 +59,12 @@ export interface BackupSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   backups: Backup[];
   schedules: BackupSchedule[];
   policies: BackupPolicy[];
   storage: StorageConfig;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -84,14 +81,12 @@ export interface Backup {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BackupType;
-  status: BackupStatus;
   source: BackupSource;
   destination: BackupDestination;
   size: number; // bytes
   compressedSize: number; // bytes
   encryption: EncryptionConfig;
   schedule: string;
-  createdAt: Date;
   completedAt?: Date;
 }
 

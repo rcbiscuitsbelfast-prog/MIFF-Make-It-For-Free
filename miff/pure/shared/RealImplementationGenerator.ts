@@ -43,7 +43,6 @@ export interface GeneratedImplementation {
   dependencies: string[];
   config: any;
   generatedAt: Date;
-  status: 'generated' | 'validated' | 'deployed' | 'failed';
 }
 
 export interface GenerationConfig {

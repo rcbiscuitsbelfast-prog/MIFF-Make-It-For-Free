@@ -56,14 +56,11 @@ export interface ButtonStyle {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StyleType;
-  status: StyleStatus;
   definition: StyleDefinition;
   theme: StyleTheme;
   animation: StyleAnimation;
   performance: StylePerformance;
   analytics: StyleAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 

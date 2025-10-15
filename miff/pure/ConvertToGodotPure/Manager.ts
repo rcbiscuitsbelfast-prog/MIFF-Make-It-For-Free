@@ -51,7 +51,6 @@ export interface ConvertToGodotManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConvertToGodotManagerType;
-  status: ConvertToGodotManagerStatus;
   projects: ConversionProject[];
   assets: ConversionAsset[];
   templates: ConversionTemplate[];
@@ -82,7 +81,6 @@ export interface ConversionProject {
   sourceType: SourceType;
   sourcePath: string;
   targetPath: string;
-  status: ProjectStatus;
   progress: number;
   settings: ProjectSettings;
   assets: string[];
@@ -331,7 +329,6 @@ export interface ConversionAsset {
   type: AssetType;
   sourcePath: string;
   targetPath: string;
-  status: AssetStatus;
   progress: number;
   settings: AssetSettings;
   dependencies: string[];
@@ -911,8 +908,6 @@ export interface ConvertToGodotOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -15,7 +15,6 @@ export interface PerfSample {
   tickEndMs: number;
   playersSimulated: number;
   category?: string;
-  metadata?: Record<string, any>;
 }
 
 export interface PerfSnapshot {

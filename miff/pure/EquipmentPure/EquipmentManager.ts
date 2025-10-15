@@ -21,7 +21,6 @@ export interface StatModifier {
   value: number;
   type: 'additive' | 'multiplicative' | 'percentage';
   source: string;
-  metadata?: Record<string, any>;
 }
 
 export interface EquippedItem {
@@ -45,7 +44,6 @@ export interface EquippedItem {
   set?: string;
   rarity: ItemRarity;
   level: number;
-  metadata?: Record<string, any>;
 }
 
 export interface Enchantment {
@@ -63,7 +61,6 @@ export interface Enchantment {
   level: number;
   effects: StatModifier[];
   duration?: number;
-  metadata?: Record<string, any>;
 }
 
 export interface EquipmentSet {
@@ -80,7 +77,6 @@ export interface EquipmentSet {
   metadata?: Record<string, any>;
   pieces: string[];
   bonuses: SetBonus[];
-  metadata?: Record<string, any>;
 }
 
 export interface SetBonus {
@@ -155,8 +151,6 @@ export interface EquipmentOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -49,7 +49,6 @@ export interface OverlinkManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: OverlinkManagerType;
-  status: OverlinkManagerStatus;
   overlinks: Overlink[];
   validators: OverlinkValidator[];
   verifiers: OverlinkVerifier[];
@@ -78,7 +77,6 @@ export interface Overlink {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: OverlinkType;
-  status: OverlinkStatus;
   source: OverlinkSource;
   target: OverlinkTarget;
   properties: OverlinkProperties;
@@ -472,7 +470,6 @@ export interface OverlinkValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
@@ -530,7 +527,6 @@ export interface OverlinkVerifier {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VerifierType;
-  status: VerifierStatus;
   configuration: VerifierConfiguration;
   checks: VerificationCheck[];
   performance: VerifierPerformance;
@@ -588,7 +584,6 @@ export interface OverlinkAnalyzer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnalyzerType;
-  status: AnalyzerStatus;
   configuration: AnalyzerConfiguration;
   metrics: AnalyzerMetric[];
   performance: AnalyzerPerformance;
@@ -868,8 +863,6 @@ export interface OverlinkOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

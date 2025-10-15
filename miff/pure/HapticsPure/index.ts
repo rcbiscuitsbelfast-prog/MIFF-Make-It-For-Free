@@ -166,7 +166,6 @@ export interface HapticEffect {
   amplitude: number;
   frequency: number;
   priority: HapticPriority;
-  status: 'pending' | 'playing' | 'completed' | 'cancelled' | 'failed';
   progress: number; // 0-1
 }
 
@@ -229,7 +228,6 @@ export interface HapticEvent {
   type: 'pattern' | 'sequence' | 'effect' | 'device' | 'environment' | 'system';
   source: string;
   target: string;
-  data: Record<string, any>;
   priority: HapticPriority;
   processed: boolean;
 }
@@ -1274,7 +1272,6 @@ export interface PlayOptions {
   frequency?: number;
   priority?: HapticPriority;
   target?: HapticTarget;
-  metadata?: Record<string, any>;
 }
 
 export interface GestureInput {

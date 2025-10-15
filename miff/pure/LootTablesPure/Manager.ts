@@ -51,7 +51,6 @@ export interface LootTablesManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LootTablesManagerType;
-  status: LootTablesManagerStatus;
   lootTables: LootTable[];
   items: LootItem[];
   drops: LootDrop[];
@@ -516,8 +515,6 @@ export interface LootTablesOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

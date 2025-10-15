@@ -76,7 +76,6 @@ export interface AIExperience {
   metadata?: Record<string, any>;
   context: any;
   action: string;
-  result: 'success' | 'failure' | 'partial';
   reward: number;
 }
 

@@ -103,7 +103,6 @@ export interface TestResult {
   file: string;
   type: TestType;
   priority: TestPriority;
-  status: TestStatus;
   duration: number;
   startTime: Date;
   endTime?: Date;
@@ -191,7 +190,6 @@ export interface TestSuite {
   file: string;
   type: TestType;
   priority: TestPriority;
-  status: TestStatus;
   duration: number;
   startTime: Date;
   endTime?: Date;
@@ -215,9 +213,7 @@ export interface TestReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   duration: number;
-  status: TestStatus;
   totalSuites: number;
   totalTests: number;
   passedSuites: number;
@@ -267,7 +263,6 @@ export interface TestEnvironment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   config: TestConfig;
-  status: 'idle' | 'running' | 'error';
   startTime?: Date;
   endTime?: Date;
   error?: string;

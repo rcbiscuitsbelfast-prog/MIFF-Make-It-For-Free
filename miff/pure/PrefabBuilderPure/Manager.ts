@@ -52,7 +52,6 @@ export interface PrefabBuilderManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PrefabBuilderManagerType;
-  status: PrefabBuilderManagerStatus;
   prefabs: Prefab[];
   instances: PrefabInstance[];
   templates: PrefabTemplate[];
@@ -81,7 +80,6 @@ export interface Prefab {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PrefabType;
-  status: PrefabStatus;
   components: PrefabComponent[];
   properties: PrefabProperties;
   hierarchy: PrefabHierarchy;
@@ -500,7 +498,6 @@ export interface PrefabInstance {
   updatedAt?: number;
   metadata?: Record<string, any>;
   prefabId: string;
-  status: InstanceStatus;
   position: Vector3;
   rotation: Quaternion;
   scale: Vector3;
@@ -987,8 +984,6 @@ export interface PrefabBuilderOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

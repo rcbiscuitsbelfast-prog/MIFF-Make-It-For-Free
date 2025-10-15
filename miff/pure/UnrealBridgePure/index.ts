@@ -1109,7 +1109,6 @@ export interface UnrealConnection {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: 'local' | 'remote' | 'embedded' | 'editor' | 'runtime';
-  status: 'connected' | 'disconnected' | 'connecting' | 'error' | 'reconnecting' | 'paused';
   endpoint: string;
   protocol: UnrealCommunicationProtocol;
   lastActivity: number;

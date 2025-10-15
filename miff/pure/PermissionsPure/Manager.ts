@@ -14,7 +14,6 @@ export interface PermissionQueryResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  name: PermissionName;
   state: PermissionState;
 }
 

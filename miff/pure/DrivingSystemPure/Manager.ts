@@ -52,7 +52,6 @@ export interface DrivingSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DrivingSystemManagerType;
-  status: DrivingSystemManagerStatus;
   vehicles: Vehicle[];
   roads: Road[];
   traffic: TrafficSystem;
@@ -87,7 +86,6 @@ export interface Vehicle {
   acceleration: Vector3;
   physics: VehiclePhysics;
   ai: VehicleAI;
-  status: VehicleStatus;
 }
 
 export type VehicleType = 'car' | 'truck' | 'motorcycle' | 'bus' | 'emergency' | 'custom';
@@ -644,7 +642,6 @@ export interface LearningSystem {
   metadata?: Record<string, any>;
   enabled: boolean;
   method: LearningMethod;
-  data: TrainingData[];
   model: AIModel;
   performance: number;
 }
@@ -882,8 +879,6 @@ export interface DrivingSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

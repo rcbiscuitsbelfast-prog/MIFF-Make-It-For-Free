@@ -51,7 +51,6 @@ export interface SkeletonAnimatorManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SkeletonAnimatorManagerType;
-  status: SkeletonAnimatorManagerStatus;
   skeletons: Skeleton[];
   animations: Animation[];
   stateMachines: AnimationStateMachine[];
@@ -554,8 +553,6 @@ export interface SkeletonAnimatorOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

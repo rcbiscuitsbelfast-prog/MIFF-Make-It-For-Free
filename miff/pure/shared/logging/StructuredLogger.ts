@@ -23,7 +23,6 @@ export interface LogEntry {
   duration?: number;
   error?: {
     name: string;
-    message: string;
     stack?: string;
   };
 }

@@ -53,7 +53,6 @@ export interface LoggingSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LoggingSystemManagerType;
-  status: LoggingSystemManagerStatus;
   loggers: Logger[];
   appenders: LogAppender[];
   filters: LogFilter[];
@@ -83,7 +82,6 @@ export interface Logger {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LoggerType;
-  status: LoggerStatus;
   configuration: LoggerConfiguration;
   appenders: string[];
   filters: string[];
@@ -168,7 +166,6 @@ export interface LogAppender {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AppenderType;
-  status: AppenderStatus;
   configuration: AppenderConfiguration;
   formatter: string;
   filter: string;
@@ -308,7 +305,6 @@ export interface LogFilter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: FilterType;
-  status: FilterStatus;
   configuration: FilterConfiguration;
   performance: FilterPerformance;
 }
@@ -406,7 +402,6 @@ export interface LogFormatter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: FormatterType;
-  status: FormatterStatus;
   configuration: FormatterConfiguration;
   performance: FormatterPerformance;
 }
@@ -485,7 +480,6 @@ export interface LogDestination {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DestinationType;
-  status: DestinationStatus;
   configuration: DestinationConfiguration;
   performance: DestinationPerformance;
 }
@@ -822,8 +816,6 @@ export interface LoggingSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -34,7 +34,6 @@ export interface CameraDefinition {
   inputBindings: Map<string, string>;
   visualStyle: CameraVisualStyle;
   audioProfile: string;
-  metadata: CameraMetadata;
 }
 
 export interface CameraMode {
@@ -344,7 +343,6 @@ export interface CameraWaypoint {
   lookAt?: Vector3; // Optional look-at target
   up?: Vector3; // Optional up vector
   events: string[]; // Events to trigger at waypoint
-  metadata: Map<string, any>;
 }
 
 export interface CameraPathEvent {
@@ -465,7 +463,6 @@ export interface CameraShot {
   transitionOut: string;
   targetEntity?: string;
   effects: string[];
-  metadata: Map<string, any>;
 }
 
 export interface Subtitle {

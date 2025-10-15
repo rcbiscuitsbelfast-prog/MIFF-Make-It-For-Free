@@ -55,7 +55,6 @@ export interface GraphicsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GraphicsManagerType;
-  status: GraphicsManagerStatus;
   renderers: Renderer[];
   shaders: Shader[];
   materials: Material[];
@@ -88,7 +87,6 @@ export interface Renderer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RendererType;
-  status: RendererStatus;
   configuration: RendererConfiguration;
   capabilities: RendererCapabilities;
   performance: RendererPerformance;
@@ -195,7 +193,6 @@ export interface Shader {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ShaderType;
-  status: ShaderStatus;
   source: ShaderSource;
   compilation: ShaderCompilation;
   uniforms: ShaderUniform[];
@@ -317,7 +314,6 @@ export interface Material {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MaterialType;
-  status: MaterialStatus;
   shader: string;
   properties: MaterialProperties;
   textures: MaterialTexture[];
@@ -458,10 +454,8 @@ export interface Texture {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TextureType;
-  status: TextureStatus;
   format: TextureFormat;
   size: TextureSize;
-  data: TextureData;
   properties: TextureProperties;
   performance: TexturePerformance;
 }
@@ -575,7 +569,6 @@ export interface Model {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ModelType;
-  status: ModelStatus;
   meshes: Mesh[];
   materials: string[];
   animations: Animation[];
@@ -765,7 +758,6 @@ export interface Light {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LightType;
-  status: LightStatus;
   properties: LightProperties;
   shadows: ShadowSettings;
   performance: LightPerformance;
@@ -863,7 +855,6 @@ export interface Camera {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CameraType;
-  status: CameraStatus;
   properties: CameraProperties;
   movement: CameraMovement;
   performance: CameraPerformance;
@@ -982,7 +973,6 @@ export interface PostProcessor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PostProcessorType;
-  status: PostProcessorStatus;
   shader: string;
   parameters: PostProcessorParameters;
   performance: PostProcessorPerformance;
@@ -1240,8 +1230,6 @@ export interface GraphicsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -35,7 +35,6 @@ export interface EvaluationResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  result: number;
   success: boolean;
   error?: string;
 }

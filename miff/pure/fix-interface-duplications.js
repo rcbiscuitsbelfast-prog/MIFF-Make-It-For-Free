@@ -138,7 +138,7 @@ function fixInterfaceDuplications(filePath) {
 function main() {
   console.log('🔍 Fixing interface duplications...');
 
-  const tsFiles = findTsFiles('./miff/pure');
+  const tsFiles = findTsFiles('.');
   let updatedCount = 0;
 
   for (const file of tsFiles) {

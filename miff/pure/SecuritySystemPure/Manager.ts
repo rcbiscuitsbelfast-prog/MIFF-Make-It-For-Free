@@ -53,7 +53,6 @@ export interface SecuritySystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SecuritySystemManagerType;
-  status: SecuritySystemManagerStatus;
   users: User[];
   sessions: Session[];
   roles: Role[];
@@ -85,7 +84,6 @@ export interface User {
   metadata?: Record<string, any>;
   username: string;
   email: string;
-  status: UserStatus;
   profile: UserProfile;
   credentials: UserCredentials;
   roles: string[];
@@ -369,7 +367,6 @@ export interface Session {
   updatedAt?: number;
   metadata?: Record<string, any>;
   userId: string;
-  status: SessionStatus;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -488,7 +485,6 @@ export interface Role {
   updatedAt?: number;
   metadata?: Record<string, any>;
   description: string;
-  status: RoleStatus;
   permissions: string[];
   users: string[];
   hierarchy: RoleHierarchy;
@@ -568,7 +564,6 @@ export interface SecurityPolicy {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PolicyType;
-  status: PolicyStatus;
   rules: PolicyRule[];
   enforcement: PolicyEnforcement;
 }
@@ -687,7 +682,6 @@ export interface SecurityThreat {
   metadata?: Record<string, any>;
   type: ThreatType;
   severity: ThreatSeverity;
-  status: ThreatStatus;
   source: ThreatSource;
   target: ThreatTarget;
   detection: ThreatDetection;
@@ -732,7 +726,6 @@ export interface ThreatTarget {
   resource: string;
   user: string | null;
   system: string;
-  data: string[];
 }
 
 export interface ThreatDetection {
@@ -788,7 +781,6 @@ export interface ThreatResponse {
   metadata?: Record<string, any>;
   action: ResponseAction;
   automated: boolean;
-  result: ResponseResult;
 }
 
 export type ResponseAction = 'block' | 'quarantine' | 'alert' | 'investigate' | 'custom';
@@ -853,7 +845,6 @@ export interface UserStatusDistribution {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: UserStatus;
   count: number;
   percentage: number;
 }
@@ -1006,8 +997,6 @@ export interface SecuritySystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

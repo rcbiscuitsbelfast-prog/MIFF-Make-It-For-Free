@@ -52,7 +52,6 @@ export interface NPCsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NPCsManagerType;
-  status: NPCsManagerStatus;
   npcs: NPC[];
   quests: Quest[];
   dialogues: Dialogue[];
@@ -81,7 +80,6 @@ export interface NPC {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NPCType;
-  status: NPCStatus;
   level: number;
   experience: number;
   stats: NPCStats;
@@ -544,7 +542,6 @@ export interface Quest {
   objectives: QuestObjective[];
   rewards: QuestReward;
   requirements: QuestRequirement;
-  status: QuestStatus;
 }
 
 export type QuestType = 'main' | 'side' | 'daily' | 'weekly' | 'event' | 'custom';
@@ -679,7 +676,6 @@ export interface Dialogue {
   type: DialogueType;
   nodes: DialogueNode[];
   conditions: DialogueCondition[];
-  status: DialogueStatus;
 }
 
 export type DialogueType = 'greeting' | 'quest' | 'trade' | 'information' | 'romance' | 'custom';
@@ -1032,8 +1028,6 @@ export interface NPCsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -49,7 +49,6 @@ export interface EvolutionManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EvolutionManagerType;
-  status: EvolutionManagerStatus;
   populations: Population[];
   algorithms: EvolutionAlgorithm[];
   generations: Generation[];
@@ -83,7 +82,6 @@ export interface Population {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PopulationType;
-  status: PopulationStatus;
   size: number;
   individuals: Individual[];
   fitness: FitnessFunction;
@@ -109,7 +107,6 @@ export interface Individual {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: IndividualType;
-  status: IndividualStatus;
   genome: Genome;
   fitness: number;
   age: number;
@@ -415,7 +412,6 @@ export interface EvolutionAlgorithm {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AlgorithmType;
-  status: AlgorithmStatus;
   parameters: AlgorithmParameters;
   performance: AlgorithmPerformance;
 }
@@ -732,8 +728,6 @@ export interface EvolutionOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

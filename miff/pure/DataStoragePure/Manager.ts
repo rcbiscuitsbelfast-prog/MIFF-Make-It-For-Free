@@ -54,14 +54,11 @@ export interface DataStorage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StorageType;
-  status: StorageStatus;
   databases: Database[];
   connections: DatabaseConnection[];
   schemas: DatabaseSchema[];
   performance: StoragePerformance;
   analytics: StorageAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Database {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DatabaseType;
-  status: DatabaseStatus;
   connection: string; // Connection ID
   tables: DatabaseTable[];
   indexes: DatabaseIndex[];
@@ -98,7 +94,6 @@ export interface DatabaseConnection {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConnectionType;
-  status: ConnectionStatus;
   host: string;
   port: number;
   database: string;

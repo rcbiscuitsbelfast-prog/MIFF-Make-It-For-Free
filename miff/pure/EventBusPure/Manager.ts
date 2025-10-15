@@ -53,7 +53,6 @@ export interface EventBusManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventBusManagerType;
-  status: EventBusManagerStatus;
   buses: EventBus[];
   publishers: EventPublisher[];
   subscribers: EventSubscriber[];
@@ -83,7 +82,6 @@ export interface EventBus {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventBusType;
-  status: EventBusStatus;
   configuration: EventBusConfiguration;
   topics: EventTopic[];
   channels: EventChannel[];
@@ -310,7 +308,6 @@ export interface ClusterNode {
   host: string;
   port: number;
   role: NodeRole;
-  status: NodeStatus;
 }
 
 export type NodeRole = 'master' | 'slave' | 'replica' | 'observer';
@@ -487,7 +484,6 @@ export interface EventTopic {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TopicType;
-  status: TopicStatus;
   configuration: TopicConfiguration;
   partitions: TopicPartition[];
   subscribers: string[];
@@ -534,7 +530,6 @@ export interface TopicPartition {
   leader: string;
   replicas: string[];
   isr: string[];
-  status: PartitionStatus;
 }
 
 export type PartitionStatus = 'active' | 'inactive' | 'maintenance' | 'error';
@@ -554,7 +549,6 @@ export interface TopicPerformance {
   messages: number;
   throughput: number;
   latency: number;
-  errors: number;
   lastActivity: number;
 }
 
@@ -571,7 +565,6 @@ export interface EventChannel {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ChannelType;
-  status: ChannelStatus;
   configuration: ChannelConfiguration;
   connections: ChannelConnection[];
   performance: ChannelPerformance;
@@ -650,7 +643,6 @@ export interface ChannelConnection {
   metadata?: Record<string, any>;
   type: ConnectionType;
   endpoint: string;
-  status: ConnectionStatus;
   performance: ConnectionPerformance;
 }
 
@@ -672,7 +664,6 @@ export interface ConnectionPerformance {
   messages: number;
   bytes: number;
   latency: number;
-  errors: number;
   lastActivity: number;
 }
 
@@ -692,7 +683,6 @@ export interface ChannelPerformance {
   messages: number;
   throughput: number;
   latency: number;
-  errors: number;
   lastActivity: number;
 }
 
@@ -732,7 +722,6 @@ export interface EventPublisher {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PublisherType;
-  status: PublisherStatus;
   configuration: PublisherConfiguration;
   topics: string[];
   performance: PublisherPerformance;
@@ -833,7 +822,6 @@ export interface EventSubscriber {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SubscriberType;
-  status: SubscriberStatus;
   configuration: SubscriberConfiguration;
   topics: string[];
   filters: EventFilter[];
@@ -1250,8 +1238,6 @@ export interface EventBusOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

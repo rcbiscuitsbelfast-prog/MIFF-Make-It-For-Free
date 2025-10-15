@@ -59,14 +59,11 @@ export interface AssetManifest {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ManifestType;
-  status: ManifestStatus;
   assets: AssetEntry[];
   dependencies: AssetDependency[];
   versioning: VersioningInfo;
   caching: CachingInfo;
   analytics: ManifestAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -88,7 +85,6 @@ export interface AssetEntry {
   hash: string;
   version: string;
   dependencies: string[];
-  status: AssetStatus;
   lastModified: Date;
 }
 

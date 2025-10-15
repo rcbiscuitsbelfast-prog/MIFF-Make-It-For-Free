@@ -59,13 +59,10 @@ export interface AIProfile {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProfileType;
-  status: ProfileStatus;
   personality: PersonalityProfile;
   behavior: BehaviorProfile;
   preferences: PreferenceProfile;
   analytics: ProfileAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 

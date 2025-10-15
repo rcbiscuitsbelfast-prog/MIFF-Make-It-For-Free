@@ -50,7 +50,6 @@ export interface GameLogicManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GameLogicManagerType;
-  status: GameLogicManagerStatus;
   gameStates: GameState[];
   players: Player[];
   mechanics: GameMechanic[];
@@ -80,8 +79,6 @@ export interface GameState {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GameStateType;
-  status: GameStateStatus;
-  data: GameStateData;
   transitions: StateTransition[];
   rules: string[];
   performance: GameStatePerformance;
@@ -285,7 +282,6 @@ export interface Player {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: PlayerStatus;
   profile: PlayerProfile;
   stats: PlayerStats;
   inventory: PlayerInventory;
@@ -494,7 +490,6 @@ export interface Achievement {
   metadata?: Record<string, any>;
   description: string;
   type: AchievementType;
-  status: AchievementStatus;
   progress: number;
   maxProgress: number;
   rewards: AchievementReward[];
@@ -560,7 +555,6 @@ export interface Quest {
   metadata?: Record<string, any>;
   description: string;
   type: QuestType;
-  status: QuestStatus;
   objectives: QuestObjective[];
   rewards: QuestReward[];
   level: number;
@@ -587,7 +581,6 @@ export interface QuestObjective {
   target: string;
   quantity: number;
   completed: number;
-  status: ObjectiveStatus;
 }
 
 export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'explore' | 'custom';
@@ -646,7 +639,6 @@ export interface GameMechanic {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MechanicType;
-  status: MechanicStatus;
   configuration: MechanicConfiguration;
   rules: string[];
   performance: MechanicPerformance;
@@ -738,7 +730,6 @@ export interface GameRule {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RuleType;
-  status: RuleStatus;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -820,8 +811,6 @@ export interface GameEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  status: EventStatus;
-  data: EventData;
   source: EventSource;
   performance: EventPerformance;
 }
@@ -975,7 +964,6 @@ export interface PlayerStatusDistribution {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: PlayerStatus;
   count: number;
   percentage: number;
   averagePlayTime: number;
@@ -1111,8 +1099,6 @@ export interface GameLogicOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

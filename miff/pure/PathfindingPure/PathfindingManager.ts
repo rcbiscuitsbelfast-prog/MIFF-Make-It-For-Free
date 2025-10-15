@@ -84,7 +84,6 @@ export interface PathfindingResult {
   success: boolean;
   algorithm: string;
   heuristic?: string;
-  metadata?: Record<string, any>;
 }
 
 export interface PathfindingStats {
@@ -148,8 +147,6 @@ export interface PathfindingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

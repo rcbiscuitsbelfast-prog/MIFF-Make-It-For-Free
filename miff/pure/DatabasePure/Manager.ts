@@ -52,7 +52,6 @@ export interface DatabaseManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DatabaseManagerType;
-  status: DatabaseManagerStatus;
   connections: DatabaseConnection[];
   schemas: DatabaseSchema[];
   tables: DatabaseTable[];
@@ -82,7 +81,6 @@ export interface DatabaseConnection {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConnectionType;
-  status: ConnectionStatus;
   configuration: ConnectionConfiguration;
   pool: ConnectionPool;
   performance: ConnectionPerformance;
@@ -185,7 +183,6 @@ export interface DatabaseSchema {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SchemaType;
-  status: SchemaStatus;
   tables: string[];
   views: string[];
   functions: string[];
@@ -230,7 +227,6 @@ export interface DatabaseTable {
   metadata?: Record<string, any>;
   schema: string;
   type: TableType;
-  status: TableStatus;
   columns: TableColumn[];
   indexes: TableIndex[];
   constraints: TableConstraint[];
@@ -356,7 +352,6 @@ export interface DatabaseQuery {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QueryType;
-  status: QueryStatus;
   sql: string;
   parameters: QueryParameter[];
   execution: QueryExecution;
@@ -508,7 +503,6 @@ export interface DatabaseTransaction {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TransactionType;
-  status: TransactionStatus;
   isolation: IsolationLevel;
   queries: string[];
   performance: TransactionPerformance;
@@ -752,8 +746,6 @@ export interface DatabaseOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

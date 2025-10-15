@@ -50,7 +50,6 @@ export interface QuestsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QuestsManagerType;
-  status: QuestsManagerStatus;
   quests: Quest[];
   progressions: QuestProgression[];
   rewards: QuestReward[];
@@ -79,7 +78,6 @@ export interface Quest {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QuestType;
-  status: QuestStatus;
   category: string;
   description: string;
   objectives: QuestObjective[];
@@ -323,7 +321,6 @@ export interface QuestProgression {
   metadata?: Record<string, any>;
   questId: string;
   playerId: string;
-  status: ProgressionStatus;
   currentObjective: string;
   completedObjectives: string[];
   progress: ProgressionProgress;
@@ -618,8 +615,6 @@ export interface QuestsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

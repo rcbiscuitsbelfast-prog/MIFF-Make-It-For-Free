@@ -87,7 +87,6 @@ export interface ExportStep {
   updatedAt?: number;
   metadata?: Record<string, any>;
   description: string;
-  status: ExportStatus;
   progress: number; // 0-100
   startTime?: number;
   endTime?: number;

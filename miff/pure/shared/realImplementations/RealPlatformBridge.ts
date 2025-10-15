@@ -248,7 +248,6 @@ export interface PlatformEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: string;
-  timestamp: Date;
   source: string;
 }
 

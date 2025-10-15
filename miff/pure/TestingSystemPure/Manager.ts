@@ -113,7 +113,6 @@ export interface TestSuiteExecution {
   startTime: number;
   endTime: number | null;
   duration: number;
-  status: ExecutionStatus;
   progress: number;
   results: TestResult[];
 }
@@ -133,7 +132,6 @@ export interface TestResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   testCase: string;
-  status: TestStatus;
   duration: number;
   error: TestError | null;
   output: string;
@@ -215,13 +213,11 @@ export interface TestCase {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TestCaseType;
-  status: TestCaseStatus;
   description: string;
   steps: TestStep[];
   assertions: TestAssertion[];
   setup: TestSetup[];
   teardown: TestTeardown[];
-  data: TestData[];
   performance: TestCasePerformance;
 }
 
@@ -350,7 +346,6 @@ export interface TestRun {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TestRunType;
-  status: TestRunStatus;
   testSuite: string;
   environment: string;
   configuration: TestRunConfiguration;
@@ -380,7 +375,6 @@ export interface TestRunConfiguration {
   retries: number;
   environment: string;
   tags: string[];
-  data: TestData[];
 }
 
 export interface TestRunExecution {
@@ -398,7 +392,6 @@ export interface TestRunExecution {
   startTime: number;
   endTime: number | null;
   duration: number;
-  status: ExecutionStatus;
   progress: number;
   triggeredBy: string;
   triggeredAt: number;
@@ -478,7 +471,6 @@ export interface TestReport {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ReportType;
-  status: ReportStatus;
   testRun: string;
   format: ReportFormat;
   content: ReportContent;
@@ -542,7 +534,6 @@ export interface ReportDetails {
   metadata?: Record<string, any>;
   testSuites: TestSuiteDetail[];
   testCases: TestCaseDetail[];
-  errors: ErrorDetail[];
   performance: PerformanceDetail;
 }
 
@@ -558,7 +549,6 @@ export interface TestSuiteDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: TestSuiteStatus;
   duration: number;
   testCount: number;
   passedCount: number;
@@ -577,7 +567,6 @@ export interface TestCaseDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: TestStatus;
   duration: number;
   error: TestError | null;
   steps: TestStepDetail[];
@@ -595,7 +584,6 @@ export interface TestStepDetail {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: TestStatus;
   duration: number;
   error: TestError | null;
 }
@@ -688,7 +676,6 @@ export interface TestEnvironment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EnvironmentType;
-  status: EnvironmentStatus;
   configuration: EnvironmentConfiguration;
   resources: EnvironmentResource[];
   performance: EnvironmentPerformance;
@@ -732,7 +719,6 @@ export interface EnvironmentResource {
   metadata?: Record<string, any>;
   type: ResourceType;
   configuration: Record<string, any>;
-  status: ResourceStatus;
 }
 
 export type ResourceType = 'database' | 'api' | 'file' | 'network' | 'custom';
@@ -970,8 +956,6 @@ export interface TestingSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

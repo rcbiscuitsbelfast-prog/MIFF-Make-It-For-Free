@@ -50,7 +50,6 @@ export interface StateManagerManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StateManagerManagerType;
-  status: StateManagerManagerStatus;
   states: State[];
   transitions: StateTransition[];
   validators: StateValidator[];
@@ -80,9 +79,6 @@ export interface State {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StateType;
-  status: StateStatus;
-  data: StateData;
-  metadata: StateMetadata;
   validation: StateValidation;
   performance: StatePerformance;
   history: StateHistoryEntry[];
@@ -232,7 +228,6 @@ export interface StateValidation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: ValidationError[];
   warnings: ValidationWarning[];
   lastValidated: number;
 }
@@ -457,7 +452,6 @@ export interface StateValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   rules: ValidationRule[];
   configuration: ValidatorConfiguration;
   performance: ValidatorPerformance;
@@ -871,8 +865,6 @@ export interface StateManagerOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

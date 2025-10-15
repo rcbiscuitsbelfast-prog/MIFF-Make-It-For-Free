@@ -52,7 +52,6 @@ export interface DialogueManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DialogueManagerType;
-  status: DialogueManagerStatus;
   dialogues: Dialogue[];
   characters: DialogueCharacter[];
   conversations: Conversation[];
@@ -81,7 +80,6 @@ export interface Dialogue {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DialogueType;
-  status: DialogueStatus;
   content: DialogueContent;
   structure: DialogueStructure;
   characters: string[];
@@ -597,7 +595,6 @@ export interface DialogueCharacter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CharacterType;
-  status: CharacterStatus;
   profile: CharacterProfile;
   voice: VoiceProfile;
   appearance: AppearanceSettings;
@@ -940,7 +937,6 @@ export interface Conversation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConversationType;
-  status: ConversationStatus;
   participants: string[];
   dialogue: string;
   context: ConversationContext;
@@ -1024,7 +1020,6 @@ export interface VoiceActor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VoiceActorType;
-  status: VoiceActorStatus;
   profile: VoiceActorProfile;
   skills: VoiceActorSkill[];
   availability: AvailabilitySettings;
@@ -1409,8 +1404,6 @@ export interface DialogueOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

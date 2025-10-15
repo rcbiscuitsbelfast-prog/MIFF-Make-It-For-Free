@@ -52,7 +52,6 @@ export interface IoTPureManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: IoTPureManagerType;
-  status: IoTPureManagerStatus;
   devices: IoTDevice[];
   gateways: IoTGateway[];
   protocols: IoTProtocol[];
@@ -82,7 +81,6 @@ export interface IoTDevice {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeviceType;
-  status: DeviceStatus;
   manufacturer: string;
   model: string;
   firmware: FirmwareInfo;
@@ -565,7 +563,6 @@ export interface IoTGateway {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GatewayType;
-  status: GatewayStatus;
   location: DeviceLocation;
   connectivity: ConnectivityInfo;
   protocols: string[];
@@ -679,7 +676,6 @@ export interface GatewayPerformance {
   connections: number;
   throughput: number;
   latency: number;
-  errors: number;
   uptime: number;
 }
 
@@ -1113,8 +1109,6 @@ export interface IoTPureOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

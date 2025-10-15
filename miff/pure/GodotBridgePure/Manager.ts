@@ -51,7 +51,6 @@ export interface GodotBridgeManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GodotBridgeManagerType;
-  status: GodotBridgeManagerStatus;
   scenes: GodotScene[];
   assets: GodotAsset[];
   nodes: GodotNode[];
@@ -81,7 +80,6 @@ export interface GodotScene {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SceneType;
-  status: SceneStatus;
   path: string;
   nodes: string[];
   resources: string[];
@@ -294,7 +292,6 @@ export interface GodotAsset {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AssetType;
-  status: AssetStatus;
   path: string;
   size: number;
   format: AssetFormat;
@@ -359,7 +356,6 @@ export interface GodotNode {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NodeType;
-  status: NodeStatus;
   parent: string | null;
   children: string[];
   properties: NodeProperties;
@@ -524,9 +520,7 @@ export interface GodotResource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ResourceType;
-  status: ResourceStatus;
   path: string;
-  data: ResourceData;
   references: string[];
   performance: ResourcePerformance;
 }
@@ -586,7 +580,6 @@ export interface GodotScript {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScriptType;
-  status: ScriptStatus;
   path: string;
   language: ScriptLanguage;
   source: string;
@@ -833,8 +826,6 @@ export interface GodotBridgeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

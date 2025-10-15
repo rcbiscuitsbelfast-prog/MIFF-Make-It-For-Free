@@ -52,7 +52,6 @@ export interface SpiritTamerDemoManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SpiritTamerDemoManagerType;
-  status: SpiritTamerDemoManagerStatus;
   spirits: Spirit[];
   tamers: Tamer[];
   battles: Battle[];
@@ -89,7 +88,6 @@ export interface Spirit {
   abilities: SpiritAbility[];
   evolution: EvolutionInfo;
   tamer: string;
-  status: SpiritStatus;
 }
 
 export type SpiritType = 'fire' | 'water' | 'earth' | 'air' | 'light' | 'dark' | 'nature' | 'ice' | 'electric' | 'psychic';
@@ -241,7 +239,6 @@ export interface Tamer {
   inventory: TamerInventory;
   stats: TamerStats;
   achievements: Achievement[];
-  status: TamerStatus;
 }
 
 export type TamerStatus = 'active' | 'inactive' | 'battling' | 'training' | 'exploring';
@@ -377,9 +374,7 @@ export interface Battle {
   tamerId: string;
   opponentId: string;
   type: BattleType;
-  status: BattleStatus;
   turns: BattleTurn[];
-  result: BattleResult;
   rewards: BattleReward;
   duration: number;
 }
@@ -404,7 +399,6 @@ export interface BattleTurn {
   spiritId: string;
   action: BattleAction;
   target?: string;
-  result: ActionResult;
 }
 
 export interface BattleAction {
@@ -499,7 +493,6 @@ export interface Evolution {
   fromStage: number;
   toStage: number;
   requirements: EvolutionRequirement[];
-  result: EvolutionResult;
 }
 
 export interface EvolutionResult {
@@ -799,8 +792,6 @@ export interface SpiritTamerDemoOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

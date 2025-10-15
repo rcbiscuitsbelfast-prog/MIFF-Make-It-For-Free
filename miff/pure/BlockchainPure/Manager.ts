@@ -56,15 +56,12 @@ export interface Blockchain {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BlockchainType;
-  status: BlockchainStatus;
   blocks: Block[];
   transactions: Transaction[];
   contracts: SmartContract[];
   consensus: ConsensusConfig;
   performance: BlockchainPerformance;
   analytics: BlockchainAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -83,7 +80,6 @@ export interface Block {
   index: number;
   hash: string;
   previousHash: string;
-  timestamp: Date;
   transactions: string[];
   nonce: number;
   difficulty: number;
@@ -108,11 +104,8 @@ export interface Transaction {
   amount: number;
   gas: number;
   gasPrice: number;
-  data: string;
   signature: string;
-  status: TransactionStatus;
   blockHash?: string;
-  timestamp: Date;
 }
 
 export interface SmartContract {
@@ -132,7 +125,6 @@ export interface SmartContract {
   abi: ContractABI;
   owner: string;
   deployedAt: Date;
-  status: ContractStatus;
 }
 
 export interface ConsensusConfig {

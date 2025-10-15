@@ -83,7 +83,6 @@ export interface ErrorInfo {
   metadata?: Record<string, any>;
   message: string;
   stack?: string;
-  timestamp: Date;
   severity: 'low' | 'medium' | 'high' | 'critical';
   context: any;
   resolved: boolean;
@@ -105,10 +104,8 @@ export interface Alert {
   severity: 'info' | 'warning' | 'error' | 'critical';
   title: string;
   message: string;
-  timestamp: Date;
   resolved: boolean;
   resolvedAt?: Date;
-  metadata: any;
 }
 
 export interface MonitoringConfig {
@@ -155,11 +152,8 @@ export interface HealthCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: 'healthy' | 'unhealthy' | 'degraded';
   message: string;
-  timestamp: Date;
   responseTime: number; // milliseconds
-  metadata: any;
 }
 
 export class MonitoringSystem {

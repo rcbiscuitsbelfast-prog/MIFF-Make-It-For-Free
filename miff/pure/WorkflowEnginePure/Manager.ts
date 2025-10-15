@@ -51,7 +51,6 @@ export interface WorkflowEngineManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WorkflowEngineManagerType;
-  status: WorkflowEngineManagerStatus;
   workflows: Workflow[];
   tasks: Task[];
   schedules: Schedule[];
@@ -81,7 +80,6 @@ export interface Workflow {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WorkflowType;
-  status: WorkflowStatus;
   version: string;
   description: string;
   definition: WorkflowDefinition;
@@ -469,7 +467,6 @@ export interface Task {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TaskType;
-  status: TaskStatus;
   workflow: string;
   node: string;
   priority: TaskPriority;
@@ -571,7 +568,6 @@ export interface Schedule {
   workflow: string;
   type: ScheduleType;
   configuration: ScheduleConfiguration;
-  status: ScheduleStatus;
   nextRun: number | null;
   lastRun: number | null;
 }
@@ -611,7 +607,6 @@ export interface WorkflowExecution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   workflow: string;
-  status: ExecutionStatus;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -673,7 +668,6 @@ export interface WorkflowMonitor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MonitorType;
-  status: MonitorStatus;
   configuration: MonitorConfiguration;
   metrics: MonitorMetrics;
   alerts: MonitorAlert[];
@@ -859,7 +853,6 @@ export interface ExecutionStatusDistribution {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: ExecutionStatus;
   count: number;
   percentage: number;
   averageDuration: number;
@@ -996,8 +989,6 @@ export interface WorkflowEngineOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

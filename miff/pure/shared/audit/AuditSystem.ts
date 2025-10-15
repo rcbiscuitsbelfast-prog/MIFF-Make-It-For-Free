@@ -68,9 +68,7 @@ export interface AuditIssue {
   impact: string;
   effort: 'low' | 'medium' | 'high';
   tags: string[];
-  createdAt: Date;
   resolvedAt?: Date;
-  status: 'open' | 'in_progress' | 'resolved' | 'ignored';
   assignee?: string;
   comments: AuditComment[];
 }
@@ -89,8 +87,6 @@ export interface AuditComment {
   metadata?: Record<string, any>;
   author: string;
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface AuditMetrics {
@@ -178,7 +174,6 @@ export interface AuditReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   config: AuditConfig;
   metrics: AuditMetrics;
   issues: AuditIssue[];

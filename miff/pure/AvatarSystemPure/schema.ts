@@ -13,12 +13,10 @@ export interface AvatarComponent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   kind: 'head' | 'torso' | 'legs' | 'boots' | 'shirt' | 'cloak' | 'hat' | 'accessory' | 'weapon' | 'shield' | 'hair' | 'eyes' | 'mouth';
-  id: string; // e.g. "tunic_blue_v1"
   variant?: string;
   color?: string;
   material?: string;
   animation?: AvatarAnimation;
-  metadata?: Record<string, any>;
 }
 
 export interface AvatarAnchors {

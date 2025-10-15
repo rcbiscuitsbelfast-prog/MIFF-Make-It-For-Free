@@ -62,12 +62,9 @@ export interface APIGateway {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GatewayType;
-  status: GatewayStatus;
   routes: APIRoute[];
   policies: APIPolicy[];
   analytics: GatewayAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -714,7 +711,6 @@ export interface APIResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: number;
   headers: Record<string, string>;
   body: any;
   responseTime: number;

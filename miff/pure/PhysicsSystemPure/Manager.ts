@@ -52,7 +52,6 @@ export interface PhysicsSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PhysicsSystemManagerType;
-  status: PhysicsSystemManagerStatus;
   bodies: PhysicsBody[];
   constraints: PhysicsConstraint[];
   forces: PhysicsForce[];
@@ -90,7 +89,6 @@ export interface PhysicsBody {
   material: string;
   constraints: string[];
   forces: string[];
-  status: BodyStatus;
 }
 
 export type BodyType = 'static' | 'kinematic' | 'dynamic' | 'trigger';
@@ -665,8 +663,6 @@ export interface PhysicsSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -49,7 +49,6 @@ export interface TestCase {
   test: () => void | Promise<void>;
   timeout?: number;
   retries?: number;
-  metadata?: Record<string, any>;
 }
 
 export interface TestResult {
@@ -66,11 +65,9 @@ export interface TestResult {
   metadata?: Record<string, any>;
   testId: string;
   category: string;
-  status: 'passed' | 'failed' | 'skipped' | 'timeout';
   duration: number;
   error?: Error;
   retries: number;
-  metadata?: Record<string, any>;
 }
 
 export interface TestSuite {
@@ -89,7 +86,6 @@ export interface TestSuite {
   tests: TestCase[];
   setup?: () => void | Promise<void>;
   teardown?: () => void | Promise<void>;
-  metadata?: Record<string, any>;
 }
 
 export interface TestReport {
@@ -159,7 +155,6 @@ export interface CodeInjection {
   code: string;
   type: 'replace' | 'before' | 'after' | 'wrap';
   enabled: boolean;
-  metadata?: Record<string, any>;
 }
 
 export class TestHarness {

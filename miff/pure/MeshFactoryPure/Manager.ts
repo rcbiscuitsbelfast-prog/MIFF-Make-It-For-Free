@@ -12,7 +12,6 @@ export interface MeshData {
   metadata?: Record<string, any>;
   vertices: number[];
   indices: number[][];
-  metadata?: { type: string; seed: number; }
 }
 export interface TreeParams {
   id?: string;

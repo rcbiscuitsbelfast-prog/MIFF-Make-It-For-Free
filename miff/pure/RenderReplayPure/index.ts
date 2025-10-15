@@ -39,7 +39,6 @@ export interface RenderFrame {
   updatedAt?: number;
   metadata?: Record<string, any>;
   frameNumber: number;
-  data: Record<string, unknown>;
 }
 
 export interface ReplaySession {
@@ -55,7 +54,6 @@ export interface ReplaySession {
   updatedAt?: number;
   metadata?: Record<string, any>;
   frames: RenderFrame[];
-  metadata: Record<string, unknown>;
 }
 
 export class RenderReplaySystem {

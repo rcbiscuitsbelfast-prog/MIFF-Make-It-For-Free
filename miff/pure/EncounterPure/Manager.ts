@@ -50,7 +50,6 @@ export interface EncounterManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EncounterManagerType;
-  status: EncounterManagerStatus;
   encounters: Encounter[];
   participants: EncounterParticipant[];
   aiControllers: AIController[];
@@ -79,7 +78,6 @@ export interface Encounter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EncounterType;
-  status: EncounterStatus;
   participants: string[];
   environment: EncounterEnvironment;
   rules: EncounterRules;
@@ -103,7 +101,6 @@ export interface EncounterParticipant {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ParticipantType;
-  status: ParticipantStatus;
   stats: ParticipantStats;
   abilities: ParticipantAbility[];
   equipment: ParticipantEquipment;
@@ -554,7 +551,6 @@ export interface MemoryEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  data: Record<string, any>;
   importance: number;
 }
 
@@ -969,7 +965,6 @@ export interface TimelineEvent {
   type: EventType;
   participant: string;
   action: string;
-  data: Record<string, any>;
 }
 
 export interface EncounterPerformance {
@@ -1004,7 +999,6 @@ export interface AIController {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ControllerType;
-  status: ControllerStatus;
   configuration: AIConfiguration;
   performance: ControllerPerformance;
 }
@@ -1043,7 +1037,6 @@ export interface CombatSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CombatType;
-  status: CombatStatus;
   configuration: CombatConfiguration;
   performance: CombatPerformance;
 }
@@ -1402,8 +1395,6 @@ export interface EncounterOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

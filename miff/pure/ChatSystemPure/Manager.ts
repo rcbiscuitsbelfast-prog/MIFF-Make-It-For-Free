@@ -54,15 +54,12 @@ export interface ChatSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   channels: ChatChannel[];
   users: ChatUser[];
   messages: ChatMessage[];
   moderation: ModerationSettings;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -79,7 +76,6 @@ export interface ChatChannel {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ChannelType;
-  status: ChannelStatus;
   users: string[]; // User IDs
   messages: ChatMessage[];
   settings: ChannelSettings;
@@ -117,7 +113,6 @@ export interface ChatUser {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: UserType;
-  status: UserStatus;
   permissions: UserPermissions;
   profile: UserProfile;
 }
@@ -174,8 +169,6 @@ export interface ChatMessage {
   userId: string;
   content: string;
   type: MessageType;
-  status: MessageStatus;
-  timestamp: Date;
   editedAt?: Date;
   replyTo?: string; // Message ID
   attachments: MessageAttachment[];

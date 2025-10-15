@@ -92,7 +92,6 @@ export interface ProcessingTask {
   type: 'load' | 'process' | 'compress' | 'optimize' | 'cache';
   priority: number;
   dependencies: string[];
-  status: 'pending' | 'running' | 'completed' | 'failed';
   progress: number;
   startTime?: number;
   endTime?: number;

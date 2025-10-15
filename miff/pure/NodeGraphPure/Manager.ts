@@ -14,7 +14,6 @@ export interface GraphNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-	id: NodeId;
 	type: string; // e.g., 'noise', 'gradient', 'blend', 'mesh.tree', 'mesh.rock'
 	inputs?: Record<string, any>; // static inputs
 	sources?: Record<string, NodeId>; // dynamic wiring from other node outputs

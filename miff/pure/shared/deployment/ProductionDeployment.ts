@@ -23,7 +23,6 @@ export interface DeploymentConfig {
   environment: 'development' | 'staging' | 'production';
   version: string;
   buildNumber: string;
-  timestamp: Date;
   rollback: RollbackConfig;
   validation: ValidationConfig;
   monitoring: MonitoringConfig;
@@ -113,7 +112,6 @@ export interface DeploymentStatus {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: 'pending' | 'in_progress' | 'completed' | 'failed' | 'rolled_back';
   progress: number;
   currentStep: string;
   startTime: Date;
@@ -136,7 +134,6 @@ export interface DeploymentLog {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   level: 'info' | 'warn' | 'error' | 'debug';
   message: string;
   context: Record<string, any>;
@@ -171,7 +168,6 @@ export interface ValidationCheckResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: 'pass' | 'fail' | 'warn' | 'skip';
   message: string;
   duration: number;
   details: Record<string, any>;
@@ -211,7 +207,6 @@ export interface RollbackInfo {
   metadata?: Record<string, any>;
   enabled: boolean;
   reason: string;
-  timestamp: Date;
   previousVersion: string;
   rollbackSteps: string[];
 }

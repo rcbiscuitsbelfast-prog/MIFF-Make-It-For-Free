@@ -52,7 +52,6 @@ export interface NotificationSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NotificationSystemManagerType;
-  status: NotificationSystemManagerStatus;
   notifications: Notification[];
   channels: NotificationChannel[];
   templates: NotificationTemplate[];
@@ -85,11 +84,9 @@ export interface Notification {
   message: string;
   type: NotificationType;
   priority: NotificationPriority;
-  status: NotificationStatus;
   recipient: NotificationRecipient;
   channel: string;
   template: string;
-  data: NotificationData;
   scheduling: NotificationScheduling;
   delivery: NotificationDelivery;
 }
@@ -399,7 +396,6 @@ export interface TrackingEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  data: Record<string, any>;
 }
 
 export type EventType = 'sent' | 'delivered' | 'opened' | 'clicked' | 'dismissed' | 'custom';
@@ -435,7 +431,6 @@ export interface NotificationChannel {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ChannelType;
-  status: ChannelStatus;
   configuration: ChannelConfiguration;
   performance: ChannelPerformance;
 }
@@ -568,7 +563,6 @@ export interface NotificationTemplate {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TemplateType;
-  status: TemplateStatus;
   content: TemplateContent;
   variables: TemplateVariable[];
   channels: string[];
@@ -688,7 +682,6 @@ export interface UserSubscription {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SubscriptionType;
-  status: SubscriptionStatus;
   startDate: number;
   endDate: number;
   autoRenew: boolean;
@@ -710,7 +703,6 @@ export interface NotificationSchedule {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScheduleType;
-  status: ScheduleStatus;
   configuration: ScheduleConfiguration;
   notifications: string[];
   performance: SchedulePerformance;
@@ -1008,8 +1000,6 @@ export interface NotificationSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

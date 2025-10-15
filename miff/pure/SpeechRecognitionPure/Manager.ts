@@ -53,7 +53,6 @@ export interface SpeechRecognitionManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SpeechRecognitionManagerType;
-  status: SpeechRecognitionManagerStatus;
   models: SpeechModel[];
   sessions: RecognitionSession[];
   commands: VoiceCommand[];
@@ -86,7 +85,6 @@ export interface SpeechModel {
   version: string;
   accuracy: number;
   size: number;
-  status: ModelStatus;
   capabilities: ModelCapabilities;
 }
 
@@ -130,7 +128,6 @@ export interface RecognitionSession {
   userId: string;
   modelId: string;
   language: string;
-  status: SessionStatus;
   startTime: number;
   endTime?: number;
   duration: number;
@@ -521,8 +518,6 @@ export interface SpeechRecognitionOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -235,7 +235,6 @@ export interface Regulation {
   metadata?: Record<string, any>;
   description: string;
   authority: string;
-  status: RegulationStatus;
   impact: RegulationImpact;
   compliance: ComplianceRequirement[];
 }
@@ -359,7 +358,6 @@ export interface Strategy {
   budget: number;
   resources: Resource[];
   milestones: Milestone[];
-  status: StrategyStatus;
 }
 
 export type StrategyType = 'market_penetration' | 'product_development' | 'market_development' | 'diversification';
@@ -399,7 +397,6 @@ export interface Milestone {
   metadata?: Record<string, any>;
   description: string;
   targetDate: number;
-  status: MilestoneStatus;
   value: number;
   dependencies: string[];
 }
@@ -423,7 +420,6 @@ export interface Content {
   topic: string;
   audience: string;
   format: ContentFormat;
-  status: ContentStatus;
   performance: ContentPerformance;
 }
 
@@ -467,7 +463,6 @@ export interface Partnership {
   partner: string;
   industry: string;
   value: number;
-  status: PartnershipStatus;
   objectives: string[];
   benefits: string[];
   timeline: string;
@@ -705,8 +700,6 @@ export interface IndustryLeadershipOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

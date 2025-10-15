@@ -60,7 +60,6 @@ export interface PriceRule {
   modifiers?: PriceModifier[];
   category: string; // Item category for market analysis
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  metadata?: Record<string, any>;
 }
 
 export interface PriceModifier {
@@ -186,7 +185,6 @@ export interface EconomicEvent {
     target: 'category' | 'vendor' | 'currency' | 'global';
     targetId?: string;
     modifier: number;
-    type: 'price' | 'demand' | 'supply' | 'exchange_rate';
   }>;
   metadata?: Record<string, any>;
 }
@@ -280,8 +278,6 @@ export interface EconomyOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: Array<{ code: string; message: string }>;
   [key: string]: unknown;
 }

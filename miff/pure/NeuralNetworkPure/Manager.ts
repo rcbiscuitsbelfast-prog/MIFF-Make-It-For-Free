@@ -52,7 +52,6 @@ export interface NeuralNetworkManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NeuralNetworkManagerType;
-  status: NeuralNetworkManagerStatus;
   models: NeuralNetworkModel[];
   datasets: Dataset[];
   trainingJobs: TrainingJob[];
@@ -81,7 +80,6 @@ export interface NeuralNetworkModel {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ModelType;
-  status: ModelStatus;
   architecture: ModelArchitecture;
   parameters: ModelParameters;
   training: TrainingConfiguration;
@@ -437,7 +435,6 @@ export interface Dataset {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DatasetType;
-  status: DatasetStatus;
   source: DataSource;
   preprocessing: PreprocessingPipeline;
   splits: DataSplit;
@@ -592,7 +589,6 @@ export interface TrainingJob {
   metadata?: Record<string, any>;
   modelId: string;
   datasetId: string;
-  status: TrainingJobStatus;
   configuration: TrainingConfiguration;
   progress: TrainingProgress;
   results: TrainingResults;
@@ -657,7 +653,6 @@ export interface Experiment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   description: string;
-  status: ExperimentStatus;
   models: string[];
   datasets: string[];
   configuration: ExperimentConfiguration;
@@ -788,7 +783,6 @@ export interface Trial {
   metadata?: Record<string, any>;
   parameters: Record<string, any>;
   results: Record<string, number>;
-  status: TrialStatus;
   duration: number;
 }
 
@@ -1024,8 +1018,6 @@ export interface NeuralNetworkOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

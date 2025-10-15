@@ -54,7 +54,6 @@ export interface NLPManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NLPManagerType;
-  status: NLPManagerStatus;
   models: NLPModel[];
   processors: NLPProcessor[];
   requests: NLPRequest[];
@@ -86,7 +85,6 @@ export interface NLPModel {
   version: string;
   accuracy: number;
   size: number;
-  status: ModelStatus;
 }
 
 export type ModelType = 'sentiment' | 'classification' | 'translation' | 'ner' | 'summarization' | 'custom';
@@ -108,7 +106,6 @@ export interface NLPProcessor {
   input: ProcessorInput;
   output: ProcessorOutput;
   config: ProcessorConfig;
-  status: ProcessorStatus;
 }
 
 export type ProcessorType = 'preprocessor' | 'analyzer' | 'classifier' | 'extractor' | 'generator';
@@ -182,7 +179,6 @@ export interface NLPRequest {
   type: RequestType;
   input: string;
   output: any;
-  status: RequestStatus;
   processingTime: number;
   confidence: number;
 }
@@ -394,8 +390,6 @@ export interface NLPOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

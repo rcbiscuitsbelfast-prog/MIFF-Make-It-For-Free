@@ -63,28 +63,28 @@ export interface EngineHints {
   updatedAt?: number;
   metadata?: Record<string, any>;
   unity?: {
-    gameObject?: string;
-    component?: string;
-    prefab?: string;
-    useECS?: boolean;
+  gameObject?: string;
+  component?: string;
+  prefab?: string;
+  useECS?: boolean;
   };
   web?: {
-    element?: string;
-    canvas?: string;
-    dom?: string;
-    useWebGL?: boolean;
+  element?: string;
+  canvas?: string;
+  dom?: string;
+  useWebGL?: boolean;
   };
   godot?: {
-    node?: string;
-    script?: string;
-    scene?: string;
-    language?: 'gdscript' | 'csharp';
+  node?: string;
+  script?: string;
+  scene?: string;
+  language?: 'gdscript' | 'csharp';
   };
   unreal?: {
-    actor?: string;
-    component?: string;
-    blueprint?: string;
-    useCpp?: boolean;
+  actor?: string;
+  component?: string;
+  blueprint?: string;
+  useCpp?: boolean;
   };
 }
 
@@ -101,7 +101,6 @@ export interface RenderData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RenderDataType;
-  name?: string;
   position?: Position3D;
   scale?: { x: number; y: number; z?: number };
   rotation?: { x: number; y: number; z?: number };
@@ -145,7 +144,6 @@ export interface RenderPayload {
   version: string;
   engine: string;
   renderData: RenderData[];
-  metadata?: { [key: string]: any };
   timestamp?: number;
 }
 
@@ -263,8 +261,8 @@ export class ConsolidatedSchemaManager {
   private usageStats: Map<string, number> = new Map();
 
   constructor(...args: any[]) {
-    this.initializeDefaultSchemas();
-    this.initializeMigrations();
+  this.initializeDefaultSchemas();
+  this.initializeMigrations();
   }
 
   /**
@@ -283,15 +281,15 @@ export class ConsolidatedSchemaManager {
    * Get a schema definition
    */
   getSchema(id: string): SchemaDefinition! {
-    return this.schemas.get(id);
+  return this.schemas.get(id);
   }
 
   /**
    * List all schemas with optional filtering
    */
   listSchemas(engine?: SchemaEngine, category?: SchemaCategory): {
-    schemas: Array<{ id: string; schema: SchemaDefinition }>;
-    total: number;
+  schemas: Array<{ id: string; schema: SchemaDefinition }>;
+  total: number;
   } {
     const allSchemas = Array.from(this.schemas.entries())
       .map(([id, schema]) => ({ id, schema }))
@@ -312,14 +310,14 @@ export class ConsolidatedSchemaManager {
    * Validate data against a schema
    */
   validate(): ValidationResult {
-    const cacheKey = `${schemaId}:${JSON.stringify(data)}`;
+  const cacheKey = `${schemaId}:${JSON.stringify(data)}`;
     
     // Check cache first
     if (this.validationCache.has(cacheKey)) {
       return this.validationCache.get(cacheKey)!;
     }
 
-    const schema = this.getSchema(schemaId);
+  const schema = this.getSchema(schemaId);
     if (!schema) {
       const result: ValidationResult = {
         isValid: false,
@@ -330,63 +328,63 @@ export class ConsolidatedSchemaManager {
       return result;
     }
 
-    const result = this.performValidation(data, schema);
+  const result = this.performValidation(data, schema);
     
     // Cache result
-    this.validationCache.set(cacheKey, result);
+  this.validationCache.set(cacheKey, result);
     
     // Update usage stats
-    const currentUsage = this.usageStats.get(schemaId) || 0;
-    this.usageStats.set(schemaId, currentUsage + 1);
+  const currentUsage = this.usageStats.get(schemaId) || 0;
+  this.usageStats.set(schemaId, currentUsage + 1);
 
-    return result;
+  return result;
   }
 
   /**
    * Migrate data from one schema version to another
    */
   migrate(): any {
-    if (fromVersion === toVersion) return data;
+  if (fromVersion === toVersion) return data;
 
-    const migrationKey = `${fromVersion}->${toVersion}`;
-    const migration = this.migrations.get(migrationKey);
+  const migrationKey = `${fromVersion}->${toVersion}`;
+  const migration = this.migrations.get(migrationKey);
     
     if (!migration) {
       throw new Error(`No migration path found from ${fromVersion} to ${toVersion}`);
     }
 
-    return migration.migrationFn(data);
+  return migration.migrationFn(data);
   }
 
   /**
    * Check if migration is available
    */
   canMigrate(): boolean {
-    if (fromVersion === toVersion) return true;
-    const migrationKey = `${fromVersion}->${toVersion}`;
-    return this.migrations.has(migrationKey);
+  if (fromVersion === toVersion) return true;
+  const migrationKey = `${fromVersion}->${toVersion}`;
+  return this.migrations.has(migrationKey);
   }
 
   /**
    * Get migration path
    */
   getMigrationPath(fromVersion: SchemaVersion, toVersion: SchemaVersion): string[] {
-    if (fromVersion === toVersion) return [];
+  if (fromVersion === toVersion) return [];
     
     // Simple direct migration check
-    const migrationKey = `${fromVersion}->${toVersion}`;
+  const migrationKey = `${fromVersion}->${toVersion}`;
     if (this.migrations.has(migrationKey)) {
       return [migrationKey];
     }
 
-    return [];
+  return [];
   }
 
   /**
    * Add a migration step
    */
   addMigrationStep(fromVersion: SchemaVersion, toVersion: SchemaVersion, migrationFn: (data: any) => any, description: string): void {
-    const migrationKey = `${fromVersion}->${toVersion}`;
+  const migrationKey = `${fromVersion}->${toVersion}`;
     this.migrations.set(migrationKey, {
       fromVersion,
       toVersion,
@@ -399,7 +397,7 @@ export class ConsolidatedSchemaManager {
    * Get schema statistics
    */
   getStats(): SchemaStats {
-    const schemas = Array.from(this.schemas.values());
+  const schemas = Array.from(this.schemas.values());
     
     const schemasByEngine: Record<SchemaEngine, number> = {
       universal: 0,
@@ -450,7 +448,7 @@ export class ConsolidatedSchemaManager {
    * Clear validation cache
    */
   clearCache(): void {
-    this.validationCache.clear();
+  this.validationCache.clear();
   }
 
   private initializeDefaultSchemas(): void {
@@ -555,8 +553,8 @@ export class ConsolidatedSchemaManager {
   }
 
   private performValidation(data: any, schema: SchemaDefinition): ValidationResult {
-    const errors: string[] = [];
-    const warnings: string[] = [];
+  const errors: string[] = [];
+  const warnings: string[] = [];
 
     // Check required fields
     if (schema.required) {
@@ -630,27 +628,27 @@ export class BridgeSchemaValidator {
   private manager: ConsolidatedSchemaManager;
 
   constructor(...args: any[]) {
-    this.manager = new ConsolidatedSchemaManager();
+  this.manager = new ConsolidatedSchemaManager();
   }
 
   validate(data: any, schemaId: string): ValidationResult {
-    return this.manager.validate(data, schemaId);
+  return this.manager.validate(data, schemaId);
   }
 
   validateRenderData(data: any): ValidationResult {
-    return this.manager.validate(data, 'RenderData');
+  return this.manager.validate(data, 'RenderData');
   }
 
   validateRenderPayload(data: any): ValidationResult {
-    return this.manager.validate(data, 'RenderPayload');
+  return this.manager.validate(data, 'RenderPayload');
   }
 
   validateEntity(data: any): ValidationResult {
-    return this.manager.validate(data, 'Entity');
+  return this.manager.validate(data, 'Entity');
   }
 
   validateStatBlock(data: any): ValidationResult {
-    return this.manager.validate(data, 'StatBlock');
+  return this.manager.validate(data, 'StatBlock');
   }
 }
 

@@ -49,7 +49,6 @@ export interface CLIArgs {
   metadata?: Record<string, any>;
   operation: CLIOperation;
   module: string;
-  data?: Record<string, unknown>;
   config?: Record<string, unknown>;
   format?: OutputFormat;
   inputFile?: string;
@@ -72,11 +71,8 @@ export interface CLIResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
   module: string;
-  timestamp: string;
   executionTime: number;
-  result?: any;
   message?: string;
   error?: string;
   warnings?: string[];

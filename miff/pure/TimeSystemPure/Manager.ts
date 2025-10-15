@@ -19,14 +19,12 @@ export interface Timer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: TimerId;
   duration: number;
   remaining: number;
   repeat?: boolean;
   maxRepeats?: number;
   currentRepeats?: number;
   callback?: () => void;
-  metadata?: Record<string, any>;
 }
 
 export interface Cooldown {
@@ -44,7 +42,6 @@ export interface Cooldown {
   duration: number;
   remaining: number;
   category?: string;
-  metadata?: Record<string, any>;
 }
 
 export interface ScheduledEvent {
@@ -62,7 +59,6 @@ export interface ScheduledEvent {
   at: number;
   payload?: any;
   callback?: () => void;
-  metadata?: Record<string, any>;
 }
 
 export interface TimeScale {
@@ -81,7 +77,6 @@ export interface TimeScale {
   duration?: number;
   startTime: number;
   endTime?: number;
-  metadata?: Record<string, any>;
 }
 
 export interface TimeStats {
@@ -120,8 +115,6 @@ export interface TimeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

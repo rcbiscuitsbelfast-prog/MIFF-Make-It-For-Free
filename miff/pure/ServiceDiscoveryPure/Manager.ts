@@ -164,7 +164,6 @@ export interface EndpointResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: number;
   description: string;
   schema: ResponseSchema;
   headers: ResponseHeader[];
@@ -345,7 +344,6 @@ export interface ExampleResponse {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: number;
   headers: Record<string, string>;
   body: any;
 }
@@ -566,7 +564,6 @@ export interface ConfigMapSettings {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  data: Record<string, string>;
   immutable: boolean;
 }
 
@@ -1106,7 +1103,6 @@ export interface LogFormat {
   metadata?: Record<string, any>;
   type: FormatType;
   template: string;
-  timestamp: boolean;
   level: boolean;
   source: boolean;
 }
@@ -1203,7 +1199,6 @@ export interface ServiceInstance {
   updatedAt?: number;
   metadata?: Record<string, any>;
   serviceId: string;
-  status: InstanceStatus;
   endpoint: ServiceEndpoint;
   health: HealthStatus;
   metrics: InstanceMetrics;
@@ -1247,7 +1242,6 @@ export interface NetworkMetrics {
   bytesOut: number;
   packetsIn: number;
   packetsOut: number;
-  errors: number;
 }
 
 export interface ServiceRegistry {
@@ -1263,7 +1257,6 @@ export interface ServiceRegistry {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RegistryType;
-  status: RegistryStatus;
   configuration: RegistryConfiguration;
   services: string[];
   performance: RegistryPerformance;
@@ -1325,7 +1318,6 @@ export interface ClusterNode {
   host: string;
   port: number;
   role: NodeRole;
-  status: NodeStatus;
 }
 
 export type NodeRole = 'master' | 'slave' | 'replica' | 'observer';
@@ -1444,7 +1436,6 @@ export interface RegistryPerformance {
   operations: number;
   latency: number;
   throughput: number;
-  errors: number;
   lastUpdated: number;
 }
 
@@ -1461,7 +1452,6 @@ export interface LoadBalancer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LoadBalancerType;
-  status: LoadBalancerStatus;
   configuration: LoadBalancerConfiguration;
   services: string[];
   performance: LoadBalancerPerformance;
@@ -1600,7 +1590,6 @@ export interface LoadBalancerPerformance {
   requests: number;
   latency: number;
   throughput: number;
-  errors: number;
   lastUpdated: number;
 }
 
@@ -1617,7 +1606,6 @@ export interface HealthCheck {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: HealthCheckType;
-  status: HealthCheckStatus;
   configuration: HealthCheckConfiguration;
   targets: string[];
   results: HealthCheckResult[];
@@ -1658,7 +1646,6 @@ export interface HealthCheckResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   target: string;
-  status: HealthStatus;
   responseTime: number;
   details: Record<string, any>;
 }
@@ -1874,8 +1861,6 @@ export interface ServiceDiscoveryOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

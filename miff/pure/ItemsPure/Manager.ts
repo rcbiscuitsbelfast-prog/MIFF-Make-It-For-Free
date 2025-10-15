@@ -53,7 +53,6 @@ export interface ItemsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ItemsManagerType;
-  status: ItemsManagerStatus;
   items: Item[];
   inventories: Inventory[];
   recipes: Recipe[];
@@ -275,7 +274,6 @@ export interface QuestRequirement {
   updatedAt?: number;
   metadata?: Record<string, any>;
   questId: string;
-  status: QuestStatus;
 }
 
 export type RequirementOperator = 'equals' | 'greater' | 'less' | 'greater_equal' | 'less_equal';
@@ -393,7 +391,6 @@ export interface InventorySlot {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: number;
   position: InventoryPosition;
   type: SlotType;
   restrictions: SlotRestriction[];
@@ -514,7 +511,6 @@ export interface Recipe {
   description: string;
   category: string;
   ingredients: RecipeIngredient[];
-  result: RecipeResult;
   requirements: RecipeRequirements;
 }
 
@@ -853,8 +849,6 @@ export interface ItemsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

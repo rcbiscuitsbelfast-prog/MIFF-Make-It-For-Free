@@ -55,7 +55,6 @@ export interface CraftingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CraftingManagerType;
-  status: CraftingManagerStatus;
   recipes: Recipe[];
   ingredients: Ingredient[];
   craftingStations: CraftingStation[];
@@ -276,7 +275,6 @@ export interface ActiveCraft {
   endTime: number;
   progress: number;
   quality: number;
-  status: CraftStatus;
   ingredients: IngredientRequirement[];
   output: CraftingOutput[];
 }
@@ -563,8 +561,6 @@ export interface CraftingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

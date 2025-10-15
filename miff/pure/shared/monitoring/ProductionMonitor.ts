@@ -129,11 +129,9 @@ export interface MonitoringMetrics {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   system: SystemMetrics;
   application: ApplicationMetrics;
   performance: PerformanceMetrics;
-  errors: ErrorMetrics;
 }
 
 export interface SystemMetrics {
@@ -269,7 +267,6 @@ export interface ErrorEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   message: string;
   stack: string;
   severity: 'low' | 'medium' | 'high' | 'critical';

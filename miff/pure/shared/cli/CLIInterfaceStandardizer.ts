@@ -88,9 +88,6 @@ export interface CLIHelpInfo {
   description: string;
   usage: string;
   commands: Array<{
-    name: string;
-    description: string;
-    usage: string;
   }>;
   options: Array<{
     name: string;

@@ -52,7 +52,6 @@ export interface RecommendationSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RecommendationSystemManagerType;
-  status: RecommendationSystemManagerStatus;
   models: RecommendationModel[];
   users: User[];
   items: Item[];
@@ -82,7 +81,6 @@ export interface RecommendationModel {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ModelType;
-  status: ModelStatus;
   algorithm: string;
   parameters: ModelParameters;
   training: TrainingData;
@@ -788,8 +786,6 @@ export interface RecommendationSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

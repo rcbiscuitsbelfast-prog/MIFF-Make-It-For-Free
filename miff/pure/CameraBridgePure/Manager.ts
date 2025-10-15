@@ -54,14 +54,11 @@ export interface CameraBridge {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BridgeType;
-  status: BridgeStatus;
   cameras: Camera[];
   streams: CameraStream[];
   recordings: CameraRecording[];
   performance: BridgePerformance;
   analytics: BridgeAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Camera {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CameraType;
-  status: CameraStatus;
   capabilities: CameraCapabilities;
   settings: CameraSettings;
   controls: CameraControls;
@@ -221,7 +217,6 @@ export interface CameraStream {
   metadata?: Record<string, any>;
   cameraId: string;
   type: StreamType;
-  status: StreamStatus;
   settings: StreamSettings;
   performance: StreamPerformance;
 }
@@ -276,7 +271,6 @@ export interface CameraRecording {
   metadata?: Record<string, any>;
   cameraId: string;
   type: RecordingType;
-  status: RecordingStatus;
   settings: RecordingSettings;
   duration: number; // milliseconds
   size: number; // bytes

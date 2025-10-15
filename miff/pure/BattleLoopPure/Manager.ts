@@ -56,14 +56,11 @@ export interface BattleLoop {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LoopType;
-  status: LoopStatus;
   battles: Battle[];
   events: BattleEvent[];
   state: BattleState;
   performance: LoopPerformance;
   analytics: LoopAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -80,7 +77,6 @@ export interface Battle {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BattleType;
-  status: BattleStatus;
   participants: BattleParticipant[];
   currentTurn: number;
   maxTurns: number;
@@ -103,10 +99,8 @@ export interface BattleEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  timestamp: Date;
   source: string;
   target?: string;
-  data: EventData;
   processed: boolean;
 }
 
@@ -149,7 +143,6 @@ export interface BattleParticipant {
   maxEnergy: number;
   position: Position3D;
   abilities: Ability[];
-  status: ParticipantStatus;
 }
 
 export interface Ability {
@@ -204,7 +197,6 @@ export interface EventData {
   metadata?: Record<string, any>;
   action: string;
   parameters: Record<string, any>;
-  result: EventResult;
 }
 
 export interface EventResult {

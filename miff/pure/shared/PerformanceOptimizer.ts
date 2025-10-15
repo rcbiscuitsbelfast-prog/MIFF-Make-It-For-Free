@@ -159,7 +159,6 @@ export interface PerformanceReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   overallScore: number;
   memoryScore: number;
   cpuScore: number;

@@ -24,7 +24,6 @@ export interface FrameBuildOptions {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp?: string;
   engine?: string;
   module?: string;
   quality?: 'low' | 'medium' | 'high' | 'ultra';
@@ -44,13 +43,12 @@ export interface BuildResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: 'build';
-  status: 'ok' | 'error';
   payload: RenderPayload;
   issues: string[];
   performance?: {
-    renderTime: number;
-    dataSize: number;
-    complexity: number;
+  renderTime: number;
+  dataSize: number;
+  complexity: number;
   };
   
   // Missing properties that are being accessed
@@ -73,7 +71,6 @@ export interface AssetReference {
   type: 'texture' | 'audio' | 'model' | 'animation' | 'shader';
   size: number;
   format: string;
-  metadata?: Record<string, any>;
 }
 
 export interface AnimationSequence {
@@ -92,8 +89,8 @@ export interface AnimationSequence {
   duration: number;
   loop: boolean;
   keyframes: Array<{
-    frame: number;
-    properties: Record<string, any>;
+  frame: number;
+  properties: Record<string, any>;
   }>;
 }
 
@@ -115,9 +112,9 @@ export interface RenderStats {
   averageComplexity: number;
   engineDistribution: Record<string, number>;
   performanceMetrics: {
-    buildTime: number;
-    validationTime: number;
-    exportTime: number;
+  buildTime: number;
+  validationTime: number;
+  exportTime: number;
   };
 }
 
@@ -134,17 +131,14 @@ export interface RenderPayload {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
   renderData: RenderData[];
-  metadata: {
-    schemaVersion: string;
-    engine: string;
-    timestamp: string;
-    module: string;
-    frameId: string;
-    frameName: string;
-    quality?: string;
-    optimization?: boolean;
+  schemaVersion: string;
+  engine: string;
+  module: string;
+  frameId: string;
+  frameName: string;
+  quality?: string;
+  optimization?: boolean;
   };
 }
 
@@ -217,7 +211,7 @@ export class RenderPayloadManager {
     enableLogging: true,
     logLevel: LogLevel.INFO
   }) {
-    this.config = config;
+  this.config = config;
 
     // Initialize structured logging
     this.logger = new StructuredLogger({
@@ -253,11 +247,11 @@ export class RenderPayloadManager {
     };
 
     // Register with memory manager
-    this.memoryId = `RenderPayloadManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'RenderPayloadManager');
+  this.memoryId = `RenderPayloadManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  MemoryManager.registerObject(this.memoryId, this, 'RenderPayloadManager');
 
-    this.initializeDefaultAssets();
-    this.initializeDefaultAnimations();
+  this.initializeDefaultAssets();
+  this.initializeDefaultAnimations();
 
     console.info('RenderPayloadManager initialized', {
       config: this.config,
@@ -310,7 +304,7 @@ export class RenderPayloadManager {
    * Build render frame with options
    */
   public buildFrame(id: string, options: FrameBuildOptions = {}): BuildResult {
-    const startTime = Date.now();
+  const startTime = Date.now();
     
     try {
       const frame = this.frames.get(id);
@@ -372,36 +366,36 @@ export class RenderPayloadManager {
    * Add render data to frame
    */
   public addRenderData(frameId: string, renderData: RenderData): boolean {
-    const frame = this.frames.get(frameId);
+  const frame = this.frames.get(frameId);
     if (!frame) {
       console.warn('Frame not found', { frameId });
       return false;
     }
 
-    frame.renderData.push(renderData);
-    console.debug('Render data added', { frameId, dataId: renderData.id, type: renderData.type });
-    return true;
+  frame.renderData.push(renderData);
+  console.debug('Render data added', { frameId, dataId: renderData.id, type: renderData.type });
+  return true;
   }
 
   /**
    * Remove render data from frame
    */
   public removeRenderData(frameId: string, dataId: string): boolean {
-    const frame = this.frames.get(frameId);
+  const frame = this.frames.get(frameId);
     if (!frame) {
       console.warn('Frame not found', { frameId });
       return false;
     }
 
-    const index = frame.renderData.findIndex(data => data.id === dataId);
+  const index = frame.renderData.findIndex(data => data.id === dataId);
     if (index === -1) {
       console.warn('Render data not found', { frameId, dataId });
       return false;
     }
 
-    frame.renderData.splice(index, 1);
-    console.debug('Render data removed', { frameId, dataId });
-    return true;
+  frame.renderData.splice(index, 1);
+  console.debug('Render data removed', { frameId, dataId });
+  return true;
   }
 
   /**
@@ -413,85 +407,85 @@ export class RenderPayloadManager {
       return false;
     }
 
-    this.assets.set(asset.id, asset);
-    this.renderStats.totalAssets++;
-    console.info('Asset registered', { assetId: asset.id, type: asset.type, path: asset.path });
-    return true;
+  this.assets.set(asset.id, asset);
+  this.renderStats.totalAssets++;
+  console.info('Asset registered', { assetId: asset.id, type: asset.type, path: asset.path });
+  return true;
   }
 
   /**
    * Get asset by ID
    */
   public getAsset(assetId: string): AssetReference | null {
-    return this.assets.get(assetId) || null;
+  return this.assets.get(assetId) || null;
   }
 
   /**
    * Get all assets
    */
   public getAllAssets(): AssetReference[] {
-    return Array.from(this.assets.values());
+  return Array.from(this.assets.values());
   }
 
   /**
    * Register animation sequence
    */
   public registerAnimation(animation: AnimationSequence): boolean {
-    this.animations.set(animation.id, animation);
-    this.renderStats.totalAnimations++;
-    console.info('Animation registered', { animationId: animation.id, name: animation.name, frames: animation.frames });
-    return true;
+  this.animations.set(animation.id, animation);
+  this.renderStats.totalAnimations++;
+  console.info('Animation registered', { animationId: animation.id, name: animation.name, frames: animation.frames });
+  return true;
   }
 
   /**
    * Get animation by ID
    */
   public getAnimation(animationId: string): AnimationSequence | null {
-    return this.animations.get(animationId) || null;
+  return this.animations.get(animationId) || null;
   }
 
   /**
    * Get all animations
    */
   public getAllAnimations(): AnimationSequence[] {
-    return Array.from(this.animations.values());
+  return Array.from(this.animations.values());
   }
 
   /**
    * Get frame by ID
    */
   public getFrame(frameId: string): RenderPayload | null {
-    return this.frames.get(frameId) || null;
+  return this.frames.get(frameId) || null;
   }
 
   /**
    * Get all frames
    */
   public getAllFrames(): RenderPayload[] {
-    return Array.from(this.frames.values());
+  return Array.from(this.frames.values());
   }
 
   /**
    * Delete frame
    */
   public deleteFrame(frameId: string): boolean {
-    const frame = this.frames.get(frameId);
+  const frame = this.frames.get(frameId);
     if (!frame) {
       console.warn('Frame not found', { frameId });
       return false;
     }
 
-    this.frames.delete(frameId);
-    this.renderStats.totalFrames--;
-    console.info('Frame deleted', { frameId });
-    return true;
+  this.frames.delete(frameId);
+  this.renderStats.totalFrames--;
+  console.info('Frame deleted', { frameId });
+  return true;
   }
 
   /**
    * Export frame to specific engine
    */
   public exportFrame(frameId: string, engine: string): { ok: boolean; data?: any; errors?: string[] } {
-    const startTime = Date.now();
+  const startTime = Date.now();
     
     try {
       const frame = this.frames.get(frameId);
@@ -516,24 +510,24 @@ export class RenderPayloadManager {
    * Get render statistics
    */
   public getRenderStats(): RenderStats {
-    return { ...this.renderStats };
+  return { ...this.renderStats };
   }
 
   /**
    * Calculate data size
    */
   private calculateDataSize(frame: RenderPayload): number {
-    return JSON.stringify(frame).length;
+  return JSON.stringify(frame).length;
   }
 
   /**
    * Calculate complexity
    */
   private calculateComplexity(frame: RenderPayload): number {
-    let complexity = 0;
+  let complexity = 0;
     
     // Base complexity from render data count
-    complexity += frame.renderData.length * 10;
+  complexity += frame.renderData.length * 10;
     
     // Add complexity from assets
     frame.renderData.forEach(data => {
@@ -542,16 +536,16 @@ export class RenderPayloadManager {
     });
 
     // Update average complexity
-    this.renderStats.averageComplexity = (this.renderStats.averageComplexity + complexity) / 2;
+  this.renderStats.averageComplexity = (this.renderStats.averageComplexity + complexity) / 2;
     
-    return complexity;
+  return complexity;
   }
 
   /**
    * Update engine distribution
    */
   private updateEngineDistribution(engine: string): void {
-    this.renderStats.engineDistribution[engine] = (this.renderStats.engineDistribution[engine] || 0) + 1;
+  this.renderStats.engineDistribution[engine] = (this.renderStats.engineDistribution[engine] || 0) + 1;
   }
 
   /**
@@ -629,7 +623,7 @@ export class RenderPayloadManager {
       }
     ];
 
-    defaultAssets.forEach(asset => this.registerAsset(asset));
+  defaultAssets.forEach(asset => this.registerAsset(asset));
   }
 
   /**
@@ -663,29 +657,29 @@ export class RenderPayloadManager {
       }
     ];
 
-    defaultAnimations.forEach(anim => this.registerAnimation(anim));
+  defaultAnimations.forEach(anim => this.registerAnimation(anim));
   }
 
   /**
    * Get manager configuration
    */
   public getConfig(): RenderPayloadConfig {
-    return { ...this.config };
+  return { ...this.config };
   }
 
   /**
    * Update manager configuration
    */
   public updateConfig(newConfig: Partial<RenderPayloadConfig>): void {
-    this.config = { ...this.config, ...newConfig };
-    console.info('RenderPayloadManager configuration updated', { config: this.config });
+  this.config = { ...this.config, ...newConfig };
+  console.info('RenderPayloadManager configuration updated', { config: this.config });
   }
 
   /**
    * Cleanup resources
    */
   public destroy(): void {
-    MemoryManager.unregisterObject(this.memoryId);
-    console.info('RenderPayloadPure', 'RenderPayloadManager destroyed');
+  MemoryManager.unregisterObject(this.memoryId);
+  console.info('RenderPayloadPure', 'RenderPayloadManager destroyed');
   }
 }

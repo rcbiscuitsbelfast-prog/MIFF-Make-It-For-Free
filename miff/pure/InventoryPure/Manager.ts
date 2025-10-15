@@ -59,7 +59,6 @@ export interface InventoryManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: InventoryManagerType;
-  status: InventoryManagerStatus;
   items: InventoryItem[];
   categories: ItemCategory[];
   tags: ItemTag[];
@@ -401,8 +400,6 @@ export interface InventoryOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

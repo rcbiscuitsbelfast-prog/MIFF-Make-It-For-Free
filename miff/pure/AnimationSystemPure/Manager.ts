@@ -58,14 +58,11 @@ export interface Animation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnimationType;
-  status: AnimationStatus;
   timeline: AnimationTimeline;
   keyframes: Keyframe[];
   blending: BlendingConfig;
   transitions: TransitionConfig;
   analytics: AnimationAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 

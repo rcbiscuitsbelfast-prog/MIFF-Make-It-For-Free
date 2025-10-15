@@ -52,7 +52,6 @@ export interface DataWarehouseManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataWarehouseManagerType;
-  status: DataWarehouseManagerStatus;
   databases: Database[];
   tables: Table[];
   schemas: Schema[];
@@ -82,7 +81,6 @@ export interface Database {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DatabaseType;
-  status: DatabaseStatus;
   connection: DatabaseConnection;
   tables: string[];
   schemas: string[];
@@ -170,7 +168,6 @@ export interface Table {
   database: string;
   schema: string;
   type: TableType;
-  status: TableStatus;
   columns: Column[];
   indexes: Index[];
   constraints: Constraint[];
@@ -368,7 +365,6 @@ export interface ETLProcess {
   target: ETLTarget;
   transformations: Transformation[];
   schedule: Schedule;
-  status: ETLStatus;
 }
 
 export type ETLType = 'batch' | 'stream' | 'real_time' | 'custom';
@@ -827,8 +823,6 @@ export interface DataWarehouseOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

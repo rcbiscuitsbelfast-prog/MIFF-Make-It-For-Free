@@ -25,7 +25,6 @@ export interface ProductionReadinessCheck {
   metadata?: Record<string, any>;
   category: 'security' | 'performance' | 'reliability' | 'scalability' | 'monitoring' | 'deployment';
   description: string;
-  status: 'pass' | 'fail' | 'warning' | 'not_applicable';
   severity: 'critical' | 'high' | 'medium' | 'low';
   details: string;
   recommendations: string[];
@@ -46,7 +45,6 @@ export interface DeploymentEnvironment {
   metadata?: Record<string, any>;
   type: 'development' | 'staging' | 'production';
   url: string;
-  status: 'active' | 'inactive' | 'maintenance';
   configuration: EnvironmentConfiguration;
   monitoring: MonitoringConfiguration;
   security: SecurityConfiguration;
@@ -166,7 +164,6 @@ export interface DeploymentPipeline {
   metadata?: Record<string, any>;
   stages: PipelineStage[];
   triggers: PipelineTrigger[];
-  status: 'active' | 'inactive' | 'maintenance';
   lastRun: Date;
   successRate: number;
 }
@@ -184,7 +181,6 @@ export interface PipelineStage {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: 'build' | 'test' | 'deploy' | 'verify';
-  status: 'pending' | 'running' | 'success' | 'failed' | 'skipped';
   duration: number;
   logs: string[];
   artifacts: string[];
@@ -219,7 +215,6 @@ export interface ProductionReadinessReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   overallScore: number;
   readinessLevel: 'production_ready' | 'staging_ready' | 'development_ready' | 'not_ready';
   checks: ProductionReadinessCheck[];

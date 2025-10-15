@@ -49,7 +49,6 @@ export interface WitcherExplorerDemoManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WitcherExplorerDemoManagerType;
-  status: WitcherExplorerDemoManagerStatus;
   scenarios: DemoScenario[];
   characters: DemoCharacter[];
   worlds: DemoWorld[];
@@ -78,7 +77,6 @@ export interface DemoScenario {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScenarioType;
-  status: ScenarioStatus;
   description: string;
   objectives: ScenarioObjective[];
   characters: string[];
@@ -242,7 +240,6 @@ export interface DemoCharacter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CharacterType;
-  status: CharacterStatus;
   stats: CharacterStats;
   equipment: CharacterEquipment;
   abilities: CharacterAbility[];
@@ -693,7 +690,6 @@ export interface DemoWorld {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WorldType;
-  status: WorldStatus;
   size: WorldSize;
   regions: WorldRegion[];
   objects: WorldObject[];
@@ -993,7 +989,6 @@ export interface DemoQuest {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QuestType;
-  status: QuestStatus;
   description: string;
   objectives: QuestObjective[];
   rewards: QuestReward[];
@@ -1306,8 +1301,6 @@ export interface WitcherExplorerDemoOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

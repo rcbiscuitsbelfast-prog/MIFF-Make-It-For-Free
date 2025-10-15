@@ -24,7 +24,6 @@ export interface User {
   email: string;
   role: 'admin' | 'developer' | 'user';
   permissions: string[];
-  createdAt: Date;
   lastLogin?: Date;
   isActive: boolean;
 }
@@ -67,7 +66,6 @@ export interface Session {
   token: string;
   refreshToken: string;
   expiresAt: Date;
-  createdAt: Date;
   lastActivity: Date;
   ipAddress?: string;
   userAgent?: string;

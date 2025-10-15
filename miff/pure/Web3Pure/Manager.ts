@@ -57,7 +57,6 @@ export interface Web3Manager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: Web3ManagerType;
-  status: Web3ManagerStatus;
   blockchains: Blockchain[];
   wallets: Wallet[];
   contracts: SmartContract[];
@@ -93,7 +92,6 @@ export interface Blockchain {
   rpcUrl: string;
   explorerUrl: string;
   nativeCurrency: Currency;
-  status: 'connected' | 'disconnected' | 'error';
   lastBlock: number;
   gasPrice: number;
 }
@@ -175,7 +173,6 @@ export interface Transaction {
   gasLimit: number;
   gasUsed: number;
   nonce: number;
-  status: 'pending' | 'confirmed' | 'failed';
   blockNumber?: number;
 }
 
@@ -194,7 +191,6 @@ export interface NFT {
   contractAddress: string;
   tokenId: string;
   owner: string;
-  metadata: NFTMetadata;
   blockchain: string;
 }
 
@@ -286,7 +282,6 @@ export interface CrossChainBridge {
   sourceChain: string;
   targetChain: string;
   contractAddress: string;
-  status: 'active' | 'inactive' | 'error';
   totalVolume: number;
   fees: number;
 }
@@ -467,8 +462,6 @@ export interface Web3Output {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -51,7 +51,6 @@ export interface CombatManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CombatManagerType;
-  status: CombatManagerStatus;
   battles: Battle[];
   participants: CombatParticipant[];
   weapons: Weapon[];
@@ -81,7 +80,6 @@ export interface Battle {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BattleType;
-  status: BattleStatus;
   participants: string[];
   environment: BattleEnvironment;
   rules: BattleRules;
@@ -105,7 +103,6 @@ export interface CombatParticipant {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ParticipantType;
-  status: ParticipantStatus;
   stats: CombatStats;
   equipment: CombatEquipment;
   abilities: CombatAbility[];
@@ -1168,7 +1165,6 @@ export interface TimelineEvent {
   type: EventType;
   participant: string;
   action: string;
-  data: Record<string, any>;
 }
 
 export type EventType = 'damage' | 'heal' | 'ability' | 'movement' | 'custom';
@@ -1483,8 +1479,6 @@ export interface CombatOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

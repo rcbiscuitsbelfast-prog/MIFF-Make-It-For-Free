@@ -29,7 +29,6 @@ export interface DialogueNode {
   conditions?: DialogueCondition[];
   responses?: DialogueResponse[];
   actions?: DialogueAction[];
-  metadata?: Record<string, any>;
 }
 
 export interface DialogueResponse {
@@ -48,7 +47,6 @@ export interface DialogueResponse {
   nextNodeId?: string;
   conditions?: DialogueCondition[];
   actions?: DialogueAction[];
-  metadata?: Record<string, any>;
 }
 
 export interface DialogueCondition {
@@ -85,7 +83,6 @@ export interface DialogueAction {
   type: 'set_variable' | 'set_flag' | 'add_item' | 'remove_item' | 'change_relationship' | 'play_sound' | 'show_animation' | 'trigger_event';
   key: string;
   value: any;
-  metadata?: Record<string, any>;
 }
 
 export interface Character {
@@ -105,7 +102,6 @@ export interface Character {
   dialogueHistory: string[];
   currentEmotion: string;
   voiceSettings?: VoiceSettings;
-  metadata?: Record<string, any>;
 }
 
 export interface PersonalityTraits {
@@ -193,7 +189,6 @@ export interface DialogueSession {
   startTime: Date;
   endTime?: Date;
   isActive: boolean;
-  metadata?: Record<string, any>;
 }
 
 export class RealDialogueEngine {

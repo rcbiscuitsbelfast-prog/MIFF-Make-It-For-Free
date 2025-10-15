@@ -55,7 +55,6 @@ export interface WebSocketBridge {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WebSocketBridgeType;
-  status: WebSocketBridgeStatus;
   sourceEndpoint: BridgeEndpoint;
   targetEndpoint: BridgeEndpoint;
   connections: BridgeConnection[];
@@ -124,7 +123,6 @@ export interface BridgeConnection {
   bridgeId: string;
   sourceConnectionId: string;
   targetConnectionId: string;
-  status: 'connected' | 'disconnected' | 'connecting';
   connectedAt: number;
   lastActivity: number;
   messageCount: number;
@@ -382,8 +380,6 @@ export interface WebSocketBridgeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

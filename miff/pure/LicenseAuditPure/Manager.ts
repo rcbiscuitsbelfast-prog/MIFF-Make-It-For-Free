@@ -50,7 +50,6 @@ export interface LicenseAuditManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LicenseAuditManagerType;
-  status: LicenseAuditManagerStatus;
   licenses: License[];
   auditRecords: AuditRecord[];
   complianceRules: ComplianceRule[];
@@ -79,7 +78,6 @@ export interface License {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LicenseType;
-  status: LicenseStatus;
   provider: string;
   version: string;
   terms: LicenseTerms;
@@ -240,7 +238,6 @@ export interface LicenseCompliance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: ComplianceStatus;
   score: number;
   violations: string[];
   lastChecked: number;
@@ -262,7 +259,6 @@ export interface ComplianceHistory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: ComplianceStatus;
   score: number;
   violations: string[];
   notes: string;
@@ -300,12 +296,10 @@ export interface AuditRecord {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AuditType;
-  status: AuditStatus;
   licenseId: string;
   user: string;
   action: AuditAction;
   details: AuditDetails;
-  result: AuditResult;
   performance: AuditPerformance;
 }
 
@@ -517,7 +511,6 @@ export interface Milestone {
   updatedAt?: number;
   metadata?: Record<string, any>;
   date: number;
-  status: MilestoneStatus;
   dependencies: string[];
 }
 
@@ -711,7 +704,6 @@ export interface ComplianceRule {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RuleType;
-  status: RuleStatus;
   description: string;
   conditions: RuleCondition[];
   actions: RuleAction[];
@@ -796,7 +788,6 @@ export interface Violation {
   ruleId: string;
   description: string;
   evidence: Evidence[];
-  status: ViolationStatus;
   resolution: ViolationResolution;
   performance: ViolationPerformance;
 }
@@ -839,7 +830,6 @@ export interface ResolutionAction {
   type: ActionType;
   description: string;
   completed: boolean;
-  result: string;
 }
 
 export interface ViolationPerformance {
@@ -1071,8 +1061,6 @@ export interface LicenseAuditOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

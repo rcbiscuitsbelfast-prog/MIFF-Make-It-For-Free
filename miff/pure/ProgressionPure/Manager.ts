@@ -49,7 +49,6 @@ export interface ProgressionManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProgressionManagerType;
-  status: ProgressionManagerStatus;
   progressions: Progression[];
   levels: Level[];
   experiences: Experience[];
@@ -78,7 +77,6 @@ export interface Progression {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProgressionType;
-  status: ProgressionStatus;
   currentLevel: number;
   currentExperience: number;
   totalExperience: number;
@@ -512,8 +510,6 @@ export interface ProgressionOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

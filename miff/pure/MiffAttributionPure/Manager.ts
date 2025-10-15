@@ -49,7 +49,6 @@ export interface MiffAttributionManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MiffAttributionManagerType;
-  status: MiffAttributionManagerStatus;
   attributions: Attribution[];
   licenses: License[];
   compliance: ComplianceRecord[];
@@ -78,7 +77,6 @@ export interface Attribution {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AttributionType;
-  status: AttributionStatus;
   source: AttributionSource;
   license: string;
   requirements: AttributionRequirement[];
@@ -160,7 +158,6 @@ export interface AttributionCompliance {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: ComplianceStatus;
   score: number;
   violations: ComplianceViolation[];
   lastChecked: number;
@@ -246,7 +243,6 @@ export interface ResolutionAction {
   type: ActionType;
   description: string;
   completed: boolean;
-  result: string;
 }
 
 export type ActionType = 'add' | 'modify' | 'remove' | 'verify' | 'custom';
@@ -281,7 +277,6 @@ export interface Milestone {
   updatedAt?: number;
   metadata?: Record<string, any>;
   date: number;
-  status: MilestoneStatus;
   dependencies: string[];
 }
 
@@ -299,7 +294,6 @@ export interface ComplianceHistory {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: ComplianceStatus;
   score: number;
   violations: string[];
   notes: string;
@@ -337,7 +331,6 @@ export interface License {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LicenseType;
-  status: LicenseStatus;
   version: string;
   text: string;
   url: string;
@@ -420,7 +413,6 @@ export interface ComplianceRecord {
   metadata?: Record<string, any>;
   attributionId: string;
   licenseId: string;
-  status: ComplianceStatus;
   score: number;
   violations: string[];
   lastChecked: number;
@@ -459,7 +451,6 @@ export interface AttributionValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
@@ -754,8 +745,6 @@ export interface MiffAttributionOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

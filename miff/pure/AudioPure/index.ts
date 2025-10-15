@@ -67,7 +67,6 @@ export interface AudioSource {
   sampleRate: number;
   duration: number;
   size: number;
-  metadata?: Record<string, any>;
   preload: boolean;
   loop: boolean;
   volume: number;
@@ -289,10 +288,10 @@ export class AudioEngine {
 
   constructor(...args: any[]) {
     
-    this.masterBus = this.createMasterBus();
-    this.audioListener = this.createDefaultListener();
-    this.performanceMetrics = this.initializePerformanceMetrics();
-    this.initializeAudioContext();
+  this.masterBus = this.createMasterBus();
+  this.audioListener = this.createDefaultListener();
+  this.performanceMetrics = this.initializePerformanceMetrics();
+  this.initializeAudioContext();
   }
 
   private createMasterBus(): AudioBus {
@@ -389,7 +388,7 @@ export class AudioEngine {
       throw new Error('AudioEngine not initialized');
     }
 
-    const source = this.sources.get(sourceId);
+  const source = this.sources.get(sourceId);
     if (!source) {
       throw new Error(`Audio source not found: ${sourceId}`);
     }
@@ -441,7 +440,7 @@ export class AudioEngine {
   }
 
   private async getAudioBuffer(sourceId: string): Promise<AudioBuffer> {
-    const source = this.sources.get(sourceId);
+  const source = this.sources.get(sourceId);
     if (!source) {
       throw new Error(`Audio source not found: ${sourceId}`);
     }
@@ -460,7 +459,7 @@ export class AudioEngine {
   }
 
   stopSource(sourceId: string): void {
-    const source = this.activeSources.get(sourceId);
+  const source = this.activeSources.get(sourceId);
     if (source) {
       try {
         source.stop();
@@ -474,7 +473,7 @@ export class AudioEngine {
   }
 
   pauseSource(sourceId: string): void {
-    const source = this.activeSources.get(sourceId);
+  const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 0;
       console.info(`[AudioEngine] Paused source: ${sourceId}`);
@@ -482,7 +481,7 @@ export class AudioEngine {
   }
 
   resumeSource(sourceId: string): void {
-    const source = this.activeSources.get(sourceId);
+  const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = 1;
       console.info(`[AudioEngine] Resumed source: ${sourceId}`);
@@ -490,7 +489,7 @@ export class AudioEngine {
   }
 
   setSourceVolume(sourceId: string, volume: number): void {
-    const source = this.activeSources.get(sourceId);
+  const source = this.activeSources.get(sourceId);
     if (source) {
       // Note: Volume control is now handled by gain nodes created during playback
       // This method is kept for API compatibility but doesn't directly control volume
@@ -499,14 +498,14 @@ export class AudioEngine {
   }
 
   setSourcePitch(sourceId: string, pitch: number): void {
-    const source = this.activeSources.get(sourceId);
+  const source = this.activeSources.get(sourceId);
     if (source) {
       source.playbackRate.value = Math.max(0.1, Math.min(4, pitch));
     }
   }
 
   setSourcePan(sourceId: string, pan: number): void {
-    const source = this.activeSources.get(sourceId);
+  const source = this.activeSources.get(sourceId);
     if (source && this.audioContext) {
       const panner = this.audioContext.createPanner();
       panner.setPosition(Math.max(-1, Math.min(1, pan)), 0, 0);
@@ -529,7 +528,7 @@ export class AudioEngine {
       childBuses: busConfig.childBuses || []
     };
 
-    this.buses.set(bus.id, bus);
+  this.buses.set(bus.id, bus);
 
     // Create gain node for the bus
     if (this.audioContext) {
@@ -544,15 +543,15 @@ export class AudioEngine {
       this.gainNodes.set(bus.id, gainNode);
     }
 
-    return bus.id;
+  return bus.id;
   }
 
   getBus(busId: string): AudioBus! {
-    return this.buses.get(busId);
+  return this.buses.get(busId);
   }
 
   setBusVolume(busId: string, volume: number): void {
-    const bus = this.buses.get(busId);
+  const bus = this.buses.get(busId);
     if (bus) {
       bus.volume = Math.max(0, Math.min(1, volume));
 
@@ -564,7 +563,7 @@ export class AudioEngine {
   }
 
   setBusMute(busId: string, mute: boolean): void {
-    const bus = this.buses.get(busId);
+  const bus = this.buses.get(busId);
     if (bus) {
       bus.mute = mute;
 
@@ -577,7 +576,7 @@ export class AudioEngine {
 
   // Effect management
   addEffect(busId: string, effect: AudioEffect): void {
-    const bus = this.buses.get(busId);
+  const bus = this.buses.get(busId);
     if (bus) {
       bus.effects.push(effect);
       this.applyEffect(busId, effect);
@@ -585,7 +584,7 @@ export class AudioEngine {
   }
 
   removeEffect(busId: string, effectId: string): void {
-    const bus = this.buses.get(busId);
+  const bus = this.buses.get(busId);
     if (bus) {
       const effectIndex = bus.effects.findIndex(e => e.id === effectId);
       if (effectIndex !== -1) {
@@ -597,12 +596,12 @@ export class AudioEngine {
   private applyEffect(busId: string, effect: AudioEffect): void {
     // Apply audio effects - simplified implementation
     // In a real implementation, this would create actual audio nodes
-    console.info(`[AudioEngine] Applying effect ${effect.type} to bus ${busId}`);
+  console.info(`[AudioEngine] Applying effect ${effect.type} to bus ${busId}`);
   }
 
   // Spatial audio
   setListenerPosition(position: { x: number; y: number; z: number }): void {
-    this.audioListener.position = position;
+  this.audioListener.position = position;
     if (this.audioContext && this.audioContext.listener) {
       const listener = this.audioContext.listener;
       listener.setPosition(position.x, position.y, position.z);
@@ -610,7 +609,7 @@ export class AudioEngine {
   }
 
   setListenerOrientation(forward: { x: number; y: number; z: number }, up: { x: number; y: number; z: number }): void {
-    this.audioListener.orientation = { forward, up };
+  this.audioListener.orientation = { forward, up };
     if (this.audioContext && this.audioContext.listener) {
       const listener = this.audioContext.listener;
       listener.setOrientation(forward.x, forward.y, forward.z, up.x, up.y, up.z);
@@ -625,10 +624,10 @@ export class AudioEngine {
       this.performanceMetrics.outputLatency = this.audioContext.outputLatency || 0;
     }
 
-    this.performanceMetrics.activeSources = this.activeSources.size;
-    this.performanceMetrics.totalSources = this.sources.size;
+  this.performanceMetrics.activeSources = this.activeSources.size;
+  this.performanceMetrics.totalSources = this.sources.size;
 
-    return { ...this.performanceMetrics };
+  return { ...this.performanceMetrics };
   }
 
   // Audio analysis
@@ -637,29 +636,29 @@ export class AudioEngine {
       throw new Error('Audio analyser not available');
     }
 
-    const bufferLength = this.analyserNode.frequencyBinCount;
-    const frequencyData = new Float32Array(bufferLength);
-    const timeDomainData = new Float32Array(bufferLength);
+  const bufferLength = this.analyserNode.frequencyBinCount;
+  const frequencyData = new Float32Array(bufferLength);
+  const timeDomainData = new Float32Array(bufferLength);
 
-    this.analyserNode.getFloatFrequencyData(frequencyData);
-    this.analyserNode.getFloatTimeDomainData(timeDomainData);
+  this.analyserNode.getFloatFrequencyData(frequencyData);
+  this.analyserNode.getFloatTimeDomainData(timeDomainData);
 
     // Calculate spectral centroid
-    let centroidSum = 0;
-    let magnitudeSum = 0;
+  let centroidSum = 0;
+  let magnitudeSum = 0;
     for (let i = 0; i < frequencyData.length; i++) {
       const magnitude = Math.abs(frequencyData[i]);
       centroidSum += i * magnitude;
       magnitudeSum += magnitude;
     }
 
-    const spectralCentroid = magnitudeSum > 0 ? centroidSum / magnitudeSum : 0;
+  const spectralCentroid = magnitudeSum > 0 ? centroidSum / magnitudeSum : 0;
 
     // Calculate spectral rolloff
-    const rolloffPercentile = 0.85;
-    let rolloffMagnitude = magnitudeSum * rolloffPercentile;
-    let spectralRolloff = 0;
-    let currentMagnitude = 0;
+  const rolloffPercentile = 0.85;
+  let rolloffMagnitude = magnitudeSum * rolloffPercentile;
+  let spectralRolloff = 0;
+  let currentMagnitude = 0;
 
     for (let i = 0; i < frequencyData.length; i++) {
       currentMagnitude += Math.abs(frequencyData[i]);
@@ -670,23 +669,23 @@ export class AudioEngine {
     }
 
     // Calculate RMS and peak
-    let rmsSum = 0;
-    let peak = 0;
+  let rmsSum = 0;
+  let peak = 0;
     for (let i = 0; i < timeDomainData.length; i++) {
       const sample = timeDomainData[i];
       rmsSum += sample * sample;
       peak = Math.max(peak, Math.abs(sample));
     }
-    const rms = Math.sqrt(rmsSum / timeDomainData.length);
+  const rms = Math.sqrt(rmsSum / timeDomainData.length);
 
     // Calculate zero crossing rate
-    let zeroCrossings = 0;
+  let zeroCrossings = 0;
     for (let i = 1; i < timeDomainData.length; i++) {
       if ((timeDomainData[i-1] >= 0) !== (timeDomainData[i] >= 0)) {
         zeroCrossings++;
       }
     }
-    const zeroCrossingRate = zeroCrossings / timeDomainData.length;
+  const zeroCrossingRate = zeroCrossings / timeDomainData.length;
 
     return {
       frequencyData,
@@ -701,15 +700,15 @@ export class AudioEngine {
 
   // Utility methods
   getAllSources(): AudioSource[] {
-    return Array.from(this.sources.values());
+  return Array.from(this.sources.values());
   }
 
   getActiveSources(): string[] {
-    return Array.from(this.activeSources.keys());
+  return Array.from(this.activeSources.keys());
   }
 
   getAllBuses(): AudioBus[] {
-    return Array.from(this.buses.values());
+  return Array.from(this.buses.values());
   }
 
   exportProject(format: 'json' | 'wav' | 'mp3' = 'json'): Promise<string> {
@@ -747,19 +746,19 @@ export class AudioEngine {
     }
 
     // Clear all maps
-    this.activeSources.clear();
-    this.sources.clear();
-    this.buses.clear();
-    this.mixerStrips.clear();
-    this.gainNodes.clear();
+  this.activeSources.clear();
+  this.sources.clear();
+  this.buses.clear();
+  this.mixerStrips.clear();
+  this.gainNodes.clear();
 
     // Close audio context
     if (this.audioContext && this.audioContext.state !== 'closed') {
       this.audioContext.close();
     }
 
-    this.isInitialized = false;
-    console.info('[AudioEngine] Disposed successfully');
+  this.isInitialized = false;
+  console.info('[AudioEngine] Disposed successfully');
   }
 }
 
@@ -797,12 +796,12 @@ export interface AudioProject {
   updatedAt?: number;
   metadata?: Record<string, any>;
   sources: AudioSource[];
-  buses: AudioBus[];
+
+interface AudioExportConfig {
   mixerStrips: AudioMixerStrip[];
   masterBus: AudioBus;
-  metadata: {
-    exportTime: string;
-    engineVersion: string;
+  exportTime: string;
+  engineVersion: string;
   };
 }
 

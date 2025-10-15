@@ -163,7 +163,6 @@ export interface Table {
   capacity: number;
   type: TableType;
   location: TableLocation;
-  status: TableStatus;
   reservations: Reservation[];
 }
 
@@ -207,7 +206,6 @@ export interface Reservation {
   duration: number;
   partySize: number;
   specialRequests: string[];
-  status: ReservationStatus;
 }
 
 export type ReservationStatus = 'confirmed' | 'pending' | 'cancelled' | 'completed' | 'no_show';
@@ -245,7 +243,6 @@ export interface KitchenStation {
   capacity: number;
   equipment: string[];
   staff: string[];
-  status: StationStatus;
 }
 
 export type StationType = 'prep' | 'cooking' | 'grill' | 'salad' | 'dessert' | 'custom';
@@ -264,7 +261,6 @@ export interface Equipment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EquipmentType;
-  status: EquipmentStatus;
   capacity: number;
   efficiency: number;
   maintenance: MaintenanceSchedule;
@@ -339,7 +335,6 @@ export interface BarSeat {
   updatedAt?: number;
   metadata?: Record<string, any>;
   number: string;
-  status: SeatStatus;
   customerId: string;
 }
 
@@ -394,7 +389,6 @@ export interface WaitingSeat {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: string;
-  status: SeatStatus;
 }
 
 export interface EntertainmentItem {
@@ -426,7 +420,6 @@ export interface Restroom {
   metadata?: Record<string, any>;
   type: RestroomType;
   capacity: number;
-  status: RestroomStatus;
   location: TableLocation;
 }
 
@@ -1229,7 +1222,6 @@ export interface Customer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CustomerType;
-  status: CustomerStatus;
   profile: CustomerProfile;
   preferences: CustomerPreferences;
   history: CustomerHistory;
@@ -1349,7 +1341,6 @@ export interface Order {
   customerId: string;
   tableId: string;
   items: OrderItem[];
-  status: OrderStatus;
   total: number;
   tax: number;
   tip: number;
@@ -1426,7 +1417,6 @@ export interface Complaint {
   type: ComplaintType;
   description: string;
   severity: ComplaintSeverity;
-  status: ComplaintStatus;
   resolution: string;
   date: number;
 }
@@ -1470,7 +1460,6 @@ export interface Staff {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StaffType;
-  status: StaffStatus;
   profile: StaffProfile;
   schedule: WorkSchedule;
   performance: StaffPerformance;
@@ -1532,7 +1521,6 @@ export interface Shift {
   start: string;
   end: string;
   position: string;
-  status: ShiftStatus;
 }
 
 export type ShiftStatus = 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
@@ -1657,7 +1645,6 @@ export interface Menu {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MenuType;
-  status: MenuStatus;
   items: MenuItem[];
   categories: MenuCategory[];
   pricing: PricingSettings;
@@ -1972,8 +1959,6 @@ export interface RestaurantSimulationOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

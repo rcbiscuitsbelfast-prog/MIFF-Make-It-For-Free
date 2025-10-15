@@ -56,7 +56,6 @@ export interface PhysicsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PhysicsManagerType;
-  status: PhysicsManagerStatus;
   bodies: RigidBody[];
   constraints: Constraint[];
   forces: Force[];
@@ -479,8 +478,6 @@ export interface PhysicsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

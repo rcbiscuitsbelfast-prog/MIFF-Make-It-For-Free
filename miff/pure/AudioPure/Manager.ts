@@ -58,13 +58,10 @@ export interface AudioSource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SourceType;
-  status: SourceStatus;
   audio: AudioData;
   effects: AudioEffect[];
   settings: AudioSettings;
   analytics: SourceAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 

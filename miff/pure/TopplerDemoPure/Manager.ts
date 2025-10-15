@@ -51,7 +51,6 @@ export interface TopplerDemoManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TopplerDemoManagerType;
-  status: TopplerDemoManagerStatus;
   demos: TopplerDemo[];
   players: TopplerPlayer[];
   scenarios: DemoScenario[];
@@ -80,7 +79,6 @@ export interface TopplerDemo {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DemoType;
-  status: DemoStatus;
   configuration: DemoConfiguration;
   physics: PhysicsSettings;
   graphics: GraphicsSettings;
@@ -837,7 +835,6 @@ export interface TopplerPlayer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PlayerType;
-  status: PlayerStatus;
   profile: PlayerProfile;
   statistics: PlayerStatistics;
   achievements: Achievement[];
@@ -942,7 +939,6 @@ export interface DemoScenario {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScenarioType;
-  status: ScenarioStatus;
   configuration: ScenarioConfiguration;
   objectives: ScenarioObjective[];
   rewards: ScenarioReward[];
@@ -1466,8 +1462,6 @@ export interface TopplerDemoOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -54,14 +54,11 @@ export interface ChainValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   chains: Chain[];
   rules: ValidationRule[];
   policies: ValidationPolicy[];
   performance: ValidatorPerformance;
   analytics: ValidatorAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Chain {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ChainType;
-  status: ChainStatus;
   blocks: ChainBlock[];
   validation: ChainValidation;
 }
@@ -98,7 +94,6 @@ export interface ChainBlock {
   index: number;
   hash: string;
   previousHash: string;
-  timestamp: Date;
 }
 
 export interface ChainValidation {
@@ -114,7 +109,6 @@ export interface ChainValidation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   isValid: boolean;
-  errors: ValidationError[];
   warnings: ValidationWarning[];
   score: number; // 0-100
 }

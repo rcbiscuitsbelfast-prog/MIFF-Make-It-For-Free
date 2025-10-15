@@ -433,9 +433,6 @@ export interface ImageData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ImageType;
-  status: ImageStatus;
-  data: ImageBuffer;
-  metadata: ImageMetadata;
   annotations: Annotation[];
   processing: ProcessingHistory[];
 }
@@ -455,7 +452,6 @@ export interface ImageBuffer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  data: Uint8Array;
   format: ImageFormat;
   compression: CompressionType;
   size: number;
@@ -630,7 +626,6 @@ export interface ProcessingHistory {
   metadata?: Record<string, any>;
   operation: string;
   parameters: Record<string, any>;
-  result: ProcessingResult;
 }
 
 export interface ProcessingResult {
@@ -664,9 +659,6 @@ export interface VideoData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VideoType;
-  status: VideoStatus;
-  data: VideoBuffer;
-  metadata: VideoMetadata;
   frames: FrameData[];
   tracks: TrackData[];
 }
@@ -686,7 +678,6 @@ export interface VideoBuffer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  data: Uint8Array;
   format: VideoFormat;
   codec: string;
   size: number;
@@ -763,7 +754,6 @@ export interface ProcessingPipeline {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PipelineType;
-  status: PipelineStatus;
   steps: ProcessingStep[];
   configuration: PipelineConfiguration;
 }
@@ -1096,7 +1086,6 @@ export interface ObjectDetector {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DetectorType;
-  status: DetectorStatus;
   model: string;
   configuration: DetectorConfiguration;
   performance: DetectorPerformance;
@@ -1356,8 +1345,6 @@ export interface ComputerVisionOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

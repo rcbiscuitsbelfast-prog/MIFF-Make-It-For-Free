@@ -129,8 +129,6 @@ export interface PermissionRequest {
   resource: string;
   scope: PermissionScope;
   context?: Record<string, any>;
-  metadata?: Record<string, any>;
-  timestamp?: number;
 }
 
 export interface PermissionResponse {

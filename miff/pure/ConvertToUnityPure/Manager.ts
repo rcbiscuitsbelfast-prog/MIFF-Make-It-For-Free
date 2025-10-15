@@ -15,7 +15,6 @@ export interface UnityConvertedPayload {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: 'convert';
-  status: 'ok' | 'error';
   engine: 'unity';
   items: any[];
   issues: string[];

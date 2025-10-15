@@ -49,7 +49,6 @@ export interface CloudGamingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CloudGamingManagerType;
-  status: CloudGamingManagerStatus;
   sessions: GamingSession[];
   streams: GamingStream[];
   servers: GamingServer[];
@@ -78,7 +77,6 @@ export interface GamingSession {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SessionType;
-  status: SessionStatus;
   user: UserInfo;
   game: GameInfo;
   stream: string;
@@ -396,7 +394,6 @@ export interface GamingStream {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StreamType;
-  status: StreamStatus;
   session: string;
   configuration: StreamConfiguration;
   performance: StreamPerformance;
@@ -480,7 +477,6 @@ export interface GamingServer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ServerType;
-  status: ServerStatus;
   location: ServerLocation;
   capacity: ServerCapacity;
   performance: ServerPerformance;
@@ -574,7 +570,6 @@ export interface GamingClient {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ClientType;
-  status: ClientStatus;
   user: string;
   session: string;
   device: DeviceInfo;
@@ -876,8 +871,6 @@ export interface CloudGamingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

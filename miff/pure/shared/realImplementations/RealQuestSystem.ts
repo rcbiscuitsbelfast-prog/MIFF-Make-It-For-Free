@@ -20,7 +20,6 @@ export interface Quest {
   metadata?: Record<string, any>;
   title: string;
   description: string;
-  status: 'available' | 'active' | 'completed' | 'failed';
   objectives: QuestObjective[];
   rewards: QuestReward[];
   prerequisites: string[];

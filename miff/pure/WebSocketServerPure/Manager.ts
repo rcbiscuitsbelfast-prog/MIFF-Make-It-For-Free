@@ -57,7 +57,6 @@ export interface WebSocketServer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WebSocketServerType;
-  status: WebSocketServerStatus;
   servers: Server[];
   connections: WebSocketConnection[];
   clusters: ServerCluster[];
@@ -88,7 +87,6 @@ export interface Server {
   host: string;
   port: number;
   protocol: string;
-  status: 'running' | 'stopped' | 'error';
   connections: number;
   maxConnections: number;
   uptime: number;
@@ -109,7 +107,6 @@ export interface WebSocketConnection {
   metadata?: Record<string, any>;
   serverId: string;
   clientId: string;
-  status: 'connected' | 'disconnected' | 'connecting';
   connectedAt: number;
   lastActivity: number;
   messageCount: number;
@@ -133,7 +130,6 @@ export interface ServerCluster {
   loadBalancer: string;
   healthCheck: HealthCheckConfig;
   autoScaling: AutoScalingConfig;
-  status: 'active' | 'inactive' | 'error';
 }
 
 export interface LoadBalancer {
@@ -151,7 +147,6 @@ export interface LoadBalancer {
   algorithm: 'round-robin' | 'least-connections' | 'ip-hash' | 'weighted';
   servers: string[];
   healthCheck: HealthCheckConfig;
-  status: 'active' | 'inactive' | 'error';
 }
 
 export interface HealthCheckConfig {
@@ -369,8 +364,6 @@ export interface WebSocketServerOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

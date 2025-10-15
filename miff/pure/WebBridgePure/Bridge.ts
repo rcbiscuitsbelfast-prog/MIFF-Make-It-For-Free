@@ -40,7 +40,6 @@ export interface WebComponent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: string;
-  data: Record<string, unknown>;
   enabled: boolean;
 }
 
@@ -78,7 +77,6 @@ export interface WebBridgeOperation {
   metadata?: Record<string, any>;
   op: 'simulate' | 'render' | 'interop' | 'dump';
   module: string;
-  data?: Record<string, unknown>;
   config?: WebBridgeConfig;
 }
 
@@ -115,7 +113,6 @@ export interface WebBridgeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
   renderData?: WebRenderData;
   issues?: string[];
 }

@@ -357,7 +357,6 @@ export interface IHUDUpdateEvent {
   metadata?: Record<string, any>;
   type: HUDUpdateType;
   spiritId?: string;
-  timestamp?: number;
 }
 
 export class HUDManager {

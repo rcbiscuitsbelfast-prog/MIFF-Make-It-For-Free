@@ -52,7 +52,6 @@ export interface SceneBuilderManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SceneBuilderManagerType;
-  status: SceneBuilderManagerStatus;
   scenes: Scene[];
   objects: SceneObject[];
   materials: Material[];
@@ -83,7 +82,6 @@ export interface Scene {
   metadata?: Record<string, any>;
   description: string;
   type: SceneType;
-  status: SceneStatus;
   objects: string[];
   lights: string[];
   cameras: string[];
@@ -321,7 +319,6 @@ export interface SceneObject {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ObjectType;
-  status: ObjectStatus;
   transform: Transform;
   geometry: Geometry;
   material: string;
@@ -752,7 +749,6 @@ export interface Light {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LightType;
-  status: LightStatus;
   transform: Transform;
   color: Color;
   intensity: number;
@@ -799,7 +795,6 @@ export interface Camera {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CameraType;
-  status: CameraStatus;
   transform: Transform;
   projection: ProjectionSettings;
   rendering: RenderingSettings;
@@ -1123,8 +1118,6 @@ export interface SceneBuilderOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

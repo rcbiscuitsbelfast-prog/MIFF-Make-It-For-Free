@@ -56,7 +56,6 @@ export interface DeploymentManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeploymentManagerType;
-  status: DeploymentManagerStatus;
   applications: Application[];
   environments: Environment[];
   deployments: Deployment[];
@@ -89,7 +88,6 @@ export interface Application {
   metadata?: Record<string, any>;
   version: string;
   type: ApplicationType;
-  status: ApplicationStatus;
   image: string;
   ports: Port[];
   environment: string;
@@ -209,7 +207,6 @@ export interface Environment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EnvironmentType;
-  status: EnvironmentStatus;
   region: string;
   zone: string;
   cluster: string;
@@ -456,7 +453,6 @@ export interface Deployment {
   applicationId: string;
   environmentId: string;
   version: string;
-  status: DeploymentStatus;
   strategy: DeploymentStrategy;
   replicas: number;
   progress: DeploymentProgress;
@@ -498,7 +494,6 @@ export interface Rollback {
   deploymentId: string;
   fromVersion: string;
   toVersion: string;
-  status: RollbackStatus;
   reason: string;
 }
 
@@ -518,7 +513,6 @@ export interface HealthCheck {
   metadata?: Record<string, any>;
   applicationId: string;
   type: HealthCheckType;
-  status: HealthStatus;
   lastCheck: number;
   responseTime: number;
   message: string;
@@ -540,7 +534,6 @@ export interface LoadBalancer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LoadBalancerType;
-  status: LoadBalancerStatus;
   applications: string[];
   algorithm: LoadBalancingAlgorithm;
   healthCheck: HealthCheckConfig;
@@ -563,7 +556,6 @@ export interface Scaler {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScalerType;
-  status: ScalerStatus;
   applicationId: string;
   config: ScalingConfig;
   metrics: ScalingMetrics;
@@ -796,8 +788,6 @@ export interface DeploymentOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -20,7 +20,6 @@ export interface TestSuite {
   metadata?: Record<string, any>;
   type: 'end_to_end' | 'integration' | 'performance' | 'security' | 'user_acceptance';
   description: string;
-  status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
   duration: number;
   testCases: TestCase[];
   results: TestResult[];
@@ -44,7 +43,6 @@ export interface TestCase {
   steps: TestStep[];
   expectedResult: string;
   actualResult: string;
-  status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
   duration: number;
   errorMessage?: string;
   screenshots?: string[];
@@ -67,7 +65,6 @@ export interface TestStep {
   action: string;
   expected: string;
   actual: string;
-  status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
   duration: number;
   errorMessage?: string;
 }
@@ -85,7 +82,6 @@ export interface TestResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   testCaseId: string;
-  status: 'passed' | 'failed' | 'skipped';
   duration: number;
   errorMessage?: string;
   metrics?: TestMetrics;
@@ -130,7 +126,6 @@ export interface IntegrationTest {
   testData: any;
   expectedBehavior: string;
   actualBehavior: string;
-  status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
   duration: number;
   errorMessage?: string;
 }
@@ -151,7 +146,6 @@ export interface PerformanceTest {
   description: string;
   configuration: PerformanceTestConfiguration;
   results: PerformanceTestResults;
-  status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
   duration: number;
 }
 
@@ -219,7 +213,6 @@ export interface SecurityTest {
   target: string;
   methodology: string;
   findings: SecurityFinding[];
-  status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
   duration: number;
 }
 
@@ -240,7 +233,6 @@ export interface SecurityFinding {
   description: string;
   impact: string;
   recommendation: string;
-  status: 'open' | 'fixed' | 'accepted' | 'false_positive';
 }
 
 export interface UserAcceptanceTest {
@@ -260,7 +252,6 @@ export interface UserAcceptanceTest {
   testSteps: string[];
   expectedOutcome: string;
   actualOutcome: string;
-  status: 'pending' | 'running' | 'passed' | 'failed' | 'skipped';
   duration: number;
   userFeedback?: string;
   screenshots?: string[];
@@ -278,7 +269,6 @@ export interface FinalValidationReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   overallStatus: 'ready' | 'not_ready' | 'needs_attention';
   readinessScore: number;
   testSuites: TestSuite[];

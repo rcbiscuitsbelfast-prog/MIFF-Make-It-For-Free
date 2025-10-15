@@ -63,7 +63,6 @@ export interface WebProject {
   scripts: WebScript[];
   styles: WebStyle[];
   configuration: WebConfiguration;
-  metadata: WebProjectMetadata;
 }
 
 export interface WebScene {
@@ -534,7 +533,6 @@ export interface WebBuildStatistics {
   sceneCount: number;
   gameObjectCount: number;
   componentCount: number;
-  errors: number;
   warnings: number;
   performanceScore: number;
 }
@@ -554,7 +552,6 @@ export interface WebEvent {
   type: 'load' | 'update' | 'render' | 'input' | 'audio' | 'network' | 'error' | 'custom';
   source: string;
   target: string;
-  data: Record<string, any>;
   handled: boolean;
   priority: number;
 }

@@ -54,14 +54,11 @@ export interface CharacterCustomization {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   characters: Character[];
   presets: CustomizationPreset[];
   assets: CustomizationAsset[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Character {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CharacterType;
-  status: CharacterStatus;
   appearance: CharacterAppearance;
   customization: CharacterCustomizationData;
 }

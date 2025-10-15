@@ -59,7 +59,6 @@ export interface UnrealAsset {
   loaded: boolean;
   cached: boolean;
   priority: number;
-  metadata: AssetMetadata;
   lastAccessed: number;
   accessCount: number;
 }

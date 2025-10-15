@@ -50,7 +50,6 @@ export interface SessionManifestManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SessionManifestManagerType;
-  status: SessionManifestManagerStatus;
   manifests: SessionManifest[];
   sessionData: SessionData[];
   validators: ManifestValidator[];
@@ -79,10 +78,8 @@ export interface SessionManifest {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ManifestType;
-  status: ManifestStatus;
   version: string;
   sessionId: string;
-  data: ManifestData;
   validation: ManifestValidation;
   synchronization: ManifestSynchronization;
   performance: ManifestPerformance;
@@ -127,7 +124,6 @@ export interface SessionInfo {
   startTime: number;
   endTime: number | null;
   duration: number;
-  status: SessionStatus;
 }
 
 export type SessionType = 'single_player' | 'multiplayer' | 'coop' | 'pvp' | 'custom';
@@ -820,7 +816,6 @@ export interface SessionData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataType;
-  status: DataStatus;
   content: DataContent;
   compression: CompressionConfig;
   encryption: EncryptionConfig;
@@ -923,7 +918,6 @@ export interface ManifestValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
@@ -981,7 +975,6 @@ export interface SessionSynchronizer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SynchronizerType;
-  status: SynchronizerStatus;
   configuration: SynchronizerConfiguration;
   performance: SynchronizerPerformance;
 }
@@ -1237,8 +1230,6 @@ export interface SessionManifestOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

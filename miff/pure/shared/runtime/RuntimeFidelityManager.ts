@@ -43,7 +43,6 @@ export interface BridgeRuntimeInfo {
   bridgeId: string;
   bridgeType: 'network' | 'unity' | 'godot' | 'unreal' | 'web';
   version: string;
-  status: 'active' | 'inactive' | 'error' | 'initializing';
   capabilities: string[];
   performance: {
     memoryUsage: number;

@@ -35,7 +35,6 @@ export interface Gesture {
   metadata?: Record<string, any>;
   type: GestureType;
   at: number;
-  data?: Record<string, unknown>;
 }
 
 export class TouchGestureManager {

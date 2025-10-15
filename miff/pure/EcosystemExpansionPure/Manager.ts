@@ -52,7 +52,6 @@ export interface EcosystemExpansionManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EcosystemExpansionManagerType;
-  status: EcosystemExpansionManagerStatus;
   partnerships: Partnership[];
   integrations: Integration[];
   communities: Community[];
@@ -82,7 +81,6 @@ export interface Partnership {
   metadata?: Record<string, any>;
   type: PartnershipType;
   partner: Partner;
-  status: PartnershipStatus;
   value: PartnershipValue;
   terms: PartnershipTerms;
   milestones: Milestone[];
@@ -294,7 +292,6 @@ export interface Responsibility {
   party: string;
   description: string;
   deadline: number;
-  status: 'pending' | 'in_progress' | 'completed' | 'overdue';
 }
 
 export interface TerminationClause {
@@ -328,7 +325,6 @@ export interface Milestone {
   metadata?: Record<string, any>;
   description: string;
   targetDate: number;
-  status: MilestoneStatus;
   value: number;
   dependencies: string[];
 }
@@ -349,7 +345,6 @@ export interface Integration {
   metadata?: Record<string, any>;
   type: IntegrationType;
   partnerId: string;
-  status: IntegrationStatus;
   technical: TechnicalIntegration;
   business: BusinessIntegration;
   performance: IntegrationPerformance;
@@ -874,8 +869,6 @@ export interface EcosystemExpansionOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

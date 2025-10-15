@@ -49,7 +49,6 @@ export interface RenderWorldManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RenderWorldManagerType;
-  status: RenderWorldManagerStatus;
   worlds: RenderWorld[];
   scenes: RenderScene[];
   cameras: RenderCamera[];
@@ -79,7 +78,6 @@ export interface RenderWorld {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WorldType;
-  status: WorldStatus;
   scenes: string[];
   cameras: string[];
   lights: string[];
@@ -104,7 +102,6 @@ export interface RenderScene {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SceneType;
-  status: SceneStatus;
   worldId: string;
   objects: RenderObject[];
   cameras: string[];
@@ -130,7 +127,6 @@ export interface RenderObject {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ObjectType;
-  status: ObjectStatus;
   geometry: Geometry;
   material: string;
   transform: Transform;
@@ -209,7 +205,6 @@ export interface GeometryAttribute {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AttributeType;
-  data: any[];
   size: number;
 }
 
@@ -300,7 +295,6 @@ export interface RenderCamera {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CameraType;
-  status: CameraStatus;
   properties: CameraProperties;
   transform: Transform;
   performance: CameraPerformance;
@@ -383,7 +377,6 @@ export interface RenderLight {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LightType;
-  status: LightStatus;
   properties: LightProperties;
   transform: Transform;
   performance: LightPerformance;
@@ -482,7 +475,6 @@ export interface RenderMaterial {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MaterialType;
-  status: MaterialStatus;
   properties: MaterialProperties;
   textures: MaterialTexture[];
   shaders: MaterialShader[];
@@ -1066,8 +1058,6 @@ export interface RenderWorldOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

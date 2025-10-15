@@ -49,7 +49,6 @@ export interface SplashScreenManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SplashScreenManagerType;
-  status: SplashScreenManagerStatus;
   splashScreens: SplashScreen[];
   animations: SplashAnimation[];
   transitions: SplashTransition[];
@@ -78,7 +77,6 @@ export interface SplashScreen {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SplashType;
-  status: SplashStatus;
   configuration: SplashConfiguration;
   animations: string[];
   transitions: string[];
@@ -251,7 +249,6 @@ export interface SplashAnimation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnimationType;
-  status: AnimationStatus;
   configuration: AnimationConfiguration;
   performance: AnimationPerformance;
 }
@@ -312,7 +309,6 @@ export interface SplashTransition {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TransitionType;
-  status: TransitionStatus;
   configuration: TransitionConfiguration;
   performance: TransitionPerformance;
 }
@@ -372,7 +368,6 @@ export interface SplashEffect {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EffectType;
-  status: EffectStatus;
   configuration: EffectConfiguration;
   performance: EffectPerformance;
 }
@@ -623,8 +618,6 @@ export interface SplashScreenOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

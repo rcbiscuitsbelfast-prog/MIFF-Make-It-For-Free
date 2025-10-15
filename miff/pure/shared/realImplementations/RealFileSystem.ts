@@ -60,8 +60,6 @@ export interface CacheEntry {
   updatedAt?: number;
   metadata?: Record<string, any>;
   content: string;
-  timestamp: Date;
-  metadata: FileMetadata;
 }
 
 /**

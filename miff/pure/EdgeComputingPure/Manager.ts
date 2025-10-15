@@ -51,7 +51,6 @@ export interface EdgeComputingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EdgeComputingManagerType;
-  status: EdgeComputingManagerStatus;
   nodes: EdgeNode[];
   tasks: EdgeTask[];
   clusters: EdgeCluster[];
@@ -80,7 +79,6 @@ export interface EdgeNode {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NodeType;
-  status: NodeStatus;
   location: NodeLocation;
   capabilities: NodeCapabilities;
   resources: NodeResources;
@@ -445,7 +443,6 @@ export interface NodeHealth {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: HealthStatus;
   score: number;
   issues: HealthIssue[];
   lastCheck: number;
@@ -489,7 +486,6 @@ export interface EdgeTask {
   metadata?: Record<string, any>;
   type: TaskType;
   priority: TaskPriority;
-  status: TaskStatus;
   nodeId: string;
   requirements: TaskRequirements;
   input: TaskData;
@@ -635,7 +631,6 @@ export interface ClusterHealth {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: HealthStatus;
   score: number;
   issues: HealthIssue[];
   lastCheck: number;
@@ -934,8 +929,6 @@ export interface EdgeComputingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

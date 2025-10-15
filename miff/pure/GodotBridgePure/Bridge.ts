@@ -93,7 +93,6 @@ export interface GodotBridgeOperation {
   metadata?: Record<string, any>;
   op: 'simulate' | 'render' | 'interop' | 'dump';
   module: string;
-  data?: any;
   config?: GodotBridgeConfig;
 }
 
@@ -132,7 +131,6 @@ export interface GodotBridgeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
   renderData?: GodotRenderData;
   issues?: string[];
 }

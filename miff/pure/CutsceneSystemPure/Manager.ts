@@ -52,7 +52,6 @@ export interface CutsceneSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CutsceneSystemManagerType;
-  status: CutsceneSystemManagerStatus;
   cutscenes: Cutscene[];
   animations: CutsceneAnimation[];
   cameras: CutsceneCamera[];
@@ -83,7 +82,6 @@ export interface Cutscene {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CutsceneType;
-  status: CutsceneStatus;
   duration: number;
   timeline: CutsceneTimeline;
   camera: CutsceneCameraSettings;
@@ -802,7 +800,6 @@ export interface CutsceneAnimation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnimationType;
-  status: AnimationStatus;
   duration: number;
   keyframes: AnimationKeyframe[];
   curves: AnimationCurve[];
@@ -900,7 +897,6 @@ export interface CutsceneCamera {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CameraType;
-  status: CameraStatus;
   properties: CameraProperties;
   movement: CameraMovement;
   performance: CameraPerformance;
@@ -961,7 +957,6 @@ export interface CutsceneLight {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LightType;
-  status: LightStatus;
   properties: LightProperties;
   performance: LightPerformance;
 }
@@ -1019,7 +1014,6 @@ export interface CutsceneAudio {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AudioType;
-  status: AudioStatus;
   properties: AudioProperties;
   performance: AudioPerformance;
 }
@@ -1078,7 +1072,6 @@ export interface CutsceneEffect {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EffectType;
-  status: EffectStatus;
   properties: EffectProperties;
   performance: EffectPerformance;
 }
@@ -1333,8 +1326,6 @@ export interface CutsceneSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

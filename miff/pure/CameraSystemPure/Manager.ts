@@ -54,13 +54,10 @@ export interface CameraSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   cameras: Camera[];
   settings: SystemSettings;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -77,7 +74,6 @@ export interface Camera {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CameraType;
-  status: CameraStatus;
   capabilities: CameraCapabilities;
   settings: CameraSettings;
   controls: CameraControls;

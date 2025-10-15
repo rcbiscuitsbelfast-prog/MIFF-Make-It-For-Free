@@ -97,15 +97,12 @@ export interface ValidationReport {
   totalAssets: number;
   validAssets: number;
   invalidAssets: number;
-  errors: number;
   warnings: number;
   suggestions: number;
   bridgeBreakdown: Record<string, {
     total: number;
     valid: number;
     invalid: number;
-    errors: number;
-    warnings: number;
   }>;
   criticalIssues: Array<{
     asset: string;

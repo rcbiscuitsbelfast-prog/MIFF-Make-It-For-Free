@@ -180,7 +180,6 @@ export interface GodotResource {
   metadata?: Record<string, any>;
   type: GodotResourceType;
   path: string;
-  data?: any;
   dependencies: string[];
 }
 
@@ -199,11 +198,10 @@ export interface GodotScene {
   nodes: Map<string, GodotNode>;
   resources: Map<string, GodotResource>;
   rootNode: string;
-  metadata: {
-    editorSettings: Record<string, any>;
-    version: string;
-    exportPlatform: string;
-    exportPreset: string;
+  editorSettings: Record<string, any>;
+  version: string;
+  exportPlatform: string;
+  exportPreset: string;
   };
 }
 
@@ -241,41 +239,41 @@ export interface GodotProjectSettings {
   updatedAt?: number;
   metadata?: Record<string, any>;
   application: {
-    version: string;
-    icon: string;
-    description: string;
-    copyright: string;
+  version: string;
+  icon: string;
+  description: string;
+  copyright: string;
   };
   display: {
-    width: number;
-    height: number;
-    fullscreen: boolean;
-    resizable: boolean;
-    borderless: boolean;
-    vsync: boolean;
+  width: number;
+  height: number;
+  fullscreen: boolean;
+  resizable: boolean;
+  borderless: boolean;
+  vsync: boolean;
   };
   audio: {
-    driver: string;
-    channels: number;
-    mix_rate: number;
-    buffer_size: number;
+  driver: string;
+  channels: number;
+  mix_rate: number;
+  buffer_size: number;
   };
   physics: {
-    driver: string;
-    fps: number;
-    iterations: number;
+  driver: string;
+  fps: number;
+  iterations: number;
   };
   input: {
-    devices: Record<string, any>;
+  devices: Record<string, any>;
   };
   rendering: {
-    driver: string;
-    quality: 'low' | 'medium' | 'high' | 'ultra';
-    shadows: boolean;
-    msaa: number;
-    fxaa: boolean;
-    hdr: boolean;
-    vsync: boolean;
+  driver: string;
+  quality: 'low' | 'medium' | 'high' | 'ultra';
+  shadows: boolean;
+  msaa: number;
+  fxaa: boolean;
+  hdr: boolean;
+  vsync: boolean;
   };
 }
 
@@ -383,7 +381,7 @@ export class GodotConverter {
       ...options
     };
 
-    this.currentProject = this.createEmptyProject();
+  this.currentProject = this.createEmptyProject();
   }
 
   private createEmptyProject(): GodotProject {
@@ -443,9 +441,9 @@ export class GodotConverter {
 
   // Core conversion functionality
   async convertMIFFProject(miffProject: any): Promise<ConversionResult> {
-    this.conversionStartTime = Date.now();
-    const warnings: string[] = [];
-    const errors: string[] = [];
+  this.conversionStartTime = Date.now();
+  const warnings: string[] = [];
+  const errors: string[] = [];
 
     try {
       console.info('[GodotConverter] Starting conversion...');
@@ -534,7 +532,7 @@ export class GodotConverter {
   }
 
   private convertProjectSettings(miffSettings: any): void {
-    if (!miffSettings) return;
+  if (!miffSettings) return;
 
     // Convert application settings
     if (miffSettings.name) {
@@ -628,15 +626,15 @@ export class GodotConverter {
     }
 
     // Build node hierarchy
-    this.buildNodeHierarchy(scene);
+  this.buildNodeHierarchy(scene);
 
-    return scene;
+  return scene;
   }
 
   private async convertEntityToNode(entityData: any, entityId: string): Promise<GodotNode> {
     // Determine node type based on entity components
-    let nodeType = GodotNodeType.NODE_2D;
-    let components: GodotComponent[] = [];
+  let nodeType = GodotNodeType.NODE_2D;
+  let components: GodotComponent[] = [];
 
     if (entityData.components) {
       if (entityData.components.sprite || entityData.components.texture) {
@@ -674,13 +672,13 @@ export class GodotConverter {
       node.script = this.generateEntityScript(entityData, entityId);
     }
 
-    this.nodeCounter++;
-    return node;
+  this.nodeCounter++;
+  return node;
   }
 
   private async convertSystemToNode(systemData: any, systemId: string): Promise<GodotNode> {
     // Convert system to appropriate node type
-    let nodeType = GodotNodeType.NODE_2D;
+  let nodeType = GodotNodeType.NODE_2D;
 
     if (systemData.type === 'audio') {
       nodeType = GodotNodeType.AUDIO_STREAM_PLAYER;
@@ -703,8 +701,8 @@ export class GodotConverter {
       script: this.generateSystemScript(systemData, systemId)
     };
 
-    this.nodeCounter++;
-    return node;
+  this.nodeCounter++;
+  return node;
   }
 
   private buildNodeHierarchy(scene: GodotScene): void {
@@ -720,7 +718,7 @@ export class GodotConverter {
   }
 
   private async convertResource(resourceData: any, resourceId: string): Promise<GodotResource> {
-    let resourceType = GodotResourceType.TEXTURE;
+  let resourceType = GodotResourceType.TEXTURE;
 
     // Determine resource type based on data
     if (resourceData.type === 'audio' || resourceData.format?.includes('audio')) {
@@ -751,13 +749,13 @@ export class GodotConverter {
       resource.data = await this.processResourceData(resourceData.data, resourceType);
     }
 
-    return resource;
+  return resource;
   }
 
   private async processResourceData(data: any, resourceType: GodotResourceType): Promise<any> {
     // Process resource data based on type
     // This would include compression, format conversion, etc.
-    return data;
+  return data;
   }
 
   private generateEntityScript(entityData: any, entityId: string): GodotScript {
@@ -768,7 +766,7 @@ export class GodotConverter {
       functions: []
     };
 
-    return script;
+  return script;
   }
 
   private generateSystemScript(systemData: any, systemId: string): GodotScript {
@@ -779,14 +777,14 @@ export class GodotConverter {
       functions: []
     };
 
-    return script;
+  return script;
   }
 
   private generateGDScript(entityData: any, entityId: string): string {
-    let script = `extends ${this.mapEntityToNodeType(entityData)}\n\n`;
+  let script = `extends ${this.mapEntityToNodeType(entityData)}\n\n`;
 
     // Add class name
-    script += `class_name Entity_${entityId}\n\n`;
+  script += `class_name Entity_${entityId}\n\n`;
 
     // Add properties
     if (entityData.properties) {
@@ -797,21 +795,21 @@ export class GodotConverter {
     }
 
     // Add initialization
-    script += `func _ready():\n`;
-    script += `    pass  # Entity initialization\n\n`;
+  script += `func _ready():\n`;
+  script += `    pass  # Entity initialization\n\n`;
 
     // Add update method
-    script += `func _process(delta):\n`;
-    script += `    pass  # Entity update logic\n\n`;
+  script += `func _process(delta):\n`;
+  script += `    pass  # Entity update logic\n\n`;
 
-    return script;
+  return script;
   }
 
   private generateSystemGDScript(systemData: any, systemId: string): string {
-    const nodeType = this.mapSystemToNodeType(systemData);
-    let script = `extends ${nodeType}\n\n`;
+  const nodeType = this.mapSystemToNodeType(systemData);
+  let script = `extends ${nodeType}\n\n`;
 
-    script += `class_name System_${systemId}\n\n`;
+  script += `class_name System_${systemId}\n\n`;
 
     // Add system-specific logic
     if (systemData.type === 'audio') {
@@ -825,16 +823,16 @@ export class GodotConverter {
       script += `        audio_player.play()\n\n`;
     }
 
-    return script;
+  return script;
   }
 
   private mapEntityToNodeType(entityData: any): string {
-    if (entityData.components?.sprite) return 'Sprite';
-    if (entityData.components?.audio) return 'AudioStreamPlayer2D';
-    if (entityData.components?.physics?.rigidBody) return 'RigidBody2D';
-    if (entityData.components?.physics?.kinematic) return 'KinematicBody2D';
-    if (entityData.components?.collision) return 'Area2D';
-    return 'Node2D';
+  if (entityData.components?.sprite) return 'Sprite';
+  if (entityData.components?.audio) return 'AudioStreamPlayer2D';
+  if (entityData.components?.physics?.rigidBody) return 'RigidBody2D';
+  if (entityData.components?.physics?.kinematic) return 'KinematicBody2D';
+  if (entityData.components?.collision) return 'Area2D';
+  return 'Node2D';
   }
 
   private mapSystemToNodeType(systemData: any): string {
@@ -849,11 +847,11 @@ export class GodotConverter {
   private generateProjectScripts(): void {
     // Generate main game script
 //     const mainScript = this.generateMainGameScript();
-    const mainScene = this.createMainScene();
-    this.currentProject.scenes.set('main', mainScene);
+  const mainScene = this.createMainScene();
+  this.currentProject.scenes.set('main', mainScene);
 
     // Generate autoload scripts
-    this.generateAutoloadScripts();
+  this.generateAutoloadScripts();
   }
 
   private generateMainGameScript(): string {
@@ -904,14 +902,14 @@ func quit_game():
       }
     };
 
-    return scene;
+  return scene;
   }
 
   private generateAutoloadScripts(): void {
     // Add common autoloads
-    this.currentProject.autoloads.set('Global', 'res://autoloads/global.gd');
-    this.currentProject.autoloads.set('GameState', 'res://autoloads/game_state.gd');
-    this.currentProject.autoloads.set('AudioManager', 'res://autoloads/audio_manager.gd');
+  this.currentProject.autoloads.set('Global', 'res://autoloads/global.gd');
+  this.currentProject.autoloads.set('GameState', 'res://autoloads/game_state.gd');
+  this.currentProject.autoloads.set('AudioManager', 'res://autoloads/audio_manager.gd');
   }
 
   private createExportPresets(): void {
@@ -956,11 +954,11 @@ func quit_game():
       }
     ];
 
-    this.currentProject.exportPresets = presets;
+  this.currentProject.exportPresets = presets;
   }
 
   private countGeneratedScripts(): number {
-    let count = 0;
+  let count = 0;
 
     // Count scripts in scenes
     for (const scene of this.currentProject.scenes.values()) {
@@ -970,9 +968,9 @@ func quit_game():
     }
 
     // Count autoload scripts
-    count += this.currentProject.autoloads.size;
+  count += this.currentProject.autoloads.size;
 
-    return count;
+  return count;
   }
 
   private estimateExportSize(): number {
@@ -982,17 +980,17 @@ func quit_game():
     size += this.currentProject.scenes.size * 1024 * 100; // Scenes
     size += this.currentProject.resources.size * 1024 * 50; // Resources
 
-    return size;
+  return size;
   }
 
   private calculateOptimizationSavings(): number {
-    if (!this.conversionOptions.optimizeAssets) return 0;
+  if (!this.conversionOptions.optimizeAssets) return 0;
 
     // Estimate savings from optimization
-    const originalSize = this.estimateExportSize();
+  const originalSize = this.estimateExportSize();
     const optimizedSize = originalSize * 0.7; // Assume 30% savings
 
-    return originalSize - optimizedSize;
+  return originalSize - optimizedSize;
   }
 
   // Export functionality
@@ -1025,8 +1023,8 @@ func quit_game():
 
   private async createProjectStructure(outputPath: string): Promise<void> {
     // Create basic project structure
-    const fs = require('fs').promises;
-    const path = require('path');
+  const fs = require('fs').promises;
+  const path = require('path');
 
     const directories = [
       outputPath,
@@ -1044,11 +1042,11 @@ func quit_game():
   }
 
   private async generateProjectFiles(outputPath: string): Promise<void> {
-    const fs = require('fs').promises;
+  const fs = require('fs').promises;
 
     // Generate project.godot file
-    const projectGodot = this.generateProjectGodotFile();
-    await fs.writeFile(`${outputPath}/project.godot`, projectGodot);
+  const projectGodot = this.generateProjectGodotFile();
+  await fs.writeFile(`${outputPath}/project.godot`, projectGodot);
 
     // Generate scenes
     for (const [sceneId, scene] of this.currentProject.scenes) {
@@ -1091,7 +1089,7 @@ ${Array.from(this.currentProject.autoloads.entries()).map(([name, path]) => `${n
   }
 
   private generateSceneFile(scene: GodotScene): string {
-    let content = `[gd_scene load_steps=1 format=3 uid="uid://placeholder"]\n\n`;
+  let content = `[gd_scene load_steps=1 format=3 uid="uid://placeholder"]\n\n`;
 
     // Add nodes
     for (const [nodeId, node] of scene.nodes) {
@@ -1105,7 +1103,7 @@ ${Array.from(this.currentProject.autoloads.entries()).map(([name, path]) => `${n
       content += '\n';
     }
 
-    return content;
+  return content;
   }
 
   private generateAutoloadScript(autoloadName: string): string {
@@ -1119,45 +1117,45 @@ func _ready():
   }
 
   private async applyExportPreset(outputPath: string, presetName: string): Promise<void> {
-    const preset = this.currentProject.exportPresets.find(p => p.name === presetName);
+  const preset = this.currentProject.exportPresets.find(p => p.name === presetName);
     if (!preset) {
       throw new Error(`Export preset not found: ${presetName}`);
     }
 
-    console.info(`[GodotConverter] Applying export preset: ${presetName}`);
+  console.info(`[GodotConverter] Applying export preset: ${presetName}`);
     // Apply preset-specific configurations
   }
 
   private async createFinalPackage(outputPath: string, presetName?: string): Promise<boolean> {
     // Simulate packaging process
-    console.info('[GodotConverter] Creating final package...');
+  console.info('[GodotConverter] Creating final package...');
 
     // In a real implementation, this would use Godot's export system
     // For now, we'll just create a zip file or copy files as needed
 
-    return true;
+  return true;
   }
 
   // Utility methods
   getConversionProgress(): { completed: number; total: number; percentage: number } {
-    const total = this.currentProject.scenes.size + this.currentProject.resources.size;
-    const completed = this.sceneCounter + this.resourceCounter;
-    const percentage = total > 0 ? (completed / total) * 100 : 100;
+  const total = this.currentProject.scenes.size + this.currentProject.resources.size;
+  const completed = this.sceneCounter + this.resourceCounter;
+  const percentage = total > 0 ? (completed / total) * 100 : 100;
 
-    return { completed, total, percentage };
+  return { completed, total, percentage };
   }
 
   reset(): void {
-    this.currentProject = this.createEmptyProject();
-    this.nodeCounter = 0;
-    this.resourceCounter = 0;
-    this.sceneCounter = 0;
+  this.currentProject = this.createEmptyProject();
+  this.nodeCounter = 0;
+  this.resourceCounter = 0;
+  this.sceneCounter = 0;
   }
 
   dispose(): void {
-    this.currentProject.scenes.clear();
-    this.currentProject.resources.clear();
-    this.currentProject.autoloads.clear();
-    console.info('[GodotConverter] Disposed successfully');
+  this.currentProject.scenes.clear();
+  this.currentProject.resources.clear();
+  this.currentProject.autoloads.clear();
+  console.info('[GodotConverter] Disposed successfully');
   }
 }

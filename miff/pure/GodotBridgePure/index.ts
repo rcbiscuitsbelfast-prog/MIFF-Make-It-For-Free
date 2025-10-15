@@ -738,7 +738,6 @@ export interface GodotConnection {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: 'local' | 'remote' | 'embedded';
-  status: 'connected' | 'disconnected' | 'connecting' | 'error' | 'reconnecting';
   endpoint: string;
   protocol: GodotCommunicationProtocol;
   lastActivity: number;

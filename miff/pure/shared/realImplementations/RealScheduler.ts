@@ -22,16 +22,12 @@ export interface Task {
   updatedAt?: number;
   metadata?: Record<string, any>;
   priority: number;
-  status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
-  createdAt: Date;
   scheduledFor: Date;
   startedAt?: Date;
   completedAt?: Date;
   retryCount: number;
   maxRetries: number;
   timeout: number;
-  data?: any;
-  result?: any;
   error?: string;
 }
 
@@ -53,7 +49,6 @@ export interface ScheduleRule {
   enabled: boolean;
   lastRun?: Date;
   nextRun?: Date;
-  data?: any;
 }
 
 export interface SchedulerConfig {

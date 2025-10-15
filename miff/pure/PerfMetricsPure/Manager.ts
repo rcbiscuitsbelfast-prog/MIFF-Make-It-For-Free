@@ -49,7 +49,6 @@ export interface PerfMetricsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PerfMetricsManagerType;
-  status: PerfMetricsManagerStatus;
   metrics: Metric[];
   collectors: MetricCollector[];
   aggregators: MetricAggregator[];
@@ -78,8 +77,6 @@ export interface Metric {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MetricType;
-  status: MetricStatus;
-  data: MetricData[];
   aggregation: AggregationConfig;
   analysis: AnalysisConfig;
   performance: MetricPerformance;
@@ -286,7 +283,6 @@ export interface MetricCollector {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CollectorType;
-  status: CollectorStatus;
   configuration: CollectorConfiguration;
   metrics: string[];
   performance: CollectorPerformance;
@@ -365,7 +361,6 @@ export interface MetricAggregator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AggregatorType;
-  status: AggregatorStatus;
   configuration: AggregatorConfiguration;
   metrics: string[];
   performance: AggregatorPerformance;
@@ -424,7 +419,6 @@ export interface MetricAnalyzer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnalyzerType;
-  status: AnalyzerStatus;
   configuration: AnalyzerConfiguration;
   metrics: string[];
   performance: AnalyzerPerformance;
@@ -680,8 +674,6 @@ export interface PerfMetricsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

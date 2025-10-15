@@ -52,7 +52,6 @@ export interface MLPipelineManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MLPipelineManagerType;
-  status: MLPipelineManagerStatus;
   pipelines: MLPipeline[];
   models: MLModel[];
   datasets: MLDataset[];
@@ -82,7 +81,6 @@ export interface MLPipeline {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PipelineType;
-  status: PipelineStatus;
   stages: PipelineStage[];
   configuration: PipelineConfiguration;
   schedule: PipelineSchedule;
@@ -886,7 +884,6 @@ export interface MLModel {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ModelType;
-  status: ModelStatus;
   architecture: ModelArchitecture;
   training: TrainingConfiguration;
   evaluation: EvaluationConfiguration;
@@ -1572,7 +1569,6 @@ export interface MLDataset {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DatasetType;
-  status: DatasetStatus;
   source: DataSource;
   schema: DataSchema;
   statistics: DatasetStatistics;
@@ -1671,7 +1667,6 @@ export interface QualityMetric {
   metadata?: Record<string, any>;
   value: number;
   threshold: number;
-  status: MetricStatus;
   description: string;
 }
 
@@ -1733,7 +1728,6 @@ export interface MLExperiment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ExperimentType;
-  status: ExperimentStatus;
   configuration: ExperimentConfiguration;
   results: ExperimentResults;
 }
@@ -1861,7 +1855,6 @@ export interface Trial {
   metadata?: Record<string, any>;
   parameters: Record<string, any>;
   results: Record<string, number>;
-  status: TrialStatus;
   duration: number;
 }
 
@@ -1900,7 +1893,6 @@ export interface MLDeployment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeploymentType;
-  status: DeploymentStatus;
   model: string;
   configuration: DeploymentConfiguration;
   endpoints: DeploymentEndpoint[];
@@ -2178,8 +2170,6 @@ export interface MLPipelineOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

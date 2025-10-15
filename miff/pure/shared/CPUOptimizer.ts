@@ -47,8 +47,6 @@ export interface OptimizationResult {
   beforeMetrics: CPUMetrics;
   afterMetrics: CPUMetrics;
   improvement: number; // percentage
-  status: 'applied' | 'failed' | 'pending';
-  timestamp: Date;
 }
 
 export interface CPUMetrics {
@@ -85,7 +83,6 @@ export interface CacheEntry {
   metadata?: Record<string, any>;
   key: string;
   value: any;
-  timestamp: Date;
   ttl: number; // milliseconds
   accessCount: number;
   lastAccessed: Date;

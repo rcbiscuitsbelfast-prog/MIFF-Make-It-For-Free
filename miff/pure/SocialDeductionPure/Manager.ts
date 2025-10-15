@@ -75,7 +75,6 @@ export interface GameVote {
   voterId: string;
   targetId: string;
   phase: GamePhase;
-  timestamp: Date;
   isSecret: boolean;
 }
 
@@ -114,7 +113,6 @@ export interface GameMessage {
   metadata?: Record<string, any>;
   playerId: string;
   content: string;
-  timestamp: Date;
   isSystem: boolean;
   isPrivate: boolean;
   targetPlayerId?: string;
@@ -137,7 +135,6 @@ export interface VotingResults {
   results: Map<string, number>;
   eliminatedPlayerId?: string;
   isTie: boolean;
-  timestamp: Date;
 }
 
 export interface AbilityEffect {
@@ -156,9 +153,7 @@ export interface AbilityEffect {
   targetId?: string;
   ability: string;
   phase: GamePhase;
-  timestamp: Date;
   isSuccessful: boolean;
-  data?: any;
 }
 
 export interface SocialDeductionConfig {
@@ -218,7 +213,6 @@ export interface SocialOutput {
   metadata?: Record<string, any>;
   success: boolean;
   message: string;
-  data?: any;
 }
 
 // Local minimal stub to avoid missing dependency issues

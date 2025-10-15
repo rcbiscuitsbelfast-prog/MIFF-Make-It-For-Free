@@ -36,11 +36,10 @@ export interface ICombatant {
   moves: string[];
   typeTag?: string;
   resourcePoints?: number;
-  status?: {
-    defending?: boolean;
-    ko?: boolean;
-    fled?: boolean;
-    [key: string]: any;
+  defending?: boolean;
+  ko?: boolean;
+  fled?: boolean;
+  [key: string]: any;
   };
 }
 
@@ -184,26 +183,26 @@ export class TypeEffectiveness {
   }
 
   getMultiplier(attackerType: string, defenderType: string): number {
-    const attacker = this.chart[attackerType.toLowerCase()];
-    if (!attacker) return 1.0;
+  const attacker = this.chart[attackerType.toLowerCase()];
+  if (!attacker) return 1.0;
 
-    const multiplier = attacker[defenderType.toLowerCase()];
-    return multiplier !== undefined ? multiplier : 1.0;
+  const multiplier = attacker[defenderType.toLowerCase()];
+  return multiplier !== undefined ? multiplier : 1.0;
   }
 
   setMultiplier(attackerType: string, defenderType: string, multiplier: number): void {
     if (!this.chart[attackerType]) {
       this.chart[attackerType] = {};
     }
-    this.chart[attackerType][defenderType] = multiplier;
+  this.chart[attackerType][defenderType] = multiplier;
   }
 
   exportChart(): Record<string, Record<string, number>> {
-    return PerformanceOptimizer.optimizeObjectCloning(this.chart, true).result;
+  return PerformanceOptimizer.optimizeObjectCloning(this.chart, true).result;
   }
 
   getAttackTypes(): string[] {
-    return Object.keys(this.chart);
+  return Object.keys(this.chart);
   }
 
   getDefenseTypes(attackerType?: string): string[] {
@@ -211,7 +210,7 @@ export class TypeEffectiveness {
       const attacker = this.chart[attackerType.toLowerCase()];
       return attacker ? Object.keys(attacker) : [];
     }
-    return Array.from(new Set(Object.values(this.chart).flatMap(types => Object.keys(types))));
+  return Array.from(new Set(Object.values(this.chart).flatMap(types => Object.keys(types))));
   }
 }
 
@@ -240,44 +239,44 @@ export class MoveData {
     effects?: string[],
     priority: number = 0
   ) {
-    this.moveId = moveId;
-    this.name = name;
-    this.category = category;
-    this.power = Math.max(0, power);
-    this.accuracy = Math.max(0, Math.min(1.0, accuracy));
-    this.cost = Math.max(0, cost);
-    this.typeTag = typeTag;
-    this.statusEffectId = statusEffectId;
-    this.animationTag = animationTag;
-    this.effects = effects || [];
-    this.priority = priority;
+  this.moveId = moveId;
+  this.name = name;
+  this.category = category;
+  this.power = Math.max(0, power);
+  this.accuracy = Math.max(0, Math.min(1.0, accuracy));
+  this.cost = Math.max(0, cost);
+  this.typeTag = typeTag;
+  this.statusEffectId = statusEffectId;
+  this.animationTag = animationTag;
+  this.effects = effects || [];
+  this.priority = priority;
   }
 
   getSummary(): string {
-    const categoryName = this.category.toLowerCase();
-    let summary = `${this.name} (${categoryName}`;
-    if (this.power > 0) summary += `, ${this.power} power`;
-    summary += `, ${Math.round(this.accuracy * 100)}% accuracy`;
-    if (this.cost > 0) summary += `, ${this.cost} cost`;
-    summary += ')';
-    return summary;
+  const categoryName = this.category.toLowerCase();
+  let summary = `${this.name} (${categoryName}`;
+  if (this.power > 0) summary += `, ${this.power} power`;
+  summary += `, ${Math.round(this.accuracy * 100)}% accuracy`;
+  if (this.cost > 0) summary += `, ${this.cost} cost`;
+  summary += ')';
+  return summary;
   }
 
   // Computed properties for backward compatibility
   get isPhysicalAttack(): boolean {
-    return this.category === MoveCategory.PHYSICAL;
+  return this.category === MoveCategory.PHYSICAL;
   }
 
   get isSpecialAttack(): boolean {
-    return this.category === MoveCategory.SPECIAL;
+  return this.category === MoveCategory.SPECIAL;
   }
 
   get isStatusMove(): boolean {
-    return this.category === MoveCategory.STATUS;
+  return this.category === MoveCategory.STATUS;
   }
 
   get canDealDamage(): boolean {
-    return this.category === MoveCategory.PHYSICAL || this.category === MoveCategory.SPECIAL;
+  return this.category === MoveCategory.PHYSICAL || this.category === MoveCategory.SPECIAL;
   }
 
   clone(): MoveData {
@@ -297,7 +296,7 @@ export class MoveData {
   }
 
   validate(): string[] {
-    const errors: string[] = [];
+  const errors: string[] = [];
 
     if (!this.moveId || this.moveId.trim() === '') {
       errors.push('Move ID cannot be empty');
@@ -319,12 +318,12 @@ export class MoveData {
       errors.push('Move cost cannot be negative');
     }
 
-    return errors;
+  return errors;
   }
 
   // Add static validation method
   static validateMove(move: Partial<MoveData>): string[] {
-    const errors: string[] = [];
+  const errors: string[] = [];
 
     if (!move.moveId || move.moveId.trim() === '') {
       errors.push('Move ID cannot be empty');
@@ -346,7 +345,7 @@ export class MoveData {
       errors.push('Move cost cannot be negative');
     }
 
-    return errors;
+  return errors;
   }
 }
 
@@ -387,139 +386,139 @@ export class SpiritInstance implements ICombatant {
     statusEffects: string[] = [],
     abilities: string[] = []
   ) {
-    this.id = id;
-    this.name = name;
-    this.team = team;
-    this.stats = stats;
-    this.moves = moves;
-    this.typeTag = typeTag;
-    this.resourcePoints = resourcePoints;
-    this.spiritId = spiritId;
-    this.level = Math.max(1, level);
-    this.experience = Math.max(0, experience);
-    this.statusEffects = statusEffects;
-    this.abilities = abilities;
+  this.id = id;
+  this.name = name;
+  this.team = team;
+  this.stats = stats;
+  this.moves = moves;
+  this.typeTag = typeTag;
+  this.resourcePoints = resourcePoints;
+  this.spiritId = spiritId;
+  this.level = Math.max(1, level);
+  this.experience = Math.max(0, experience);
+  this.statusEffects = statusEffects;
+  this.abilities = abilities;
     this.instanceId = id; // Use the same ID as instanceId
     this.speciesId = spiritId || name.toLowerCase(); // Use spiritId or name as speciesId
 
     // Set HP values with constraint enforcement
-    this.maxHP = Math.max(1, stats.maxHp);
-    const defaultHP = this.maxHP;
-    this.stats.hp = Math.max(0, Math.min(this.maxHP, stats.hp ?? defaultHP));
+  this.maxHP = Math.max(1, stats.maxHp);
+  const defaultHP = this.maxHP;
+  this.stats.hp = Math.max(0, Math.min(this.maxHP, stats.hp ?? defaultHP));
 
     // Set status effects and abilities
-    this.statusEffects = statusEffects || [];
-    this.moves = moves || [];
-    this.abilities = abilities || [];
-    this.attackMultiplier = 1.0;
-    this.defenseMultiplier = 1.0;
-    this.specialAttackMultiplier = 1.0;
-    this.specialDefenseMultiplier = 1.0;
-    this.resourcePoints = Math.max(0, resourcePoints ?? 10);
-    this.maxResourcePoints = this.resourcePoints;
+  this.statusEffects = statusEffects || [];
+  this.moves = moves || [];
+  this.abilities = abilities || [];
+  this.attackMultiplier = 1.0;
+  this.defenseMultiplier = 1.0;
+  this.specialAttackMultiplier = 1.0;
+  this.specialDefenseMultiplier = 1.0;
+  this.resourcePoints = Math.max(0, resourcePoints ?? 10);
+  this.maxResourcePoints = this.resourcePoints;
   }
 
   get healthPercentage(): number {
-    return Math.round((this.stats.hp / Math.max(1, this.stats.maxHp)) * 100);
+  return Math.round((this.stats.hp / Math.max(1, this.stats.maxHp)) * 100);
   }
 
   get currentHP(): number {
-    return this.stats.hp;
+  return this.stats.hp;
   }
 
   set currentHP(value: number) {
-    this.stats.hp = Math.max(0, Math.min(this.stats.maxHp, value));
+  this.stats.hp = Math.max(0, Math.min(this.stats.maxHp, value));
   }
 
   get isFainted(): boolean {
-    return this.stats.hp <= 0;
+  return this.stats.hp <= 0;
   }
 
   // Add computed properties for backward compatibility
   get isFullHealth(): boolean {
-    return this.stats.hp >= this.stats.maxHp;
+  return this.stats.hp >= this.stats.maxHp;
   }
 
   get isLowHealth(): boolean {
-    return this.stats.hp <= this.stats.maxHp * 0.25;
+  return this.stats.hp <= this.stats.maxHp * 0.25;
   }
 
   get isCritical(): boolean {
-    return this.stats.hp <= this.stats.maxHp * 0.1;
+  return this.stats.hp <= this.stats.maxHp * 0.1;
   }
 
   get isKO(): boolean {
-    return this.isFainted;
+  return this.isFainted;
   }
 
   // Add missing methods
   getEffectiveAttack(): number {
-    return Math.floor(this.stats.atk * (this.attackMultiplier || 1.0));
+  return Math.floor(this.stats.atk * (this.attackMultiplier || 1.0));
   }
 
   getEffectiveDefense(): number {
-    return Math.floor(this.stats.def * (this.defenseMultiplier || 1.0));
+  return Math.floor(this.stats.def * (this.defenseMultiplier || 1.0));
   }
 
   getEffectiveSpecialAttack(): number {
-    return Math.floor((this.stats.specialAtk || this.stats.atk) * (this.specialAttackMultiplier || 1.0));
+  return Math.floor((this.stats.specialAtk || this.stats.atk) * (this.specialAttackMultiplier || 1.0));
   }
 
   getEffectiveSpecialDefense(): number {
-    return Math.floor((this.stats.specialDef || this.stats.def) * (this.specialDefenseMultiplier || 1.0));
+  return Math.floor((this.stats.specialDef || this.stats.def) * (this.specialDefenseMultiplier || 1.0));
   }
 
   takeDamage(amount: number): number {
-    const actualDamage = Math.min(this.stats.hp, Math.max(0, Math.floor(amount)));
-    this.stats.hp -= actualDamage;
-    return actualDamage;
+  const actualDamage = Math.min(this.stats.hp, Math.max(0, Math.floor(amount)));
+  this.stats.hp -= actualDamage;
+  return actualDamage;
   }
 
   heal(amount: number): number {
-    const actualHeal = Math.min(this.stats.maxHp - this.stats.hp, Math.max(0, Math.floor(amount)));
-    this.stats.hp += actualHeal;
-    return actualHeal;
+  const actualHeal = Math.min(this.stats.maxHp - this.stats.hp, Math.max(0, Math.floor(amount)));
+  this.stats.hp += actualHeal;
+  return actualHeal;
   }
 
   restoreResource(amount: number): number {
-    if (!this.resourcePoints || !this.maxResourcePoints) return 0;
-    const actualRestore = Math.min(this.maxResourcePoints - this.resourcePoints, Math.max(0, Math.floor(amount)));
-    this.resourcePoints += actualRestore;
-    return actualRestore;
+  if (!this.resourcePoints || !this.maxResourcePoints) return 0;
+  const actualRestore = Math.min(this.maxResourcePoints - this.resourcePoints, Math.max(0, Math.floor(amount)));
+  this.resourcePoints += actualRestore;
+  return actualRestore;
   }
 
   // Add missing properties for backward compatibility
   get attack(): number {
-    return this.stats.atk;
+  return this.stats.atk;
   }
 
   get defense(): number {
-    return this.stats.def;
+  return this.stats.def;
   }
 
   get specialAttack(): number {
-    return this.stats.specialAtk || this.stats.atk;
+  return this.stats.specialAtk || this.stats.atk;
   }
 
   get specialDefense(): number {
-    return this.stats.specialDef || this.stats.def;
+  return this.stats.specialDef || this.stats.def;
   }
 
   get healthStatus(): string {
-    const percentage = this.healthPercentage;
-    if (this.isFainted) return 'ko';
-    if (percentage <= 10) return 'critical';
-    if (percentage <= 25) return 'low';
-    if (percentage >= 100) return 'full';
-    return 'normal';
+  const percentage = this.healthPercentage;
+  if (this.isFainted) return 'ko';
+  if (percentage <= 10) return 'critical';
+  if (percentage <= 25) return 'low';
+  if (percentage >= 100) return 'full';
+  return 'normal';
   }
 
   getCombatSummary(): string {
-    return `${this.name} (Lv.${this.level}) - HP: ${this.stats.hp}/${this.stats.maxHp} [${this.typeTag}]`;
+  return `${this.name} (Lv.${this.level}) - HP: ${this.stats.hp}/${this.stats.maxHp} [${this.typeTag}]`;
   }
 
   validate(): string[] {
-    const errors: string[] = [];
+  const errors: string[] = [];
 
     if (!this.name || this.name.trim() === '') {
       errors.push('Spirit name cannot be empty');
@@ -541,15 +540,15 @@ export class SpiritInstance implements ICombatant {
       errors.push('Resource points cannot be negative');
     }
 
-    return errors;
+  return errors;
   }
 
   consumeResource(amount: number): boolean {
     if (!this.resourcePoints || this.resourcePoints < amount) {
       return false;
     }
-    this.resourcePoints -= amount;
-    return true;
+  this.resourcePoints -= amount;
+  return true;
   }
 
   clone(): SpiritInstance {
@@ -568,15 +567,15 @@ export class SpiritInstance implements ICombatant {
       [...this.abilities]
     );
 
-    cloned.isLeader = this.isLeader;
-    cloned.loyalty = this.loyalty;
-    cloned.attackMultiplier = this.attackMultiplier;
-    cloned.defenseMultiplier = this.defenseMultiplier;
-    cloned.specialAttackMultiplier = this.specialAttackMultiplier;
-    cloned.specialDefenseMultiplier = this.specialDefenseMultiplier;
-    cloned.maxResourcePoints = this.maxResourcePoints;
+  cloned.isLeader = this.isLeader;
+  cloned.loyalty = this.loyalty;
+  cloned.attackMultiplier = this.attackMultiplier;
+  cloned.defenseMultiplier = this.defenseMultiplier;
+  cloned.specialAttackMultiplier = this.specialAttackMultiplier;
+  cloned.specialDefenseMultiplier = this.specialDefenseMultiplier;
+  cloned.maxResourcePoints = this.maxResourcePoints;
 
-    return cloned;
+  return cloned;
   }
 
 }
@@ -602,23 +601,23 @@ export class CombatEngine {
   attack(actor:Combatant, targetId:string){ const tgt = this.state.combatants[targetId]; if(!tgt||tgt.status?.ko) return; const base = Math.max(1, actor.stats.atk - tgt.stats.def); const defendMod = (tgt.status?.defending? 0.5 : 1.0); const dmg = Math.max(1, Math.floor(base*defendMod)); tgt.stats.hp = Math.max(0, tgt.stats.hp - dmg); tgt.status={...(tgt.status||{}), defending:false, ko:(tgt.stats.hp<=0)}; }
   useItem(actor:Combatant, a:Action){ const item = a.itemId || ''; if(this.inventory && !this.inventory.hasItem(item)){ return; }
     if(item==='potion'){ actor.stats.hp = Math.min(actor.stats.maxHp, actor.stats.hp + 20); }
-    if(this.inventory) this.inventory.consumeItem(item);
+  if(this.inventory) this.inventory.consumeItem(item);
   }
   checkVictory(...args: any[]) { const teams = new Map<string,{alive:number,fled:number}>();
     for(const c of Object.values(this.state.combatants)){
       const t = teams.get(c.team)||{alive:0,fled:0}; if(!c.status?.ko) t.alive++; if(c.status?.fled) t.fled++; teams.set(c.team,t);
     }
-    const aliveTeams = Array.from(teams.entries()).filter(([_,v])=>v.alive>0);
+  const aliveTeams = Array.from(teams.entries()).filter(([_,v])=>v.alive>0);
     if(aliveTeams.length<=1){ this.state.over=true; this.state.winnerTeam = aliveTeams[0]?.[0]||undefined; }
   }
   
   stepBattle(): any {
-    this.stepTurn();
-    return { result: 'step completed' };
+  this.stepTurn();
+  return { result: 'step completed' };
   }
 
   dumpState(): any {
-    return { state: this.state };
+  return { state: this.state };
   }
 }
 
@@ -627,7 +626,7 @@ export class DamageCalculator {
   private rng: IRNGProvider;
 
   constructor(typeChart: TypeEffectiveness, rng?: IRNGProvider) {
-    this.typeChart = typeChart;
+  this.typeChart = typeChart;
     this.rng = rng || {
       nextFloat: (min: number, max: number) => (min + max) / 2,
       nextBool: (probability: number) => Math.random() < probability,
@@ -641,10 +640,10 @@ export class DamageCalculator {
     defender: ICombatant,
     isCritical?: boolean
   ): { damage: number; isCritical: boolean; effectiveness: number; messages: string[] } {
-    const messages: string[] = [];
+  const messages: string[] = [];
 
     // Base damage calculation (simplified for testing)
-    let baseDamage = move.power;
+  let baseDamage = move.power;
     if (move.category === MoveCategory.STATUS) {
       baseDamage = 0; // Status moves don't deal damage
     } else if (move.category === MoveCategory.PHYSICAL) {
@@ -654,9 +653,9 @@ export class DamageCalculator {
     }
 
     // Apply type effectiveness - use defender's type or default to 'normal'
-    const defenderType = (defender as any).typeTag || 'normal';
-    const effectiveness = this.typeChart.getMultiplier(move.typeTag, defenderType);
-    baseDamage = Math.floor(baseDamage * effectiveness);
+  const defenderType = (defender as any).typeTag || 'normal';
+  const effectiveness = this.typeChart.getMultiplier(move.typeTag, defenderType);
+  baseDamage = Math.floor(baseDamage * effectiveness);
 
     // Critical hit
     const actualIsCritical = isCritical ?? this.rng.nextBool(0.0625); // 6.25% base crit rate
@@ -666,15 +665,15 @@ export class DamageCalculator {
     }
 
     // Random variance (85-100%)
-    const variance = this.rng.nextFloat(0.85, 1.0);
-    baseDamage *= variance;
+  const variance = this.rng.nextFloat(0.85, 1.0);
+  baseDamage *= variance;
 
     // Defense calculation
     const defense = move.category === MoveCategory.PHYSICAL
       ? (defender.stats.def || 50)
       : (defender.stats.specialDef || defender.stats.def || 50);
-    const defenseModifier = 1 - (defense / (defense + 100));
-    baseDamage *= defenseModifier;
+  const defenseModifier = 1 - (defense / (defense + 100));
+  baseDamage *= defenseModifier;
 
     // Status modifiers
     if (defender.status?.defending) {
@@ -682,7 +681,7 @@ export class DamageCalculator {
       messages.push('Defending!');
     }
 
-    const finalDamage = Math.max(move.category === MoveCategory.STATUS ? 0 : 1, Math.floor(baseDamage));
+  const finalDamage = Math.max(move.category === MoveCategory.STATUS ? 0 : 1, Math.floor(baseDamage));
 
     if (effectiveness > 1.0) {
       messages.push('Super effective!');
@@ -691,7 +690,7 @@ export class DamageCalculator {
     }
 
     // Trigger damage callback if set
-    this.damageCallback?.(finalDamage, attacker, defender);
+  this.damageCallback?.(finalDamage, attacker, defender);
 
     return {
       damage: finalDamage,
@@ -716,38 +715,38 @@ export class DamageCalculator {
       }
     }
 
-    return { canExecute: true };
+  return { canExecute: true };
   }
 
   getMoveEffectiveness(move: MoveData, defender: ICombatant): number {
-    const defenderType = (defender as any).typeTag || 'normal';
-    return this.typeChart.getMultiplier(move.typeTag, defenderType);
+  const defenderType = (defender as any).typeTag || 'normal';
+  return this.typeChart.getMultiplier(move.typeTag, defenderType);
   }
 
   calculateExpectedDamage(move: MoveData, attacker: ICombatant, defender: ICombatant): number {
     // Use same calculation as main damage method but without random variance
-    let baseDamage = move.power;
+  let baseDamage = move.power;
     if (move.category === MoveCategory.PHYSICAL) {
       baseDamage = Math.floor(baseDamage * attacker.stats.atk / 50); // Scale down by 50 for testing
     } else if (move.category === MoveCategory.SPECIAL) {
       baseDamage = Math.floor(baseDamage * (attacker.stats.specialAtk || attacker.stats.atk) / 50); // Scale down by 50 for testing
     }
 
-    const defenderType = (defender as any).typeTag || 'normal';
-    const effectiveness = this.typeChart.getMultiplier(move.typeTag, defenderType);
-    baseDamage = Math.floor(baseDamage * effectiveness);
+  const defenderType = (defender as any).typeTag || 'normal';
+  const effectiveness = this.typeChart.getMultiplier(move.typeTag, defenderType);
+  baseDamage = Math.floor(baseDamage * effectiveness);
 
     return baseDamage; // Simplified expected damage without defense modifier for testing
   }
 
   setDamageCallback(callback: (damage: number, attacker: ICombatant, defender: ICombatant) => void): void {
-    this.damageCallback = callback;
+  this.damageCallback = callback;
   }
 
   private damageCallback?: (damage: number, attacker: ICombatant, defender: ICombatant) => void;
 
   setRNGProvider(rng: IRNGProvider): void {
-    this.rng = rng;
+  this.rng = rng;
   }
 }
 
@@ -760,8 +759,8 @@ export class BattleEngine {
   private typeChart: TypeEffectiveness;
 
   constructor(typeChart?: TypeEffectiveness) {
-    this.typeChart = typeChart || new TypeEffectiveness();
-    this.damageCalculator = new DamageCalculator(this.typeChart);
+  this.typeChart = typeChart || new TypeEffectiveness();
+  this.damageCalculator = new DamageCalculator(this.typeChart);
     this.state = {
       combatants: {},
       order: [],
@@ -774,8 +773,8 @@ export class BattleEngine {
   }
 
   addCombatant(combatant: ICombatant): void {
-    this.state.combatants[combatant.id] = combatant;
-    this.rebuildOrder();
+  this.state.combatants[combatant.id] = combatant;
+  this.rebuildOrder();
   }
 
   removeCombatant(combatantId: string): boolean {
@@ -784,7 +783,7 @@ export class BattleEngine {
       this.rebuildOrder();
       return true;
     }
-    return false;
+  return false;
   }
 
   rebuildOrder(): void {
@@ -795,7 +794,7 @@ export class BattleEngine {
   }
 
   enqueueAction(action: IBattleAction): void {
-    this.state.queue.push(action as Action);
+  this.state.queue.push(action as Action);
   }
 
   processTurn(): { completed: boolean; results: string[] } {
@@ -803,50 +802,50 @@ export class BattleEngine {
       return { completed: false, results: ['Battle is already over'] };
     }
 
-    const nextAction = this.state.queue.shift();
+  const nextAction = this.state.queue.shift();
     if (!nextAction) {
       return { completed: false, results: ['No actions in queue'] };
     }
 
-    const results = this.resolveAction(nextAction);
-    this.checkVictory();
-    this.save?.onCheckpoint?.(this.state);
+  const results = this.resolveAction(nextAction);
+  this.checkVictory();
+  this.save?.onCheckpoint?.(this.state);
 
-    return { completed: true, results };
+  return { completed: true, results };
   }
 
   // Missing BattleEngine methods
   getCombatant(id: string): ICombatant | null {
-    return this.state.combatants[id] || null;
+  return this.state.combatants[id] || null;
   }
 
   getAllCombatants(): ICombatant[] {
-    return Object.values(this.state.combatants);
+  return Object.values(this.state.combatants);
   }
 
   getCombatantsByTeam(team: string): ICombatant[] {
-    return Object.values(this.state.combatants).filter(c => c.team === team);
+  return Object.values(this.state.combatants).filter(c => c.team === team);
   }
 
   startBattle(): void {
-    this.state.turnNumber = 1;
-    this.state.phase = 'select_action';
-    this.state.over = false;
-    this.state.winnerTeam = undefined;
+  this.state.turnNumber = 1;
+  this.state.phase = 'select_action';
+  this.state.over = false;
+  this.state.winnerTeam = undefined;
   }
 
   endBattle(): void {
-    this.state.over = true;
-    this.state.phase = 'battle_end';
+  this.state.over = true;
+  this.state.phase = 'battle_end';
   }
 
 
 
 
   resolveAction(action: IBattleAction): string[] {
-    const results: string[] = [];
-    const actor = this.state.combatants[action.actorId];
-    const target = action.targetId ? this.state.combatants[action.targetId] : null;
+  const results: string[] = [];
+  const actor = this.state.combatants[action.actorId];
+  const target = action.targetId ? this.state.combatants[action.targetId] : null;
 
     if (!actor) {
       results.push(`Actor ${action.actorId} not found`);
@@ -877,7 +876,7 @@ export class BattleEngine {
         results.push(`Unknown action type: ${action.type}`);
     }
 
-    return results;
+  return results;
   }
 
   processNextAction(): boolean {
@@ -885,12 +884,12 @@ export class BattleEngine {
       return false;
     }
 
-    const action = this.state.queue.shift()!;
-    const results = this.resolveAction(action);
-    this.checkVictory();
-    this.save?.onCheckpoint?.(this.state);
+  const action = this.state.queue.shift()!;
+  const results = this.resolveAction(action);
+  this.checkVictory();
+  this.save?.onCheckpoint?.(this.state);
 
-    return true;
+  return true;
   }
 
 
@@ -899,49 +898,49 @@ export class BattleEngine {
    * Get current battle phase (for testing purposes)
    */
   get phase(): string {
-    return this.state.phase || 'setup';
+  return this.state.phase || 'setup';
   }
 
   /**
    * Get current turn number (for testing purposes)
    */
   get turnNumber(): number {
-    return this.state.turnNumber || 0;
+  return this.state.turnNumber || 0;
   }
 
   /**
    * Check if battle is over (for testing purposes)
    */
   get isBattleOver(): boolean {
-    return this.state.over || false;
+  return this.state.over || false;
   }
 
   /**
    * Get combatants map (for testing purposes)
    */
   get combatants(...args: any[]) {
-    return this.state.combatants;
+  return this.state.combatants;
   }
 
   /**
    * Get turn order (for testing purposes)
    */
   get order(...args: any[]) {
-    return this.state.order;
+  return this.state.order;
   }
 
   /**
    * Get action queue (for testing purposes)
    */
   get queue(...args: any[]) {
-    return this.state.queue;
+  return this.state.queue;
   }
 
   /**
    * Get winner team (for testing purposes)
    */
   get winnerTeam(...args: any[]) {
-    return this.state.winnerTeam;
+  return this.state.winnerTeam;
   }
 
   // Missing BattleEngine methods for integration tests
@@ -975,12 +974,12 @@ export class BattleEngine {
     }
 
     // Basic item usage - would be expanded with actual item system integration
-    this.inventory.consumeItem(action.itemId!);
-    results.push(`Used item ${action.itemId}`);
+  this.inventory.consumeItem(action.itemId!);
+  results.push(`Used item ${action.itemId}`);
   }
 
   private checkVictory(): void {
-    const teams = new Map<string, { alive: number; fled: number }>();
+  const teams = new Map<string, { alive: number; fled: number }>();
 
     for (const combatant of Object.values(this.state.combatants)) {
       const team = teams.get(combatant.team) || { alive: 0, fled: 0 };
@@ -989,7 +988,7 @@ export class BattleEngine {
       teams.set(combatant.team, team);
     }
 
-    const aliveTeams = Array.from(teams.entries()).filter(([_, v]) => v.alive > 0);
+  const aliveTeams = Array.from(teams.entries()).filter(([_, v]) => v.alive > 0);
 
     if (aliveTeams.length <= 1) {
       this.state.over = true;
@@ -998,7 +997,7 @@ export class BattleEngine {
   }
 
   private resolveAttack(action: IBattleAction, results: string[]): void {
-    const target = this.state.combatants[action.targetId!];
+  const target = this.state.combatants[action.targetId!];
     if (!target || target.status?.ko) {
       results.push('Invalid target');
       return;
@@ -1010,8 +1009,8 @@ export class BattleEngine {
       target
     );
 
-    target.stats.hp = Math.max(0, target.stats.hp - damageResult.damage);
-    target.status = { ...(target.status || {}), ko: target.stats.hp <= 0 };
+  target.stats.hp = Math.max(0, target.stats.hp - damageResult.damage);
+  target.status = { ...(target.status || {}), ko: target.stats.hp <= 0 };
 
     results.push(
       `${this.state.combatants[action.actorId].name} attacks ${target.name} for ${damageResult.damage} damage!`,
@@ -1033,25 +1032,25 @@ export class BattleEngine {
   }
 
   setInventoryHook(hook: InventoryHook): void {
-    this.inventory = hook;
+  this.inventory = hook;
   }
 
   setAIHook(hook: AIHook): void {
-    this.ai = hook;
+  this.ai = hook;
   }
 
   setSaveHook(hook: SaveHook): void {
-    this.save = hook;
+  this.save = hook;
   }
 
   getState(): CombatState {
-    return { ...this.state };
+  return { ...this.state };
   }
 }
 
 export class CombatUtils {
   static createStandardMove(moveId: string, name: string, category: MoveCategory, power: number, typeTag: string): MoveData {
-    return new MoveData(moveId, name, category, power, 0.95, 0, typeTag);
+  return new MoveData(moveId, name, category, power, 0.95, 0, typeTag);
   }
 
   static createStandardSpirit(id: number, name: string, level: number, maxHP: number, attack: number, defense: number, speed?: number): SpiritInstance {
@@ -1072,7 +1071,7 @@ export class CombatUtils {
   }
 
   static calculateLevelModifier(attackerLevel: number, defenderLevel: number): number {
-    const levelDifference = attackerLevel - defenderLevel;
+  const levelDifference = attackerLevel - defenderLevel;
     if (levelDifference >= 10) return 1.5; // Much stronger
     if (levelDifference >= 5) return 1.25; // Stronger
     if (levelDifference >= 2) return 1.0;  // Slightly stronger
@@ -1083,19 +1082,19 @@ export class CombatUtils {
   }
 
   static calculateCritChance(baseCritRate: number, critBonus: number): number {
-    return Math.min(1.0, baseCritRate + critBonus);
+  return Math.min(1.0, baseCritRate + critBonus);
   }
 
   static calculateHitChance(moveAccuracy: number, attackerAccuracy: number, defenderEvasion: number): number {
-    return moveAccuracy * attackerAccuracy * (1 - defenderEvasion);
+  return moveAccuracy * attackerAccuracy * (1 - defenderEvasion);
   }
 
   static getDamageCategoryName(category: MoveCategory): string {
-    return category.charAt(0).toUpperCase() + category.slice(1);
+  return category.charAt(0).toUpperCase() + category.slice(1);
   }
 
   static validateCombatant(combatant: Partial<ICombatant>): string[] {
-    const errors: string[] = [];
+  const errors: string[] = [];
 
     if (!combatant.id || combatant.id.trim() === '') {
       errors.push('Combatant ID cannot be empty');
@@ -1125,11 +1124,11 @@ export class CombatUtils {
       errors.push('Moves must be an array');
     }
 
-    return errors;
+  return errors;
   }
 
   static validateMoveData(move: Partial<MoveData>): string[] {
-    const errors: string[] = [];
+  const errors: string[] = [];
 
     if (!move.moveId || move.moveId.trim() === '') {
       errors.push('Move ID cannot be empty');
@@ -1151,14 +1150,14 @@ export class CombatUtils {
       errors.push('Move cost cannot be negative');
     }
 
-    return errors;
+  return errors;
   }
 
   static generateCombatSummary(state: CombatState): string {
-    const livingCombatants = Object.values(state.combatants).filter(c => !c.status?.ko && !c.status?.fled);
-    const koCombatants = Object.values(state.combatants).filter(c => c.status?.ko);
+  const livingCombatants = Object.values(state.combatants).filter(c => !c.status?.ko && !c.status?.fled);
+  const koCombatants = Object.values(state.combatants).filter(c => c.status?.ko);
 
-    let summary = `Battle Status: ${livingCombatants.length} combatants remaining`;
+  let summary = `Battle Status: ${livingCombatants.length} combatants remaining`;
     if (koCombatants.length > 0) {
       summary += `, ${koCombatants.length} KO'd`;
     }
@@ -1166,7 +1165,7 @@ export class CombatUtils {
       summary += ` - ${state.winnerTeam ? 'VICTORY for ' + state.winnerTeam : 'DRAW'}`;
     }
 
-    return summary;
+  return summary;
   }
 
   // Missing CombatUtils methods
@@ -1180,7 +1179,7 @@ export class CombatUtils {
   }
 
   static validateSpiritInstance(spirit: SpiritInstance): string[] {
-    const errors: string[] = [];
+  const errors: string[] = [];
 
     if (!spirit.name || spirit.name.trim() === '') {
       errors.push('Spirit name cannot be empty');
@@ -1202,7 +1201,7 @@ export class CombatUtils {
       errors.push('Resource points cannot be negative');
     }
 
-    return errors;
+  return errors;
   }
 
   static calculateCombatantStats(combatant: ICombatant): { attack: number; defense: number; specialAttack: number; specialDefense: number; speed: number } {

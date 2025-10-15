@@ -49,7 +49,6 @@ export interface SurvivalSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SurvivalSystemManagerType;
-  status: SurvivalSystemManagerStatus;
   survivors: Survivor[];
   resources: Resource[];
   mechanics: SurvivalMechanic[];
@@ -78,7 +77,6 @@ export interface Survivor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SurvivorType;
-  status: SurvivorStatus;
   stats: SurvivorStats;
   resources: ResourceInventory[];
   mechanics: string[];
@@ -197,7 +195,6 @@ export interface Resource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ResourceType;
-  status: ResourceStatus;
   properties: ResourceProperties;
   consumption: ResourceConsumption;
   performance: ResourcePerformance;
@@ -293,7 +290,6 @@ export interface SurvivalMechanic {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MechanicType;
-  status: MechanicStatus;
   configuration: MechanicConfiguration;
   performance: MechanicPerformance;
 }
@@ -368,7 +364,6 @@ export interface SurvivalEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  status: EventStatus;
   survivors: string[];
   resources: string[];
   mechanics: string[];
@@ -607,8 +602,6 @@ export interface SurvivalSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

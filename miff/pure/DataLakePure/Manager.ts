@@ -53,7 +53,6 @@ export interface DataLakeManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataLakeManagerType;
-  status: DataLakeManagerStatus;
   datasets: Dataset[];
   storage: StorageSystem[];
   processors: DataProcessor[];
@@ -83,10 +82,8 @@ export interface Dataset {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DatasetType;
-  status: DatasetStatus;
   schema: DataSchema;
   storage: StorageLocation;
-  metadata: DatasetMetadata;
   quality: DataQuality;
   lineage: DataLineage;
   performance: DatasetPerformance;
@@ -346,7 +343,6 @@ export interface QualityMetric {
   metadata?: Record<string, any>;
   value: number;
   threshold: number;
-  status: MetricStatus;
   description: string;
 }
 
@@ -526,7 +522,6 @@ export interface StorageSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StorageType;
-  status: StorageStatus;
   configuration: StorageConfiguration;
   capacity: StorageCapacity;
   performance: StoragePerformance;
@@ -644,7 +639,6 @@ export interface DataProcessor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProcessorType;
-  status: ProcessorStatus;
   configuration: ProcessorConfiguration;
   inputs: string[];
   outputs: string[];
@@ -761,7 +755,6 @@ export interface DataPipeline {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PipelineType;
-  status: PipelineStatus;
   stages: PipelineStage[];
   schedule: PipelineSchedule;
   monitoring: PipelineMonitoring;
@@ -1237,7 +1230,6 @@ export interface ControlImplementation {
   metadata?: Record<string, any>;
   method: string;
   parameters: Record<string, any>;
-  status: ImplementationStatus;
 }
 
 export type ImplementationStatus = 'implemented' | 'partial' | 'planned' | 'not_implemented';
@@ -1364,7 +1356,6 @@ export interface ComplianceFramework {
   metadata?: Record<string, any>;
   version: string;
   requirements: ComplianceRequirement[];
-  status: ComplianceStatus;
 }
 
 export interface ComplianceRequirement {
@@ -1420,7 +1411,6 @@ export interface ComplianceFinding {
   severity: FindingSeverity;
   description: string;
   recommendation: string;
-  status: FindingStatus;
 }
 
 export type FindingType = 'gap' | 'violation' | 'improvement' | 'custom';
@@ -1659,8 +1649,6 @@ export interface DataLakeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

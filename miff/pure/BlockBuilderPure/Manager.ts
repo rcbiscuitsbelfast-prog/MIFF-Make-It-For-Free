@@ -55,14 +55,11 @@ export interface BlockBuilder {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BuilderType;
-  status: BuilderStatus;
   blocks: Block[];
   buildings: Building[];
   physics: PhysicsConfig;
   performance: BuilderPerformance;
   analytics: BuilderAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 

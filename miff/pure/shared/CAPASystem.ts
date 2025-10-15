@@ -21,7 +21,6 @@ export interface CAPAEntry {
   description: string;
   category: CAPACategory;
   severity: CAPASeverity;
-  status: CAPAStatus;
   discoveredAt: Date;
   discoveredBy: string;
   assignedTo?: string;
@@ -81,7 +80,6 @@ export interface CAPAAction {
   metadata?: Record<string, any>;
   description: string;
   type: 'corrective' | 'preventive';
-  status: 'pending' | 'in_progress' | 'completed' | 'failed';
   assignedTo: string;
   dueDate: Date;
   completedAt?: Date;

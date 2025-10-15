@@ -72,7 +72,6 @@ export interface Sport {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SportType;
-  status: SportStatus;
   rules: SportRules;
   equipment: Equipment[];
   venues: Venue[];
@@ -856,7 +855,6 @@ export interface Equipment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EquipmentType;
-  status: EquipmentStatus;
   specifications: EquipmentSpecifications;
   maintenance: MaintenanceSchedule;
   performance: EquipmentPerformance;
@@ -913,7 +911,6 @@ export interface Venue {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VenueType;
-  status: VenueStatus;
   location: VenueLocation;
   capacity: CapacitySettings;
   facilities: Facility[];
@@ -1041,7 +1038,6 @@ export interface Facility {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: FacilityType;
-  status: FacilityStatus;
   capacity: number;
   amenities: string[];
 }
@@ -1081,7 +1077,6 @@ export interface Season {
   updatedAt?: number;
   metadata?: Record<string, any>;
   year: number;
-  status: SeasonStatus;
   schedule: SeasonSchedule;
   standings: Standing[];
   statistics: SeasonStatistics;
@@ -1219,7 +1214,6 @@ export interface SportsPlayer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PlayerType;
-  status: PlayerStatus;
   profile: PlayerProfile;
   statistics: PlayerStatistics;
   contracts: Contract[];
@@ -1475,7 +1469,6 @@ export interface Contract {
   salary: number;
   bonuses: Bonus[];
   clauses: ContractClause[];
-  status: ContractStatus;
 }
 
 export interface Bonus {
@@ -1549,7 +1542,6 @@ export interface SportsTeam {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TeamType;
-  status: TeamStatus;
   profile: TeamProfile;
   roster: TeamRoster;
   management: TeamManagement;
@@ -1632,7 +1624,6 @@ export interface RosterPlayer {
   playerId: string;
   position: string;
   jerseyNumber: number;
-  status: RosterStatus;
   contract: Contract;
 }
 
@@ -1759,7 +1750,6 @@ export interface League {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LeagueType;
-  status: LeagueStatus;
   structure: LeagueStructure;
   teams: string[];
   seasons: string[];
@@ -1885,7 +1875,6 @@ export interface Tournament {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TournamentType;
-  status: TournamentStatus;
   format: TournamentFormat;
   participants: string[];
   schedule: TournamentSchedule;
@@ -1980,7 +1969,6 @@ export interface Match {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MatchType;
-  status: MatchStatus;
   participants: MatchParticipant[];
   venue: string;
   schedule: MatchSchedule;
@@ -2371,8 +2359,6 @@ export interface SportsSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

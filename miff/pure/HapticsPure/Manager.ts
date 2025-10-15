@@ -97,7 +97,6 @@ export interface HapticRequest {
   device?: HapticDeviceType;
   priority?: number;
   timeout?: number;
-  metadata?: Record<string, any>;
 }
 
 export interface HapticResult {
@@ -112,12 +111,10 @@ export interface HapticResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: 'scheduled' | 'played' | 'skipped' | 'error' | 'cancelled' | 'delayed';
   reason?: string;
   actualDuration?: number;
   actualIntensity?: number;
   deviceUsed?: HapticDeviceType;
-  timestamp?: number;
 }
 
 export interface HapticDevice {
@@ -182,7 +179,6 @@ export interface HapticSequence {
   timing: number[];
   loop: boolean;
   adaptive: boolean;
-  metadata?: Record<string, any>;
 }
 
 export interface HapticRhythmEngine {

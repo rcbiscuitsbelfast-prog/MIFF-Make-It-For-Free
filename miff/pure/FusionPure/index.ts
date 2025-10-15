@@ -92,7 +92,6 @@ export interface FusionResult {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: FusionStatus;
   message: string;
   newSpiritId?: string;
   inheritedTraits?: FusionTrait[];

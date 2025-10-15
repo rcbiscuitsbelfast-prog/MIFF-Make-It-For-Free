@@ -114,7 +114,6 @@ export interface BehaviorResult {
   skills: SkillSet;
   relationships: RelationshipMap;
   schedule: ScheduleEntry[];
-  metadata?: Record<string, any>;
 }
 
 export interface AIStats {
@@ -172,8 +171,6 @@ export interface AIOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: AIProfile | BehaviorResult | AIStats | string;
   issues?: string[];
 }
 

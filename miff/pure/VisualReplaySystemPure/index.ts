@@ -160,7 +160,6 @@ export interface FrameMetadata {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp?: number;
   frameRate: number;
   deltaTime: number;
   performance: {
@@ -193,7 +192,6 @@ export interface ReplaySession {
   frameCount: number;
   inputStream: InputEvent[];
   outcome: ReplayOutcome;
-  metadata: ReplayMetadata;
 }
 
 export interface InputEvent {
@@ -210,7 +208,6 @@ export interface InputEvent {
   metadata?: Record<string, any>;
   frameNumber: number;
   type: 'keydown' | 'keyup' | 'mousedown' | 'mouseup' | 'mousemove' | 'gamepad' | 'touch';
-  data: Record<string, unknown>;
 }
 
 export interface ReplayOutcome {

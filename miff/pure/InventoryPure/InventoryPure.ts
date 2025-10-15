@@ -29,7 +29,6 @@ export interface ItemDefinition {
   stackable: boolean;
   maxStack: number;
   properties: Record<string, any>;
-  metadata?: Record<string, any>;
 }
 
 export interface ItemInstance {
@@ -130,7 +129,6 @@ export interface InventoryTransaction {
   fromSlot?: string;
   toSlot?: string;
   equipSlot?: string;
-  metadata?: Record<string, any>;
 }
 
 export interface InventoryObserver {

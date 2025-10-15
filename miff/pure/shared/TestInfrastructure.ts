@@ -44,7 +44,6 @@ export interface MockReplacement {
   realImplementation: string;
   description: string;
   priority: 'critical' | 'high' | 'medium' | 'low';
-  status: 'pending' | 'in_progress' | 'completed' | 'failed';
   estimatedEffort: number; // hours
   dependencies: string[];
 }

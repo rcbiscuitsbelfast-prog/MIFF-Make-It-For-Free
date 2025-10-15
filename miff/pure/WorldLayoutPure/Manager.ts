@@ -49,7 +49,6 @@ export interface WorldLayoutManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WorldLayoutManagerType;
-  status: WorldLayoutManagerStatus;
   layouts: WorldLayout[];
   regions: LayoutRegion[];
   objects: LayoutObject[];
@@ -78,7 +77,6 @@ export interface WorldLayout {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LayoutType;
-  status: LayoutStatus;
   dimensions: LayoutDimensions;
   regions: string[];
   objects: string[];
@@ -122,7 +120,6 @@ export interface LayoutRegion {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RegionType;
-  status: RegionStatus;
   bounds: RegionBounds;
   properties: RegionProperties;
   objects: string[];
@@ -233,7 +230,6 @@ export interface LayoutObject {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ObjectType;
-  status: ObjectStatus;
   position: Vector3;
   rotation: Vector3;
   scale: Vector3;
@@ -295,7 +291,6 @@ export interface LayoutConstraint {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConstraintType;
-  status: ConstraintStatus;
   objects: string[];
   parameters: ConstraintParameters;
   performance: ConstraintPerformance;
@@ -582,8 +577,6 @@ export interface WorldLayoutOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

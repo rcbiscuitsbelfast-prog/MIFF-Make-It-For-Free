@@ -129,7 +129,6 @@ export interface PaymentRecord {
   amount: number;
   currency: CurrencyType;
   description: string;
-  status: 'paid' | 'pending' | 'overdue' | 'cancelled';
 }
 
 export interface Market {
@@ -346,7 +345,6 @@ export interface Transaction {
   fees: number;
   taxes: number;
   marketId?: string;
-  status: 'pending' | 'completed' | 'cancelled' | 'failed';
   notes?: string;
 }
 

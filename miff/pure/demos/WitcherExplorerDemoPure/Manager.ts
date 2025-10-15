@@ -52,7 +52,6 @@ export interface WitcherExplorerDemoManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WitcherExplorerDemoManagerType;
-  status: WitcherExplorerDemoManagerStatus;
   players: Player[];
   monsters: Monster[];
   quests: Quest[];
@@ -539,7 +538,6 @@ export interface Quest {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QuestType;
-  status: QuestStatus;
   description: string;
   objectives: QuestObjective[];
   rewards: QuestReward[];
@@ -569,7 +567,6 @@ export interface QuestObjective {
   target: string;
   quantity: number;
   completed: number;
-  status: ObjectiveStatus;
 }
 
 export type ObjectiveType = 'kill' | 'collect' | 'deliver' | 'explore' | 'custom';
@@ -952,8 +949,6 @@ export interface WitcherExplorerDemoOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

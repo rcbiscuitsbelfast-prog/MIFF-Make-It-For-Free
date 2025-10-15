@@ -51,7 +51,6 @@ export interface PixelAnimManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PixelAnimManagerType;
-  status: PixelAnimManagerStatus;
   animations: PixelAnimation[];
   sprites: PixelSprite[];
   spriteSheets: SpriteSheet[];
@@ -86,7 +85,6 @@ export interface PixelAnimation {
   loop: LoopSettings;
   interpolation: InterpolationSettings;
   effects: AnimationEffect[];
-  status: AnimationStatus;
 }
 
 export type AnimationType = 'idle' | 'walk' | 'run' | 'jump' | 'attack' | 'death' | 'custom';
@@ -337,7 +335,6 @@ export interface PixelSprite {
   metadata?: Record<string, any>;
   description: string;
   size: SpriteSize;
-  data: PixelData;
   palette: string;
   transparency: TransparencySettings;
 }
@@ -372,7 +369,6 @@ export interface PixelData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   format: PixelFormat;
-  data: Uint8Array;
   compression: CompressionType;
   size: number;
 }
@@ -754,8 +750,6 @@ export interface PixelAnimOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

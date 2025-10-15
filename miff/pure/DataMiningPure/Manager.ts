@@ -54,7 +54,6 @@ export interface DataMiningManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataMiningManagerType;
-  status: DataMiningManagerStatus;
   datasets: Dataset[];
   models: MiningModel[];
   patterns: Pattern[];
@@ -221,7 +220,6 @@ export interface MiningModel {
   datasetId: string;
   parameters: ModelParameters;
   performance: ModelPerformance;
-  status: ModelStatus;
   trainedAt?: number;
 }
 
@@ -613,8 +611,6 @@ export interface DataMiningOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

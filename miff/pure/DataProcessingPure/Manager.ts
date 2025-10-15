@@ -54,14 +54,11 @@ export interface DataProcessing {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   pipelines: DataPipeline[];
   processors: DataProcessor[];
   transformers: DataTransformer[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface DataPipeline {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PipelineType;
-  status: PipelineStatus;
   steps: PipelineStep[];
   input: PipelineInput;
   output: PipelineOutput;
@@ -173,7 +169,6 @@ export interface DataProcessor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProcessorType;
-  status: ProcessorStatus;
   capabilities: ProcessorCapabilities;
   configuration: ProcessorConfiguration;
 }
@@ -229,7 +224,6 @@ export interface DataTransformer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TransformerType;
-  status: TransformerStatus;
   rules: TransformationRule[];
   configuration: TransformerConfiguration;
 }

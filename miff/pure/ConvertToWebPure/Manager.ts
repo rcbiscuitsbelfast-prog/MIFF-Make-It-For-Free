@@ -15,7 +15,6 @@ export interface WebConvertedPayload {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: 'convert';
-  status: 'ok' | 'error';
   engine: 'web';
   items: any[];
   issues: string[];

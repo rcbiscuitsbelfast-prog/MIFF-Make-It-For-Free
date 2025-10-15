@@ -119,7 +119,6 @@ export interface MenuItem {
   available: boolean;
   seasonal: boolean;
   unlocked: boolean;
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -184,7 +183,6 @@ export interface CustomerOrder {
   customerType: CustomerType;
   items: OrderItem[];
   orderTime: number;
-  status: OrderStatus;
   priority: number;           // 1-5 priority level
   tableNumber?: number;
   specialRequests: string[];
@@ -193,7 +191,6 @@ export interface CustomerOrder {
   tip: number;
   readyTime?: number;
   servedTime?: number;
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -215,7 +212,6 @@ export interface OrderItem {
   quantity: number;
   customizations: string[];
   specialInstructions: string;
-  status: OrderStatus;
 }
 
 /**
@@ -245,7 +241,6 @@ export interface RestaurantStaff {
   hireDate: number;
   performance: number;        // 0-100 performance rating
   unlocked: boolean;
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -276,7 +271,6 @@ export interface Ingredient {
   reorderPoint: number;
   reorderQuantity: number;
   unlocked: boolean;
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -303,7 +297,6 @@ export interface KitchenEquipment {
   maxUpgradeLevel: number;
   assignedStaff: string[];    // Staff IDs assigned to this equipment
   unlocked: boolean;
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -331,7 +324,6 @@ export interface RestaurantCustomer {
   tableNumber?: number;
   specialRequirements: string[];
   behavior: 'patient' | 'impatient' | 'demanding' | 'generous';
-  metadata?: Record<string, any>;
 }
 
 /**

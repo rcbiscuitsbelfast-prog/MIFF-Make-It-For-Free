@@ -58,15 +58,12 @@ export interface AvatarRendererGodot {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RendererType;
-  status: RendererStatus;
   avatars: GodotAvatar[];
   materials: GodotMaterial[];
   shaders: GodotShader[];
   lodSystem: LODSystem;
   performance: RendererPerformance;
   analytics: RendererAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -83,7 +80,6 @@ export interface GodotAvatar {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AvatarType;
-  status: AvatarStatus;
   mesh: GodotMesh;
   materials: string[];
   animations: GodotAnimation[];

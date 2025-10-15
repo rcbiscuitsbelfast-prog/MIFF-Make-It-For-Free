@@ -53,7 +53,6 @@ export interface JointAnimManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: JointAnimManagerType;
-  status: JointAnimManagerStatus;
   skeletons: Skeleton[];
   animations: Animation[];
   stateMachines: AnimationStateMachine[];
@@ -546,8 +545,6 @@ export interface JointAnimOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

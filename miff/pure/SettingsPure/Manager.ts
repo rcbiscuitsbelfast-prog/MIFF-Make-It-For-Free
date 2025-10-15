@@ -52,7 +52,6 @@ export interface SettingsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SettingsManagerType;
-  status: SettingsManagerStatus;
   settings: Setting[];
   categories: SettingCategory[];
   schemas: SettingSchema[];
@@ -582,8 +581,6 @@ export interface SettingsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

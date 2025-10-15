@@ -29,8 +29,6 @@ export interface DynamicQuest {
   rewards: DynamicQuestReward[];
   conditions: QuestCondition[];
   triggers: QuestTrigger[];
-  metadata: QuestMetadata;
-  status: QuestStatus;
 }
 
 export interface QuestPrerequisite {
@@ -71,7 +69,6 @@ export interface DynamicQuestStep {
   rewards: QuestStepReward[];
   optional: boolean;
   timeLimit?: number;
-  metadata: any;
 }
 
 export interface QuestStepCondition {
@@ -232,7 +229,6 @@ export interface QuestContext {
   quest?: DynamicQuest;
   step?: DynamicQuestStep;
   reason?: string;
-  metadata?: any;
 }
 
 export interface QuestStepContext {
@@ -250,7 +246,6 @@ export interface QuestStepContext {
   player: any;
   quest: DynamicQuest;
   step: DynamicQuestStep;
-  metadata?: any;
 }
 
 export interface QuestTemplate {

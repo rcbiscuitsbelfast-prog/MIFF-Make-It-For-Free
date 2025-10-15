@@ -96,7 +96,6 @@ export interface EffectContext {
   allEffects: StatusEffect[];
   damage?: number;
   healing?: number;
-  metadata?: any;
 }
 
 export interface EffectInteraction {

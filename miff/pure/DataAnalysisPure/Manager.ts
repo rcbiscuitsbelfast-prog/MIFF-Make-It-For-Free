@@ -54,14 +54,11 @@ export interface DataAnalysis {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   datasets: Dataset[];
   analyses: Analysis[];
   visualizations: Visualization[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,8 +75,6 @@ export interface Dataset {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DatasetType;
-  status: DatasetStatus;
-  data: any[];
   schema: DataSchema;
   statistics: DatasetStatistics;
 }
@@ -151,7 +146,6 @@ export interface Analysis {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnalysisType;
-  status: AnalysisStatus;
   dataset: string; // Dataset ID
   parameters: AnalysisParameters;
   results: AnalysisResults;
@@ -243,7 +237,6 @@ export interface Visualization {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VisualizationType;
-  status: VisualizationStatus;
   dataset: string; // Dataset ID
   analysis?: string; // Analysis ID
   config: VisualizationConfig;

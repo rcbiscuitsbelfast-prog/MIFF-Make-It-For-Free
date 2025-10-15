@@ -56,14 +56,11 @@ export interface BattleAI {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AIType;
-  status: AIStatus;
   units: AIUnit[];
   strategies: AIStrategy[];
   behaviors: AIBehavior[];
   performance: AIPerformance;
   analytics: AIAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -80,7 +77,6 @@ export interface AIUnit {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: UnitType;
-  status: UnitStatus;
   health: number;
   maxHealth: number;
   energy: number;
@@ -273,7 +269,6 @@ export interface EventMemory {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  timestamp: Date;
   description: string;
   importance: number; // 0-1
 }

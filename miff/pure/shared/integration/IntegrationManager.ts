@@ -76,7 +76,6 @@ export interface IntegrationHealth {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: IntegrationStatus;
   lastCheck: Date;
   uptime: number;
   memory: number;
@@ -102,7 +101,6 @@ export interface IntegrationEvent {
   metadata?: Record<string, any>;
   integrationId: string;
   type: string;
-  timestamp: Date;
   priority: number;
   source: string;
   target?: string;

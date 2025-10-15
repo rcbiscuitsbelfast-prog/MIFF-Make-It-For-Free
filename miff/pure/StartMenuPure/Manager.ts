@@ -49,7 +49,6 @@ export interface StartMenuManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StartMenuManagerType;
-  status: StartMenuManagerStatus;
   menus: StartMenu[];
   items: MenuItem[];
   navigations: MenuNavigation[];
@@ -78,7 +77,6 @@ export interface StartMenu {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MenuType;
-  status: MenuStatus;
   items: string[];
   configuration: MenuConfiguration;
   performance: MenuPerformance;
@@ -383,7 +381,6 @@ export interface MenuItem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ItemType;
-  status: ItemStatus;
   menu: string;
   configuration: ItemConfiguration;
   performance: ItemPerformance;
@@ -500,7 +497,6 @@ export interface MenuNavigation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NavigationType;
-  status: NavigationStatus;
   menus: string[];
   configuration: NavigationConfiguration;
   performance: NavigationPerformance;
@@ -580,7 +576,6 @@ export interface MenuInteraction {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: InteractionType;
-  status: InteractionStatus;
   menus: string[];
   configuration: InteractionConfiguration;
   performance: InteractionPerformance;
@@ -854,8 +849,6 @@ export interface StartMenuOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -111,7 +111,6 @@ export interface SecurityEvent {
   metadata?: Record<string, any>;
   type: 'login_attempt' | 'rate_limit_exceeded' | 'suspicious_activity' | 'security_violation';
   severity: 'low' | 'medium' | 'high' | 'critical';
-  timestamp: Date;
   source: string;
   details: any;
   resolved: boolean;
@@ -129,7 +128,6 @@ export interface SecurityAudit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   score: number; // 0-100
   vulnerabilities: SecurityVulnerability[];
   recommendations: string[];
@@ -153,7 +151,6 @@ export interface SecurityVulnerability {
   description: string;
   impact: string;
   remediation: string;
-  status: 'open' | 'in_progress' | 'resolved' | 'accepted';
 }
 
 export interface ComplianceStatus {

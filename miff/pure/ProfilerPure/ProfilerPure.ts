@@ -24,7 +24,6 @@ export interface ProfilerMetric {
   category: string;
   value: number;
   unit: string;
-  metadata?: Record<string, any>;
 }
 
 export interface ProfilerSample {
@@ -45,7 +44,6 @@ export interface ProfilerSample {
   duration?: number;
   parentId?: string;
   children: string[];
-  metadata?: Record<string, any>;
 }
 
 export interface ProfilerFrame {
@@ -64,7 +62,6 @@ export interface ProfilerFrame {
   samples: Map<string, ProfilerSample>;
   metrics: Map<string, ProfilerMetric>;
   duration: number;
-  metadata?: Record<string, any>;
 }
 
 export interface ProfilerConfig {

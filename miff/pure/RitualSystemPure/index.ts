@@ -29,7 +29,6 @@ export interface RitualParticipant {
   position: Vector3;
   requirements: ParticipantRequirement[];
   contributions: ParticipantContribution[];
-  status: 'preparing' | 'active' | 'completed' | 'failed' | 'sacrificed';
   manaContribution?: number;
   itemContributions: string[]; // Item IDs contributed
   energySpent: number;
@@ -258,7 +257,6 @@ export interface RitualInstance {
   participants: RitualParticipant[];
   currentStep: number;
   startTime: number;
-  status: 'preparing' | 'active' | 'paused' | 'completed' | 'failed' | 'aborted';
   progress: number; // 0-1 overall progress
   energySpent: number;
   itemsConsumed: string[];

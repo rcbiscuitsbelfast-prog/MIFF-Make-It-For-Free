@@ -53,7 +53,6 @@ export interface TimeSeriesAnalysisManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TimeSeriesAnalysisManagerType;
-  status: TimeSeriesAnalysisManagerStatus;
   timeSeries: TimeSeries[];
   analyses: Analysis[];
   forecasts: Forecast[];
@@ -123,7 +122,6 @@ export interface Analysis {
   type: AnalysisType;
   parameters: AnalysisParameters;
   results: AnalysisResults;
-  status: AnalysisStatus;
   completedAt?: number;
 }
 
@@ -320,7 +318,6 @@ export interface Forecast {
   predictions: ForecastPoint[];
   confidenceInterval: ConfidenceInterval;
   accuracy: ForecastAccuracy;
-  status: ForecastStatus;
 }
 
 export type ForecastMethod = 'arima' | 'exponential_smoothing' | 'linear_regression' | 'neural_network' | 'custom';
@@ -399,7 +396,6 @@ export interface Anomaly {
   severity: AnomalySeverity;
   type: AnomalyType;
   description: string;
-  status: AnomalyStatus;
 }
 
 export type AnomalyStatus = 'new' | 'investigating' | 'resolved' | 'ignored';
@@ -627,8 +623,6 @@ export interface TimeSeriesAnalysisOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

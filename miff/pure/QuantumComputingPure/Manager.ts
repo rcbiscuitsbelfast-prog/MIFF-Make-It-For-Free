@@ -52,7 +52,6 @@ export interface QuantumComputingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QuantumComputingManagerType;
-  status: QuantumComputingManagerStatus;
   circuits: QuantumCircuit[];
   algorithms: QuantumAlgorithm[];
   hardware: QuantumHardware[];
@@ -82,7 +81,6 @@ export interface QuantumCircuit {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CircuitType;
-  status: CircuitStatus;
   qubits: number;
   gates: QuantumGate[];
   measurements: QuantumMeasurement[];
@@ -340,7 +338,6 @@ export interface QuantumAlgorithm {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AlgorithmType;
-  status: AlgorithmStatus;
   description: string;
   complexity: AlgorithmComplexity;
   implementation: AlgorithmImplementation;
@@ -513,7 +510,6 @@ export interface QuantumHardware {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: HardwareType;
-  status: HardwareStatus;
   specifications: HardwareSpecifications;
   connectivity: ConnectivityMap;
   calibration: CalibrationData;
@@ -647,7 +643,6 @@ export interface QubitNode {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: number;
   position: Position3D;
   properties: QubitProperties;
 }
@@ -776,7 +771,6 @@ export interface CalibrationValues {
   updatedAt?: number;
   metadata?: Record<string, any>;
   values: number[];
-  errors: number[];
   drift: number;
   stability: number;
 }
@@ -814,7 +808,6 @@ export interface QuantumSimulation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SimulationType;
-  status: SimulationStatus;
   circuit: string;
   parameters: SimulationParameters;
   results: SimulationResults;
@@ -960,7 +953,6 @@ export interface QuantumExperiment {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ExperimentType;
-  status: ExperimentStatus;
   hypothesis: string;
   methodology: ExperimentMethodology;
   results: ExperimentResults;
@@ -1053,7 +1045,6 @@ export interface ExperimentResults {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  data: ExperimentData[];
   statistics: ExperimentStatistics;
   visualizations: Visualization[];
 }
@@ -1341,8 +1332,6 @@ export interface QuantumComputingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -66,7 +66,6 @@ export interface Pet {
   happiness: number; // 0-100
   loyalty: number;   // 0-100
   ownerId: string;
-  metadata?: Record<string, any>;
 }
 
 export interface Egg {
@@ -89,7 +88,6 @@ export interface Egg {
   isIncubating: boolean;
   progress: number; // 0-100
   ownerId: string;
-  metadata?: Record<string, any>;
 }
 
 export interface TradeOffer {
@@ -108,9 +106,7 @@ export interface TradeOffer {
   ownerId: string;
   requestedPetId?: string;
   requestedItems?: string[];
-  status: 'pending' | 'accepted' | 'declined' | 'completed' | 'cancelled';
   expiresAt: number;
-  metadata?: Record<string, any>;
 }
 
 export interface CollectionStats {

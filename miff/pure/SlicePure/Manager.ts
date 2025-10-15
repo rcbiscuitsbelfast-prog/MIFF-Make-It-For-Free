@@ -51,7 +51,6 @@ export interface SliceManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SliceManagerType;
-  status: SliceManagerStatus;
   slices: Slice[];
   partitions: Partition[];
   caches: SliceCache[];
@@ -81,9 +80,6 @@ export interface Slice {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SliceType;
-  status: SliceStatus;
-  data: SliceData;
-  metadata: SliceMetadata;
   performance: SlicePerformance;
   cache: SliceCacheInfo;
   synchronization: SliceSynchronization;
@@ -338,7 +334,6 @@ export interface Partition {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PartitionType;
-  status: PartitionStatus;
   slices: string[];
   criteria: PartitionCriteria;
   performance: PartitionPerformance;
@@ -417,7 +412,6 @@ export interface SliceCache {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CacheType;
-  status: CacheStatus;
   configuration: CacheConfiguration;
   performance: CachePerformance;
 }
@@ -479,7 +473,6 @@ export interface SliceSynchronizer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SynchronizerType;
-  status: SynchronizerStatus;
   configuration: SynchronizerConfiguration;
   performance: SynchronizerPerformance;
 }
@@ -539,7 +532,6 @@ export interface SliceOptimizer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: OptimizerType;
-  status: OptimizerStatus;
   configuration: OptimizerConfiguration;
   performance: OptimizerPerformance;
 }
@@ -796,8 +788,6 @@ export interface SliceOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -49,7 +49,6 @@ export interface UnityBridgeManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: UnityBridgeManagerType;
-  status: UnityBridgeManagerStatus;
   bridges: UnityBridge[];
   connections: BridgeConnection[];
   scenes: UnityScene[];
@@ -78,7 +77,6 @@ export interface UnityBridge {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BridgeType;
-  status: BridgeStatus;
   configuration: BridgeConfiguration;
   connections: string[];
   scenes: string[];
@@ -201,7 +199,6 @@ export interface BridgeConnection {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConnectionType;
-  status: ConnectionStatus;
   bridge: string;
   configuration: ConnectionConfiguration;
   performance: ConnectionPerformance;
@@ -259,7 +256,6 @@ export interface UnityScene {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SceneType;
-  status: SceneStatus;
   bridge: string;
   objects: string[];
   configuration: SceneConfiguration;
@@ -470,7 +466,6 @@ export interface UnityObject {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ObjectType;
-  status: ObjectStatus;
   scene: string;
   bridge: string;
   properties: ObjectProperties;
@@ -767,8 +762,6 @@ export interface UnityBridgeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

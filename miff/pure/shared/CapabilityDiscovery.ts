@@ -27,7 +27,6 @@ export interface DiscoveryResult {
   filePath: string;
   capabilities: ModuleCapabilities;
   discoveredAt: Date;
-  status: 'success' | 'error' | 'warning';
   warnings: string[];
 }
 

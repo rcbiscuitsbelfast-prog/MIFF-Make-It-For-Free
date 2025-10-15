@@ -52,7 +52,6 @@ export interface CutSceneManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CutSceneManagerType;
-  status: CutSceneManagerStatus;
   scenes: CutScene[];
   animations: Animation[];
   cameras: Camera[];
@@ -83,7 +82,6 @@ export interface CutScene {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SceneType;
-  status: SceneStatus;
   duration: number;
   timeline: Timeline;
   camera: CameraSettings;
@@ -802,7 +800,6 @@ export interface Animation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnimationType;
-  status: AnimationStatus;
   duration: number;
   keyframes: AnimationKeyframe[];
   curves: AnimationCurve[];
@@ -900,7 +897,6 @@ export interface Camera {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CameraType;
-  status: CameraStatus;
   properties: CameraProperties;
   movement: CameraMovement;
   performance: CameraPerformance;
@@ -961,7 +957,6 @@ export interface Light {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LightType;
-  status: LightStatus;
   properties: LightProperties;
   performance: LightPerformance;
 }
@@ -1019,7 +1014,6 @@ export interface AudioTrack {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AudioType;
-  status: AudioStatus;
   properties: AudioProperties;
   performance: AudioPerformance;
 }
@@ -1078,7 +1072,6 @@ export interface VisualEffect {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EffectType;
-  status: EffectStatus;
   properties: EffectProperties;
   performance: EffectPerformance;
 }
@@ -1333,8 +1326,6 @@ export interface CutSceneOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

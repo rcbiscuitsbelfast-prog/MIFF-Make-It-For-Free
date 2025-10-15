@@ -52,7 +52,6 @@ export interface TeleportationSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TeleportationSystemManagerType;
-  status: TeleportationSystemManagerStatus;
   portals: Portal[];
   gateways: Gateway[];
   teleportationPoints: TeleportationPoint[];
@@ -81,7 +80,6 @@ export interface Portal {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PortalType;
-  status: PortalStatus;
   position: Position;
   destination: PortalDestination;
   properties: PortalProperties;
@@ -433,7 +431,6 @@ export interface Gateway {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GatewayType;
-  status: GatewayStatus;
   position: Position;
   connections: GatewayConnection[];
   properties: GatewayProperties;
@@ -531,7 +528,6 @@ export interface TeleportationPoint {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TeleportationPointType;
-  status: TeleportationPointStatus;
   position: Position;
   properties: TeleportationPointProperties;
   connections: TeleportationConnection[];
@@ -948,8 +944,6 @@ export interface TeleportationSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

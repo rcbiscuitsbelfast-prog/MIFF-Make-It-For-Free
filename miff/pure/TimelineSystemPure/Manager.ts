@@ -49,7 +49,6 @@ export interface TimelineSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TimelineSystemManagerType;
-  status: TimelineSystemManagerStatus;
   timelines: Timeline[];
   events: TimelineEvent[];
   schedulers: EventScheduler[];
@@ -78,7 +77,6 @@ export interface Timeline {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TimelineType;
-  status: TimelineStatus;
   events: string[];
   configuration: TimelineConfiguration;
   performance: TimelinePerformance;
@@ -141,7 +139,6 @@ export interface TimelineEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  status: EventStatus;
   timeline: string;
   startTime: number;
   duration: number;
@@ -205,7 +202,6 @@ export interface EventScheduler {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SchedulerType;
-  status: SchedulerStatus;
   events: string[];
   configuration: SchedulerConfiguration;
   performance: SchedulerPerformance;
@@ -265,7 +261,6 @@ export interface EventExecutor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ExecutorType;
-  status: ExecutorStatus;
   events: string[];
   configuration: ExecutorConfiguration;
   performance: ExecutorPerformance;
@@ -523,8 +518,6 @@ export interface TimelineSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

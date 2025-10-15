@@ -52,7 +52,6 @@ export interface XPLevelingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: XPLevelingManagerType;
-  status: XPLevelingManagerStatus;
   players: Player[];
   skills: Skill[];
   achievements: Achievement[];
@@ -617,8 +616,6 @@ export interface XPLevelingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

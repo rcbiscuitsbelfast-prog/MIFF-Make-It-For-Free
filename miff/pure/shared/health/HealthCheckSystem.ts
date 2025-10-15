@@ -18,8 +18,6 @@ export interface HealthStatus {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: 'healthy' | 'degraded' | 'unhealthy' | 'critical';
-  timestamp: Date;
   uptime: number;
   version: string;
   checks: HealthCheck[];
@@ -38,10 +36,8 @@ export interface HealthCheck {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: 'pass' | 'fail' | 'warn' | 'skip';
   message: string;
   duration: number;
-  timestamp: Date;
 }
 
 export interface HealthSummary {

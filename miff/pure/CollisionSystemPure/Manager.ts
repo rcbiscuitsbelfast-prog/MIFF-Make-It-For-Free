@@ -52,7 +52,6 @@ export interface CollisionSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CollisionSystemManagerType;
-  status: CollisionSystemManagerStatus;
   colliders: Collider[];
   layers: CollisionLayer[];
   triggers: Trigger[];
@@ -81,7 +80,6 @@ export interface Collider {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ColliderType;
-  status: ColliderStatus;
   shape: CollisionShape;
   transform: Transform;
   physics: PhysicsProperties;
@@ -330,7 +328,6 @@ export interface Trigger {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TriggerType;
-  status: TriggerStatus;
   shape: CollisionShape;
   transform: Transform;
   layer: string;
@@ -635,8 +632,6 @@ export interface CollisionSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

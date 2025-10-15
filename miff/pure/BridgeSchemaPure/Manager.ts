@@ -55,15 +55,12 @@ export interface BridgeSchema {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SchemaType;
-  status: SchemaStatus;
   version: string;
   definition: SchemaDefinition;
   validation: SchemaValidation;
   compatibility: SchemaCompatibility;
   performance: SchemaPerformance;
   analytics: SchemaAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   
   // Missing properties that are being accessed
   schema: SchemaDefinition;
@@ -178,7 +175,6 @@ export interface SchemaValidation {
   metadata?: Record<string, any>;
   enabled: boolean;
   strict: boolean;
-  errors: ValidationError[];
   warnings: ValidationWarning[];
 }
 
@@ -197,7 +193,6 @@ export interface ValidationError {
   field: string;
   message: string;
   severity: ErrorSeverity;
-  timestamp: Date;
 }
 
 export interface ValidationWarning {
@@ -215,7 +210,6 @@ export interface ValidationWarning {
   field: string;
   message: string;
   severity: WarningSeverity;
-  timestamp: Date;
 }
 
 export interface SchemaCompatibility {
@@ -838,7 +832,6 @@ export interface ValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: ValidationError[];
   warnings: ValidationWarning[];
 }
 

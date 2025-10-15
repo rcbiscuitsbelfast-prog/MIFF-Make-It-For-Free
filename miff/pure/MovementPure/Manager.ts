@@ -62,7 +62,6 @@ export interface MovementPattern {
   targetId?: string;
   range?: number;
   behavior?: MovementBehavior;
-  metadata?: Record<string, any>;
 }
 
 export interface MovementBehavior {
@@ -104,7 +103,6 @@ export interface MovementEntity {
   pattern: MovementPattern;
   state: MovementState;
   lastUpdate: number;
-  metadata?: Record<string, any>;
 }
 
 export interface MovementState {
@@ -163,7 +161,6 @@ export interface MovementEvent {
   metadata?: Record<string, any>;
   type: 'started' | 'stopped' | 'turned' | 'collided' | 'reached_waypoint' | 'stuck' | 'unstuck';
   entityId: string;
-  data?: Record<string, any>;
 }
 
 export interface MovementStats {
@@ -219,8 +216,6 @@ export interface MovementOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

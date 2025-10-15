@@ -57,14 +57,11 @@ export interface AudioBridge {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BridgeType;
-  status: BridgeStatus;
   devices: AudioDevice[];
   streams: AudioStream[];
   format: AudioFormat;
   performance: AudioPerformance;
   analytics: BridgeAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -81,7 +78,6 @@ export interface AudioDevice {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeviceType;
-  status: DeviceStatus;
   capabilities: DeviceCapabilities;
   settings: DeviceSettings;
 }
@@ -99,7 +95,6 @@ export interface AudioStream {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StreamType;
-  status: StreamStatus;
   source: string;
   destination: string;
   format: AudioFormat;
@@ -139,7 +134,6 @@ export interface AudioBuffer {
   metadata?: Record<string, any>;
   size: number; // bytes
   capacity: number; // bytes
-  data: ArrayBuffer;
   position: number;
   length: number;
 }

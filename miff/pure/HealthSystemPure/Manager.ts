@@ -24,7 +24,6 @@ export interface HealthEntity {
   immunities: string[];
   resistances: Record<string, number>; // resistance percentage
   lastUpdate: number;
-  metadata?: Record<string, any>;
 }
 
 export interface Shield {
@@ -45,7 +44,6 @@ export interface Shield {
   absorption: number; // percentage of damage absorbed
   duration?: number; // -1 for permanent
   expiresAt?: number;
-  metadata?: Record<string, any>;
 }
 
 export interface RegenerationEffect {
@@ -66,7 +64,6 @@ export interface RegenerationEffect {
   interval: number; // seconds between ticks
   lastTick: number;
   expiresAt: number;
-  metadata?: Record<string, any>;
 }
 
 export interface HealthEvent {
@@ -87,7 +84,6 @@ export interface HealthEvent {
   target: string;
   damageType?: 'physical' | 'magical' | 'elemental' | 'pure';
   element?: 'fire' | 'ice' | 'lightning' | 'poison' | 'holy' | 'dark';
-  metadata?: Record<string, any>;
 }
 
 export interface HealthOutput {
@@ -103,8 +99,6 @@ export interface HealthOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

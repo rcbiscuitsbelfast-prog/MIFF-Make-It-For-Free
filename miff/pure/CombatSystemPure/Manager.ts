@@ -54,14 +54,11 @@ export interface CombatSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   combats: Combat[];
   rules: CombatRule[];
   effects: StatusEffect[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Combat {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CombatType;
-  status: CombatStatus;
   participants: CombatParticipant[];
   turnOrder: string[]; // Participant IDs
   currentTurn: number;
@@ -100,7 +96,6 @@ export interface CombatParticipant {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ParticipantType;
-  status: ParticipantStatus;
   health: number;
   maxHealth: number;
   mana: number;

@@ -52,7 +52,6 @@ export interface MonitoringSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MonitoringSystemManagerType;
-  status: MonitoringSystemManagerStatus;
   metrics: Metric[];
   alerts: Alert[];
   dashboards: Dashboard[];
@@ -83,7 +82,6 @@ export interface Metric {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MetricType;
-  status: MetricStatus;
   definition: MetricDefinition;
   collection: MetricCollection;
   storage: MetricStorage;
@@ -301,7 +299,6 @@ export interface Alert {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AlertType;
-  status: AlertStatus;
   condition: AlertCondition;
   action: AlertAction;
   escalation: AlertEscalation;
@@ -439,7 +436,6 @@ export interface Dashboard {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DashboardType;
-  status: DashboardStatus;
   layout: DashboardLayout;
   widgets: Widget[];
   filters: DashboardFilter[];
@@ -532,7 +528,6 @@ export interface Widget {
   metadata?: Record<string, any>;
   type: WidgetType;
   configuration: WidgetConfiguration;
-  data: WidgetData;
   performance: WidgetPerformance;
 }
 
@@ -621,7 +616,6 @@ export interface DataSeries {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  data: DataPoint[];
   color: string;
   type: SeriesType;
 }
@@ -697,7 +691,6 @@ export interface MonitoringReport {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ReportType;
-  status: ReportStatus;
   configuration: ReportConfiguration;
   content: ReportContent;
   generatedAt: number;
@@ -797,7 +790,6 @@ export interface ReportChart {
   metadata?: Record<string, any>;
   type: ChartType;
   title: string;
-  data: DataPoint[];
   configuration: Record<string, any>;
 }
 
@@ -907,7 +899,6 @@ export interface MonitoringAgent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AgentType;
-  status: AgentStatus;
   configuration: AgentConfiguration;
   capabilities: AgentCapabilities;
   performance: AgentPerformance;
@@ -1004,7 +995,6 @@ export interface DataCollector {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CollectorType;
-  status: CollectorStatus;
   configuration: CollectorConfiguration;
   sources: CollectionSource[];
   performance: CollectorPerformance;
@@ -1282,8 +1272,6 @@ export interface MonitoringSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

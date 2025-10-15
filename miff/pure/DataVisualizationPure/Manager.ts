@@ -52,7 +52,6 @@ export interface DataVisualizationManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataVisualizationManagerType;
-  status: DataVisualizationManagerStatus;
   charts: Chart[];
   datasets: Dataset[];
   themes: VisualizationTheme[];
@@ -81,8 +80,6 @@ export interface Chart {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ChartType;
-  status: ChartStatus;
-  data: ChartData;
   configuration: ChartConfiguration;
   styling: ChartStyling;
   interactions: ChartInteractions;
@@ -1190,8 +1187,6 @@ export interface DataVisualizationOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

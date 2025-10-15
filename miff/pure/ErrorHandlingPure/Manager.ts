@@ -30,7 +30,6 @@ export interface ErrorHandlingConfig {
   enablePerformanceOptimization: boolean;
   enableRealTimeMonitoring: boolean;
   enableErrorAnalytics: boolean;
-  enableErrorReporting: boolean;
   maxErrors: number;
   maxErrorHistory: number;
   enableCloudSync: boolean;
@@ -51,8 +50,6 @@ export interface ErrorHandlingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ErrorHandlingManagerType;
-  status: ErrorHandlingManagerStatus;
-  errors: Error[];
   handlers: ErrorHandler[];
   policies: ErrorPolicy[];
   reports: ErrorReport[];
@@ -82,7 +79,6 @@ export interface Error {
   metadata?: Record<string, any>;
   type: ErrorType;
   severity: ErrorSeverity;
-  status: ErrorStatus;
   message: string;
   stack: string;
   context: ErrorContext;
@@ -285,7 +281,6 @@ export interface ErrorHandler {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: HandlerType;
-  status: HandlerStatus;
   configuration: HandlerConfiguration;
   rules: HandlerRule[];
   performance: HandlerPerformance;
@@ -427,7 +422,6 @@ export interface ErrorPolicy {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PolicyType;
-  status: PolicyStatus;
   rules: PolicyRule[];
   enforcement: PolicyEnforcement;
   performance: PolicyPerformance;
@@ -523,7 +517,6 @@ export interface ErrorReport {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ReportType;
-  status: ReportStatus;
   summary: ReportSummary;
   details: ReportDetails;
   generatedAt: number;
@@ -584,7 +577,6 @@ export interface ReportDetails {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  errors: ErrorDetail[];
   handlers: HandlerDetail[];
   policies: PolicyDetail[];
   performance: PerformanceDetail;
@@ -678,7 +670,6 @@ export interface ErrorMonitor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MonitorType;
-  status: MonitorStatus;
   configuration: MonitorConfiguration;
   metrics: MonitorMetric[];
   alerts: MonitorAlert[];
@@ -895,7 +886,6 @@ export interface PerformanceTrend {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  errors: number;
   handlers: number;
   resolutionTime: number;
   errorRate: number;
@@ -1013,8 +1003,6 @@ export interface ErrorHandlingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

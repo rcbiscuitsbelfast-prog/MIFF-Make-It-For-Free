@@ -33,22 +33,22 @@ export interface EngineHints {
   updatedAt?: number;
   metadata?: Record<string, any>;
   unity?: {
-    gameObject?: string;
-    component?: string;
-    prefab?: string;
-    useECS?: boolean;
+  gameObject?: string;
+  component?: string;
+  prefab?: string;
+  useECS?: boolean;
   };
   web?: {
-    element?: string;
-    canvas?: string;
-    dom?: string;
-    useWebGL?: boolean;
+  element?: string;
+  canvas?: string;
+  dom?: string;
+  useWebGL?: boolean;
   };
   godot?: {
-    node?: string;
-    script?: string;
-    scene?: string;
-    language?: 'gdscript' | 'csharp';
+  node?: string;
+  script?: string;
+  scene?: string;
+  language?: 'gdscript' | 'csharp';
   };
 }
 
@@ -65,7 +65,6 @@ export interface RenderData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RenderDataType;
-  name?: string;
   position?: Position3D;
   scale?: { x: number; y: number; z?: number };
   rotation?: { x: number; y: number; z?: number };
@@ -107,16 +106,13 @@ export interface RenderPayload {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
   renderData: RenderData[];
   issues?: string[];
-  metadata?: {
-    schemaVersion: string;
-    engine: string;
-    timestamp: string;
-    module: string;
-    frameId?: string;
-    frameName?: string;
+  schemaVersion: string;
+  engine: string;
+  module: string;
+  frameId?: string;
+  frameName?: string;
   };
 }
 
@@ -146,7 +142,7 @@ export interface BridgeConfig {
 // Utility functions for schema validation and conversion
 export class BridgeSchemaValidator {
   static validateRenderPayload(payload: any): string[] {
-    const issues: string[] = [];
+  const issues: string[] = [];
 
     // Check if it's the BridgeSchemaPure RenderPayload format
     if (payload.op !== undefined) {
@@ -181,11 +177,11 @@ export class BridgeSchemaValidator {
       });
     }
 
-    return issues;
+  return issues;
   }
 
   static validateRenderData(data: RenderData): string[] {
-    const issues: string[] = [];
+  const issues: string[] = [];
 
     // Required fields
     if (!data.id) {
@@ -262,7 +258,7 @@ export class BridgeSchemaValidator {
       }
     }
 
-    return issues;
+  return issues;
   }
 
 
@@ -350,30 +346,30 @@ export class BridgeSchemaValidator {
   }
 
   private static mapUnityType(unityData: any): RenderDataType {
-    if (unityData.componentType === 'Transform') return 'node';
-    if (unityData.componentType === 'SpriteRenderer') return 'sprite';
-    if (unityData.componentType === 'TextMesh') return 'text';
-    if (unityData.componentType === 'AudioSource') return 'sound';
-    if (unityData.componentType === 'Animator') return 'animation';
-    return 'component';
+  if (unityData.componentType === 'Transform') return 'node';
+  if (unityData.componentType === 'SpriteRenderer') return 'sprite';
+  if (unityData.componentType === 'TextMesh') return 'text';
+  if (unityData.componentType === 'AudioSource') return 'sound';
+  if (unityData.componentType === 'Animator') return 'animation';
+  return 'component';
   }
 
   private static mapWebType(webData: any): RenderDataType {
-    if (webData.type === 'sprite') return 'sprite';
-    if (webData.type === 'text') return 'text';
-    if (webData.type === 'audio') return 'sound';
-    if (webData.type === 'animation') return 'animation';
-    if (webData.type === 'container' || webData.type === 'group') return 'node';
-    return 'component';
+  if (webData.type === 'sprite') return 'sprite';
+  if (webData.type === 'text') return 'text';
+  if (webData.type === 'audio') return 'sound';
+  if (webData.type === 'animation') return 'animation';
+  if (webData.type === 'container' || webData.type === 'group') return 'node';
+  return 'component';
   }
 
   private static mapGodotType(godotData: any): RenderDataType {
-    if (godotData.type === 'Sprite') return 'sprite';
-    if (godotData.type === 'Label') return 'text';
-    if (godotData.type === 'AudioStreamPlayer') return 'sound';
-    if (godotData.type === 'AnimationPlayer') return 'animation';
-    if (godotData.type === 'Node2D' || godotData.type === 'Control') return 'node';
-    return 'component';
+  if (godotData.type === 'Sprite') return 'sprite';
+  if (godotData.type === 'Label') return 'text';
+  if (godotData.type === 'AudioStreamPlayer') return 'sound';
+  if (godotData.type === 'AnimationPlayer') return 'animation';
+  if (godotData.type === 'Node2D' || godotData.type === 'Control') return 'node';
+  return 'component';
   }
 
   static convertToUnity(renderData: RenderData): any {

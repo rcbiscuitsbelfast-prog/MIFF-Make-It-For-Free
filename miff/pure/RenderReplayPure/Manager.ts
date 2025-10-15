@@ -50,7 +50,6 @@ export interface RenderReplayManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RenderReplayManagerType;
-  status: RenderReplayManagerStatus;
   replays: RenderReplay[];
   recordings: ReplayRecording[];
   players: ReplayPlayer[];
@@ -79,13 +78,11 @@ export interface RenderReplay {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ReplayType;
-  status: ReplayStatus;
   duration: number;
   frameRate: number;
   resolution: Resolution;
   compression: CompressionConfig;
   frames: ReplayFrame[];
-  metadata: ReplayMetadata;
   performance: ReplayPerformance;
 }
 
@@ -144,9 +141,7 @@ export interface ReplayFrame {
   updatedAt?: number;
   metadata?: Record<string, any>;
   frameNumber: number;
-  data: FrameData;
   compression: FrameCompression;
-  metadata: FrameMetadata;
 }
 
 export interface FrameData {
@@ -611,7 +606,6 @@ export interface ReplayRecording {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: RecordingStatus;
   configuration: RecordingConfiguration;
   frames: ReplayFrame[];
   performance: RecordingPerformance;
@@ -694,7 +688,6 @@ export interface ReplayPlayer {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: PlayerStatus;
   configuration: PlayerConfiguration;
   currentReplay: string | null;
   currentFrame: number;
@@ -775,7 +768,6 @@ export interface ReplayCompressor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CompressorType;
-  status: CompressorStatus;
   configuration: CompressorConfiguration;
   performance: CompressorPerformance;
 }
@@ -1034,8 +1026,6 @@ export interface RenderReplayOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

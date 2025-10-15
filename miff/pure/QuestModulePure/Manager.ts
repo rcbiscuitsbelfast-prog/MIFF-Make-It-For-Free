@@ -64,10 +64,8 @@ export interface Quest {
   isRepeatable: boolean;
   maxCompletions: number;
   currentCompletions: number;
-  status: QuestStatus;
   created: number;
   expires: number;
-  metadata: QuestMetadata;
 }
 
 export interface QuestObjective {
@@ -165,13 +163,11 @@ export interface QuestProgress {
   metadata?: Record<string, any>;
   questId: string;
   playerId: string;
-  status: QuestStatus;
   objectives: ObjectiveProgress[];
   startedAt: number;
   completedAt: number | null;
   timeSpent: number;
   rewards: QuestReward[];
-  metadata: ProgressMetadata;
 }
 
 export interface ObjectiveProgress {
@@ -225,11 +221,9 @@ export interface QuestInstance {
   metadata?: Record<string, any>;
   questId: string;
   playerId: string;
-  status: QuestStatus;
   progress: QuestProgress;
   created: number;
   expires: number;
-  metadata: InstanceMetadata;
 }
 
 export interface InstanceMetadata {

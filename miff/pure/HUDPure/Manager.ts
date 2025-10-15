@@ -49,7 +49,6 @@ export interface HUDManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: HUDManagerType;
-  status: HUDManagerStatus;
   elements: HUDElement[];
   layers: HUDLayer[];
   themes: HUDTheme[];
@@ -88,9 +87,7 @@ export interface HUDElement {
   position: Position;
   size: Size;
   style: ElementStyle;
-  data: ElementData;
   behavior: ElementBehavior;
-  status: ElementStatus;
 }
 
 export type ElementType = 'text' | 'image' | 'progress' | 'chart' | 'gauge' | 'list' | 'grid' | 'custom';
@@ -894,8 +891,6 @@ export interface HUDOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

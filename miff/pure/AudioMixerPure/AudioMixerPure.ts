@@ -188,7 +188,6 @@ export interface AudioSource {
   fadeIn?: number;
   fadeOut?: number;
   playbackRate: number;
-  metadata?: Record<string, any>;
 }
 
 export class AudioMixerPure {

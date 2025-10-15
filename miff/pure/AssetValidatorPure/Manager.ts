@@ -56,12 +56,9 @@ export interface AssetValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   rules: ValidationRule[];
   results: ValidationResult[];
   analytics: ValidatorAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -99,10 +96,8 @@ export interface ValidationResult {
   metadata?: Record<string, any>;
   assetId: string;
   ruleId: string;
-  status: ValidationStatus;
   message: string;
   severity: RuleSeverity;
-  timestamp: Date;
   details: Record<string, any>;
 }
 

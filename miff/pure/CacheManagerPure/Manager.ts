@@ -54,13 +54,10 @@ export interface CacheManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CacheType;
-  status: CacheStatus;
   caches: Cache[];
   policies: CachePolicy[];
   performance: CachePerformance;
   analytics: CacheAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Cache {
   metadata?: Record<string, any>;
   type: CacheType;
   level: CacheLevel;
-  status: CacheStatus;
   entries: CacheEntry[];
   policy: CachePolicy;
   performance: CachePerformance;
@@ -99,7 +95,6 @@ export interface CacheEntry {
   key: string;
   value: any;
   ttl: number; // time to live in milliseconds
-  createdAt: Date;
   lastAccessed: Date;
   accessCount: number;
   size: number; // bytes

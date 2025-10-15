@@ -41,9 +41,6 @@ export interface CombatScenarioPureItem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: string;
-  status: 'active' | 'inactive' | 'pending' | 'error';
-  createdAt: Date;
-  updatedAt: Date;
   properties: Record<string, any>;
   tags: string[];
   priority: number;

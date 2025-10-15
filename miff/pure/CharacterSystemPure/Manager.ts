@@ -54,15 +54,12 @@ export interface CharacterSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   characters: Character[];
   properties: CharacterProperties;
   animations: AnimationSystem;
   movement: MovementSystem;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -79,7 +76,6 @@ export interface Character {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CharacterType;
-  status: CharacterStatus;
   position: Vector3;
   rotation: Vector3;
   scale: Vector3;
@@ -212,7 +208,6 @@ export interface CharacterAnimation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnimationType;
-  status: AnimationStatus;
   currentFrame: number;
   totalFrames: number;
   duration: number; // milliseconds

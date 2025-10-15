@@ -49,7 +49,6 @@ export interface TutorialScenarioManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TutorialScenarioManagerType;
-  status: TutorialScenarioManagerStatus;
   scenarios: TutorialScenario[];
   steps: TutorialStep[];
   progressions: TutorialProgression[];
@@ -78,7 +77,6 @@ export interface TutorialScenario {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScenarioType;
-  status: ScenarioStatus;
   description: string;
   steps: string[];
   prerequisites: Prerequisite[];
@@ -165,7 +163,6 @@ export interface TutorialStep {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StepType;
-  status: StepStatus;
   scenario: string;
   order: number;
   content: StepContent;
@@ -290,7 +287,6 @@ export interface TutorialProgression {
   metadata?: Record<string, any>;
   scenario: string;
   user: string;
-  status: ProgressionStatus;
   currentStep: string;
   completedSteps: string[];
   progress: ProgressionProgress;
@@ -569,8 +565,6 @@ export interface TutorialScenarioOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

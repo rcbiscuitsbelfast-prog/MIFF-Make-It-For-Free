@@ -139,7 +139,6 @@ export interface IChallengeResult {
   message?: string;
   completionTime?: number;
   turnsTaken?: number;
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -158,7 +157,6 @@ export interface IChallengeFilter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   category?: ChallengeCategory;
-  status?: ChallengeStatus;
   difficulty?: ChallengeDifficulty;
   minDifficulty?: ChallengeDifficulty;
   maxDifficulty?: ChallengeDifficulty;
@@ -227,7 +225,6 @@ export interface IBattleChallenge {
   requiredLocationId?: string;
   category: ChallengeCategory;
   difficulty: ChallengeDifficulty;
-  status: ChallengeStatus;
   maxTurns: number;
   priority: number;
   tags: string[];

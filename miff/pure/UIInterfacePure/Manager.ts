@@ -52,7 +52,6 @@ export interface UIInterfaceManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: UIInterfaceManagerType;
-  status: UIInterfaceManagerStatus;
   components: UIComponent[];
   layouts: UILayout[];
   themes: UITheme[];
@@ -81,7 +80,6 @@ export interface UIComponent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ComponentType;
-  status: ComponentStatus;
   properties: ComponentProperties;
   children: string[];
   parent: string;
@@ -923,7 +921,6 @@ export interface UIEvent {
   metadata?: Record<string, any>;
   type: EventType;
   target: string;
-  data: EventData;
   handled: boolean;
 }
 
@@ -1157,8 +1154,6 @@ export interface UIInterfaceOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

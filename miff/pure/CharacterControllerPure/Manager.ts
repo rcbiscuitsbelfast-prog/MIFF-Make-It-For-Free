@@ -54,15 +54,12 @@ export interface CharacterController {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ControllerType;
-  status: ControllerStatus;
   characters: Character[];
   physics: PhysicsSettings;
   animation: AnimationSettings;
   input: InputSettings;
   performance: ControllerPerformance;
   analytics: ControllerAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -79,7 +76,6 @@ export interface Character {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CharacterType;
-  status: CharacterStatus;
   position: Vector3;
   rotation: Vector3;
   scale: Vector3;

@@ -50,7 +50,6 @@ export interface LogManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: LogManagerType;
-  status: LogManagerStatus;
   logs: LogEntry[];
   categories: LogCategory[];
   filters: LogFilter[];
@@ -348,7 +347,6 @@ export interface OutputPerformance {
   totalLogs: number;
   averageLatency: number;
   throughput: number;
-  errors: number;
   lastFlush: number;
 }
 
@@ -579,8 +577,6 @@ export interface LogOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

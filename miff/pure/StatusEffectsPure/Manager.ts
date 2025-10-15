@@ -52,7 +52,6 @@ export interface StatusEffectsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StatusEffectsManagerType;
-  status: StatusEffectsManagerStatus;
   effects: StatusEffect[];
   templates: EffectTemplate[];
   interactions: EffectInteraction[];
@@ -81,7 +80,6 @@ export interface StatusEffect {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EffectType;
-  status: EffectStatus;
   properties: EffectProperties;
   duration: DurationSettings;
   stacking: StackingSettings;
@@ -731,7 +729,6 @@ export interface EffectInteraction {
   metadata?: Record<string, any>;
   effects: string[];
   type: InteractionType;
-  result: InteractionResult;
   priority: number;
   enabled: boolean;
 }
@@ -1021,8 +1018,6 @@ export interface StatusEffectsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

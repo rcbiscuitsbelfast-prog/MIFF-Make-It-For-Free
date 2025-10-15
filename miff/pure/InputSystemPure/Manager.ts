@@ -52,7 +52,6 @@ export interface InputSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: InputSystemManagerType;
-  status: InputSystemManagerStatus;
   devices: InputDevice[];
   mappings: InputMapping[];
   events: InputEvent[];
@@ -81,7 +80,6 @@ export interface InputDevice {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeviceType;
-  status: DeviceStatus;
   capabilities: DeviceCapabilities;
   properties: DeviceProperties;
   mapping: string;
@@ -269,7 +267,6 @@ export interface InputEvent {
   type: EventType;
   deviceId: string;
   mappingId: string;
-  data: EventData;
   processed: boolean;
 }
 
@@ -633,8 +630,6 @@ export interface InputSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

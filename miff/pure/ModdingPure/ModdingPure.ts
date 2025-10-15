@@ -72,7 +72,6 @@ export interface PluginInstance {
   entryPoint: any;
   assets: Map<string, any>;
   dependencies: PluginInstance[];
-  status: 'loading' | 'loaded' | 'error' | 'disabled';
   error?: string;
 }
 

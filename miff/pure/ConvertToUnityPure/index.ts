@@ -1208,7 +1208,6 @@ export interface UnityBuildStep {
   depth: number;
   startTime: number;
   endTime: number;
-  result: string;
   messages: string[];
   warnings: string[];
 }

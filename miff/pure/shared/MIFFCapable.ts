@@ -113,7 +113,6 @@ export interface OperationCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id?: string;
   description: string;
   category?: 'create' | 'read' | 'update' | 'delete' | 'simulate' | 'render' | 'export' | 'validate';
   complexity?: 'low' | 'medium' | 'high' | 'critical';
@@ -138,7 +137,6 @@ export interface DataProcessingCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id?: string;
   description: string;
   inputTypes: string[];
   outputTypes: string[];
@@ -161,7 +159,6 @@ export interface IntegrationCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id?: string;
   description: string;
   targetSystem?: string;
   integrationType: 'bridge' | 'adapter' | 'converter' | 'proxy' | 'gateway' | 'event'; // Added 'event' type
@@ -182,7 +179,6 @@ export interface FormatCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id?: string;
   description: string;
   mimeType?: string;
   fileExtensions?: string[];
@@ -204,7 +200,6 @@ export interface RealtimeCapability {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id?: string;
   description: string;
   eventTypes?: string[];
   subscriptionModel?: 'push' | 'pull' | 'hybrid';

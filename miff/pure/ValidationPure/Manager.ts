@@ -49,7 +49,6 @@ export interface ValidationManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidationManagerType;
-  status: ValidationManagerStatus;
   validators: Validator[];
   schemas: ValidationSchema[];
   rules: ValidationRule[];
@@ -78,7 +77,6 @@ export interface Validator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: string[];
   performance: ValidatorPerformance;
@@ -159,7 +157,6 @@ export interface ValidationSchema {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SchemaType;
-  status: SchemaStatus;
   version: string;
   definition: SchemaDefinition;
   rules: string[];
@@ -263,7 +260,6 @@ export interface ValidationRule {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RuleType;
-  status: RuleStatus;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -344,10 +340,8 @@ export interface Validation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidationType;
-  status: ValidationStatus;
   schema: string;
   rules: string[];
-  result: ValidationResult;
   performance: ValidationPerformance;
 }
 
@@ -367,7 +361,6 @@ export interface ValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   success: boolean;
-  errors: ValidationError[];
   warnings: ValidationWarning[];
   score: number;
   summary: string;
@@ -671,8 +664,6 @@ export interface ValidationOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

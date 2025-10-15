@@ -113,7 +113,6 @@ export interface SecurityEvent {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   type: ThreatType;
   level: SecurityLevel;
   source: string;
@@ -138,7 +137,6 @@ export interface SecurityAlert {
   updatedAt?: number;
   metadata?: Record<string, any>;
   eventId: string;
-  timestamp: Date;
   level: SecurityLevel;
   message: string;
   action: string;
@@ -159,7 +157,6 @@ export interface SecurityAudit {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   action: string;
   userId?: string;
   resource: string;
@@ -182,7 +179,6 @@ export interface VulnerabilityReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   severity: SecurityLevel;
   title: string;
   description: string;
@@ -190,7 +186,6 @@ export interface VulnerabilityReport {
   cveId?: string;
   cvssScore?: number;
   remediation: string;
-  status: 'open' | 'in_progress' | 'resolved' | 'false_positive';
   assignedTo?: string;
   dueDate?: Date;
 }
@@ -207,9 +202,7 @@ export interface ComplianceReport {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   standard: string;
-  status: 'compliant' | 'non_compliant' | 'partial';
   score: number;
   findings: ComplianceFinding[];
   recommendations: string[];
@@ -229,7 +222,6 @@ export interface ComplianceFinding {
   updatedAt?: number;
   metadata?: Record<string, any>;
   requirement: string;
-  status: 'pass' | 'fail' | 'warning';
   description: string;
   evidence: string[];
   remediation: string;
@@ -247,7 +239,6 @@ export interface SecurityMetrics {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   totalEvents: number;
   eventsByType: Record<ThreatType, number>;
   eventsByLevel: Record<SecurityLevel, number>;

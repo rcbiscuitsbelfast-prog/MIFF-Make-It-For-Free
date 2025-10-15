@@ -50,7 +50,6 @@ export interface QuestScenarioManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QuestScenarioManagerType;
-  status: QuestScenarioManagerStatus;
   quests: Quest[];
   scenarios: QuestScenario[];
   scripts: QuestScript[];
@@ -79,7 +78,6 @@ export interface Quest {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QuestType;
-  status: QuestStatus;
   description: string;
   objectives: QuestObjective[];
   rewards: QuestReward[];
@@ -322,7 +320,6 @@ export interface QuestScenario {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScenarioType;
-  status: ScenarioStatus;
   questId: string;
   order: number;
   script: string;
@@ -405,7 +402,6 @@ export interface QuestScript {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScriptType;
-  status: ScriptStatus;
   language: ScriptLanguage;
   source: string;
   functions: ScriptFunction[];
@@ -503,7 +499,6 @@ export interface QuestProgression {
   metadata?: Record<string, any>;
   questId: string;
   playerId: string;
-  status: ProgressionStatus;
   currentObjective: string;
   completedObjectives: string[];
   progress: ProgressionProgress;
@@ -762,8 +757,6 @@ export interface QuestScenarioOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

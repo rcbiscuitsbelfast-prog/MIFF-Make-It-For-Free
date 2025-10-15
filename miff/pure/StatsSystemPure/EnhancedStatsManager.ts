@@ -43,7 +43,6 @@ export interface Stat {
   current?: number; // Calculated value after modifiers
   category: 'primary' | 'secondary' | 'derived' | 'combat' | 'skill' | 'misc';
   description?: string;
-  metadata?: Record<string, any>;
 }
 
 export interface StatModifier {
@@ -120,7 +119,6 @@ export interface EntityStats {
   modifiers: StatModifier[];
   dependencies: StatDependency[];
   lastCalculation: number;
-  metadata?: Record<string, any>;
 }
 
 export interface StatProgression {
@@ -216,8 +214,6 @@ export interface StatsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

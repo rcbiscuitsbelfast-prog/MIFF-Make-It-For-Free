@@ -56,14 +56,11 @@ export interface AudioSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   devices: AudioDevice[];
   contexts: AudioContext[];
   pipeline: ProcessingPipeline;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -80,7 +77,6 @@ export interface AudioDevice {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeviceType;
-  status: DeviceStatus;
   capabilities: DeviceCapabilities;
   settings: DeviceSettings;
 }
@@ -98,7 +94,6 @@ export interface AudioContext {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ContextType;
-  status: ContextStatus;
   sampleRate: number;
   bufferSize: number;
   channels: number;

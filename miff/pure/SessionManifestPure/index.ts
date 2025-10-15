@@ -14,7 +14,6 @@ export interface SessionPlayerRef {
   avatar: string; // path to avatar manifest
   style: '3d' | '2d-side' | 'overlay';
   team?: string;
-  status?: 'active' | 'inactive' | 'disconnected';
 }
 
 export interface SessionManifest {
@@ -32,7 +31,6 @@ export interface SessionManifest {
   zone: string;
   players: SessionPlayerRef[];
   seed?: number;
-  createdAt?: string;
 }
 
 export class SessionManifestPure {

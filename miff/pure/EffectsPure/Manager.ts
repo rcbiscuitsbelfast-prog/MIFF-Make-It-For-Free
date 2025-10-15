@@ -49,7 +49,6 @@ export interface EffectsManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EffectsManagerType;
-  status: EffectsManagerStatus;
   effects: Effect[];
   particleSystems: ParticleSystem[];
   animations: EffectAnimation[];
@@ -78,7 +77,6 @@ export interface Effect {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EffectType;
-  status: EffectStatus;
   properties: EffectProperties;
   particles: Particle[];
   animations: string[];
@@ -162,7 +160,6 @@ export interface Particle {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ParticleType;
-  status: ParticleStatus;
   properties: ParticleProperties;
   physics: ParticlePhysics;
   rendering: ParticleRendering;
@@ -414,7 +411,6 @@ export interface ParticleSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ParticleSystemType;
-  status: ParticleSystemStatus;
   particles: string[];
   emitter: ParticleEmitter;
   updater: ParticleUpdater;
@@ -685,7 +681,6 @@ export interface EffectAnimation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AnimationType;
-  status: AnimationStatus;
   duration: number;
   curves: AnimationCurve[];
   events: AnimationEvent[];
@@ -709,7 +704,6 @@ export interface AnimationEvent {
   metadata?: Record<string, any>;
   time: number;
   type: EventType;
-  data: Record<string, any>;
 }
 
 export type EventType = 'callback' | 'sound' | 'particle' | 'custom';
@@ -746,7 +740,6 @@ export interface EffectMaterial {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MaterialType;
-  status: MaterialStatus;
   properties: MaterialProperties;
   shaders: MaterialShader[];
   textures: MaterialTexture[];
@@ -1100,8 +1093,6 @@ export interface EffectsOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

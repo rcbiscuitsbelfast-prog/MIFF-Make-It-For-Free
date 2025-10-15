@@ -51,7 +51,6 @@ export interface RemixTaggingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RemixTaggingManagerType;
-  status: RemixTaggingManagerStatus;
   tags: Tag[];
   contentItems: ContentItem[];
   tagCategories: TagCategory[];
@@ -81,7 +80,6 @@ export interface Tag {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TagType;
-  status: TagStatus;
   category: string;
   description: string;
   properties: TagProperties;
@@ -185,10 +183,8 @@ export interface ContentItem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ContentType;
-  status: ContentStatus;
   tags: string[];
   properties: ContentProperties;
-  metadata: ContentMetadata;
   performance: ContentPerformance;
 }
 
@@ -411,7 +407,6 @@ export interface SearchIndex {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: IndexType;
-  status: IndexStatus;
   configuration: IndexConfiguration;
   statistics: IndexStatistics;
   performance: IndexPerformance;
@@ -726,8 +721,6 @@ export interface RemixTaggingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

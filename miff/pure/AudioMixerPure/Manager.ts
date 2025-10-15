@@ -57,15 +57,12 @@ export interface AudioMixer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MixerType;
-  status: MixerStatus;
   channels: AudioChannel[];
   effects: AudioEffect[];
   buses: AudioBus[];
   routing: AudioRouting;
   performance: MixerPerformance;
   analytics: MixerAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -82,7 +79,6 @@ export interface AudioChannel {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ChannelType;
-  status: ChannelStatus;
   input: ChannelInput;
   output: ChannelOutput;
   effects: string[];
@@ -105,7 +101,6 @@ export interface AudioEffect {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EffectType;
-  status: EffectStatus;
   parameters: EffectParameters;
   enabled: boolean;
   bypass: boolean;
@@ -124,7 +119,6 @@ export interface AudioBus {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BusType;
-  status: BusStatus;
   channels: string[];
   effects: string[];
   volume: number; // 0 to 1

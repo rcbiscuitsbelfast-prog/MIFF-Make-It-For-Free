@@ -24,7 +24,6 @@ export interface BundleAnalysis {
   modules: Array<{
     name: string;
     size: number;
-    gzippedSize: number;
     dependencies: string[];
   }>;
   chunks: Array<{

@@ -49,7 +49,6 @@ export interface TestHarnessManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TestHarnessManagerType;
-  status: TestHarnessManagerStatus;
   testHarnesses: TestHarness[];
   tests: Test[];
   runners: TestRunner[];
@@ -78,7 +77,6 @@ export interface TestHarness {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: HarnessType;
-  status: HarnessStatus;
   tests: string[];
   configuration: HarnessConfiguration;
   performance: HarnessPerformance;
@@ -156,7 +154,6 @@ export interface Test {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TestType;
-  status: TestStatus;
   harness: string;
   configuration: TestConfiguration;
   performance: TestPerformance;
@@ -217,7 +214,6 @@ export interface TestRunner {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RunnerType;
-  status: RunnerStatus;
   tests: string[];
   configuration: RunnerConfiguration;
   performance: RunnerPerformance;
@@ -277,7 +273,6 @@ export interface TestReporter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ReporterType;
-  status: ReporterStatus;
   tests: string[];
   configuration: ReporterConfiguration;
   performance: ReporterPerformance;
@@ -534,8 +529,6 @@ export interface TestHarnessOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

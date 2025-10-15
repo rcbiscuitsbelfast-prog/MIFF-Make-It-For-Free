@@ -30,7 +30,6 @@ export interface Mod {
   enabled: boolean;
   installed: boolean;
   path: string;
-  metadata: ModMetadata;
   files: ModFile[];
   scripts: ModScript[];
   assets: ModAsset[];

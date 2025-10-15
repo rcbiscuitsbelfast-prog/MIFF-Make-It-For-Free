@@ -50,7 +50,6 @@ export interface ValidationSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidationSystemManagerType;
-  status: ValidationSystemManagerStatus;
   validators: Validator[];
   schemas: Schema[];
   rules: ValidationRule[];
@@ -80,7 +79,6 @@ export interface Validator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   schema: string;
   rules: string[];
   configuration: ValidatorConfiguration;
@@ -146,7 +144,6 @@ export interface Schema {
   metadata?: Record<string, any>;
   type: SchemaType;
   version: string;
-  status: SchemaStatus;
   definition: SchemaDefinition;
   validation: SchemaValidation;
   performance: SchemaPerformance;
@@ -274,7 +271,6 @@ export interface SchemaValidation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: ValidationError[];
   warnings: ValidationWarning[];
   lastValidated: number;
 }
@@ -349,7 +345,6 @@ export interface ValidationRule {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RuleType;
-  status: RuleStatus;
   condition: RuleCondition;
   action: RuleAction;
   priority: number;
@@ -434,8 +429,6 @@ export interface Validation {
   updatedAt?: number;
   metadata?: Record<string, any>;
   validator: string;
-  status: ValidationStatus;
-  result: ValidationResult;
   duration: number;
 }
 
@@ -454,7 +447,6 @@ export interface ValidationResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   valid: boolean;
-  errors: ValidationError[];
   warnings: ValidationWarning[];
   score: number;
   suggestions: ValidationSuggestion[];
@@ -491,7 +483,6 @@ export interface ValidationReport {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ReportType;
-  status: ReportStatus;
   validations: string[];
   summary: ReportSummary;
   details: ReportDetails;
@@ -535,7 +526,6 @@ export interface ReportDetails {
   updatedAt?: number;
   metadata?: Record<string, any>;
   validations: ValidationDetail[];
-  errors: ErrorDetail[];
   warnings: WarningDetail[];
   performance: PerformanceDetail;
 }
@@ -553,7 +543,6 @@ export interface ValidationDetail {
   updatedAt?: number;
   metadata?: Record<string, any>;
   validator: string;
-  status: ValidationStatus;
   score: number;
   duration: number;
 }
@@ -826,8 +815,6 @@ export interface ValidationSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

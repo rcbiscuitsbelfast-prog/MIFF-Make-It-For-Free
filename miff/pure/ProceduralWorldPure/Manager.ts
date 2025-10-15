@@ -49,7 +49,6 @@ export interface ProceduralWorldManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProceduralWorldManagerType;
-  status: ProceduralWorldManagerStatus;
   worlds: ProceduralWorld[];
   algorithms: GenerationAlgorithm[];
   generators: WorldGenerator[];
@@ -77,7 +76,6 @@ export interface ProceduralWorld {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WorldType;
-  status: WorldStatus;
   seed: number;
   size: WorldSize;
   algorithm: string;
@@ -1014,7 +1012,6 @@ export interface Chunk {
   metadata?: Record<string, any>;
   position: Vector3;
   size: ChunkSize;
-  data: ChunkData;
   generated: boolean;
   lastAccessed: number;
 }
@@ -1161,7 +1158,6 @@ export interface GenerationAlgorithm {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AlgorithmType;
-  status: AlgorithmStatus;
   parameters: AlgorithmParameters;
   performance: AlgorithmPerformance;
 }
@@ -1220,7 +1216,6 @@ export interface WorldGenerator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: GeneratorType;
-  status: GeneratorStatus;
   algorithm: string;
   configuration: GeneratorConfiguration;
   performance: GeneratorPerformance;
@@ -1530,8 +1525,6 @@ export interface ProceduralWorldOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

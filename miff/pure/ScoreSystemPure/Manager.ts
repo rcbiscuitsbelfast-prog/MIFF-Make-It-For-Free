@@ -52,7 +52,6 @@ export interface ScoreSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ScoreSystemManagerType;
-  status: ScoreSystemManagerStatus;
   scores: Score[];
   leaderboards: Leaderboard[];
   players: ScorePlayer[];
@@ -191,7 +190,6 @@ export interface ScorePlayer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PlayerType;
-  status: PlayerStatus;
   profile: PlayerProfile;
   statistics: PlayerStatistics;
   preferences: PlayerPreferences;
@@ -403,7 +401,6 @@ export interface ScoreEvent {
   playerId: string;
   gameId: string;
   scoreId: string;
-  data: EventData;
 }
 
 export type EventType = 'score_created' | 'score_updated' | 'score_deleted' | 'leaderboard_updated' | 'achievement_unlocked' | 'custom';
@@ -636,8 +633,6 @@ export interface ScoreSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

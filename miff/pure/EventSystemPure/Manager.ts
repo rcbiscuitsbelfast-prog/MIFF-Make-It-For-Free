@@ -52,7 +52,6 @@ export interface EventSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventSystemManagerType;
-  status: EventSystemManagerStatus;
   events: Event[];
   handlers: EventHandler[];
   filters: EventFilter[];
@@ -81,9 +80,6 @@ export interface Event {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  status: EventStatus;
-  data: EventData;
-  metadata: EventMetadata;
   source: EventSource;
   target: EventTarget;
   priority: EventPriority;
@@ -339,7 +335,6 @@ export interface EventHandler {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: HandlerType;
-  status: HandlerStatus;
   events: string[];
   filter: EventFilter;
   action: HandlerAction;
@@ -755,8 +750,6 @@ export interface EventSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

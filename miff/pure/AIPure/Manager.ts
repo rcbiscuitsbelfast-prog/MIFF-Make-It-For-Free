@@ -59,13 +59,10 @@ export interface AIInstance {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AIType;
-  status: AIStatus;
   behavior: AIBehavior;
   learning: AILearning;
   performance: AIPerformance;
   analytics: AIAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -179,7 +176,6 @@ export interface KnowledgeItem {
   content: any;
   confidence: number; // 0 to 1
   source: string;
-  createdAt: Date;
 }
 
 export interface ExperienceItem {
@@ -198,7 +194,6 @@ export interface ExperienceItem {
   context: any;
   outcome: any;
   value: number; // -1 to 1
-  timestamp: Date;
 }
 
 export interface AIPerformance {

@@ -50,7 +50,6 @@ export interface NetworkManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: NetworkManagerType;
-  status: NetworkManagerStatus;
   connections: NetworkConnection[];
   devices: NetworkDevice[];
   protocols: NetworkProtocol[];
@@ -80,7 +79,6 @@ export interface NetworkConnection {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConnectionType;
-  status: ConnectionStatus;
   configuration: ConnectionConfiguration;
   performance: ConnectionPerformance;
   security: ConnectionSecurity;
@@ -297,7 +295,6 @@ export interface NetworkDevice {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DeviceType;
-  status: DeviceStatus;
   configuration: DeviceConfiguration;
   capabilities: DeviceCapabilities;
   performance: DevicePerformance;
@@ -533,7 +530,6 @@ export interface NetworkProtocol {
   metadata?: Record<string, any>;
   type: ProtocolType;
   version: string;
-  status: ProtocolStatus;
   configuration: ProtocolConfiguration;
   performance: ProtocolPerformance;
   security: ProtocolSecurity;
@@ -579,7 +575,6 @@ export interface ProtocolPerformance {
   packetsReceived: number;
   bytesSent: number;
   bytesReceived: number;
-  errors: number;
   lastActivity: number;
 }
 
@@ -614,7 +609,6 @@ export interface NetworkSecurity {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SecurityType;
-  status: SecurityStatus;
   configuration: SecurityConfiguration;
   rules: SecurityRule[];
   performance: SecurityPerformance;
@@ -717,7 +711,6 @@ export interface NetworkMonitor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MonitorType;
-  status: MonitorStatus;
   configuration: MonitorConfiguration;
   metrics: MonitorMetric[];
   alerts: MonitorAlert[];
@@ -995,8 +988,6 @@ export interface NetworkOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -17,7 +17,6 @@ export interface PrefabConfig {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: PrefabId;
   blocks: Array<{ type: string; x: number; y: number; z: number }>;
   tags?: string[];
 }
@@ -34,7 +33,6 @@ export interface PrefabState {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  id: PrefabId;
   blocks: Array<{ id: string; type: string; x: number; y: number; z: number }>;
   metadata: { tags: string[]; createdAt: number; version: number };
 }

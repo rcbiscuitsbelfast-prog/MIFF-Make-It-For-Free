@@ -64,7 +64,6 @@ export interface TransportLayer {
   metadata?: Record<string, any>;
   type: 'websocket' | 'http' | 'tcp' | 'udp' | 'ipc';
   implementation: string;
-  status: 'implemented' | 'partial' | 'mock';
   features: string[];
   performance: {
     latency: number;

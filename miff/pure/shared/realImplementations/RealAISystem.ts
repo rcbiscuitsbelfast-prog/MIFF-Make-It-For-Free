@@ -47,9 +47,7 @@ export interface AITask {
   type: 'prediction' | 'classification' | 'generation' | 'analysis';
   input: any;
   output?: any;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
   priority: number;
-  createdAt: Date;
   completedAt?: Date;
   error?: string;
 }
@@ -67,12 +65,10 @@ export interface AILearningSession {
   updatedAt?: number;
   metadata?: Record<string, any>;
   modelId: string;
-  data: any[];
   algorithm: string;
   parameters: Record<string, any>;
   startTime: Date;
   endTime?: Date;
-  status: 'running' | 'completed' | 'failed';
   accuracy?: number;
   loss?: number;
   epochs: number;

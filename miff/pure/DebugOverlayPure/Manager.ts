@@ -266,7 +266,6 @@ export interface NetworkData {
   packetsReceived: number;
   bytesSent: number;
   bytesReceived: number;
-  errors: number;
 }
 
 export interface SystemInfo {
@@ -438,7 +437,6 @@ export interface ConsoleEntry {
   type: 'input' | 'output' | 'error' | 'info' | 'warning';
   message: string;
   command?: string;
-  result?: any;
 }
 
 export interface DebugTool {

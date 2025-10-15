@@ -59,15 +59,12 @@ export interface AvatarRendererWeb {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RendererType;
-  status: RendererStatus;
   avatars: WebAvatar[];
   materials: WebMaterial[];
   shaders: WebShader[];
   lodSystem: LODSystem;
   performance: RendererPerformance;
   analytics: RendererAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -84,7 +81,6 @@ export interface WebAvatar {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AvatarType;
-  status: AvatarStatus;
   mesh: WebMesh;
   materials: string[];
   animations: WebAnimation[];

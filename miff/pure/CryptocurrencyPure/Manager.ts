@@ -54,7 +54,6 @@ export interface CryptocurrencyManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CryptocurrencyManagerType;
-  status: CryptocurrencyManagerStatus;
   wallets: CryptoWallet[];
   transactions: CryptoTransaction[];
   portfolios: Portfolio[];
@@ -112,7 +111,6 @@ export interface CryptoTransaction {
   amount: number;
   currency: string;
   fee: number;
-  status: TransactionStatus;
   blockNumber?: number;
   confirmations: number;
 }
@@ -233,7 +231,6 @@ export interface Exchange {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ExchangeType;
-  status: ExchangeStatus;
   apiKey?: string; // Encrypted
   apiSecret?: string; // Encrypted
   supportedCurrencies: string[];
@@ -450,8 +447,6 @@ export interface CryptocurrencyOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

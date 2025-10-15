@@ -54,14 +54,11 @@ export interface ContentManagement {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   contents: Content[];
   categories: ContentCategory[];
   tags: ContentTag[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,10 +75,8 @@ export interface Content {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ContentType;
-  status: ContentStatus;
   category: string; // Category ID
   tags: string[]; // Tag IDs
-  data: ContentData;
   version: string;
   author: string;
   created: Date;

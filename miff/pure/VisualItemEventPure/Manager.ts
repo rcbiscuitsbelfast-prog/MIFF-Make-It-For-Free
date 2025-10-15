@@ -49,7 +49,6 @@ export interface VisualItemEventManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VisualItemEventManagerType;
-  status: VisualItemEventManagerStatus;
   events: VisualItemEvent[];
   handlers: EventHandler[];
   processors: EventProcessor[];
@@ -78,10 +77,8 @@ export interface VisualItemEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  status: EventStatus;
   source: EventSource;
   target: EventTarget;
-  data: EventData;
   performance: EventPerformance;
 }
 
@@ -245,7 +242,6 @@ export interface EventHandler {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: HandlerType;
-  status: HandlerStatus;
   events: string[];
   configuration: HandlerConfiguration;
   performance: HandlerPerformance;
@@ -305,7 +301,6 @@ export interface EventProcessor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProcessorType;
-  status: ProcessorStatus;
   events: string[];
   configuration: ProcessorConfiguration;
   performance: ProcessorPerformance;
@@ -387,7 +382,6 @@ export interface EventListener {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ListenerType;
-  status: ListenerStatus;
   events: string[];
   configuration: ListenerConfiguration;
   performance: ListenerPerformance;
@@ -642,8 +636,6 @@ export interface VisualItemEventOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

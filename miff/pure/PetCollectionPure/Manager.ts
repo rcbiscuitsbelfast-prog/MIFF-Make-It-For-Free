@@ -87,7 +87,6 @@ export interface Pet {
   isShiny: boolean;
   isTradable: boolean;
   ownerId: string;
-  createdAt: Date;
   lastFed: Date;
   happiness: number;
   hunger: number;
@@ -97,7 +96,6 @@ export interface Pet {
   maxEvolutionStage?: number;
   isLocked?: boolean;
   isFavorite?: boolean;
-  metadata?: any;
 }
 
 export interface Egg {
@@ -117,7 +115,6 @@ export interface Egg {
   hatchTime: number;
   remainingTime: number;
   ownerId: string;
-  createdAt: Date;
   isIncubating: boolean;
 }
 
@@ -136,8 +133,6 @@ export interface TradeOffer {
   offererId: string;
   offeredPetIds: string[];
   requestedPetIds: string[];
-  status: 'active' | 'accepted' | 'rejected' | 'cancelled';
-  createdAt: Date;
   expiresAt: Date;
   message?: string;
 }
@@ -237,7 +232,6 @@ export interface PetCollectionOutput {
   metadata?: Record<string, any>;
   success: boolean;
   message: string;
-  data?: any;
 }
 
 export class PetCollectionManager {

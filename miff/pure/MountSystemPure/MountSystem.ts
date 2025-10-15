@@ -185,7 +185,6 @@ export interface MountSystemResult {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error' | 'invalid';
   message: string;
   state: MountState;
   rewards?: any[];

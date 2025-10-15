@@ -426,7 +426,6 @@ export interface CombatEvent {
   type: 'action' | 'damage' | 'heal' | 'status' | 'turn' | 'phase' | 'victory' | 'defeat';
   sourceEntityId?: string;
   targetEntityIds: string[];
-  data: Record<string, any>;
   resolved: boolean;
 }
 

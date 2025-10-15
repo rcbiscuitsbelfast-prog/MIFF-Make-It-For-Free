@@ -54,13 +54,10 @@ export interface Challenges {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ChallengeType;
-  status: ChallengeStatus;
   challenges: Challenge[];
   categories: ChallengeCategory[];
   performance: ChallengePerformance;
   analytics: ChallengeAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Challenge {
   metadata?: Record<string, any>;
   type: ChallengeType;
   category: string;
-  status: ChallengeStatus;
   difficulty: DifficultyLevel;
   description: string;
   objectives: ChallengeObjective[];

@@ -56,8 +56,6 @@ export interface PlayerState {
   userId: string;
   sessionId: string;
   version: number;
-  data: PlayerStateData;
-  metadata: PlayerStateMetadata;
   checksum: string;
   isDirty: boolean;
   isLocked: boolean;
@@ -89,7 +87,6 @@ export interface PlayerStateData {
   inventory: InventoryItem[];
   equipment: EquipmentSlot[];
   stats: PlayerStats;
-  status: PlayerStatus;
   quests: QuestProgress[];
   achievements: Achievement[];
   settings: PlayerSettings;
@@ -212,7 +209,6 @@ export interface InventoryItem {
   durability: number;
   maxDurability: number;
   enchantments: Enchantment[];
-  metadata: Map<string, any>;
 }
 
 export interface EquipmentSlot {
@@ -262,7 +258,6 @@ export interface QuestProgress {
   updatedAt?: number;
   metadata?: Record<string, any>;
   questId: string;
-  status: 'not_started' | 'in_progress' | 'completed' | 'failed';
   progress: number;
   objectives: QuestObjective[];
   rewards: QuestReward[];

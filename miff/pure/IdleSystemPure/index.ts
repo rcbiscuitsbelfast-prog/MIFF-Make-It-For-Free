@@ -70,7 +70,6 @@ export interface Resource {
   icon?: string;
   color?: string;
   unlocked: boolean;
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -102,7 +101,6 @@ export interface Generator {
   producesResource: string;   // Resource ID this generator produces
   consumesResource?: string;  // Resource ID this generator consumes
   efficiency: number;         // 0-1 (affects production efficiency)
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -130,7 +128,6 @@ export interface Upgrade {
   currentLevel: number;
   unlocked: boolean;
   permanent: boolean;         // Survives prestige
-  metadata?: Record<string, any>;
 }
 
 /**
@@ -177,7 +174,6 @@ export interface Achievement {
   unlocked: boolean;
   progress: number;
   maxProgress: number;
-  metadata?: Record<string, any>;
 }
 
 /**

@@ -93,7 +93,6 @@ export interface ValidationMetadata {
   metadata?: Record<string, any>;
   version: string;
   schema: string;
-  timestamp: Date;
   validator: string;
 }
 

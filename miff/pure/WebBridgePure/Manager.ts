@@ -49,7 +49,6 @@ export interface WebBridgeManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WebBridgeManagerType;
-  status: WebBridgeManagerStatus;
   bridges: WebBridge[];
   connections: BridgeConnection[];
   apis: BridgeAPI[];
@@ -78,7 +77,6 @@ export interface WebBridge {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BridgeType;
-  status: BridgeStatus;
   configuration: BridgeConfiguration;
   connections: string[];
   apis: string[];
@@ -201,7 +199,6 @@ export interface BridgeConnection {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConnectionType;
-  status: ConnectionStatus;
   bridge: string;
   configuration: ConnectionConfiguration;
   performance: ConnectionPerformance;
@@ -259,7 +256,6 @@ export interface BridgeAPI {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: APIType;
-  status: APIStatus;
   bridge: string;
   endpoints: string[];
   configuration: APIConfiguration;
@@ -340,7 +336,6 @@ export interface BridgeEndpoint {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EndpointType;
-  status: EndpointStatus;
   bridge: string;
   api: string;
   path: string;
@@ -404,7 +399,6 @@ export interface Response {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: number;
   type: ResponseType;
   description: string;
   schema: Schema;
@@ -680,8 +674,6 @@ export interface WebBridgeOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

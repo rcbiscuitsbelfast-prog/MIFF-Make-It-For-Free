@@ -58,15 +58,12 @@ export interface AvatarSystem {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SystemType;
-  status: SystemStatus;
   avatars: Avatar[];
   animations: Animation[];
   states: AvatarState[];
   customization: CustomizationOptions;
   performance: SystemPerformance;
   analytics: SystemAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -83,7 +80,6 @@ export interface Avatar {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: AvatarType;
-  status: AvatarStatus;
   appearance: Appearance;
   animations: string[];
   currentState: string;

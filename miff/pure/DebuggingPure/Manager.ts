@@ -48,7 +48,6 @@ export interface DebuggingManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DebuggingManagerType;
-  status: DebuggingManagerStatus;
   sessions: DebugSession[];
   breakpoints: Breakpoint[];
   watchpoints: Watchpoint[];
@@ -77,7 +76,6 @@ export interface DebugSession {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SessionType;
-  status: SessionStatus;
   target: DebugTarget;
   breakpoints: string[];
   watchpoints: string[];
@@ -184,7 +182,6 @@ export interface Breakpoint {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BreakpointType;
-  status: BreakpointStatus;
   location: BreakpointLocation;
   condition: BreakpointCondition;
   actions: BreakpointAction[];
@@ -280,7 +277,6 @@ export interface Watchpoint {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WatchpointType;
-  status: WatchpointStatus;
   expression: string;
   scope: WatchpointScope;
   format: WatchpointFormat;
@@ -358,9 +354,7 @@ export interface Profiler {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProfilerType;
-  status: ProfilerStatus;
   configuration: ProfilerConfiguration;
-  data: ProfilerData;
   performance: ProfilerPerformance;
 }
 
@@ -457,7 +451,6 @@ export interface ProfilerSample {
   function: string;
   file: string;
   line: number;
-  data: Record<string, any>;
 }
 
 export interface ProfilerStatistics {
@@ -509,7 +502,6 @@ export interface TimelineEvent {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EventType;
-  data: Record<string, any>;
 }
 
 export type EventType = 'function_entry' | 'function_exit' | 'memory_alloc' | 'memory_free' | 'custom';
@@ -741,8 +733,6 @@ export interface DebuggingOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

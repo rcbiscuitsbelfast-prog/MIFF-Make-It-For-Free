@@ -51,7 +51,6 @@ export interface VisualReplaySystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: VisualReplaySystemManagerType;
-  status: VisualReplaySystemManagerStatus;
   recordings: Recording[];
   playbacks: Playback[];
   timelines: Timeline[];
@@ -81,7 +80,6 @@ export interface Recording {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RecordingType;
-  status: RecordingStatus;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -212,7 +210,6 @@ export interface Playback {
   updatedAt?: number;
   metadata?: Record<string, any>;
   recording: string;
-  status: PlaybackStatus;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -298,7 +295,6 @@ export interface Timeline {
   metadata?: Record<string, any>;
   recording: string;
   type: TimelineType;
-  status: TimelineStatus;
   duration: number;
   tracks: TimelineTrack[];
   markers: TimelineMarker[];
@@ -552,8 +548,6 @@ export interface Frame {
   metadata?: Record<string, any>;
   recording: string;
   index: number;
-  data: FrameData;
-  metadata: FrameMetadata;
   performance: FramePerformance;
 }
 
@@ -681,7 +675,6 @@ export interface VisualEvent {
   metadata?: Record<string, any>;
   recording: string;
   type: EventType;
-  data: EventData;
 }
 
 export type EventType = 'click' | 'scroll' | 'keypress' | 'mouse_move' | 'custom';
@@ -918,8 +911,6 @@ export interface VisualReplaySystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

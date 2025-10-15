@@ -56,14 +56,11 @@ export interface AvatarAssetRegistry {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RegistryType;
-  status: RegistryStatus;
   assets: AvatarAsset[];
   dependencies: AssetDependency[];
   categories: AssetCategory[];
   tags: AssetTag[];
   analytics: RegistryAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
   
   // Missing property that is being accessed
@@ -90,8 +87,6 @@ export interface AvatarAsset {
   hash: string;
   version: string;
   dependencies: string[];
-  metadata: AssetMetadata;
-  status: AssetStatus;
   lastModified: Date;
 }
 

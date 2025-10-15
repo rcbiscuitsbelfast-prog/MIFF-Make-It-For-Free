@@ -50,7 +50,6 @@ export interface WorldManifestManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: WorldManifestManagerType;
-  status: WorldManifestManagerStatus;
   manifests: WorldManifest[];
   worldData: WorldData[];
   validators: ManifestValidator[];
@@ -90,10 +89,8 @@ export interface WorldManifest {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ManifestType;
-  status: ManifestStatus;
   version: string;
   worldId: string;
-  data: ManifestData;
   validation: ManifestValidation;
   synchronization: ManifestSynchronization;
   performance: ManifestPerformance;
@@ -793,7 +790,6 @@ export interface WorldData {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataType;
-  status: DataStatus;
   content: DataContent;
   compression: CompressionConfig;
   encryption: EncryptionConfig;
@@ -896,7 +892,6 @@ export interface ManifestValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
@@ -954,7 +949,6 @@ export interface WorldSynchronizer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SynchronizerType;
-  status: SynchronizerStatus;
   configuration: SynchronizerConfiguration;
   performance: SynchronizerPerformance;
 }
@@ -1210,8 +1204,6 @@ export interface WorldManifestOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

@@ -72,7 +72,6 @@ export interface ErrorContext {
   userId?: string;
   sessionId?: string;
   requestId?: string;
-  metadata?: Record<string, any>;
 }
 
 export interface StandardError {

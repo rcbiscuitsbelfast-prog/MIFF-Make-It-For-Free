@@ -265,7 +265,6 @@ export interface NetworkStats {
   packetsReceived: number;
   bytesSent: number;
   bytesReceived: number;
-  errors: number;
   connections: number;
 }
 

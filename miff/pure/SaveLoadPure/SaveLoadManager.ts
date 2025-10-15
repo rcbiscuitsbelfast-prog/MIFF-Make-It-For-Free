@@ -37,8 +37,6 @@ export interface SaveSlot {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: number; // epoch ms
-  data: GameDataV11; // snapshot of a full V11 state
   autosave?: boolean;
   rollbackCheckpoint?: GameDataV11;
 }

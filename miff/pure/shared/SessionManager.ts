@@ -66,7 +66,6 @@ export interface SessionEvent {
   sessionId: string;
   userId: string;
   eventType: 'created' | 'updated' | 'expired' | 'deleted' | 'refreshed';
-  timestamp: Date;
   details: any;
 }
 

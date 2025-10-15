@@ -50,7 +50,6 @@ export interface MessageQueueManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MessageQueueManagerType;
-  status: MessageQueueManagerStatus;
   queues: Queue[];
   messages: Message[];
   consumers: Consumer[];
@@ -80,7 +79,6 @@ export interface Queue {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: QueueType;
-  status: QueueStatus;
   configuration: QueueConfiguration;
   messages: string[];
   consumers: string[];
@@ -206,10 +204,8 @@ export interface Message {
   metadata?: Record<string, any>;
   queue: string;
   type: MessageType;
-  status: MessageStatus;
   content: MessageContent;
   headers: MessageHeaders;
-  metadata: MessageMetadata;
   delivery: DeliveryInfo;
   performance: MessagePerformance;
 }
@@ -329,7 +325,6 @@ export interface Consumer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConsumerType;
-  status: ConsumerStatus;
   queues: string[];
   configuration: ConsumerConfiguration;
   performance: ConsumerPerformance;
@@ -413,7 +408,6 @@ export interface Producer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProducerType;
-  status: ProducerStatus;
   queues: string[];
   configuration: ProducerConfiguration;
   performance: ProducerPerformance;
@@ -475,7 +469,6 @@ export interface MessageRouter {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RouterType;
-  status: RouterStatus;
   configuration: RouterConfiguration;
   rules: RoutingRule[];
   performance: RouterPerformance;
@@ -820,8 +813,6 @@ export interface MessageQueueOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

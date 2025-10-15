@@ -52,7 +52,6 @@ export interface IdleSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: IdleSystemManagerType;
-  status: IdleSystemManagerStatus;
   sessions: IdleSession[];
   activities: Activity[];
   policies: IdlePolicy[];
@@ -86,7 +85,6 @@ export interface IdleSession {
   endTime: number | null;
   duration: number;
   type: SessionType;
-  status: SessionStatus;
   activities: string[];
   idlePeriods: IdlePeriod[];
   performance: SessionPerformance;
@@ -170,7 +168,6 @@ export interface Activity {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ActivityType;
-  status: ActivityStatus;
   startTime: number;
   endTime: number | null;
   duration: number;
@@ -275,7 +272,6 @@ export interface IdleMonitor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MonitorType;
-  status: MonitorStatus;
   configuration: MonitorConfiguration;
   metrics: MonitorMetrics;
   alerts: MonitorAlert[];
@@ -622,8 +618,6 @@ export interface IdleSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

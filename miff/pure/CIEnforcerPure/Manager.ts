@@ -54,14 +54,11 @@ export interface CIEnforcer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: EnforcerType;
-  status: EnforcerStatus;
   rules: EnforcerRule[];
   policies: EnforcerPolicy[];
   checks: EnforcerCheck[];
   performance: EnforcerPerformance;
   analytics: EnforcerAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -147,8 +144,6 @@ export interface EnforcerCheck {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CheckType;
-  status: CheckStatus;
-  result: CheckResult;
   startedAt: Date;
   completedAt?: Date;
   duration?: number; // milliseconds

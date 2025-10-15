@@ -54,14 +54,11 @@ export interface ConfigManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ManagerType;
-  status: ManagerStatus;
   configs: Configuration[];
   schemas: ConfigSchema[];
   validators: ConfigValidator[];
   performance: ManagerPerformance;
   analytics: ManagerAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,8 +75,6 @@ export interface Configuration {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ConfigType;
-  status: ConfigStatus;
-  data: Record<string, any>;
   schema: string; // Schema ID
   version: string;
   encrypted: boolean;

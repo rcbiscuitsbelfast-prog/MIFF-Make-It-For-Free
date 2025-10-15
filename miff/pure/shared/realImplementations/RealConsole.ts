@@ -22,11 +22,9 @@ export interface LogEntry {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  timestamp: Date;
   level: 'debug' | 'info' | 'warn' | 'error' | 'fatal';
   message: string;
   category?: string;
-  metadata?: Record<string, any>;
   stack?: string;
 }
 

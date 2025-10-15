@@ -51,7 +51,6 @@ export interface DataPipelineManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataPipelineManagerType;
-  status: DataPipelineManagerStatus;
   pipelines: Pipeline[];
   dataSources: DataSource[];
   processors: DataProcessor[];
@@ -81,7 +80,6 @@ export interface Pipeline {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PipelineType;
-  status: PipelineStatus;
   configuration: PipelineConfiguration;
   stages: PipelineStage[];
   dependencies: PipelineDependency[];
@@ -696,7 +694,6 @@ export interface DataSource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: DataSourceType;
-  status: DataSourceStatus;
   configuration: DataSourceConfiguration;
   schema: DataSchema;
   performance: DataSourcePerformance;
@@ -774,7 +771,6 @@ export interface DataProcessor {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ProcessorType;
-  status: ProcessorStatus;
   configuration: ProcessorConfiguration;
   performance: ProcessorPerformance;
 }
@@ -832,7 +828,6 @@ export interface DataTransformer {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: TransformerType;
-  status: TransformerStatus;
   configuration: TransformerConfiguration;
   performance: TransformerPerformance;
 }
@@ -890,7 +885,6 @@ export interface DataValidator {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ValidatorType;
-  status: ValidatorStatus;
   configuration: ValidatorConfiguration;
   rules: ValidationRule[];
   performance: ValidatorPerformance;
@@ -1171,8 +1165,6 @@ export interface DataPipelineOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

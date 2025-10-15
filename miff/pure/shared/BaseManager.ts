@@ -86,7 +86,6 @@ export interface ManagerOperation {
   endTime?: Date;
   success?: boolean;
   error?: Error;
-  metadata?: Record<string, unknown>;
 }
 
 /**

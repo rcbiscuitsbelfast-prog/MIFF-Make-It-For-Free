@@ -53,7 +53,6 @@ export interface SaveManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SaveManagerType;
-  status: SaveManagerStatus;
   saves: SaveFile[];
   backups: BackupFile[];
   templates: SaveTemplate[];
@@ -84,10 +83,7 @@ export interface SaveFile {
   description: string;
   type: SaveType;
   version: string;
-  data: SaveData;
-  metadata: SaveMetadata;
   integrity: SaveIntegrity;
-  status: SaveStatus;
 }
 
 export type SaveType = 'manual' | 'auto' | 'quicksave' | 'autosave' | 'backup' | 'export';
@@ -155,7 +151,6 @@ export interface SaveIntegrity {
   signature: string;
   valid: boolean;
   lastVerified: number;
-  errors: IntegrityError[];
 }
 
 export interface IntegrityError {
@@ -193,11 +188,8 @@ export interface BackupFile {
   metadata?: Record<string, any>;
   saveId: string;
   type: BackupType;
-  data: SaveData;
-  metadata: SaveMetadata;
   integrity: SaveIntegrity;
   retention: RetentionPolicy;
-  status: BackupStatus;
 }
 
 export type BackupType = 'automatic' | 'manual' | 'scheduled' | 'incremental' | 'full';
@@ -658,8 +650,6 @@ export interface SaveOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

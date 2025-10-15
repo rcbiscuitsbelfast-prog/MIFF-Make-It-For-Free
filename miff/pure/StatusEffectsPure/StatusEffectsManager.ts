@@ -28,7 +28,6 @@ export interface StatusEffect {
   source: string; // Entity ID that applied the effect
   appliedAt: number;
   expiresAt: number;
-  metadata?: Record<string, any>;
 }
 
 export interface StatusEntity {
@@ -49,7 +48,6 @@ export interface StatusEntity {
   immunities: string[]; // Effect categories this entity is immune to
   resistances: Record<string, number>; // Effect category -> resistance percentage
   lastUpdate: number;
-  metadata?: Record<string, any>;
 }
 
 export interface EffectStackingRule {
@@ -106,7 +104,6 @@ export interface StatusEvent {
   type: 'effect_applied' | 'effect_expired' | 'effect_modified' | 'entity_died' | 'entity_revived' | 'immunity_triggered';
   entityId: string;
   effectId?: string;
-  data?: Record<string, any>;
 }
 
 export interface StatusStats {
@@ -163,8 +160,6 @@ export interface StatusOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: StatusEntity | StatusEntity[] | TickResult | TickResult[] | StatusStats | Record<string, any>;
   issues?: string[];
 }
 

@@ -54,14 +54,11 @@ export interface BridgeInspector {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: InspectorType;
-  status: InspectorStatus;
   bridges: Bridge[];
   inspections: Inspection[];
   reports: InspectionReport[];
   performance: InspectorPerformance;
   analytics: InspectorAnalytics;
-  createdAt: Date;
-  updatedAt: Date;
   version: string;
 }
 
@@ -78,7 +75,6 @@ export interface Bridge {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BridgeType;
-  status: BridgeStatus;
   health: BridgeHealth;
   performance: BridgePerformance;
   configuration: BridgeConfiguration;
@@ -98,7 +94,6 @@ export interface Inspection {
   metadata?: Record<string, any>;
   bridgeId: string;
   type: InspectionType;
-  status: InspectionStatus;
   startTime: Date;
   endTime?: Date;
   results: InspectionResults;
@@ -119,7 +114,6 @@ export interface InspectionReport {
   bridgeId: string;
   inspectionId: string;
   type: ReportType;
-  status: ReportStatus;
   findings: Finding[];
   recommendations: Recommendation[];
   generatedAt: Date;
@@ -154,7 +148,6 @@ export interface ComponentHealth {
   createdAt?: number;
   updatedAt?: number;
   metadata?: Record<string, any>;
-  status: HealthStatus;
   score: number; // 0-100
   issues: Issue[];
 }

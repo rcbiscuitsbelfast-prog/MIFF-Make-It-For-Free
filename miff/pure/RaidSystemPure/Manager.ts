@@ -49,7 +49,6 @@ export interface RaidSystemManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RaidSystemManagerType;
-  status: RaidSystemManagerStatus;
   raids: Raid[];
   participants: RaidParticipant[];
   bosses: RaidBoss[];
@@ -78,7 +77,6 @@ export interface Raid {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: RaidType;
-  status: RaidStatus;
   difficulty: RaidDifficulty;
   participants: string[];
   bosses: string[];
@@ -106,7 +104,6 @@ export interface RaidParticipant {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ParticipantType;
-  status: ParticipantStatus;
   role: RaidRole;
   stats: ParticipantStats;
   equipment: ParticipantEquipment;
@@ -526,7 +523,6 @@ export interface RaidBoss {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: BossType;
-  status: BossStatus;
   stats: BossStats;
   abilities: BossAbility[];
   phases: BossPhase[];
@@ -634,7 +630,6 @@ export interface RaidMechanic {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: MechanicType;
-  status: MechanicStatus;
   description: string;
   triggers: MechanicTrigger[];
   effects: MechanicEffect[];
@@ -1123,7 +1118,6 @@ export interface TimelineEvent {
   type: EventType;
   participant: string;
   action: string;
-  data: Record<string, any>;
 }
 
 export type EventType = 'damage' | 'heal' | 'ability' | 'movement' | 'custom';
@@ -1358,8 +1352,6 @@ export interface RaidSystemOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

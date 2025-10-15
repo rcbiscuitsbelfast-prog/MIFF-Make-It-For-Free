@@ -53,7 +53,6 @@ export interface ResourceManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ResourceManagerType;
-  status: ResourceManagerStatus;
   resources: Resource[];
   pools: ResourcePool[];
   caches: ResourceCache[];
@@ -82,10 +81,8 @@ export interface Resource {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: ResourceType;
-  status: ResourceStatus;
   source: ResourceSource;
   properties: ResourceProperties;
-  metadata: ResourceMetadata;
   dependencies: ResourceDependency[];
   performance: ResourcePerformance;
   memory: ResourceMemory;
@@ -363,7 +360,6 @@ export interface ResourcePool {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: PoolType;
-  status: PoolStatus;
   resources: string[];
   configuration: PoolConfiguration;
   performance: PoolPerformance;
@@ -465,7 +461,6 @@ export interface ResourceCache {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: CacheType;
-  status: CacheStatus;
   configuration: CacheConfiguration;
   statistics: CacheStatistics;
   performance: CachePerformance;
@@ -567,7 +562,6 @@ export interface ResourceStream {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: StreamType;
-  status: StreamStatus;
   source: StreamSource;
   configuration: StreamConfiguration;
   performance: StreamPerformance;
@@ -868,8 +862,6 @@ export interface ResourceManagerOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 

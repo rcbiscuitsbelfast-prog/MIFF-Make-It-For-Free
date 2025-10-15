@@ -27,9 +27,6 @@ export interface Capability {
   methods: CapabilityMethod[];
   properties: CapabilityProperty[];
   events: CapabilityEvent[];
-  status: 'active' | 'deprecated' | 'experimental' | 'disabled';
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface CapabilityMethod {

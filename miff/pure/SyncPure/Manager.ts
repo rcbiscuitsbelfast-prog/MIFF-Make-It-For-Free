@@ -54,7 +54,6 @@ export interface SyncManager {
   updatedAt?: number;
   metadata?: Record<string, any>;
   type: SyncManagerType;
-  status: SyncManagerStatus;
   devices: SyncDevice[];
   syncItems: SyncItem[];
   conflicts: SyncConflict[];
@@ -92,7 +91,6 @@ export interface SyncDevice {
   metadata?: Record<string, any>;
   type: DeviceType;
   platform: Platform;
-  status: DeviceStatus;
   lastSync: number;
   syncCapabilities: SyncCapability[];
 }
@@ -137,7 +135,6 @@ export interface SyncItem {
   lastModified: number;
   lastModifiedBy: string;
   checksum: string;
-  status: ItemStatus;
 }
 
 export type ItemType = 'file' | 'database' | 'settings' | 'preferences' | 'custom';
@@ -160,7 +157,6 @@ export interface SyncConflict {
   localVersion: SyncItem;
   remoteVersion: SyncItem;
   resolution: ConflictResolution;
-  status: ConflictStatus;
   resolvedAt?: number;
 }
 
@@ -183,7 +179,6 @@ export interface SyncQueue {
   deviceId: string;
   items: QueueItem[];
   priority: Priority;
-  status: QueueStatus;
   startedAt?: number;
   completedAt?: number;
 }
@@ -401,8 +396,6 @@ export interface SyncOutput {
   updatedAt?: number;
   metadata?: Record<string, any>;
   op: string;
-  status: 'ok' | 'error';
-  result?: any;
   issues?: string[];
 }
 
