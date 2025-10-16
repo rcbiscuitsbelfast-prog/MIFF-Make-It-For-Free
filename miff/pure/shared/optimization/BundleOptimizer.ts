@@ -52,14 +52,14 @@ export class BundleOptimizer {
 
   constructor(config: BundleConfig) {
     this.config = {
-      optimizationLevel: 'aggressive',
-      minify: true,
-      sourcemap: false,
-      treeShaking: true,
-      codeSplitting: true,
-      deadCodeElimination: true,
-      compression: true,
-      ...config
+      ...config,
+      optimizationLevel: config.optimizationLevel ?? 'aggressive',
+      minify: config.minify ?? true,
+      sourcemap: config.sourcemap ?? false,
+      treeShaking: config.treeShaking ?? true,
+      codeSplitting: config.codeSplitting ?? true,
+      deadCodeElimination: config.deadCodeElimination ?? true,
+      compression: config.compression ?? true,
     };
   }
 

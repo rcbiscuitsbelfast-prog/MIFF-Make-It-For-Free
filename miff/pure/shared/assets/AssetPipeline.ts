@@ -69,15 +69,15 @@ export class AssetPipeline {
 
   constructor(config: AssetConfig) {
     this.config = {
-      optimizationLevel: 'high',
-      compressionEnabled: true,
-      cachingEnabled: true,
-      parallelProcessing: true,
-      maxConcurrentTasks: 4,
-      enablePreprocessing: true,
-      enablePostprocessing: true,
-      qualitySettings: {},
-      ...config
+      ...config,
+      optimizationLevel: config.optimizationLevel ?? 'high',
+      compressionEnabled: config.compressionEnabled ?? true,
+      cachingEnabled: config.cachingEnabled ?? true,
+      parallelProcessing: config.parallelProcessing ?? true,
+      maxConcurrentTasks: config.maxConcurrentTasks ?? 4,
+      enablePreprocessing: config.enablePreprocessing ?? true,
+      enablePostprocessing: config.enablePostprocessing ?? true,
+      qualitySettings: config.qualitySettings ?? {},
     };
 
     this.stats = this.initializeStats();
