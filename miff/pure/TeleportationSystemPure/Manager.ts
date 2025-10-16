@@ -214,7 +214,7 @@ export class TeleportationManager {
     const recentFailures = Array.from(stats.failureReasons.entries())
       .sort((a: any, b: any) => b[1] - a[1])
       .slice(0, 5)
-      .map(([reason!]) => reason);
+      .map(([reason]) => reason);
 
     return {
       totalTeleports: stats.totalTeleports,

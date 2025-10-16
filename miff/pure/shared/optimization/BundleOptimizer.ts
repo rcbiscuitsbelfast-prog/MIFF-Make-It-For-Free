@@ -341,7 +341,7 @@ export class BundleOptimizer {
     const chunks: string[][] = [];
     const processed = new Set<string>();
 
-    for (const [modulePath!] of this.analyzedModules) {
+    for (const [modulePath] of this.analyzedModules) {
       if (processed.has(modulePath) || this.deadCode.has(modulePath)) continue;
 
       const chunk = this.getChunkForModule(modulePath);
