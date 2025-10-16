@@ -33,7 +33,7 @@ export type GeneratorType = 'basic' | 'advanced' | 'premium' | 'legendary' | 'my
 /**
  * Upgrade categories
  */
-export type UpgradeCategory = 'generator' | 'multiplier' | 'automation' | 'prestige' | 'special';
+export type UpgradeCategory = 'generator' | 'multiplier' | 'automation' | 'prestige' | 'special' | 'efficiency';
 
 /**
  * Prestige tiers
@@ -564,25 +564,29 @@ export class IdleSystemPure {
   private setupEventListeners(): void {
     // Listen for integration events
     if (this.integrations.onResourceChange) {
-      this.eventBus.on('idle:resource_change', (data: { resourceId: string, oldAmount: number, newAmount: number }) => {
+      this.eventBus.subscribe('idle:resource_change', (event: any) => {
+        const data = event.data || event;
         this.integrations.onResourceChange!(data.resourceId, data.oldAmount, data.newAmount);
       });
     }
 
     if (this.integrations.onGeneratorPurchase) {
-      this.eventBus.on('idle:generator_purchase', (data: { generatorId: string, amount: number }) => {
+      this.eventBus.subscribe('idle:generator_purchase', (event: any) => {
+        const data = event.data || event;
         this.integrations.onGeneratorPurchase!(data.generatorId, data.amount);
       });
     }
 
     if (this.integrations.onUpgradePurchase) {
-      this.eventBus.on('idle:upgrade_purchase', (data: { upgradeId: string, level: number }) => {
+      this.eventBus.subscribe('idle:upgrade_purchase', (event: any) => {
+        const data = event.data || event;
         this.integrations.onUpgradePurchase!(data.upgradeId, data.level);
       });
     }
 
     if (this.integrations.onAchievementUnlock) {
-      this.eventBus.on('idle:achievement_unlock', (data: { achievementId: string }) => {
+      this.eventBus.subscribe('idle:achievement_unlock', (event: any) => {
+        const data = event.data || event;
         this.integrations.onAchievementUnlock!(data.achievementId);
       });
     }
@@ -608,7 +612,7 @@ export class IdleSystemPure {
     if (this.config.saveInterval > 0) {
       this.autoSaveInterval = setInterval(() => {
         this.saveGame();
-      }, this.config.saveInterval * 1000);
+      }, this.config.saveInterval * 1000) as any;
     }
   }
 
@@ -1303,23 +1307,8 @@ export class IdleSystemPure {
 // TYPE EXPORTS
 // ============================================================================
 
-export type {
-  ResourceType,
-  GeneratorType,
-  UpgradeCategory,
-  PrestigeTier,
-  AchievementType,
-  Resource,
-  Generator,
-  Upgrade,
-  UpgradeEffect,
-  Achievement,
-  AchievementRequirement,
-  AchievementReward,
-  PrestigeConfig,
-  IdleSystemConfig,
-  IdleIntegration
-};
+// Types already exported above with their definitions
+// No need for duplicate export type { } block
 
 // ============================================================================
 // DEFAULT EXPORT
