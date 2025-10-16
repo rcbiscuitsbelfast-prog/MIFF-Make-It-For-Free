@@ -788,7 +788,7 @@ async function main(): Promise<void> {
 
 if (require.main === module) {
   main().catch(error => {
-    console.error('Error:', error);
+    console.error('Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   });
 }

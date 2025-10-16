@@ -353,7 +353,7 @@ export class CharacterSystemManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = new StructuredLogger('CharacterSystemManager');
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiCharacterSupport: true,
@@ -397,7 +397,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -414,8 +414,8 @@ export class CharacterSystemManager {
       const system: CharacterSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -425,7 +425,7 @@ export class CharacterSystemManager {
           totalAnimations: 0,
           totalMovements: 0,
           averagePerformance: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -437,7 +437,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -471,7 +471,7 @@ export class CharacterSystemManager {
       const updatedSystem: CharacterSystem = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -483,7 +483,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -511,7 +511,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -577,7 +577,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -611,7 +611,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -645,7 +645,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -680,7 +680,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -734,7 +734,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -774,7 +774,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -798,7 +798,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -822,7 +822,7 @@ export class CharacterSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return [];
     }
   }
@@ -875,7 +875,7 @@ export class CharacterSystemManager {
         totalAnimations: system.characters.reduce((sum, ch) => sum + ch.animations.length, 0),
         totalMovements: system.analytics.totalMovements,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

@@ -497,7 +497,8 @@ export class WeatherSystemCLI {
         await test.test();
         this.log(`✅ ${test.name} - PASSED`);
         passed++;
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.log(`❌ ${test.name} - FAILED: ${error}`);
         failed++;
       }

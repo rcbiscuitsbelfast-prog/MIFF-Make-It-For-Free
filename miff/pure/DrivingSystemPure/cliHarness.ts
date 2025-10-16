@@ -174,7 +174,8 @@ class DrivingSystemCLI {
           console.log('Type "help" for available commands.');
           break;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error: ${error.message}`);
     }
 

@@ -417,7 +417,7 @@ export class InputSystemManager {
             schema: 'miff.input.export.v1',
             profiles: Array.from(this.profiles.values()),
             activeProfile,
-            exportedAt: new Date().toISOString(),
+            exportedAt: Date.now().toISOString(),
             total: this.profiles.size
           }
         };

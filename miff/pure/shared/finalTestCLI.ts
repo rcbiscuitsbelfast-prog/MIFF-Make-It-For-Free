@@ -56,7 +56,8 @@ class FinalTestCLI {
           this.showHelp();
           break;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
@@ -265,8 +266,9 @@ class FinalTestCLI {
         });
       }
       
-    } catch (error) {
-      console.error('❌ Error running all tests:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Error running all tests:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }

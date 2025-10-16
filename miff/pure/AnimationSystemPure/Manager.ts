@@ -186,7 +186,7 @@ export class AnimationSystemManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableAnimationCreation: true,
@@ -233,7 +233,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -250,8 +250,8 @@ export class AnimationSystemManager {
       const animation: Animation = {
         ...animationData,
         id: this.generateAnimationId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalAnimations: 0,
@@ -259,7 +259,7 @@ export class AnimationSystemManager {
           averageDuration: 0,
           keyframeCount: 0,
           transitionCount: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -271,7 +271,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -305,7 +305,7 @@ export class AnimationSystemManager {
       const updatedAnimation: Animation = {
         ...animation,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(animation.version)
       };
 
@@ -317,7 +317,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -345,7 +345,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -406,7 +406,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -435,7 +435,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -463,7 +463,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -506,7 +506,7 @@ export class AnimationSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -635,7 +635,7 @@ export class AnimationSystemManager {
         averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
         keyframeCount: totalKeyframes,
         transitionCount: totalTransitions,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

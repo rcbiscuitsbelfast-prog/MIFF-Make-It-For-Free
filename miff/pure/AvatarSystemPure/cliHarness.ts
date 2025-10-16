@@ -184,8 +184,9 @@ class AvatarSystemCLI {
 
       console.log('\n🎉 All tests passed!');
 
-    } catch (error) {
-      console.error('❌ Test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -207,8 +208,9 @@ class AvatarSystemCLI {
         console.log('❌ Manifest validation failed:');
         result.errors.forEach(error => console.log(`   - ${error}`));
       }
-    } catch (error) {
-      console.error('❌ Validation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Validation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -242,8 +244,9 @@ class AvatarSystemCLI {
       } else {
         console.log('❌ Avatar resolution failed');
       }
-    } catch (error) {
-      console.error('❌ Resolution failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Resolution failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -281,8 +284,9 @@ class AvatarSystemCLI {
       const manifestPath = 'sample-avatar-manifest.json';
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
       console.log(`✅ Sample manifest created: ${manifestPath}`);
-    } catch (error) {
-      console.error('❌ Manifest creation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Manifest creation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -326,8 +330,9 @@ class AvatarSystemCLI {
       console.log(`   Animation Compression: ${optimizations.animationCompression}`);
       
       console.log('✅ Optimization configuration applied');
-    } catch (error) {
-      console.error('❌ Optimization failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Optimization failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -352,8 +357,9 @@ class AvatarSystemCLI {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       console.log(`✅ Avatar exported successfully as ${format.toUpperCase()}`);
-    } catch (error) {
-      console.error('❌ Export failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Export failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -407,8 +413,9 @@ class AvatarSystemCLI {
 
       console.log('✅ Avatar simulation completed successfully');
 
-    } catch (error) {
-      console.error('❌ Simulation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Simulation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

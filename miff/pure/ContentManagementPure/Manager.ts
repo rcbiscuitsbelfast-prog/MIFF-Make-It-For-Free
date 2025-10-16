@@ -224,7 +224,7 @@ export class ContentManagementManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = new StructuredLogger('ContentManagementManager');
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiContentSupport: true,
@@ -268,7 +268,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -285,8 +285,8 @@ export class ContentManagementManager {
       const system: ContentManagement = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -296,7 +296,7 @@ export class ContentManagementManager {
           totalTags: 0,
           totalViews: 0,
           averagePerformance: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -308,7 +308,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -342,7 +342,7 @@ export class ContentManagementManager {
       const updatedSystem: ContentManagement = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -354,7 +354,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -382,7 +382,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -438,8 +438,8 @@ export class ContentManagementManager {
       const content: Content = {
         ...contentData,
         id: this.generateContentId(),
-        created: new Date(),
-        modified: new Date()
+        created: Date.now(),
+        modified: Date.now()
       };
 
       system.contents.push(content);
@@ -450,7 +450,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -484,7 +484,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -513,7 +513,7 @@ export class ContentManagementManager {
       const updatedContent: Content = {
         ...content,
         ...updates,
-        modified: new Date(),
+        modified: Date.now(),
         version: this.incrementVersion(content.version)
       };
 
@@ -526,7 +526,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -553,8 +553,8 @@ export class ContentManagementManager {
       }
 
       content.status = 'published';
-      content.published = new Date();
-      content.modified = new Date();
+      content.published = Date.now();
+      content.modified = Date.now();
       this.updateAnalytics();
 
       this.logger.info('Content published', { systemId, contentId });
@@ -562,7 +562,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -589,7 +589,7 @@ export class ContentManagementManager {
       }
 
       content.status = 'archived';
-      content.modified = new Date();
+      content.modified = Date.now();
       this.updateAnalytics();
 
       this.logger.info('Content archived', { systemId, contentId });
@@ -597,7 +597,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -664,7 +664,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return [];
     }
   }
@@ -699,7 +699,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -733,7 +733,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -757,7 +757,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -781,7 +781,7 @@ export class ContentManagementManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return [];
     }
   }
@@ -841,7 +841,7 @@ export class ContentManagementManager {
         totalTags: system.tags.length,
         totalViews: system.analytics.totalViews,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

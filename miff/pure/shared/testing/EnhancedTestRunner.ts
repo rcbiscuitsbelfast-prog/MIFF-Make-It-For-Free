@@ -98,8 +98,9 @@ export class EnhancedTestRunner {
       this.generateTestReport();
 
       return results;
-    } catch (error) {
-      console.error('❌ Test execution failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test execution failed:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }

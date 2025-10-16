@@ -252,7 +252,7 @@ export class ARVRManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableDeviceManagement: true,
@@ -299,7 +299,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -316,8 +316,8 @@ export class ARVRManager {
       const device: ARVRDevice = {
         ...deviceData,
         id: this.generateDeviceId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalDevices: 0,
@@ -325,7 +325,7 @@ export class ARVRManager {
           averageTrackingAccuracy: 0,
           hapticEvents: 0,
           trackingErrors: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -337,7 +337,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -371,7 +371,7 @@ export class ARVRManager {
       const updatedDevice: ARVRDevice = {
         ...device,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(device.version)
       };
 
@@ -383,7 +383,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -411,7 +411,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -467,7 +467,7 @@ export class ARVRManager {
       device.tracking = {
         ...device.tracking,
         ...trackingData,
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
       console.debug('Tracking data updated', { deviceId, position: trackingData.position });
@@ -475,7 +475,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -506,7 +506,7 @@ export class ARVRManager {
         frequency: pattern.sequence[0]?.frequency || 100,
         duration: pattern.duration,
         pattern,
-        lastTriggered: new Date()
+        lastTriggered: Date.now()
       };
 
       device.analytics.hapticEvents++;
@@ -516,7 +516,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -549,7 +549,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -585,7 +585,7 @@ export class ARVRManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -622,7 +622,7 @@ export class ARVRManager {
         averageTrackingAccuracy: devices.length > 0 ? totalTrackingAccuracy / devices.length : 0,
         hapticEvents: device.analytics.hapticEvents,
         trackingErrors: device.analytics.trackingErrors,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

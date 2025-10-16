@@ -224,7 +224,8 @@ async function main() {
       console.log(JSON.stringify(result, null, 2));
     }
 
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     console.error(`❌ Command failed: ${error.message}`);
     process.exit(1);
   }

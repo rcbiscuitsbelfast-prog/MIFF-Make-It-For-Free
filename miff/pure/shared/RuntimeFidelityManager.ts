@@ -155,8 +155,9 @@ export class RuntimeFidelityManager {
       
       return mocks;
       
-    } catch (error) {
-      console.error('❌ Error scanning mock implementations:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Error scanning mock implementations:', err instanceof Error ? err.message : String(err));
       return [];
     }
   }
@@ -174,8 +175,9 @@ export class RuntimeFidelityManager {
       try {
         await this.replaceMockImplementation(mock);
         console.info(`✅ Replaced mock: ${mock.id} in ${mock.module}`);
-      } catch (error) {
-        console.error(`❌ Failed to replace mock ${mock.id}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`❌ Failed to replace mock ${mock.id}:`, err instanceof Error ? err.message : String(err));
       }
     }
     
@@ -195,8 +197,9 @@ export class RuntimeFidelityManager {
         const transportLayer = await this.createTransportLayer(module);
         this.transportLayers.set(module, transportLayer);
         console.info(`✅ Implemented transport layer for ${module}`);
-      } catch (error) {
-        console.error(`❌ Failed to implement transport layer for ${module}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`❌ Failed to implement transport layer for ${module}:`, err instanceof Error ? err.message : String(err));
       }
     }
   }
@@ -216,8 +219,9 @@ export class RuntimeFidelityManager {
           this.lifecycleHooks.set(hook.id, hook);
         }
         console.info(`✅ Implemented lifecycle hooks for ${module}`);
-      } catch (error) {
-        console.error(`❌ Failed to implement lifecycle hooks for ${module}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`❌ Failed to implement lifecycle hooks for ${module}:`, err instanceof Error ? err.message : String(err));
       }
     }
   }

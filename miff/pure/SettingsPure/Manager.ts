@@ -77,7 +77,8 @@ export class SettingsManager {
       try {
         const data = JSON.parse(fs.readFileSync(path.resolve(initPath), 'utf-8'));
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn('Failed to load settings, using defaults:', error);
         this.settings = { ...this.defaults };
       }
@@ -458,7 +459,7 @@ export class SettingsManager {
       settings: this.settings,
       metadata: {
         version: '1.0.0',
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now().toISOString(),
         stats: this.getStats()
       }
     };
@@ -471,8 +472,9 @@ export class SettingsManager {
       const data = JSON.parse(fs.readFileSync(path, 'utf-8'));
       this.settings = this.mergeSettings(this.defaults, data.settings || data);
       return true;
-    } catch (error) {
-      console.error('Failed to load settings:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to load settings:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }

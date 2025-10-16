@@ -264,7 +264,8 @@ export class RealModdingSystem {
         loadedFiles: loadResult.loadedFiles,
         failedFiles: loadResult.failedFiles
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         mod: {} as Mod,
@@ -293,7 +294,8 @@ export class RealModdingSystem {
       
       this.emit('modUnloaded', { mod });
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('modUnloadError', { mod, error });
       return false;
     }
@@ -508,7 +510,8 @@ export class RealModdingSystem {
       try {
         // Simulate file loading
         loadedFiles.push(file.path);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         failedFiles.push(file.path);
       }
     }
@@ -517,7 +520,8 @@ export class RealModdingSystem {
       try {
         // Simulate script loading
         loadedFiles.push(script.path);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         failedFiles.push(script.path);
       }
     }
@@ -526,7 +530,8 @@ export class RealModdingSystem {
       try {
         // Simulate asset loading
         loadedFiles.push(asset.path);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         failedFiles.push(asset.path);
       }
     }
@@ -575,7 +580,8 @@ export class RealModdingSystem {
       await this.loadMod(mod.path);
       this.emit('modHotReloaded', { mod });
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('modHotReloadError', { mod, error });
       return false;
     }
@@ -636,8 +642,9 @@ export class RealModdingSystem {
       handlers.forEach(handler => {
         try {
           handler(data);
-        } catch (error) {
-          console.error(`Error in modding system event handler for ${event}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in modding system event handler for ${event}:`, err instanceof Error ? err.message : String(err));
         }
       });
     }

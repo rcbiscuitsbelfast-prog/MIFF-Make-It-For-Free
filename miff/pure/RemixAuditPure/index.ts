@@ -80,7 +80,8 @@ export async function auditModule(modulePath: string): Promise<ModuleScanResult>
     try {
       const result = await rule.check(context);
       results.push(result);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       results.push({
         ruleId: rule.id,
         passed: false,
@@ -119,7 +120,8 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
       const result = await auditModule(modulePath);
       moduleResults.push(result);
       allResults.push(...result.auditResults);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const errorResult: AuditResult = {
         ruleId: 'module_scan',
         passed: false,

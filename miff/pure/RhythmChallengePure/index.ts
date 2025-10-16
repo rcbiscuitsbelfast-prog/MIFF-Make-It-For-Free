@@ -228,7 +228,8 @@ export class RhythmChallengePure {
         lastCalibrated: Date.now(),
         calibrationScore: 0
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn('Audio context not supported:', error);
     }
   }
@@ -744,7 +745,8 @@ export class RhythmChallengePure {
       }
 
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

@@ -345,7 +345,7 @@ export class CharacterControllerManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = new StructuredLogger('CharacterControllerManager');
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiCharacterSupport: true,
@@ -389,7 +389,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -406,8 +406,8 @@ export class CharacterControllerManager {
       const controller: CharacterController = {
         ...controllerData,
         id: this.generateControllerId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalControllers: 0,
@@ -417,7 +417,7 @@ export class CharacterControllerManager {
           totalMovements: 0,
           totalAnimations: 0,
           averagePerformance: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -429,7 +429,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -463,7 +463,7 @@ export class CharacterControllerManager {
       const updatedController: CharacterController = {
         ...controller,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(controller.version)
       };
 
@@ -475,7 +475,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -503,7 +503,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -569,7 +569,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -603,7 +603,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -637,7 +637,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -672,7 +672,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -719,7 +719,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -756,7 +756,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -780,7 +780,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -804,7 +804,7 @@ export class CharacterControllerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return [];
     }
   }
@@ -849,7 +849,7 @@ export class CharacterControllerManager {
         totalMovements: controller.analytics.totalMovements,
         totalAnimations: controller.analytics.totalAnimations,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

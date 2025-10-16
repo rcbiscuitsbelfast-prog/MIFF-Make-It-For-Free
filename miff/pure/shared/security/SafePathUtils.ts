@@ -121,7 +121,8 @@ export class SafePathUtils {
         isValid: true,
         normalizedPath: fullPath
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         isValid: false,
         normalizedPath: '',
@@ -168,7 +169,8 @@ export class SafePathUtils {
         success: true,
         data
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         error: error instanceof Error ? error.message : 'File read failed'
@@ -202,7 +204,8 @@ export class SafePathUtils {
       return {
         success: true
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         error: error instanceof Error ? error.message : 'File write failed'

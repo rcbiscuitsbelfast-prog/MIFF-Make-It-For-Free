@@ -176,8 +176,9 @@ export class WebBridge {
 
       this.gl = context as WebGLRenderingContext;
       console.log(`[WebBridge] WebGL initialized: ${this.gl.constructor.name}`);
-    } catch (error) {
-      console.error('[WebBridge] WebGL initialization failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[WebBridge] WebGL initialization failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -261,7 +262,8 @@ export class WebBridge {
         worker.onmessage = (e) => this.handleWorkerMessage(e);
         worker.onerror = (e) => console.error('[WebBridge] Worker error:', e);
         this.webWorkers.push(worker);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn(`[WebBridge] Failed to create worker ${i}:`, error);
       }
     }
@@ -321,8 +323,9 @@ export class WebBridge {
       console.log(`[WebBridge] WebAssembly module compiled: ${module.name}`);
       return module;
 
-    } catch (error) {
-      console.error('[WebBridge] WebAssembly compilation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[WebBridge] WebAssembly compilation failed:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }
@@ -365,8 +368,9 @@ export class WebBridge {
       console.log(`[WebBridge] WebAssembly module instantiated: ${module.name}`);
       return instance;
 
-    } catch (error) {
-      console.error('[WebBridge] WebAssembly instantiation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[WebBridge] WebAssembly instantiation failed:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }

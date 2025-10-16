@@ -644,8 +644,9 @@ export class WebConverter {
         }
       };
 
-    } catch (error) {
-      console.error('[WebConverter] Conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[WebConverter] Conversion failed:', err instanceof Error ? err.message : String(err));
 
       return {
         success: false,

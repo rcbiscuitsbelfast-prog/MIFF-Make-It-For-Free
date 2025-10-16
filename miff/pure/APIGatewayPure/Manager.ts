@@ -244,7 +244,7 @@ export class APIGatewayManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableRouting: true,
@@ -293,7 +293,7 @@ export class APIGatewayManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -310,8 +310,8 @@ export class APIGatewayManager {
       const gateway: APIGateway = {
         ...gatewayData,
         id: this.generateGatewayId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalRequests: 0,
@@ -319,7 +319,7 @@ export class APIGatewayManager {
           failedRequests: 0,
           averageResponseTime: 0,
           peakConcurrency: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -331,7 +331,7 @@ export class APIGatewayManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -365,7 +365,7 @@ export class APIGatewayManager {
       const updatedGateway: APIGateway = {
         ...gateway,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(gateway.version)
       };
 
@@ -377,7 +377,7 @@ export class APIGatewayManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -405,7 +405,7 @@ export class APIGatewayManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -483,7 +483,7 @@ export class APIGatewayManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return this.createErrorResponse(500, 'Internal server error');
     }
   }
@@ -561,7 +561,7 @@ export class APIGatewayManager {
     const totalTime = gateway.analytics.averageResponseTime * (gateway.analytics.totalRequests - 1) + response.responseTime;
     gateway.analytics.averageResponseTime = totalTime / gateway.analytics.totalRequests;
 
-    gateway.analytics.lastUpdated = new Date();
+    gateway.analytics.lastUpdated = Date.now();
   }
 
   /**
@@ -610,7 +610,7 @@ export class APIGatewayManager {
         failedRequests: gateway.analytics.failedRequests,
         averageResponseTime: gateway.analytics.averageResponseTime,
         peakConcurrency: gateway.analytics.peakConcurrency,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

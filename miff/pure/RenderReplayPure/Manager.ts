@@ -90,7 +90,8 @@ export class RenderReplayManager {
         session,
         issues: []
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'replay',
         status: 'error',
@@ -125,7 +126,8 @@ export class RenderReplayManager {
         session,
         issues: []
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'replay',
         status: 'error',
@@ -166,7 +168,8 @@ export class RenderReplayManager {
         session,
         issues: []
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'replay',
         status: 'error',
@@ -202,7 +205,7 @@ export class RenderReplayManager {
         config: this.config,
         steps: sessionData.frames.map((frame: any, index: number) => ({
           step: index + 1,
-          timestamp: frame.timestamp || new Date().toISOString(),
+          timestamp: frame.timestamp || Date.now().toISOString(),
           renderData: frame.data ? [frame.data] : [],
           issues: frame.issues || [],
           annotations: frame.annotations || []
@@ -222,7 +225,8 @@ export class RenderReplayManager {
         ok: true,
         session
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         ok: false,
         issues: [`Failed to load session: ${error instanceof Error ? error.message : 'Unknown error'}`]
@@ -257,7 +261,8 @@ export class RenderReplayManager {
       // Write directly; path.dirname('file') => '.' which exists under Jest CWD
       fs.writeFileSync(outputPath, content, 'utf-8');
       return { success: true };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { success: false, issues: [String((error as Error).message || error)] };
     }
   }
@@ -343,7 +348,8 @@ export class RenderReplayManager {
         } catch {}
       }
       return null;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return null;
     }
   }
@@ -416,7 +422,8 @@ export class RenderReplayManager {
         if (parsed.renderData && Array.isArray(parsed.renderData)) {
           payloads.push(parsed);
         }
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         // Skip non-JSON lines
       }
     });
@@ -433,7 +440,7 @@ export class RenderReplayManager {
     payloads.forEach((payload, index) => {
       const step: ReplayStep = {
         step: index + 1,
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now().toISOString(),
         renderData: payload.renderData || [],
         issues: payload.issues ?? [],
         annotations: this.generateAnnotations(payload, index)
@@ -444,7 +451,7 @@ export class RenderReplayManager {
       totalIssues += (step.issues ?? []).length;
     });
 
-    const startTime = new Date();
+    const startTime = Date.now();
     const endTime = new Date(startTime.getTime() + (steps.length * 1000 / this.config.speed));
     const duration = `${endTime.getTime() - startTime.getTime()}ms`;
 

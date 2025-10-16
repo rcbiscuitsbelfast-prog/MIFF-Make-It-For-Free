@@ -170,8 +170,9 @@ export class AudioMixerPure {
 
       this.isInitialized = true;
       console.log('🎵 AudioMixer initialized successfully');
-    } catch (error) {
-      console.error('Failed to initialize AudioContext:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to initialize AudioContext:', err instanceof Error ? err.message : String(err));
       this.isInitialized = false;
     }
   }
@@ -287,8 +288,9 @@ export class AudioMixerPure {
 
       this.sources.set(id, source);
       console.log(`✅ Audio loaded: ${id}`);
-    } catch (error) {
-      console.error(`Failed to load audio ${id}:`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`Failed to load audio ${id}:`, err instanceof Error ? err.message : String(err));
       throw error;
     }
   }
@@ -298,8 +300,9 @@ export class AudioMixerPure {
       const response = await fetch(url);
       const arrayBuffer = await response.arrayBuffer();
       await this.loadAudioFromArrayBuffer(arrayBuffer, id);
-    } catch (error) {
-      console.error(`Failed to load audio from URL ${url}:`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`Failed to load audio from URL ${url}:`, err instanceof Error ? err.message : String(err));
       throw error;
     }
   }

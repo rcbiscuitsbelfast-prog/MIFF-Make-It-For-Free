@@ -362,7 +362,8 @@ class EffectsPureCLI {
           console.log(`❌ Unknown command: ${command}`);
           console.log('Type "help" for available commands.');
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Error: ${error}`);
     }
 

@@ -308,7 +308,8 @@ class TopplerGame {
         const data = JSON.parse(fs.readFileSync(savePath, 'utf8'));
         return data.highScore || 0;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn('Could not load save file:', error);
     }
     return 0;
@@ -319,7 +320,8 @@ class TopplerGame {
       const savePath = path.join(process.cwd(), 'toppler_save.json');
       const data = { highScore: score, timestamp: Date.now() };
       fs.writeFileSync(savePath, JSON.stringify(data, null, 2));
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn('Could not save high score:', error);
     }
   }

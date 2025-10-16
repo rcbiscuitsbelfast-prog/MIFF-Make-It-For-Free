@@ -75,8 +75,9 @@ export class RealTransport {
           try {
             const message: TransportMessage = SafeJSONParser.parse(event.data);
             this.handleMessage(message);
-          } catch (error) {
-            console.error('Failed to parse message:', error);
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+            console.error('Failed to parse message:', err instanceof Error ? err.message : String(err));
           }
         };
 
@@ -86,10 +87,11 @@ export class RealTransport {
         };
 
         this.ws.onerror = (error) => {
-          console.error('Transport error:', error);
+          console.error('Transport error:', err instanceof Error ? err.message : String(err));
           reject(error);
         };
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         reject(error);
       }
     });
@@ -149,8 +151,9 @@ export class RealTransport {
     handlers.forEach(handler => {
       try {
         handler(message.data);
-      } catch (error) {
-        console.error('Error in message handler:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Error in message handler:', err instanceof Error ? err.message : String(err));
       }
     });
   }
@@ -162,7 +165,7 @@ export class RealTransport {
       
       setTimeout(() => {
         this.connect().catch(error => {
-          console.error('Reconnect failed:', error);
+          console.error('Reconnect failed:', err instanceof Error ? err.message : String(err));
         });
       }, this.options.reconnectInterval);
     } else {

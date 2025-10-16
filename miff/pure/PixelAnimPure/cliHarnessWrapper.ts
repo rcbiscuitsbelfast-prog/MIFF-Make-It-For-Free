@@ -81,6 +81,7 @@ try {
     default:
       throw new Error(`Unknown operation: ${mode}. Available: animateObject, play, stop, listAnimations, update`);
   }
-} catch (error) {
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
   handleError(error);
 }

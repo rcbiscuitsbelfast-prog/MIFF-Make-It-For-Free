@@ -142,7 +142,8 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
     try {
       const fileContent = fs.readFileSync(result.inputFile, 'utf-8');
       result.data = SafeJSONParser.parse(fileContent);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new CLIError(
         CLIErrorCode.INVALID_JSON,
         `Failed to parse JSON file: ${result.inputFile}`,
@@ -298,7 +299,8 @@ export abstract class BaseCLIHarness {
         console.info(output);
       }
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const result = handleCLIError(error, 'unknown', this.moduleName);
       console.error(formatOutput(result, 'json'));
       process.exit(1);

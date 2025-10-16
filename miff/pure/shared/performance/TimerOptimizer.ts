@@ -86,7 +86,8 @@ export class TimerOptimizer {
         config?.onComplete?.();
         
         this.activeTimers.delete(timerId);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.logger.error('Timer callback error', { timerId, error: error.message });
         config?.onError?.(error as Error);
       }
@@ -124,7 +125,8 @@ export class TimerOptimizer {
         callback();
         config?.onUpdate?.(executionCount);
         
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.logger.error('Interval callback error', { timerId, error: error.message });
         config?.onError?.(error as Error);
         this.clearInterval(timerId);
@@ -174,7 +176,8 @@ export class TimerOptimizer {
         const nextFrameId = window.requestAnimationFrame(animate);
         this.activeAnimationFrames.set(frameId, nextFrameId);
         
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.logger.error('Animation frame error', { frameId, error: error.message });
         this.cancelAnimationFrame(frameId);
       }

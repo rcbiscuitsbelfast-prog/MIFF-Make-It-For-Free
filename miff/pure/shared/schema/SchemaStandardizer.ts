@@ -165,7 +165,8 @@ export class SchemaStandardizer {
       this.isInitialized = true;
       console.info('Schema standardizer initialized successfully');
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('Failed to initialize schema standardizer', { error: error.message });
       throw error;
     }
@@ -227,7 +228,8 @@ export class SchemaStandardizer {
           result.valid = false;
           result.errors.push('Custom validation failed');
         }
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         result.valid = false;
         result.errors.push(`Custom validation error: ${error.message}`);
       }
@@ -463,7 +465,8 @@ export class SchemaStandardizer {
           result.valid = false;
           result.errors.push('Custom validation failed');
         }
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         result.valid = false;
         result.errors.push(`Custom validation error: ${error.message}`);
       }

@@ -1730,7 +1730,8 @@ export class TeamManager implements ITeamManager {
     try {
       team.importTeam(data);
       return TeamOperationResult.SUCCESS;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return TeamOperationResult.FAILURE;
     }
   }
@@ -2807,7 +2808,8 @@ export class SyncManager implements ISyncManager {
         });
       }
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

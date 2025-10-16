@@ -801,7 +801,8 @@ export class ClueSystemPure {
       // Implementation depends on specific requirements
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

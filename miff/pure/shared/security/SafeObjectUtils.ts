@@ -190,7 +190,8 @@ export class SafeObjectUtils {
     try {
       const visited = new WeakSet();
       return this.validateObjectRecursive(obj, visited, 0, maxDepth);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         isValid: false,
         error: error instanceof Error ? error.message : 'Object validation failed'

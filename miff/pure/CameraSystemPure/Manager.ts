@@ -142,7 +142,8 @@ export class CameraManager {
       }
 
       return camera;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error creating camera ${cameraId}:`, error instanceof Error ? error.message : String(error));
       return null;
     }
@@ -180,7 +181,8 @@ export class CameraManager {
       }
 
       return success;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error switching camera mode:`, error instanceof Error ? error.message : String(error));
       return false;
     }
@@ -282,7 +284,8 @@ export class CameraManager {
       // Store sequence (would normally go through main system)
       console.log(`🎬 Created cinematic sequence: ${sequence.name}`);
       return sequence;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error creating cinematic sequence:`, error instanceof Error ? error.message : String(error));
       return null;
     }
@@ -296,7 +299,8 @@ export class CameraManager {
       // This would trigger cinematic playback
       console.log(`🎬 Playing cinematic sequence: ${sequenceId}`);
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error playing cinematic sequence:`, error instanceof Error ? error.message : String(error));
       return false;
     }
@@ -340,7 +344,8 @@ export class CameraManager {
       console.log(`🛤️ Created camera path: ${path.name}`);
       this.updateStats({ pathsCreated: this.cameraSystem.getStats().pathsCreated + 1 });
       return path;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error creating camera path:`, error instanceof Error ? error.message : String(error));
       return null;
     }
@@ -375,7 +380,8 @@ export class CameraManager {
       console.log(`✨ Applied ${effectType} effect to camera ${cameraId}`);
       this.updateStats({ effectsApplied: this.cameraSystem.getStats().effectsApplied + 1 });
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error applying camera effect:`, error instanceof Error ? error.message : String(error));
       return false;
     }

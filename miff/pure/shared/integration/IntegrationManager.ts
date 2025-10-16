@@ -223,7 +223,8 @@ export class IntegrationManager {
 
       this.eventBus.publish('integration:registered', { id: config.id, config });
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.eventBus.publish('integration:error', { id: config.id, error });
       return false;
     }
@@ -271,7 +272,8 @@ export class IntegrationManager {
       
       this.eventBus.publish('integration:started', { id: integrationId });
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       health.status = IntegrationStatus.ERROR;
       health.lastError = error as Error;
       this.eventBus.publish('integration:error', { id: integrationId, error });
@@ -383,7 +385,8 @@ export class IntegrationManager {
       this.updateMetrics(integrationId, true, processingTime);
       
       this.eventBus.publish('integration:eventProcessed', { event, processingTime });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.updateMetrics(integrationId, false, Date.now() - startTime);
       this.eventBus.publish('integration:eventError', { event, error });
     }
@@ -395,7 +398,8 @@ export class IntegrationManager {
   private executeHook(hook: IntegrationHook, event: IntegrationEvent): void {
     try {
       hook.handler(event);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.eventBus.publish('integration:hookError', { hook, event, error });
     }
   }
@@ -411,7 +415,8 @@ export class IntegrationManager {
           setTimeout(() => reject(new Error('Hook timeout')), hook.timeout)
         )
       ]);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.eventBus.publish('integration:hookError', { hook, event, error });
     }
   }

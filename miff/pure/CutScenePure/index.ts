@@ -51,7 +51,8 @@ class AnimationPure {
           }
         }, 16); // ~60fps
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`Animation error: ${error}`);
       throw error;
     }
@@ -145,7 +146,8 @@ class DialogueSystemPureStub {
       await new Promise(resolve => setTimeout(resolve, 100));
       
       console.log(`Started dialogue: ${dialogueId}`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`Dialogue error: ${error}`);
       throw error;
     }
@@ -211,7 +213,8 @@ class CameraSystemPureStub {
           }
         }, 16); // ~60fps
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`Camera transition error: ${error}`);
       throw error;
     }
@@ -278,7 +281,8 @@ class AudioPureStub {
           resolve();
         }
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`Audio error: ${error}`);
       throw error;
     }

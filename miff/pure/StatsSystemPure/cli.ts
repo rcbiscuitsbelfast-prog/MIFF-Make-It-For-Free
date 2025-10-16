@@ -115,7 +115,8 @@ async function main() {
       timestamp: Date.now()
     }, null, 2));
 
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',

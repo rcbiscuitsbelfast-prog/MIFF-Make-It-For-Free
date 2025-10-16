@@ -77,7 +77,8 @@ export class SettingsManager {
       try {
         const data = this.loadSettingsFile(initPath);
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn('Failed to load settings, using defaults:', error);
         this.settings = { ...this.defaults };
       }
@@ -194,7 +195,8 @@ export class SettingsManager {
       const fs = require('fs');
       const content = fs.readFileSync(path, 'utf-8');
       return JSON.parse(content);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error(`Failed to load settings file: ${error}`);
     }
   }
@@ -493,7 +495,8 @@ export class SettingsManager {
       }
 
       fs.writeFileSync(path, JSON.stringify(data, null, 2));
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error(`Failed to save settings: ${error}`);
     }
   }
@@ -503,8 +506,9 @@ export class SettingsManager {
       const data = this.loadSettingsFile(path);
       this.settings = this.mergeSettings(this.defaults, data.settings || data);
       return true;
-    } catch (error) {
-      console.error('Failed to load settings:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to load settings:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }

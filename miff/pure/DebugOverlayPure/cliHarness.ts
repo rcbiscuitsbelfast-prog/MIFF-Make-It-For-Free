@@ -150,7 +150,8 @@ function overlay(args: string[], options: any): void {
     const payload = JSON.parse(payloadContent);
     const result = manager.createOverlay(payload);
     outputResult(result);
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     handleError(error, 1);
   }
 }
@@ -175,7 +176,8 @@ function overlayCLI(args: string[], options: any): void {
     const cliOutput = fs.readFileSync(outputFile, 'utf-8');
     const result = manager.createOverlayFromCLI(cliOutput);
     outputResult(result);
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     handleError(error, 1);
   }
 }

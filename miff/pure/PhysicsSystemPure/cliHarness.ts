@@ -108,13 +108,15 @@ function main(){
               issues: [`Unknown operation: ${(c as any).op}`] 
             });
         }
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         outputs.push({ op: 'error', status: 'error', timestamp, issues: [String(error)] });
       }
     }
     
     console.log(JSON.stringify({ outputs }, null, 2));
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     console.log(JSON.stringify({ 
       outputs: [{ 
         op: 'error', 

@@ -245,7 +245,8 @@ export class ExportPipelinePure {
 
       return this.finalizeExport(exportId, startTime, exportResult);
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       exportResult.errors.push(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       exportResult.success = false;
       return this.finalizeExport(exportId, startTime, exportResult);
@@ -283,7 +284,8 @@ export class ExportPipelinePure {
       }
 
       this.log('info', `Step completed: ${step.name} (${step.duration}ms)`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       step.status = ExportStatus.FAILED;
       step.endTime = Date.now();
       step.duration = step.endTime - step.startTime;
@@ -506,7 +508,8 @@ export class ExportPipelinePure {
         manifest
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log('error', `Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return {
         exportPath,

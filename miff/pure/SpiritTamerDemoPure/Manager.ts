@@ -214,7 +214,8 @@ export class SpiritTamerManager {
       if (zone) this.player.location.zone = zone;
 
       return { ok: true, location: this.player.location };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -283,7 +284,8 @@ export class SpiritTamerManager {
       this.tamingSessions.set(session.id, session);
 
       return { ok: true, session };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -360,7 +362,8 @@ export class SpiritTamerManager {
           sessionComplete: session.result !== 'in_progress'
         }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -451,7 +454,8 @@ export class SpiritTamerManager {
       };
 
       return { ok: true, battle };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -518,7 +522,7 @@ export class SpiritTamerManager {
               spirits: Object.fromEntries(this.spirits.entries()),
               sessions: Object.fromEntries(this.tamingSessions.entries()),
               activeSession: this.activeSession?.id || null,
-              exportedAt: new Date().toISOString()
+              exportedAt: Date.now().toISOString()
             }
           };
 
@@ -554,7 +558,8 @@ export class SpiritTamerManager {
         default:
           return { ok: false, errors: [`Unknown export format: ${format}`] };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }

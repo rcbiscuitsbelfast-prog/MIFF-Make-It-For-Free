@@ -296,7 +296,8 @@ class DialogueCLI {
         default:
           throw new Error(`Unknown operation: ${operation.op}`);
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: operation.op,
         status: 'error',

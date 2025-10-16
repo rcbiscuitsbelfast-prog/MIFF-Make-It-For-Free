@@ -34,8 +34,9 @@ class CAPACLI {
         case 'list':
           try {
             await this.listEntries(args.slice(1));
-          } catch (error) {
-            console.error('Error listing entries:', error);
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+            console.error('Error listing entries:', err instanceof Error ? err.message : String(err));
             // Don't exit with error for list command
           }
           break;
@@ -59,7 +60,8 @@ class CAPACLI {
           this.showHelp();
           break;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
@@ -368,7 +370,7 @@ Examples:
 if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new CAPACLI();
   cli.run().catch((error) => {
-    console.error('CAPA CLI Error:', error);
+    console.error('CAPA CLI Error:', err instanceof Error ? err.message : String(err));
     // Only exit with code 1 for non-list commands
     if (process.argv[2] !== 'list') {
       process.exit(1);

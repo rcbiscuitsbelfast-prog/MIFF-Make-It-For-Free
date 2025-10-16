@@ -88,13 +88,14 @@ async function main() {
       }
     }
     
-  } catch (error) {
-    console.error('Error:', error);
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+    console.error('Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   }
 }
 
 main().catch(error => {
-  console.error('Unhandled error:', error);
+  console.error('Unhandled error:', err instanceof Error ? err.message : String(err));
   process.exit(1);
 });

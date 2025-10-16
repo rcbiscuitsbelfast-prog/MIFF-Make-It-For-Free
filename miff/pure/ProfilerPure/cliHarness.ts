@@ -29,8 +29,9 @@ function main() {
     try {
       const loadedConfig = JSON.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
       config = { ...config, ...loadedConfig };
-    } catch (error) {
-      console.error('Error loading config:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error loading config:', err instanceof Error ? err.message : String(err));
       process.exit(1);
     }
   }
@@ -162,7 +163,8 @@ function main() {
         result.status = 'error';
         result.result = { error: `Unknown command: ${command}` };
     }
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }

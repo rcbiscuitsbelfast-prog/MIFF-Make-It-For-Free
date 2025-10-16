@@ -145,8 +145,9 @@ class AvatarAssetRegistryCLI {
 
       console.log('\n🎉 All tests passed!');
 
-    } catch (error) {
-      console.error('❌ Test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -169,8 +170,9 @@ class AvatarAssetRegistryCLI {
           console.log(`   - ${item.id}`);
         });
       }
-    } catch (error) {
-      console.error('❌ Asset resolution failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Asset resolution failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -228,8 +230,9 @@ class AvatarAssetRegistryCLI {
       console.log(`✅ Asset "${id}" added to registry`);
       console.log(`   Variants: ${Object.keys(newAsset.variants).join(', ')}`);
       console.log(`   Remix Safety: ${newAsset.remixSafety}`);
-    } catch (error) {
-      console.error('❌ Asset addition failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Asset addition failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -239,8 +242,9 @@ class AvatarAssetRegistryCLI {
       console.log('✅ Sample registry created');
       console.log(`   Assets: ${this.registry.items.length}`);
       console.log(`   Version: ${this.registry.version}`);
-    } catch (error) {
-      console.error('❌ Sample registry creation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Sample registry creation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -360,8 +364,9 @@ class AvatarAssetRegistryCLI {
 
       console.log('✅ Asset registry simulation completed successfully');
 
-    } catch (error) {
-      console.error('❌ Simulation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Simulation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

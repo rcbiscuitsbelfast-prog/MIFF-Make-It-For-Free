@@ -202,8 +202,9 @@ export class AudioManager {
           }
         }
       };
-    } catch (error) {
-      console.error('Failed to load audio config:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to load audio config:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }
@@ -299,8 +300,9 @@ export class AudioManager {
       console.log(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);
       return true;
 
-    } catch (error) {
-      console.error(`Failed to play audio binding ${binding.id}:`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`Failed to play audio binding ${binding.id}:`, err instanceof Error ? err.message : String(err));
       this.playbackState.errorCount++;
       return false;
     }

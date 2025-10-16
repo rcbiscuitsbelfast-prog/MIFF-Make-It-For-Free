@@ -85,8 +85,9 @@ export class CapabilityDiscovery {
       
       return results;
       
-    } catch (error) {
-      console.error('❌ Error discovering capabilities:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Error discovering capabilities:', err instanceof Error ? err.message : String(err));
       return [];
     }
   }
@@ -117,7 +118,8 @@ export class CapabilityDiscovery {
       result.capabilities = capabilities;
       result.status = 'success';
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       result.status = 'error';
       result.errors.push(error instanceof Error ? error.message : String(error));
     }
@@ -282,8 +284,9 @@ describe('${result.moduleName} Capabilities', () => {
     try {
       const files = await glob(pattern);
       return files;
-    } catch (error) {
-      console.error('Error finding capable files:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error finding capable files:', err instanceof Error ? err.message : String(err));
       return [];
     }
   }

@@ -170,8 +170,9 @@ class ObstacleCourseCLI {
 
       console.log('\n🎉 All tests passed!');
 
-    } catch (error) {
-      console.error('❌ Test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -185,8 +186,9 @@ class ObstacleCourseCLI {
       const courseId = this.obstacleCourse.createCourse(name);
       this.currentCourse = courseId;
       console.log(`✅ Course "${name}" created with ID: ${courseId}`);
-    } catch (error) {
-      console.error('❌ Course creation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Course creation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -219,8 +221,9 @@ class ObstacleCourseCLI {
       } else {
         console.log('❌ Failed to add obstacle');
       }
-    } catch (error) {
-      console.error('❌ Obstacle addition failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Obstacle addition failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -248,8 +251,9 @@ class ObstacleCourseCLI {
       } else {
         console.log('❌ Failed to add checkpoint');
       }
-    } catch (error) {
-      console.error('❌ Checkpoint addition failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Checkpoint addition failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -266,8 +270,9 @@ class ObstacleCourseCLI {
       } else {
         console.log('❌ Failed to start trial');
       }
-    } catch (error) {
-      console.error('❌ Trial start failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Trial start failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -280,8 +285,9 @@ class ObstacleCourseCLI {
     try {
       const score = this.obstacleCourse.getScore(this.currentCourse);
       console.log(`📊 Current score: ${score} points`);
-    } catch (error) {
-      console.error('❌ Failed to get score:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to get score:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -294,8 +300,9 @@ class ObstacleCourseCLI {
     try {
       const time = this.obstacleCourse.getTime(this.currentCourse);
       console.log(`⏱️  Current time: ${time}ms (${(time / 1000).toFixed(2)}s)`);
-    } catch (error) {
-      console.error('❌ Failed to get time:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to get time:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -308,8 +315,9 @@ class ObstacleCourseCLI {
     try {
       this.obstacleCourse.reset(this.currentCourse);
       console.log('✅ Course reset successfully');
-    } catch (error) {
-      console.error('❌ Reset failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Reset failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -384,8 +392,9 @@ class ObstacleCourseCLI {
 
       console.log('✅ Obstacle course simulation completed successfully');
 
-    } catch (error) {
-      console.error('❌ Simulation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Simulation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

@@ -290,7 +290,7 @@ export class CloudStorageManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = new StructuredLogger('CloudStorageManager');
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiProviderSupport: true,
@@ -334,7 +334,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -351,8 +351,8 @@ export class CloudStorageManager {
       const storage: CloudStorage = {
         ...storageData,
         id: this.generateStorageId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalStorages: 0,
@@ -363,7 +363,7 @@ export class CloudStorageManager {
           totalBuckets: 0,
           totalSize: 0,
           averagePerformance: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -375,7 +375,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -409,7 +409,7 @@ export class CloudStorageManager {
       const updatedStorage: CloudStorage = {
         ...storage,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(storage.version)
       };
 
@@ -421,7 +421,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -449,7 +449,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -515,7 +515,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -549,7 +549,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -578,8 +578,8 @@ export class CloudStorageManager {
       const file: StorageFile = {
         ...fileData,
         id: this.generateFileId(),
-        uploadedAt: new Date(),
-        lastModified: new Date(),
+        uploadedAt: Date.now(),
+        lastModified: Date.now(),
         checksum: this.calculateChecksum(fileData.name + fileData.size)
       };
 
@@ -591,7 +591,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -617,7 +617,7 @@ export class CloudStorageManager {
         return null;
       }
 
-      file.lastModified = new Date();
+      file.lastModified = Date.now();
       this.updateAnalytics();
 
       this.logger.info('File downloaded', { storageId, fileId, fileName: file.name });
@@ -625,7 +625,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -659,7 +659,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -693,7 +693,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -727,7 +727,7 @@ export class CloudStorageManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -804,7 +804,7 @@ export class CloudStorageManager {
         totalBuckets: storage.buckets.length,
         totalSize: storage.files.reduce((sum: any, f: any) => sum + f.size, 0),
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

@@ -106,8 +106,9 @@ export class UnityBridgeHarness {
       } else {
         console.log('❌ Failed to send combat integration test');
       }
-    } catch (error) {
-      console.error('💥 Combat integration test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 Combat integration test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -164,8 +165,9 @@ export class UnityBridgeHarness {
       } else {
         console.log('❌ Failed to send item integration test');
       }
-    } catch (error) {
-      console.error('💥 Item integration test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 Item integration test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -208,8 +210,9 @@ export class UnityBridgeHarness {
       } else {
         console.log('❌ Failed to send AI integration test');
       }
-    } catch (error) {
-      console.error('💥 AI integration test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 AI integration test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -240,8 +243,9 @@ export class UnityBridgeHarness {
       console.log(`   - Active Connections: ${stats.activeConnections}`);
 
       console.log('✅ Unity bridge integration test completed successfully');
-    } catch (error) {
-      console.error('💥 Unity bridge integration test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 Unity bridge integration test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

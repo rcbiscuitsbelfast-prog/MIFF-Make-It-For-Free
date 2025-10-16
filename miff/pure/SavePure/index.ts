@@ -849,7 +849,8 @@ export class SaveMigrator implements ISaveMigrator {
         try {
           currentSnapshot = migrationStep(currentSnapshot);
           warnings.push(`Migrated from ${fromVersion} to ${toVersion}`);
-        } catch (error) {
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
           warnings.push(`Migration failed from ${fromVersion} to ${toVersion}: ${error}`);
           break;
         }
@@ -1010,7 +1011,8 @@ export class SaveManager implements ISaveManager {
         snapshot,
         validationResult
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to save game: ${error}`,
@@ -1056,7 +1058,8 @@ export class SaveManager implements ISaveManager {
         validationResult,
         migrationResult
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to load game: ${error}`,
@@ -1127,7 +1130,8 @@ export class SaveManager implements ISaveManager {
         validationResult,
         migrationResult
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to import snapshot: ${error}`,
@@ -1156,7 +1160,8 @@ export class SaveManager implements ISaveManager {
         success: true,
         message: `Backup created at ${targetPath}`
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create backup: ${error}`,
@@ -1177,7 +1182,8 @@ export class SaveManager implements ISaveManager {
         const files = await fs.readdir(directory);
         return files.filter(file => file.endsWith('.json') || file.endsWith('.sav'));
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return [];
     }
   }
@@ -1197,7 +1203,8 @@ export class SaveManager implements ISaveManager {
       } else {
         return loadResult;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to get save info: ${error}`,

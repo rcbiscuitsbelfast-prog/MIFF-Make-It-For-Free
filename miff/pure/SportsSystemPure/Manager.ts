@@ -175,7 +175,8 @@ export class SportsManager {
         data: { team },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create team: ${error.message}`,
@@ -214,7 +215,8 @@ export class SportsManager {
         data: { player },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create player: ${error.message}`,
@@ -270,7 +272,8 @@ export class SportsManager {
         data: { game },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create game: ${error.message}`,
@@ -319,7 +322,8 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to start game: ${error.message}`,
@@ -368,7 +372,8 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to pause game: ${error.message}`,
@@ -395,7 +400,8 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to take shot: ${error.message}`,
@@ -422,7 +428,8 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to complete pass: ${error.message}`,
@@ -449,7 +456,8 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to perform tackle: ${error.message}`,
@@ -503,7 +511,8 @@ export class SportsManager {
         data: { queuePosition: this.matchmakingQueue.length },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to join matchmaking: ${error.message}`,
@@ -531,7 +540,8 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to leave matchmaking: ${error.message}`,
@@ -582,7 +592,8 @@ export class SportsManager {
             sport: sport,
             timestamp: Date.now()
           });
-        } catch (error) {
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
           // Clean up teams if game creation fails
           this.sportsSystem['teams'].delete(team1.id);
           this.sportsSystem['teams'].delete(team2.id);
@@ -633,7 +644,8 @@ export class SportsManager {
       // Implementation depends on specific requirements
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

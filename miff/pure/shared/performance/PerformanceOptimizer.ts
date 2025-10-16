@@ -294,7 +294,8 @@ export class PerformanceOptimizer {
               ruleName: rule.name,
               timestamp: new Date()
             });
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             this.eventBus.publish('performance:optimizationError', {
               ruleId: rule.id,
               error: error.message,

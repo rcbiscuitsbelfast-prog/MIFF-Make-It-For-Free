@@ -276,7 +276,8 @@ class CameraCLIHarness {
           console.log(`❌ Unknown command: ${command}`);
           console.log('Type "help" for available commands.');
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error executing command: ${error}`);
     }
   }
@@ -793,7 +794,7 @@ async function main() {
 
 // Handle uncaught errors
 process.on('uncaughtException', (error) => {
-  console.error('❌ Uncaught Exception:', error);
+  console.error('❌ Uncaught Exception:', err instanceof Error ? err.message : String(err));
   process.exit(1);
 });
 

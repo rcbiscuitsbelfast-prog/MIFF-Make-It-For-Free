@@ -434,7 +434,7 @@ export class BackupSystemManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableAutomatedBackups: true,
@@ -481,7 +481,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -498,8 +498,8 @@ export class BackupSystemManager {
       const system: BackupSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalBackups: 0,
@@ -508,7 +508,7 @@ export class BackupSystemManager {
           totalSize: 0,
           compressedSize: 0,
           averageBackupTime: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -520,7 +520,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -554,7 +554,7 @@ export class BackupSystemManager {
       const updatedSystem: BackupSystem = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -566,7 +566,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -594,7 +594,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -650,7 +650,7 @@ export class BackupSystemManager {
       const backup: Backup = {
         ...backupData,
         id: this.generateBackupId(),
-        createdAt: new Date()
+        createdAt: Date.now()
       };
 
       system.backups.push(backup);
@@ -661,7 +661,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -694,7 +694,7 @@ export class BackupSystemManager {
       await this.performBackup(backup);
 
       backup.status = 'completed';
-      backup.completedAt = new Date();
+      backup.completedAt = Date.now();
       this.updateAnalytics();
 
       console.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
@@ -702,7 +702,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       const system = this.systems.get(systemId);
       if (system) {
         const backup = system.backups.find(b => b.id === backupId);
@@ -750,7 +750,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -781,7 +781,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -812,7 +812,7 @@ export class BackupSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -895,7 +895,7 @@ export class BackupSystemManager {
         averageBackupTime: 0, // Would be calculated from actual backup times
         lastBackup: system.backups.length > 0 ? 
           system.backups.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0].createdAt : undefined,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

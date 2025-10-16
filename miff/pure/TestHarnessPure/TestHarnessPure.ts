@@ -207,7 +207,8 @@ export class TestHarness {
       this.notifyObservers('suiteCompleted', { suite, duration: suiteDuration, results });
 
       return results;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.notifyObservers('suiteFailed', { suite, error });
       throw error;
     }
@@ -258,7 +259,8 @@ export class TestHarness {
         this.notifyObservers('testPassed', testResult);
         return testResult;
 
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         retries++;
         
         if (retries > maxRetries) {
@@ -365,8 +367,9 @@ export class TestHarness {
           (globalThis as any)[injection.target] = new Function('original', injection.code)(originalWrap);
           break;
       }
-    } catch (error) {
-      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -383,8 +386,9 @@ export class TestHarness {
       }
       
       console.log(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
-    } catch (error) {
-      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -441,8 +445,9 @@ export class TestHarness {
             observer.onCodeInjectionRemoved?.(data);
             break;
         }
-      } catch (error) {
-        console.error('[TestHarnessPure] Observer error:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('[TestHarnessPure] Observer error:', err instanceof Error ? err.message : String(err));
       }
     });
   }

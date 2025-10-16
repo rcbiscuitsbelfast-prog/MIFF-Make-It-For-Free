@@ -331,7 +331,8 @@ export class GodotConverter {
             const godotScene = await this.convertScene(sceneData, sceneId);
             this.currentProject.scenes.set(sceneId, godotScene);
             this.sceneCounter++;
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             errors.push(`Failed to convert scene ${sceneId}: ${error}`);
           }
         }
@@ -344,7 +345,8 @@ export class GodotConverter {
             const godotResource = await this.convertResource(resourceData, resourceId);
             this.currentProject.resources.set(resourceId, godotResource);
             this.resourceCounter++;
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             errors.push(`Failed to convert resource ${resourceId}: ${error}`);
           }
         }
@@ -379,8 +381,9 @@ export class GodotConverter {
         statistics
       };
 
-    } catch (error) {
-      console.error('[GodotConverter] Conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[GodotConverter] Conversion failed:', err instanceof Error ? err.message : String(err));
       return {
         success: false,
         project: this.currentProject,
@@ -475,7 +478,8 @@ export class GodotConverter {
           if (!scene.rootNode) {
             scene.rootNode = entityId;
           }
-        } catch (error) {
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
           console.warn(`Failed to convert entity ${entityId}:`, error);
         }
       }
@@ -487,7 +491,8 @@ export class GodotConverter {
         try {
           const node = await this.convertSystemToNode(systemData, systemId);
           scene.nodes.set(systemId, node);
-        } catch (error) {
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
           console.warn(`Failed to convert system ${systemId}:`, error);
         }
       }
@@ -883,8 +888,9 @@ func quit_game():
       console.log(`[GodotConverter] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
       return success;
 
-    } catch (error) {
-      console.error('[GodotConverter] Export failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[GodotConverter] Export failed:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }

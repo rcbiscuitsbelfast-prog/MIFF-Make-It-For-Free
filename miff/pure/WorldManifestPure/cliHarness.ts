@@ -80,7 +80,8 @@ class WorldManifestCLI {
         default:
           throw new Error(`Unknown operation: ${operation.op}`);
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: operation.op,
         status: 'error',
@@ -622,7 +623,8 @@ async function main() {
 
     const result = await cli.execute(op);
     console.log(JSON.stringify(result, null, 2));
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     console.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }

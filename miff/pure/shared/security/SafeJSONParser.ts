@@ -43,7 +43,8 @@ export class SafeJSONParser {
       const parsed = JSON.parse(json);
       this.validateObject(parsed, opts, 0);
       return parsed;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       if (error instanceof Error) {
         throw new Error(`SafeJSONParser: ${error.message}`);
       }
@@ -73,7 +74,8 @@ export class SafeJSONParser {
       const parsed = JSON.parse(json, reviver);
       this.validateObject(parsed, opts, 0);
       return parsed;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       if (error instanceof Error) {
         throw new Error(`SafeJSONParser: ${error.message}`);
       }
@@ -154,7 +156,8 @@ export class SafeJSONParser {
   ): string {
     try {
       return JSON.stringify(obj, replacer, space);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error(`SafeJSONParser: Failed to stringify - ${error}`);
     }
   }

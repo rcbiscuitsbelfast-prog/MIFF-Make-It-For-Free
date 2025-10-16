@@ -336,8 +336,9 @@ export class RealWindow {
       handlers.forEach(handler => {
         try {
           handler(data);
-        } catch (error) {
-          console.error(`Error in window event handler for ${event}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in window event handler for ${event}:`, err instanceof Error ? err.message : String(err));
         }
       });
     }

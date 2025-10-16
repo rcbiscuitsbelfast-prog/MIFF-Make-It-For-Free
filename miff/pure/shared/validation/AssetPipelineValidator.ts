@@ -146,7 +146,8 @@ export class AssetPipelineValidator {
       this.isInitialized = true;
       console.info('Asset pipeline validator initialized successfully');
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, 'Failed to initialize asset pipeline validator');
       throw error;
     }
@@ -177,7 +178,8 @@ export class AssetPipelineValidator {
       
       return result;
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, `Failed to validate asset: ${assetPath}`);
       return {
         valid: false,
@@ -260,7 +262,8 @@ export class AssetPipelineValidator {
 
       return report;
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, `Failed to validate directory: ${dirPath}`);
       throw error;
     }
@@ -276,7 +279,8 @@ export class AssetPipelineValidator {
     for (const bridge of bridges) {
       try {
         results[bridge] = await this.validateAsset(assetPath, bridge);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         results[bridge] = {
           valid: false,
           errors: [`Bridge validation failed: ${error.message}`],
@@ -305,7 +309,8 @@ export class AssetPipelineValidator {
         const metadataContent = await fs.promises.readFile(metadataPath, 'utf-8');
         metadata = SafeJSONParser.parse(metadataContent);
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn('Failed to load metadata', { assetPath, error: error.message });
     }
 
@@ -351,7 +356,8 @@ export class AssetPipelineValidator {
         // Merge metadata
         Object.assign(result.metadata, ruleResult.metadata);
         
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn('Rule validation failed', { rule: rule.id, error: error.message });
         result.warnings.push(`Rule ${rule.name} failed: ${error.message}`);
       }
@@ -381,7 +387,8 @@ export class AssetPipelineValidator {
           assets.push(...subAssets);
         }
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn('Failed to discover assets in directory', { dirPath, error: error.message });
     }
     

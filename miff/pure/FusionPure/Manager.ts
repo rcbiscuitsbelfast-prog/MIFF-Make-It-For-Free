@@ -327,7 +327,8 @@ export class FusionManager {
       }
 
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

@@ -851,8 +851,9 @@ export class AndroidExporter {
 
       this.isInitialized = true;
       console.log('[AndroidExporter] Android exporter initialized successfully');
-    } catch (error) {
-      console.error('[AndroidExporter] Failed to initialize Android exporter:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[AndroidExporter] Failed to initialize Android exporter:', err instanceof Error ? err.message : String(err));
       throw new Error(`Android exporter initialization failed: ${error}`);
     }
   }
@@ -920,7 +921,8 @@ export class AndroidExporter {
       report.exportStatus = 'success';
 
       console.log(`[AndroidExporter] Export completed: ${exportId}`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
       report.duration = report.endTime - startTime;
       report.exportStatus = 'failed';
@@ -939,7 +941,7 @@ export class AndroidExporter {
 
       report.exportErrors.push(exportError);
 
-      console.error(`[AndroidExporter] Export failed: ${exportId}`, error);
+      console.error(`[AndroidExporter] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
     }
 
     this.exportReports.push(report);

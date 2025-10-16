@@ -98,7 +98,7 @@ export class DrivingManager {
       unlockRequirements: vehicleData.unlockRequirements || [],
       skillRequirements: vehicleData.skillRequirements || new Map(),
       manufacturer: vehicleData.manufacturer || 'Unknown',
-      modelYear: vehicleData.modelYear || new Date().getFullYear(),
+      modelYear: vehicleData.modelYear || Date.now().getFullYear(),
       rarity: vehicleData.rarity || 'common',
       value: vehicleData.value || 0
     };
@@ -141,7 +141,8 @@ export class DrivingManager {
       }
 
       return vehicle;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error creating vehicle ${vehicleId}: ${error.message}`);
       return null;
     }
@@ -205,7 +206,8 @@ export class DrivingManager {
 
       console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
       return session;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error starting session: ${error.message}`);
       return null;
     }

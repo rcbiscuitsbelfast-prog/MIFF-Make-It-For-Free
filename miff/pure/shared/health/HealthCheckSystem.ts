@@ -176,7 +176,8 @@ export class HealthCheckSystem {
       this.isInitialized = true;
       this.logger.info('Health check system initialized successfully');
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       throw error;
     }
@@ -300,7 +301,8 @@ export class HealthCheckSystem {
           await this.attemptAutoRecovery(healthStatus);
         }
 
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.errorHandler.handleError(error);
       }
     }, this.config.interval);
@@ -333,7 +335,8 @@ export class HealthCheckSystem {
       this.isInitialized = false;
       this.logger.info('Health check system destroyed');
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       throw error;
     }
@@ -464,7 +467,8 @@ export class HealthCheckSystem {
             details: result.details
           });
 
-        } catch (error) {
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
           const duration = Date.now() - startTime;
           results.push({
             name: check.name,

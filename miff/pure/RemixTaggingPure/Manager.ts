@@ -169,7 +169,7 @@ export class RemixTaggingManager {
       reason,
       requirements: this.getRequirements(remixLevel),
       dependencies,
-      lastUpdated: new Date().toISOString(),
+      lastUpdated: Date.now().toISOString(),
       version: '1.0.0'
     };
 
@@ -193,7 +193,7 @@ export class RemixTaggingManager {
       issues,
       warnings,
       metadata: {
-        taggedAt: new Date().toISOString(),
+        taggedAt: Date.now().toISOString(),
         config: this.config,
         dependencies
       }

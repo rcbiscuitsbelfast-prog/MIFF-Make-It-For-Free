@@ -115,7 +115,8 @@ export class BundleOptimizer {
       this.log(`✅ Bundle optimization complete: ${(stats.compressionRatio * 100).toFixed(1)}% size reduction`);
       return result;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log(`❌ Bundle optimization failed: ${error.message}`, 'error');
       return {
         success: false,
@@ -288,7 +289,8 @@ export class BundleOptimizer {
       require('fs').writeFileSync(bundlePath + '.br', this.brotliCompress(compressed));
 
       this.log('Bundle compressed with gzip and brotli');
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log(`Compression failed: ${error.message}`, 'error');
     }
   }

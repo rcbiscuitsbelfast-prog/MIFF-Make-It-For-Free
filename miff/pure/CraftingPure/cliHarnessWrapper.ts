@@ -84,6 +84,7 @@ try {
     default:
       throw new Error(`Unknown operation: ${mode}. Available: craftItem, list, simulate, get`);
   }
-} catch (error) {
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
   handleError(error);
 }

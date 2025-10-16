@@ -92,8 +92,9 @@ async function main() {
 
     console.log(JSON.stringify(result, null, 2));
 
-  } catch (error) {
-    console.error('Error:', error);
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+    console.error('Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   }
 }
@@ -115,7 +116,8 @@ async function buildScene(builder: SceneBuilderManager, templateId?: string): Pr
       warnings: result.warnings,
       errors: result.errors
     };
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     return {
       op: 'build',
       status: 'error',
@@ -159,7 +161,8 @@ async function exportScene(builder: SceneBuilderManager, format: SceneExportForm
       exportPaths: result.exportPaths,
       fileSize: result.fileSize
     };
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     return {
       op: 'export',
       status: 'error',

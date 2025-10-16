@@ -956,8 +956,9 @@ export class GodotBridgeManager {
 
       this.isInitialized = true;
       console.log('[GodotBridgeManager] Godot bridge initialized successfully');
-    } catch (error) {
-      console.error('[GodotBridgeManager] Failed to initialize Godot bridge:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[GodotBridgeManager] Failed to initialize Godot bridge:', err instanceof Error ? err.message : String(err));
       throw new Error(`Godot bridge initialization failed: ${error}`);
     }
   }
@@ -1104,7 +1105,8 @@ export class GodotBridgeManager {
         console.error(`[GodotBridgeManager] Failed to connect to Godot instance: ${target}`);
         return false;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[GodotBridgeManager] Connection failed: ${error}`);
       return false;
     }
@@ -1205,7 +1207,8 @@ export class GodotBridgeManager {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[GodotBridgeManager] Failed to send message: ${error}`);
       return false;
     }
@@ -1261,7 +1264,8 @@ export class GodotBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const response: GodotResponse = {
         id: `response_${message.id}`,
         correlationId: message.id,
@@ -1308,7 +1312,8 @@ export class GodotBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const response: GodotResponse = {
         id: `response_${message.id}`,
         correlationId: message.id,

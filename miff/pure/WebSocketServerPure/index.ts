@@ -63,7 +63,8 @@ export class WebSocketServerPure extends EventEmitter {
           try {
             const message = JSON.parse(data.toString());
             this.handleMessage(clientId, message);
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             this.emit('error', { clientId, error: 'Invalid JSON message' });
           }
         });
@@ -83,7 +84,8 @@ export class WebSocketServerPure extends EventEmitter {
 
       this.isRunning = true;
       this.emit('ready', { port: this.options.port, host: this.options.host });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('error', { error: `Failed to start server: ${error}` });
       throw error;
     }

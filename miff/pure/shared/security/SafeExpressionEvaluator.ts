@@ -74,7 +74,8 @@ export class SafeExpressionEvaluator {
         result,
         success: true
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         result: 0,
         success: false,

@@ -425,7 +425,8 @@ export class SocialDeductionManager {
       // Restore game state
       // Note: This is a simplified restoration - full implementation would need more complex state management
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

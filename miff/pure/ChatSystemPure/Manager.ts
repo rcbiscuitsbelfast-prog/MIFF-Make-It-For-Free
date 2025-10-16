@@ -281,7 +281,7 @@ export class ChatSystemManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = new StructuredLogger('ChatSystemManager');
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiChannelSupport: true,
@@ -325,7 +325,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -342,8 +342,8 @@ export class ChatSystemManager {
       const system: ChatSystem = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -353,7 +353,7 @@ export class ChatSystemManager {
           totalMessages: 0,
           averageMessagesPerMinute: 0,
           averageResponseTime: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -365,7 +365,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -399,7 +399,7 @@ export class ChatSystemManager {
       const updatedSystem: ChatSystem = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -411,7 +411,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -439,7 +439,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -507,7 +507,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -541,7 +541,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -574,7 +574,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -608,7 +608,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -653,7 +653,7 @@ export class ChatSystemManager {
         content,
         type,
         status: 'sent',
-        timestamp: new Date(),
+        timestamp: Date.now(),
         attachments: [],
         metadata: {}
       };
@@ -667,7 +667,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -699,7 +699,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return [];
     }
   }
@@ -738,7 +738,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -778,7 +778,7 @@ export class ChatSystemManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -838,7 +838,7 @@ export class ChatSystemManager {
         totalMessages: system.messages.length,
         averageMessagesPerMinute: 0, // Calculate based on recent activity
         averageResponseTime: 0, // Calculate based on message timestamps
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

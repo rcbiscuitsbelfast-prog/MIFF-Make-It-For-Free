@@ -262,7 +262,8 @@ function main() {
       console.error('\n' + exportData);
     }
 
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     console.error(JSON.stringify({
       op: 'error',
       status: 'error',

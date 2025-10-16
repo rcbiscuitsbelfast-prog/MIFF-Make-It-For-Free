@@ -52,7 +52,8 @@ class DocsCLI {
           this.showHelp();
           break;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }

@@ -360,8 +360,9 @@ export class DocumentationGenerator {
       
       console.info('✅ Documentation generation completed');
       
-    } catch (error) {
-      console.error('❌ Error generating documentation:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Error generating documentation:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -378,8 +379,9 @@ export class DocumentationGenerator {
         const apiDoc = await this.createAPIDocumentation(module);
         this.apiDocs.set(module, apiDoc);
         console.info(`✅ Generated API documentation for ${module}`);
-      } catch (error) {
-        console.error(`❌ Failed to generate API documentation for ${module}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`❌ Failed to generate API documentation for ${module}:`, err instanceof Error ? err.message : String(err));
       }
     }
   }
@@ -406,8 +408,9 @@ export class DocumentationGenerator {
         const guide = await this.createContributorGuide(topic);
         this.contributorGuides.set(guide.id, guide);
         console.info(`✅ Generated contributor guide: ${guide.title}`);
-      } catch (error) {
-        console.error(`❌ Failed to generate contributor guide for ${topic}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`❌ Failed to generate contributor guide for ${topic}:`, err instanceof Error ? err.message : String(err));
       }
     }
   }
@@ -434,8 +437,9 @@ export class DocumentationGenerator {
         const tutorial = await this.createTutorial(topic);
         this.tutorials.set(tutorial.id, tutorial);
         console.info(`✅ Generated tutorial: ${tutorial.title}`);
-      } catch (error) {
-        console.error(`❌ Failed to generate tutorial for ${topic}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`❌ Failed to generate tutorial for ${topic}:`, err instanceof Error ? err.message : String(err));
       }
     }
   }
@@ -464,8 +468,9 @@ export class DocumentationGenerator {
           this.codeExamples.set(example.id, example);
         }
         console.info(`✅ Generated ${examples.length} code examples for ${category}`);
-      } catch (error) {
-        console.error(`❌ Failed to generate code examples for ${category}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`❌ Failed to generate code examples for ${category}:`, err instanceof Error ? err.message : String(err));
       }
     }
   }

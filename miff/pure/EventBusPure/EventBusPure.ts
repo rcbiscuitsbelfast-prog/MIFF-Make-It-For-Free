@@ -259,8 +259,9 @@ export class EventBus {
           if (handler.once) {
             handlersToRemove.push(handler.id);
           }
-        } catch (error) {
-          console.error(`Error in event handler ${handler.id}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in event handler ${handler.id}:`, err instanceof Error ? err.message : String(err));
         }
       }
     }
@@ -294,8 +295,9 @@ export class EventBus {
     for (const callback of Array.from(this.networkCallbacks.values())) {
       try {
         callback(message);
-      } catch (error) {
-        console.error('Error in network callback:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Error in network callback:', err instanceof Error ? err.message : String(err));
       }
     }
 

@@ -58,7 +58,8 @@ class PerformanceCLI {
           this.showHelp();
           break;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
@@ -268,8 +269,9 @@ class PerformanceCLI {
           fs.writeFileSync(outputFile, JSON.stringify(history, null, 2));
           console.info(`📄 Monitoring data saved to ${outputFile}`);
         }
-      } catch (error) {
-        console.error('❌ Error during monitoring:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('❌ Error during monitoring:', err instanceof Error ? err.message : String(err));
       }
     }, interval);
   }

@@ -336,7 +336,8 @@ export class XPManager {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

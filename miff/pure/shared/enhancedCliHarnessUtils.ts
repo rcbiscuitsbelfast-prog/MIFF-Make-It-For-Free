@@ -85,7 +85,8 @@ export function runCLI(cliPath: string, args: string[] = []): string {
     }
     
     return output.trim();
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     // Return error information as JSON
     return JSON.stringify({
       op: 'error',

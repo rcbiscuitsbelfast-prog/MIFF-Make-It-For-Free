@@ -89,7 +89,8 @@ export class WorldManifestManager {
       this.worlds.set(id, world);
 
       return { ok: true, world };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -212,7 +213,8 @@ export class WorldManifestManager {
       this.assetRegistry.set(assetId, existing);
 
       return { ok: true, anchor };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -256,7 +258,8 @@ export class WorldManifestManager {
       });
 
       return { ok: true, removed: tilesToRemove };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -435,7 +438,7 @@ export class WorldManifestManager {
             schema: 'miff.world.export.v1',
             world,
             anchors: Object.fromEntries(this.assetRegistry.entries()),
-            exportedAt: new Date().toISOString()
+            exportedAt: Date.now().toISOString()
           }
         };
       

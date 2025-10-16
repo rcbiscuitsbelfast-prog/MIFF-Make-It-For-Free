@@ -870,7 +870,8 @@ class SpiritTamerGame {
       console.log('✅ Game saved successfully!');
       this.showMainMenu();
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log('❌ Failed to save game!');
       this.showMainMenu();
     }

@@ -88,7 +88,8 @@ export class LazyLoader {
 
       this.log(`✅ Module loaded: ${moduleName}`);
       return module;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log(`❌ Failed to load module ${moduleName}: ${error.message}`, 'error');
       throw error;
     } finally {
@@ -111,7 +112,8 @@ export class LazyLoader {
         if (strategy.preload) {
           try {
             await this.preloadModule(moduleName);
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
           }
         }
@@ -208,7 +210,8 @@ export class LazyLoader {
       moduleInfo.lazy = false;
 
       return { moduleName, loadTime, status: 'success' };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log(`Module load failed: ${error.message}`, 'error');
       throw error;
     }
@@ -223,7 +226,8 @@ export class LazyLoader {
     try {
       this.log(`Preloading module: ${moduleName}`);
       await this.loadModule(moduleName, { priority: true });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
     }
   }

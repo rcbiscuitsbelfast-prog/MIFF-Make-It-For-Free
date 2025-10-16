@@ -334,7 +334,7 @@ export class DataAnalysisManager {
     this.performanceOptimizer = new PerformanceOptimizer();
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiDatasetSupport: true,
@@ -378,7 +378,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -395,8 +395,8 @@ export class DataAnalysisManager {
       const system: DataAnalysis = {
         ...systemData,
         id: this.generateSystemId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalSystems: 0,
@@ -406,7 +406,7 @@ export class DataAnalysisManager {
           totalVisualizations: 0,
           averageAccuracy: 0,
           averagePerformance: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -418,7 +418,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -452,7 +452,7 @@ export class DataAnalysisManager {
       const updatedSystem: DataAnalysis = {
         ...system,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(system.version)
       };
 
@@ -464,7 +464,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -492,7 +492,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -559,7 +559,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -593,7 +593,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -622,7 +622,7 @@ export class DataAnalysisManager {
       const analysis: Analysis = {
         ...analysisData,
         id: this.generateAnalysisId(),
-        created: new Date(),
+        created: Date.now(),
         status: 'pending',
         results: {
           success: false,
@@ -644,7 +644,7 @@ export class DataAnalysisManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -681,7 +681,7 @@ export class DataAnalysisManager {
       }
 
       analysis.status = 'completed';
-      analysis.completed = new Date();
+      analysis.completed = Date.now();
       this.updateAnalytics();
 
       console.info('Analysis completed', { systemId, analysisId });
@@ -696,7 +696,7 @@ export class DataAnalysisManager {
           analysis.results.errors.push(error.message);
         }
       }
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
     }
   }
 
@@ -914,7 +914,7 @@ export class DataAnalysisManager {
         averageAccuracy: system.analyses.length > 0 ? 
           system.analyses.reduce((sum: any, a: any) => sum + (a.results.metrics.accuracy || 0), 0) / system.analyses.length : 0,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

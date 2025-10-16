@@ -55,7 +55,8 @@ export class CapabilityGenerator {
       
       console.info(`Generated capability files for ${this.modules.size} modules`);
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('Failed to generate capabilities', { error: error.message });
       throw error;
     }
@@ -122,7 +123,8 @@ export class CapabilityGenerator {
         this.extractExports(indexContent, moduleInfo);
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn(`Failed to analyze module ${name}`, { error: error.message });
     }
 
@@ -183,7 +185,8 @@ export class CapabilityGenerator {
       fs.writeFileSync(capabilityPath, capabilityContent);
       console.info(`Generated capability file for ${moduleName}`);
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`Failed to generate capability for ${moduleName}`, { error: error.message });
     }
   }

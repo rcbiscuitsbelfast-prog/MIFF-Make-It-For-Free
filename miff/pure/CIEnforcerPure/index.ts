@@ -88,7 +88,8 @@ export async function enforceCIStandards(modulePath: string): Promise<ModuleCIRe
     try {
       const result = await rule.check(context);
       results.push(result);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       results.push({
         ruleId: rule.id,
         passed: false,
@@ -129,7 +130,8 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
       const result = await enforceCIStandards(modulePath);
       moduleResults.push(result);
       allResults.push(...result.validationResults);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const errorResult: CIValidationResult = {
         ruleId: 'ci_enforcement',
         passed: false,

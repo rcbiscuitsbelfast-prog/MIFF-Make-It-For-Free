@@ -13,8 +13,9 @@ class FileStorageAdapter implements StorageAdapter {
         return JSON.parse(data);
       }
       return null;
-    } catch (error) {
-      console.error('Error reading save file:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error reading save file:', err instanceof Error ? err.message : String(err));
       return null;
     }
   }
@@ -22,8 +23,9 @@ class FileStorageAdapter implements StorageAdapter {
   async write(data: unknown): Promise<void> {
     try {
       fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.error('Error writing save file:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error writing save file:', err instanceof Error ? err.message : String(err));
       throw error;
     }
   }
@@ -225,7 +227,8 @@ async function main() {
         result.status = 'error';
         result.result = { error: `Unknown command: ${command}` };
     }
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }

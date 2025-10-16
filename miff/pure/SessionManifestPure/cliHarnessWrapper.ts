@@ -110,6 +110,7 @@ try {
     default:
       throw new Error(`Unknown operation: ${mode}. Available: createSession, getSession, updateSession, listSessions, exportManifest`);
   }
-} catch (error) {
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
   handleError(error);
 }

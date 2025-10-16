@@ -282,8 +282,9 @@ export class RealDialogueEngine {
       this.dialogueTrees.set(treeId, nodes);
       this.emit('dialogueTreeAdded', { treeId, nodeCount: nodes.length });
       return true;
-    } catch (error) {
-      console.error('Error adding dialogue tree:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error adding dialogue tree:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -303,8 +304,9 @@ export class RealDialogueEngine {
       this.characters.set(character.id, character);
       this.emit('characterAdded', { characterId: character.id, character });
       return true;
-    } catch (error) {
-      console.error('Error adding character:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error adding character:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -687,8 +689,9 @@ export class RealDialogueEngine {
       handlers.forEach(handler => {
         try {
           handler(data);
-        } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
         }
       });
     }

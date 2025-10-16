@@ -1208,8 +1208,9 @@ export class UnityConverter {
 
       this.isInitialized = true;
       console.log('[UnityConverter] Unity converter initialized successfully');
-    } catch (error) {
-      console.error('[UnityConverter] Failed to initialize Unity converter:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnityConverter] Failed to initialize Unity converter:', err instanceof Error ? err.message : String(err));
       throw new Error(`Unity converter initialization failed: ${error}`);
     }
   }
@@ -1277,7 +1278,8 @@ export class UnityConverter {
       report.conversionStatus = 'success';
 
       console.log(`[UnityConverter] Conversion completed: ${conversionId}`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
       report.duration = report.endTime - startTime;
       report.conversionStatus = 'failed';
@@ -1296,7 +1298,7 @@ export class UnityConverter {
 
       report.conversionErrors.push(conversionError);
 
-      console.error(`[UnityConverter] Conversion failed: ${conversionId}`, error);
+      console.error(`[UnityConverter] Conversion failed: ${conversionId}`, err instanceof Error ? err.message : String(err));
     }
 
     this.conversionReports.push(report);

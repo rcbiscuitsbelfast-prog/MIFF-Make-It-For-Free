@@ -112,7 +112,8 @@ export class RealFileSystem {
       }
 
       return content;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       // Handle common file scenarios
       if (filePath.includes('npc.sample.json')) {
         return JSON.stringify({
@@ -174,7 +175,8 @@ export class RealFileSystem {
         const stats = fs.statSync(safePath);
         this.cacheContent(safePath, content, stats);
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error(`Failed to write file: ${filePath} - ${error}`);
     }
   }
@@ -245,7 +247,8 @@ export class RealFileSystem {
       }
 
       return files;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error(`Failed to list files in: ${dirPath} - ${error}`);
     }
   }

@@ -165,7 +165,8 @@ export class RealBrowserAPIs {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('localStorageError', { key, value, error });
       return false;
     }
@@ -180,7 +181,8 @@ export class RealBrowserAPIs {
         return localStorage.getItem(key);
       }
       return null;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('localStorageError', { key, error });
       return null;
     }
@@ -197,7 +199,8 @@ export class RealBrowserAPIs {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('localStorageError', { key, error });
       return false;
     }
@@ -214,7 +217,8 @@ export class RealBrowserAPIs {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('localStorageError', { error });
       return false;
     }
@@ -231,7 +235,8 @@ export class RealBrowserAPIs {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('sessionStorageError', { key, value, error });
       return false;
     }
@@ -246,7 +251,8 @@ export class RealBrowserAPIs {
         return sessionStorage.getItem(key);
       }
       return null;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('sessionStorageError', { key, error });
       return null;
     }
@@ -263,7 +269,8 @@ export class RealBrowserAPIs {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('sessionStorageError', { key, error });
       return false;
     }
@@ -280,7 +287,8 @@ export class RealBrowserAPIs {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.emit('sessionStorageError', { error });
       return false;
     }
@@ -469,8 +477,9 @@ export class RealBrowserAPIs {
     handlers.forEach(handler => {
       try {
         handler(eventInfo);
-      } catch (error) {
-        console.error(`Error in event handler for ${eventType}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`Error in event handler for ${eventType}:`, err instanceof Error ? err.message : String(err));
       }
     });
 
@@ -533,8 +542,9 @@ export class RealBrowserAPIs {
       handlers.forEach(handler => {
         try {
           handler(data);
-        } catch (error) {
-          console.error(`Error in browser API event handler for ${event}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in browser API event handler for ${event}:`, err instanceof Error ? err.message : String(err));
         }
       });
     }

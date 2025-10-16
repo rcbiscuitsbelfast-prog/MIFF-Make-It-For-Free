@@ -166,7 +166,8 @@ function runCLI(cliPath: string, args: string[] = []): string {
   try {
     const output = execFileSync('npx', ['tsx', resolvedPath, ...args], { encoding: 'utf-8', timeout: 15000 });
     return output.trim();
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     return JSON.stringify({
       op: 'error',
       status: 'error',

@@ -247,7 +247,8 @@ function main() {
         result.status = 'error';
         result.result = { error: `Unknown command: ${command}` };
     }
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }

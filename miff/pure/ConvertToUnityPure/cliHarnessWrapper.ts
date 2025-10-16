@@ -67,6 +67,7 @@ try {
     default:
       throw new Error(`Unknown operation: ${mode}. Available: convertToUnity, exportScene, generateScripts`);
   }
-} catch (error) {
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
   handleError(error);
 }

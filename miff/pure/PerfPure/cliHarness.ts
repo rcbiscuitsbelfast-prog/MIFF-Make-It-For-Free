@@ -247,7 +247,8 @@ function runDemo(): void {
     try {
       test.fn();
       timer.stop();
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       timer.dispose();
       console.log(`❌ Test failed: ${error}`);
     }
@@ -411,7 +412,8 @@ async function runCLI(): Promise<void> {
               test.fn();
               timer.stop();
               console.log('✅ Test completed successfully');
-            } catch (error) {
+            } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
               timer.dispose();
               console.log(`❌ Test failed: ${error}`);
             }
@@ -448,7 +450,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', error);
+    console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   });
 }

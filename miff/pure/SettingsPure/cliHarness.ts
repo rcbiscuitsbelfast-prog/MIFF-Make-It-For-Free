@@ -59,7 +59,8 @@ function main() {
             const values = JSON.parse(categoryData);
             const success = manager.setCategory(setCategory, values);
             result.result = { success, message: success ? 'Category updated' : 'Invalid values' };
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             result.status = 'error';
             result.result = { error: 'Invalid JSON data' };
           }
@@ -155,7 +156,8 @@ function main() {
         result.status = 'error';
         result.result = { error: `Unknown command: ${command}` };
     }
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }

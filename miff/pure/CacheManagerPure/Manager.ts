@@ -201,7 +201,7 @@ export class CacheManagerManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = new StructuredLogger('CacheManagerManager');
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiLevelCaching: true,
@@ -245,7 +245,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -262,8 +262,8 @@ export class CacheManagerManager {
       const manager: CacheManager = {
         ...managerData,
         id: this.generateManagerId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalCaches: 0,
@@ -272,7 +272,7 @@ export class CacheManagerManager {
           totalHits: 0,
           totalMisses: 0,
           averageHitRate: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -284,7 +284,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -318,7 +318,7 @@ export class CacheManagerManager {
       const updatedManager: CacheManager = {
         ...manager,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(manager.version)
       };
 
@@ -330,7 +330,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -358,7 +358,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -424,7 +424,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -458,7 +458,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -498,7 +498,7 @@ export class CacheManagerManager {
       }
 
       // Update access statistics
-      entry.lastAccessed = new Date();
+      entry.lastAccessed = Date.now();
       entry.accessCount++;
       this.updateAnalytics();
 
@@ -507,7 +507,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -537,8 +537,8 @@ export class CacheManagerManager {
         key,
         value,
         ttl: ttl || cache.policy.ttl,
-        createdAt: new Date(),
-        lastAccessed: new Date(),
+        createdAt: Date.now(),
+        lastAccessed: Date.now(),
         accessCount: 0,
         size: this.calculateSize(value),
         metadata: {}
@@ -560,7 +560,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -596,7 +596,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -630,7 +630,7 @@ export class CacheManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -765,7 +765,7 @@ export class CacheManagerManager {
         totalMisses: manager.analytics.totalMisses,
         averageHitRate: manager.analytics.totalHits + manager.analytics.totalMisses > 0 ? 
           manager.analytics.totalHits / (manager.analytics.totalHits + manager.analytics.totalMisses) : 0,
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

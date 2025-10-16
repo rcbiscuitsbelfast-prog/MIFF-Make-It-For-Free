@@ -558,8 +558,9 @@ export class SceneBuilderManager {
       console.log('[SceneBuilderManager] Scene build completed successfully');
       return result;
 
-    } catch (error) {
-      console.error('[SceneBuilderManager] Scene build failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[SceneBuilderManager] Scene build failed:', err instanceof Error ? err.message : String(err));
 
       const result: SceneBuildResult = {
         success: false,

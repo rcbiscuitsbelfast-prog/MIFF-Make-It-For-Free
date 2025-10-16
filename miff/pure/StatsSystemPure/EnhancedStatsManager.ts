@@ -912,7 +912,8 @@ export class EnhancedStatsManager {
       
       // Fallback to simple evaluation
       return eval(expression);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn(`Formula evaluation failed: ${formula}`, error);
       return 0;
     }

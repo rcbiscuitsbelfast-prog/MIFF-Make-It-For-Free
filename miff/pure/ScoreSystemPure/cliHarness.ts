@@ -269,7 +269,8 @@ try {
         }
       };
   }
-} catch (error) {
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
   output = {
     op: mode || 'unknown',
     status: 'error',

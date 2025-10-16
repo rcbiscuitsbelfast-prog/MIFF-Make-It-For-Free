@@ -217,7 +217,8 @@ export class TeamsPureStrategicCLI {
         default:
           console.log('❌ Unknown command. Type "help" for available commands.');
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('❌ Error:', error instanceof Error ? error.message : 'Unknown error');
     }
   }

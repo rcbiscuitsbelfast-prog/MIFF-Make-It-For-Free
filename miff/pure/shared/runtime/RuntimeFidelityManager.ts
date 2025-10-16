@@ -168,7 +168,8 @@ export class RuntimeFidelityManager {
       this.isInitialized = true;
       console.info('Runtime fidelity manager initialized successfully');
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, 'Failed to initialize runtime fidelity manager');
       throw error;
     }
@@ -218,7 +219,8 @@ export class RuntimeFidelityManager {
       
       this.eventBus.emit('bridge:registered', { bridgeId, bridgeType });
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, `Failed to register bridge: ${bridgeId}`);
       throw error;
     }
@@ -358,7 +360,8 @@ export class RuntimeFidelityManager {
       
       return true;
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, `Failed to standardize bridge behavior: ${bridgeId}`);
       bridge.status = 'error';
       return false;
@@ -417,7 +420,8 @@ export class RuntimeFidelityManager {
           bridge.status = 'error';
         }
         
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn('Health check failed for bridge', { bridgeId, error: error.message });
         bridge.status = 'error';
         this.recordBridgeOperation(bridgeId, false);

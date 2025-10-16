@@ -493,7 +493,7 @@ export class HealthSystemManager {
             schema: 'miff.health.export.v1',
             entities,
             events: this.events.slice(-100), // Last 100 events
-            exportedAt: new Date().toISOString(),
+            exportedAt: Date.now().toISOString(),
             total: entities.length
           }
         };

@@ -238,8 +238,9 @@ export class AudioEngine {
 
       this.isInitialized = true;
       console.log('[AudioEngine] Initialized successfully');
-    } catch (error) {
-      console.error('[AudioEngine] Failed to initialize:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[AudioEngine] Failed to initialize:', err instanceof Error ? err.message : String(err));
       throw new Error(`Audio initialization failed: ${error}`);
     }
   }
@@ -261,8 +262,9 @@ export class AudioEngine {
       this.performanceMetrics.totalSources++;
 
       console.log(`[AudioEngine] Loaded audio source: ${source.name}`);
-    } catch (error) {
-      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`[AudioEngine] Failed to load audio source ${source.name}:`, err instanceof Error ? err.message : String(err));
       throw new Error(`Audio source loading failed: ${error}`);
     }
   }
@@ -317,8 +319,9 @@ export class AudioEngine {
       };
 
       console.log(`[AudioEngine] Playing source: ${source.name}`);
-    } catch (error) {
-      console.error(`[AudioEngine] Failed to play source ${sourceId}:`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`[AudioEngine] Failed to play source ${sourceId}:`, err instanceof Error ? err.message : String(err));
       throw new Error(`Audio playback failed: ${error}`);
     }
   }
@@ -337,7 +340,8 @@ export class AudioEngine {
       const response = await fetch(source.url);
       const arrayBuffer = await response.arrayBuffer();
       return await this.audioContext.decodeAudioData(arrayBuffer);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error(`Failed to decode audio buffer: ${error}`);
     }
   }
@@ -350,7 +354,8 @@ export class AudioEngine {
         this.activeSources.delete(sourceId);
         this.performanceMetrics.activeSources = Math.max(0, this.performanceMetrics.activeSources - 1);
         console.log(`[AudioEngine] Stopped source: ${sourceId}`);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn(`[AudioEngine] Error stopping source ${sourceId}:`, error);
       }
     }
@@ -624,7 +629,8 @@ export class AudioEngine {
       try {
         source.stop();
         source.disconnect();
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn(`Error stopping source ${sourceId}:`, error);
       }
     }

@@ -126,7 +126,8 @@ export class CollisionManager {
       this.addToSpatialGrid(shape.id, shape);
       
       return { op: 'upsert', status: 'ok', id: shape.id };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { op: 'upsert', status: 'error', id: shape.id, issues: [String(error)] };
     }
   }
@@ -305,7 +306,7 @@ export class CollisionManager {
           data = {
             schema: 'CollisionWorld',
             version: '2.0',
-            timestamp: new Date().toISOString(),
+            timestamp: Date.now().toISOString(),
             data: { shapes: allShapes },
             metadata: {
               totalShapes: allShapes.length,
@@ -333,7 +334,8 @@ export class CollisionManager {
       }
       
       return { op: 'export', status: 'ok', format, data };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { op: 'export', status: 'error', format, issues: [String(error)] };
     }
   }

@@ -209,7 +209,8 @@ function main() {
 
     console.log(JSON.stringify(result, null, 2));
 
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     const errorResult = {
       op: 'error',
       status: 'error',

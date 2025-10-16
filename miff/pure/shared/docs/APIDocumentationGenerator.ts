@@ -306,7 +306,8 @@ export class APIDocumentationGenerator {
         outputDir: this.config.outputDir
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('APIDocumentationGenerator', 'Failed to generate documentation', {
         error: error instanceof Error ? error.message : 'Unknown error'
       }, error instanceof Error ? error : undefined);
@@ -416,7 +417,8 @@ export class APIDocumentationGenerator {
 
       return moduleInfo;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn('APIDocumentationGenerator', 'Failed to analyze module', {
         module: name,
         error: error instanceof Error ? error.message : 'Unknown error'

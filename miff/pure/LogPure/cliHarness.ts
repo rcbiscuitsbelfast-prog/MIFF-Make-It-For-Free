@@ -206,7 +206,8 @@ class LogPureCLI {
           console.log(`❌ Unknown command: ${command}`);
           console.log('Type "help" for available commands.');
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Error: ${error}`);
     }
 
@@ -487,7 +488,8 @@ class LogPureCLI {
     try {
       fs.writeFileSync(filename, exportData);
       console.log(`✅ Log exported to ${filename} (${exportData.length} bytes)`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Failed to export log: ${error}`);
     }
   }
@@ -515,7 +517,8 @@ class LogPureCLI {
       this.logger = importedLogger;
       console.log(`✅ Log imported from ${filename}`);
       console.log(`📊 Imported ${importedLogger.getEntryCount()} entries`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Failed to import log: ${error}`);
     }
   }

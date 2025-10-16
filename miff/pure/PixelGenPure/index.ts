@@ -112,7 +112,8 @@ export const PixelGenPure = {
 				
 				ctx.putImageData(imageData, 0, 0);
 				return canvas.toDataURL('image/png');
-			} catch (error) {
+			} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
 				// Fallback if canvas polyfill fails
 				return `data:image/png;base64,${this.generateFallbackPixelData(pattern, preset, seed)}`;
 			}

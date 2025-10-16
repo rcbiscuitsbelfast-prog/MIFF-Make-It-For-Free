@@ -63,7 +63,8 @@ export class SessionManifestManager {
       this.sessionStartTimes.set(id, Date.now());
 
       return { ok: true, session };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -300,7 +301,7 @@ export class SessionManifestManager {
             schema: 'miff.session.manifest.v1',
             session,
             metadata: {
-              exportedAt: new Date().toISOString(),
+              exportedAt: Date.now().toISOString(),
               startTime: this.sessionStartTimes.get(sessionId),
               playerCount: session.players.length
             }

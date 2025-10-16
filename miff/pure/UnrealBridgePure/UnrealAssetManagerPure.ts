@@ -380,8 +380,9 @@ export class UnrealAssetManagerPure {
 
       this.isInitialized = true;
       console.log('[UnrealAssetManagerPure] Asset manager initialized successfully');
-    } catch (error) {
-      console.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealAssetManagerPure] Failed to initialize asset manager:', err instanceof Error ? err.message : String(err));
       throw new Error(`Asset manager initialization failed: ${error}`);
     }
   }
@@ -755,7 +756,8 @@ export class UnrealAssetManagerPure {
       console.log(`[UnrealAssetManagerPure] Asset loaded successfully: ${request.assetId} (${loadTime}ms)`);
       return response;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const loadTime = Date.now() - startTime;
       this.statistics.failedRequests++;
       this.statistics.loadingAssets--;
@@ -781,7 +783,7 @@ export class UnrealAssetManagerPure {
         request.callback(null, error instanceof Error ? error.message : 'Unknown error');
       }
 
-      console.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, error);
+      console.error(`[UnrealAssetManagerPure] Failed to load asset: ${request.assetId}`, err instanceof Error ? err.message : String(err));
       return response;
     }
   }
@@ -990,7 +992,8 @@ export class UnrealAssetManagerPure {
       console.log(`[UnrealAssetManagerPure] Asset streamed successfully: ${request.assetId} at ${actualQualityLevel} quality (${streamingTime}ms)`);
       return response;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const streamingTime = Date.now() - startTime;
 
       const response: AssetStreamingResponse = {
@@ -1014,7 +1017,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      console.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, error);
+      console.error(`[UnrealAssetManagerPure] Failed to stream asset: ${request.assetId}`, err instanceof Error ? err.message : String(err));
       return response;
     }
   }
@@ -1098,7 +1101,8 @@ export class UnrealAssetManagerPure {
       console.log(`[UnrealAssetManagerPure] Quality loss: ${qualityLoss * 100}%`);
       return result;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const optimizationTime = Date.now() - startTime;
 
       const result: AssetOptimizationResult = {
@@ -1116,7 +1120,7 @@ export class UnrealAssetManagerPure {
         }
       };
 
-      console.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, error);
+      console.error(`[UnrealAssetManagerPure] Failed to optimize asset: ${assetId}`, err instanceof Error ? err.message : String(err));
       return result;
     }
   }

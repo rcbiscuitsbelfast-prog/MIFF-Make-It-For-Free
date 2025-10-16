@@ -168,8 +168,9 @@ export class AssetValidator {
       console.info(`✅ Found ${references.length} asset references`);
       return references;
       
-    } catch (error) {
-      console.error('❌ Error scanning asset references:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Error scanning asset references:', err instanceof Error ? err.message : String(err));
       return [];
     }
   }
@@ -336,7 +337,8 @@ export class AssetValidator {
         suggestions.push(`Consider using lowercase or camelCase for filename`);
       }
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       errors.push(`Validation error: ${error instanceof Error ? error.message : String(error)}`);
     }
     

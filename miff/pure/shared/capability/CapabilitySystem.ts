@@ -176,7 +176,8 @@ export class CapabilitySystem {
       this.isInitialized = true;
       console.info('Capability system initialized successfully');
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error('Failed to initialize capability system', { error: error.message });
       throw error;
     }

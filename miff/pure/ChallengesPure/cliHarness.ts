@@ -376,7 +376,8 @@ class ChallengesPureCLI {
           console.log(`❌ Unknown command: ${command}`);
           console.log('Type "help" for available commands.');
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Error: ${error}`);
     }
 
@@ -837,7 +838,8 @@ class ChallengesPureCLI {
       const jsonData = JSON.stringify(challenges.map(c => c.toJSON()), null, 2);
       fs.writeFileSync(filename, jsonData);
       console.log(`✅ Challenges exported to ${filename} (${jsonData.length} bytes)`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Failed to export challenges: ${error}`);
     }
   }
@@ -871,7 +873,8 @@ class ChallengesPureCLI {
 
       console.log(`✅ Challenges imported from ${filename}`);
       console.log(`📊 Challenges: ${oldCount} → ${newCount}`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log(`❌ Failed to import challenges: ${error}`);
     }
   }

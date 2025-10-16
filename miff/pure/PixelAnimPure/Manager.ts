@@ -150,7 +150,8 @@ export class PixelAnimManager {
 
       const animation = PixelAnimPure.createAnimation(preset.name, preset.frames, preset.fps, preset.loop);
       return { ok: true, animation };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -176,7 +177,8 @@ export class PixelAnimManager {
       this.animations.set(name, animation);
 
       return { ok: true, animation };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -227,14 +229,15 @@ export class PixelAnimManager {
         animations,
         transitions,
         metadata: {
-          created: new Date().toISOString(),
+          created: Date.now().toISOString(),
           category: 'custom'
         }
       };
 
       this.sequences.set(id, sequence);
       return { ok: true, sequence };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -275,7 +278,8 @@ export class PixelAnimManager {
 
       const spriteSheet = PixelAnimPure.createSpriteSheet(animations, frameWidth, frameHeight);
       return { ok: true, spriteSheet };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -295,7 +299,8 @@ export class PixelAnimManager {
 
       this.presets.set(preset.id, preset);
       return { ok: true };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -417,7 +422,7 @@ export class PixelAnimManager {
             schema: 'miff.pixel.animation.manifest.v1',
             animation: PixelAnimPure.exportAnimation(animation),
             metadata: {
-              exportedAt: new Date().toISOString(),
+              exportedAt: Date.now().toISOString(),
               frameCount: animation.frames.length,
               duration: (animation.frames.length * 1000) / animation.speed
             }

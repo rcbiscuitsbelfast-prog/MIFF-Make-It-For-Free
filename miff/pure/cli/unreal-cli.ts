@@ -164,8 +164,9 @@ function main() {
     // Execute operation
     executeOperation(harness, input);
 
-  } catch (error) {
-    console.error('Error:', error);
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+    console.error('Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   }
 
@@ -373,8 +374,9 @@ function main() {
 
       console.log(JSON.stringify(result, null, 2));
 
-    } catch (error) {
-      console.error('Error executing operation:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error executing operation:', err instanceof Error ? err.message : String(err));
       result = {
         op: input.op,
         status: 'error',

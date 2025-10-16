@@ -180,7 +180,7 @@ export class HUDManager {
       activeAnimations: 0,
       averageRenderTime: 0,
       memoryUsage: 0,
-      lastUpdateTime: new Date(),
+      lastUpdateTime: Date.now(),
       performanceScore: 100
     };
 
@@ -251,8 +251,8 @@ export class HUDManager {
         fontSize: 'medium',
         colorBlindFriendly: false
       },
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...elementData
     };
 
@@ -280,7 +280,7 @@ export class HUDManager {
     const updatedElement = {
       ...element,
       ...updates,
-      updatedAt: new Date()
+      updatedAt: Date.now()
     };
 
     this.elements.set(elementId, updatedElement);
@@ -431,8 +431,8 @@ export class HUDManager {
       theme: layoutData.theme || this.currentTheme,
       customCSS: layoutData.customCSS,
       isActive: layoutData.isActive ?? false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       ...layoutData
     };
 
@@ -689,7 +689,7 @@ export class HUDManager {
     this.stats.totalElements = elements.length;
     this.stats.visibleElements = elements.filter(e => e.visible).length;
     this.stats.hiddenElements = elements.filter(e => !e.visible).length;
-    this.stats.lastUpdateTime = new Date();
+    this.stats.lastUpdateTime = Date.now();
   }
 
   /**

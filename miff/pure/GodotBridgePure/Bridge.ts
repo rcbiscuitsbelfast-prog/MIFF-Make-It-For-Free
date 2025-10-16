@@ -116,7 +116,8 @@ export class GodotBridge {
         status: 'ok',
         renderData: this.convertToGodotRenderData(result, config)
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'simulate',
         status: 'error',
@@ -222,7 +223,8 @@ export class GodotBridge {
           get entities() { return nodes; }
         } as any
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'render',
         status: 'error',
@@ -261,7 +263,8 @@ export class GodotBridge {
         status: 'ok',
         renderData: this.convertToGodotRenderData(result, config)
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'interop',
         status: 'error',

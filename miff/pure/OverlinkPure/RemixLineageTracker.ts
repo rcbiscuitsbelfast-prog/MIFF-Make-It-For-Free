@@ -241,7 +241,8 @@ export class RemixLineageTracker {
           this.logAudit(`Validation failed for ${assetId} with hook ${hook.id}`);
           break;
         }
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.logAudit(`Validation error for ${assetId} with hook ${hook.id}: ${error}`);
         isValid = false;
       }
@@ -310,7 +311,8 @@ export class RemixLineageTracker {
       const fs = require('fs').promises;
       await fs.writeFile(this.metadataPath, JSON.stringify(metadata, null, 2));
       this.logAudit(`Metadata saved to ${this.metadataPath}`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.logAudit(`Failed to save metadata: ${error}`);
       throw error;
     }
@@ -323,7 +325,8 @@ export class RemixLineageTracker {
       const metadata: RemixMetadata = JSON.parse(data);
       this.importMetadata(metadata);
       this.logAudit(`Metadata loaded from ${this.metadataPath}`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.logAudit(`Failed to load metadata: ${error}`);
       // Continue with empty state if file doesn't exist
     }

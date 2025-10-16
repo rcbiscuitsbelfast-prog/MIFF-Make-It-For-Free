@@ -278,8 +278,9 @@ export class Profiler {
             observer.onProfilerReset?.();
             break;
         }
-      } catch (error) {
-        console.error('[ProfilerPure] Observer error:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('[ProfilerPure] Observer error:', err instanceof Error ? err.message : String(err));
       }
     });
   }

@@ -139,7 +139,8 @@ export class RitualManager {
       }
 
       return ritual;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Failed to start ritual ${ritualId}: ${error.message}`);
       return null;
     }
@@ -200,7 +201,8 @@ export class RitualManager {
       }
 
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error progressing ritual ${ritualId}: ${error.message}`);
       return null;
     }

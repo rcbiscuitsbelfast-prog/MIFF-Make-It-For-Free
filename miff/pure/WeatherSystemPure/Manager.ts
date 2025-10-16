@@ -238,8 +238,9 @@ export class WeatherManagerPure {
         timestamp: Date.now()
       });
 
-    } catch (error) {
-      console.error('WeatherManager initialization failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('WeatherManager initialization failed:', err instanceof Error ? err.message : String(err));
       throw new Error(`WeatherManager initialization failed: ${error}`);
     }
   }

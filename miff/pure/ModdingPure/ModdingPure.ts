@@ -131,10 +131,11 @@ export class PluginDiscovery {
       plugin.status = 'loaded';
       console.log(`✅ Plugin loaded: ${plugin.manifest.name}`);
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       plugin.status = 'error';
       plugin.error = error instanceof Error ? error.message : 'Unknown error';
-      console.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, error);
+      console.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, err instanceof Error ? err.message : String(err));
     }
 
     return plugin;
@@ -647,8 +648,9 @@ export class ModdingSystem {
       try {
         const loaded = await this.discovery.loadPlugin(plugin.id);
         loadedPlugins.push(loaded);
-      } catch (error) {
-        console.error(`Failed to load plugin ${plugin.manifest.name}:`, error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error(`Failed to load plugin ${plugin.manifest.name}:`, err instanceof Error ? err.message : String(err));
       }
     }
     

@@ -121,7 +121,7 @@ export class SyncManager {
       failedSyncs: 0,
       conflictsResolved: 0,
       dataTransferred: 0,
-      lastSyncTime: new Date(),
+      lastSyncTime: Date.now(),
       averageSyncTime: 0
     };
 
@@ -161,7 +161,7 @@ export class SyncManager {
     const syncData: SyncData = {
       id,
       version: 1,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       data,
       checksum: this.calculateChecksum(data),
       deviceId,
@@ -192,7 +192,7 @@ export class SyncManager {
     const updatedData: SyncData = {
       ...existingData,
       version: existingData.version + 1,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       data,
       checksum: this.calculateChecksum(data),
       deviceId
@@ -221,7 +221,7 @@ export class SyncManager {
     const deletedData: SyncData = {
       ...existingData,
       version: existingData.version + 1,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       isDeleted: true,
       deviceId
     };
@@ -273,7 +273,7 @@ export class SyncManager {
 
       this.stats.totalSyncs++;
       this.stats.successfulSyncs++;
-      this.stats.lastSyncTime = new Date();
+      this.stats.lastSyncTime = Date.now();
       this.stats.averageSyncTime = (this.stats.averageSyncTime + syncTime) / 2;
 
       this.eventBus.publish('sync:complete', this.stats);
@@ -284,7 +284,8 @@ export class SyncManager {
       });
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.stats.failedSyncs++;
       this.eventBus.publish('sync:error', error);
       return false;
@@ -353,7 +354,7 @@ export class SyncManager {
     }
 
     conflict.resolvedData = resolvedData;
-    conflict.resolvedAt = new Date();
+    conflict.resolvedAt = Date.now();
     this.conflicts.set(conflict.id, conflict);
     this.stats.conflictsResolved++;
 
@@ -372,7 +373,7 @@ export class SyncManager {
       ...local,
       data: { ...local.data, ...remote.data },
       version: Math.max(local.version, remote.version) + 1,
-      timestamp: new Date()
+      timestamp: Date.now()
     };
   }
 
@@ -475,7 +476,7 @@ export class SyncManager {
       failedSyncs: 0,
       conflictsResolved: 0,
       dataTransferred: 0,
-      lastSyncTime: new Date(),
+      lastSyncTime: Date.now(),
       averageSyncTime: 0
     };
   }

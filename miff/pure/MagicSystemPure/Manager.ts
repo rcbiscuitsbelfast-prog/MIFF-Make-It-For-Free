@@ -80,7 +80,8 @@ export class MagicManager {
       }
 
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Spell cast error: ${spellId} - ${error.message}`);
       return {
         spellInstance: {} as SpellInstance,
@@ -146,7 +147,8 @@ export class MagicManager {
         console.warn(`⚠️ Failed to learn spell: ${spellId} for ${casterId}`);
         return false;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`❌ Error learning spell ${spellId}: ${error.message}`);
       return false;
     }

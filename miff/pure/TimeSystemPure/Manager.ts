@@ -378,8 +378,9 @@ export class TimeManager {
         if (timer.callback) {
           try {
             timer.callback();
-          } catch (error) {
-            console.error(`Error in timer callback ${timer.id}:`, error);
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+            console.error(`Error in timer callback ${timer.id}:`, err instanceof Error ? err.message : String(err));
           }
         }
         
@@ -414,8 +415,9 @@ export class TimeManager {
       if (scheduled.callback) {
         try {
           scheduled.callback();
-        } catch (error) {
-          console.error(`Error in scheduled event callback ${scheduled.id}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in scheduled event callback ${scheduled.id}:`, err instanceof Error ? err.message : String(err));
         }
       }
       
@@ -555,7 +557,7 @@ export class TimeManager {
             cooldowns: Array.from(this.cooldowns.values()),
             scheduled: this.scheduled,
             scales: Array.from(this.timeScales.values()),
-            exportedAt: new Date().toISOString(),
+            exportedAt: Date.now().toISOString(),
             stats: this.stats
           }
         };

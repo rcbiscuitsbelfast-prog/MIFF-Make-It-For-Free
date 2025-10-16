@@ -30,7 +30,8 @@ try {
       handleSuccess({ help: 'miff/pure/PrefabBuilderPure/cliHarness.ts --mode=create|add|translate ...' }, 'help');
     }
   }
-} catch (error) {
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
   handleError(error);
 }
 

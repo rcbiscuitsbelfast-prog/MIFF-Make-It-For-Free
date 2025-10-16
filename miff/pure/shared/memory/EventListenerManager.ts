@@ -96,7 +96,8 @@ export class EventListenerManager {
 
       return listenerId;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.logger.error('Failed to add event listener', {
         listenerId,
         event: config.event,
@@ -146,7 +147,8 @@ export class EventListenerManager {
 
       return true;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.logger.error('Failed to remove event listener', {
         listenerId,
         event: config.event,

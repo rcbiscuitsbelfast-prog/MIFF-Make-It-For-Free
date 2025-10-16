@@ -70,8 +70,9 @@ async function main() {
         const result = applyMount(state, events);
         console.log('=== LEGACY MOUNT SYSTEM RESULT ===');
         console.log(JSON.stringify(result, null, 2));
-      } catch (error) {
-        console.error('Error:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Error:', err instanceof Error ? err.message : String(err));
         process.exit(1);
       }
       break;
@@ -352,8 +353,9 @@ async function main() {
         // Load existing mount data here in real implementation
         const result = manager.equip(mountId, equipment);
         console.log(result.status === 'ok' ? '✅' : '❌', result.message);
-      } catch (error) {
-        console.error('Error parsing equipment JSON:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Error parsing equipment JSON:', err instanceof Error ? err.message : String(err));
         process.exit(1);
       }
       break;
@@ -392,7 +394,7 @@ async function main() {
 
 if (require.main === module) {
   main().catch(error => {
-    console.error('Error:', error);
+    console.error('Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   });
 }

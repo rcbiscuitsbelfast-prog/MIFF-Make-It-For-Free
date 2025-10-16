@@ -152,8 +152,9 @@ export class TestInfrastructureManager {
       
       return modules;
       
-    } catch (error) {
-      console.error('❌ Error scanning test infrastructure:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Error scanning test infrastructure:', err instanceof Error ? err.message : String(err));
       return [];
     }
   }
@@ -230,9 +231,10 @@ export class TestInfrastructureManager {
         await this.executeMockReplacement(replacement);
         replacement.status = 'completed';
         console.info(`✅ Replaced mock: ${replacement.id}`);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         replacement.status = 'failed';
-        console.error(`❌ Failed to replace mock: ${replacement.id}`, error);
+        console.error(`❌ Failed to replace mock: ${replacement.id}`, err instanceof Error ? err.message : String(err));
       }
     }
     

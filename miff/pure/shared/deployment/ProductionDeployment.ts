@@ -210,7 +210,8 @@ export class ProductionDeployment {
       this.isInitialized = true;
       this.logger.info('Production deployment system initialized successfully');
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       throw error;
     }
@@ -281,7 +282,8 @@ export class ProductionDeployment {
 
       return this.status;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       this.status.status = 'failed';
       this.status.endTime = new Date();
@@ -348,7 +350,8 @@ export class ProductionDeployment {
 
       return this.status;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       this.status.status = 'failed';
       this.status.endTime = new Date();
@@ -393,7 +396,8 @@ export class ProductionDeployment {
       this.isInitialized = false;
       this.logger.info('Production deployment system destroyed');
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       throw error;
     }

@@ -289,7 +289,7 @@ export class ConfigManagerManager {
     this.memoryManager = new MemoryManager();
     this.errorHandler = new StandardErrorHandler();
     this.logger = new StructuredLogger('ConfigManagerManager');
-    this.startTime = new Date();
+    this.startTime = Date.now();
 
     this.config = {
       enableMultiConfigSupport: true,
@@ -333,7 +333,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -350,8 +350,8 @@ export class ConfigManagerManager {
       const manager: ConfigManager = {
         ...managerData,
         id: this.generateManagerId(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
         version: '1.0.0',
         analytics: {
           totalManagers: 0,
@@ -360,7 +360,7 @@ export class ConfigManagerManager {
           totalSchemas: 0,
           totalValidators: 0,
           averagePerformance: 0,
-          lastUpdated: new Date()
+          lastUpdated: Date.now()
         }
       };
 
@@ -372,7 +372,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -406,7 +406,7 @@ export class ConfigManagerManager {
       const updatedManager: ConfigManager = {
         ...manager,
         ...updates,
-        updatedAt: new Date(),
+        updatedAt: Date.now(),
         version: this.incrementVersion(manager.version)
       };
 
@@ -418,7 +418,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -446,7 +446,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       throw error;
     }
   }
@@ -502,7 +502,7 @@ export class ConfigManagerManager {
       const configuration: Configuration = {
         ...configData,
         id: this.generateConfigId(),
-        lastModified: new Date()
+        lastModified: Date.now()
       };
 
       manager.configs.push(configuration);
@@ -513,7 +513,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -547,7 +547,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -576,7 +576,7 @@ export class ConfigManagerManager {
       const updatedConfiguration: Configuration = {
         ...configuration,
         ...updates,
-        lastModified: new Date(),
+        lastModified: Date.now(),
         version: this.incrementVersion(configuration.version)
       };
 
@@ -589,7 +589,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -613,7 +613,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -686,7 +686,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return { valid: false, errors: [error.message] };
     }
   }
@@ -739,7 +739,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return null;
     }
   }
@@ -773,7 +773,7 @@ export class ConfigManagerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.errorHandler.handleError($1);
+      this.errorHandler.handleError();
       return false;
     }
   }
@@ -825,7 +825,7 @@ export class ConfigManagerManager {
         totalSchemas: manager.schemas.length,
         totalValidators: manager.validators.length,
         averagePerformance: 85, // Simulate performance score
-        lastUpdated: new Date()
+        lastUpdated: Date.now()
       };
     }
   }

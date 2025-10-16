@@ -146,7 +146,8 @@ export class BridgeInspectorManager {
         },
         issues: []
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'inspect',
         status: 'error',
@@ -200,7 +201,8 @@ export class BridgeInspectorManager {
         },
         issues: []
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'inspect',
         status: 'error',
@@ -247,7 +249,8 @@ export class BridgeInspectorManager {
       fs.writeFileSync(outputPath, content, 'utf-8');
 
       return { success: true };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         issues: [`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
@@ -721,7 +724,8 @@ export class BridgeInspectorManager {
 
       const content = fs.readFileSync(testPath, 'utf-8');
       return JSON.parse(content);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return null;
     }
   }
@@ -763,7 +767,7 @@ export class BridgeInspectorManager {
     
     lines.push('# Bridge Inspection Report');
     lines.push('');
-    lines.push(`Generated: ${new Date().toISOString()}`);
+    lines.push(`Generated: ${Date.now().toISOString()}`);
     lines.push(`Total Bridges: ${inspections.length}`);
     lines.push('');
 
@@ -842,7 +846,7 @@ export class BridgeInspectorManager {
     
     lines.push('<div class="header">');
     lines.push('<h1>Bridge Inspection Report</h1>');
-    lines.push(`<p><strong>Generated:</strong> ${new Date().toISOString()}</p>`);
+    lines.push(`<p><strong>Generated:</strong> ${Date.now().toISOString()}</p>`);
     lines.push(`<p><strong>Total Bridges:</strong> ${inspections.length}</p>`);
     lines.push('</div>');
 

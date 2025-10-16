@@ -813,8 +813,9 @@ export class RealPlatformBridge {
     try {
       const result = await navigator.permissions.query({ name: permission as PermissionName });
       return result.state === 'granted';
-    } catch (error) {
-      console.error('Error requesting permission:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error requesting permission:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -830,8 +831,9 @@ export class RealPlatformBridge {
           quota: estimate.quota || 0,
           usage: estimate.usage || 0
         };
-      } catch (error) {
-        console.error('Error getting storage quota:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Error getting storage quota:', err instanceof Error ? err.message : String(err));
       }
     }
     
@@ -845,8 +847,9 @@ export class RealPlatformBridge {
     if ('storage' in navigator && 'persist' in navigator.storage) {
       try {
         return await navigator.storage.persist();
-      } catch (error) {
-        console.error('Error requesting persistent storage:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Error requesting persistent storage:', err instanceof Error ? err.message : String(err));
       }
     }
     
@@ -879,8 +882,9 @@ export class RealPlatformBridge {
       handlers.forEach(handler => {
         try {
           handler(data);
-        } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
         }
       });
     }

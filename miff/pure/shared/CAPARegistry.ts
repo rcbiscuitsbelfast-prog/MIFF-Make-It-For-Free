@@ -262,7 +262,8 @@ export class CAPARegistryManager {
           this.registry.entries.set(entry.id, entry);
         }
         console.info(`📂 Loaded ${this.registry.entries.size} CAPA entries from storage`);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn('⚠️ Failed to load CAPA entries:', error);
       }
     }
@@ -274,8 +275,9 @@ export class CAPARegistryManager {
     
     try {
       fs.writeFileSync(entriesPath, JSON.stringify({ entries: allEntries }, null, 2));
-    } catch (error) {
-      console.error('❌ Failed to save CAPA entry:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to save CAPA entry:', err instanceof Error ? err.message : String(err));
     }
   }
 

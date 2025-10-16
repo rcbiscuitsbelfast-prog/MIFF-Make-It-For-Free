@@ -294,7 +294,8 @@ export class SkeletonAnimatorCLI {
 
     try {
       return await command.execute(args);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return `Error executing command ${commandName}: ${error}`;
     }
   }

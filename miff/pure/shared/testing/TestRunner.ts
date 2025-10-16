@@ -372,7 +372,8 @@ export class TestRunner {
       // Emit suite completion
       this.eventBus.publish('test:suite:complete', suite);
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       // Handle test file error
       const errorResult: TestResult = {
         id: this.generateId(),
@@ -418,7 +419,8 @@ export class TestRunner {
       }
       
       return stdout;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       // Jest returns non-zero exit code for test failures, but we still want the output
       if (error.stdout) {
         return error.stdout;
@@ -499,8 +501,9 @@ export class TestRunner {
       }
       
       return results;
-    } catch (error) {
-      console.error('Error parsing Jest results:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error parsing Jest results:', err instanceof Error ? err.message : String(err));
       return [];
     }
   }

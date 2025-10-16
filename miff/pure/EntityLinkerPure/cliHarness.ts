@@ -30,8 +30,9 @@ function main() {
     try {
       const extern = JSON.parse(fs.readFileSync(path.resolve(externFile), 'utf-8')) as ExternalRefMaps;
       mgr.inject(extern);
-    } catch (error) {
-      console.error('Error loading external references:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error loading external references:', err instanceof Error ? err.message : String(err));
       process.exit(1);
     }
   }
@@ -47,7 +48,8 @@ function main() {
         if (inputFile && fs.existsSync(inputFile)) {
           try {
             input = JSON.parse(fs.readFileSync(path.resolve(inputFile), 'utf-8')) as LinkInput;
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             result.status = 'error';
             result.result = { error: 'Invalid input file format' };
             break;
@@ -68,7 +70,8 @@ function main() {
         if (validateInputFile && fs.existsSync(validateInputFile)) {
           try {
             validateInput = JSON.parse(fs.readFileSync(path.resolve(validateInputFile), 'utf-8')) as LinkInput;
-          } catch (error) {
+          } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
             result.status = 'error';
             result.result = { error: 'Invalid input file format' };
             break;
@@ -122,7 +125,8 @@ function main() {
         result.status = 'error';
         result.result = { error: `Unknown command: ${command}` };
     }
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     result.status = 'error';
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }

@@ -218,7 +218,8 @@ export class ProductionMonitor {
       this.isInitialized = true;
       this.logger.info('Production monitor initialized successfully');
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       throw error;
     }
@@ -385,7 +386,8 @@ export class ProductionMonitor {
         // Check for alerts
         await this.checkForAlerts(metrics);
 
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.errorHandler.handleError(error);
       }
     }, this.config.interval);
@@ -418,7 +420,8 @@ export class ProductionMonitor {
       this.isInitialized = false;
       this.logger.info('Production monitor destroyed');
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error);
       throw error;
     }
@@ -541,7 +544,8 @@ export class ProductionMonitor {
       try {
         await this.executeAction(action, alert);
         action.status = 'completed';
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         action.status = 'failed';
         this.logger.error('Alert action failed', { alertId: alert.id, action: action.type, error: error.message });
       }

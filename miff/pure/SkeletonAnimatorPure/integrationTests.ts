@@ -109,7 +109,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { jsonLength: rigJson.length }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'RigBuilder error',
         passed: false,
@@ -197,7 +198,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { jsonLength: limbsJson.length }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'LimbAttachment error',
         passed: false,
@@ -292,7 +294,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { jsonLength: skinJson.length }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'SkinMeshGenerator error',
         passed: false,
@@ -399,7 +402,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { jsonLength: faceJson.length }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'FacialDetailBuilder error',
         passed: false,
@@ -506,7 +510,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { jsonLength: animsJson.length }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'AnimationSequencer error',
         passed: false,
@@ -623,7 +628,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { integrationType: saveLoadData.type }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'ExportIntegration error',
         passed: false,
@@ -743,7 +749,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { jsonLength: uiStateJson.length }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'UIBuilder error',
         passed: false,
@@ -837,7 +844,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { importedRigId: importedState.rig.id }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'Full workflow error',
         passed: false,
@@ -914,7 +922,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { hasSaveData: !!saveLoadData.saveData }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'MIFF integration error',
         passed: false,
@@ -998,7 +1007,8 @@ export class SkeletonAnimatorIntegrationTests {
         details: { format: 'miff-anim-v1' }
       });
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'Export formats error',
         passed: false,
@@ -1077,7 +1087,8 @@ export class SkeletonAnimatorIntegrationTests {
         });
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'Performance test error',
         passed: false,
@@ -1113,7 +1124,8 @@ export class SkeletonAnimatorIntegrationTests {
           duration: Date.now() - startTime,
           details: { error: 'Should have thrown error' }
         });
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         tests.push({
           name: 'Invalid rig node access',
           passed: true,
@@ -1132,7 +1144,8 @@ export class SkeletonAnimatorIntegrationTests {
           duration: Date.now() - startTime,
           details: { error: 'Should have thrown error' }
         });
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         tests.push({
           name: 'Invalid limb attachment',
           passed: true,
@@ -1151,7 +1164,8 @@ export class SkeletonAnimatorIntegrationTests {
           duration: Date.now() - startTime,
           details: { error: 'Should have thrown error' }
         });
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         tests.push({
           name: 'Invalid morph target application',
           passed: true,
@@ -1178,7 +1192,8 @@ export class SkeletonAnimatorIntegrationTests {
           duration: Date.now() - startTime,
           details: { error: 'Should have thrown error' }
         });
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         tests.push({
           name: 'Invalid animation keyframe',
           passed: true,
@@ -1196,7 +1211,8 @@ export class SkeletonAnimatorIntegrationTests {
           duration: Date.now() - startTime,
           details: { error: 'Should have thrown error' }
         });
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         tests.push({
           name: 'Invalid export format',
           passed: true,
@@ -1205,7 +1221,8 @@ export class SkeletonAnimatorIntegrationTests {
         });
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       tests.push({
         name: 'Error handling test error',
         passed: false,

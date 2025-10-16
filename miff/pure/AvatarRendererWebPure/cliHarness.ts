@@ -128,7 +128,8 @@ class AvatarRendererWebCLI {
         // So we'll simulate the rendering process
         this.simulateRenderingProcess(testAvatar, mockContext);
         console.log('   ✅ Rendering process simulated successfully');
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.log(`   ⚠️  Rendering simulation: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
 
@@ -145,8 +146,9 @@ class AvatarRendererWebCLI {
 
       console.log('\n🎉 All tests passed!');
 
-    } catch (error) {
-      console.error('❌ Test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -169,8 +171,9 @@ class AvatarRendererWebCLI {
 
       console.log('✅ Sample avatar rendered successfully');
 
-    } catch (error) {
-      console.error('❌ Sample rendering failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Sample rendering failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -191,8 +194,9 @@ class AvatarRendererWebCLI {
       fs.writeFileSync('test-avatar.json', avatarData);
       console.log('   💾 Test avatar saved to test-avatar.json');
 
-    } catch (error) {
-      console.error('❌ Test avatar creation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test avatar creation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -229,8 +233,9 @@ class AvatarRendererWebCLI {
 
       console.log('✅ Renderer validation completed');
 
-    } catch (error) {
-      console.error('❌ Renderer validation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Renderer validation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -284,14 +289,16 @@ class AvatarRendererWebCLI {
         const mockContext = this.createMockCanvasContext();
         this.simulateRenderingProcess(invalidAvatar, mockContext);
         console.log('   ✅ Handled empty assets gracefully');
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.log(`   ⚠️  Error handling: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
 
       console.log('✅ Web avatar rendering simulation completed successfully');
 
-    } catch (error) {
-      console.error('❌ Rendering simulation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Rendering simulation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

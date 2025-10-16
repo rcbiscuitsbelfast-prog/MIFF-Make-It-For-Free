@@ -101,7 +101,8 @@ class CombatCLI {
         message: 'CombatPure module test completed successfully'
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'test',
         status: 'error',
@@ -142,7 +143,8 @@ class CombatCLI {
         message: 'Battle created successfully'
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'create_battle',
         status: 'error',
@@ -176,7 +178,8 @@ class CombatCLI {
         message: 'Combatant added successfully'
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'add_combatant',
         status: 'error',
@@ -201,7 +204,8 @@ class CombatCLI {
         message: result.completed ? 'Turn processed successfully' : 'No actions to process'
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'process_turn',
         status: 'error',
@@ -235,7 +239,8 @@ class CombatCLI {
         message: 'Battle status retrieved successfully'
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'get_status',
         status: 'error',
@@ -273,7 +278,8 @@ class CombatCLI {
         message: validationErrors.length === 0 ? 'Move created successfully' : 'Move validation failed'
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'create_move',
         status: 'error',
@@ -328,7 +334,8 @@ class CombatCLI {
         message: 'Damage calculated successfully'
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'calculate_damage',
         status: 'error',
@@ -416,7 +423,8 @@ function main() {
     
     console.log(JSON.stringify(result, null, 2));
     
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     console.log(JSON.stringify({
       op: command,
       status: 'error',

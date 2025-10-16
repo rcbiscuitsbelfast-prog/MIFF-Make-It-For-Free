@@ -88,7 +88,8 @@ export class SchemaValidator {
       const jsonData = JSON.parse(jsonContent);
 
       return this.validateData(jsonData, schema);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         isValid: false,
         errors: [`Validation error: ${error instanceof Error ? error.message : String(error)}`],
@@ -204,7 +205,8 @@ export class SchemaValidator {
 
       const content = fs.readFileSync(schemaPath, 'utf8');
       return JSON.parse(content) as SchemaDefinition;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return null;
     }
   }
@@ -217,7 +219,8 @@ export class SchemaValidator {
       const content = JSON.stringify(schema, null, 2);
       fs.writeFileSync(schemaPath, content, 'utf8');
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

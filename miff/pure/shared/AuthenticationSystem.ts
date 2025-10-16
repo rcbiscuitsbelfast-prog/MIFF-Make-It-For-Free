@@ -226,7 +226,8 @@ export class AuthenticationSystem {
       this.users.set(user.username, user);
 
       return { success: true, user };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
         error: error instanceof Error ? error.message : 'Registration failed' 
@@ -285,7 +286,8 @@ export class AuthenticationSystem {
         user,
         expiresAt
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
         error: error instanceof Error ? error.message : 'Login failed' 
@@ -304,7 +306,8 @@ export class AuthenticationSystem {
         this.sessions.set(session.id, session);
       }
       return { success: true };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
         error: error instanceof Error ? error.message : 'Logout failed' 
@@ -344,7 +347,8 @@ export class AuthenticationSystem {
       this.sessions.set(session.id, session);
 
       return { valid: true, user };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { 
         valid: false, 
         error: error instanceof Error ? error.message : 'Token verification failed' 
@@ -378,7 +382,8 @@ export class AuthenticationSystem {
       this.sessions.set(session.id, session);
 
       return { success: true, token: newToken };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { 
         success: false, 
         error: error instanceof Error ? error.message : 'Token refresh failed' 

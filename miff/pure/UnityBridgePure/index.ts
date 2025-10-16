@@ -756,8 +756,9 @@ export class UnityBridgeManager {
 
       this.isInitialized = true;
       console.log('[UnityBridgeManager] Unity bridge initialized successfully');
-    } catch (error) {
-      console.error('[UnityBridgeManager] Failed to initialize Unity bridge:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnityBridgeManager] Failed to initialize Unity bridge:', err instanceof Error ? err.message : String(err));
       throw new Error(`Unity bridge initialization failed: ${error}`);
     }
   }
@@ -906,7 +907,8 @@ export class UnityBridgeManager {
         console.error(`[UnityBridgeManager] Failed to connect to Unity instance: ${target}`);
         return false;
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[UnityBridgeManager] Connection failed: ${error}`);
       return false;
     }
@@ -986,7 +988,8 @@ export class UnityBridgeManager {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[UnityBridgeManager] Failed to send message: ${error}`);
       return false;
     }
@@ -1033,7 +1036,8 @@ export class UnityBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const response: UnityResponse = {
         id: `response_${message.id}`,
         correlationId: message.id,
@@ -1080,7 +1084,8 @@ export class UnityBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const response: UnityResponse = {
         id: `response_${message.id}`,
         correlationId: message.id,
@@ -1127,7 +1132,8 @@ export class UnityBridgeManager {
       for (const handler of handlers) {
         try {
           await handler(event.data);
-        } catch (error) {
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
           console.error(`[UnityBridgeManager] Event handler failed: ${error}`);
         }
       }

@@ -1223,8 +1223,9 @@ export class UnrealBridgeManager {
 
       this.isInitialized = true;
       console.log('[UnrealBridgeManager] Unreal bridge initialized successfully');
-    } catch (error) {
-      console.error('[UnrealBridgeManager] Failed to initialize Unreal bridge:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealBridgeManager] Failed to initialize Unreal bridge:', err instanceof Error ? err.message : String(err));
       throw new Error(`Unreal bridge initialization failed: ${error}`);
     }
   }
@@ -1453,7 +1454,8 @@ export class UnrealBridgeManager {
       this.reconnectAttempts = 0;
       console.log(`[UnrealBridgeManager] Successfully connected to Unreal instance: ${target}`);
       return connection;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[UnrealBridgeManager] Connection failed: ${error}`);
       throw error;
     }
@@ -1579,7 +1581,8 @@ export class UnrealBridgeManager {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.error(`[UnrealBridgeManager] Failed to send message: ${error}`);
       return false;
     }
@@ -1635,7 +1638,8 @@ export class UnrealBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const response: UnrealResponse = {
         id: `response_${message.id}`,
         correlationId: message.id,
@@ -1683,7 +1687,8 @@ export class UnrealBridgeManager {
       };
 
       await this.sendResponse(response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const response: UnrealResponse = {
         id: `response_${message.id}`,
         correlationId: message.id,

@@ -50,11 +50,12 @@ export class EventBus {
           // If handler returns a Promise, we need to handle it
           if (result && typeof result.then === 'function') {
             result.catch(error => {
-              console.error(`Error in async event handler for topic '${topic}':`, error);
+              console.error(`Error in async event handler for topic '${topic}':`, err instanceof Error ? err.message : String(err));
             });
           }
-        } catch (error) {
-          console.error(`Error in event handler for topic '${topic}':`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in event handler for topic '${topic}':`, err instanceof Error ? err.message : String(err));
         }
       }
     }
@@ -80,8 +81,9 @@ export class EventBus {
           if (result && typeof result.then === 'function') {
             promises.push(result);
           }
-        } catch (error) {
-          console.error(`Error in event handler for topic '${topic}':`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in event handler for topic '${topic}':`, err instanceof Error ? err.message : String(err));
           // Don't add failed handlers to promises
         }
       }
@@ -99,8 +101,9 @@ export class EventBus {
       for (const handler of asyncHandlersCopy) {
         try {
           promises.push(handler(payload));
-        } catch (error) {
-          console.error(`Error in async event handler for topic '${topic}':`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in async event handler for topic '${topic}':`, err instanceof Error ? err.message : String(err));
         }
       }
 
@@ -393,8 +396,9 @@ export const EventUtils = {
       if (predicate(payload)) {
         try {
           await handler(payload);
-        } catch (error) {
-          console.error('Error in filtered async handler:', error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error('Error in filtered async handler:', err instanceof Error ? err.message : String(err));
         }
       }
     };

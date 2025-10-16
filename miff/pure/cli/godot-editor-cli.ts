@@ -84,8 +84,9 @@ export class GodotEditorCLI {
       this.isConnected = true;
       console.log('✅ Connected to Godot Editor');
       return true;
-    } catch (error) {
-      console.error('❌ Failed to connect to Godot Editor:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to connect to Godot Editor:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -161,8 +162,9 @@ export class GodotEditorCLI {
       // In real implementation, this would send the message to Godot Editor
 
       console.log('✅ Combat integration test completed');
-    } catch (error) {
-      console.error('💥 Combat integration test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 Combat integration test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -250,8 +252,9 @@ export class GodotEditorCLI {
       // In real implementation, this would send the message to Godot Editor
 
       console.log('✅ Item integration test completed');
-    } catch (error) {
-      console.error('💥 Item integration test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 Item integration test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -348,8 +351,9 @@ export class GodotEditorCLI {
       // In real implementation, this would send the message to Godot Editor
 
       console.log('✅ AI integration test completed');
-    } catch (error) {
-      console.error('💥 AI integration test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 AI integration test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -375,8 +379,9 @@ export class GodotEditorCLI {
       await this.testAIIntegration();
 
       console.log('✅ Live validation completed successfully');
-    } catch (error) {
-      console.error('💥 Live validation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('💥 Live validation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

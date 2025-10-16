@@ -187,7 +187,8 @@ export class SessionManager {
       this.updateStats();
 
       return session;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error(`Failed to create session: ${error instanceof Error ? error.message : error}`);
     }
   }
@@ -230,8 +231,9 @@ export class SessionManager {
       });
 
       return true;
-    } catch (error) {
-      console.error('Failed to update session activity:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to update session activity:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -262,8 +264,9 @@ export class SessionManager {
       });
 
       return true;
-    } catch (error) {
-      console.error('Failed to refresh session:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to refresh session:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -295,8 +298,9 @@ export class SessionManager {
       this.updateStats();
 
       return true;
-    } catch (error) {
-      console.error('Failed to terminate session:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to terminate session:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -316,8 +320,9 @@ export class SessionManager {
       }
 
       return terminatedCount;
-    } catch (error) {
-      console.error('Failed to terminate user sessions:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to terminate user sessions:', err instanceof Error ? err.message : String(err));
       return 0;
     }
   }
@@ -360,8 +365,9 @@ export class SessionManager {
       this.updateStats();
 
       return cleanedCount;
-    } catch (error) {
-      console.error('Failed to cleanup expired sessions:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to cleanup expired sessions:', err instanceof Error ? err.message : String(err));
       return 0;
     }
   }
@@ -450,8 +456,9 @@ export class SessionManager {
         if (cleanedCount > 0) {
           console.info(`Cleaned up ${cleanedCount} expired sessions`);
         }
-      } catch (error) {
-        console.error('Session cleanup error:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Session cleanup error:', err instanceof Error ? err.message : String(err));
       }
     }, this.config.cleanupInterval * 1000);
   }
@@ -466,8 +473,9 @@ export class SessionManager {
         if (alerts.length > 0 && this.monitor.notifications.log) {
           console.info('Session monitoring alerts:', alerts);
         }
-      } catch (error) {
-        console.error('Session monitoring error:', error);
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+        console.error('Session monitoring error:', err instanceof Error ? err.message : String(err));
       }
     }, this.monitor.checkInterval * 1000);
   }

@@ -25,7 +25,8 @@ try {
   
   const result = applyQuestEvents(state, events);
   console.log(JSON.stringify(result, null, 2));
-} catch (error) {
-  console.error('Error:', error);
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+  console.error('Error:', err instanceof Error ? err.message : String(err));
   process.exit(1);
 }

@@ -344,8 +344,8 @@ export class LogManager {
       entriesBySource: {} as Record<string, number>,
       averageEntriesPerMinute: 0,
       errorRate: 0,
-      lastEntryTime: new Date(),
-      oldestEntryTime: new Date()
+      lastEntryTime: Date.now(),
+      oldestEntryTime: Date.now()
     };
 
     this.initialize();
@@ -469,7 +469,7 @@ export class LogManager {
       level,
       category,
       message,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       source,
       metadata,
       tags: this.extractTags(message, metadata)
@@ -674,7 +674,7 @@ export class LogManager {
     this.stats.errorRate = this.stats.totalEntries > 0 ? (errorCount / this.stats.totalEntries) * 100 : 0;
 
     // Calculate average entries per minute
-    const now = new Date();
+    const now = Date.now();
     const timeDiff = now.getTime() - this.stats.oldestEntryTime.getTime();
     const minutesDiff = timeDiff / (1000 * 60);
     this.stats.averageEntriesPerMinute = minutesDiff > 0 ? this.stats.totalEntries / minutesDiff : 0;
@@ -695,8 +695,8 @@ export class LogManager {
       entriesBySource: {} as Record<string, number>,
       averageEntriesPerMinute: 0,
       errorRate: 0,
-      lastEntryTime: new Date(),
-      oldestEntryTime: new Date()
+      lastEntryTime: Date.now(),
+      oldestEntryTime: Date.now()
     };
 
     // Reinitialize stats
@@ -722,7 +722,7 @@ export class LogManager {
         timestamp: entry.timestamp.toISOString()
       })),
       stats: this.getStats(),
-      exportTime: new Date().toISOString()
+      exportTime: Date.now().toISOString()
     };
   }
 
@@ -1439,7 +1439,8 @@ export class LogUtils {
         ...item,
         timestamp: new Date(item.timestamp)
       }));
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       throw new Error('Invalid JSON format');
     }
   }

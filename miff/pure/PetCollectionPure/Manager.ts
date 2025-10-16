@@ -215,7 +215,8 @@ export class PetCollectionManager {
         data: { egg },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create egg: ${error.message}`,
@@ -253,7 +254,8 @@ export class PetCollectionManager {
         data: { pet },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to hatch egg: ${error.message}`,
@@ -340,7 +342,8 @@ export class PetCollectionManager {
         data: { pets },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to get pets: ${error.message}`,
@@ -359,7 +362,8 @@ export class PetCollectionManager {
         data: { eggs },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to get eggs: ${error.message}`,
@@ -378,7 +382,8 @@ export class PetCollectionManager {
         data: { stats },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to get collection stats: ${error.message}`,
@@ -427,7 +432,8 @@ export class PetCollectionManager {
         data: { tradeOffer },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to create trade offer: ${error.message}`,
@@ -454,7 +460,8 @@ export class PetCollectionManager {
         data: { tradeId, accepterId },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to accept trade offer: ${error.message}`,
@@ -481,7 +488,8 @@ export class PetCollectionManager {
         data: { petId, ownerId },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to feed pet: ${error.message}`,
@@ -508,7 +516,8 @@ export class PetCollectionManager {
         data: { petId, ownerId },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         message: `Failed to toggle favorite: ${error.message}`,
@@ -603,7 +612,8 @@ export class PetCollectionManager {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

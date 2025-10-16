@@ -794,8 +794,9 @@ export class TycoonManagerPure {
         timestamp: Date.now()
       });
 
-    } catch (error) {
-      console.error('TycoonManager initialization failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('TycoonManager initialization failed:', err instanceof Error ? err.message : String(err));
       throw new Error(`TycoonManager initialization failed: ${error}`);
     }
   }

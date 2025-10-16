@@ -117,7 +117,8 @@ export class AssetPipeline {
 
       return this.stats;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log(`❌ Asset pipeline failed: ${error instanceof Error ? error.message : String(error)}`, 'error');
       throw error;
     }
@@ -155,7 +156,8 @@ export class AssetPipeline {
         return null;
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.log(`Asset processing error: ${assetId} - ${error instanceof Error ? error.message : String(error)}`, 'error');
       return null;
     }
@@ -278,7 +280,8 @@ export class AssetPipeline {
       try {
         await this.loadAsset(assetId);
         this.log(`Preloaded asset: ${assetId}`);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         this.log(`Preload failed for ${assetId}: ${error instanceof Error ? error.message : String(error)}`, 'debug');
       }
     }
@@ -456,7 +459,8 @@ export class AssetPipeline {
 
       this.log(`✅ Task completed: ${task.assetId} (${task.type})`);
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       task.status = 'failed';
       task.error = error instanceof Error ? error.message : String(error);
       this.log(`❌ Task failed: ${task.assetId} (${task.type}) - ${error instanceof Error ? error.message : String(error)}`, 'error');

@@ -22,7 +22,8 @@ try {
     default:
       handleSuccess({ help: '... --mode=grid|snap' }, 'help');
   }
-} catch (error) {
+} catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
   handleError(error);
 }
 

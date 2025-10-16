@@ -202,8 +202,9 @@ export class AdvancedRendering {
       // For now, we'll simulate compilation
       shader.compiled = true;
       return true;
-    } catch (error) {
-      console.error(`Failed to compile shader ${shaderId}:`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`Failed to compile shader ${shaderId}:`, err instanceof Error ? err.message : String(err));
       return false;
     }
   }

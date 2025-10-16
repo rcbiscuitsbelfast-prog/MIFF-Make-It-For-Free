@@ -355,8 +355,9 @@ export class HapticEngine {
 
       this.isInitialized = true;
       console.log('[HapticEngine] Haptic system initialized successfully');
-    } catch (error) {
-      console.error('[HapticEngine] Failed to initialize haptic system:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[HapticEngine] Failed to initialize haptic system:', err instanceof Error ? err.message : String(err));
       throw new Error(`Haptic initialization failed: ${error}`);
     }
   }
@@ -546,7 +547,8 @@ export class HapticEngine {
       }
 
       console.log(`[HapticEngine] Discovered ${this.devices.size} haptic devices`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.warn('[HapticEngine] Device discovery failed:', error);
     }
   }
@@ -729,7 +731,8 @@ export class HapticEngine {
         await this.executeEffect(event.data.effect);
         event.processed = true;
         this.performanceMetrics.processedEvents++;
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.error(`Failed to process haptic event: ${error}`);
         this.performanceMetrics.failedEvents++;
       }
@@ -772,7 +775,8 @@ export class HapticEngine {
       this.configuration.statistics.completedEffects++;
 
       console.log(`[HapticEngine] Effect completed: ${effect.id}`);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       effect.status = 'failed';
       this.configuration.statistics.failedEffects++;
       this.configuration.statistics.errors.push(`Effect ${effect.id} failed: ${error}`);

@@ -208,7 +208,8 @@ export class FusionRules {
     if (context.loreFlagManager) {
       try {
         return context.loreFlagManager.hasLoreFlag(flag);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         return false;
       }
     }
@@ -303,7 +304,8 @@ export class FusionRules {
       }
 
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }

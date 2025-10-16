@@ -176,8 +176,9 @@ export class RealAISystem {
       this.performanceMetrics.modelCount = this.models.size;
       this.emit('modelAdded', { modelId: model.id, model });
       return true;
-    } catch (error) {
-      console.error('Error adding AI model:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error adding AI model:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -208,8 +209,9 @@ export class RealAISystem {
       this.models.set(modelId, updatedModel);
       this.emit('modelUpdated', { modelId, model: updatedModel });
       return true;
-    } catch (error) {
-      console.error('Error updating AI model:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error updating AI model:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -226,8 +228,9 @@ export class RealAISystem {
       this.performanceMetrics.modelCount = this.models.size;
       this.emit('modelRemoved', { modelId, model });
       return true;
-    } catch (error) {
-      console.error('Error removing AI model:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Error removing AI model:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -276,7 +279,8 @@ export class RealAISystem {
       this.updateAverageProcessingTime(processingTime);
 
       this.emit('taskCompleted', { taskId, task, result, processingTime });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       task.status = 'failed';
       task.error = error instanceof Error ? error.message : String(error);
       this.performanceMetrics.failedTasks++;
@@ -440,7 +444,8 @@ export class RealAISystem {
       this.performanceMetrics.activeLearningSessions--;
 
       this.emit('learningCompleted', { sessionId, session });
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       session.status = 'failed';
       session.endTime = new Date();
       this.performanceMetrics.activeLearningSessions--;
@@ -526,8 +531,9 @@ export class RealAISystem {
       handlers.forEach(handler => {
         try {
           handler(data);
-        } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+          console.error(`Error in event handler for ${event}:`, err instanceof Error ? err.message : String(err));
         }
       });
     }

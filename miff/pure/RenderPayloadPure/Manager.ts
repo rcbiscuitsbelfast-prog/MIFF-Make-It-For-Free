@@ -151,7 +151,7 @@ export class RenderPayloadManager {
         metadata: {
           schemaVersion: 'v1',
           engine,
-          timestamp: new Date().toISOString(),
+          timestamp: Date.now().toISOString(),
           module: 'render_payload_pure',
           frameId: id,
           frameName: name
@@ -160,7 +160,8 @@ export class RenderPayloadManager {
 
       this.frames.set(id, frame);
       return { ok: true, frame };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -197,7 +198,8 @@ export class RenderPayloadManager {
       frame.renderData.push(data);
       this.frames.set(frameId, frame);
       return { ok: true, frame };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -245,7 +247,8 @@ export class RenderPayloadManager {
       };
 
       return { ok: true, result };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -394,7 +397,7 @@ export class RenderPayloadManager {
               frame,
               assets: Array.from(this.assets.values()),
               animations: Array.from(this.animations.values()),
-              exportedAt: new Date().toISOString()
+              exportedAt: Date.now().toISOString()
             }
           };
         
@@ -425,7 +428,8 @@ export class RenderPayloadManager {
         default:
           return { ok: false, errors: [`Unknown export format: ${format}`] };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
   }
@@ -554,7 +558,7 @@ export class RenderPayloadBuilder {
       metadata: {
         schemaVersion: 'v1',
         engine: options.engine || 'unified',
-        timestamp: options.timestamp || new Date().toISOString(),
+        timestamp: options.timestamp || Date.now().toISOString(),
         module: options.module || 'generic'
       }
     };

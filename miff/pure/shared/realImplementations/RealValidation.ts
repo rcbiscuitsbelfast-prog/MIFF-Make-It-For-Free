@@ -155,7 +155,8 @@ export class RealValidation {
       this.cacheValidationResult(schema, result);
 
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         valid: false,
         issues: [{

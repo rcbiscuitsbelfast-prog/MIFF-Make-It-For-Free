@@ -245,7 +245,8 @@ class SimpleGameCLI {
 
     try {
       this.processGameCommand(input);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       console.log('❌ Error processing command:', error);
     }
 

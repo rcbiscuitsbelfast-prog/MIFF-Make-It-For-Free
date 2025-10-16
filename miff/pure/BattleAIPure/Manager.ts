@@ -217,7 +217,7 @@ export class BattleAIManager {
       strategyUsage: {},
       actionUsage: {},
       winRate: 0,
-      lastUpdated: new Date()
+      lastUpdated: Date.now()
     };
 
     this.initialize();
@@ -269,7 +269,7 @@ export class BattleAIManager {
       ],
       successRate: 0.7,
       usageCount: 0,
-      lastUsed: new Date(),
+      lastUsed: Date.now(),
       isActive: true
     });
 
@@ -303,7 +303,7 @@ export class BattleAIManager {
       ],
       successRate: 0.8,
       usageCount: 0,
-      lastUsed: new Date(),
+      lastUsed: Date.now(),
       isActive: true
     });
 
@@ -329,7 +329,7 @@ export class BattleAIManager {
       ],
       successRate: 0.75,
       usageCount: 0,
-      lastUsed: new Date(),
+      lastUsed: Date.now(),
       isActive: true
     });
   }
@@ -361,7 +361,7 @@ export class BattleAIManager {
         confidence: action.confidence,
         alternatives: actions.filter(a => a.id !== action.id),
         expectedOutcome: this.calculateExpectedOutcome(action, context, aiState),
-        timestamp: new Date()
+        timestamp: Date.now()
       };
 
       // Update performance
@@ -377,7 +377,8 @@ export class BattleAIManager {
 
       this.eventBus.publish('ai:decisionMade', decision);
       return decision;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       // Fallback to random action
       const fallbackAction = this.getFallbackAction(context, aiState);
       const decision: AIDecision = {
@@ -387,7 +388,7 @@ export class BattleAIManager {
         confidence: 0.1,
         alternatives: [],
         expectedOutcome: { probability: 0.1 },
-        timestamp: new Date()
+        timestamp: Date.now()
       };
       
       this.eventBus.publish('ai:error', { error, context, aiState });
@@ -606,7 +607,7 @@ export class BattleAIManager {
     this.performance.averageResponseTime = 
       (this.performance.averageResponseTime * (this.performance.totalDecisions - 1) + responseTime) / 
       this.performance.totalDecisions;
-    this.performance.lastUpdated = new Date();
+    this.performance.lastUpdated = Date.now();
   }
 
   /**
@@ -686,7 +687,7 @@ export class BattleAIManager {
     const strategy = this.strategies.get(strategyId);
     if (strategy) {
       strategy.usageCount++;
-      strategy.lastUsed = new Date();
+      strategy.lastUsed = Date.now();
       
       // Update success rate using exponential moving average
       const alpha = this.config.learningRate;

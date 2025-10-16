@@ -217,7 +217,7 @@ export class EvolutionCondition {
   }
 
   private checkTimeOfDay(hourMin: number): boolean {
-    const hour = new Date().getHours();
+    const hour = Date.now().getHours();
     return hour >= hourMin && hour < hourMin + 6; // 6-hour window
   }
 
@@ -571,7 +571,8 @@ export class EvolutionManager {
       }
 
       return false;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return false;
     }
   }
@@ -653,7 +654,7 @@ export class EvolutionManager {
   }
 
   private checkTimeOfDay(hourMin: number): boolean {
-    const now = new Date();
+    const now = Date.now();
     return now.getHours() >= hourMin;
   }
 

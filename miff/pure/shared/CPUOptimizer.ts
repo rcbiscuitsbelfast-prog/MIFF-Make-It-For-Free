@@ -186,8 +186,9 @@ export class CPUOptimizer {
       console.info(`✅ CPU optimization completed - ${results.length} optimizations applied`);
 
       return results;
-    } catch (error) {
-      console.error('❌ CPU optimization failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ CPU optimization failed:', err instanceof Error ? err.message : String(err));
       throw error;
     } finally {
       this.isOptimizing = false;

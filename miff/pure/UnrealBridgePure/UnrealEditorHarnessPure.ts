@@ -122,8 +122,9 @@ export class UnrealEditorHarnessPure {
       this.isConnected = true;
       console.log('✅ Connected to Unreal Editor successfully');
       return true;
-    } catch (error) {
-      console.error('❌ Failed to connect to Unreal Editor:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to connect to Unreal Editor:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -393,8 +394,9 @@ export class UnrealEditorHarnessPure {
       this.testResults = results;
 
       return results;
-    } catch (error) {
-      console.error('❌ Test suite failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test suite failed:', err instanceof Error ? err.message : String(err));
       const errorResult: UnrealEditorTestResult = {
         success: false,
         testName: testSuite || 'all',
@@ -510,7 +512,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { testActorId: testActor.id }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
       return {
         success: false,
@@ -579,7 +582,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { payloadId: testPayload.id }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
       return {
         success: false,
@@ -625,7 +629,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { sceneResult }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
       return {
         success: false,
@@ -691,7 +696,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { loadResult, optimizationResult }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
       return {
         success: false,
@@ -777,7 +783,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { stats }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
       return {
         success: false,
@@ -829,7 +836,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { simulated: true }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
       return {
         success: false,
@@ -880,7 +888,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { bridgeStats, assetStats, eventStats }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
       return {
         success: false,
@@ -983,7 +992,8 @@ export class UnrealEditorHarnessPure {
       this.demoResults.push(result);
 
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const duration = Date.now() - startTime;
 
       const result: UnrealEditorDemoResult = {
@@ -999,7 +1009,7 @@ export class UnrealEditorHarnessPure {
         metadata: { error, startTime, endTime: Date.now() }
       };
 
-      console.error(`❌ Demo failed: ${demoName || 'default'}`, error);
+      console.error(`❌ Demo failed: ${demoName || 'default'}`, err instanceof Error ? err.message : String(err));
       this.demoResults.push(result);
 
       return result;

@@ -734,8 +734,9 @@ export class UnrealPayloadAdapterPure {
 
       return result;
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Conversion failed:', err instanceof Error ? err.message : String(err));
 
       return {
         success: false,
@@ -977,8 +978,9 @@ export class UnrealPayloadAdapterPure {
       console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} static meshes and ${actors.length} actors`);
       return { assets, actors, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Static mesh conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Static mesh conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
@@ -1253,8 +1255,9 @@ export class UnrealPayloadAdapterPure {
       console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} skeletal meshes and ${actors.length} actors`);
       return { assets, actors, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Skeletal mesh conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Skeletal mesh conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
@@ -1318,8 +1321,9 @@ export class UnrealPayloadAdapterPure {
       console.log('[UnrealPayloadAdapterPure] Converted to blueprint');
       return { assets, actors, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Blueprint conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Blueprint conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
@@ -1387,8 +1391,9 @@ export class UnrealPayloadAdapterPure {
       console.log('[UnrealPayloadAdapterPure] Converted to level');
       return { scenes, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Level conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Level conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { scenes: [], warnings, errors };
     }
@@ -1451,8 +1456,9 @@ export class UnrealPayloadAdapterPure {
       console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} materials`);
       return { assets, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Material conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Material conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1517,8 +1523,9 @@ export class UnrealPayloadAdapterPure {
       console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} textures`);
       return { assets, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Texture conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Texture conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1582,8 +1589,9 @@ export class UnrealPayloadAdapterPure {
       console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} animations`);
       return { assets, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Animation conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Animation conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1648,8 +1656,9 @@ export class UnrealPayloadAdapterPure {
       console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} particle systems`);
       return { assets, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Particle system conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Particle system conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1713,8 +1722,9 @@ export class UnrealPayloadAdapterPure {
       console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} sounds`);
       return { assets, warnings, errors };
 
-    } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Sound conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealPayloadAdapterPure] Sound conversion failed:', err instanceof Error ? err.message : String(err));
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }

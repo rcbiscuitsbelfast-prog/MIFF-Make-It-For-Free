@@ -426,7 +426,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', error);
+    console.error('❌ CLI Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   });
 }

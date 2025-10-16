@@ -260,8 +260,9 @@ export class StructuredLogger {
       if (this.config.enableRemote) {
         await this.sendToRemote(entries);
       }
-    } catch (error) {
-      console.error('Failed to flush logs:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Failed to flush logs:', err instanceof Error ? err.message : String(err));
     }
   }
 

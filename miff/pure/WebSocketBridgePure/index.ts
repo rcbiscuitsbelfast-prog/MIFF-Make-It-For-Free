@@ -64,7 +64,8 @@ export class WebSocketBridgePure {
               } else if (message.type === 'direct') {
                 this.handler?.(this.channel, message.payload);
               }
-            } catch (error) {
+            } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
               console.warn('Failed to parse WebSocket message:', error);
             }
           };
@@ -82,7 +83,8 @@ export class WebSocketBridgePure {
             this.scheduleReconnect();
           };
         });
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.warn('WebSocket connection failed, falling back to simulation:', error);
         this.isConnected = true; // Fallback to simulation
         this.onStatusChange?.('simulation');

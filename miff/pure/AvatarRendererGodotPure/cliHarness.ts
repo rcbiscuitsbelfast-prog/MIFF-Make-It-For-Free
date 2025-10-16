@@ -158,8 +158,9 @@ class AvatarRendererGodotCLI {
 
       console.log('\n🎉 All tests passed!');
 
-    } catch (error) {
-      console.error('❌ Test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -186,8 +187,9 @@ class AvatarRendererGodotCLI {
       console.log(`   Nodes: ${godotScene.nodes.length}`);
       console.log(`   Meta: ${JSON.stringify(godotScene.meta)}`);
 
-    } catch (error) {
-      console.error('❌ Scene conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Scene conversion failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -217,8 +219,9 @@ class AvatarRendererGodotCLI {
         if (node.position) console.log(`      Position: (${node.position.x}, ${node.position.y})`);
       });
 
-    } catch (error) {
-      console.error('❌ Manifest conversion failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Manifest conversion failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -233,8 +236,9 @@ class AvatarRendererGodotCLI {
       console.log(`   Asset entries: ${sampleAvatar.assets.entries.length}`);
       console.log(`   Style: ${sampleAvatar.assets.style}`);
 
-    } catch (error) {
-      console.error('❌ Sample avatar creation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Sample avatar creation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -249,8 +253,9 @@ class AvatarRendererGodotCLI {
       console.log(`   Style: ${sampleManifest.style}`);
       console.log(`   Clothing: ${sampleManifest.clothing.length} items`);
 
-    } catch (error) {
-      console.error('❌ Sample manifest creation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Sample manifest creation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -283,8 +288,9 @@ class AvatarRendererGodotCLI {
 
       console.log('✅ Godot output validation completed');
 
-    } catch (error) {
-      console.error('❌ Godot output validation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Godot output validation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -355,14 +361,16 @@ class AvatarRendererGodotCLI {
         const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(invalidAvatar);
         console.log('   ✅ Handled empty assets gracefully');
         console.log(`      Generated scene with ${godotScene.nodes.length} nodes`);
-      } catch (error) {
+      } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
         console.log(`   ⚠️  Error handling: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
 
       console.log('✅ Godot conversion simulation completed successfully');
 
-    } catch (error) {
-      console.error('❌ Conversion simulation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Conversion simulation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

@@ -538,8 +538,9 @@ export class IdleManagerPure {
         timestamp: Date.now()
       });
 
-    } catch (error) {
-      console.error('IdleManager initialization failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('IdleManager initialization failed:', err instanceof Error ? err.message : String(err));
       throw new Error(`IdleManager initialization failed: ${error}`);
     }
   }

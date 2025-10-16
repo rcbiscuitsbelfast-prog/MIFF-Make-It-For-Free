@@ -265,7 +265,8 @@ export class ProjectileManager {
       }
       
       return { op: 'export', status: 'ok', format, data };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { op: 'export', status: 'error', format, issues: [String(error)] };
     }
   }

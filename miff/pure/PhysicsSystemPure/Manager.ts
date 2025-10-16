@@ -278,7 +278,7 @@ export class PhysicsManager {
           data = {
             schema: 'PhysicsWorld',
             version: '2.0',
-            timestamp: new Date().toISOString(),
+            timestamp: Date.now().toISOString(),
             data: world,
             metadata: {
               simulationTime: this.simulationTime,
@@ -304,7 +304,8 @@ export class PhysicsManager {
       }
       
       return { op: 'export', status: 'ok', format, data };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return { op: 'export', status: 'error', format, issues: [String(error)] };
     }
   }

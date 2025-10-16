@@ -436,7 +436,8 @@ export class DebugOverlayManager {
         config: this.config,
         session: this.getSessionInfo()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const alert = this.createAlert('error', 'system', 'Debug overlay generation failed',
         error instanceof Error ? error.message : 'Unknown error', 'critical');
       this.alerts.push(alert);
@@ -467,7 +468,8 @@ export class DebugOverlayManager {
           if (parsed.renderData && Array.isArray(parsed.renderData)) {
             payloads.push(parsed);
           }
-        } catch (error) {
+        } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
           // Skip non-JSON lines
         }
       });
@@ -483,7 +485,8 @@ export class DebugOverlayManager {
 
       // Create overlay from first payload (or combine multiple)
       return this.createOverlay(payloads[0]);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'debug',
         status: 'error',
@@ -522,7 +525,8 @@ export class DebugOverlayManager {
 
       // Create overlay from first payload
       return this.createOverlay(renderPayloads[0]);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'debug',
         status: 'error',
@@ -563,7 +567,8 @@ export class DebugOverlayManager {
       fs.writeFileSync(outputPath, content, 'utf-8');
 
       return { success: true };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         success: false,
         issues: [`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
@@ -705,7 +710,7 @@ export class DebugOverlayManager {
       op: payload.op,
       status: payload.status,
       issues: payload.issues,
-      timestamp: new Date().toISOString(),
+      timestamp: Date.now().toISOString(),
       renderDataCount: payload.renderData?.length || 0,
       engineHints: uniqueEngineHints,
       signalsCount,
@@ -1322,7 +1327,7 @@ export class DebugOverlayManager {
       debugInfo: {
         op: 'unknown',
         status: 'error',
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now().toISOString(),
         renderDataCount: 0,
         engineHints: [],
         signalsCount: 0
@@ -1399,7 +1404,8 @@ export class DebugOverlayManager {
 
       const content = fs.readFileSync(testPath, 'utf-8');
       return JSON.parse(content);
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return null;
     }
   }

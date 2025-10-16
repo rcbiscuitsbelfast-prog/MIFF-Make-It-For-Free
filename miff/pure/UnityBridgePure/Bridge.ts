@@ -114,7 +114,8 @@ export class UnityBridge {
         status: 'ok',
         renderData: this.convertToUnityRenderData(result, config)
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'simulate',
         status: 'error',
@@ -171,7 +172,8 @@ export class UnityBridge {
           scripts
         }
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'render',
         status: 'error',
@@ -210,7 +212,8 @@ export class UnityBridge {
         status: 'ok',
         renderData: this.convertToUnityRenderData(result, config)
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         op: 'interop',
         status: 'error',

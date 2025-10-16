@@ -183,7 +183,8 @@ export class ConvertToGodotManager {
         optimizations
       };
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       issues.push(`Conversion failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return {
         op: 'convert',

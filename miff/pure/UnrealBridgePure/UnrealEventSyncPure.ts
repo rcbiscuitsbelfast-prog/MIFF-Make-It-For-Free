@@ -380,8 +380,9 @@ export class UnrealEventSyncPure {
 
       this.isInitialized = true;
       console.log('[UnrealEventSyncPure] Event synchronization initialized successfully');
-    } catch (error) {
-      console.error('[UnrealEventSyncPure] Failed to initialize event synchronization:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('[UnrealEventSyncPure] Failed to initialize event synchronization:', err instanceof Error ? err.message : String(err));
       throw new Error(`Event synchronization initialization failed: ${error}`);
     }
   }
@@ -646,11 +647,12 @@ export class UnrealEventSyncPure {
       console.log(`[UnrealEventSyncPure] Event synced successfully: ${transformedEvent.name} (${processingTime}ms)`);
       return true;
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       const processingTime = Date.now() - startTime;
       this.statistics.failedEvents++;
 
-      console.error(`[UnrealEventSyncPure] Failed to sync event: ${miffEvent.type || miffEvent.name}`, error);
+      console.error(`[UnrealEventSyncPure] Failed to sync event: ${miffEvent.type || miffEvent.name}`, err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -957,8 +959,9 @@ export class UnrealEventSyncPure {
       };
 
       return await this.bridgeManager.sendMessage(message);
-    } catch (error) {
-      console.error(`[UnrealEventSyncPure] Failed to process event immediately: ${event.name}`, error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`[UnrealEventSyncPure] Failed to process event immediately: ${event.name}`, err instanceof Error ? err.message : String(err));
 
       // Add to dead letter queue if enabled
       if (this.configuration.enableDeadLetterQueue) {

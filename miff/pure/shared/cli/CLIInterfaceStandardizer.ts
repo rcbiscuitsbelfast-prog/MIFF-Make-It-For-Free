@@ -128,7 +128,8 @@ export class CLIInterfaceStandardizer {
       this.isInitialized = true;
       console.info('CLI interface standardizer initialized successfully');
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, 'Failed to initialize CLI interface standardizer');
       throw error;
     }
@@ -178,7 +179,8 @@ export class CLIInterfaceStandardizer {
       // Validate required options and arguments
       this.validateRequiredFields(command, result);
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, 'Failed to parse CLI arguments');
       result.errors.push(`Parse error: ${error.message}`);
       result.isValid = false;
@@ -214,7 +216,8 @@ export class CLIInterfaceStandardizer {
       result.success = true;
       result.exitCode = 0;
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, `Failed to execute command: ${command}`);
       result.errors.push(error.message);
       result.success = false;
@@ -328,7 +331,8 @@ export class CLIInterfaceStandardizer {
         recommendations.push('Add --version option and version display');
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       issues.push(`Error analyzing CLI interface: ${error.message}`);
     }
 
@@ -355,7 +359,8 @@ export class CLIInterfaceStandardizer {
       console.info('CLI harness standardized', { moduleName, cliPath });
       return true;
       
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.errorHandler.handleError(error, `Failed to standardize CLI harness: ${moduleName}`);
       return false;
     }
@@ -687,7 +692,8 @@ async function main(...args: any[]) {
       process.exit(result.exitCode);
     }
     
-  } catch (error) {
+  } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
     errorHandler.handleError(error, 'CLI execution failed');
     console.error('Fatal error:', error.message);
     process.exit(1);

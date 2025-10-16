@@ -562,8 +562,9 @@ export class EconomicEngine {
       }
 
       return false;
-    } catch (error) {
-      console.error('Transaction processing failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('Transaction processing failed:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }

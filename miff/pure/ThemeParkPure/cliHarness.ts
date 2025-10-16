@@ -199,8 +199,9 @@ class ThemeParkCLI {
 
       console.log('\n🎉 All tests passed!');
 
-    } catch (error) {
-      console.error('❌ Test failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Test failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -215,8 +216,9 @@ class ThemeParkCLI {
       this.parkId = parkId;
       console.log(`✅ Theme park "${name}" created with ID: ${parkId}`);
       console.log('🎢 Welcome to your new theme park! Start adding rides and guests.');
-    } catch (error) {
-      console.error('❌ Park creation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Park creation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -256,8 +258,9 @@ class ThemeParkCLI {
       } else {
         console.log('❌ Failed to add ride');
       }
-    } catch (error) {
-      console.error('❌ Ride addition failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Ride addition failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -295,8 +298,9 @@ class ThemeParkCLI {
       } else {
         console.log('❌ Failed to add guest');
       }
-    } catch (error) {
-      console.error('❌ Guest addition failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Guest addition failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -332,8 +336,9 @@ class ThemeParkCLI {
       } else {
         console.log('❌ Failed to add staff');
       }
-    } catch (error) {
-      console.error('❌ Staff addition failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Staff addition failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -351,8 +356,9 @@ class ThemeParkCLI {
       console.log(`   Guests: ${status.totalGuests} (${status.guestsInRides} in rides)`);
       console.log(`   Staff: ${status.totalStaff} (${status.workingStaff} working)`);
       console.log(`   Average Wait Time: ${status.averageWaitTime} minutes`);
-    } catch (error) {
-      console.error('❌ Failed to get park status:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to get park status:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -371,8 +377,9 @@ class ThemeParkCLI {
       console.log(`   Ticket Sales: ${finances.ticketSales}`);
       console.log(`   Maintenance Costs: $${finances.maintenanceCosts.toFixed(2)}`);
       console.log(`   Staff Costs: $${finances.staffCosts.toFixed(2)}`);
-    } catch (error) {
-      console.error('❌ Failed to get finances:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to get finances:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -390,8 +397,9 @@ class ThemeParkCLI {
       console.log(`   Neutral Guests: ${satisfaction.neutralGuests}`);
       console.log(`   Unhappy Guests: ${satisfaction.unhappyGuests}`);
       console.log(`   Complaints: ${satisfaction.complaints}`);
-    } catch (error) {
-      console.error('❌ Failed to get guest satisfaction:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Failed to get guest satisfaction:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -429,8 +437,9 @@ class ThemeParkCLI {
       this.getFinances();
       this.getGuestSatisfaction();
       
-    } catch (error) {
-      console.error('❌ Day simulation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Day simulation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -545,8 +554,9 @@ class ThemeParkCLI {
 
       console.log('✅ Theme park simulation completed successfully');
 
-    } catch (error) {
-      console.error('❌ Simulation failed:', error);
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error('❌ Simulation failed:', err instanceof Error ? err.message : String(err));
     }
   }
 

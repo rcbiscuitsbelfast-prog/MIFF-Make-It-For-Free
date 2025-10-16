@@ -151,7 +151,8 @@ export abstract class BaseManager extends EventEmitter {
       this.state.running = true;
       this.emit('initialized', { managerId: this.config.id });
       this.log('info', 'Manager initialized successfully');
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
       this.emit('error', { managerId: this.config.id, error });
       throw error;
@@ -178,7 +179,8 @@ export abstract class BaseManager extends EventEmitter {
       this.state.paused = false;
       this.emit('started', { managerId: this.config.id });
       this.log('info', 'Manager started successfully');
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
       this.emit('error', { managerId: this.config.id, error });
       throw error;
@@ -199,7 +201,8 @@ export abstract class BaseManager extends EventEmitter {
       this.state.paused = true;
       this.emit('paused', { managerId: this.config.id });
       this.log('info', 'Manager paused successfully');
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
       this.emit('error', { managerId: this.config.id, error });
       throw error;
@@ -220,7 +223,8 @@ export abstract class BaseManager extends EventEmitter {
       this.state.paused = false;
       this.emit('resumed', { managerId: this.config.id });
       this.log('info', 'Manager resumed successfully');
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
       this.emit('error', { managerId: this.config.id, error });
       throw error;
@@ -250,7 +254,8 @@ export abstract class BaseManager extends EventEmitter {
       this.state.initialized = false;
       this.emit('destroyed', { managerId: this.config.id });
       this.log('info', 'Manager destroyed successfully');
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       this.state.error = error as Error;
       this.emit('error', { managerId: this.config.id, error });
       throw error;
@@ -295,7 +300,8 @@ export abstract class BaseManager extends EventEmitter {
       this.log('debug', `Completed operation: ${operationName}`, { operationId });
       
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       operationRecord.endTime = new Date();
       operationRecord.success = false;
       operationRecord.error = error as Error;

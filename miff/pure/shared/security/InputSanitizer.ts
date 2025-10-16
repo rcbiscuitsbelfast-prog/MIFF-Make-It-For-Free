@@ -179,7 +179,8 @@ export class InputSanitizer {
         warnings: warnings.length > 0 ? warnings : undefined,
         errors: errors.length > 0 ? errors : undefined
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         sanitized: '',
         isValid: false,
@@ -253,7 +254,8 @@ export class InputSanitizer {
         warnings: warnings.length > 0 ? warnings : undefined,
         errors: errors.length > 0 ? errors : undefined
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         sanitized: 0,
         isValid: false,
@@ -344,7 +346,8 @@ export class InputSanitizer {
         warnings: warnings.length > 0 ? warnings : undefined,
         errors: errors.length > 0 ? errors : undefined
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         sanitized: {} as T,
         isValid: false,
@@ -429,7 +432,8 @@ export class InputSanitizer {
         warnings: warnings.length > 0 ? warnings : undefined,
         errors: errors.length > 0 ? errors : undefined
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
       return {
         sanitized: [],
         isValid: false,
