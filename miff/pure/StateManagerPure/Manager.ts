@@ -27,7 +27,7 @@ export interface StateManagerConfig {
   enableStateSynchronization: boolean;
   enableStateValidation: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableStateAnalytics: boolean;
   enableStateReporting: boolean;
   maxStates: number;
@@ -881,7 +881,7 @@ export class StateManagerPure {
       enableStateSynchronization: true,
       enableStateValidation: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableStateAnalytics: true,
       enableStateReporting: true,
       maxStates: 10000,
@@ -1059,7 +1059,7 @@ export class StateManagerPure {
 
     for (const manager of this.managers.values()) {
       totalStates += manager.states.length;
-      activeStates += manager.states.filter(s => s.status === 'active').length;
+      activeStates += manager.states.filter((s: any) => s.status === 'active').length;
       totalTransitions += manager.transitions.length;
       totalValidators += manager.validators.length;
       totalSubscriptions += manager.subscriptions.length;

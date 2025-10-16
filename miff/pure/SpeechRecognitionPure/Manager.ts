@@ -30,7 +30,7 @@ export interface SpeechRecognitionConfig {
   enableAudioPreprocessing: boolean;
   enableRealTimeRecognition: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableRecognitionAnalytics: boolean;
   enableRecognitionReporting: boolean;
   maxAudioLength: number;
@@ -535,7 +535,7 @@ export class SpeechRecognitionPure {
       enableAudioPreprocessing: true,
       enableRealTimeRecognition: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableRecognitionAnalytics: true,
       enableRecognitionReporting: true,
       maxAudioLength: 300, // 5 minutes

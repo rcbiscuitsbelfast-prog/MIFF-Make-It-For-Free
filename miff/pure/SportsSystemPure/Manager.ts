@@ -157,7 +157,7 @@ export class SportsManager {
     try {
       // Check team limit per player
       const playerTeams = Array.from(this.sportsSystem['teams'].values())
-        .filter(team => team.players.some(p => p.id === creatorId));
+        .filter((team: any) => team.players.some(p => p.id === creatorId));
 
       if (playerTeams.length >= this.config.maxTeamsPerPlayer!) {
         return {
@@ -253,8 +253,8 @@ export class SportsManager {
 
       // Check active games limit
       const activeGames = Array.from(this.sportsSystem['games'].values())
-        .filter(game => game.state === 'playing' || game.state === 'paused')
-        .filter(game => game.teams.some(team => team.id === team1Id || team.id === team2Id));
+        .filter((game: any) => game.state === 'playing' || game.state === 'paused')
+        .filter((game: any) => game.teams.some(team => team.id === team1Id || team.id === team2Id));
 
       if (activeGames.length > 0) {
         return {
@@ -489,8 +489,8 @@ export class SportsManager {
 
       // Check active games
       const activeGames = Array.from(this.sportsSystem['games'].values())
-        .filter(game => game.state === 'playing' || game.state === 'paused')
-        .filter(game => game.teams.some(team => team.players.some(p => p.id === playerId)));
+        .filter((game: any) => game.state === 'playing' || game.state === 'paused')
+        .filter((game: any) => game.teams.some(team => team.players.some(p => p.id === playerId)));
 
       if (activeGames.length > 0) {
         return {
@@ -554,7 +554,7 @@ export class SportsManager {
     // Simple matchmaking algorithm - pair players with similar skill levels
     const playersBySport = new Map<SportType, Player[]>();
 
-    this.matchmakingQueue.forEach(player => {
+    this.matchmakingQueue.forEach((player: any) => {
       const sport = player.stats.sportType || 'soccer';
       if (!playersBySport.has(sport)) {
         playersBySport.set(sport, []);
@@ -564,7 +564,7 @@ export class SportsManager {
 
     playersBySport.forEach((players, sport) => {
       // Sort by skill level
-      players.sort((a, b) => (a.skillLevel || 5) - (b.skillLevel || 5));
+      players.sort((a: any, b: any) => (a.skillLevel || 5) - (b.skillLevel || 5));
 
       // Create matches
       for (let i = 0; i < players.length - 1; i += 2) {
@@ -582,7 +582,7 @@ export class SportsManager {
           const game = this.sportsSystem.createGame(sport, team1.id, team2.id);
 
           // Remove players from queue
-          this.matchmakingQueue = this.matchmakingQueue.filter(p =>
+          this.matchmakingQueue = this.matchmakingQueue.filter((p: any) =>
             p.id !== player1.id && p.id !== player2.id
           );
 

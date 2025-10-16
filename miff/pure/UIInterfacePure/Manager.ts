@@ -29,7 +29,7 @@ export interface UIInterfaceConfig {
   enableEventHandling: boolean;
   enableStylingSystem: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableUIAnalytics: boolean;
   enableUIReporting: boolean;
   maxComponents: number;
@@ -1171,7 +1171,7 @@ export class UIInterfacePure {
       enableEventHandling: true,
       enableStylingSystem: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableUIAnalytics: true,
       enableUIReporting: true,
       maxComponents: 10000,
@@ -1595,7 +1595,7 @@ export class UIInterfacePure {
 
     for (const manager of this.managers.values()) {
       totalComponents += manager.components.length;
-      activeComponents += manager.components.filter(c => c.status === 'active').length;
+      activeComponents += manager.components.filter((c: any) => c.status === 'active').length;
       totalLayouts += manager.layouts.length;
       totalEvents += manager.events.length;
     }

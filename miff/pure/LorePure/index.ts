@@ -77,8 +77,8 @@ export class LoreManager {
    */
   getUnlockedEntries(): LoreEntry[] {
     return Array.from(this.unlockedEntries)
-      .map(id => this.collection.entries.get(id))
-      .filter(entry => entry !== undefined) as LoreEntry[];
+      .map((id: any) => this.collection.entries.get(id))
+      .filter((entry: any) => entry !== undefined) as LoreEntry[];
   }
 
   /**
@@ -86,7 +86,7 @@ export class LoreManager {
    */
   getEntriesByCategory(category: string): LoreEntry[] {
     return Array.from(this.collection.entries.values())
-      .filter(entry => entry.category === category);
+      .filter((entry: any) => entry.category === category);
   }
 
   /**
@@ -94,7 +94,7 @@ export class LoreManager {
    */
   searchByTags(tags: string[]): LoreEntry[] {
     return Array.from(this.collection.entries.values())
-      .filter(entry => tags.some(tag => entry.tags.includes(tag)));
+      .filter((entry: any) => tags.some(tag => entry.tags.includes(tag)));
   }
 
   /**

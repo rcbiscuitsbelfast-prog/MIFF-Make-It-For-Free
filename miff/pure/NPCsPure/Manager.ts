@@ -164,7 +164,7 @@ export class NPCsManager {
       }
     ];
 
-    defaultNPCs.forEach(npc => this.npcs.set(npc.id, npc));
+    defaultNPCs.forEach((npc: any) => this.npcs.set(npc.id, npc));
   }
 
   createNPC(npc: NPC): NPCOutput {
@@ -257,7 +257,7 @@ export class NPCsManager {
     let npcs = Array.from(this.npcs.values());
 
     if (filter) {
-      npcs = npcs.filter(npc => {
+      npcs = npcs.filter((npc: any) => {
         if (filter.zoneId && npc.location.zoneId !== filter.zoneId) return false;
         if (filter.behaviorType && npc.behavior.type !== filter.behaviorType) return false;
         if (filter.faction && npc.faction !== filter.faction) return false;
@@ -476,7 +476,7 @@ export class NPCsManager {
    * Get NPCs by behavior type
    */
   getNPCsByBehavior(behaviorType: string): NPCOutput {
-    const npcs = Array.from(this.npcs.values()).filter(npc => npc.behavior.type === behaviorType);
+    const npcs = Array.from(this.npcs.values()).filter((npc: any) => npc.behavior.type === behaviorType);
     return {
       op: 'get_by_behavior',
       status: 'ok',
@@ -488,7 +488,7 @@ export class NPCsManager {
    * Get NPCs by reputation range
    */
   getNPCsByReputation(minRep: number, maxRep: number): NPCOutput {
-    const npcs = Array.from(this.npcs.values()).filter(npc => {
+    const npcs = Array.from(this.npcs.values()).filter((npc: any) => {
       const rep = npc.reputation || 0;
       return rep >= minRep && rep <= maxRep;
     });
@@ -508,12 +508,12 @@ export class NPCsManager {
       total: npcs.length,
       byBehavior: {} as Record<string, number>,
       byFaction: {} as Record<string, number>,
-      withQuests: npcs.filter(npc => npc.questIds.length > 0).length,
+      withQuests: npcs.filter((npc: any) => npc.questIds.length > 0).length,
       averageReputation: npcs.reduce((sum, npc) => sum + (npc.reputation || 0), 0) / npcs.length,
       totalQuests: npcs.reduce((sum, npc) => sum + npc.questIds.length, 0)
     };
 
-    npcs.forEach(npc => {
+    npcs.forEach((npc: any) => {
       stats.byBehavior[npc.behavior.type] = (stats.byBehavior[npc.behavior.type] || 0) + 1;
       if (npc.faction) {
         stats.byFaction[npc.faction] = (stats.byFaction[npc.faction] || 0) + 1;
@@ -560,7 +560,7 @@ export class NPCsManager {
           status: 'ok',
           result: {
             summary: stats.result,
-            npcs: npcs.map(npc => ({
+            npcs: npcs.map((npc: any) => ({
               id: npc.id,
               name: npc.name,
               behavior: npc.behavior.type,
@@ -572,12 +572,12 @@ export class NPCsManager {
         };
       
       case 'quests':
-        const questNPCs = npcs.filter(npc => npc.questIds.length > 0);
+        const questNPCs = npcs.filter((npc: any) => npc.questIds.length > 0);
         return {
           op: 'export',
           status: 'ok',
           result: {
-            questNPCs: questNPCs.map(npc => ({
+            questNPCs: questNPCs.map((npc: any) => ({
               id: npc.id,
               name: npc.name,
               questIds: npc.questIds,
@@ -611,14 +611,14 @@ export class NPCsManager {
 
   // Integration methods for QuestsPure and MovementPure
   getNPCsWithQuests(): NPC[] {
-    return Array.from(this.npcs.values()).filter(npc => npc.questIds.length > 0);
+    return Array.from(this.npcs.values()).filter((npc: any) => npc.questIds.length > 0);
   }
 
   getNPCsInZone(zoneId: EntityID): NPC[] {
-    return Array.from(this.npcs.values()).filter(npc => npc.location.zoneId === zoneId);
+    return Array.from(this.npcs.values()).filter((npc: any) => npc.location.zoneId === zoneId);
   }
 
   getNPCsByFaction(faction: string): NPC[] {
-    return Array.from(this.npcs.values()).filter(npc => npc.faction === faction);
+    return Array.from(this.npcs.values()).filter((npc: any) => npc.faction === faction);
   }
 }

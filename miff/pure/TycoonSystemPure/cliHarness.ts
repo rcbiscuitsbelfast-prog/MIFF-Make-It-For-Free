@@ -613,7 +613,7 @@ export class TycoonSystemCLI {
     const staff = this.tycoonSystem.getStaff();
     let count = 0;
 
-    staff.forEach(employee => {
+    staff.forEach((employee: any) => {
       if (employee.facilityId === facilityId) {
         count++;
       }

@@ -34,7 +34,7 @@ function main() {
         const sampleData = args[1];
         if (sampleData && fs.existsSync(sampleData)) {
           const samples = JSON.parse(fs.readFileSync(path.resolve(sampleData), 'utf-8')) as PerfSample[];
-          samples.forEach(sample => {
+          samples.forEach((sample: any) => {
             perf.record(
               sample.dtMs, 
               sample.tickStartMs, 
@@ -157,7 +157,7 @@ function runDemo(perf: PerfMetricsPure): any {
 
   return {
     message: 'PerfMetricsPure Demo completed',
-    scenarios: scenarios.map(s => s.name),
+    scenarios: scenarios.map((s: any) => s.name),
     metrics,
     stats,
     exportFormats: {

@@ -37,7 +37,7 @@ export interface AnimationSystemConfig {
   enableTransitions: boolean;
   enablePerformanceOptimization: boolean;
   enableCrossPlatformSupport: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   maxAnimations: number;
   maxKeyframes: number;
   enableCloudSync: boolean;
@@ -196,7 +196,7 @@ export class AnimationSystemManager {
       enableTransitions: true,
       enablePerformanceOptimization: true,
       enableCrossPlatformSupport: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       maxAnimations: 1000,
       maxKeyframes: 10000,
       enableCloudSync: false,
@@ -224,7 +224,7 @@ export class AnimationSystemManager {
       }
 
       // Initialize memory manager
-      if (this.config.enableRealTimeMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
@@ -369,7 +369,7 @@ export class AnimationSystemManager {
       throw new Error('Animation System Manager not initialized');
     }
 
-    return Array.from(this.animations.values()).filter(animation => animation.type === type);
+    return Array.from(this.animations.values()).filter((animation: any) => animation.type === type);
   }
 
   /**
@@ -380,7 +380,7 @@ export class AnimationSystemManager {
       throw new Error('Animation System Manager not initialized');
     }
 
-    return Array.from(this.animations.values()).filter(animation => animation.status === status);
+    return Array.from(this.animations.values()).filter((animation: any) => animation.status === status);
   }
 
   /**
@@ -516,7 +516,7 @@ export class AnimationSystemManager {
    */
   private updateKeyframeValues(animation: Animation): void {
     const currentTime = animation.timeline.currentTime;
-    const keyframes = animation.keyframes.sort((a, b) => a.time - b.time);
+    const keyframes = animation.keyframes.sort((a: any, b: any) => a.time - b.time);
 
     // Find current keyframe
     let currentKeyframe: Keyframe | null = null;
@@ -623,7 +623,7 @@ export class AnimationSystemManager {
    */
   private updateAnalytics(): void {
     const animations = Array.from(this.animations.values());
-    const activeAnimations = animations.filter(a => a.status === 'playing');
+    const activeAnimations = animations.filter((a: any) => a.status === 'playing');
     const totalDuration = animations.reduce((sum, a) => sum + a.timeline.duration, 0);
     const totalKeyframes = animations.reduce((sum, a) => sum + a.keyframes.length, 0);
     const totalTransitions = animations.reduce((sum, a) => sum + (a.transitions.enabled ? 1 : 0), 0);
@@ -657,7 +657,7 @@ export class AnimationSystemManager {
     }
 
     const animations = Array.from(this.animations.values());
-    const activeAnimations = animations.filter(a => a.status === 'playing');
+    const activeAnimations = animations.filter((a: any) => a.status === 'playing');
     const totalDuration = animations.reduce((sum, a) => sum + a.timeline.duration, 0);
     const totalKeyframes = animations.reduce((sum, a) => sum + a.keyframes.length, 0);
 

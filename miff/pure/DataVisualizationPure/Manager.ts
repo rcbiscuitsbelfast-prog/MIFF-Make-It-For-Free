@@ -29,7 +29,7 @@ export interface DataVisualizationConfig {
   enableInteractiveFeatures: boolean;
   enableExportCapabilities: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableVisualizationAnalytics: boolean;
   enableVisualizationReporting: boolean;
   maxCharts: number;
@@ -1204,7 +1204,7 @@ export class DataVisualizationPure {
       enableInteractiveFeatures: true,
       enableExportCapabilities: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableVisualizationAnalytics: true,
       enableVisualizationReporting: true,
       maxCharts: 1000,
@@ -1627,7 +1627,7 @@ export class DataVisualizationPure {
 
     for (const manager of this.managers.values()) {
       totalCharts += manager.charts.length;
-      activeCharts += manager.charts.filter(c => c.status === 'published').length;
+      activeCharts += manager.charts.filter((c: any) => c.status === 'published').length;
       totalDatasets += manager.datasets.length;
       
       for (const chart of manager.charts) {

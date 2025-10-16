@@ -41,7 +41,7 @@ try {
           inventory[mat] = 10; // Assume we have enough
         });
       } else {
-        Object.keys(materialsList).forEach(mat => {
+        Object.keys(materialsList).forEach((mat: any) => {
           inventory[mat] = 10;
         });
       }

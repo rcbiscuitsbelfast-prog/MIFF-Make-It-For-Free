@@ -344,8 +344,8 @@ export class PerfMetricsPure {
       totalTicks: this.samples.length,
       averageFPS: snapshot.fps,
       averageFrameTime: snapshot.frameTime,
-      peakFPS: Math.max(...this.history.map(h => h.fps)),
-      lowestFPS: Math.min(...this.history.map(h => h.fps)),
+      peakFPS: Math.max(...this.history.map((h: any) => h.fps)),
+      lowestFPS: Math.min(...this.history.map((h: any) => h.fps)),
       alertsGenerated: this.alerts.length,
       trendsDetected: this.trends.length,
       uptime,
@@ -387,7 +387,7 @@ export class PerfMetricsPure {
       
       case 'csv':
         let csv = 'Timestamp,FPS,FrameTime,Players,Category\n';
-        this.samples.forEach(sample => {
+        this.samples.forEach((sample: any) => {
           const fps = 1000 / sample.dtMs;
           csv += `${sample.timestamp},${fps.toFixed(2)},${sample.dtMs.toFixed(2)},${sample.playersSimulated},${sample.category || 'default'}\n`;
         });
@@ -403,7 +403,7 @@ export class PerfMetricsPure {
         
         if (metrics.alerts.length > 0) {
           md += `## Alerts (${metrics.alerts.length})\n\n`;
-          metrics.alerts.forEach(alert => {
+          metrics.alerts.forEach((alert: any) => {
             md += `- **${alert.severity.toUpperCase()}**: ${alert.message}\n`;
           });
           md += '\n';
@@ -411,7 +411,7 @@ export class PerfMetricsPure {
         
         if (metrics.trends.length > 0) {
           md += `## Trends (${metrics.trends.length})\n\n`;
-          metrics.trends.forEach(trend => {
+          metrics.trends.forEach((trend: any) => {
             md += `- **${trend.metric}**: ${trend.direction} (${trend.change.toFixed(1)}%)\n`;
           });
           md += '\n';

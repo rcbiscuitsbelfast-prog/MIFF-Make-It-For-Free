@@ -835,7 +835,7 @@ class ChallengesPureCLI {
 
     try {
       const challenges = this.challengeManager.getAllChallenges();
-      const jsonData = JSON.stringify(challenges.map(c => c.toJSON()), null, 2);
+      const jsonData = JSON.stringify(challenges.map((c: any) => c.toJSON()), null, 2);
       fs.writeFileSync(filename, jsonData);
       console.log(`✅ Challenges exported to ${filename} (${jsonData.length} bytes)`);
     } catch (error: unknown) {

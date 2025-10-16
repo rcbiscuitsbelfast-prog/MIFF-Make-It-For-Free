@@ -550,8 +550,8 @@ export class CombatEngine {
   private cloneEntity(entity: CombatEntity): CombatEntity {
     return {
       ...entity,
-      statusEffects: entity.statusEffects.map(effect => ({ ...effect })),
-      abilities: entity.abilities.map(ability => ({ ...ability })),
+      statusEffects: entity.statusEffects.map((effect: any) => ({ ...effect })),
+      abilities: entity.abilities.map((ability: any) => ({ ...ability })),
       equipment: this.cloneEquipment(entity.equipment)
     };
   }
@@ -729,7 +729,7 @@ export class CombatEngine {
         return this.getAOETargets(session, sourceEntity, effect, action);
 
       case 'all':
-        return Array.from(session.entities.keys()).filter(id => {
+        return Array.from(session.entities.keys()).filter((id: any) => {
           const entity = session.entities.get(id)!;
           return effect.type === 'heal' ? entity.team === sourceEntity.team : entity.team !== sourceEntity.team;
         });
@@ -762,7 +762,7 @@ export class CombatEngine {
   }
 
   private getRandomTargets(session: CombatSession, sourceEntity: CombatEntity, effect: AbilityEffect, action: CombatAction): string[] {
-    const allTargets = Array.from(session.entities.keys()).filter(id => {
+    const allTargets = Array.from(session.entities.keys()).filter((id: any) => {
       const entity = session.entities.get(id)!;
       return entity.team !== sourceEntity.team; // Only enemies for now
     });
@@ -1030,7 +1030,7 @@ export class CombatEngine {
       case 'eliminate_all':
         const targetTeam = condition.target;
         const targetEntities = Array.from(session.entities.values())
-          .filter(entity => entity.team === targetTeam && entity.isAlive);
+          .filter((entity: any) => entity.team === targetTeam && entity.isAlive);
         return targetEntities.length === 0;
 
       case 'eliminate_leader':

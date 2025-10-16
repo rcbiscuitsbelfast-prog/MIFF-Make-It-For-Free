@@ -178,7 +178,7 @@ function listTemplates(builder: SceneBuilderManager): any {
   return {
     op: 'template',
     status: 'success',
-    templates: templates.map(t => ({
+    templates: templates.map((t: any) => ({
       id: t.id,
       name: t.name,
       description: t.description,

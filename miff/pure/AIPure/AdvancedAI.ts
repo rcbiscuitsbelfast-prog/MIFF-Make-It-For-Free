@@ -151,7 +151,7 @@ export class AdvancedAI {
     if (!node.children) return { success: true, result: [] };
 
     const results = await Promise.all(
-      node.children.map(child => this.executeNode(child, context, tree))
+      node.children.map((child: any) => this.executeNode(child, context, tree))
     );
 
     return {
@@ -465,10 +465,10 @@ export class AdvancedAI {
       preferenceCount: memory.preferences.size,
       lastUpdate: memory.lastUpdate,
       topPatterns: Array.from(memory.patterns.entries())
-        .sort((a, b) => b[1] - a[1])
+        .sort((a: any, b: any) => b[1] - a[1])
         .slice(0, 5),
       topPreferences: Array.from(memory.preferences.entries())
-        .sort((a, b) => b[1] - a[1])
+        .sort((a: any, b: any) => b[1] - a[1])
         .slice(0, 5)
     };
   }

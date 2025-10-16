@@ -54,7 +54,7 @@ export class AnimationSequencer {
     const keyframes: Omit<Keyframe, 'time'>[] = [];
 
     // Get all limb nodes
-    const limbNodes = Object.values(this.rigConfig.nodes).filter(node => 
+    const limbNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
       node.metadata?.limbType === 'arm' || node.metadata?.limbType === 'leg'
     );
 
@@ -63,7 +63,7 @@ export class AnimationSequencer {
     
     walkCycle.forEach((cycleKeyframes, cycleIndex) => {
       const time = (cycleIndex / (walkCycle.length - 1)) * duration;
-      cycleKeyframes.forEach(keyframe => {
+      cycleKeyframes.forEach((keyframe: any) => {
         keyframes.push({
           ...keyframe,
           time: time
@@ -179,7 +179,7 @@ export class AnimationSequencer {
     }
 
     // Leg movement for jump
-    const legNodes = Object.values(this.rigConfig.nodes).filter(node => 
+    const legNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
       node.metadata?.limbType === 'leg'
     );
 
@@ -228,7 +228,7 @@ export class AnimationSequencer {
 
     if (attackType === 'punch') {
       // Get arm nodes
-      const armNodes = Object.values(this.rigConfig.nodes).filter(node => 
+      const armNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
         node.metadata?.limbType === 'arm'
       );
 
@@ -276,7 +276,7 @@ export class AnimationSequencer {
       });
     } else if (attackType === 'kick') {
       // Get leg nodes
-      const legNodes = Object.values(this.rigConfig.nodes).filter(node => 
+      const legNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
         node.metadata?.limbType === 'leg'
       );
 
@@ -337,7 +337,7 @@ export class AnimationSequencer {
 
     if (emoteType === 'wave') {
       // Get first arm node
-      const armNodes = Object.values(this.rigConfig.nodes).filter(node => 
+      const armNodes = Object.values(this.rigConfig.nodes).filter((node: any) => 
         node.metadata?.limbType === 'arm'
       );
       const wavingArm = armNodes[0];
@@ -512,7 +512,7 @@ export class AnimationSequencer {
     };
 
     animation.keyframes.push(newKeyframe);
-    animation.keyframes.sort((a, b) => a.time - b.time);
+    animation.keyframes.sort((a: any, b: any) => a.time - b.time);
 
     return this;
   }
@@ -549,7 +549,7 @@ export class AnimationSequencer {
    * Get animations by type
    */
   getAnimationsByType(type: AnimationConfig['type']): AnimationConfig[] {
-    return Array.from(this.animations.values()).filter(anim => anim.type === type);
+    return Array.from(this.animations.values()).filter((anim: any) => anim.type === type);
   }
 
   /**
@@ -579,7 +579,7 @@ export class AnimationSequencer {
   validate(): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    this.animations.forEach(animation => {
+    this.animations.forEach((animation: any) => {
       // Check keyframes are in chronological order
       for (let i = 1; i < animation.keyframes.length; i++) {
         if (animation.keyframes[i].time < animation.keyframes[i - 1].time) {
@@ -589,7 +589,7 @@ export class AnimationSequencer {
       }
 
       // Check keyframes reference valid nodes
-      animation.keyframes.forEach(keyframe => {
+      animation.keyframes.forEach((keyframe: any) => {
         if (!this.rigConfig.nodes[keyframe.nodeId]) {
           errors.push(`Animation ${animation.name} references non-existent node ${keyframe.nodeId}`);
         }

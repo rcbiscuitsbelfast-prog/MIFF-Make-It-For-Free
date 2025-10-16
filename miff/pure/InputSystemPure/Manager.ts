@@ -536,7 +536,7 @@ export class InputSystemManager {
         }
       ];
 
-      defaultActions.forEach(action => this.addAction(action));
+      defaultActions.forEach((action: any) => this.addAction(action));
     }
   }
 

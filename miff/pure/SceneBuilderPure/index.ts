@@ -783,7 +783,7 @@ export class SceneBuilderManager {
       if (node.parent) {
         const parent = this.nodes.get(node.parent);
         if (parent) {
-          parent.children = parent.children.filter(id => id !== nodeId);
+          parent.children = parent.children.filter((id: any) => id !== nodeId);
         }
       }
 
@@ -889,7 +889,7 @@ export class SceneBuilderManager {
 
   // Utility methods
   getSceneBounds(): { min: { x: number; y: number; z: number }; max: { x: number; y: number; z: number } } {
-    const positions = Array.from(this.nodes.values()).map(node => node.position);
+    const positions = Array.from(this.nodes.values()).map((node: any) => node.position);
 
     if (positions.length === 0) {
       return {

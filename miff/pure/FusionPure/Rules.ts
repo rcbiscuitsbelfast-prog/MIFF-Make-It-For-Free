@@ -237,13 +237,13 @@ export class FusionRules {
   }
 
   public getRulesBySpecies(species: string): FusionPairRule[] {
-    return this.pairRules.filter(rule =>
+    return this.pairRules.filter((rule: any) =>
       rule.speciesA === species || rule.speciesB === species
     );
   }
 
   public getRulesByResult(resultSpecies: string): FusionPairRule[] {
-    return this.pairRules.filter(rule =>
+    return this.pairRules.filter((rule: any) =>
       rule.resultSpeciesId === resultSpecies
     );
   }
@@ -262,11 +262,11 @@ export class FusionRules {
 
     // Count constraint types
     const constraintTypes: Record<string, number> = {};
-    this.pairRules.forEach(rule => {
-      rule.requiredFlags.forEach(flag => {
+    this.pairRules.forEach((rule: any) => {
+      rule.requiredFlags.forEach((flag: any) => {
         constraintTypes['flag'] = (constraintTypes['flag'] || 0) + 1;
       });
-      rule.requiredItems.forEach(item => {
+      rule.requiredItems.forEach((item: any) => {
         constraintTypes['item'] = (constraintTypes['item'] || 0) + 1;
       });
       if (rule.minCombinedSync > 0) {
@@ -336,13 +336,13 @@ export class FusionRules {
     }
 
     // Check flags
-    rule.requiredFlags.forEach(flag => {
+    rule.requiredFlags.forEach((flag: any) => {
       missingConstraints.push(`Required flag: ${flag}`);
       recommendations.push(`Complete content to unlock: ${flag}`);
     });
 
     // Check items
-    rule.requiredItems.forEach(item => {
+    rule.requiredItems.forEach((item: any) => {
       missingConstraints.push(`Required item: ${item}`);
       recommendations.push(`Obtain ${item} from exploration or purchase`);
     });
@@ -362,8 +362,8 @@ export class FusionRules {
   }
 
   public getOptimalFusions(minSuccessRate: number = 50): FusionPairRule[] {
-    return this.pairRules.filter(rule => rule.successRate >= minSuccessRate)
-      .sort((a, b) => b.successRate - a.successRate);
+    return this.pairRules.filter((rule: any) => rule.successRate >= minSuccessRate)
+      .sort((a: any, b: any) => b.successRate - a.successRate);
   }
 
   public getFusionChains(): FusionPairRule[][] {
@@ -371,7 +371,7 @@ export class FusionRules {
     const chains: FusionPairRule[][] = [];
     const usedRules = new Set<string>();
 
-    this.pairRules.forEach(rule => {
+    this.pairRules.forEach((rule: any) => {
       if (usedRules.has(rule.id)) return;
 
       const chain = this.buildFusionChain(rule, usedRules);
@@ -380,7 +380,7 @@ export class FusionRules {
       }
     });
 
-    return chains.sort((a, b) => b.length - a.length);
+    return chains.sort((a: any, b: any) => b.length - a.length);
   }
 
   private buildFusionChain(startRule: FusionPairRule, usedRules: Set<string>): FusionPairRule[] {

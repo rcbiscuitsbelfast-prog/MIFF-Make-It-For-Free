@@ -323,7 +323,7 @@ export class BridgeInspectorManager {
     const issues: InspectionIssue[] = [];
     const validationIssues = BridgeSchemaValidator.validateRenderPayload(payload);
 
-    validationIssues.forEach(issue => {
+    validationIssues.forEach((issue: any) => {
       issues.push({
         category: 'schema',
         severity: 'error',
@@ -343,7 +343,7 @@ export class BridgeInspectorManager {
 
     let totalHints = 0;
 
-    payload.renderData?.forEach(data => {
+    payload.renderData?.forEach((data: any) => {
       if (data.engineHints) {
         Object.entries(data.engineHints).forEach(([engine, hints]) => {
           engineSpecific[engine] = (engineSpecific[engine] || 0) + 1;
@@ -371,7 +371,7 @@ export class BridgeInspectorManager {
   private validateEngineHints(engineHints: EngineHintAnalysis): InspectionIssue[] {
     const issues: InspectionIssue[] = [];
 
-    engineHints.invalidHints.forEach(hint => {
+    engineHints.invalidHints.forEach((hint: any) => {
       issues.push({
         category: 'engine_hints',
         severity: 'error',
@@ -400,9 +400,9 @@ export class BridgeInspectorManager {
 
     let totalSignals = 0;
 
-    payload.renderData?.forEach(data => {
+    payload.renderData?.forEach((data: any) => {
       if (data.signals) {
-        data.signals.forEach(signal => {
+        data.signals.forEach((signal: any) => {
           totalSignals++;
 
           // Count by engine
@@ -435,7 +435,7 @@ export class BridgeInspectorManager {
   private validateSignals(signals: SignalAnalysis): InspectionIssue[] {
     const issues: InspectionIssue[] = [];
 
-    signals.invalidSignals.forEach(signal => {
+    signals.invalidSignals.forEach((signal: any) => {
       issues.push({
         category: 'signals',
         severity: 'error',
@@ -488,7 +488,7 @@ export class BridgeInspectorManager {
   private validateMetadata(metadata: MetadataAnalysis): InspectionIssue[] {
     const issues: InspectionIssue[] = [];
 
-    metadata.invalidFields.forEach(field => {
+    metadata.invalidFields.forEach((field: any) => {
       issues.push({
         category: 'metadata',
         severity: 'error',
@@ -516,10 +516,10 @@ export class BridgeInspectorManager {
 
     let crossEngineCompatible = true;
 
-    payload.renderData?.forEach(data => {
+    payload.renderData?.forEach((data: any) => {
       // Check for engine-specific features
       if (data.engineHints) {
-        Object.keys(data.engineHints).forEach(engine => {
+        Object.keys(data.engineHints).forEach((engine: any) => {
           if (engine === 'unity') {
             engineSpecificFeatures.push('Unity-specific components');
           } else if (engine === 'web') {
@@ -565,7 +565,7 @@ export class BridgeInspectorManager {
       });
     }
 
-    compatibility.conversionWarnings.forEach(warning => {
+    compatibility.conversionWarnings.forEach((warning: any) => {
       issues.push({
         category: 'compatibility',
         severity: 'info',
@@ -637,8 +637,8 @@ export class BridgeInspectorManager {
     metadata: MetadataAnalysis,
     compatibility: CompatibilityAnalysis
   ): InspectionSummary {
-    const errorIssues = issues.filter(issue => issue.severity === 'error');
-    const warningIssues = issues.filter(issue => issue.severity === 'warning');
+    const errorIssues = issues.filter((issue: any) => issue.severity === 'error');
+    const warningIssues = issues.filter((issue: any) => issue.severity === 'warning');
 
     const schemaValid = !issues.some(issue => issue.category === 'schema' && issue.severity === 'error');
     const engineHintsValid = !issues.some(issue => issue.category === 'engine_hints' && issue.severity === 'error');
@@ -673,9 +673,9 @@ export class BridgeInspectorManager {
 
     // Try to determine from engine hints
     const engines = payload.renderData
-      ?.map(data => data.engineHints)
-      .filter(hints => hints)
-      .map(hints => Object.keys(hints || {}))
+      ?.map((data: any) => data.engineHints)
+      .filter((hints: any) => hints)
+      .map((hints: any) => Object.keys(hints || {}))
       .flat() || [];
 
     const uniqueEngines = [...new Set(engines)];
@@ -694,9 +694,9 @@ export class BridgeInspectorManager {
 
     // Try to determine from engine hints
     const engines = payload.renderData
-      ?.map(data => data.engineHints)
-      .filter(hints => hints)
-      .map(hints => Object.keys(hints || {}))
+      ?.map((data: any) => data.engineHints)
+      .filter((hints: any) => hints)
+      .map((hints: any) => Object.keys(hints || {}))
       .flat() || [];
 
     const uniqueEngines = [...new Set(engines)];
@@ -757,7 +757,7 @@ export class BridgeInspectorManager {
       });
     }
 
-    return payloads.filter(payload => 
+    return payloads.filter((payload: any) => 
       payload.renderData && Array.isArray(payload.renderData)
     );
   }
@@ -783,7 +783,7 @@ export class BridgeInspectorManager {
 
       if (inspection.issues.length > 0) {
         lines.push('### Issues');
-        inspection.issues.forEach(issue => {
+        inspection.issues.forEach((issue: any) => {
           const severity = issue.severity === 'error' ? '❌' : issue.severity === 'warning' ? '⚠️' : 'ℹ️';
           lines.push(`- ${severity} **${issue.category}:** ${issue.message}`);
         });
@@ -792,7 +792,7 @@ export class BridgeInspectorManager {
 
       if (inspection.warnings.length > 0) {
         lines.push('### Warnings');
-        inspection.warnings.forEach(warning => {
+        inspection.warnings.forEach((warning: any) => {
           lines.push(`- ⚠️ **${warning.category}:** ${warning.message}`);
           if (warning.suggestion) {
             lines.push(`  - Suggestion: ${warning.suggestion}`);
@@ -861,7 +861,7 @@ export class BridgeInspectorManager {
 
       if (inspection.issues.length > 0) {
         lines.push('<h3>Issues</h3>');
-        inspection.issues.forEach(issue => {
+        inspection.issues.forEach((issue: any) => {
           const severityClass = `issue-${issue.severity}`;
           const severityIcon = issue.severity === 'error' ? '❌' : issue.severity === 'warning' ? '⚠️' : 'ℹ️';
           lines.push(`<div class="issue ${severityClass}">`);
@@ -872,7 +872,7 @@ export class BridgeInspectorManager {
 
       if (inspection.warnings.length > 0) {
         lines.push('<h3>Warnings</h3>');
-        inspection.warnings.forEach(warning => {
+        inspection.warnings.forEach((warning: any) => {
           lines.push('<div class="warning">');
           lines.push(`⚠️ <strong>${warning.category}:</strong> ${warning.message}`);
           if (warning.suggestion) {

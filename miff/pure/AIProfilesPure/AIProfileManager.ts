@@ -258,7 +258,7 @@ export class AIProfileManager {
     let profiles = Array.from(this.profiles.values());
 
     if (filter) {
-      profiles = profiles.filter(profile => {
+      profiles = profiles.filter((profile: any) => {
         if (filter.role && profile.role !== filter.role) return false;
         if (filter.minFriendliness !== undefined && profile.personality.friendliness < filter.minFriendliness) return false;
         if (filter.maxFriendliness !== undefined && profile.personality.friendliness > filter.maxFriendliness) return false;
@@ -389,7 +389,7 @@ export class AIProfileManager {
       profile.schedule = [];
     }
     profile.schedule.push(entry);
-    profile.schedule.sort((a, b) => a.priority - b.priority);
+    profile.schedule.sort((a: any, b: any) => a.priority - b.priority);
     this.updateStats();
     return {
       op: 'add-schedule',
@@ -671,7 +671,7 @@ export class AIProfileManager {
     };
 
     // Count by role
-    profiles.forEach(profile => {
+    profiles.forEach((profile: any) => {
       this.stats.profilesByRole[profile.role]++;
     });
 

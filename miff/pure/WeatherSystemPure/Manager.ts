@@ -309,7 +309,7 @@ export class WeatherManagerPure {
     }
 
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onWeatherChange(oldWeather, newWeather);
     });
 
@@ -339,7 +339,7 @@ export class WeatherManagerPure {
     }
 
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onLightningStrike(position, 0.8); // High intensity lightning
     });
   }
@@ -349,7 +349,7 @@ export class WeatherManagerPure {
    */
   private handleWeatherEffect(effect: WeatherEffect, intensity: number): void {
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onWeatherEffect(effect, intensity);
     });
   }
@@ -466,7 +466,7 @@ export class WeatherManagerPure {
     this.forecastCache.set(hours, forecast);
 
     // Notify listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onWeatherForecast(forecast);
     });
 

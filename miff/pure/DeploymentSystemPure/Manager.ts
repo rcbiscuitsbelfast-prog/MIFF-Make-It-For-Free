@@ -33,7 +33,7 @@ export interface DeploymentConfig {
   enableScaling: boolean;
   enableSecurityControl: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableDeploymentAnalytics: boolean;
   enableDeploymentReporting: boolean;
   maxApplications: number;
@@ -807,7 +807,7 @@ export class DeploymentSystemPure {
       enableScaling: true,
       enableSecurityControl: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableDeploymentAnalytics: true,
       enableDeploymentReporting: true,
       maxApplications: 100,
@@ -1094,10 +1094,10 @@ export class DeploymentSystemPure {
 
     for (const manager of this.managers.values()) {
       totalApplications += manager.applications.length;
-      runningApplications += manager.applications.filter(app => app.status === 'running').length;
+      runningApplications += manager.applications.filter((app: any) => app.status === 'running').length;
       totalDeployments += manager.deployments.length;
-      successfulDeployments += manager.deployments.filter(dep => dep.status === 'completed').length;
-      failedDeployments += manager.deployments.filter(dep => dep.status === 'failed').length;
+      successfulDeployments += manager.deployments.filter((dep: any) => dep.status === 'completed').length;
+      failedDeployments += manager.deployments.filter((dep: any) => dep.status === 'failed').length;
     }
 
     this.performanceMetrics.totalApplications = totalApplications;

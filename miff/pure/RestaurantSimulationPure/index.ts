@@ -412,7 +412,7 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    facilities.forEach(facility => {
+    facilities.forEach((facility: any) => {
       this.facilities.set(facility.id, facility);
     });
   }
@@ -478,7 +478,7 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    menuItems.forEach(item => {
+    menuItems.forEach((item: any) => {
       this.menuItems.set(item.id, item);
     });
   }
@@ -541,7 +541,7 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    ingredients.forEach(ingredient => {
+    ingredients.forEach((ingredient: any) => {
       this.ingredients.set(ingredient.id, ingredient);
     });
   }
@@ -592,7 +592,7 @@ export class RestaurantSimulationPure {
       }
     ];
 
-    equipment.forEach(item => {
+    equipment.forEach((item: any) => {
       this.equipment.set(item.id, item);
     });
   }
@@ -794,7 +794,7 @@ export class RestaurantSimulationPure {
    * Generate order for customer
    */
   private generateOrder(customer: RestaurantCustomer): void {
-    const availableItems = Array.from(this.menuItems.values()).filter(item => item.available);
+    const availableItems = Array.from(this.menuItems.values()).filter((item: any) => item.available);
     const orderSize = Math.min(customer.groupSize + 1, 5); // 1-5 items based on group size
 
     const orderItems: OrderItem[] = [];
@@ -1083,7 +1083,7 @@ export class RestaurantSimulationPure {
 
     // Customer satisfaction bonus
     const satisfiedCustomers = Array.from(this.customers.values())
-      .filter(c => c.satisfaction >= 80).length;
+      .filter((c: any) => c.satisfaction >= 80).length;
     const totalCustomers = this.customers.size;
     if (totalCustomers > 0) {
       const satisfactionRate = satisfiedCustomers / totalCustomers;
@@ -1172,8 +1172,8 @@ export class RestaurantSimulationPure {
       customerCount: this.customers.size,
       averageSatisfaction: this.calculateAverageSatisfaction(),
       averageWaitTime: this.calculateAverageWaitTime(),
-      ordersCompleted: Array.from(this.orders.values()).filter(o => o.status === 'served').length,
-      ordersCancelled: Array.from(this.orders.values()).filter(o => o.status === 'cancelled').length,
+      ordersCompleted: Array.from(this.orders.values()).filter((o: any) => o.status === 'served').length,
+      ordersCancelled: Array.from(this.orders.values()).filter((o: any) => o.status === 'cancelled').length,
       menuItemsSold: this.calculateMenuItemsSold(),
       staffPerformance: this.calculateAverageStaffPerformance(),
       equipmentEfficiency: this.calculateAverageEquipmentEfficiency(),

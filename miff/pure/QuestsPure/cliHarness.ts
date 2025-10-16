@@ -234,13 +234,13 @@ try {
         }
       ];
 
-      const results = sampleQuests.map(quest => manager.createQuest(quest));
+      const results = sampleQuests.map((quest: any) => manager.createQuest(quest));
       output = {
         op: 'sample',
         status: 'ok',
         result: {
           message: 'Sample quests created',
-          results: results.map(r => ({ status: r.status, quest: r.result }))
+          results: results.map((r: any) => ({ status: r.status, quest: r.result }))
         }
       };
       break;

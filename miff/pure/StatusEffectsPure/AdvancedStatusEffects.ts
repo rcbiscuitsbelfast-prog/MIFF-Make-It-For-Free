@@ -192,7 +192,7 @@ export class AdvancedStatusEffects {
       throw new Error(`Effect aura ${auraId} not found`);
     }
 
-    const affectedEntities = entities.filter(entity => {
+    const affectedEntities = entities.filter((entity: any) => {
       const distance = this.calculateDistance(centerEntity, entity);
       return distance <= aura.radius;
     });

@@ -32,7 +32,7 @@ function main() {
       const audit = remixAudit(manifest);
       outputs.push(audit);
     } else if (c.op === 'list') {
-      outputs.push({ op: 'list', assets: manifest.assets.map(a => ({ id: a.id, type: a.type, license: a.license })) });
+      outputs.push({ op: 'list', assets: manifest.assets.map((a: any) => ({ id: a.id, type: a.type, license: a.license })) });
     } else if (c.op === 'dump') {
       outputs.push({ op: 'dump', manifest });
     }

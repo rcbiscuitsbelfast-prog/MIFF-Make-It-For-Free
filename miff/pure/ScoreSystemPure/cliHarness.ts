@@ -215,15 +215,15 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map(scenario => {
-        scenario.scores.forEach(score => {
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
+        scenario.scores.forEach((score: any) => {
           manager.createScore(score.id, score.category, score.initialScore);
         });
 
         return {
           scenario: scenario.id,
           scores: scenario.scores.length,
-          scoreIds: scenario.scores.map(s => s.id)
+          scoreIds: scenario.scores.map((s: any) => s.id)
         };
       });
 

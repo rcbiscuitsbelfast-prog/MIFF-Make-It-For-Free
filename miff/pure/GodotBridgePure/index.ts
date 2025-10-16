@@ -1502,7 +1502,7 @@ export class GodotBridgeManager {
     this.statistics.errorRate = this.statistics.totalErrors / Math.max(1, this.statistics.totalMessages);
     this.statistics.averageMessageSize = this.statistics.dataTransferred / Math.max(1, this.statistics.totalMessages);
     this.statistics.queueDepth = this.messageQueue.length + this.eventQueue.length + this.commandQueue.length + this.queryQueue.length + this.inputEventQueue.length + this.signalQueue.length;
-    this.statistics.activeConnections = Array.from(this.connections.values()).filter(c => c.status === 'connected').length;
+    this.statistics.activeConnections = Array.from(this.connections.values()).filter((c: any) => c.status === 'connected').length;
     this.statistics.nodeCount = this.nodes.size;
     this.statistics.sceneCount = this.scenes.size;
     this.statistics.resourceCount = this.resources.size;

@@ -163,7 +163,7 @@ export class AIPolicy {
   removeOverrideRule(ruleId: string): boolean {
     const ruleString = `${ruleId}:`;
     let removed = false;
-    this.overrideRules = this.overrideRules.filter(rule => {
+    this.overrideRules = this.overrideRules.filter((rule: any) => {
       if (rule.startsWith(ruleString)) {
         removed = true;
         return false;
@@ -263,7 +263,7 @@ export class BattleAI {
     }
 
     // Prioritize actions that were selected by HP-based override rules
-    const hpActions = actions.filter(action => action.reasoning.includes('Critical HP override rule'));
+    const hpActions = actions.filter((action: any) => action.reasoning.includes('Critical HP override rule'));
     if (hpActions.length > 0) {
       return hpActions[0]; // Return the first HP-prioritized action
     }
@@ -916,7 +916,7 @@ export class AIManager {
    */
   createStandardPolicies(): AIPolicy[] {
     const policies = AIUtils.createStandardPolicies();
-    policies.forEach(policy => this.registerPolicy(policy));
+    policies.forEach((policy: any) => this.registerPolicy(policy));
     return policies;
   }
 
@@ -986,7 +986,7 @@ export class AIManager {
    * Get policies by style
    */
   getPoliciesByStyle(style: AIDecisionStyle): AIPolicy[] {
-    return this.getAllPolicies().filter(p => p.policyId === style);
+    return this.getAllPolicies().filter((p: any) => p.policyId === style);
   }
 
   /**

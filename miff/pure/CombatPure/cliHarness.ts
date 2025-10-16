@@ -225,7 +225,7 @@ class CombatCLI {
         status: 'ok',
         result: {
           battleStatus: status,
-          combatants: combatants.map(c => ({
+          combatants: combatants.map((c: any) => ({
             id: c.id,
             name: c.name,
             team: c.team,

@@ -77,7 +77,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   }
 
   // Capture states at key times
-  const captureAt = new Set([0, 0.5, 1.0].map(v => round(v)));
+  const captureAt = new Set([0, 0.5, 1.0].map((v: any) => round(v)));
   const timeline: ScenarioState[] = [];
   const issues: string[] = [];
   let grounded = false;
@@ -138,8 +138,8 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
 
   // Extract events from timeline for golden fixture compatibility
   const events = timeline
-    .filter(state => state.collided)
-    .map(state => ({
+    .filter((state: any) => state.collided)
+    .map((state: any) => ({
       type: 'collision',
       t: state.t,
       position: state.position,

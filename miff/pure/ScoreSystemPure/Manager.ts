@@ -413,7 +413,7 @@ export class ScoreManager {
     }
 
     // Sort by score and update ranks
-    leaderboard.entries.sort((a, b) => b.score - a.score);
+    leaderboard.entries.sort((a: any, b: any) => b.score - a.score);
     leaderboard.entries.forEach((entry, index) => {
       entry.rank = index + 1;
     });
@@ -457,7 +457,7 @@ export class ScoreManager {
     let scores = Array.from(this.scores.values());
 
     if (filter) {
-      scores = scores.filter(score => {
+      scores = scores.filter((score: any) => {
         if (filter.category && score.category !== filter.category) return false;
         if (filter.minScore !== undefined && score.score < filter.minScore) return false;
         if (filter.maxScore !== undefined && score.score > filter.maxScore) return false;
@@ -608,14 +608,14 @@ export class ScoreManager {
 
     // Reset category counts
     this.stats.scoresByCategory = {};
-    scores.forEach(score => {
+    scores.forEach((score: any) => {
       this.stats.scoresByCategory[score.category] = (this.stats.scoresByCategory[score.category] || 0) + 1;
     });
 
     // Calculate averages and totals
     if (scores.length > 0) {
       this.stats.averageScore = scores.reduce((acc, score) => acc + score.score, 0) / scores.length;
-      this.stats.highestScore = Math.max(...scores.map(s => s.score));
+      this.stats.highestScore = Math.max(...scores.map((s: any) => s.score));
     }
 
     // Count achievements

@@ -29,7 +29,7 @@ export interface MonitoringSystemConfig {
   enableInfrastructureMonitoring: boolean;
   enableLogMonitoring: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableMonitoringAnalytics: boolean;
   enableMonitoringReporting: boolean;
   maxMetrics: number;
@@ -1289,7 +1289,7 @@ export class MonitoringSystemPure {
       enableInfrastructureMonitoring: true,
       enableLogMonitoring: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableMonitoringAnalytics: true,
       enableMonitoringReporting: true,
       maxMetrics: 100000,

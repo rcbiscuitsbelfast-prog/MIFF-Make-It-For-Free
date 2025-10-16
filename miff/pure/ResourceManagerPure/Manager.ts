@@ -30,7 +30,7 @@ export interface ResourceManagerConfig {
   enableAssetStreaming: boolean;
   enableResourcePooling: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableResourceAnalytics: boolean;
   enableResourceReporting: boolean;
   maxResources: number;
@@ -880,7 +880,7 @@ export class ResourceManagerPure {
       enableAssetStreaming: true,
       enableResourcePooling: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableResourceAnalytics: true,
       enableResourceReporting: true,
       maxResources: 100000,

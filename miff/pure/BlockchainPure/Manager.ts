@@ -35,7 +35,7 @@ export interface BlockchainConfig {
   enableConsensusMechanisms: boolean;
   enablePerformanceOptimization: boolean;
   enableCrossPlatformSupport: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   maxTransactions: number;
   maxBlocks: number;
   enableCloudSync: boolean;
@@ -297,7 +297,7 @@ export class BlockchainManager {
       enableConsensusMechanisms: true,
       enablePerformanceOptimization: true,
       enableCrossPlatformSupport: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       maxTransactions: 100000,
       maxBlocks: 10000,
       enableCloudSync: false,
@@ -325,7 +325,7 @@ export class BlockchainManager {
       }
 
       // Initialize memory manager
-      if (this.config.enableRealTimeMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 

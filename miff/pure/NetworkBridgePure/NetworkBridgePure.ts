@@ -233,7 +233,7 @@ export class NetworkBridge {
   }
 
   getConnectedPeers(): Peer[] {
-    return Array.from(this.peers.values()).filter(peer => peer.isConnected);
+    return Array.from(this.peers.values()).filter((peer: any) => peer.isConnected);
   }
 
   disconnect(): void {

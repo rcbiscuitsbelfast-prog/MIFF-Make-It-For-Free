@@ -201,7 +201,7 @@ export class HealthSystemManager {
           damageToHp -= absorbed;
           
           if (shield.amount <= 0) {
-            entity.shields = entity.shields.filter(s => s.id !== shield.id);
+            entity.shields = entity.shields.filter((s: any) => s.id !== shield.id);
           }
         }
       }
@@ -362,10 +362,10 @@ export class HealthSystemManager {
       }
 
       // Remove expired regeneration
-      entity.regeneration = entity.regeneration.filter(regen => now < regen.expiresAt);
+      entity.regeneration = entity.regeneration.filter((regen: any) => now < regen.expiresAt);
 
       // Remove expired shields
-      entity.shields = entity.shields.filter(shield => 
+      entity.shields = entity.shields.filter((shield: any) => 
         !shield.expiresAt || now < shield.expiresAt
       );
 
@@ -389,7 +389,7 @@ export class HealthSystemManager {
     let entities = Array.from(this.entities.values());
 
     if (filter) {
-      entities = entities.filter(entity => {
+      entities = entities.filter((entity: any) => {
         if (filter.minHp !== undefined && entity.currentHp < filter.minHp) return false;
         if (filter.maxHp !== undefined && entity.currentHp > filter.maxHp) return false;
         if (filter.hasShields !== undefined) {
@@ -422,8 +422,8 @@ export class HealthSystemManager {
    */
   getHealthStats(): HealthOutput {
     const entities = Array.from(this.entities.values());
-    const aliveEntities = entities.filter(e => e.currentHp > 0);
-    const deadEntities = entities.filter(e => e.currentHp <= 0);
+    const aliveEntities = entities.filter((e: any) => e.currentHp > 0);
+    const deadEntities = entities.filter((e: any) => e.currentHp <= 0);
     
     const averageHp = entities.length > 0 
       ? entities.reduce((sum, e) => sum + e.currentHp, 0) / entities.length 
@@ -435,8 +435,8 @@ export class HealthSystemManager {
     
     const activeRegeneration = entities.reduce((sum, e) => sum + e.regeneration.length, 0);
 
-    const damageEvents = this.events.filter(e => e.type === 'damage');
-    const healEvents = this.events.filter(e => e.type === 'heal');
+    const damageEvents = this.events.filter((e: any) => e.type === 'damage');
+    const healEvents = this.events.filter((e: any) => e.type === 'heal');
     
     const damageDealt = damageEvents.reduce((sum, e) => sum + e.amount, 0);
     const healingDone = healEvents.reduce((sum, e) => sum + e.amount, 0);
@@ -444,7 +444,7 @@ export class HealthSystemManager {
     const eventTypes: Record<string, number> = {};
     const damageTypes: Record<string, number> = {};
     
-    this.events.forEach(event => {
+    this.events.forEach((event: any) => {
       eventTypes[event.type] = (eventTypes[event.type] || 0) + 1;
       if (event.damageType) {
         damageTypes[event.damageType] = (damageTypes[event.damageType] || 0) + 1;
@@ -505,7 +505,7 @@ export class HealthSystemManager {
           status: 'ok',
           result: {
             summary: stats.result,
-            entities: entities.map(entity => ({
+            entities: entities.map((entity: any) => ({
               id: entity.id,
               currentHp: entity.currentHp,
               maxHp: entity.maxHp,

@@ -25,7 +25,7 @@ export interface DebuggingConfig {
   enableSessionManagement: boolean;
   enableBreakpointHandling: boolean;
   enablePerformanceProfiling: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableDebugAnalytics: boolean;
   enableDebugReporting: boolean;
   maxSessions: number;
@@ -748,7 +748,7 @@ export class DebuggingPure {
       enableSessionManagement: true,
       enableBreakpointHandling: true,
       enablePerformanceProfiling: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableDebugAnalytics: true,
       enableDebugReporting: true,
       maxSessions: 100,
@@ -925,9 +925,9 @@ export class DebuggingPure {
 
     for (const manager of this.managers.values()) {
       totalSessions += manager.sessions.length;
-      activeSessions += manager.sessions.filter(s => s.status === 'running' || s.status === 'paused').length;
+      activeSessions += manager.sessions.filter((s: any) => s.status === 'running' || s.status === 'paused').length;
       totalBreakpoints += manager.breakpoints.length;
-      activeBreakpoints += manager.breakpoints.filter(b => b.status === 'active').length;
+      activeBreakpoints += manager.breakpoints.filter((b: any) => b.status === 'active').length;
       totalWatchpoints += manager.watchpoints.length;
       totalProfilers += manager.profilers.length;
     }

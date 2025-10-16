@@ -281,7 +281,7 @@ export class WeatherSystemCLI {
     const patterns = this.weatherSystem.getAllWeatherPatterns();
 
     this.log('\n=== AVAILABLE WEATHER PATTERNS ===');
-    patterns.forEach(pattern => {
+    patterns.forEach((pattern: any) => {
       this.log(`🌤️  ${pattern.name} (${pattern.id})`);
       this.log(`   Description: ${pattern.description}`);
       this.log(`   Type: ${pattern.baseType}`);

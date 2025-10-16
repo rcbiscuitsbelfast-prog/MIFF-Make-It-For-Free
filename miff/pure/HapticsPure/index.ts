@@ -460,7 +460,7 @@ export class HapticEngine {
         name: 'Menu Environment',
         type: 'menu',
         devices: [],
-        patterns: Array.from(this.configuration.defaultPatterns.values()).filter(p => p.tags.includes('ui')),
+        patterns: Array.from(this.configuration.defaultPatterns.values()).filter((p: any) => p.tags.includes('ui')),
         settings: {
           masterVolume: 0.6,
           masterIntensity: 0.4,
@@ -962,17 +962,17 @@ export class HapticEngine {
   }
 
   private calculateAverageEffectDuration(): number {
-    const durations = Array.from(this.activeEffects.values()).map(e => e.duration);
+    const durations = Array.from(this.activeEffects.values()).map((e: any) => e.duration);
     return durations.length > 0 ? durations.reduce((sum, d) => sum + d, 0) / durations.length : 0;
   }
 
   private calculateAverageAmplitude(): number {
-    const amplitudes = Array.from(this.activeEffects.values()).map(e => e.amplitude);
+    const amplitudes = Array.from(this.activeEffects.values()).map((e: any) => e.amplitude);
     return amplitudes.length > 0 ? amplitudes.reduce((sum, a) => sum + a, 0) / amplitudes.length : 0;
   }
 
   private calculateAverageFrequency(): number {
-    const frequencies = Array.from(this.activeEffects.values()).map(e => e.frequency);
+    const frequencies = Array.from(this.activeEffects.values()).map((e: any) => e.frequency);
     return frequencies.length > 0 ? frequencies.reduce((sum, f) => sum + f, 0) / frequencies.length : 0;
   }
 

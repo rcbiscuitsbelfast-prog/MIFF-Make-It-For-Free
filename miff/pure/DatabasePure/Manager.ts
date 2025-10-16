@@ -29,7 +29,7 @@ export interface DatabaseConfig {
   enableTransactionManagement: boolean;
   enableSchemaManagement: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableDatabaseAnalytics: boolean;
   enableDatabaseReporting: boolean;
   maxConnections: number;
@@ -763,7 +763,7 @@ export class DatabasePure {
       enableTransactionManagement: true,
       enableSchemaManagement: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableDatabaseAnalytics: true,
       enableDatabaseReporting: true,
       maxConnections: 100,

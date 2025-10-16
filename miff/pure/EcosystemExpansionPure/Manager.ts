@@ -29,7 +29,7 @@ export interface EcosystemExpansionConfig {
   enableMarketExpansion: boolean;
   enableIntegrationManagement: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableExpansionAnalytics: boolean;
   enableExpansionReporting: boolean;
   maxPartnerships: number;
@@ -886,7 +886,7 @@ export class EcosystemExpansionPure {
       enableMarketExpansion: true,
       enableIntegrationManagement: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableExpansionAnalytics: true,
       enableExpansionReporting: true,
       maxPartnerships: 100,

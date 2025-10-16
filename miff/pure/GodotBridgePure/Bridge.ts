@@ -139,7 +139,7 @@ export class GodotBridge {
         case 'npcs':
           const npcs = this.npcsManager.listNPCs();
           if (npcs.status === 'ok' && npcs.result) {
-            nodes = (npcs.result as NPC[]).map(npc => this.createGodotNode(npc, config));
+            nodes = (npcs.result as NPC[]).map((npc: any) => this.createGodotNode(npc, config));
             resources = this.createNPCResources(npcs.result as NPC[], config);
             scripts = this.getNPCScripts(config);
             scenes = ['NPCScene.tscn', 'QuestGiverScene.tscn', 'MerchantScene.tscn'];
@@ -484,7 +484,7 @@ export class GodotBridge {
   private getNPCScripts(config: GodotBridgeConfig): string[] {
     const baseScripts = ['NPCController', 'QuestSystem', 'MerchantBehavior'];
     const extension = config.language === 'csharp' ? '.cs' : '.gd';
-    return baseScripts.map(script => `res://miff/scripts/${script}${extension}`);
+    return baseScripts.map((script: any) => `res://miff/scripts/${script}${extension}`);
   }
 
   private getCombatScripts(config: GodotBridgeConfig): string[] {
@@ -496,7 +496,7 @@ export class GodotBridge {
   private getUIScripts(config: GodotBridgeConfig): string[] {
     const baseScripts = ['UIController', 'InventoryUI', 'MenuSystem'];
     const extension = config.language === 'csharp' ? '.cs' : '.gd';
-    return baseScripts.map(script => `res://miff/scripts/${script}${extension}`);
+    return baseScripts.map((script: any) => `res://miff/scripts/${script}${extension}`);
   }
 
   private convertFromGodot(godotData: any): any {

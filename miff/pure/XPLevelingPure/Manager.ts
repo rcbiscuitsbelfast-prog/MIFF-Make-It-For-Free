@@ -154,7 +154,7 @@ export class XPLevelingManager {
       }
     ];
 
-    defaultCurves.forEach(curve => this.curves.set(curve.id, curve));
+    defaultCurves.forEach((curve: any) => this.curves.set(curve.id, curve));
   }
 
   private generateLevelEntries(maxLevel: number, baseXp: number, growthRate: number): LevelEntry[] {
@@ -399,7 +399,7 @@ export class XPLevelingManager {
     let entities = Array.from(this.entities.values());
 
     if (filter) {
-      entities = entities.filter(entity => {
+      entities = entities.filter((entity: any) => {
         if (filter.minLevel !== undefined && entity.level < filter.minLevel) return false;
         if (filter.maxLevel !== undefined && entity.level > filter.maxLevel) return false;
         if (filter.minXp !== undefined && entity.xp < filter.minXp) return false;
@@ -444,10 +444,10 @@ export class XPLevelingManager {
       const totalLevel = entities.reduce((sum, e) => sum + e.level, 0);
       stats.averageLevel = totalLevel / entities.length;
       stats.totalXp = entities.reduce((sum, e) => sum + e.totalXp, 0);
-      stats.highestLevel = Math.max(...entities.map(e => e.level));
+      stats.highestLevel = Math.max(...entities.map((e: any) => e.level));
 
       // Calculate level distribution
-      entities.forEach(entity => {
+      entities.forEach((entity: any) => {
         stats.levelDistribution[entity.level] = (stats.levelDistribution[entity.level] || 0) + 1;
       });
 
@@ -457,7 +457,7 @@ export class XPLevelingManager {
       stats.mostCommonLevel = parseInt(sortedLevels[0]?.[0] || '1');
 
       // Calculate skill distribution
-      entities.forEach(entity => {
+      entities.forEach((entity: any) => {
         entity.skills.forEach((level, skillId) => {
           stats.skillDistribution[skillId] = (stats.skillDistribution[skillId] || 0) + level;
         });
@@ -547,7 +547,7 @@ export class XPLevelingManager {
           status: 'ok',
           result: {
             summary: stats.result,
-            entities: entities.map(entity => ({
+            entities: entities.map((entity: any) => ({
               id: entity.id,
               level: entity.level,
               xp: entity.xp,
@@ -621,7 +621,7 @@ export class XPLevelingManager {
     // Apply stat boosts
     const statBoosts: { stat: string; amount: number }[] = [];
     if (levelEntry.statBoosts) {
-      levelEntry.statBoosts.forEach(boost => {
+      levelEntry.statBoosts.forEach((boost: any) => {
         const currentValue = entity.stats.get(boost.stat) || 0;
         entity.stats.set(boost.stat, currentValue + boost.amount);
         statBoosts.push(boost);
@@ -869,7 +869,7 @@ export class XPLevelingManager {
       mostCommonLevel: 1,
       highestLevel: 1,
       activeChallenges: this.challenges.size,
-      completedChallenges: Array.from(this.challenges.values()).filter(c => !c.isActive).length,
+      completedChallenges: Array.from(this.challenges.values()).filter((c: any) => !c.isActive).length,
       globalMultipliers: this.globalMultipliers.length
     };
 
@@ -877,17 +877,17 @@ export class XPLevelingManager {
       const totalLevel = entities.reduce((sum, e) => sum + e.level, 0);
       detailedStats.averageLevel = totalLevel / entities.length;
       detailedStats.totalXp = entities.reduce((sum, e) => sum + e.totalXp, 0);
-      detailedStats.highestLevel = Math.max(...entities.map(e => e.level));
+      detailedStats.highestLevel = Math.max(...entities.map((e: any) => e.level));
 
       // Calculate XP by currency
-      entities.forEach(entity => {
+      entities.forEach((entity: any) => {
         entity.xpByCurrency.forEach((xp, currency) => {
           detailedStats.totalXpByCurrency[currency] = (detailedStats.totalXpByCurrency[currency] || 0) + xp;
         });
       });
 
       // Calculate level distribution
-      entities.forEach(entity => {
+      entities.forEach((entity: any) => {
         detailedStats.levelDistribution[entity.level] = (detailedStats.levelDistribution[entity.level] || 0) + 1;
       });
 
@@ -897,7 +897,7 @@ export class XPLevelingManager {
       detailedStats.mostCommonLevel = parseInt(sortedLevels[0]?.[0] || '1');
 
       // Calculate skill distribution
-      entities.forEach(entity => {
+      entities.forEach((entity: any) => {
         entity.skills.forEach((level, skillId) => {
           detailedStats.skillDistribution[skillId] = (detailedStats.skillDistribution[skillId] || 0) + level;
         });
@@ -925,7 +925,7 @@ export class XPLevelingManager {
     }
 
     const activeChallenges = Array.from(this.challenges.values())
-      .filter(challenge => challenge.isActive && !entity.activeChallenges.includes(challenge.id));
+      .filter((challenge: any) => challenge.isActive && !entity.activeChallenges.includes(challenge.id));
 
     return {
       op: 'get_active_challenges',
@@ -1005,7 +1005,7 @@ export class XPLevelingManager {
       }
     ];
 
-    sampleChallenges.forEach(challenge => this.challenges.set(challenge.id, challenge));
+    sampleChallenges.forEach((challenge: any) => this.challenges.set(challenge.id, challenge));
   }
 
   /**

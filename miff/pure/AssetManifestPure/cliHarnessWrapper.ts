@@ -82,7 +82,7 @@ try {
         });
       }
       
-      assets.forEach(asset => manifest.addAsset(asset));
+      assets.forEach((asset: any) => manifest.addAsset(asset));
       
       handleSuccess({
         assets,

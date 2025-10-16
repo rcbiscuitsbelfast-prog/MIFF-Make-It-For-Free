@@ -29,7 +29,7 @@ export interface QuantumComputingConfig {
   enableHardwareIntegration: boolean;
   enableErrorCorrection: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableQuantumAnalytics: boolean;
   enableQuantumReporting: boolean;
   maxCircuits: number;
@@ -1349,7 +1349,7 @@ export class QuantumComputingPure {
       enableHardwareIntegration: true,
       enableErrorCorrection: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableQuantumAnalytics: true,
       enableQuantumReporting: true,
       maxCircuits: 10000,
@@ -1529,7 +1529,7 @@ export class QuantumComputingPure {
 
     for (const manager of this.managers.values()) {
       totalCircuits += manager.circuits.length;
-      activeCircuits += manager.circuits.filter(c => c.status === 'running' || c.status === 'ready').length;
+      activeCircuits += manager.circuits.filter((c: any) => c.status === 'running' || c.status === 'ready').length;
       totalAlgorithms += manager.algorithms.length;
       totalHardware += manager.hardware.length;
       totalSimulations += manager.simulations.length;

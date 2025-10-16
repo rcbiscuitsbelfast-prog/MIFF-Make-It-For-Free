@@ -407,11 +407,11 @@ export class TycoonManagerPure {
       getFacilityUpgradePriority: () => {
         const facilities = this.tycoonSystem.getFacilities();
         return Array.from(facilities.keys())
-          .filter(id => {
+          .filter((id: any) => {
             const facility = facilities.get(id)!;
             return facility.operational && facility.level < facility.maxLevel;
           })
-          .sort((a, b) => {
+          .sort((a: any, b: any) => {
             const roiA = this.facilityManager.calculateFacilityROI(a);
             const roiB = this.facilityManager.calculateFacilityROI(b);
             return roiB - roiA;
@@ -446,7 +446,7 @@ export class TycoonManagerPure {
           }
         ];
 
-        return opportunities.filter(opp => {
+        return opportunities.filter((opp: any) => {
           const capital = this.tycoonSystem.getCapital();
           return capital >= opp.constructionCost;
         });
@@ -511,7 +511,7 @@ export class TycoonManagerPure {
         const staff = this.tycoonSystem.getStaff();
         let totalTurnoverRisk = 0;
 
-        staff.forEach(employee => {
+        staff.forEach((employee: any) => {
           const moraleFactor = (100 - employee.morale) / 100;
           const experienceFactor = employee.experience < 50 ? 0.3 : 0.1;
           totalTurnoverRisk += moraleFactor * experienceFactor;
@@ -539,7 +539,7 @@ export class TycoonManagerPure {
           }
         });
 
-        return priorities.sort((a, b) => b.count - a.count);
+        return priorities.sort((a: any, b: any) => b.count - a.count);
       }
     };
   }
@@ -556,7 +556,7 @@ export class TycoonManagerPure {
         let totalValue = stats.totalAssets;
 
         // Add facility values
-        facilities.forEach(facility => {
+        facilities.forEach((facility: any) => {
           totalValue += facility.currentValue;
         });
 
@@ -614,7 +614,7 @@ export class TycoonManagerPure {
         let projectedExpenses = stats.totalExpenses * (timeframe / 30);
 
         // Add facility revenue
-        facilities.forEach(facility => {
+        facilities.forEach((facility: any) => {
           if (facility.operational) {
             projectedIncome += facility.currentValue * facility.revenueMultiplier * (timeframe / 24);
           }
@@ -918,7 +918,7 @@ export class TycoonManagerPure {
     const staff = this.tycoonSystem.getStaff();
     let count = 0;
 
-    staff.forEach(employee => {
+    staff.forEach((employee: any) => {
       if (employee.facilityId === facilityId) {
         count++;
       }

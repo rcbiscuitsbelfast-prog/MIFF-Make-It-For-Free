@@ -29,7 +29,7 @@ export interface DataWarehouseConfig {
   enableQueryOptimization: boolean;
   enableDataQuality: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableDataAnalytics: boolean;
   enableDataReporting: boolean;
   maxDatabases: number;
@@ -840,7 +840,7 @@ export class DataWarehousePure {
       enableQueryOptimization: true,
       enableDataQuality: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableDataAnalytics: true,
       enableDataReporting: true,
       maxDatabases: 100,
@@ -1224,7 +1224,7 @@ export class DataWarehousePure {
 
     for (const manager of this.managers.values()) {
       totalDatabases += manager.databases.length;
-      activeDatabases += manager.databases.filter(d => d.status === 'online').length;
+      activeDatabases += manager.databases.filter((d: any) => d.status === 'online').length;
       totalTables += manager.tables.length;
       totalQueries += manager.queries.length;
       

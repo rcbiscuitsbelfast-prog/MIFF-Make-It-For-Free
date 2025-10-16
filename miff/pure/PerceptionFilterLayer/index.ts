@@ -300,7 +300,7 @@ export class PerceptionFilterManager {
     }
 
     // Check for quest-related NPCs nearby
-    const nearbyQuestNPCs = this.getNearbyNPCs(5.0).filter(npc => 
+    const nearbyQuestNPCs = this.getNearbyNPCs(5.0).filter((npc: any) => 
       npc.type === 'quest' || this.activeQuests.has(npc.questId || '')
     );
     

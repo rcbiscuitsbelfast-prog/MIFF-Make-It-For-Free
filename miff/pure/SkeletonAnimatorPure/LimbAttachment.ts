@@ -37,7 +37,7 @@ export class LimbAttachment {
       type,
       segments: [],
       attachmentPoint: attachmentPointId,
-      constraints: (options.constraints || []).map(c => ({ ...c, id: this.generateId() })),
+      constraints: (options.constraints || []).map((c: any) => ({ ...c, id: this.generateId() })),
       symmetry: options.symmetry,
       metadata: options.metadata || {}
     };
@@ -469,7 +469,7 @@ export class LimbAttachment {
    * Get limbs by type
    */
   getLimbsByType(type: LimbConfig['type']): LimbConfig[] {
-    return Array.from(this.limbs.values()).filter(limb => limb.type === type);
+    return Array.from(this.limbs.values()).filter((limb: any) => limb.type === type);
   }
 
   /**
@@ -503,7 +503,7 @@ export class LimbAttachment {
     if (!limb) throw new Error(`Limb ${limbId} not found`);
 
     // Delete all segment nodes
-    limb.segments.forEach(segment => {
+    limb.segments.forEach((segment: any) => {
       const nodeId = `${limbId}_${segment.id}`;
       delete this.rigConfig.nodes[nodeId];
     });

@@ -31,7 +31,7 @@ export interface DataMiningConfig {
   enableClassification: boolean;
   enableAssociationRules: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableMiningAnalytics: boolean;
   enableMiningReporting: boolean;
   maxDatasets: number;
@@ -629,7 +629,7 @@ export class DataMiningPure {
       enableClassification: true,
       enableAssociationRules: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableMiningAnalytics: true,
       enableMiningReporting: true,
       maxDatasets: 100,

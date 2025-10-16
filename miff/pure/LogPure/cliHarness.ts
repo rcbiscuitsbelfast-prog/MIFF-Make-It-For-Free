@@ -477,7 +477,7 @@ class LogPureCLI {
         break;
       case LogOutputFormat.CONSOLE:
         exportData = this.logger.getAllEntries()
-          .map(entry => LogUtils.formatEntryForConsole(entry))
+          .map((entry: any) => LogUtils.formatEntryForConsole(entry))
           .join('\n');
         break;
       default:
@@ -577,7 +577,7 @@ class LogPureCLI {
 
     if (errors.length > 0) {
       console.log('Validation Errors:');
-      errors.slice(0, 10).forEach(error => console.log(`  ❌ ${error}`));
+      errors.slice(0, 10).forEach((error: any) => console.log(`  ❌ ${error}`));
       if (errors.length > 10) {
         console.log(`  ... and ${errors.length - 10} more errors`);
       }

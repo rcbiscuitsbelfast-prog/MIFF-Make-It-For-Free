@@ -356,13 +356,13 @@ export class LogManager {
    */
   private initialize(): void {
     // Initialize stats
-    Object.values(LogLevel).forEach(level => {
+    Object.values(LogLevel).forEach((level: any) => {
       if (typeof level === 'number') {
         this.stats.entriesByLevel[level as LogLevel] = 0;
       }
     });
 
-    Object.values(LogCategory).forEach(category => {
+    Object.values(LogCategory).forEach((category: any) => {
       this.stats.entriesByCategory[category as LogCategory] = 0;
     });
 
@@ -499,7 +499,7 @@ export class LogManager {
     }
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onLogEntry?.(entry);
     });
 
@@ -544,7 +544,7 @@ export class LogManager {
 
     // Remove entries older than retention period
     const cutoffTime = new Date(Date.now() - (this.config.retentionDays * 24 * 60 * 60 * 1000));
-    this.entries = this.entries.filter(entry => entry.timestamp > cutoffTime);
+    this.entries = this.entries.filter((entry: any) => entry.timestamp > cutoffTime);
   }
 
   /**
@@ -607,7 +607,7 @@ export class LogManager {
     this.batchBuffer = [];
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onLogBatch?.(batch);
     });
 
@@ -621,48 +621,48 @@ export class LogManager {
     let filtered = [...this.entries];
 
     if (filter.levels && filter.levels.length > 0) {
-      filtered = filtered.filter(entry => filter.levels!.includes(entry.level));
+      filtered = filtered.filter((entry: any) => filter.levels!.includes(entry.level));
     }
 
     if (filter.categories && filter.categories.length > 0) {
-      filtered = filtered.filter(entry => filter.categories!.includes(entry.category));
+      filtered = filtered.filter((entry: any) => filter.categories!.includes(entry.category));
     }
 
     if (filter.sources && filter.sources.length > 0) {
-      filtered = filtered.filter(entry => filter.sources!.includes(entry.source));
+      filtered = filtered.filter((entry: any) => filter.sources!.includes(entry.source));
     }
 
     if (filter.userIds && filter.userIds.length > 0) {
-      filtered = filtered.filter(entry => entry.userId && filter.userIds!.includes(entry.userId));
+      filtered = filtered.filter((entry: any) => entry.userId && filter.userIds!.includes(entry.userId));
     }
 
     if (filter.sessionIds && filter.sessionIds.length > 0) {
-      filtered = filtered.filter(entry => entry.sessionId && filter.sessionIds!.includes(entry.sessionId));
+      filtered = filtered.filter((entry: any) => entry.sessionId && filter.sessionIds!.includes(entry.sessionId));
     }
 
     if (filter.tags && filter.tags.length > 0) {
-      filtered = filtered.filter(entry => 
+      filtered = filtered.filter((entry: any) => 
         filter.tags!.some(tag => entry.tags.includes(tag))
       );
     }
 
     if (filter.startTime) {
-      filtered = filtered.filter(entry => entry.timestamp >= filter.startTime!);
+      filtered = filtered.filter((entry: any) => entry.timestamp >= filter.startTime!);
     }
 
     if (filter.endTime) {
-      filtered = filtered.filter(entry => entry.timestamp <= filter.endTime!);
+      filtered = filtered.filter((entry: any) => entry.timestamp <= filter.endTime!);
     }
 
     if (filter.searchText) {
       const searchLower = filter.searchText.toLowerCase();
-      filtered = filtered.filter(entry => 
+      filtered = filtered.filter((entry: any) => 
         entry.message.toLowerCase().includes(searchLower) ||
         entry.source.toLowerCase().includes(searchLower)
       );
     }
 
-    return filtered.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    return filtered.sort((a: any, b: any) => b.timestamp.getTime() - a.timestamp.getTime());
   }
 
   /**
@@ -700,13 +700,13 @@ export class LogManager {
     };
 
     // Reinitialize stats
-    Object.values(LogLevel).forEach(level => {
+    Object.values(LogLevel).forEach((level: any) => {
       if (typeof level === 'number') {
         this.stats.entriesByLevel[level as LogLevel] = 0;
       }
     });
 
-    Object.values(LogCategory).forEach(category => {
+    Object.values(LogCategory).forEach((category: any) => {
       this.stats.entriesByCategory[category as LogCategory] = 0;
     });
   }
@@ -717,7 +717,7 @@ export class LogManager {
   exportLogs(filter: LogFilter = {}): any {
     const entries = this.getEntries(filter);
     return {
-      entries: entries.map(entry => ({
+      entries: entries.map((entry: any) => ({
         ...entry,
         timestamp: entry.timestamp.toISOString()
       })),
@@ -761,7 +761,7 @@ export class LogManager {
     // Extract tags from message (look for #tag patterns)
     const tagMatches = message.match(/#\w+/g);
     if (tagMatches) {
-      tags.push(...tagMatches.map(tag => tag.substring(1)));
+      tags.push(...tagMatches.map((tag: any) => tag.substring(1)));
     }
 
     // Extract tags from metadata
@@ -1290,11 +1290,11 @@ export class BattleLogger {
   }
 
   getEntriesByPhase(phase: BattlePhase): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.phase === phase);
+    return this.entries.filter((entry: any) => entry.phase === phase);
   }
 
   getDamageEntries(): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.actionType === 'damage' && entry.damageDealt && entry.damageDealt > 0);
+    return this.entries.filter((entry: any) => entry.actionType === 'damage' && entry.damageDealt && entry.damageDealt > 0);
   }
 
   logPhaseChange(phase: BattlePhase, debugNotes: string, turnNumber?: number): void {
@@ -1370,15 +1370,15 @@ export class BattleLogger {
   }
 
   logEntriesByType(type: string): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.actionType === type);
+    return this.entries.filter((entry: any) => entry.actionType === type);
   }
 
   getEntriesByActor(actorId: number): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.actorId === actorId);
+    return this.entries.filter((entry: any) => entry.actorId === actorId);
   }
 
   getEntriesByTarget(targetId: number): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.targetId === targetId);
+    return this.entries.filter((entry: any) => entry.targetId === targetId);
   }
 
   clear(): void {
@@ -1395,7 +1395,7 @@ export class LogUtils {
   }
 
   static filterEntries(entries: LogEntry[], filter: ILogFilter): LogEntry[] {
-    return entries.filter(entry => {
+    return entries.filter((entry: any) => {
       if (filter.levels && !filter.levels.includes(entry.level)) return false;
       if (filter.categories && !filter.categories.includes(entry.category)) return false;
       if (filter.sources && !filter.sources.includes(entry.source)) return false;
@@ -1408,10 +1408,10 @@ export class LogUtils {
   }
 
   static createBattleSummary(entries: BattleLogEntry[]): string {
-    const damageEntries = entries.filter(e => e.actionType === 'damage' && e.damage && e.damage > 0);
+    const damageEntries = entries.filter((e: any) => e.actionType === 'damage' && e.damage && e.damage > 0);
     const totalDamage = damageEntries.reduce((sum, entry) => sum + (entry.damage || 0), 0);
-    const uniqueActors = new Set(entries.map(e => e.actorId));
-    const phases = [...new Set(entries.map(e => e.phase))];
+    const uniqueActors = new Set(entries.map((e: any) => e.actorId));
+    const phases = [...new Set(entries.map((e: any) => e.phase))];
 
     return `Battle Summary: ${entries.length} entries, ${uniqueActors.size} actors, ${totalDamage} total damage, phases: ${phases.join(', ')}`;
   }
@@ -1426,7 +1426,7 @@ export class LogUtils {
   }
 
   static exportToJSON(entries: LogEntry[]): string {
-    return JSON.stringify(entries.map(entry => ({
+    return JSON.stringify(entries.map((entry: any) => ({
       ...entry,
       timestamp: entry.timestamp.toISOString()
     })), null, 2);

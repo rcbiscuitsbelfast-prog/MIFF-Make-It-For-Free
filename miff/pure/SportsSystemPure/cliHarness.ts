@@ -385,7 +385,7 @@ class SportsCli {
     console.log('Name                    | ID                          | Players | Score');
     console.log('─'.repeat(60));
 
-    teams.forEach(team => {
+    teams.forEach((team: any) => {
       const name = team.name.padEnd(23);
       const id = team.id.substring(0, 27);
       const players = team.players.length.toString().padStart(7);
@@ -412,7 +412,7 @@ class SportsCli {
       console.log('Name                    | Position    | Goals | Assists | Energy');
       console.log('─'.repeat(70));
 
-      teamStats.players.forEach(player => {
+      teamStats.players.forEach((player: any) => {
         const name = player.name.padEnd(23);
         const position = player.position.padEnd(11);
         const goals = player.stats.goals.toString().padStart(5);

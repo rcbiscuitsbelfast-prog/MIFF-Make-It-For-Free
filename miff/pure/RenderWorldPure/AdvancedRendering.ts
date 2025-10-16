@@ -307,7 +307,7 @@ export class AdvancedRendering {
     }
 
     // Sort render queue by layer depth
-    this.renderQueue.sort((a, b) => {
+    this.renderQueue.sort((a: any, b: any) => {
       const layerA = this.renderLayers.get(a.layer);
       const layerB = this.renderLayers.get(b.layer);
       return (layerA?.depth || 0) - (layerB?.depth || 0);
@@ -331,7 +331,7 @@ export class AdvancedRendering {
    */
   private renderLayer(layer: RenderLayer, camera: Camera): void {
     // Filter batches for this layer
-    const layerBatches = this.renderQueue.filter(batch => batch.layer === layer.id);
+    const layerBatches = this.renderQueue.filter((batch: any) => batch.layer === layer.id);
 
     // Apply layer filters
     for (const filter of layer.filters) {

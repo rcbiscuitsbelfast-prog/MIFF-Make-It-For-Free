@@ -559,7 +559,7 @@ export class SkeletonAnimatorCLI {
     }
 
     const helpText = ['Available commands:', ''];
-    this.commands.forEach(command => {
+    this.commands.forEach((command: any) => {
       helpText.push(`${command.name.padEnd(20)} - ${command.description}`);
     });
     helpText.push('', 'Use "help <command>" for detailed information about a specific command.');

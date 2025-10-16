@@ -28,7 +28,7 @@ export interface ErrorHandlingConfig {
   enableErrorRecovery: boolean;
   enableErrorReporting: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableErrorAnalytics: boolean;
   maxErrors: number;
   maxErrorHistory: number;
@@ -1020,7 +1020,7 @@ export class ErrorHandlingPure {
       enableErrorRecovery: true,
       enableErrorReporting: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableErrorAnalytics: true,
       enableErrorReporting: true,
       maxErrors: 100000,

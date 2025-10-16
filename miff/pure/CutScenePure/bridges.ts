@@ -153,7 +153,7 @@ export class CutSceneWebBridge {
     updateTracks() {
       const progress = this.currentTime / this.definition.config.duration;
 
-      this.definition.tracks.forEach(track => {
+      this.definition.tracks.forEach((track: any) => {
         if (!track.enabled) return;
 
         const trackProgress = Math.max(0, Math.min(1,
@@ -243,7 +243,7 @@ export class CutSceneWebBridge {
     }
 
     processActions() {
-      this.definition.actions.forEach(action => {
+      this.definition.actions.forEach((action: any) => {
         if (action.timestamp <= this.currentTime &&
             !this.completedActions.has(action.id)) {
 

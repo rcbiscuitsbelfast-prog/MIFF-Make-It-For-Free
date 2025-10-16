@@ -284,7 +284,7 @@ export class APIGatewayManager {
       }
 
       // Initialize memory manager
-      if (this.config.enableRealTimeMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
@@ -429,7 +429,7 @@ export class APIGatewayManager {
       throw new Error('API Gateway Manager not initialized');
     }
 
-    return Array.from(this.gateways.values()).filter(gateway => gateway.type === type);
+    return Array.from(this.gateways.values()).filter((gateway: any) => gateway.type === type);
   }
 
   /**
@@ -440,7 +440,7 @@ export class APIGatewayManager {
       throw new Error('API Gateway Manager not initialized');
     }
 
-    return Array.from(this.gateways.values()).filter(gateway => gateway.status === status);
+    return Array.from(this.gateways.values()).filter((gateway: any) => gateway.status === status);
   }
 
   /**
@@ -538,7 +538,7 @@ export class APIGatewayManager {
     const responseTime = Date.now() - startTime;
 
     return {
-      status: 200,
+      status: "status: 200",
       headers: { 'Content-Type': 'application/json' },
       body: { message: 'Request processed successfully', route: route.path },
       responseTime
@@ -597,7 +597,7 @@ export class APIGatewayManager {
    */
   private updateAnalytics(): void {
     const gateways = Array.from(this.gateways.values());
-    const activeGateways = gateways.filter(g => g.status === 'active');
+    const activeGateways = gateways.filter((g: any) => g.status === 'active');
     const totalRequests = gateways.reduce((sum: any, g: any) => sum + g.analytics.totalRequests, 0);
     const totalSuccessful = gateways.reduce((sum: any, g: any) => sum + g.analytics.successfulRequests, 0);
 //     const totalFailed = gateways.reduce((sum: any, g: any) => sum + g.analytics.failedRequests, 0);
@@ -633,7 +633,7 @@ export class APIGatewayManager {
     }
 
     const gateways = Array.from(this.gateways.values());
-    const activeGateways = gateways.filter(g => g.status === 'active');
+    const activeGateways = gateways.filter((g: any) => g.status === 'active');
     const totalRequests = gateways.reduce((sum: any, g: any) => sum + g.analytics.totalRequests, 0);
     const totalSuccessful = gateways.reduce((sum: any, g: any) => sum + g.analytics.successfulRequests, 0);
     const totalResponseTime = gateways.reduce((sum: any, g: any) => sum + g.analytics.averageResponseTime, 0);

@@ -173,7 +173,7 @@ export class SyncManager {
     this.eventBus.publish('sync:dataAdded', syncData);
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onDataChanged?.(syncData);
     });
 
@@ -202,7 +202,7 @@ export class SyncManager {
     this.eventBus.publish('sync:dataUpdated', updatedData);
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onDataChanged?.(updatedData);
     });
 
@@ -261,7 +261,7 @@ export class SyncManager {
       this.eventBus.publish('sync:start');
       
       // Notify integrations
-      this.integrations.forEach(integration => {
+      this.integrations.forEach((integration: any) => {
         integration.callbacks.onSyncStart?.();
       });
 
@@ -279,7 +279,7 @@ export class SyncManager {
       this.eventBus.publish('sync:complete', this.stats);
 
       // Notify integrations
-      this.integrations.forEach(integration => {
+      this.integrations.forEach((integration: any) => {
         integration.callbacks.onSyncComplete?.(this.stats);
       });
 
@@ -359,7 +359,7 @@ export class SyncManager {
     this.stats.conflictsResolved++;
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onConflictDetected?.(conflict);
     });
   }

@@ -593,7 +593,7 @@ Render Time: ${this.state.performanceMetrics.renderTime.toFixed(2)}ms
 Update Time: ${this.state.performanceMetrics.updateTime.toFixed(2)}ms
 Memory Usage: ${(this.state.performanceMetrics.memoryUsage * 100).toFixed(1)}%
 Player: (${gameState?.player.position.x.toFixed(1)}, ${gameState?.player.position.y.toFixed(1)}, ${gameState?.player.position.z.toFixed(1)})
-Portals Active: ${Object.values(gameState?.world.portals || {}).filter(p => p.active).length}
+Portals Active: ${Object.values(gameState?.world.portals || {}).filter((p: any) => p.active).length}
 NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     `.trim();
 
@@ -680,8 +680,8 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
 
     if (this.gl) {
       // Clean up WebGL resources
-      this.buffers.forEach(buffer => this.gl.deleteBuffer(buffer));
-      this.textures.forEach(texture => this.gl.deleteTexture(texture));
+      this.buffers.forEach((buffer: any) => this.gl.deleteBuffer(buffer));
+      this.textures.forEach((texture: any) => this.gl.deleteTexture(texture));
       this.buffers.clear();
       this.textures.clear();
 

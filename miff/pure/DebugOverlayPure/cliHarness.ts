@@ -264,7 +264,7 @@ function exportOverlay(args: string[], options: any): void {
 function outputResult(result: DebugOverlayOutput): void {
   if (result.status === 'error') {
     console.error(`❌ Debug overlay failed:`);
-    result.issues?.forEach(issue => {
+    result.issues?.forEach((issue: any) => {
       console.error(`  - ${issue}`);
     });
     process.exit(1);

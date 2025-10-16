@@ -167,7 +167,7 @@ export class CraftingManager {
       }
     ];
 
-    defaultRecipes.forEach(recipe => this.recipes.set(recipe.id, recipe));
+    defaultRecipes.forEach((recipe: any) => this.recipes.set(recipe.id, recipe));
   }
 
   // Shims expected by cliHarnessWrapper
@@ -305,7 +305,7 @@ export class CraftingManager {
     let recipes = Array.from(this.recipes.values());
 
     if (filter) {
-      recipes = recipes.filter(recipe => {
+      recipes = recipes.filter((recipe: any) => {
         if (filter.category && recipe.category !== filter.category) return false;
         if (filter.difficulty && recipe.difficulty !== filter.difficulty) return false;
         if (filter.skillRequired && recipe.skillRequired !== filter.skillRequired) return false;
@@ -505,8 +505,8 @@ export class CraftingManager {
   getCraftingStats(): CraftingOutput {
     const recipes = Array.from(this.recipes.values());
     const sessions = Array.from(this.sessions.values());
-    const completedSessions = sessions.filter(s => s.status === 'completed');
-    const failedSessions = sessions.filter(s => s.status === 'failed');
+    const completedSessions = sessions.filter((s: any) => s.status === 'completed');
+    const failedSessions = sessions.filter((s: any) => s.status === 'failed');
 
     const stats: CraftingStats = {
       totalRecipes: recipes.length,
@@ -525,7 +525,7 @@ export class CraftingManager {
     }
 
     // Calculate category distribution
-    recipes.forEach(recipe => {
+    recipes.forEach((recipe: any) => {
       stats.recipesByCategory[recipe.category] = (stats.recipesByCategory[recipe.category] || 0) + 1;
       stats.difficultyDistribution[recipe.difficulty] = (stats.difficultyDistribution[recipe.difficulty] || 0) + 1;
     });

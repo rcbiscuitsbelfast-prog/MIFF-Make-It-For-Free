@@ -30,7 +30,7 @@ export interface TimeSeriesAnalysisConfig {
   enableAnomalyDetection: boolean;
   enableDataVisualization: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableAnalysisAnalytics: boolean;
   enableAnalysisReporting: boolean;
   maxDataPoints: number;
@@ -641,7 +641,7 @@ export class TimeSeriesAnalysisPure {
       enableAnomalyDetection: true,
       enableDataVisualization: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableAnalysisAnalytics: true,
       enableAnalysisReporting: true,
       maxDataPoints: 1000000,

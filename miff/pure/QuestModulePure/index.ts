@@ -18,7 +18,7 @@ export interface ParseResult { op: 'parse'; status: 'ok' | 'error'; issues: stri
  *   step step_3: Finish | trigger: timer 60 | reward: xp 100, item herb 1
  */
 export function parseQuestText(text: string): ParseResult {
-  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const lines = text.split(/\r?\n/).map((l: any) => l.trim()).filter(Boolean);
   const quest: Partial<NormalizedQuest> = { steps: {}, rewards: [] };
   const issues: string[] = [];
   for(const line of lines){
@@ -33,7 +33,7 @@ export function parseQuestText(text: string): ParseResult {
       const desc = m[2];
       const tail = m[3] || '';
       const step: QuestStep = { id: stepId, description: desc, triggers: [] };
-      const parts = tail.split('|').map(s => s.trim()).filter(Boolean);
+      const parts = tail.split('|').map((s: any) => s.trim()).filter(Boolean);
       for(const p of parts){
         if(p.startsWith('trigger:')){
           const rest = p.slice(8).trim();

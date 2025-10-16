@@ -31,7 +31,7 @@ export interface NLPConfig {
   enableEntityRecognition: boolean;
   enableTextSummarization: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableNLPAnalytics: boolean;
   enableNLPReporting: boolean;
   maxTextLength: number;
@@ -408,7 +408,7 @@ export class NaturalLanguageProcessingPure {
       enableEntityRecognition: true,
       enableTextSummarization: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableNLPAnalytics: true,
       enableNLPReporting: true,
       maxTextLength: 10000,

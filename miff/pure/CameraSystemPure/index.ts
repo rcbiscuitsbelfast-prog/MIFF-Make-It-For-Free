@@ -697,7 +697,7 @@ export class CameraSystemPure {
       }
     ];
 
-    cameras.forEach(camera => {
+    cameras.forEach((camera: any) => {
       this.cameraDefinitions.set(camera.id, camera);
     });
   }
@@ -752,7 +752,7 @@ export class CameraSystemPure {
       }
     ];
 
-    paths.forEach(path => {
+    paths.forEach((path: any) => {
       this.cameraPaths.set(path.id, path);
     });
   }

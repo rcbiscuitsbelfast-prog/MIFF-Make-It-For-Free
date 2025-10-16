@@ -450,11 +450,11 @@ export class EquipmentManager {
     const activeSets: { set: EquipmentSet; activePieces: number; bonuses: SetBonus[] }[] = [];
 
     for (const set of this.equipmentSets.values()) {
-      const activePieces = Array.from(this.equipped.values()).filter(item =>
+      const activePieces = Array.from(this.equipped.values()).filter((item: any) =>
         item.set === set.id
       ).length;
 
-      const bonuses = set.bonuses.filter(bonus =>
+      const bonuses = set.bonuses.filter((bonus: any) =>
         activePieces >= bonus.piecesRequired
       );
 
@@ -549,8 +549,8 @@ export class EquipmentManager {
     }
 
     // Determine recommendation
-    const upgrades = Object.values(comparison.differences).filter(d => d.change === 'upgrade').length;
-    const downgrades = Object.values(comparison.differences).filter(d => d.change === 'downgrade').length;
+    const upgrades = Object.values(comparison.differences).filter((d: any) => d.change === 'upgrade').length;
+    const downgrades = Object.values(comparison.differences).filter((d: any) => d.change === 'downgrade').length;
 
     if (upgrades > downgrades) {
       comparison.recommendation = 'upgrade';
@@ -652,7 +652,7 @@ export class EquipmentManager {
     let items = Array.from(this.equipped.values());
 
     if (filter) {
-      items = items.filter(item => {
+      items = items.filter((item: any) => {
         if (filter.slot && item.slot !== filter.slot) return false;
         if (filter.rarity && item.rarity !== filter.rarity) return false;
         if (filter.minLevel !== undefined && item.level < filter.minLevel) return false;
@@ -785,7 +785,7 @@ export class EquipmentManager {
     };
 
     // Count by slot and rarity
-    items.forEach(item => {
+    items.forEach((item: any) => {
       this.stats.itemsBySlot[item.slot] = (this.stats.itemsBySlot[item.slot] || 0) + 1;
       this.stats.itemsByRarity[item.rarity]++;
     });

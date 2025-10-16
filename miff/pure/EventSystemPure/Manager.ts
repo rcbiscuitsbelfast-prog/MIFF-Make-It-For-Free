@@ -29,7 +29,7 @@ export interface EventSystemConfig {
   enableEventPersistence: boolean;
   enableEventRecovery: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableEventAnalytics: boolean;
   enableEventReporting: boolean;
   maxEvents: number;
@@ -767,7 +767,7 @@ export class EventSystemPure {
       enableEventPersistence: true,
       enableEventRecovery: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableEventAnalytics: true,
       enableEventReporting: true,
       maxEvents: 1000000,

@@ -33,7 +33,7 @@ export interface CachingSystemConfig {
   enableCacheInvalidation: boolean;
   enablePerformanceOptimization: boolean;
   enableCrossPlatformSupport: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   maxCacheSize: number; // bytes
   maxCacheEntries: number;
   enableCloudSync: boolean;
@@ -208,7 +208,7 @@ export class CachingSystemManager {
       enableCacheInvalidation: true,
       enablePerformanceOptimization: true,
       enableCrossPlatformSupport: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       maxCacheSize: 100 * 1024 * 1024, // 100MB
       maxCacheEntries: 10000,
       enableCloudSync: false,
@@ -236,7 +236,7 @@ export class CachingSystemManager {
       }
 
       // Initialize memory manager
-      if (this.config.enableRealTimeMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 

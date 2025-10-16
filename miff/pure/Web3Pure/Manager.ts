@@ -34,7 +34,7 @@ export interface Web3Config {
   enableDeFiIntegration: boolean;
   enableCrossChainBridge: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableWeb3Analytics: boolean;
   enableWeb3Reporting: boolean;
   maxWallets: number;
@@ -482,7 +482,7 @@ export class Web3Pure {
       enableDeFiIntegration: true,
       enableCrossChainBridge: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableWeb3Analytics: true,
       enableWeb3Reporting: true,
       maxWallets: 1000,

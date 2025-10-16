@@ -348,7 +348,7 @@ export class UIBuilder {
    */
   private deleteFaceFeature(featureId: string): void {
     if (this.skeletonState.face) {
-      this.skeletonState.face.features = this.skeletonState.face.features.filter(f => f.id !== featureId);
+      this.skeletonState.face.features = this.skeletonState.face.features.filter((f: any) => f.id !== featureId);
     }
   }
 
@@ -357,7 +357,7 @@ export class UIBuilder {
    */
   private deleteMorphTarget(morphTargetId: string): void {
     if (this.skeletonState.skin) {
-      this.skeletonState.skin.morphTargets = this.skeletonState.skin.morphTargets.filter(mt => mt.id !== morphTargetId);
+      this.skeletonState.skin.morphTargets = this.skeletonState.skin.morphTargets.filter((mt: any) => mt.id !== morphTargetId);
     }
   }
 
@@ -476,7 +476,7 @@ export class UIBuilder {
    * Remove panel
    */
   removePanel(panelId: string): UIBuilder {
-    this.uiState.panels = this.uiState.panels.filter(p => p.id !== panelId);
+    this.uiState.panels = this.uiState.panels.filter((p: any) => p.id !== panelId);
     return this;
   }
 

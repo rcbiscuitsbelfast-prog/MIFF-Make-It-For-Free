@@ -298,7 +298,7 @@ export class DrivingManager {
    */
   getAvailableVehicles(playerId: string): VehicleDefinition[] {
     const allVehicles = this.getAllVehicleDefinitions();
-    return allVehicles.filter(vehicle => this.isVehicleUnlocked(vehicle.id, playerId));
+    return allVehicles.filter((vehicle: any) => this.isVehicleUnlocked(vehicle.id, playerId));
   }
 
   /**

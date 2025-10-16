@@ -123,8 +123,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'RigBuilder Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -212,8 +212,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'LimbAttachment Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -308,8 +308,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'SkinMeshGenerator Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -416,8 +416,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'FacialDetailBuilder Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -524,8 +524,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'AnimationSequencer Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -642,8 +642,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'ExportIntegration Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -763,8 +763,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'UIBuilder Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -858,8 +858,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'Full Workflow Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -936,8 +936,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'MIFF Integration Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -1021,8 +1021,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'Export Formats Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -1101,8 +1101,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'Performance Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -1235,8 +1235,8 @@ export class SkeletonAnimatorIntegrationTests {
       name: 'Error Handling Tests',
       tests,
       totalDuration: Date.now() - startTime,
-      passed: tests.filter(t => t.passed).length,
-      failed: tests.filter(t => !t.passed).length
+      passed: tests.filter((t: any) => t.passed).length,
+      failed: tests.filter((t: any) => !t.passed).length
     };
   }
 
@@ -1258,14 +1258,14 @@ export class SkeletonAnimatorIntegrationTests {
     report += `- Total Duration: ${totalDuration}ms\n\n`;
 
     report += `## Test Suites\n\n`;
-    suites.forEach(suite => {
+    suites.forEach((suite: any) => {
       report += `### ${suite.name}\n`;
       report += `- Tests: ${suite.tests.length}\n`;
       report += `- Passed: ${suite.passed}\n`;
       report += `- Failed: ${suite.failed}\n`;
       report += `- Duration: ${suite.totalDuration}ms\n\n`;
 
-      suite.tests.forEach(test => {
+      suite.tests.forEach((test: any) => {
         const status = test.passed ? '✅' : '❌';
         report += `- ${status} ${test.name} (${test.duration}ms)\n`;
         if (test.error) {

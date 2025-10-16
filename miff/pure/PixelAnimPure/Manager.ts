@@ -109,7 +109,7 @@ export class PixelAnimManager {
       }
     ];
 
-    defaultPresets.forEach(preset => {
+    defaultPresets.forEach((preset: any) => {
       this.presets.set(preset.id, preset);
     });
   }
@@ -201,7 +201,7 @@ export class PixelAnimManager {
     let animations = Array.from(this.animations.values());
 
     if (filter?.loop !== undefined) {
-      animations = animations.filter(a => a.loop === filter.loop);
+      animations = animations.filter((a: any) => a.loop === filter.loop);
     }
 
     // Note: category filtering would require additional metadata in Animation interface
@@ -312,7 +312,7 @@ export class PixelAnimManager {
     let presets = Array.from(this.presets.values());
     
     if (category) {
-      presets = presets.filter(p => p.category === category);
+      presets = presets.filter((p: any) => p.category === category);
     }
 
     return { ok: true, presets, total: presets.length };
@@ -383,12 +383,12 @@ export class PixelAnimManager {
     // Preset usage (simplified - would need tracking in real implementation)
     const presetUsage: Record<string, number> = {};
     this.presets.forEach((preset, id) => {
-      presetUsage[id] = animations.filter(a => a.name === preset.name).length;
+      presetUsage[id] = animations.filter((a: any) => a.name === preset.name).length;
     });
 
     // Category distribution
     const categoryDistribution: Record<string, number> = {};
-    this.presets.forEach(preset => {
+    this.presets.forEach((preset: any) => {
       categoryDistribution[preset.category] = (categoryDistribution[preset.category] || 0) + 1;
     });
 
@@ -453,12 +453,12 @@ export class PixelAnimManager {
     }
 
     // Check if animation is used in any sequences
-    const usedInSequences = Array.from(this.sequences.values()).filter(seq =>
+    const usedInSequences = Array.from(this.sequences.values()).filter((seq: any) =>
       seq.animations.some(anim => anim.name === name)
     );
 
     if (usedInSequences.length > 0) {
-      const sequenceNames = usedInSequences.map(seq => seq.name).join(', ');
+      const sequenceNames = usedInSequences.map((seq: any) => seq.name).join(', ');
       return { ok: false, errors: [`Animation ${name} is used in sequences: ${sequenceNames}`] };
     }
 

@@ -162,7 +162,7 @@ class PixelAnimCLI {
       op: 'list',
       status: 'ok',
       result: {
-        animations: result.animations.map(anim => ({
+        animations: result.animations.map((anim: any) => ({
           name: anim.name,
           frames: anim.frames.length,
           fps: anim.speed,
@@ -201,7 +201,7 @@ class PixelAnimCLI {
       op: 'listPresets',
       status: 'ok',
       result: {
-        presets: result.presets.map(preset => ({
+        presets: result.presets.map((preset: any) => ({
           id: preset.id,
           name: preset.name,
           description: preset.description,
@@ -279,7 +279,7 @@ class PixelAnimCLI {
       op: 'listSequences',
       status: 'ok',
       result: {
-        sequences: result.sequences.map(seq => ({
+        sequences: result.sequences.map((seq: any) => ({
           id: seq.id,
           name: seq.name,
           animations: seq.animations.length,
@@ -457,7 +457,7 @@ class PixelAnimCLI {
     if (obj === null || obj === undefined) return 'null';
     if (typeof obj !== 'object') return String(obj);
     if (Array.isArray(obj)) {
-      return obj.map(v => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+      return obj.map((v: any) => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
     }
     return Object.entries(obj).map(([k, v]) => {
       const val = typeof v === 'object' && v !== null ? `\n${this.toYAML(v, indent + 1)}` : `${this.toYAML(v, 0)}`;
@@ -468,7 +468,7 @@ class PixelAnimCLI {
   private toXML(obj: any, tag = 'root'): string {
     if (obj === null || obj === undefined) return `<${tag}/>`;
     if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
-    if (Array.isArray(obj)) return `<${tag}>${obj.map(v => this.toXML(v, 'item')).join('')}</${tag}>`;
+    if (Array.isArray(obj)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
     const children = Object.entries(obj).map(([k, v]) => this.toXML(v as any, k)).join('');
     return `<${tag}>${children}</${tag}>`;
   }

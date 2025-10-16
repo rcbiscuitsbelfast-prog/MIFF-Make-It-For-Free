@@ -228,7 +228,7 @@ export class LicenseAuditManager {
     if (license.sourceCodeRequired) score -= 10;
 
     // Issue-based deductions
-    issues.forEach(issue => {
+    issues.forEach((issue: any) => {
       switch (issue.severity) {
         case 'error':
           score -= 20;
@@ -507,11 +507,11 @@ export class LicenseAuditManager {
   }
 
   getLicensesByType(licenseType: LicenseType): ModuleLicense[] {
-    return this.getAllLicenses().filter(ml => ml.license.type === licenseType);
+    return this.getAllLicenses().filter((ml: any) => ml.license.type === licenseType);
   }
 
   getRemixSafeModules(): ModuleLicense[] {
-    return this.getAllLicenses().filter(ml => ml.license.remixSafe);
+    return this.getAllLicenses().filter((ml: any) => ml.license.remixSafe);
   }
 
   getAuditStats(): {
@@ -543,7 +543,7 @@ export class LicenseAuditManager {
     let totalScore = 0;
     let lastAudited: string | null = null;
 
-    this.auditedModules.forEach(module => {
+    this.auditedModules.forEach((module: any) => {
       // Count by status
       const status = module.issues.some(i => i.severity === 'error') ? 'fail' :
                     module.issues.some(i => i.severity === 'warning') || module.remixSafetyScore < this.config.maxRemixScore! ? 'warning' : 'pass';

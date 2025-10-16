@@ -435,15 +435,15 @@ function calculateReplayStatistics(session: ReplaySession, frames: ReplayFrame[]
   
   // Performance metrics - filter out undefined values and provide defaults
   const cpuUsage = frames
-    .map(f => f.metadata?.performance?.cpuUsage)
+    .map((f: any) => f.metadata?.performance?.cpuUsage)
     .filter((cpu): cpu is number => cpu !== undefined && cpu > 0);
   
   const memoryUsage = frames
-    .map(f => f.metadata?.performance?.memoryUsage)
+    .map((f: any) => f.metadata?.performance?.memoryUsage)
     .filter((mem): mem is number => mem !== undefined && mem > 0);
   
   const renderTimes = frames
-    .map(f => f.metadata?.performance?.renderTime)
+    .map((f: any) => f.metadata?.performance?.renderTime)
     .filter((rt): rt is number => rt !== undefined && rt > 0);
   
   // Ensure we have at least one valid value for each metric
@@ -453,19 +453,19 @@ function calculateReplayStatistics(session: ReplaySession, frames: ReplayFrame[]
   
   // Input analysis
   const inputEvents = session.inputStream;
-  const keyPresses = inputEvents.filter(e => e.type.startsWith('key')).length;
-  const mouseClicks = inputEvents.filter(e => e.type.includes('mouse')).length;
-  const gamepadInputs = inputEvents.filter(e => e.type === 'gamepad').length;
-  const touchEvents = inputEvents.filter(e => e.type === 'touch').length;
+  const keyPresses = inputEvents.filter((e: any) => e.type.startsWith('key')).length;
+  const mouseClicks = inputEvents.filter((e: any) => e.type.includes('mouse')).length;
+  const gamepadInputs = inputEvents.filter((e: any) => e.type === 'gamepad').length;
+  const touchEvents = inputEvents.filter((e: any) => e.type === 'touch').length;
   
   // Visual analysis
   const visualHooks = frames.flatMap(f => f.visualHooks);
-  const spriteUpdates = visualHooks.filter(h => h.type === 'sprite').length;
-  const animationTriggers = visualHooks.filter(h => h.type === 'animation').length;
-  const particleEffects = visualHooks.filter(h => h.type === 'particle').length;
-  const soundPlays = visualHooks.filter(h => h.type === 'sound').length;
-  const uiChanges = visualHooks.filter(h => h.type === 'ui').length;
-  const cameraMoves = visualHooks.filter(h => h.type === 'camera').length;
+  const spriteUpdates = visualHooks.filter((h: any) => h.type === 'sprite').length;
+  const animationTriggers = visualHooks.filter((h: any) => h.type === 'animation').length;
+  const particleEffects = visualHooks.filter((h: any) => h.type === 'particle').length;
+  const soundPlays = visualHooks.filter((h: any) => h.type === 'sound').length;
+  const uiChanges = visualHooks.filter((h: any) => h.type === 'ui').length;
+  const cameraMoves = visualHooks.filter((h: any) => h.type === 'camera').length;
   
   return {
     totalFrames,
@@ -528,7 +528,7 @@ function analyzeInputPatterns(inputEvents: InputEvent[]): InputPattern[] {
   
   // Group events by type
   const eventTypes = new Map<string, InputEvent[]>();
-  inputEvents.forEach(event => {
+  inputEvents.forEach((event: any) => {
     if (!eventTypes.has(event.type)) {
       eventTypes.set(event.type, []);
     }
@@ -538,7 +538,7 @@ function analyzeInputPatterns(inputEvents: InputEvent[]): InputPattern[] {
   // Analyze each event type
   eventTypes.forEach((events, type) => {
     const frequency = events.length;
-    const timing = events.map(e => e.timestamp);
+    const timing = events.map((e: any) => e.timestamp);
     const correlation = findCorrelatedEvents(events, inputEvents);
     
     patterns.push({
@@ -561,8 +561,8 @@ function analyzeVisualSequences(frames: ReplayFrame[]): VisualSequence[] {
   // Group visual hooks by type across frames
   const hookTypes = new Map<string, Array<{ frame: number; hook: VisualHook }>>();
   
-  frames.forEach(frame => {
-    frame.visualHooks.forEach(hook => {
+  frames.forEach((frame: any) => {
+    frame.visualHooks.forEach((hook: any) => {
       if (!hookTypes.has(hook.type)) {
         hookTypes.set(hook.type, []);
       }
@@ -573,8 +573,8 @@ function analyzeVisualSequences(frames: ReplayFrame[]): VisualSequence[] {
   // Find sequences for each hook type
   hookTypes.forEach((hooks, type) => {
     if (hooks.length > 1) {
-      const startFrame = Math.min(...hooks.map(h => h.frame));
-      const endFrame = Math.max(...hooks.map(h => h.frame));
+      const startFrame = Math.min(...hooks.map((h: any) => h.frame));
+      const endFrame = Math.max(...hooks.map((h: any) => h.frame));
       const duration = endFrame - startFrame;
       const intensity = hooks.length / duration;
       
@@ -597,7 +597,7 @@ function analyzeVisualSequences(frames: ReplayFrame[]): VisualSequence[] {
 function analyzePerformanceBottlenecks(frames: ReplayFrame[]): PerformanceBottleneck[] {
   const bottlenecks: PerformanceBottleneck[] = [];
   
-  frames.forEach(frame => {
+  frames.forEach((frame: any) => {
     const { performance } = frame.metadata;
     
     // CPU bottleneck
@@ -648,7 +648,7 @@ function identifyCriticalMoments(session: ReplaySession, frames: ReplayFrame[]):
   
   // Check for input spikes
   const inputSpikes = findInputSpikes(session.inputStream);
-  inputSpikes.forEach(spike => {
+  inputSpikes.forEach((spike: any) => {
     moments.push({
       frameNumber: spike.frameNumber,
       timestamp: spike.timestamp,
@@ -661,7 +661,7 @@ function identifyCriticalMoments(session: ReplaySession, frames: ReplayFrame[]):
   
   // Check for visual intensity changes
   const visualIntensity = findVisualIntensityChanges(frames);
-  visualIntensity.forEach(change => {
+  visualIntensity.forEach((change: any) => {
     moments.push({
       frameNumber: change.frameNumber,
       timestamp: change.timestamp,
@@ -674,7 +674,7 @@ function identifyCriticalMoments(session: ReplaySession, frames: ReplayFrame[]):
   
   // Check for performance drops
   const performanceDrops = findPerformanceDrops(frames);
-  performanceDrops.forEach(drop => {
+  performanceDrops.forEach((drop: any) => {
     moments.push({
       frameNumber: drop.frameNumber,
       timestamp: drop.timestamp,
@@ -727,13 +727,13 @@ function findCorrelatedEvents(events: InputEvent[], allEvents: InputEvent[]): st
   const correlations: string[] = [];
   const timeWindow = 100; // 100ms window
   
-  events.forEach(event => {
-    const nearbyEvents = allEvents.filter(e => 
+  events.forEach((event: any) => {
+    const nearbyEvents = allEvents.filter((e: any) => 
       e !== event && 
       Math.abs(e.timestamp - event.timestamp) < timeWindow
     );
     
-    nearbyEvents.forEach(nearby => {
+    nearbyEvents.forEach((nearby: any) => {
       const correlation = `${event.type}->${nearby.type}`;
       if (!correlations.includes(correlation)) {
         correlations.push(correlation);
@@ -753,12 +753,12 @@ function findInputSpikes(inputEvents: InputEvent[]): Array<{ frameNumber: number
   
   for (let i = 0; i < inputEvents.length; i++) {
     const event = inputEvents[i];
-    const nearbyEvents = inputEvents.filter(e => 
+    const nearbyEvents = inputEvents.filter((e: any) => 
       Math.abs(e.timestamp - event.timestamp) < timeWindow
     );
     
     if (nearbyEvents.length > 3) { // Spike threshold
-      const duration = Math.max(...nearbyEvents.map(e => e.timestamp)) - Math.min(...nearbyEvents.map(e => e.timestamp));
+      const duration = Math.max(...nearbyEvents.map((e: any) => e.timestamp)) - Math.min(...nearbyEvents.map((e: any) => e.timestamp));
       spikes.push({
         frameNumber: event.frameNumber,
         timestamp: event.timestamp,
@@ -865,8 +865,8 @@ export function exportReplayData(replay: ReplayResult, format: 'json' | 'csv' | 
 function generateCSVExport(replay: ReplayResult): string {
   let csv = 'Frame,Timestamp,InputEvents,VisualHooks,CPU,Memory,RenderTime\n';
   
-  replay.frames.forEach(frame => {
-    const inputCount = replay.session.inputStream.filter(e => e.frameNumber === frame.frameNumber).length;
+  replay.frames.forEach((frame: any) => {
+    const inputCount = replay.session.inputStream.filter((e: any) => e.frameNumber === frame.frameNumber).length;
     const visualCount = frame.visualHooks.length;
     const { cpuUsage, memoryUsage, renderTime } = frame.metadata.performance;
     
@@ -904,7 +904,7 @@ function generateSummaryExport(replay: ReplayResult): string {
   
   if (analysis.recommendations.length > 0) {
     summary += `Recommendations:\n`;
-    analysis.recommendations.forEach(rec => summary += `  - ${rec}\n`);
+    analysis.recommendations.forEach((rec: any) => summary += `  - ${rec}\n`);
   }
   
   return summary;

@@ -50,8 +50,8 @@ try {
       }));
       
       // Add combatants to engine
-      playerCombatants.forEach(c => engine.addCombatant(c));
-      enemyCombatants.forEach(c => engine.addCombatant(c));
+      playerCombatants.forEach((c: any) => engine.addCombatant(c));
+      enemyCombatants.forEach((c: any) => engine.addCombatant(c));
       
       handleSuccess({
         combatId: combatId || 'combat_001',

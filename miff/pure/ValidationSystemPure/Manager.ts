@@ -27,7 +27,7 @@ export interface ValidationSystemConfig {
   enableSchemaValidation: boolean;
   enableRuleEngine: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableValidationAnalytics: boolean;
   enableValidationReporting: boolean;
   maxValidators: number;
@@ -831,7 +831,7 @@ export class ValidationSystemPure {
       enableSchemaValidation: true,
       enableRuleEngine: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableValidationAnalytics: true,
       enableValidationReporting: true,
       maxValidators: 1000,
@@ -1011,7 +1011,7 @@ export class ValidationSystemPure {
 
     for (const manager of this.managers.values()) {
       totalValidators += manager.validators.length;
-      activeValidators += manager.validators.filter(v => v.status === 'active').length;
+      activeValidators += manager.validators.filter((v: any) => v.status === 'active').length;
       totalSchemas += manager.schemas.length;
       totalRules += manager.rules.length;
       totalValidations += manager.validations.length;

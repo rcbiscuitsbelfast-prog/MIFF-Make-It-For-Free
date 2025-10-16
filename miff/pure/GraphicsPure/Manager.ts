@@ -32,7 +32,7 @@ export interface GraphicsConfig {
   enableLightingSystem: boolean;
   enablePostProcessing: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableGraphicsAnalytics: boolean;
   enableGraphicsReporting: boolean;
   maxTextures: number;
@@ -1250,7 +1250,7 @@ export class GraphicsPure {
       enableLightingSystem: true,
       enablePostProcessing: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableGraphicsAnalytics: true,
       enableGraphicsReporting: true,
       maxTextures: 10000,
@@ -1442,7 +1442,7 @@ export class GraphicsPure {
 
     for (const manager of this.managers.values()) {
       totalRenderers += manager.renderers.length;
-      activeRenderers += manager.renderers.filter(r => r.status === 'active').length;
+      activeRenderers += manager.renderers.filter((r: any) => r.status === 'active').length;
       totalShaders += manager.shaders.length;
       totalMaterials += manager.materials.length;
       totalTextures += manager.textures.length;

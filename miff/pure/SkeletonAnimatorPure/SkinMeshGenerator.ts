@@ -39,7 +39,7 @@ export class SkinMeshGenerator {
     let indexOffset = 0;
 
     // Generate mesh for each rig node
-    Object.values(this.rigConfig.nodes).forEach(node => {
+    Object.values(this.rigConfig.nodes).forEach((node: any) => {
       const mesh = this.generateNodeMesh(node);
       
       // Add vertices
@@ -52,7 +52,7 @@ export class SkinMeshGenerator {
       uvs.push(...mesh.uvs);
       
       // Add indices (offset by current vertex count)
-      const nodeIndices = mesh.indices.map(i => i + vertexOffset);
+      const nodeIndices = mesh.indices.map((i: any) => i + vertexOffset);
       indices.push(...nodeIndices);
       
       // Add group
@@ -171,7 +171,7 @@ export class SkinMeshGenerator {
     ];
 
     // Add vertices with position offset
-    boxVertices.forEach(vertex => {
+    boxVertices.forEach((vertex: any) => {
       vertices.push(vertex[0] + position.x, vertex[1] + position.y, vertex[2] + position.z);
     });
 
@@ -185,7 +185,7 @@ export class SkinMeshGenerator {
       [-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [-1, 0, 0] // Left
     ];
 
-    faceNormals.forEach(normal => {
+    faceNormals.forEach((normal: any) => {
       normals.push(normal[0], normal[1], normal[2]);
     });
 
@@ -204,7 +204,7 @@ export class SkinMeshGenerator {
       [20, 21, 22], [20, 22, 23] // Left
     ];
 
-    faceIndices.forEach(face => {
+    faceIndices.forEach((face: any) => {
       indices.push(face[0], face[1], face[2]);
     });
   }

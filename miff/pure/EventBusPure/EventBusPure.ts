@@ -141,7 +141,7 @@ export class EventBus {
     this.handlers.get(eventType)!.push(eventHandler);
     
     // Sort by priority (higher priority first)
-    this.handlers.get(eventType)!.sort((a, b) => b.priority - a.priority);
+    this.handlers.get(eventType)!.sort((a: any, b: any) => b.priority - a.priority);
 
     const subscription: EventSubscription = {
       id: subscriptionId,
@@ -346,7 +346,7 @@ export class EventBus {
    */
   getEventsByType(eventType: string, limit: number = 100): Event[] {
     return this.events
-      .filter(event => event.type === eventType)
+      .filter((event: any) => event.type === eventType)
       .slice(-limit);
   }
 
@@ -364,7 +364,7 @@ export class EventBus {
     const cutoff = Date.now() - maxAge;
     const initialCount = this.events.length;
     
-    this.events = this.events.filter(event => event.timestamp > cutoff);
+    this.events = this.events.filter((event: any) => event.timestamp > cutoff);
     
     return initialCount - this.events.length;
   }
@@ -393,7 +393,7 @@ export class EventBus {
    * Get active subscriptions
    */
   getSubscriptions(): EventSubscription[] {
-    return Array.from(this.subscriptions.values()).filter(sub => sub.active);
+    return Array.from(this.subscriptions.values()).filter((sub: any) => sub.active);
   }
 
   /**

@@ -29,7 +29,7 @@ export interface NotificationSystemConfig {
   enableNotificationScheduling: boolean;
   enableUserPreferences: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableNotificationAnalytics: boolean;
   enableNotificationReporting: boolean;
   maxNotifications: number;
@@ -1017,7 +1017,7 @@ export class NotificationSystemPure {
       enableNotificationScheduling: true,
       enableUserPreferences: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableNotificationAnalytics: true,
       enableNotificationReporting: true,
       maxNotifications: 1000000,

@@ -506,7 +506,7 @@ export class BattleChallenge implements IBattleChallenge {
     }
 
     const rulesetErrors = this.ruleset.validate();
-    errors.push(...rulesetErrors.map(error => `Ruleset: ${error}`));
+    errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
 
     return errors;
   }
@@ -1077,29 +1077,29 @@ export class ChallengeManager implements IChallengeManager {
 
     // Apply filters
     if (filter.category) {
-      challenges = challenges.filter(challenge => challenge.category === filter.category);
+      challenges = challenges.filter((challenge: any) => challenge.category === filter.category);
     }
 
     if (filter.status) {
-      challenges = challenges.filter(challenge => challenge.status === filter.status);
+      challenges = challenges.filter((challenge: any) => challenge.status === filter.status);
     }
 
     if (filter.difficulty) {
-      challenges = challenges.filter(challenge => challenge.difficulty === filter.difficulty);
+      challenges = challenges.filter((challenge: any) => challenge.difficulty === filter.difficulty);
     }
 
     if (filter.minDifficulty) {
       const minLevel = this.getDifficultyLevel(filter.minDifficulty);
-      challenges = challenges.filter(challenge => this.getDifficultyLevel(challenge.difficulty) >= minLevel);
+      challenges = challenges.filter((challenge: any) => this.getDifficultyLevel(challenge.difficulty) >= minLevel);
     }
 
     if (filter.maxDifficulty) {
       const maxLevel = this.getDifficultyLevel(filter.maxDifficulty);
-      challenges = challenges.filter(challenge => this.getDifficultyLevel(challenge.difficulty) <= maxLevel);
+      challenges = challenges.filter((challenge: any) => this.getDifficultyLevel(challenge.difficulty) <= maxLevel);
     }
 
     if (filter.requiresSpirit) {
-      challenges = challenges.filter(challenge =>
+      challenges = challenges.filter((challenge: any) =>
         challenge.opponentTeam.includes(filter.requiresSpirit!) ||
         challenge.loreFlagsToSet.includes(filter.requiresSpirit!) ||
         challenge.syncBoosts.hasOwnProperty(filter.requiresSpirit!)
@@ -1107,18 +1107,18 @@ export class ChallengeManager implements IChallengeManager {
     }
 
     if (filter.locationId) {
-      challenges = challenges.filter(challenge =>
+      challenges = challenges.filter((challenge: any) =>
         challenge.requiredLocationId === filter.locationId
       );
     }
 
     if (filter.tags && filter.tags.length > 0) {
-      challenges = challenges.filter(challenge => challenge.hasAnyTag(filter.tags!));
+      challenges = challenges.filter((challenge: any) => challenge.hasAnyTag(filter.tags!));
     }
 
     if (filter.searchText) {
       const searchLower = filter.searchText.toLowerCase();
-      challenges = challenges.filter(challenge =>
+      challenges = challenges.filter((challenge: any) =>
         challenge.name.toLowerCase().includes(searchLower) ||
         challenge.description.toLowerCase().includes(searchLower) ||
         challenge.tags.some(tag => tag.toLowerCase().includes(searchLower))
@@ -1127,7 +1127,7 @@ export class ChallengeManager implements IChallengeManager {
 
     // Filter by completion status
     if (filter.completedBefore || filter.completedAfter) {
-      challenges = challenges.filter(challenge => {
+      challenges = challenges.filter((challenge: any) => {
         const isCompleted = this.isChallengeCompleted(challenge.challengeId);
         if (!isCompleted) return false;
 
@@ -1212,7 +1212,7 @@ export class ChallengeManager implements IChallengeManager {
    */
   getStatistics(): IChallengeStatistics {
     const allChallenges = this.getAllChallenges();
-    const completedChallenges = allChallenges.filter(challenge =>
+    const completedChallenges = allChallenges.filter((challenge: any) =>
       this.isChallengeCompleted(challenge.challengeId)
     );
 
@@ -1237,7 +1237,7 @@ export class ChallengeManager implements IChallengeManager {
 
     let totalRewardsEarned: Record<string, number> = {};
 
-    allChallenges.forEach(challenge => {
+    allChallenges.forEach((challenge: any) => {
       challengesByCategory[challenge.category]++;
       challengesByDifficulty[challenge.difficulty]++;
 
@@ -1255,11 +1255,11 @@ export class ChallengeManager implements IChallengeManager {
     return {
       totalChallenges: allChallenges.length,
       completedChallenges: completedChallenges.length,
-      availableChallenges: allChallenges.filter(c =>
+      availableChallenges: allChallenges.filter((c: any) =>
         c.status === ChallengeStatus.AVAILABLE ||
         c.status === ChallengeStatus.IN_PROGRESS
       ).length,
-      lockedChallenges: allChallenges.filter(c => c.status === ChallengeStatus.LOCKED).length,
+      lockedChallenges: allChallenges.filter((c: any) => c.status === ChallengeStatus.LOCKED).length,
       inProgressChallenges: this.inProgressChallenges.size,
       completionRate: Math.round(completionRate * 100) / 100,
       averageCompletionTime: 0, // Would need completion timestamps
@@ -1280,7 +1280,7 @@ export class ChallengeManager implements IChallengeManager {
    */
   clearCompletedChallenges(): void {
     this.completedChallenges.clear();
-    this.availableChallenges.forEach(challenge => {
+    this.availableChallenges.forEach((challenge: any) => {
       if (challenge.status === ChallengeStatus.COMPLETED) {
         challenge.status = ChallengeStatus.LOCKED;
       }
@@ -1354,7 +1354,7 @@ export const ChallengeUtils = {
     }
 
     const rulesetErrors = challenge.ruleset.validate();
-    errors.push(...rulesetErrors.map(error => `Ruleset: ${error}`));
+    errors.push(...rulesetErrors.map((error: any) => `Ruleset: ${error}`));
 
     return errors;
   },
@@ -1374,7 +1374,7 @@ export const ChallengeUtils = {
       completed?: boolean;
     }
   ): IBattleChallenge[] {
-    return challenges.filter(challenge => {
+    return challenges.filter((challenge: any) => {
       if (filters.categories && !filters.categories.includes(challenge.category)) {
         return false;
       }
@@ -1417,7 +1417,7 @@ export const ChallengeUtils = {
    * Sort challenges by priority and name
    */
   sortChallenges(challenges: IBattleChallenge[], sortBy: 'priority' | 'name' | 'difficulty' = 'priority'): IBattleChallenge[] {
-    return [...challenges].sort((a, b) => {
+    return [...challenges].sort((a: any, b: any) => {
       switch (sortBy) {
         case 'priority':
           return b.priority - a.priority; // Higher priority first

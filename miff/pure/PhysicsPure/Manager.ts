@@ -33,7 +33,7 @@ export interface PhysicsConfig {
   enableFluidDynamics: boolean;
   enableParticleSystems: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enablePhysicsAnalytics: boolean;
   enablePhysicsReporting: boolean;
   maxBodies: number;
@@ -499,7 +499,7 @@ export class PhysicsPure {
       enableFluidDynamics: true,
       enableParticleSystems: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enablePhysicsAnalytics: true,
       enablePhysicsReporting: true,
       maxBodies: 1000,

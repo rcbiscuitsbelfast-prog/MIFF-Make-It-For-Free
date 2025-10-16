@@ -370,9 +370,9 @@ export class SocialDeductionManager {
 
   private checkWinConditions(): void {
     const players = this.game.getPlayers();
-    const alivePlayers = Array.from(players.values()).filter(p => p.isAlive);
-    const traitors = alivePlayers.filter(p => p.role === 'traitor');
-    const innocents = alivePlayers.filter(p => p.role === 'innocent' || p.role === 'detective');
+    const alivePlayers = Array.from(players.values()).filter((p: any) => p.isAlive);
+    const traitors = alivePlayers.filter((p: any) => p.role === 'traitor');
+    const innocents = alivePlayers.filter((p: any) => p.role === 'innocent' || p.role === 'detective');
 
     if (traitors.length === 0) {
       this.game.endGame('innocent');
@@ -390,7 +390,7 @@ export class SocialDeductionManager {
 
     // Update role distribution
     const players = this.game.getPlayers();
-    Array.from(players.values()).forEach(player => {
+    Array.from(players.values()).forEach((player: any) => {
       const count = this.stats.roleDistribution.get(player.role) || 0;
       this.stats.roleDistribution.set(player.role, count + 1);
     });

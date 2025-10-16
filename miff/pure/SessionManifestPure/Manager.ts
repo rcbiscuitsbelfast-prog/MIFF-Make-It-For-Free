@@ -86,17 +86,17 @@ export class SessionManifestManager {
   listSessions(filter?: { zone?: string; status?: 'active' | 'expired' }): { ok: boolean; sessions: SessionManifest[]; total: number } {
     let sessions = Array.from(this.sessions.values());
     // Provide stable ordering for deterministic tests
-    sessions.sort((a, b) => a.id.localeCompare(b.id));
+    sessions.sort((a: any, b: any) => a.id.localeCompare(b.id));
 
     if (filter?.zone) {
-      sessions = sessions.filter(s => s.zone === filter.zone);
+      sessions = sessions.filter((s: any) => s.zone === filter.zone);
     }
 
     if (filter?.status) {
       const now = Date.now();
       const timeoutMs = this.config.sessionTimeout * 60 * 1000;
       
-      sessions = sessions.filter(s => {
+      sessions = sessions.filter((s: any) => {
         const startTime = this.sessionStartTimes.get(s.id) || 0;
         const isExpired = (now - startTime) > timeoutMs;
         
@@ -315,7 +315,7 @@ export class SessionManifestManager {
             id: session.id,
             zone: session.zone,
             playerCount: session.players.length,
-            players: session.players.map(p => ({
+            players: session.players.map((p: any) => ({
               id: p.playerId,
               avatar: p.avatar,
               style: p.style,

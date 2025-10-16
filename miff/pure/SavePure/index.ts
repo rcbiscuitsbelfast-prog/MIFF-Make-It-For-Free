@@ -1180,7 +1180,7 @@ export class SaveManager implements ISaveManager {
       } else {
         const fs = require('fs').promises;
         const files = await fs.readdir(directory);
-        return files.filter(file => file.endsWith('.json') || file.endsWith('.sav'));
+        return files.filter((file: any) => file.endsWith('.json') || file.endsWith('.sav'));
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -1328,7 +1328,7 @@ export const SaveUtils = {
       'questFlags', 'unlockedContent', 'gameSettings', 'statistics'
     ];
 
-    fieldsToCompare.forEach(field => {
+    fieldsToCompare.forEach((field: any) => {
       const value1 = (snapshot1 as any)[field];
       const value2 = (snapshot2 as any)[field];
 

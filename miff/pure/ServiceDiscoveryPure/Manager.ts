@@ -29,7 +29,7 @@ export interface ServiceDiscoveryConfig {
   enableLoadBalancing: boolean;
   enableServiceMesh: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableServiceDiscoveryAnalytics: boolean;
   enableServiceDiscoveryReporting: boolean;
   maxServices: number;
@@ -1878,7 +1878,7 @@ export class ServiceDiscoveryPure {
       enableLoadBalancing: true,
       enableServiceMesh: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableServiceDiscoveryAnalytics: true,
       enableServiceDiscoveryReporting: true,
       maxServices: 10000,

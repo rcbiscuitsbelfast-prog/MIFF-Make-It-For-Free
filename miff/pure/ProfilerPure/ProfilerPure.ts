@@ -253,7 +253,7 @@ export class Profiler {
   }
 
   private notifyObservers(event: string, data: any): void {
-    this.observers.forEach(observer => {
+    this.observers.forEach((observer: any) => {
       try {
         switch (event) {
           case 'frameEnd':
@@ -304,7 +304,7 @@ export class Profiler {
     }
 
     // Calculate summary
-    const frameTimes = this.frames.map(f => f.duration);
+    const frameTimes = this.frames.map((f: any) => f.duration);
     const totalDuration = this.frames[this.frames.length - 1].timestamp - this.frames[0].timestamp;
     
     const summary = {
@@ -347,7 +347,7 @@ export class Profiler {
     }
 
     const slowestCategory = Array.from(categories.entries())
-      .sort((a, b) => b[1].totalTime - a[1].totalTime)[0];
+      .sort((a: any, b: any) => b[1].totalTime - a[1].totalTime)[0];
     if (slowestCategory && slowestCategory[1].percentage > 50) {
       recommendations.push(`${slowestCategory[0]} category consumes ${slowestCategory[1].percentage.toFixed(1)}% of total time.`);
     }
@@ -407,7 +407,7 @@ export class Profiler {
     
     if (report.recommendations.length > 0) {
       output += `\nRecommendations:\n`;
-      report.recommendations.forEach(rec => {
+      report.recommendations.forEach((rec: any) => {
         output += `  - ${rec}\n`;
       });
     }

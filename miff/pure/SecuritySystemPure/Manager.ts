@@ -30,7 +30,7 @@ export interface SecuritySystemConfig {
   enableThreatDetection: boolean;
   enableAccessControl: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableSecurityAnalytics: boolean;
   enableSecurityReporting: boolean;
   maxUsers: number;
@@ -1015,7 +1015,7 @@ export class SecuritySystemPure {
       enableThreatDetection: true,
       enableAccessControl: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableSecurityAnalytics: true,
       enableSecurityReporting: true,
       maxUsers: 10000,

@@ -648,7 +648,7 @@ export class DataProcessingManager {
       throw new Error('Data Processing System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -659,7 +659,7 @@ export class DataProcessingManager {
       throw new Error('Data Processing System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -822,7 +822,7 @@ export class DataProcessingManager {
       if (!pipeline) return;
 
       // Execute pipeline steps in order
-      for (const step of pipeline.steps.sort((a, b) => a.order - b.order)) {
+      for (const step of pipeline.steps.sort((a: any, b: any) => a.order - b.order)) {
         if (!step.enabled) continue;
 
         await this.executeStep(systemId, pipelineId, step);
@@ -1052,7 +1052,7 @@ export class DataProcessingManager {
     for (const system of systems) {
       system.analytics = {
         totalSystems: systems.length,
-        activeSystems: systems.filter(s => s.status === 'active').length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalPipelines: system.pipelines.length,
         totalProcessors: system.processors.length,
         totalTransformers: system.transformers.length,
@@ -1081,7 +1081,7 @@ export class DataProcessingManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalPipelines = systems.reduce((sum: any, s: any) => sum + s.pipelines.length, 0);
     const totalProcessors = systems.reduce((sum: any, s: any) => sum + s.processors.length, 0);
     const totalTransformers = systems.reduce((sum: any, s: any) => sum + s.transformers.length, 0);

@@ -212,7 +212,7 @@ function main() {
             platform: 'unreal',
             result: {
               testSuite,
-              passed: testResults.filter(r => r.success).length,
+              passed: testResults.filter((r: any) => r.success).length,
               total: testResults.length,
               results: testResults
             }

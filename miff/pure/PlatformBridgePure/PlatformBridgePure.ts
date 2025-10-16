@@ -245,7 +245,7 @@ export class PlatformBridge {
    * Get all input devices by type
    */
   getInputDevicesByType(type: InputType): InputDevice[] {
-    return Array.from(this.inputDevices.values()).filter(device => device.type === type);
+    return Array.from(this.inputDevices.values()).filter((device: any) => device.type === type);
   }
 
   /**

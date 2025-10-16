@@ -38,7 +38,7 @@ export interface BackupSystemConfig {
   enableCrossPlatformSupport: boolean;
   enableCloudStorageIntegration: boolean;
   enableRecoveryManagement: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   maxBackups: number;
   backupRetentionDays: number;
   enableCloudSync: boolean;
@@ -444,7 +444,7 @@ export class BackupSystemManager {
       enableCrossPlatformSupport: true,
       enableCloudStorageIntegration: true,
       enableRecoveryManagement: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       maxBackups: 100,
       backupRetentionDays: 30,
       enableCloudSync: false,
@@ -472,7 +472,7 @@ export class BackupSystemManager {
       }
 
       // Initialize memory manager
-      if (this.config.enableRealTimeMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
@@ -618,7 +618,7 @@ export class BackupSystemManager {
       throw new Error('Backup System Manager not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -629,7 +629,7 @@ export class BackupSystemManager {
       throw new Error('Backup System Manager not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -880,21 +880,21 @@ export class BackupSystemManager {
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
     const totalBackups = systems.reduce((sum: any, s: any) => sum + s.backups.length, 0);
-    const successfulBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter(b => b.status === 'completed').length, 0);
-    const failedBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter(b => b.status === 'failed').length, 0);
+    const successfulBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'completed').length, 0);
+    const failedBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'failed').length, 0);
     const totalSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.size, 0), 0);
     const compressedSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.compressedSize, 0), 0);
 
     for (const system of systems) {
       system.analytics = {
         totalBackups: system.backups.length,
-        successfulBackups: system.backups.filter(b => b.status === 'completed').length,
-        failedBackups: system.backups.filter(b => b.status === 'failed').length,
+        successfulBackups: system.backups.filter((b: any) => b.status === 'completed').length,
+        failedBackups: system.backups.filter((b: any) => b.status === 'failed').length,
         totalSize: system.backups.reduce((sum: any, b: any) => sum + b.size, 0),
         compressedSize: system.backups.reduce((sum: any, b: any) => sum + b.compressedSize, 0),
         averageBackupTime: 0, // Would be calculated from actual backup times
         lastBackup: system.backups.length > 0 ? 
-          system.backups.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0].createdAt : undefined,
+          system.backups.sort((a: any, b: any) => b.createdAt.getTime() - a.createdAt.getTime())[0].createdAt : undefined,
         lastUpdated: Date.now()
       };
     }
@@ -920,10 +920,10 @@ export class BackupSystemManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalBackups = systems.reduce((sum: any, s: any) => sum + s.backups.length, 0);
-    const successfulBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter(b => b.status === 'completed').length, 0);
-    const failedBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter(b => b.status === 'failed').length, 0);
+    const successfulBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'completed').length, 0);
+    const failedBackups = systems.reduce((sum: any, s: any) => sum + s.backups.filter((b: any) => b.status === 'failed').length, 0);
     const totalSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.size, 0), 0);
     const compressedSize = systems.reduce((sum: any, s: any) => sum + s.backups.reduce((s: any, b: any) => s + b.compressedSize, 0), 0);
 

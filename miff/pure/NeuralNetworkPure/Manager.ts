@@ -29,7 +29,7 @@ export interface NeuralNetworkConfig {
   enableDataPreprocessing: boolean;
   enableModelOptimization: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableNeuralNetworkAnalytics: boolean;
   enableNeuralNetworkReporting: boolean;
   maxModels: number;
@@ -1035,7 +1035,7 @@ export class NeuralNetworkPure {
       enableDataPreprocessing: true,
       enableModelOptimization: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableNeuralNetworkAnalytics: true,
       enableNeuralNetworkReporting: true,
       maxModels: 1000,

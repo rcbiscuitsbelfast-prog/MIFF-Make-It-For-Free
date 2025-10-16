@@ -210,7 +210,7 @@ async function handleExport() {
   console.log(`✅ Export completed!`);
   console.log(`📂 Output directory: ${outputDir}`);
   console.log(`📄 Generated files:`);
-  outputFiles.forEach(file => console.log(`   - ${file}`));
+  outputFiles.forEach((file: any) => console.log(`   - ${file}`));
 
   return {
     command: 'export',
@@ -316,13 +316,13 @@ async function handleValidate() {
 
   if (issues.length > 0) {
     console.log('\n❌ Issues:');
-    issues.forEach(issue => console.log(`   - ${issue}`));
+    issues.forEach((issue: any) => console.log(`   - ${issue}`));
     process.exit(1);
   }
 
   if (warnings.length > 0) {
     console.log('\n⚠️  Warnings:');
-    warnings.forEach(warning => console.log(`   - ${warning}`));
+    warnings.forEach((warning: any) => console.log(`   - ${warning}`));
   }
 
   if (issues.length === 0) {
@@ -437,7 +437,7 @@ async function handleDemo() {
 
   console.log(`✅ Demo scenes created in: ${outputDir}`);
   console.log('📄 Generated files:');
-  demoScenes.forEach(scene => console.log(`   - ${scene}`));
+  demoScenes.forEach((scene: any) => console.log(`   - ${scene}`));
 
   console.log('');
   console.log('🎮 Demo Scenes Overview:');

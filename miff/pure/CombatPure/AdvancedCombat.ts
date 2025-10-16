@@ -433,7 +433,7 @@ export class AdvancedCombat {
           type: 'move_sequence',
           value: ['ember', 'flame_thrower', 'fire_blast'],
           check: (context) => {
-            const moveSequence = context.previousMoves.map(m => m.moveId);
+            const moveSequence = context.previousMoves.map((m: any) => m.moveId);
             return moveSequence.length >= 3 && 
                    moveSequence[0] === 'ember' && 
                    moveSequence[1] === 'flame_thrower' && 
@@ -464,7 +464,7 @@ export class AdvancedCombat {
           type: 'move_sequence',
           value: ['bubble', 'water_gun', 'hydro_pump'],
           check: (context) => {
-            const moveSequence = context.previousMoves.map(m => m.moveId);
+            const moveSequence = context.previousMoves.map((m: any) => m.moveId);
             return moveSequence.length >= 3 && 
                    moveSequence[0] === 'bubble' && 
                    moveSequence[1] === 'water_gun' && 

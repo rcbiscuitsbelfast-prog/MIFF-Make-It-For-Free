@@ -181,7 +181,7 @@ try {
         }
       ];
 
-      const results = demoEntities.map(entity => manager.createEntity(entity.id, entity.position, entity.pattern));
+      const results = demoEntities.map((entity: any) => manager.createEntity(entity.id, entity.position, entity.pattern));
       const simulationResult = manager.simulateTick(1.0);
       
       output = {
@@ -189,7 +189,7 @@ try {
         status: 'ok',
         result: {
           message: 'Demo entities created and simulated',
-          entities: results.map(r => ({ status: r.status, entity: r.result })),
+          entities: results.map((r: any) => ({ status: r.status, entity: r.result })),
           simulation: simulationResult.result
         }
       };
@@ -274,13 +274,13 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map(scenario => {
-        const entityResults = scenario.entities.map(entity => 
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
+        const entityResults = scenario.entities.map((entity: any) => 
           manager.createEntity(entity.id, entity.position, entity.pattern)
         );
         return {
           scenario: scenario.id,
-          results: entityResults.map(r => ({ status: r.status, entity: r.result }))
+          results: entityResults.map((r: any) => ({ status: r.status, entity: r.result }))
         };
       });
 

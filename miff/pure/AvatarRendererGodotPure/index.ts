@@ -4,7 +4,7 @@ export class AvatarRendererGodotPure {
   public static toGodotSceneJSON(avatar: ResolvedAvatar): any {
     return {
       type: 'GodotScene',
-      nodes: avatar.assets.entries.map(e => ({ type: 'Sprite2D', name: e.anchor, anchor: e.anchor, texture: e.url })),
+      nodes: avatar.assets.entries.map((e: any) => ({ type: 'Sprite2D', name: e.anchor, anchor: e.anchor, texture: e.url })),
       meta: { style: avatar.assets.style, base: avatar.manifest.base }
     };
   }

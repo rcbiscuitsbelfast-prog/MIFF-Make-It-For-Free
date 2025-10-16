@@ -26,7 +26,7 @@ export interface CloudGamingConfig {
   enableStreamingOptimization: boolean;
   enableRenderingOptimization: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableGamingAnalytics: boolean;
   enableGamingReporting: boolean;
   maxSessions: number;
@@ -887,7 +887,7 @@ export class CloudGamingPure {
       enableStreamingOptimization: true,
       enableRenderingOptimization: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableGamingAnalytics: true,
       enableGamingReporting: true,
       maxSessions: 1000,

@@ -27,7 +27,7 @@ export interface GameLogicConfig {
   enablePlayerManagement: boolean;
   enableGameMechanics: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableGameAnalytics: boolean;
   enableGameReporting: boolean;
   maxPlayers: number;
@@ -1115,7 +1115,7 @@ export class GameLogicPure {
       enablePlayerManagement: true,
       enableGameMechanics: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableGameAnalytics: true,
       enableGameReporting: true,
       maxPlayers: 1000,

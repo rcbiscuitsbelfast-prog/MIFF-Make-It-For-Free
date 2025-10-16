@@ -28,7 +28,7 @@ export interface WorkflowEngineConfig {
   enableTaskScheduling: boolean;
   enableWorkflowMonitoring: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableWorkflowAnalytics: boolean;
   enableWorkflowReporting: boolean;
   maxWorkflows: number;
@@ -1005,7 +1005,7 @@ export class WorkflowEnginePure {
       enableTaskScheduling: true,
       enableWorkflowMonitoring: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableWorkflowAnalytics: true,
       enableWorkflowReporting: true,
       maxWorkflows: 1000,

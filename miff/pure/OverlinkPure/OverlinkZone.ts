@@ -177,7 +177,7 @@ export class OverlinkZone {
   }
 
   removeDrawReducer(reducerId: string): void {
-    this.state.drawReducers = this.state.drawReducers.filter(r => r.id !== reducerId);
+    this.state.drawReducers = this.state.drawReducers.filter((r: any) => r.id !== reducerId);
   }
 
   toggleDrawReducer(reducerId: string): boolean {
@@ -207,7 +207,7 @@ export class OverlinkZone {
   }
 
   unbindAsset(assetId: string): void {
-    this.state.assetBindings = this.state.assetBindings.filter(b => b.id !== assetId);
+    this.state.assetBindings = this.state.assetBindings.filter((b: any) => b.id !== assetId);
   }
 
   getAssetBinding(assetId: string): AssetBinding | undefined {
@@ -244,7 +244,7 @@ export class OverlinkZone {
   }
 
   getDrawReducers(): DrawReducer[] {
-    return this.state.drawReducers.filter(r => r.enabled);
+    return this.state.drawReducers.filter((r: any) => r.enabled);
   }
 
   getOverlayLayers(): Map<OverlayLayer, boolean> {
@@ -345,7 +345,7 @@ export class OverlinkZone {
       }
     ];
 
-    sampleAssignments.forEach(assignment => {
+    sampleAssignments.forEach((assignment: any) => {
       this.badgeSystem.assignBadge(assignment);
     });
   }
@@ -431,11 +431,11 @@ export class OverlinkZone {
   // Utility Methods
   private updateActiveModules(): void {
     this.state.activeModules = Array.from(this.moduleRegistry.values())
-      .filter(m => m.status === 'active');
+      .filter((m: any) => m.status === 'active');
   }
 
   private sortDrawReducers(): void {
-    this.state.drawReducers.sort((a, b) => a.priority - b.priority);
+    this.state.drawReducers.sort((a: any, b: any) => a.priority - b.priority);
   }
 
   // Export state for testing and serialization

@@ -186,7 +186,7 @@ export class SkeletonAnimatorManager {
           .generateEmoteAnimation('nod');
 
         // Add animations to skeleton state
-        this.animationSequencer.getAllAnimations().forEach(anim => {
+        this.animationSequencer.getAllAnimations().forEach((anim: any) => {
           this.skeletonState.animations[anim.id] = anim;
         });
       }
@@ -319,14 +319,14 @@ export class SkeletonAnimatorManager {
     // Validate rig
     const rigValidation = this.rigBuilder.validate();
     if (!rigValidation.valid) {
-      errors.push(...rigValidation.errors.map(e => `Rig: ${e}`));
+      errors.push(...rigValidation.errors.map((e: any) => `Rig: ${e}`));
     }
 
     // Validate skin
     if (this.skinMeshGenerator) {
       const skinValidation = this.skinMeshGenerator.validate();
       if (!skinValidation.valid) {
-        errors.push(...skinValidation.errors.map(e => `Skin: ${e}`));
+        errors.push(...skinValidation.errors.map((e: any) => `Skin: ${e}`));
       }
     }
 
@@ -334,7 +334,7 @@ export class SkeletonAnimatorManager {
     if (this.facialDetailBuilder) {
       const faceValidation = this.facialDetailBuilder.validate();
       if (!faceValidation.valid) {
-        errors.push(...faceValidation.errors.map(e => `Face: ${e}`));
+        errors.push(...faceValidation.errors.map((e: any) => `Face: ${e}`));
       }
     }
 
@@ -342,7 +342,7 @@ export class SkeletonAnimatorManager {
     if (this.animationSequencer) {
       const animValidation = this.animationSequencer.validate();
       if (!animValidation.valid) {
-        errors.push(...animValidation.errors.map(e => `Animation: ${e}`));
+        errors.push(...animValidation.errors.map((e: any) => `Animation: ${e}`));
       }
     }
 

@@ -252,8 +252,8 @@ function findOrphanedAssets(
   scenarioAssets: AssetReference[],
   manifestAssets: AssetManifest
 ): AssetManifest['assets'] {
-  const referencedIds = new Set(scenarioAssets.map(a => a.id));
-  return manifestAssets.assets.filter(asset => !referencedIds.has(asset.id));
+  const referencedIds = new Set(scenarioAssets.map((a: any) => a.id));
+  return manifestAssets.assets.filter((asset: any) => !referencedIds.has(asset.id));
 }
 
 /**
@@ -262,10 +262,10 @@ function findOrphanedAssets(
 function generateSummary(results: AssetValidationResult[]): ValidationReport['summary'] {
   return {
     total: results.length,
-    valid: results.filter(r => r.status === 'valid').length,
-    missing: results.filter(r => r.status === 'missing').length,
-    invalid: results.filter(r => r.status === 'invalid').length,
-    warnings: results.filter(r => r.status === 'warning').length
+    valid: results.filter((r: any) => r.status === 'valid').length,
+    missing: results.filter((r: any) => r.status === 'missing').length,
+    invalid: results.filter((r: any) => r.status === 'invalid').length,
+    warnings: results.filter((r: any) => r.status === 'warning').length
   };
 }
 
@@ -296,7 +296,7 @@ function checkRemixSafeCompliance(
   targetPlatform: string
 ): ValidationReport['compliance'] {
   // Only check assets that are present (not missing)
-  const presentAssets = results.filter(r => r.status !== 'missing');
+  const presentAssets = results.filter((r: any) => r.status !== 'missing');
   
   const licensing = presentAssets.every(r => 
     r.metadata?.license && 
@@ -419,13 +419,13 @@ export function generateAssetReport(report: ValidationReport): string {
   
   if (report.issues.length > 0) {
     output += `Issues:\n`;
-    report.issues.forEach(issue => output += `  - ${issue}\n`);
+    report.issues.forEach((issue: any) => output += `  - ${issue}\n`);
     output += `\n`;
   }
   
   if (report.recommendations.length > 0) {
     output += `Recommendations:\n`;
-    report.recommendations.forEach(rec => output += `  - ${rec}\n`);
+    report.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
     output += `\n`;
   }
   

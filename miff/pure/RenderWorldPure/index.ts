@@ -704,7 +704,7 @@ export class RenderWorldPure {
 
   private setupNPCs() {
     // Initialize NPC AI behaviors
-    Object.values(this.state.world.npcs).forEach(npc => {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
       this.engines.ai.registerBehavior(npc.id, {
         type: 'wander',
         parameters: {
@@ -746,7 +746,7 @@ export class RenderWorldPure {
     };
 
     // Scan for nearby portals
-    Object.values(this.state.world.portals).forEach(portal => {
+    Object.values(this.state.world.portals).forEach((portal: any) => {
       const distance = this.calculateDistance(this.state.player.position, portal.position);
       if (distance <= this.state.world.spiritLens.scanRadius) {
         scanResults.portals.push({
@@ -758,7 +758,7 @@ export class RenderWorldPure {
     });
 
     // Scan for nearby NPCs
-    Object.values(this.state.world.npcs).forEach(npc => {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
       const distance = this.calculateDistance(this.state.player.position, npc.position);
       if (distance <= this.state.world.spiritLens.scanRadius) {
         scanResults.npcs.push({
@@ -884,7 +884,7 @@ export class RenderWorldPure {
     }
 
     // Check for portal proximity
-    Object.values(this.state.world.portals).forEach(portal => {
+    Object.values(this.state.world.portals).forEach((portal: any) => {
       const portalDistance = this.calculateDistance(this.state.player.position, portal.position);
       if (portalDistance <= 3) {
         EventBus.emit('portal.proximity', {
@@ -959,7 +959,7 @@ export class RenderWorldPure {
   }
 
   private updateNPCs(deltaTime: number) {
-    Object.values(this.state.world.npcs).forEach(npc => {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
       if (npc.state === 'wandering') {
         // Move towards target position
         const dx = npc.targetPosition.x - npc.position.x;
@@ -1059,7 +1059,7 @@ export class RenderWorldPure {
       game: {
         fps: this.state.game.fps,
         time: this.state.game.time,
-        portalsActive: Object.values(this.state.world.portals).filter(p => p.active).length
+        portalsActive: Object.values(this.state.world.portals).filter((p: any) => p.active).length
       },
       world: {
         spiritLensActive: this.state.world.spiritLens.active,
@@ -1085,7 +1085,7 @@ export class RenderWorldPure {
       },
       world: {
         spiritLens: this.state.world.spiritLens,
-        activePortals: Object.values(this.state.world.portals).filter(p => p.active)
+        activePortals: Object.values(this.state.world.portals).filter((p: any) => p.active)
       }
     };
 
@@ -1103,7 +1103,7 @@ export class RenderWorldPure {
     this.engines.scene.render();
 
     // Render portals with special effects
-    Object.values(this.state.world.portals).forEach(portal => {
+    Object.values(this.state.world.portals).forEach((portal: any) => {
       this.renderPortal(portal);
     });
 
@@ -1113,7 +1113,7 @@ export class RenderWorldPure {
     }
 
     // Render NPCs
-    Object.values(this.state.world.npcs).forEach(npc => {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
       this.renderNPC(npc);
     });
   }
@@ -1258,7 +1258,7 @@ export class RenderWorldPure {
     });
 
     // Add portals as scan targets
-    Object.values(this.state.world.portals).forEach(portal => {
+    Object.values(this.state.world.portals).forEach((portal: any) => {
       this.engines.scanFeedback.addTarget({
         id: `portal_${portal.destination}`,
         type: ScanTargetType.PORTAL,
@@ -1445,7 +1445,7 @@ export class RenderWorldPure {
     this.state.world.gameplay.scanTargets = this.engines.scanFeedback.getAllTargets();
     
     // Update interactables
-    this.state.world.gameplay.interactables = this.engines.interactables.getAll().map(i => i.type);
+    this.state.world.gameplay.interactables = this.engines.interactables.getAll().map((i: any) => i.type);
     
     // Update NPCs
     this.state.world.gameplay.npcs = this.engines.perception.getNPCs();
@@ -1514,7 +1514,7 @@ export class RenderWorldPure {
     // Adjust overlay effects based on performance
     if (config.postProcessingQuality === 'low') {
       // Reduce overlay effect intensity
-      this.engines.overlayFX.getAllLayers().forEach(layer => {
+      this.engines.overlayFX.getAllLayers().forEach((layer: any) => {
         this.engines.overlayFX.setLayerOpacity(layer.id, layer.opacity * 0.5);
       });
     }
@@ -1522,7 +1522,7 @@ export class RenderWorldPure {
     // Adjust scan feedback based on performance
     if (config.postProcessingQuality === 'low') {
       // Reduce pulse intensity
-      this.engines.scanFeedback.getAllTargets().forEach(target => {
+      this.engines.scanFeedback.getAllTargets().forEach((target: any) => {
         target.pulseIntensity = Math.min(target.pulseIntensity, 0.3);
       });
     }

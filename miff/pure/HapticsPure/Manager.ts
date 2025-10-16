@@ -339,7 +339,7 @@ export class HapticsManager {
     for (const requests of this.priorityQueue.values()) {
       allRequests.push(...requests);
     }
-    return allRequests.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+    return allRequests.sort((a: any, b: any) => (b.priority || 0) - (a.priority || 0));
   }
 
   getDevices(): HapticDevice[] {
@@ -445,7 +445,7 @@ export class HapticsManager {
 
   async playNext(): Promise<HapticResult | undefined> {
     // Process by priority (highest first)
-    const priorities = Array.from(this.priorityQueue.keys()).sort((a, b) => b - a);
+    const priorities = Array.from(this.priorityQueue.keys()).sort((a: any, b: any) => b - a);
 
     for (const priority of priorities) {
       const requests = this.priorityQueue.get(priority)!;
@@ -534,7 +534,7 @@ export class HapticsManager {
 
     // Check device limits
     const activeCount = Array.from(this.activeRequests.values())
-      .filter(r => r.status === 'played' && r.deviceUsed === device?.type).length;
+      .filter((r: any) => r.status === 'played' && r.deviceUsed === device?.type).length;
 
     if (activeCount >= capabilities.maxSimultaneousEffects) {
       return {
@@ -569,7 +569,7 @@ export class HapticsManager {
 
   private getBestAvailableDevice(): HapticDevice | undefined {
     // Prefer connected devices with higher capabilities
-    const connected = Array.from(this.devices.values()).filter(d => d.connected);
+    const connected = Array.from(this.devices.values()).filter((d: any) => d.connected);
     if (connected.length > 0) {
       return connected.reduce((best, current) =>
         current.capabilities.maxSimultaneousEffects > best.capabilities.maxSimultaneousEffects ? current : best
@@ -681,9 +681,9 @@ export class HapticsManager {
     return {
       queuedRequests: this.getPending().length,
       activeRequests: this.activeRequests.size,
-      devicesConnected: Array.from(this.devices.values()).filter(d => d.connected).length,
+      devicesConnected: Array.from(this.devices.values()).filter((d: any) => d.connected).length,
       sequencesLoaded: this.sequences.size,
-      rhythmEnginesActive: Array.from(this.rhythmEngines.values()).filter(e => e.playing).length,
+      rhythmEnginesActive: Array.from(this.rhythmEngines.values()).filter((e: any) => e.playing).length,
       environmentalResponses: this.environmentalResponses.length,
       priorityQueues: this.priorityQueue.size
     };

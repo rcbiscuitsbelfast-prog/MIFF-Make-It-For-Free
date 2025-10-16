@@ -268,7 +268,7 @@ class AIPureCLI {
       new MoveData('rest', 'Rest', MoveCategory.STATUS, 0, 1.0, 0, 'neutral')
     ];
 
-    moves.forEach(move => {
+    moves.forEach((move: any) => {
       this.moves.set(move.moveId, move);
     });
 
@@ -645,7 +645,7 @@ class AIPureCLI {
     console.log('');
 
     console.log('Available moves:');
-    availableMoves.forEach(move => {
+    availableMoves.forEach((move: any) => {
       const categoryIcon = this.getMoveCategoryIcon(move.category);
       const canAfford = spirit.resourcePoints >= move.cost ? '✅' : '❌';
       console.log(`  ${categoryIcon} ${move.name} (${canAfford} Cost: ${move.cost})`);
@@ -719,7 +719,7 @@ class AIPureCLI {
       console.log('✅ Policy is valid');
     } else {
       console.log('❌ Validation errors:');
-      errors.forEach(error => console.log(`   - ${error}`));
+      errors.forEach((error: any) => console.log(`   - ${error}`));
     }
   }
 
@@ -899,13 +899,13 @@ class AIPureCLI {
     console.log('');
 
     console.log('Policies:');
-    policies.forEach(policy => {
+    policies.forEach((policy: any) => {
       console.log(`  ${this.getPolicyIcon(policy)} ${policy.policyId}`);
     });
     console.log('');
 
     console.log('Active Spirits:');
-    Array.from(this.spirits.values()).forEach(spirit => {
+    Array.from(this.spirits.values()).forEach((spirit: any) => {
       console.log(`  ${spirit.getCombatSummary()}`);
     });
   }
@@ -960,7 +960,7 @@ class AIPureCLI {
    * Reset spirits to full health
    */
   private resetSpirits(): void {
-    this.spirits.forEach(spirit => {
+    this.spirits.forEach((spirit: any) => {
       spirit.currentHP = spirit.maxHP;
     });
   }

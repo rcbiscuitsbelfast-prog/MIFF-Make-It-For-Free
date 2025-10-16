@@ -22,7 +22,7 @@ class MockEventBus {
   emit(event: string, data: any) {
     console.log(`📡 Event emitted: ${event}`, data);
     const handlers = this.events.get(event) || [];
-    handlers.forEach(handler => handler(data));
+    handlers.forEach((handler: any) => handler(data));
   }
 
   on(event: string, handler: Function) {

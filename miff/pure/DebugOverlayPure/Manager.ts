@@ -462,7 +462,7 @@ export class DebugOverlayManager {
       const lines = cliOutput.split('\n');
       const payloads: RenderPayload[] = [];
 
-      lines.forEach(line => {
+      lines.forEach((line: any) => {
         try {
           const parsed = JSON.parse(line.trim());
           if (parsed.renderData && Array.isArray(parsed.renderData)) {
@@ -632,7 +632,7 @@ export class DebugOverlayManager {
         lines.push('⚠️ ISSUES:');
       }
 
-      overlay.issues.forEach(issue => {
+      overlay.issues.forEach((issue: any) => {
         const truncatedIssue = this.config.maxIssueLength > 0
           ? issue.substring(0, this.config.maxIssueLength) + (issue.length > this.config.maxIssueLength ? '...' : '')
           : issue;
@@ -650,7 +650,7 @@ export class DebugOverlayManager {
         lines.push('📝 ANNOTATIONS:');
       }
 
-      overlay.annotations.forEach(annotation => {
+      overlay.annotations.forEach((annotation: any) => {
         const annotationLine = `  - ${annotation}`;
         lines.push(this.config.colorize ? `\x1b[32m${annotationLine}\x1b[0m` : annotationLine);
       });
@@ -696,9 +696,9 @@ export class DebugOverlayManager {
     const duration = Date.now() - this.startTime;
 
     const engineHints = payload.renderData
-      ?.map(data => data.engineHints)
-      .filter(hints => hints)
-      .map(hints => Object.keys(hints || {}))
+      ?.map((data: any) => data.engineHints)
+      .filter((hints: any) => hints)
+      .map((hints: any) => Object.keys(hints || {}))
       .flat() || [];
 
     const uniqueEngineHints = Array.from(new Set(engineHints));
@@ -744,9 +744,9 @@ export class DebugOverlayManager {
     // Add engine-specific annotations
     if (payload.renderData && payload.renderData.length > 0) {
       const engineHints = payload.renderData
-        .map(data => data.engineHints)
-        .filter(hints => hints)
-        .map(hints => Object.keys(hints || {}))
+        .map((data: any) => data.engineHints)
+        .filter((hints: any) => hints)
+        .map((hints: any) => Object.keys(hints || {}))
         .flat();
 
       const uniqueEngines = Array.from(new Set(engineHints));
@@ -1174,13 +1174,13 @@ export class DebugOverlayManager {
       performance: {
         score: performanceScore,
         trends: this.analyzePerformanceTrends(),
-        issues: this.alerts.filter(a => a.type === 'performance').length
+        issues: this.alerts.filter((a: any) => a.type === 'performance').length
       },
       stability: {
         score: stabilityScore,
         crashes: 0,
-        errors: this.alerts.filter(a => a.type === 'error').length,
-        warnings: this.alerts.filter(a => a.type === 'warning').length
+        errors: this.alerts.filter((a: any) => a.type === 'error').length,
+        warnings: this.alerts.filter((a: any) => a.type === 'warning').length
       },
       memory: {
         score: memoryScore,
@@ -1190,7 +1190,7 @@ export class DebugOverlayManager {
       rendering: {
         score: renderingScore,
         bottlenecks: this.identifyBottlenecks(),
-        optimizations: this.recommendations.filter(r => r.category === 'rendering').length
+        optimizations: this.recommendations.filter((r: any) => r.category === 'rendering').length
       }
     };
   }
@@ -1219,8 +1219,8 @@ export class DebugOverlayManager {
 
   private calculateStabilityScore(): number {
     const totalAlerts = this.alerts.length;
-    const criticalAlerts = this.alerts.filter(a => a.severity === 'critical').length;
-    const errorAlerts = this.alerts.filter(a => a.type === 'error').length;
+    const criticalAlerts = this.alerts.filter((a: any) => a.severity === 'critical').length;
+    const errorAlerts = this.alerts.filter((a: any) => a.type === 'error').length;
 
     let score = 100;
 
@@ -1313,7 +1313,7 @@ export class DebugOverlayManager {
       duration,
       events: this.frameCounter,
       frames: this.frameCounter,
-      memoryPeak: Math.max(...this.memoryHistory.map(m => m.heapUsed)),
+      memoryPeak: Math.max(...this.memoryHistory.map((m: any) => m.heapUsed)),
       performanceAverage: this.performanceHistory.length > 0
         ? this.performanceHistory.reduce((sum, p) => sum + p.fps, 0) / this.performanceHistory.length
         : 0,
@@ -1437,7 +1437,7 @@ export class DebugOverlayManager {
       });
     }
 
-    return payloads.filter(payload =>
+    return payloads.filter((payload: any) =>
       payload.renderData && Array.isArray(payload.renderData)
     );
   }
@@ -1499,7 +1499,7 @@ export class DebugOverlayManager {
     if (overlay.issues.length > 0) {
       lines.push('<div class="section">');
       lines.push('<div class="section-title issues">⚠️ ISSUES:</div>');
-      overlay.issues.forEach(issue => {
+      overlay.issues.forEach((issue: any) => {
         lines.push(`<div class="item issues">- ${issue}</div>`);
       });
       lines.push('</div>');
@@ -1509,7 +1509,7 @@ export class DebugOverlayManager {
     if (overlay.annotations.length > 0) {
       lines.push('<div class="section">');
       lines.push('<div class="section-title annotations">📝 ANNOTATIONS:</div>');
-      overlay.annotations.forEach(annotation => {
+      overlay.annotations.forEach((annotation: any) => {
         lines.push(`<div class="item annotations">- ${annotation}</div>`);
       });
       lines.push('</div>');

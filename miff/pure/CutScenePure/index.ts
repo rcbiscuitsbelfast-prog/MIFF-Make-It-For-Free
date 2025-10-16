@@ -684,7 +684,7 @@ export class CutScenePure {
     this.config = { ...definition.config, ...config };
     this.state = this.initializeState();
     this.engines = this.initializeEngines(engines);
-    this.actionQueue = [...definition.actions].sort((a, b) => a.timestamp - b.timestamp);
+    this.actionQueue = [...definition.actions].sort((a: any, b: any) => a.timestamp - b.timestamp);
 
     this.setupEventListeners();
     this.validateDefinition();
@@ -741,7 +741,7 @@ export class CutScenePure {
     }
 
     // Validate track references
-    const trackIds = new Set(this.definition.tracks.map(t => t.id));
+    const trackIds = new Set(this.definition.tracks.map((t: any) => t.id));
     for (const action of this.definition.actions) {
       if (!trackIds.has(action.trackId)) {
         throw new Error(`Action ${action.id} references unknown track ${action.trackId}`);
@@ -875,7 +875,7 @@ export class CutScenePure {
   }
 
   private async processActionsAtTime(currentTime: number): Promise<void> {
-    const actionsToProcess = this.actionQueue.filter(action =>
+    const actionsToProcess = this.actionQueue.filter((action: any) =>
       action.timestamp <= currentTime &&
       !this.state.completedActions.has(action.id)
     );
@@ -886,7 +886,7 @@ export class CutScenePure {
         this.state.completedActions.add(action.id);
 
         // Remove from queue
-        this.actionQueue = this.actionQueue.filter(a => a.id !== action.id);
+        this.actionQueue = this.actionQueue.filter((a: any) => a.id !== action.id);
       }
     }
   }

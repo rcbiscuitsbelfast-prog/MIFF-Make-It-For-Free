@@ -166,7 +166,7 @@ class FusionCli {
     console.log('─'.repeat(40));
 
     const species = ['fire_spirit', 'water_spirit', 'grass_spirit', 'electric_spirit', 'poison_spirit', 'steel_spirit'];
-    species.forEach(species => {
+    species.forEach((species: any) => {
       const compatible = this.getCompatibleSpecies(species);
       const speciesName = species.padEnd(15);
       const type = this.getSpiritType(species).padEnd(10);
@@ -185,7 +185,7 @@ class FusionCli {
     console.log('Species A       | Species B       | Result          | Success | Energy');
     console.log('─'.repeat(70));
 
-    rules.forEach(rule => {
+    rules.forEach((rule: any) => {
       const speciesA = rule.speciesA.padEnd(15);
       const speciesB = rule.speciesB.padEnd(15);
       const result = rule.resultSpeciesId.padEnd(15);
@@ -219,11 +219,11 @@ class FusionCli {
     } else {
       console.log('❌ Not Compatible');
       console.log('   Missing Constraints:');
-      validation.missingConstraints.forEach(constraint => {
+      validation.missingConstraints.forEach((constraint: any) => {
         console.log(`   - ${constraint}`);
       });
       console.log('   Recommendations:');
-      validation.recommendations.forEach(rec => {
+      validation.recommendations.forEach((rec: any) => {
         console.log(`   - ${rec}`);
       });
     }
@@ -258,7 +258,7 @@ class FusionCli {
       console.log(`✅ ${result.message}`);
       if (result.inheritedTraits) {
         console.log('   Inherited Traits:');
-        result.inheritedTraits.forEach(trait => {
+        result.inheritedTraits.forEach((trait: any) => {
           console.log(`   - ${trait.name}: ${trait.description}`);
         });
       }

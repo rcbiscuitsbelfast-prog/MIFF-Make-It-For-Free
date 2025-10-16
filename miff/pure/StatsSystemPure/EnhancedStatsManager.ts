@@ -455,8 +455,8 @@ export class EnhancedStatsManager {
     if (this.config.enableModifiers) {
       // Sort modifiers by priority
       const relevantModifiers = entity.modifiers
-        .filter(m => m.statKey === statKey && this.isModifierActive(m))
-        .sort((a, b) => a.priority - b.priority);
+        .filter((m: any) => m.statKey === statKey && this.isModifierActive(m))
+        .sort((a: any, b: any) => a.priority - b.priority);
 
       for (const modifier of relevantModifiers) {
         if (this.evaluateModifierCondition(modifier, entity)) {
@@ -617,12 +617,12 @@ export class EnhancedStatsManager {
 
     // Calculate top entities by total stats
     const topEntities = entities
-      .map(entity => ({
+      .map((entity: any) => ({
         entityId: entity.id,
         totalStats: entity.stats.reduce((sum, stat) => sum + (stat.current || stat.base), 0),
         rank: 0
       }))
-      .sort((a, b) => b.totalStats - a.totalStats)
+      .sort((a: any, b: any) => b.totalStats - a.totalStats)
       .map((entity, index) => ({ ...entity, rank: index + 1 }))
       .slice(0, 10);
 
@@ -670,7 +670,7 @@ export class EnhancedStatsManager {
     return {
       op: 'list_entities',
       status: 'ok',
-      result: entities.map(e => ({
+      result: entities.map((e: any) => ({
         id: e.id,
         statCount: e.stats.length,
         modifierCount: e.modifiers.length,
@@ -722,9 +722,9 @@ export class EnhancedStatsManager {
           op: 'export',
           status: 'ok',
           result: {
-            entities: entities.map(e => ({
+            entities: entities.map((e: any) => ({
               id: e.id,
-              stats: e.stats.map(s => ({
+              stats: e.stats.map((s: any) => ({
                 key: s.key,
                 base: s.base,
                 current: s.current,
@@ -812,9 +812,9 @@ export class EnhancedStatsManager {
     const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000;
     const oneMonthAgo = now - 30 * 24 * 60 * 60 * 1000;
 
-    const dailyEntries = progression.history.filter(h => h.timestamp >= oneDayAgo);
-    const weeklyEntries = progression.history.filter(h => h.timestamp >= oneWeekAgo);
-    const monthlyEntries = progression.history.filter(h => h.timestamp >= oneMonthAgo);
+    const dailyEntries = progression.history.filter((h: any) => h.timestamp >= oneDayAgo);
+    const weeklyEntries = progression.history.filter((h: any) => h.timestamp >= oneWeekAgo);
+    const monthlyEntries = progression.history.filter((h: any) => h.timestamp >= oneMonthAgo);
 
     progression.trends.daily = dailyEntries.reduce((sum, h) => sum + h.change, 0);
     progression.trends.weekly = weeklyEntries.reduce((sum, h) => sum + h.change, 0);
@@ -838,7 +838,7 @@ export class EnhancedStatsManager {
 
   private cleanupExpiredModifiers(entity: EntityStats): void {
     const now = Date.now();
-    entity.modifiers = entity.modifiers.filter(modifier => {
+    entity.modifiers = entity.modifiers.filter((modifier: any) => {
       if (modifier.duration && modifier.duration > 0 && modifier.startTime) {
         return (now - modifier.startTime) < modifier.duration;
       }
@@ -902,7 +902,7 @@ export class EnhancedStatsManager {
       // For now, we'll do basic parsing for common cases
       
       if (expression.includes('*')) {
-        const parts = expression.split('*').map(p => p.trim());
+        const parts = expression.split('*').map((p: any) => p.trim());
         if (parts.length === 2) {
           const multiplier = parseFloat(parts[1].split('+')[0].trim());
           const addition = parts[1].includes('+') ? parseFloat(parts[1].split('+')[1].trim()) : 0;

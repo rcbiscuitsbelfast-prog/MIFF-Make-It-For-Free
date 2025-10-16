@@ -443,7 +443,7 @@ class SavePureCLI {
     if (validationResult.errors.length > 0) {
       console.log('');
       console.log('❌ Errors:');
-      validationResult.errors.forEach(error => {
+      validationResult.errors.forEach((error: any) => {
         console.log(`  - ${error}`);
       });
     }
@@ -451,7 +451,7 @@ class SavePureCLI {
     if (validationResult.warnings.length > 0) {
       console.log('');
       console.log('⚠️ Warnings:');
-      validationResult.warnings.forEach(warning => {
+      validationResult.warnings.forEach((warning: any) => {
         console.log(`  - ${warning}`);
       });
     }
@@ -482,7 +482,7 @@ class SavePureCLI {
       console.log(`📊 New version: ${this.currentSnapshot.version}`);
       console.log(`⚠️ Warnings: ${result.warnings.length}`);
       if (result.warnings.length > 0) {
-        result.warnings.forEach(warning => {
+        result.warnings.forEach((warning: any) => {
           console.log(`  - ${warning}`);
         });
       }
@@ -534,7 +534,7 @@ class SavePureCLI {
 
       case 'damage':
         const damage = parseInt(args[1]) || 10;
-        this.currentSnapshot.partyRoster.forEach(member => {
+        this.currentSnapshot.partyRoster.forEach((member: any) => {
           if (member.takeDamage) {
             (member as any).takeDamage(damage);
           }
@@ -544,7 +544,7 @@ class SavePureCLI {
 
       case 'heal':
         const heal = parseInt(args[1]) || 20;
-        this.currentSnapshot.partyRoster.forEach(member => {
+        this.currentSnapshot.partyRoster.forEach((member: any) => {
           if (member.heal) {
             (member as any).heal(heal);
           }
@@ -673,7 +673,7 @@ class SavePureCLI {
 
       case 'list':
         console.log('🔓 Unlocked Content:');
-        this.currentSnapshot.unlockedContent.forEach(content => {
+        this.currentSnapshot.unlockedContent.forEach((content: any) => {
           console.log(`  ${content}`);
         });
         break;

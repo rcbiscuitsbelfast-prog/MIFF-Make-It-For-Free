@@ -240,13 +240,13 @@ try {
         }
       ];
 
-      const results = sampleNPCs.map(npc => manager.createNPC(npc));
+      const results = sampleNPCs.map((npc: any) => manager.createNPC(npc));
       output = {
         op: 'sample',
         status: 'ok',
         result: {
           message: 'Sample NPCs created',
-          results: results.map(r => ({ status: r.status, npc: r.result }))
+          results: results.map((r: any) => ({ status: r.status, npc: r.result }))
         }
       };
       break;

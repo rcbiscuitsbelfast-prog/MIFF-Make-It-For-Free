@@ -28,7 +28,7 @@ export interface DataPipelineConfig {
   enableDataTransformation: boolean;
   enablePipelineOrchestration: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enablePipelineAnalytics: boolean;
   enablePipelineReporting: boolean;
   maxPipelines: number;
@@ -1182,7 +1182,7 @@ export class DataPipelinePure {
       enableDataTransformation: true,
       enablePipelineOrchestration: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enablePipelineAnalytics: true,
       enablePipelineReporting: true,
       maxPipelines: 1000,
@@ -1368,7 +1368,7 @@ export class DataPipelinePure {
 
     for (const manager of this.managers.values()) {
       totalPipelines += manager.pipelines.length;
-      activePipelines += manager.pipelines.filter(p => p.status === 'running').length;
+      activePipelines += manager.pipelines.filter((p: any) => p.status === 'running').length;
       totalDataSources += manager.dataSources.length;
       totalProcessors += manager.processors.length;
       totalTransformers += manager.transformers.length;

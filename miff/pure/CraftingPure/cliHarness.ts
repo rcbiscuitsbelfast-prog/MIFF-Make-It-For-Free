@@ -50,7 +50,7 @@ function main() {
   for (const c of cmds) {
     if (c.op === 'list') {
       const recipes = mgr.listRecipes({});
-      outputs.push({ op: 'list', result: recipes.result?.map(r => r.id) || [] });
+      outputs.push({ op: 'list', result: recipes.result?.map((r: any) => r.id) || [] });
     } else if (c.op === 'simulate') {
       const result = mgr.startCrafting(c.recipeId, 'test_crafter', c.inventory);
       if (result.status === 'ok' && result.result) {

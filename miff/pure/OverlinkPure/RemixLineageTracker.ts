@@ -230,8 +230,8 @@ export class RemixLineageTracker {
 
     // Run all enabled validation hooks for this asset type
     const relevantHooks = Array.from(this.state.validationHooks.values())
-      .filter(hook => hook.enabled && hook.type === this.getAssetType(lineage.originalPath))
-      .sort((a, b) => a.priority - b.priority);
+      .filter((hook: any) => hook.enabled && hook.type === this.getAssetType(lineage.originalPath))
+      .sort((a: any, b: any) => a.priority - b.priority);
 
     let isValid = true;
     for (const hook of relevantHooks) {
@@ -278,7 +278,7 @@ export class RemixLineageTracker {
     // Update metadata with current state
     this.state.remixMetadata.totalAssets = this.state.assetRegistry.size;
     this.state.remixMetadata.remixSafeAssets = Array.from(this.state.assetRegistry.values())
-      .filter(asset => asset.remixSafe).length;
+      .filter((asset: any) => asset.remixSafe).length;
     this.state.remixMetadata.validationTimestamp = new Date().toISOString();
 
     return this.state.remixMetadata;
@@ -291,7 +291,7 @@ export class RemixLineageTracker {
     this.state.assetRegistry.clear();
     this.state.contributorRegistry.clear();
     
-    metadata.assetLineages.forEach(lineage => {
+    metadata.assetLineages.forEach((lineage: any) => {
       this.state.assetRegistry.set(lineage.assetId, lineage);
     });
     
@@ -345,12 +345,12 @@ export class RemixLineageTracker {
     output += `Validation: ${metadata.validationTimestamp}\n\n`;
 
     output += 'Remix Origins:\n';
-    metadata.remixOrigins.forEach(origin => {
+    metadata.remixOrigins.forEach((origin: any) => {
       output += `  ${origin.id}: ${origin.originalProject} → ${origin.remixContributor}\n`;
     });
 
     output += '\nAsset Lineages:\n';
-    metadata.assetLineages.forEach(lineage => {
+    metadata.assetLineages.forEach((lineage: any) => {
       output += `  ${lineage.assetId}: ${lineage.validationStatus} (${lineage.remixSafe ? 'safe' : 'restricted'})\n`;
     });
 

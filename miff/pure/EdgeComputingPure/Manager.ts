@@ -28,7 +28,7 @@ export interface EdgeComputingConfig {
   enableDataSynchronization: boolean;
   enableLoadBalancing: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableEdgeAnalytics: boolean;
   enableEdgeReporting: boolean;
   maxNodes: number;
@@ -945,7 +945,7 @@ export class EdgeComputingPure {
       enableDataSynchronization: true,
       enableLoadBalancing: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableEdgeAnalytics: true,
       enableEdgeReporting: true,
       maxNodes: 1000,
@@ -1368,11 +1368,11 @@ export class EdgeComputingPure {
 
     for (const manager of this.managers.values()) {
       totalNodes += manager.nodes.length;
-      activeNodes += manager.nodes.filter(n => n.status === 'online').length;
+      activeNodes += manager.nodes.filter((n: any) => n.status === 'online').length;
       totalTasks += manager.tasks.length;
-      runningTasks += manager.tasks.filter(t => t.status === 'running').length;
-      completedTasks += manager.tasks.filter(t => t.status === 'completed').length;
-      failedTasks += manager.tasks.filter(t => t.status === 'failed').length;
+      runningTasks += manager.tasks.filter((t: any) => t.status === 'running').length;
+      completedTasks += manager.tasks.filter((t: any) => t.status === 'completed').length;
+      failedTasks += manager.tasks.filter((t: any) => t.status === 'failed').length;
     }
 
     this.performanceMetrics.totalNodes = totalNodes;

@@ -123,7 +123,7 @@ export class StatusEffectsManager {
       { category: 'fear', rule: 'stack', maxStacks: 5 }
     ];
 
-    defaultRules.forEach(rule => {
+    defaultRules.forEach((rule: any) => {
       this.stackingRules.set(rule.category, rule);
     });
   }
@@ -448,7 +448,7 @@ export class StatusEffectsManager {
     let entities = Array.from(this.entities.values());
 
     if (filter) {
-      entities = entities.filter(entity => {
+      entities = entities.filter((entity: any) => {
         if (filter.category && !entity.effects.some(e => e.category === filter.category)) return false;
         if (filter.type && !entity.effects.some(e => e.type === filter.type)) return false;
         if (filter.minHp !== undefined && entity.hp < filter.minHp) return false;
@@ -481,11 +481,11 @@ export class StatusEffectsManager {
     
     const stats: StatusStats = {
       totalEntities: entities.length,
-      entitiesWithEffects: entities.filter(e => e.effects.length > 0).length,
+      entitiesWithEffects: entities.filter((e: any) => e.effects.length > 0).length,
       totalEffects: allEffects.length,
       effectDistribution: {},
       averageHp: 0,
-      deadEntities: entities.filter(e => e.hp <= 0).length,
+      deadEntities: entities.filter((e: any) => e.hp <= 0).length,
       mostCommonEffect: ''
     };
 
@@ -495,7 +495,7 @@ export class StatusEffectsManager {
     }
 
     // Calculate effect distribution
-    allEffects.forEach(effect => {
+    allEffects.forEach((effect: any) => {
       stats.effectDistribution[effect.category] = (stats.effectDistribution[effect.category] || 0) + 1;
     });
 
@@ -594,7 +594,7 @@ export class StatusEffectsManager {
           status: 'ok',
           result: {
             summary: stats.result,
-            entities: entities.map(entity => ({
+            entities: entities.map((entity: any) => ({
               id: entity.id,
               hp: entity.hp,
               maxHp: entity.maxHp,

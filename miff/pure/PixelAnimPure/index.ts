@@ -65,8 +65,8 @@ export const PixelAnimPure = {
 
 	createSpriteSheet(animations: Animation[], frameWidth: number, frameHeight: number): SpriteSheet {
 		const allLayers: string[] = [];
-		animations.forEach(anim => {
-			anim.frames.forEach(frame => {
+		animations.forEach((anim: any) => {
+			anim.frames.forEach((frame: any) => {
 				if (!allLayers.includes(frame.layer)) {
 					allLayers.push(frame.layer);
 				}

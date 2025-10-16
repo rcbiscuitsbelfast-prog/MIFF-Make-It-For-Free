@@ -35,7 +35,7 @@ export interface AudioSystemConfig {
   enableProcessingPipeline: boolean;
   enableCrossPlatformIntegration: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   maxDevices: number;
   maxContexts: number;
   enableCloudSync: boolean;
@@ -323,7 +323,7 @@ export class AudioSystemManager {
       enableProcessingPipeline: true,
       enableCrossPlatformIntegration: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       maxDevices: 10,
       maxContexts: 5,
       enableCloudSync: false,
@@ -351,7 +351,7 @@ export class AudioSystemManager {
       }
 
       // Initialize memory manager
-      if (this.config.enableRealTimeMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 

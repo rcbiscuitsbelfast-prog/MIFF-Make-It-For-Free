@@ -298,7 +298,7 @@ export class MovementManager {
     this.updateMovementState(entity, oldPosition, events);
 
     // Record events
-    events.forEach(event => this.events.push(event));
+    events.forEach((event: any) => this.events.push(event));
 
     const distanceMoved = this.calculateDistance(oldPosition, entity.position);
 
@@ -659,7 +659,7 @@ export class MovementManager {
     let entities = Array.from(this.entities.values());
 
     if (filter) {
-      entities = entities.filter(entity => {
+      entities = entities.filter((entity: any) => {
         if (filter.patternType && entity.pattern.type !== filter.patternType) return false;
         if (filter.state && entity.state.current !== filter.state) return false;
         if (filter.minSpeed !== undefined) {
@@ -692,11 +692,11 @@ export class MovementManager {
     const entities = Array.from(this.entities.values());
     const stats: MovementStats = {
       totalEntities: entities.length,
-      activeEntities: entities.filter(e => e.state.current === 'moving').length,
+      activeEntities: entities.filter((e: any) => e.state.current === 'moving').length,
       averageSpeed: 0,
       totalDistance: 0,
       collisionCount: entities.reduce((sum, e) => sum + e.state.collisionCount, 0),
-      stuckEntities: entities.filter(e => e.state.current === 'stuck').length,
+      stuckEntities: entities.filter((e: any) => e.state.current === 'stuck').length,
       patternDistribution: {}
     };
 
@@ -709,7 +709,7 @@ export class MovementManager {
     }
 
     // Calculate pattern distribution
-    entities.forEach(entity => {
+    entities.forEach((entity: any) => {
       const type = entity.pattern.type;
       stats.patternDistribution[type] = (stats.patternDistribution[type] || 0) + 1;
     });
@@ -788,7 +788,7 @@ export class MovementManager {
           status: 'ok',
           result: {
             summary: stats.result,
-            entities: entities.map(entity => ({
+            entities: entities.map((entity: any) => ({
               id: entity.id,
               position: entity.position,
               pattern: entity.pattern.type,

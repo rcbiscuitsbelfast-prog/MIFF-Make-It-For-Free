@@ -31,7 +31,7 @@ export interface CryptocurrencyConfig {
   enableExchangeIntegration: boolean;
   enableSecurity: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableCryptoAnalytics: boolean;
   enableCryptoReporting: boolean;
   maxWallets: number;
@@ -465,7 +465,7 @@ export class CryptocurrencyPure {
       enableExchangeIntegration: true,
       enableSecurity: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableCryptoAnalytics: true,
       enableCryptoReporting: true,
       maxWallets: 100,

@@ -252,10 +252,10 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     timeline,
     finalState: {
       currentZone: finalState.currentZone,
-      activeModules: finalState.activeModules.map(m => ({ id: m.id, status: m.status })),
+      activeModules: finalState.activeModules.map((m: any) => ({ id: m.id, status: m.status })),
       overlayLayers: Object.fromEntries(finalState.overlayLayers),
-      drawReducers: finalState.drawReducers.map(r => ({ id: r.id, enabled: r.enabled })),
-      assetBindings: finalState.assetBindings.map(a => ({ id: a.id, type: a.type, remixSafe: a.remixSafe })),
+      drawReducers: finalState.drawReducers.map((r: any) => ({ id: r.id, enabled: r.enabled })),
+      assetBindings: finalState.assetBindings.map((a: any) => ({ id: a.id, type: a.type, remixSafe: a.remixSafe })),
       debugMode: finalState.debugMode,
       activeTheme: finalState.activeTheme,
       lineageTracking: finalState.lineageTracking
@@ -270,7 +270,7 @@ function captureState(overlink: OverlinkZone, timeline: ScenarioState[], step: n
   timeline.push({
     step,
     currentZone: zone,
-    activeModules: state.activeModules.map(m => m.id),
+    activeModules: state.activeModules.map((m: any) => m.id),
     overlayLayers: Object.fromEntries(state.overlayLayers),
     drawReducers: state.drawReducers.length,
     assetBindings: state.assetBindings.length,

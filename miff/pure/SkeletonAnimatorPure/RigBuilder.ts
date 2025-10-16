@@ -121,7 +121,7 @@ export class RigBuilder {
     const node = this.config.nodes[nodeId];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
-    constraints.forEach(constraint => {
+    constraints.forEach((constraint: any) => {
       const newConstraint: Constraint = {
         ...constraint,
         id: this.generateId(),
@@ -161,7 +161,7 @@ export class RigBuilder {
     // Remove from parent's children list
     if (node.parent && this.config.nodes[node.parent]) {
       const parent = this.config.nodes[node.parent];
-      parent.children = parent.children.filter(id => id !== nodeId);
+      parent.children = parent.children.filter((id: any) => id !== nodeId);
     }
 
     // Delete the node
@@ -193,7 +193,7 @@ export class RigBuilder {
    * Get nodes by type
    */
   getNodesByType(type: RigNode['type']): RigNode[] {
-    return Object.values(this.config.nodes).filter(node => node.type === type);
+    return Object.values(this.config.nodes).filter((node: any) => node.type === type);
   }
 
   /**
@@ -246,7 +246,7 @@ export class RigBuilder {
     const allNodeIds = new Set(Object.keys(this.config.nodes));
     const referencedNodeIds = new Set<string>();
 
-    Object.values(this.config.nodes).forEach(node => {
+    Object.values(this.config.nodes).forEach((node: any) => {
       if (node.parent) referencedNodeIds.add(node.parent);
       node.children.forEach(childId => referencedNodeIds.add(childId));
     });

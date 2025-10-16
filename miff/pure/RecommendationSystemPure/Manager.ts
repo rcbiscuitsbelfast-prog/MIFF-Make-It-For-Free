@@ -29,7 +29,7 @@ export interface RecommendationSystemConfig {
   enableContentFiltering: boolean;
   enableRankingSystem: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableRecommendationAnalytics: boolean;
   enableRecommendationReporting: boolean;
   maxModels: number;
@@ -803,7 +803,7 @@ export class RecommendationSystemPure {
       enableContentFiltering: true,
       enableRankingSystem: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableRecommendationAnalytics: true,
       enableRecommendationReporting: true,
       maxModels: 100,

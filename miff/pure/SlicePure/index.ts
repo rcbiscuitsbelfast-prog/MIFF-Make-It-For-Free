@@ -661,7 +661,7 @@ export class EncounterTable implements IEncounterTable {
   toJSON(): Record<string, any> {
     return {
       zoneId: this.zoneId,
-      entries: this.entries.map(entry => entry.toJSON()),
+      entries: this.entries.map((entry: any) => entry.toJSON()),
       totalWeight: this.totalWeight
     };
   }

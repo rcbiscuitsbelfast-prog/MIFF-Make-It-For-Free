@@ -198,7 +198,7 @@ class DrivingSystemCLI {
       return;
     }
 
-    vehicles.forEach(vehicle => {
+    vehicles.forEach((vehicle: any) => {
       console.log(`${vehicle.name} (${vehicle.id})`);
       console.log(`  Type: ${vehicle.type} | Category: ${vehicle.category}`);
       console.log(`  Max Speed: ${vehicle.maxSpeed} m/s (${(vehicle.maxSpeed * 3.6).toFixed(0)} km/h)`);
@@ -371,7 +371,7 @@ class DrivingSystemCLI {
       return;
     }
 
-    tracks.forEach(track => {
+    tracks.forEach((track: any) => {
       console.log(`${track.name} (${track.id})`);
       console.log(`  Type: ${track.type}`);
       console.log(`  Length: ${track.length}m`);

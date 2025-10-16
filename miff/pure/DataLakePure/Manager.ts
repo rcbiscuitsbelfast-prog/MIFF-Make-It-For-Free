@@ -30,7 +30,7 @@ export interface DataLakeConfig {
   enableDataGovernance: boolean;
   enableDataAnalytics: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableDataLakeAnalytics: boolean;
   enableDataLakeReporting: boolean;
   maxDatasets: number;
@@ -1667,7 +1667,7 @@ export class DataLakePure {
       enableDataGovernance: true,
       enableDataAnalytics: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableDataLakeAnalytics: true,
       enableDataLakeReporting: true,
       maxDatasets: 100000,
@@ -1888,13 +1888,13 @@ export class DataLakePure {
 
     for (const manager of this.managers.values()) {
       totalDatasets += manager.datasets.length;
-      activeDatasets += manager.datasets.filter(d => d.status === 'ready').length;
+      activeDatasets += manager.datasets.filter((d: any) => d.status === 'ready').length;
       totalStorage += manager.storage.reduce((sum: any, s: any) => sum + s.capacity.total, 0);
       usedStorage += manager.storage.reduce((sum: any, s: any) => sum + s.capacity.used, 0);
       totalProcessors += manager.processors.length;
-      activeProcessors += manager.processors.filter(p => p.status === 'running').length;
+      activeProcessors += manager.processors.filter((p: any) => p.status === 'running').length;
       totalPipelines += manager.pipelines.length;
-      activePipelines += manager.pipelines.filter(p => p.status === 'active').length;
+      activePipelines += manager.pipelines.filter((p: any) => p.status === 'active').length;
     }
 
     this.performanceMetrics.totalDatasets = totalDatasets;

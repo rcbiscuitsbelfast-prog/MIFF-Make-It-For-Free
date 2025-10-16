@@ -623,7 +623,7 @@ export class AdvancedQuests {
    * Generate step conditions
    */
   private generateStepConditions(template: QuestStepTemplate, context: QuestContext): QuestStepCondition[] {
-    return template.conditions.map(condition => ({
+    return template.conditions.map((condition: any) => ({
       type: condition.type as any,
       value: condition.value,
       check: (ctx) => true
@@ -634,7 +634,7 @@ export class AdvancedQuests {
    * Generate step rewards
    */
   private generateStepRewards(template: QuestStepTemplate, context: QuestContext): QuestStepReward[] {
-    return template.rewards.map(reward => ({
+    return template.rewards.map((reward: any) => ({
       type: reward.type as any,
       value: reward.value,
       apply: (ctx) => console.log(`Applied step reward: ${reward.type}`)
@@ -645,7 +645,7 @@ export class AdvancedQuests {
    * Generate reward conditions
    */
   private generateRewardConditions(template: QuestRewardTemplate, context: QuestContext): QuestRewardCondition[] {
-    return template.conditions.map(condition => ({
+    return template.conditions.map((condition: any) => ({
       type: condition.type as any,
       value: condition.value,
       check: (ctx) => true
@@ -656,7 +656,7 @@ export class AdvancedQuests {
    * Generate trigger conditions
    */
   private generateTriggerConditions(template: QuestTriggerTemplate, context: QuestContext): QuestTriggerCondition[] {
-    return template.conditions.map(condition => ({
+    return template.conditions.map((condition: any) => ({
       type: condition.type as any,
       value: condition.value,
       check: (ctx) => true
@@ -869,8 +869,8 @@ export class AdvancedQuests {
     return {
       totalQuests: this.dynamicQuests.size,
       activeQuests: this.activeQuests.size,
-      completedQuests: Array.from(this.dynamicQuests.values()).filter(q => q.status === 'completed').length,
-      failedQuests: Array.from(this.dynamicQuests.values()).filter(q => q.status === 'failed').length,
+      completedQuests: Array.from(this.dynamicQuests.values()).filter((q: any) => q.status === 'completed').length,
+      failedQuests: Array.from(this.dynamicQuests.values()).filter((q: any) => q.status === 'failed').length,
       templates: this.questTemplates.size,
       generators: this.questGenerators.size
     };

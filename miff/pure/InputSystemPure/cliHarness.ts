@@ -157,7 +157,7 @@ try {
         }
       ];
 
-      demoActions.forEach(action => manager.addAction(action));
+      demoActions.forEach((action: any) => manager.addAction(action));
 
       // Add demo bindings
       const demoBindings = [
@@ -190,7 +190,7 @@ try {
         }
       ];
 
-      demoBindings.forEach(binding => manager.addBinding(binding));
+      demoBindings.forEach((binding: any) => manager.addBinding(binding));
 
       // Process demo events
       const demoEvents = [
@@ -273,11 +273,11 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map(scenario => {
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
         manager.createProfile(scenario.profile, `${scenario.profile} Profile`, `Sample ${scenario.profile} profile`);
         manager.setActiveProfile(scenario.profile);
 
-        scenario.actions.forEach(action => {
+        scenario.actions.forEach((action: any) => {
           manager.addAction({
             id: action.id,
             name: action.name,
@@ -290,7 +290,7 @@ try {
           });
         });
 
-        scenario.bindings.forEach(binding => {
+        scenario.bindings.forEach((binding: any) => {
           manager.addBinding({
             id: `${binding.actionId}_${binding.code}`,
             actionId: binding.actionId,

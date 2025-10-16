@@ -535,7 +535,7 @@ export class CharacterSystemManager {
       throw new Error('Character System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -546,7 +546,7 @@ export class CharacterSystemManager {
       throw new Error('Character System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -818,7 +818,7 @@ export class CharacterSystemManager {
         return [];
       }
 
-      return system.characters.filter(c => c.type === type);
+      return system.characters.filter((c: any) => c.type === type);
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -863,15 +863,15 @@ export class CharacterSystemManager {
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
     const totalCharacters = systems.reduce((sum, s) => sum + s.characters.length, 0);
-    const activeCharacters = systems.reduce((sum, s) => sum + s.characters.filter(ch => ch.status === 'active').length, 0);
+    const activeCharacters = systems.reduce((sum, s) => sum + s.characters.filter((ch: any) => ch.status === 'active').length, 0);
     const totalAnimations = systems.reduce((sum, s) => sum + s.characters.reduce((sum, ch) => sum + ch.animations.length, 0), 0);
 
     for (const system of systems) {
       system.analytics = {
         totalSystems: systems.length,
-        activeSystems: systems.filter(s => s.status === 'active').length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalCharacters: system.characters.length,
-        activeCharacters: system.characters.filter(ch => ch.status === 'active').length,
+        activeCharacters: system.characters.filter((ch: any) => ch.status === 'active').length,
         totalAnimations: system.characters.reduce((sum, ch) => sum + ch.animations.length, 0),
         totalMovements: system.analytics.totalMovements,
         averagePerformance: 85, // Simulate performance score
@@ -898,7 +898,7 @@ export class CharacterSystemManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalCharacters = systems.reduce((sum, s) => sum + s.characters.length, 0);
     const totalAnimations = systems.reduce((sum, s) => sum + s.characters.reduce((sum, ch) => sum + ch.animations.length, 0), 0);
     const totalMovements = systems.reduce((sum, s) => sum + s.analytics.totalMovements, 0);

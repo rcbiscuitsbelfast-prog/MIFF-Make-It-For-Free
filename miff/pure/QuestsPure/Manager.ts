@@ -163,7 +163,7 @@ export class QuestsManager {
       }
     ];
 
-    defaultQuests.forEach(quest => this.quests.set(quest.id, quest));
+    defaultQuests.forEach((quest: any) => this.quests.set(quest.id, quest));
   }
 
   /**
@@ -267,7 +267,7 @@ export class QuestsManager {
     let quests = Array.from(this.quests.values());
 
     if (filter) {
-      quests = quests.filter(quest => {
+      quests = quests.filter((quest: any) => {
         if (filter.status && quest.status !== filter.status) return false;
         if (filter.category && quest.category !== filter.category) return false;
         if (filter.giver && quest.giver !== filter.giver) return false;
@@ -427,7 +427,7 @@ export class QuestsManager {
     // Update progress tracking
     const progress = this.questProgress.get(questId);
     if (progress) {
-      const completedSteps = quest.steps.filter(s => s.completed).length;
+      const completedSteps = quest.steps.filter((s: any) => s.completed).length;
       progress.completedSteps = completedSteps;
       progress.progress = (completedSteps / quest.steps.length) * 100;
       this.questProgress.set(questId, progress);
@@ -447,10 +447,10 @@ export class QuestsManager {
     const quests = Array.from(this.quests.values());
     const stats: QuestStats = {
       totalQuests: quests.length,
-      availableQuests: quests.filter(q => q.status === 'available').length,
-      activeQuests: quests.filter(q => q.status === 'active').length,
-      completedQuests: quests.filter(q => q.status === 'completed').length,
-      failedQuests: quests.filter(q => q.status === 'failed').length,
+      availableQuests: quests.filter((q: any) => q.status === 'available').length,
+      activeQuests: quests.filter((q: any) => q.status === 'active').length,
+      completedQuests: quests.filter((q: any) => q.status === 'completed').length,
+      failedQuests: quests.filter((q: any) => q.status === 'failed').length,
       questsByCategory: {},
       averageCompletionTime: 0,
       totalExperienceRewarded: 0,
@@ -458,15 +458,15 @@ export class QuestsManager {
     };
 
     // Calculate category distribution
-    quests.forEach(quest => {
+    quests.forEach((quest: any) => {
       if (quest.category) {
         stats.questsByCategory[quest.category] = (stats.questsByCategory[quest.category] || 0) + 1;
       }
     });
 
     // Calculate rewards
-    quests.forEach(quest => {
-      quest.rewards.forEach(reward => {
+    quests.forEach((quest: any) => {
+      quest.rewards.forEach((reward: any) => {
         if (reward.type === 'experience') {
           stats.totalExperienceRewarded += reward.amount;
         } else if (reward.type === 'gold') {
@@ -516,7 +516,7 @@ export class QuestsManager {
           status: 'ok',
           result: {
             summary: stats.result,
-            quests: quests.map(quest => ({
+            quests: quests.map((quest: any) => ({
               id: quest.id,
               title: quest.title,
               status: quest.status,
@@ -528,12 +528,12 @@ export class QuestsManager {
         };
       
       case 'active':
-        const activeQuests = quests.filter(q => q.status === 'active');
+        const activeQuests = quests.filter((q: any) => q.status === 'active');
         return {
           op: 'export',
           status: 'ok',
           result: {
-            activeQuests: activeQuests.map(quest => ({
+            activeQuests: activeQuests.map((quest: any) => ({
               quest,
               progress: this.questProgress.get(quest.id)
             })),

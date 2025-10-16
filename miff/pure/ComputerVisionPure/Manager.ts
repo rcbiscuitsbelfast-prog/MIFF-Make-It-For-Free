@@ -1664,7 +1664,7 @@ export class ComputerVisionPure {
 
     for (const manager of this.managers.values()) {
       totalModels += manager.models.length;
-      activeModels += manager.models.filter(m => m.status === 'trained' || m.status === 'deployed').length;
+      activeModels += manager.models.filter((m: any) => m.status === 'trained' || m.status === 'deployed').length;
       totalImages += manager.images.length;
       totalVideos += manager.videos.length;
       totalPipelines += manager.pipelines.length;

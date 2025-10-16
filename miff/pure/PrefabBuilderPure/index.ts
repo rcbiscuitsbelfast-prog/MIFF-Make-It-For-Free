@@ -46,12 +46,12 @@ export function reducePrefabAction(state: PrefabState, action: PrefabAction): Pr
       };
     }
     case 'remove_block': {
-      return { ...state, blocks: state.blocks.filter(b => b.id !== action.blockId) };
+      return { ...state, blocks: state.blocks.filter((b: any) => b.id !== action.blockId) };
     }
     case 'translate': {
       return {
         ...state,
-        blocks: state.blocks.map(b => ({ ...b, x: b.x + action.dx, y: b.y + action.dy, z: b.z + action.dz }))
+        blocks: state.blocks.map((b: any) => ({ ...b, x: b.x + action.dx, y: b.y + action.dy, z: b.z + action.dz }))
       };
     }
     case 'rename': {
@@ -62,7 +62,7 @@ export function reducePrefabAction(state: PrefabState, action: PrefabAction): Pr
       return { ...state, metadata: { ...state.metadata, tags: [...state.metadata.tags, action.tag] } };
     }
     case 'untag': {
-      return { ...state, metadata: { ...state.metadata, tags: state.metadata.tags.filter(t => t !== action.tag) } };
+      return { ...state, metadata: { ...state.metadata, tags: state.metadata.tags.filter((t: any) => t !== action.tag) } };
     }
     default:
       return state;

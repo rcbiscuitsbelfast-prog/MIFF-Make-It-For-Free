@@ -254,7 +254,7 @@ export class FusionManager {
 
   private getInheritedTraits(rule: FusionRule): FusionTrait[] {
     // Apply inheritance logic based on rule
-    return rule.inheritedTraits.map(trait => ({
+    return rule.inheritedTraits.map((trait: any) => ({
       ...trait,
       id: `trait_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       sourceSpiritId: 'fusion_process'

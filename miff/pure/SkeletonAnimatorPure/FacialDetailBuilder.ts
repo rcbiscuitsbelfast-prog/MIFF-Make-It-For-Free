@@ -45,7 +45,7 @@ export class FacialDetailBuilder {
       position: { ...position },
       scale: { ...scale },
       rotation: { ...rotation },
-      morphTargets: options.morphTargets?.map(mt => ({ ...mt, id: this.generateId() })) || [],
+      morphTargets: options.morphTargets?.map((mt: any) => ({ ...mt, id: this.generateId() })) || [],
       symmetry: options.symmetry,
       metadata: options.metadata || {}
     };
@@ -300,15 +300,15 @@ export class FacialDetailBuilder {
 
     if (enabled) {
       // Create symmetric features for existing asymmetric features
-      const asymmetricFeatures = this.faceConfig.features.filter(f => !f.symmetry);
-      asymmetricFeatures.forEach(feature => {
+      const asymmetricFeatures = this.faceConfig.features.filter((f: any) => !f.symmetry);
+      asymmetricFeatures.forEach((feature: any) => {
         if (!this.faceConfig.features.some(f => f.symmetry === feature.id)) {
           this.createSymmetricFeature(feature);
         }
       });
     } else {
       // Remove symmetric features
-      this.faceConfig.features = this.faceConfig.features.filter(f => !f.symmetry);
+      this.faceConfig.features = this.faceConfig.features.filter((f: any) => !f.symmetry);
     }
 
     return this;
@@ -325,7 +325,7 @@ export class FacialDetailBuilder {
    * Get features by type
    */
   getFeaturesByType(type: FaceFeature['type']): FaceFeature[] {
-    return this.faceConfig.features.filter(f => f.type === type);
+    return this.faceConfig.features.filter((f: any) => f.type === type);
   }
 
   /**
@@ -336,11 +336,11 @@ export class FacialDetailBuilder {
     if (!feature) throw new Error(`Feature ${featureId} not found`);
 
     // Remove the feature
-    this.faceConfig.features = this.faceConfig.features.filter(f => f.id !== featureId);
+    this.faceConfig.features = this.faceConfig.features.filter((f: any) => f.id !== featureId);
 
     // Remove symmetric feature if it exists
     if (feature.symmetry) {
-      this.faceConfig.features = this.faceConfig.features.filter(f => f.symmetry !== featureId);
+      this.faceConfig.features = this.faceConfig.features.filter((f: any) => f.symmetry !== featureId);
     }
 
     return this;
@@ -373,7 +373,7 @@ export class FacialDetailBuilder {
     const errors: string[] = [];
 
     // Check for duplicate features
-    const featureIds = this.faceConfig.features.map(f => f.id);
+    const featureIds = this.faceConfig.features.map((f: any) => f.id);
     const uniqueIds = new Set(featureIds);
     if (featureIds.length !== uniqueIds.size) {
       errors.push('Duplicate feature IDs found');
@@ -381,11 +381,11 @@ export class FacialDetailBuilder {
 
     // Check symmetry consistency
     if (this.faceConfig.symmetry) {
-      const asymmetricFeatures = this.faceConfig.features.filter(f => !f.symmetry);
-      const symmetricFeatures = this.faceConfig.features.filter(f => f.symmetry);
+      const asymmetricFeatures = this.faceConfig.features.filter((f: any) => !f.symmetry);
+      const symmetricFeatures = this.faceConfig.features.filter((f: any) => f.symmetry);
       
       // Each asymmetric feature should have a symmetric counterpart
-      asymmetricFeatures.forEach(feature => {
+      asymmetricFeatures.forEach((feature: any) => {
         if (!symmetricFeatures.some(sf => sf.symmetry === feature.id)) {
           errors.push(`Feature ${feature.name} is missing its symmetric counterpart`);
         }
@@ -393,7 +393,7 @@ export class FacialDetailBuilder {
     }
 
     // Check morph targets
-    this.faceConfig.features.forEach(feature => {
+    this.faceConfig.features.forEach((feature: any) => {
       feature.morphTargets.forEach(morphTarget => {
         if (morphTarget.vertices.length === 0) {
           errors.push(`Morph target ${morphTarget.name} in feature ${feature.name} has no vertices`);

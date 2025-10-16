@@ -41,7 +41,7 @@ function main() {
 
   for (const c of cmds) {
     if (c.op === 'listEquipment') {
-      const eq = ['weapon', 'armor', 'mount'].map(s => {
+      const eq = ['weapon', 'armor', 'mount'].map((s: any) => {
         const result = mgr.getEquipped(s);
         return { slot: s, item: result.status === 'ok' ? result.result : null };
       });

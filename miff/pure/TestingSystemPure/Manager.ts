@@ -27,7 +27,7 @@ export interface TestingSystemConfig {
   enableTestOrchestration: boolean;
   enableTestReporting: boolean;
   enablePerformanceTesting: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableTestingAnalytics: boolean;
   enableTestingReporting: boolean;
   maxTestSuites: number;
@@ -972,7 +972,7 @@ export class TestingSystemPure {
       enableTestOrchestration: true,
       enableTestReporting: true,
       enablePerformanceTesting: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableTestingAnalytics: true,
       enableTestingReporting: true,
       maxTestSuites: 1000,

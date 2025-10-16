@@ -84,8 +84,8 @@ try {
       
       const summary = {
         total: results.length,
-        valid: results.filter(r => r.valid).length,
-        invalid: results.filter(r => !r.valid).length,
+        valid: results.filter((r: any) => r.valid).length,
+        invalid: results.filter((r: any) => !r.valid).length,
         missing: reportMissing ? 0 : undefined
       };
       

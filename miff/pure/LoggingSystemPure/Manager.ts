@@ -30,7 +30,7 @@ export interface LoggingSystemConfig {
   enableLogMonitoring: boolean;
   enableLogAlerting: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableLoggingAnalytics: boolean;
   enableLoggingReporting: boolean;
   maxLogs: number;
@@ -834,7 +834,7 @@ export class LoggingSystemPure {
       enableLogMonitoring: true,
       enableLogAlerting: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableLoggingAnalytics: true,
       enableLoggingReporting: true,
       maxLogs: 10000000,

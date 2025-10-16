@@ -38,7 +38,7 @@ export interface ARVRConfig {
   enableHapticFeedback: boolean;
   enableCrossPlatformIntegration: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   maxDevices: number;
   maxTrackingPoints: number;
   enableCloudSync: boolean;
@@ -262,7 +262,7 @@ export class ARVRManager {
       enableHapticFeedback: true,
       enableCrossPlatformIntegration: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       maxDevices: 10,
       maxTrackingPoints: 1000,
       enableCloudSync: false,
@@ -290,7 +290,7 @@ export class ARVRManager {
       }
 
       // Initialize memory manager
-      if (this.config.enableRealTimeMonitoring) {
+      if (this.config.enableMonitoring) {
         // MemoryManager initialization handled internally
       }
 
@@ -435,7 +435,7 @@ export class ARVRManager {
       throw new Error('AR/VR Manager not initialized');
     }
 
-    return Array.from(this.devices.values()).filter(device => device.type === type);
+    return Array.from(this.devices.values()).filter((device: any) => device.type === type);
   }
 
   /**
@@ -446,7 +446,7 @@ export class ARVRManager {
       throw new Error('AR/VR Manager not initialized');
     }
 
-    return Array.from(this.devices.values()).filter(device => device.status === status);
+    return Array.from(this.devices.values()).filter((device: any) => device.status === status);
   }
 
   /**
@@ -611,7 +611,7 @@ export class ARVRManager {
    */
   private updateAnalytics(): void {
     const devices = Array.from(this.devices.values());
-    const activeDevices = devices.filter(d => d.status === 'connected');
+    const activeDevices = devices.filter((d: any) => d.status === 'connected');
     const totalTrackingAccuracy = devices.reduce((sum: any, d: any) => sum + d.tracking.confidence, 0);
     const totalHapticEvents = devices.reduce((sum: any, d: any) => sum + d.analytics.hapticEvents, 0);
 
@@ -644,7 +644,7 @@ export class ARVRManager {
     }
 
     const devices = Array.from(this.devices.values());
-    const activeDevices = devices.filter(d => d.status === 'connected');
+    const activeDevices = devices.filter((d: any) => d.status === 'connected');
     const totalTrackingAccuracy = devices.reduce((sum: any, d: any) => sum + d.tracking.confidence, 0);
     const totalHapticEvents = devices.reduce((sum: any, d: any) => sum + d.analytics.hapticEvents, 0);
 

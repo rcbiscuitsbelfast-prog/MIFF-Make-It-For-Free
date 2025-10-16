@@ -51,7 +51,7 @@ function main() {
   // Load entities from status file
   for (const entity of obj.entities) {
     // Convert simplified effects to full StatusEffect objects
-    const fullEffects: StatusEffect[] = entity.effects.map(effect => ({
+    const fullEffects: StatusEffect[] = entity.effects.map((effect: any) => ({
       id: effect.id,
       name: `${effect.type} effect`,
       type: 'debuff' as any, // Default to debuff for poison, burn, etc.
@@ -75,7 +75,7 @@ function main() {
   for (const c of cmds) {
     if (c.op === 'list') {
       const entities = mgr.listEntities({});
-      outputs.push({ op: 'list', ids: entities.result?.map(e => e.id) || [] });
+      outputs.push({ op: 'list', ids: entities.result?.map((e: any) => e.id) || [] });
     } else if (c.op === 'simulate') {
       const result = mgr.simulateEntity(c.id);
       if (result.status === 'ok' && result.result) {

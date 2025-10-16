@@ -268,7 +268,7 @@ async function runCLI(): Promise<void> {
           console.log('❌ Usage: thresholds <spirit_id> [threshold1 threshold2 ...]');
         } else {
           const spiritId = args[0];
-          const thresholds = args.slice(1).map(t => parseInt(t)).filter(t => !isNaN(t));
+          const thresholds = args.slice(1).map((t: any) => parseInt(t)).filter((t: any) => !isNaN(t));
 
           if (thresholds.length === 0) {
             console.log('❌ At least one threshold value required');

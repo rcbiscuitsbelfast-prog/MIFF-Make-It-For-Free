@@ -30,7 +30,7 @@ export interface IndustryLeadershipConfig {
   enableThoughtLeadership: boolean;
   enableIndustryNetworking: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableLeadershipAnalytics: boolean;
   enableLeadershipReporting: boolean;
   maxIndustries: number;
@@ -717,7 +717,7 @@ export class IndustryLeadershipPure {
       enableThoughtLeadership: true,
       enableIndustryNetworking: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableLeadershipAnalytics: true,
       enableLeadershipReporting: true,
       maxIndustries: 50,
@@ -1097,11 +1097,11 @@ export class IndustryLeadershipPure {
       totalIndustries += manager.industries.length;
       totalCompetitors += manager.competitors.length;
       totalStrategies += manager.strategies.length;
-      activeStrategies += manager.strategies.filter(s => s.status === 'active').length;
+      activeStrategies += manager.strategies.filter((s: any) => s.status === 'active').length;
       totalContent += manager.content.length;
-      publishedContent += manager.content.filter(c => c.status === 'published').length;
+      publishedContent += manager.content.filter((c: any) => c.status === 'published').length;
       totalPartnerships += manager.partnerships.length;
-      activePartnerships += manager.partnerships.filter(p => p.status === 'active').length;
+      activePartnerships += manager.partnerships.filter((p: any) => p.status === 'active').length;
     }
 
     this.performanceMetrics.totalIndustries = totalIndustries;

@@ -96,8 +96,8 @@ export class OverlinkThemes {
     }
 
     // Register individual assets and reducers
-    themeAssets.forEach(asset => this.registerAsset(asset));
-    themeReducers.forEach(reducer => this.registerReducer(reducer));
+    themeAssets.forEach((asset: any) => this.registerAsset(asset));
+    themeReducers.forEach((reducer: any) => this.registerReducer(reducer));
   }
 
   activateTheme(themeId: ThemeId): boolean {
@@ -151,11 +151,11 @@ export class OverlinkThemes {
   }
 
   getAssetByType(type: 'texture' | 'shader' | 'audio' | 'data'): ThemeAsset[] {
-    return Array.from(this.assetRegistry.values()).filter(asset => asset.type === type);
+    return Array.from(this.assetRegistry.values()).filter((asset: any) => asset.type === type);
   }
 
   getRemixSafeAssets(): ThemeAsset[] {
-    return Array.from(this.assetRegistry.values()).filter(asset => asset.remixSafe);
+    return Array.from(this.assetRegistry.values()).filter((asset: any) => asset.remixSafe);
   }
 
   // Draw Reducer Management
@@ -171,7 +171,7 @@ export class OverlinkThemes {
     if (!this.state.activeTheme) return [];
     
     const themeReducers = this.getThemeReducers(this.state.activeTheme);
-    return themeReducers.filter(reducer => 
+    return themeReducers.filter((reducer: any) => 
       this.state.layerVisibility.get(reducer.layer) || false
     );
   }
@@ -234,12 +234,12 @@ export class OverlinkThemes {
     if (shaderPreset) output += `Shader Preset: ${shaderPreset}\n`;
     
     output += '\nAssets:\n';
-    assets.forEach(asset => {
+    assets.forEach((asset: any) => {
       output += `  ${asset.type}: ${asset.id} (${asset.remixSafe ? 'remix-safe' : 'remix-restricted'})\n`;
     });
     
     output += '\nDraw Reducers:\n';
-    reducers.forEach(reducer => {
+    reducers.forEach((reducer: any) => {
       output += `  ${reducer.type}: ${reducer.id} (priority: ${reducer.priority}, layer: ${reducer.layer})\n`;
     });
     

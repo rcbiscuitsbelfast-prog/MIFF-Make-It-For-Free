@@ -27,7 +27,7 @@ export interface NetworkConfig {
   enableNetworkMonitoring: boolean;
   enableNetworkSecurity: boolean;
   enablePerformanceOptimization: boolean;
-  enableRealTimeMonitoring: boolean;
+  enableMonitoring: boolean;
   enableNetworkAnalytics: boolean;
   enableNetworkReporting: boolean;
   maxConnections: number;
@@ -1004,7 +1004,7 @@ export class NetworkPure {
       enableNetworkMonitoring: true,
       enableNetworkSecurity: true,
       enablePerformanceOptimization: true,
-      enableRealTimeMonitoring: true,
+      enableMonitoring: true,
       enableNetworkAnalytics: true,
       enableNetworkReporting: true,
       maxConnections: 1000,
@@ -1190,11 +1190,11 @@ export class NetworkPure {
 
     for (const manager of this.managers.values()) {
       totalConnections += manager.connections.length;
-      activeConnections += manager.connections.filter(c => c.status === 'connected').length;
+      activeConnections += manager.connections.filter((c: any) => c.status === 'connected').length;
       totalDevices += manager.devices.length;
-      onlineDevices += manager.devices.filter(d => d.status === 'online').length;
+      onlineDevices += manager.devices.filter((d: any) => d.status === 'online').length;
       totalProtocols += manager.protocols.length;
-      activeProtocols += manager.protocols.filter(p => p.status === 'active').length;
+      activeProtocols += manager.protocols.filter((p: any) => p.status === 'active').length;
       totalSecurityRules += manager.security.reduce((sum, s) => sum + s.rules.length, 0);
       totalMonitors += manager.monitors.length;
     }

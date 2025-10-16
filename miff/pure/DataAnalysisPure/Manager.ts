@@ -516,7 +516,7 @@ export class DataAnalysisManager {
       throw new Error('Data Analysis System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -527,7 +527,7 @@ export class DataAnalysisManager {
       throw new Error('Data Analysis System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -902,12 +902,12 @@ export class DataAnalysisManager {
     const totalDatasets = systems.reduce((sum: any, s: any) => sum + s.datasets.length, 0);
     const totalAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.length, 0);
     const totalVisualizations = systems.reduce((sum: any, s: any) => sum + s.visualizations.length, 0);
-    const completedAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.filter(a => a.status === 'completed').length, 0);
+    const completedAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.filter((a: any) => a.status === 'completed').length, 0);
 
     for (const system of systems) {
       system.analytics = {
         totalSystems: systems.length,
-        activeSystems: systems.filter(s => s.status === 'active').length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalDatasets: system.datasets.length,
         totalAnalyses: system.analyses.length,
         totalVisualizations: system.visualizations.length,
@@ -937,7 +937,7 @@ export class DataAnalysisManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalDatasets = systems.reduce((sum: any, s: any) => sum + s.datasets.length, 0);
     const totalAnalyses = systems.reduce((sum: any, s: any) => sum + s.analyses.length, 0);
     const totalVisualizations = systems.reduce((sum: any, s: any) => sum + s.visualizations.length, 0);

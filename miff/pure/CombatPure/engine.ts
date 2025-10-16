@@ -730,9 +730,9 @@ export class BattleEngine {
 
   rebuildOrder(): void {
     this.state.order = Object.values(this.state.combatants)
-      .filter(c => !c.status?.ko && !c.status?.fled)
-      .sort((a, b) => b.stats.spd - a.stats.spd)
-      .map(c => c.id);
+      .filter((c: any) => !c.status?.ko && !c.status?.fled)
+      .sort((a: any, b: any) => b.stats.spd - a.stats.spd)
+      .map((c: any) => c.id);
   }
 
   enqueueAction(action: IBattleAction): void {
@@ -766,7 +766,7 @@ export class BattleEngine {
   }
 
   getCombatantsByTeam(team: string): ICombatant[] {
-    return Object.values(this.state.combatants).filter(c => c.team === team);
+    return Object.values(this.state.combatants).filter((c: any) => c.team === team);
   }
 
   startBattle(): void {
@@ -887,7 +887,7 @@ export class BattleEngine {
 
   // Missing BattleEngine methods for integration tests
   getLivingCombatantsByTeam(team: string): ICombatant[] {
-    return Object.values(this.state.combatants).filter(c =>
+    return Object.values(this.state.combatants).filter((c: any) =>
       c.team === team && !c.status?.ko && !c.status?.fled
     );
   }
@@ -1096,8 +1096,8 @@ export class CombatUtils {
   }
 
   static generateCombatSummary(state: CombatState): string {
-    const livingCombatants = Object.values(state.combatants).filter(c => !c.status?.ko && !c.status?.fled);
-    const koCombatants = Object.values(state.combatants).filter(c => c.status?.ko);
+    const livingCombatants = Object.values(state.combatants).filter((c: any) => !c.status?.ko && !c.status?.fled);
+    const koCombatants = Object.values(state.combatants).filter((c: any) => c.status?.ko);
 
     let summary = `Battle Status: ${livingCombatants.length} combatants remaining`;
     if (koCombatants.length > 0) {
