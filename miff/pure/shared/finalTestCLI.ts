@@ -531,16 +531,16 @@ class FinalTestCLI {
     console.info(`
 🧪 MIFF Final Integration Testing CLI
 
-Usage: tsx finalTestCLI.ts <command> [options]
+Usage: tsx finalTestCLI.ts <command> [options!]
 
 Commands:
-  e2e [output]                 Run end-to-end testing
-  integration [output]         Run integration validation tests
-  performance [output]         Run performance and load testing
-  security [output]            Run security testing and validation
-  uat [output]                 Run user acceptance testing
-  all [output]                 Run all test suites
-  report [output]              Generate final validation report
+  e2e [output!]                 Run end-to-end testing
+  integration [output!]         Run integration validation tests
+  performance [output!]         Run performance and load testing
+  security [output!]            Run security testing and validation
+  uat [output!]                 Run user acceptance testing
+  all [output!]                 Run all test suites
+  report [output!]              Generate final validation report
   status                       Show test status
   help                        Show this help
 

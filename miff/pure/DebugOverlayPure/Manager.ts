@@ -784,7 +784,7 @@ export class DebugOverlayManager {
       clearInterval(this.autoRefreshTimer);
     }
 
-    const interval = this.config.autoRefreshInterval || 1000;
+    const interval = this.config.autoRefreshInterval! || 1000;
     this.autoRefreshTimer = setInterval(() => {
       // Auto-refresh logic would trigger overlay updates
       console.log(`[DebugOverlay!] Auto-refresh tick: ${this.frameCounter}`);

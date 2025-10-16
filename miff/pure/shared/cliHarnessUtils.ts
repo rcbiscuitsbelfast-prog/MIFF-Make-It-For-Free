@@ -35,17 +35,17 @@ function parseComplexCLIArgs(argv: string[]) {
 
   // Parse options
   for (let i = 0; i < commandArgs.length; i++) {
-    const arg = commandArgs[i];
+    const arg = commandArgs[i!];
     
     if (arg.startsWith('--')) {
       const optionName = arg.slice(2);
       const nextArg = commandArgs[i + 1];
       
       if (nextArg && !nextArg.startsWith('--')) {
-        options[optionName] = nextArg;
+        options[optionName!] = nextArg;
         i++; // Skip next arg since we consumed it
       } else {
-        options[optionName] = true;
+        options[optionName!] = true;
       }
     }
   }
@@ -100,7 +100,7 @@ function parseKeyValueArgs(argv: string[]) {
         if (key === 'mode') {
           mode = value;
         } else {
-          params[key] = value;
+          params[key!] = value;
         }
       }
     }

@@ -478,7 +478,7 @@ export class APIGatewayManager {
       // Update analytics
       this.updateGatewayAnalytics(gateway, request, response);
 
-      console.debug('Request processed', { gatewayId, path: request.path, status: response.status });
+      console.debug('Request processed', { gatewayId, path: request.path, status: response?.status ?? 0 });
       return response;
 
     } catch (error: unknown) {
@@ -551,7 +551,7 @@ export class APIGatewayManager {
   private updateGatewayAnalytics(gateway: APIGateway, request: APIRequest, response: APIResponse): void {
     gateway.analytics.totalRequests++;
     
-    if (response.status >= 200 && response.status < 300) {
+    if (response?.status ?? 0 >= 200 && response?.status ?? 0 < 300) {
       gateway.analytics.successfulRequests++;
     } else {
       gateway.analytics.failedRequests++;

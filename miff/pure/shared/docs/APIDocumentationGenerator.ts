@@ -816,7 +816,7 @@ export class APIDocumentationGenerator {
         if (cls.methods.length > 0) {
           content += `#### Methods\n\n`;
           for (const method of cls.methods) {
-            if (this.config.includePrivate || method.visibility === 'public') {
+            if (this.config.includePrivate! || method.visibility === 'public') {
               content += `##### ${method.name}\n\n`;
               if (method.description) {
                 content += `${method.description}\n\n`;
@@ -831,7 +831,7 @@ export class APIDocumentationGenerator {
         if (cls.properties.length > 0) {
           content += `#### Properties\n\n`;
           for (const prop of cls.properties) {
-            if (this.config.includePrivate || prop.visibility === 'public') {
+            if (this.config.includePrivate! || prop.visibility === 'public') {
               content += `##### ${prop.name}\n\n`;
               if (prop.description) {
                 content += `${prop.description}\n\n`;

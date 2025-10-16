@@ -917,7 +917,7 @@ export class IdleSystemPure {
     if (!currencyResource) return;
 
     this.prestigeConfigs.forEach((config, tier) => {
-      if (!config.unlocked || config.completed) return;
+      if (!config.unlocked! || config.completed) return;
 
       if (currencyResource.currentAmount >= config.requirement) {
         this.performPrestige(tier as PrestigeTier);

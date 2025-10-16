@@ -39,7 +39,7 @@ class MockRNGProvider {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      [shuffled[i!], shuffled[j!]] = [shuffled[j!], shuffled[i!]];
     }
     return shuffled;
   }
@@ -78,7 +78,7 @@ class BattleLoopPureCLI {
     // Create a simple action selector for demo
     const actionSelector = (actorId: number, availableMoves: string[]) => {
       const moveIndex = Math.floor(Math.random() * availableMoves.length);
-      const moveId = availableMoves[moveIndex];
+      const moveId = availableMoves[moveIndex!];
 
       return actorId === 1 
         ? BattleAction.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)
@@ -124,15 +124,15 @@ class BattleLoopPureCLI {
     console.log('='.repeat(60));
     console.log('');
     console.log('Available commands:');
-    console.log('  battle [turns]    - Run battle simulation');
+    console.log('  battle [turns!]    - Run battle simulation');
     console.log('  phase             - Show current phase');
     console.log('  state             - Show current battle state');
     console.log('  history           - Show battle history');
     console.log('  stats             - Show battle statistics');
     console.log('  actors            - Show available actors');
     console.log('  moves             - Show available moves');
-    console.log('  addactor [id]     - Add actor to battle');
-    console.log('  addmove [actor] [move] - Add move to actor');
+    console.log('  addactor [id!]     - Add actor to battle');
+    console.log('  addmove [actor!] [move!] - Add move to actor');
     console.log('  clear             - Clear battle state');
     console.log('  demo              - Run demo battle');
     console.log('  help              - Show this help');
@@ -238,15 +238,15 @@ class BattleLoopPureCLI {
     console.log('');
     console.log('Commands:');
     console.log('  help                    - Show this help');
-    console.log('  battle [turns]          - Run battle simulation');
+    console.log('  battle [turns!]          - Run battle simulation');
     console.log('  phase                   - Show current phase');
     console.log('  state                   - Show current battle state');
     console.log('  history                 - Show battle history');
     console.log('  stats                   - Show battle statistics');
     console.log('  actors                  - Show available actors');
     console.log('  moves                   - Show available moves');
-    console.log('  addactor [id]           - Add actor to battle');
-    console.log('  addmove [actor] [move]  - Add move to actor');
+    console.log('  addactor [id!]           - Add actor to battle');
+    console.log('  addmove [actor!] [move!]  - Add move to actor');
     console.log('  clear                   - Clear battle state');
     console.log('  demo                    - Run demo battle');
     console.log('  exit                    - Exit the application');
@@ -270,7 +270,7 @@ class BattleLoopPureCLI {
     const actionSelector = (actorId: number, availableMoves: string[]) => {
       // Simple AI: choose random move
       const moveIndex = Math.floor(Math.random() * availableMoves.length);
-      const moveId = availableMoves[moveIndex];
+      const moveId = availableMoves[moveIndex!];
 
       const targetId = actorId === 1 ? 2 : 1; // Target opposite actor
 
@@ -407,7 +407,7 @@ class BattleLoopPureCLI {
 
     console.log(`Total Actors: ${this.availableActors.length}`);
     this.availableActors.forEach((actorId, index) => {
-      const moves = this.availableMoves[actorId] || [];
+      const moves = this.availableMoves[actorId!] || [];
       console.log(`${index + 1}. Actor ${actorId} - Moves: ${moves.join(', ')}`);
     });
   }
@@ -433,7 +433,7 @@ class BattleLoopPureCLI {
     allMoves.forEach((move, index) => {
       const actors = Object.entries(this.availableMoves)
         .filter(([, moves]) => moves.includes(move))
-        .map(([actorId]) => actorId);
+        .map(([actorId!]) => actorId);
 
       console.log(`${index + 1}. ${move} (Actors: ${actors.join(', ')})`);
     });
@@ -444,7 +444,7 @@ class BattleLoopPureCLI {
    */
   private addActor(args: string[]): void {
     if (args.length === 0) {
-      console.log('❌ Usage: addactor [actor_id]');
+      console.log('❌ Usage: addactor [actor_id!]');
       return;
     }
 
@@ -460,7 +460,7 @@ class BattleLoopPureCLI {
     }
 
     this.availableActors.push(actorId);
-    this.availableMoves[actorId] = ['attack', 'defend']; // Default moves
+    this.availableMoves[actorId!] = ['attack', 'defend']; // Default moves
 
     console.log(`✅ Added Actor ${actorId} with default moves: attack, defend`);
   }
@@ -470,7 +470,7 @@ class BattleLoopPureCLI {
    */
   private addMove(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: addmove [actor_id] [move_name]');
+      console.log('❌ Usage: addmove [actor_id!] [move_name!]');
       return;
     }
 
@@ -482,16 +482,16 @@ class BattleLoopPureCLI {
       return;
     }
 
-    if (!this.availableMoves[actorId]) {
-      this.availableMoves[actorId] = [];
+    if (!this.availableMoves[actorId!]) {
+      this.availableMoves[actorId!] = [];
     }
 
-    if (this.availableMoves[actorId].includes(moveName)) {
+    if (this.availableMoves[actorId!].includes(moveName)) {
       console.log(`❌ Move "${moveName}" already exists for actor ${actorId}.`);
       return;
     }
 
-    this.availableMoves[actorId].push(moveName);
+    this.availableMoves[actorId!].push(moveName);
     console.log(`✅ Added move "${moveName}" to actor ${actorId}`);
   }
 
@@ -515,7 +515,7 @@ class BattleLoopPureCLI {
 
     const actionSelector = (actorId: number, availableMoves: string[]) => {
       const moveIndex = Math.floor(Math.random() * availableMoves.length);
-      const moveId = availableMoves[moveIndex];
+      const moveId = availableMoves[moveIndex!];
 
       return actorId === 1 
         ? BattleAction.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)

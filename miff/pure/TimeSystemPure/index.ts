@@ -60,20 +60,20 @@ export class TimeSystemPure {
   }
 
   private createInitialTimeData(): TimeData {
-    const gameTime = this.config.initialTime || 0;
+    const gameTime = this.config.initialTime! || 0;
     return {
       currentTime: gameTime,
       realTime: Date.now(),
       timeOfDay: this.getTimeOfDay(gameTime),
       season: this.getSeason(gameTime),
-      dayOfYear: Math.floor(gameTime / (this.config.dayLength || 1440)),
+      dayOfYear: Math.floor(gameTime / (this.config.dayLength! || 1440)),
       hour: this.convertToHour(gameTime),
       minute: Math.floor((gameTime % 3600) / 60),
       second: Math.floor(gameTime % 60),
       dayProgress: this.getDayProgress(gameTime),
       seasonProgress: this.getSeasonProgress(gameTime),
       timeScale: 1.0,
-      acceleration: this.config.defaultAcceleration || 'x1'
+      acceleration: this.config.defaultAcceleration! || 'x1'
     };
   }
 
@@ -91,7 +91,7 @@ export class TimeSystemPure {
 
   private getSeason(gameTime: number): Season {
     if (!this.config.enableSeasons) return 'summer';
-    const dayOfYear = Math.floor(gameTime / (this.config.dayLength || 1440));
+    const dayOfYear = Math.floor(gameTime / (this.config.dayLength! || 1440));
     const seasonIndex = Math.floor((dayOfYear % 120) / 30); // 30 days per season
     switch (seasonIndex) {
       case 0: return 'spring';
@@ -103,17 +103,17 @@ export class TimeSystemPure {
   }
 
   private convertToHour(gameTime: number): number {
-    const dayLength = this.config.dayLength || 1440;
+    const dayLength = this.config.dayLength! || 1440;
     return (gameTime % dayLength) / (dayLength / 24);
   }
 
   private getDayProgress(gameTime: number): number {
-    const dayLength = this.config.dayLength || 1440;
+    const dayLength = this.config.dayLength! || 1440;
     return (gameTime % dayLength) / dayLength;
   }
 
   private getSeasonProgress(gameTime: number): number {
-    const dayOfYear = Math.floor(gameTime / (this.config.dayLength || 1440));
+    const dayOfYear = Math.floor(gameTime / (this.config.dayLength! || 1440));
     return (dayOfYear % 30) / 30; // 30 days per season
   }
 
@@ -148,7 +148,7 @@ export class TimeSystemPure {
       realTime: Date.now(),
       timeOfDay: this.getTimeOfDay(newGameTime),
       season: this.getSeason(newGameTime),
-      dayOfYear: Math.floor(newGameTime / (this.config.dayLength || 1440)),
+      dayOfYear: Math.floor(newGameTime / (this.config.dayLength! || 1440)),
       hour: this.convertToHour(newGameTime),
       minute: Math.floor((newGameTime % 3600) / 60),
       second: Math.floor(newGameTime % 60),
@@ -229,7 +229,7 @@ export class TimeSystemPure {
     if (paused) {
       this.currentTimeScale = 0;
     } else {
-      this.setTimeAcceleration(this.config.defaultAcceleration || 'x1');
+      this.setTimeAcceleration(this.config.defaultAcceleration! || 'x1');
     }
   }
 

@@ -696,7 +696,7 @@ export class WitcherExplorerDemo {
       }
     };
 
-    return dialogues[npcId]?.[dialogueKey] || "Greetings, Witcher.";
+    return dialogues[npcId!]?.[dialogueKey!] || "Greetings, Witcher.";
   }
 
   private handleMonsterEncounter(event: any) {
@@ -735,7 +735,7 @@ export class WitcherExplorerDemo {
     // Update quest log
     const questIndex = player.questLog.findIndex(q => q.id === quest.id);
     if (questIndex !== -1) {
-      player.questLog[questIndex] = quest;
+      player.questLog[questIndex!] = quest;
     }
 
     // Award experience if quest completed

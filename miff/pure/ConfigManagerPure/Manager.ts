@@ -581,7 +581,7 @@ export class ConfigManagerManager {
       };
 
       const configIndex = manager.configs.findIndex(c => c.id === configId);
-      manager.configs[configIndex] = updatedConfiguration;
+      manager.configs[configIndex!] = updatedConfiguration;
       this.updateAnalytics();
 
       this.logger.info('Configuration updated', { managerId, configId });

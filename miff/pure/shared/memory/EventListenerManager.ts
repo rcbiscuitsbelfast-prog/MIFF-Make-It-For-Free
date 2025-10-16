@@ -61,7 +61,7 @@ export class EventListenerManager {
    * Add an event listener with automatic management
    */
   addEventListener(config: EventListenerConfig): string {
-    const listenerId = config.id || `listener_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const listenerId = config.id! || `listener_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (this.listeners.has(listenerId)) {
       this.logger.warn('Listener ID already exists', { listenerId });
@@ -332,7 +332,7 @@ export class EventListenerManager {
         id: listenerId,
         event: config.event,
         target: config.target.constructor.name,
-        priority: config.priority || 'normal',
+        priority: config.priority! || 'normal',
         lifetime: lifetimeMs,
         isActive: true
       });

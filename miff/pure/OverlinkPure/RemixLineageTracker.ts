@@ -153,7 +153,7 @@ export class RemixLineageTracker {
     }
   }
 
-  getContributorRole(contributorId: ContributorId): string | undefined {
+  getContributorRole(contributorId: ContributorId): string {
     return this.state.contributorRegistry.get(contributorId);
   }
 

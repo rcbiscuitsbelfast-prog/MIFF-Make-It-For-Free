@@ -95,8 +95,8 @@ export class TimeManager {
     debugMode: false
   }) {
     this.config = config;
-    this.updateInterval = config.updateInterval || 1000;
-    this.time = config.initialTime || 0;
+    this.updateInterval = config.updateInterval! || 1000;
+    this.time = config.initialTime! || 0;
 
     this.stats = {
       totalTimers: 0,

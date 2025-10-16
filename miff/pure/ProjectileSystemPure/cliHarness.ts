@@ -246,7 +246,7 @@ function showHelp() {
 ProjectileSystemPure CLI - Advanced Projectile Simulation
 
 USAGE:
-  node cliHarness.ts [world_file] [commands_file]
+  node cliHarness.ts [world_file!] [commands_file!]
   node cliHarness.ts help
 
 COMMANDS:

@@ -382,7 +382,7 @@ class WorldManifestCLI {
         return { 
           op: 'export', 
           status: 'ok', 
-          result: { [format]: exportData }, 
+          result: { [format!]: exportData }, 
           format, 
           timestamp: Date.now() 
         };
@@ -561,7 +561,7 @@ async function main() {
         
         // Parse optional config from remaining args
         for (let i = 2; i < args.length; i += 2) {
-          const key = args[i]?.replace('--', '');
+          const key = args[i!]?.replace('--', '');
           const value = args[i + 1];
           if (key && value) {
             switch (key) {

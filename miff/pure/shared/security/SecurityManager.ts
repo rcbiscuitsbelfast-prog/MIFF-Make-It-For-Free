@@ -232,7 +232,7 @@ export class SecurityManager {
     // Start periodic compliance audits
     setInterval(() => {
       this.performComplianceAudit();
-    }, this.config.complianceAuditInterval || 3600000); // 1 hour default
+    }, this.config.complianceAuditInterval! || 3600000); // 1 hour default
   }
 
   /**

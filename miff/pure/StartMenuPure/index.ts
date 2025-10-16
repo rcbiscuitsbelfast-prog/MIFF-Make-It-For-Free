@@ -29,7 +29,7 @@ export type StartMenuAction =
 export function createStartMenuState(config: StartMenuConfig): StartMenuState {
 	const items = Array.isArray(config.items) && config.items.length > 0 ? config.items.slice(0) : ['newGame'];
 	return {
-		layout: config.layout || 'tabs',
+		layout: config.layout! || 'tabs',
 		items,
 		selectedIndex: 0,
 		isActive: true,

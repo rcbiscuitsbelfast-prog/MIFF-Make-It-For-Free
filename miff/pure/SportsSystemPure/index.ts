@@ -601,8 +601,8 @@ export class SportsSystemPure {
       id: `field_${sportType}_${Date.now()}`,
       sportType: sportType,
       dimensions: { width: config.width, height: config.height, depth: config.depth },
-      boundaries: config.boundaries || [],
-      goals: config.goals || [],
+      boundaries: config.boundaries! || [],
+      goals: config.goals! || [],
       obstacles: [],
       surface: config.surface
     };

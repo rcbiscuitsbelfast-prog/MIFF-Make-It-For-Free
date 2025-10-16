@@ -120,12 +120,12 @@ export class SimpleGameBuilder {
   static createClickerGame(config: Partial<SimpleGameConfig> = {}): SimpleClickerGame {
     const gameConfig: SimpleGameConfig = {
       gameType: GameType.CLICKER,
-      title: config.title || 'My Clicker Game',
-      difficulty: config.difficulty || DifficultyLevel.EASY,
-      startingCurrency: config.startingCurrency || 0,
+      title: config.title! || 'My Clicker Game',
+      difficulty: config.difficulty! || DifficultyLevel.EASY,
+      startingCurrency: config.startingCurrency! || 0,
       enableSaving: config.enableSaving !== false,
       enableAudio: config.enableAudio !== false,
-      customModules: config.customModules || []
+      customModules: config.customModules! || []
     };
 
     return new SimpleClickerGame(gameConfig);
@@ -137,12 +137,12 @@ export class SimpleGameBuilder {
   static createPlatformer(config: Partial<SimpleGameConfig> = {}): SimplePlatformerGame {
     const gameConfig: SimpleGameConfig = {
       gameType: GameType.PLATFORMER,
-      title: config.title || 'My Platformer',
-      difficulty: config.difficulty || DifficultyLevel.MEDIUM,
-      startingCurrency: config.startingCurrency || 0,
+      title: config.title! || 'My Platformer',
+      difficulty: config.difficulty! || DifficultyLevel.MEDIUM,
+      startingCurrency: config.startingCurrency! || 0,
       enableSaving: config.enableSaving !== false,
       enableAudio: config.enableAudio !== false,
-      customModules: config.customModules || []
+      customModules: config.customModules! || []
     };
 
     return new SimplePlatformerGame(gameConfig);
@@ -154,12 +154,12 @@ export class SimpleGameBuilder {
   static createArcadeGame(config: Partial<SimpleGameConfig> = {}): SimpleArcadeGame {
     const gameConfig: SimpleGameConfig = {
       gameType: GameType.ARCADE,
-      title: config.title || 'My Arcade Game',
-      difficulty: config.difficulty || DifficultyLevel.MEDIUM,
-      startingCurrency: config.startingCurrency || 100,
+      title: config.title! || 'My Arcade Game',
+      difficulty: config.difficulty! || DifficultyLevel.MEDIUM,
+      startingCurrency: config.startingCurrency! || 100,
       enableSaving: config.enableSaving !== false,
       enableAudio: config.enableAudio !== false,
-      customModules: config.customModules || []
+      customModules: config.customModules! || []
     };
 
     return new SimpleArcadeGame(gameConfig);
@@ -171,12 +171,12 @@ export class SimpleGameBuilder {
   static createRPG(config: Partial<SimpleGameConfig> = {}): SimpleRPGGame {
     const gameConfig: SimpleGameConfig = {
       gameType: GameType.RPG,
-      title: config.title || 'My RPG',
-      difficulty: config.difficulty || DifficultyLevel.MEDIUM,
-      startingCurrency: config.startingCurrency || 50,
+      title: config.title! || 'My RPG',
+      difficulty: config.difficulty! || DifficultyLevel.MEDIUM,
+      startingCurrency: config.startingCurrency! || 50,
       enableSaving: config.enableSaving !== false,
       enableAudio: config.enableAudio !== false,
-      customModules: config.customModules || []
+      customModules: config.customModules! || []
     };
 
     return new SimpleRPGGame(gameConfig);

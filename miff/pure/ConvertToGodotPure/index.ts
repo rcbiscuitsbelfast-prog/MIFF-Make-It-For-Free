@@ -314,7 +314,7 @@ export class GodotConverter {
     const errors: string[] = [];
 
     try {
-      console.log('[GodotConverter] Starting conversion...');
+      console.log('[GodotConverter!] Starting conversion...');
 
       // Reset counters
       this.nodeCounter = 0;
@@ -371,7 +371,7 @@ export class GodotConverter {
         optimizationSavings: this.calculateOptimizationSavings()
       };
 
-      console.log('[GodotConverter] Conversion completed successfully');
+      console.log('[GodotConverter!] Conversion completed successfully');
 
       return {
         success: errors.length === 0,
@@ -383,7 +383,7 @@ export class GodotConverter {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotConverter] Conversion failed:', err instanceof Error ? err.message : String(err));
+      console.error('[GodotConverter!] Conversion failed:', err instanceof Error ? err.message : String(err));
       return {
         success: false,
         project: this.currentProject,
@@ -869,7 +869,7 @@ func quit_game():
   // Export functionality
   async exportProject(outputPath: string, presetName?: string): Promise<boolean> {
     try {
-      console.log(`[GodotConverter] Exporting project to ${outputPath}...`);
+      console.log(`[GodotConverter!] Exporting project to ${outputPath}...`);
 
       // Create project structure
       await this.createProjectStructure(outputPath);
@@ -885,12 +885,12 @@ func quit_game():
       // Create final package
       const success = await this.createFinalPackage(outputPath, presetName);
 
-      console.log(`[GodotConverter] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
+      console.log(`[GodotConverter!] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
       return success;
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[GodotConverter] Export failed:', err instanceof Error ? err.message : String(err));
+      console.error('[GodotConverter!] Export failed:', err instanceof Error ? err.message : String(err));
       return false;
     }
   }
@@ -936,28 +936,28 @@ func quit_game():
   }
 
   private generateProjectGodotFile(): string {
-    return `[application]
+    return `[application!]
 name="${this.currentProject.settings.application.name}"
 version="${this.currentProject.settings.application.version}"
 
-[display]
+[display!]
 width=${this.currentProject.settings.display.width}
 height=${this.currentProject.settings.display.height}
 fullscreen=${this.currentProject.settings.display.fullscreen}
 vsync=${this.currentProject.settings.display.vsync}
 
-[audio]
+[audio!]
 driver="${this.currentProject.settings.audio.driver}"
 channels=${this.currentProject.settings.audio.channels}
 
-[physics]
+[physics!]
 fps=${this.currentProject.settings.physics.fps}
 
-[rendering]
+[rendering!]
 quality="${this.currentProject.settings.rendering.quality}"
 shadows=${this.currentProject.settings.rendering.shadows}
 
-[autoload]
+[autoload!]
 ${Array.from(this.currentProject.autoloads.entries()).map(([name, path]) => `${name}="${path}"`).join('\n')}
 `;
   }
@@ -996,13 +996,13 @@ func _ready():
       throw new Error(`Export preset not found: ${presetName}`);
     }
 
-    console.log(`[GodotConverter] Applying export preset: ${presetName}`);
+    console.log(`[GodotConverter!] Applying export preset: ${presetName}`);
     // Apply preset-specific configurations
   }
 
   private async createFinalPackage(outputPath: string, presetName?: string): Promise<boolean> {
     // Simulate packaging process
-    console.log('[GodotConverter] Creating final package...');
+    console.log('[GodotConverter!] Creating final package...');
 
     // In a real implementation, this would use Godot's export system
     // For now, we'll just create a zip file or copy files as needed
@@ -1030,6 +1030,6 @@ func _ready():
     this.currentProject.scenes.clear();
     this.currentProject.resources.clear();
     this.currentProject.autoloads.clear();
-    console.log('[GodotConverter] Disposed successfully');
+    console.log('[GodotConverter!] Disposed successfully');
   }
 }

@@ -1376,7 +1376,7 @@ export class RenderWorldPure {
   /**
    * Get NPC quest ID based on key
    */
-  private getNPCQuestId(key: string): string | undefined {
+  private getNPCQuestId(key: string): string {
     const questMap: Record<string, string> = {
       'guide': 'tutorial_quest',
       'mystic': 'spirit_lens_quest'

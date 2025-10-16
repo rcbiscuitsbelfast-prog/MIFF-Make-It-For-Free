@@ -52,7 +52,7 @@ class PetCollectionCli {
     });
 
     this.commands.set('create-egg', {
-      command: 'create-egg <type> [species]',
+      command: 'create-egg <type> [species!]',
       description: 'Create a new egg (basic, premium, golden, diamond, cosmic)',
       handler: (args) => this.handleCreateEgg(args)
     });
@@ -64,7 +64,7 @@ class PetCollectionCli {
     });
 
     this.commands.set('show-pets', {
-      command: 'show-pets [filter] [sort]',
+      command: 'show-pets [filter!] [sort!]',
       description: 'Display pets with optional filtering and sorting',
       handler: (args) => this.handleShowPets(args)
     });
@@ -94,7 +94,7 @@ class PetCollectionCli {
     });
 
     this.commands.set('create-trade', {
-      command: 'create-trade <petId> [requestedPetId] [item1,item2,...]',
+      command: 'create-trade <petId> [requestedPetId!] [item1,item2,...]',
       description: 'Create a trade offer',
       handler: (args) => this.handleCreateTrade(args)
     });
@@ -183,7 +183,7 @@ class PetCollectionCli {
 
   private handleCreateEgg(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: create-egg <type> [species]');
+      console.log('Usage: create-egg <type> [species!]');
       return;
     }
 
@@ -215,7 +215,7 @@ class PetCollectionCli {
       return;
     }
 
-    const [eggId] = args;
+    const [eggId!] = args;
 
     if (!this.currentPlayerId) {
       console.log('❌ No current player set. Use create-player first.');
@@ -344,7 +344,7 @@ class PetCollectionCli {
       return;
     }
 
-    const [petId] = args;
+    const [petId!] = args;
 
     if (!this.currentPlayerId) {
       console.log('❌ No current player set. Use create-player first.');
@@ -366,7 +366,7 @@ class PetCollectionCli {
       return;
     }
 
-    const [petId] = args;
+    const [petId!] = args;
 
     if (!this.currentPlayerId) {
       console.log('❌ No current player set. Use create-player first.');
@@ -384,7 +384,7 @@ class PetCollectionCli {
 
   private handleCreateTrade(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: create-trade <petId> [requestedPetId] [item1,item2,...]');
+      console.log('Usage: create-trade <petId> [requestedPetId!] [item1,item2,...]');
       return;
     }
 
@@ -416,7 +416,7 @@ class PetCollectionCli {
       return;
     }
 
-    const [tradeId] = args;
+    const [tradeId!] = args;
 
     if (!this.currentPlayerId) {
       console.log('❌ No current player set. Use create-player first.');
@@ -439,7 +439,7 @@ class PetCollectionCli {
       return;
     }
 
-    const [mode] = args;
+    const [mode!] = args;
     this.demoMode = true;
 
     console.log(`🎮 Starting ${mode} demo mode...`);

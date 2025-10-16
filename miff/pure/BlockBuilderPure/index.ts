@@ -17,7 +17,7 @@ export type BlockAction =
 
 export function createBlockState(config: { blocks?: BlockConfig[] }): BlockState {
   const catalog: BlockState['catalog'] = {};
-  (config.blocks || []).forEach((b: any) => { catalog[b.type] = { hardness: b.hardness, color: b.color }; });
+  (config.blocks! || []).forEach((b: any) => { catalog[b.type] = { hardness: b.hardness, color: b.color }; });
   return { catalog };
 }
 

@@ -29,7 +29,7 @@ EventsPure CLI - Interactive Event Bus Testing
 
 Commands:
   help                    Show this help
-  publish <topic> [data]  Publish event to topic
+  publish <topic> [data!]  Publish event to topic
   subscribe <topic>       Subscribe to topic and print events
   unsubscribe <id>        Unsubscribe by ID
   list                    List all active topics and subscriber counts
@@ -125,7 +125,7 @@ async function runCLI(): Promise<void> {
       case 'publish':
       case 'pub':
         if (args.length === 0) {
-          console.log('❌ Usage: publish <topic> [data]');
+          console.log('❌ Usage: publish <topic> [data!]');
         } else {
           const topic = args[0];
           const payload = args.slice(1).length > 0 ? JSON.parse(args.slice(1).join(' ')) : undefined;

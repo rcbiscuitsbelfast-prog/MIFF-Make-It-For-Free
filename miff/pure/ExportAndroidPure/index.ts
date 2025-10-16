@@ -837,7 +837,7 @@ export class AndroidExporter {
   }
 
   private async initializeExporter(): Promise<void> {
-    console.log('[AndroidExporter] Initializing Android exporter...');
+    console.log('[AndroidExporter!] Initializing Android exporter...');
 
     try {
       // Validate project settings
@@ -850,27 +850,27 @@ export class AndroidExporter {
       await this.initializeAndroidProject();
 
       this.isInitialized = true;
-      console.log('[AndroidExporter] Android exporter initialized successfully');
+      console.log('[AndroidExporter!] Android exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AndroidExporter] Failed to initialize Android exporter:', err instanceof Error ? err.message : String(err));
+      console.error('[AndroidExporter!] Failed to initialize Android exporter:', err instanceof Error ? err.message : String(err));
       throw new Error(`Android exporter initialization failed: ${error}`);
     }
   }
 
   private async validateProjectSettings(): Promise<void> {
     // Validate project settings
-    console.log('[AndroidExporter] Validating project settings...');
+    console.log('[AndroidExporter!] Validating project settings...');
   }
 
   private async validateBuildConfiguration(): Promise<void> {
     // Validate build configuration
-    console.log('[AndroidExporter] Validating build configuration...');
+    console.log('[AndroidExporter!] Validating build configuration...');
   }
 
   private async initializeAndroidProject(): Promise<void> {
     // Initialize Android project
-    console.log('[AndroidExporter] Initializing Android project...');
+    console.log('[AndroidExporter!] Initializing Android project...');
   }
 
   async exportProject(): Promise<AndroidExportReport> {
@@ -881,7 +881,7 @@ export class AndroidExporter {
     const exportId = `export_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = Date.now();
 
-    console.log(`[AndroidExporter] Starting export: ${exportId}`);
+    console.log(`[AndroidExporter!] Starting export: ${exportId}`);
 
     const report: AndroidExportReport = {
       exportId,
@@ -920,7 +920,7 @@ export class AndroidExporter {
       report.duration = report.endTime - startTime;
       report.exportStatus = 'success';
 
-      console.log(`[AndroidExporter] Export completed: ${exportId}`);
+      console.log(`[AndroidExporter!] Export completed: ${exportId}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
@@ -941,7 +941,7 @@ export class AndroidExporter {
 
       report.exportErrors.push(exportError);
 
-      console.error(`[AndroidExporter] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[AndroidExporter!] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
     }
 
     this.exportReports.push(report);
@@ -949,32 +949,32 @@ export class AndroidExporter {
   }
 
   private async exportProjectSettings(): Promise<void> {
-    console.log('[AndroidExporter] Exporting project settings...');
+    console.log('[AndroidExporter!] Exporting project settings...');
     // Implementation for exporting project settings
   }
 
   private async exportScenes(): Promise<void> {
-    console.log('[AndroidExporter] Exporting scenes...');
+    console.log('[AndroidExporter!] Exporting scenes...');
     // Implementation for exporting scenes
   }
 
   private async exportAssets(): Promise<void> {
-    console.log('[AndroidExporter] Exporting assets...');
+    console.log('[AndroidExporter!] Exporting assets...');
     // Implementation for exporting assets
   }
 
   private async exportResources(): Promise<void> {
-    console.log('[AndroidExporter] Exporting resources...');
+    console.log('[AndroidExporter!] Exporting resources...');
     // Implementation for exporting resources
   }
 
   private async generateBuildFiles(): Promise<void> {
-    console.log('[AndroidExporter] Generating build files...');
+    console.log('[AndroidExporter!] Generating build files...');
     // Implementation for generating build files
   }
 
   private async exportProjectFiles(): Promise<void> {
-    console.log('[AndroidExporter] Exporting project files...');
+    console.log('[AndroidExporter!] Exporting project files...');
     // Implementation for exporting project files
   }
 
@@ -983,7 +983,7 @@ export class AndroidExporter {
       throw new Error('Android exporter not initialized');
     }
 
-    console.log('[AndroidExporter] Building Android project...');
+    console.log('[AndroidExporter!] Building Android project...');
 
     const report: AndroidBuildReport = {
       summary: {
@@ -1374,7 +1374,7 @@ export class AndroidExporter {
     };
 
     // Implementation for building Android project
-    console.log('[AndroidExporter] Build completed successfully');
+    console.log('[AndroidExporter!] Build completed successfully');
 
     return report;
   }
@@ -1428,12 +1428,12 @@ export class AndroidExporter {
 
   reset(): void {
     this.exportReports = [];
-    console.log('[AndroidExporter] Reset to initial state');
+    console.log('[AndroidExporter!] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    console.log('[AndroidExporter] Disposed successfully');
+    console.log('[AndroidExporter!] Disposed successfully');
   }
 }

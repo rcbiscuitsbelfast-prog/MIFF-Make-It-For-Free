@@ -106,12 +106,12 @@ function drawBody(matrix: PixelMatrix, skinHex: string): PixelMatrix {
 	const cx = Math.floor(w / 2);
 	for (let y = Math.floor(h * 0.2); y < Math.floor(h * 0.9); y++) {
 		for (let x = cx - 3; x <= cx + 3; x++) {
-			matrix[y][x] = skin;
+			matrix[y!][x!] = skin;
 		}
 	}
 	// head
 	for (let y = Math.floor(h * 0.05); y < Math.floor(h * 0.2); y++) {
-		for (let x = cx - 2; x <= cx + 2; x++) matrix[y][x] = skin;
+		for (let x = cx - 2; x <= cx + 2; x++) matrix[y!][x!] = skin;
 	}
 	return matrix;
 }
@@ -120,10 +120,10 @@ function drawClothing(matrix: PixelMatrix, colors: string[]): PixelMatrix {
 	const h = matrix.length; const w = matrix[0].length; const cx = Math.floor(w/2);
 	const top = colors[0]; const bottom = colors[1] || colors[0];
 	for (let y = Math.floor(h * 0.35); y < Math.floor(h * 0.55); y++) {
-		for (let x = cx - 3; x <= cx + 3; x++) if (matrix[y][x]) matrix[y][x] = top;
+		for (let x = cx - 3; x <= cx + 3; x++) if (matrix[y!][x!]) matrix[y!][x!] = top;
 	}
 	for (let y = Math.floor(h * 0.55); y < Math.floor(h * 0.9); y++) {
-		for (let x = cx - 3; x <= cx + 3; x++) if (matrix[y][x]) matrix[y][x] = bottom;
+		for (let x = cx - 3; x <= cx + 3; x++) if (matrix[y!][x!]) matrix[y!][x!] = bottom;
 	}
 	return matrix;
 }
@@ -134,13 +134,13 @@ function drawHair(matrix: PixelMatrix, hair: string, hairHex: string): PixelMatr
 	const y0 = Math.floor(h * 0.05);
 	if (hair === 'bald') return matrix;
 	for (let y = y0; y < y0 + 3; y++) {
-		for (let x = cx - 3; x <= cx + 3; x++) matrix[y][x] = c;
+		for (let x = cx - 3; x <= cx + 3; x++) matrix[y!][x!] = c;
 	}
 	if (hair === 'ponytail' || hair === 'long' || hair === 'braids') {
-		for (let y = y0 + 3; y < y0 + 8; y++) matrix[y][cx + 2] = c;
+		for (let y = y0 + 3; y < y0 + 8; y++) matrix[y!][cx + 2] = c;
 	}
 	if (hair === 'mohawk' || hair === 'spiky') {
-		for (let y = y0 - 1; y < y0 + 2; y++) matrix[y][cx] = c;
+		for (let y = y0 - 1; y < y0 + 2; y++) matrix[y!][cx!] = c;
 	}
 	return matrix;
 }
@@ -149,8 +149,8 @@ function drawAccessories(matrix: PixelMatrix, accessories: string[], palette: st
 	const h = matrix.length; const w = matrix[0].length; const cx = Math.floor(w/2);
 	const acc = new Set(accessories);
 	if (acc.has('glasses')) { matrix[Math.floor(h*0.12)][cx-1] = '#000000'; matrix[Math.floor(h*0.12)][cx+1] = '#000000'; }
-	if (acc.has('scarf')) { for (let x = cx-3; x<=cx+3; x++) matrix[Math.floor(h*0.32)][x] = palette[2]; }
-	if (acc.has('cape')) { for (let y = Math.floor(h*0.35); y<Math.floor(h*0.8); y++) matrix[y][cx+4] = palette[3]; }
+	if (acc.has('scarf')) { for (let x = cx-3; x<=cx+3; x++) matrix[Math.floor(h*0.32)][x!] = palette[2]; }
+	if (acc.has('cape')) { for (let y = Math.floor(h*0.35); y<Math.floor(h*0.8); y++) matrix[y!][cx+4] = palette[3]; }
 	return matrix;
 }
 
@@ -161,7 +161,7 @@ function composeLayers(width: number, height: number, traits: CharacterTraits): 
 	const accessories = drawAccessories(emptyMatrix(width, height), traits.accessories, traits.palette);
 	// Apply simple outline and shading to base composite preview layer
 	let composite = emptyMatrix(width, height);
-	for (let y=0;y<height;y++) for (let x=0;x<width;x++) composite[y][x] = base[y][x] || clothing[y][x] || hair[y][x] || accessories[y][x];
+	for (let y=0;y<height;y++) for (let x=0;x<width;x++) composite[y!][x!] = base[y!][x!] || clothing[y!][x!] || hair[y!][x!] || accessories[y!][x!];
 	composite = AdvancedRenderingPure.applyOutline(composite, { color: '#272727', thickness: 1 });
 	composite = AdvancedRenderingPure.applyShading(composite, { ambient: 0.6, strength: 0.3 });
 	composite = AdvancedRenderingPure.applyLighting(composite, { direction: { x: -0.4, y: -0.6 }, int: '#ffd080', intStrength: 0.25 });

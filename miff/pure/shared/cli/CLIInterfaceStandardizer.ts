@@ -719,7 +719,7 @@ if (import.meta.url === \`file://\${process.argv[1]}\`) {
       throw new Error('Version is required');
     }
     
-    if (!this.config.commands || this.config.commands.length === 0) {
+    if (!this.config.commands! || this.config.commands.length === 0) {
       throw new Error('At least one command is required');
     }
     

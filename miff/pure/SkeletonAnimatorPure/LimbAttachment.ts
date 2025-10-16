@@ -43,7 +43,7 @@ export class LimbAttachment {
     };
 
     // Create limb segments
-    let parentSegmentId: string | undefined;
+    let parentSegmentId: string;
     segments.forEach((segmentData, index) => {
       const segmentId = this.generateId();
       const segment: LimbSegment = {

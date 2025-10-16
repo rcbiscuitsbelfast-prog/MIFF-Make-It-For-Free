@@ -414,7 +414,7 @@ export class StoryManager {
 
   private findReachableNodes(arc: StoryArc, startNodeId: string): Set<string> {
     const reachable = new Set<string>();
-    const queue = [startNodeId];
+    const queue = [startNodeId!];
 
     while (queue.length > 0) {
       const nodeId = queue.shift()!;

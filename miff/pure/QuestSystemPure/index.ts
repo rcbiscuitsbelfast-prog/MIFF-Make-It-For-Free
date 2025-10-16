@@ -292,7 +292,7 @@ function checkTriggerConditions(
   });
 }
 
-function determineNextStep(branch: QuestStep['next'], state: QuestState): string | undefined {
+function determineNextStep(branch: QuestStep['next'], state: QuestState): string {
   if (typeof branch === 'string') return branch;
   
   if (branch && 'branch' in branch) {

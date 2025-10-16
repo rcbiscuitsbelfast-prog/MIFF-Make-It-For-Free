@@ -322,7 +322,7 @@ export class RewardManager {
       'legendary': 3.0
     };
 
-    const bonusMultiplier = bonusMultipliers[bonusType] || 1.0;
+    const bonusMultiplier = bonusMultipliers[bonusType!] || 1.0;
     bonusReward.multiply(bonusMultiplier * multiplier);
 
     return bonusReward;

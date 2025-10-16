@@ -394,7 +394,7 @@ export class BundleOptimizer {
   }
 
   private writeBundle(content: string): string {
-    const outputPath = this.config.outputPath || './dist/bundle.js';
+    const outputPath = this.config.outputPath! || './dist/bundle.js';
     require('fs').writeFileSync(outputPath, content);
     return outputPath;
   }

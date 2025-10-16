@@ -404,7 +404,7 @@ export class PlatformBridge {
    * Detect platform capabilities
    */
   private detectCapabilities(): PlatformCapabilities {
-    const platform = this.config.platform || this.detectPlatform();
+    const platform = this.config.platform! || this.detectPlatform();
     
     const capabilities: PlatformCapabilities = {
       platform,

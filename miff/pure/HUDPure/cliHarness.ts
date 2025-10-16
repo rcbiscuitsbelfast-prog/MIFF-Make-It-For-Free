@@ -39,7 +39,7 @@ Commands:
   damage <id> <amount>    Damage spirit
   heal <id> <amount>      Heal spirit
   status <id> <effect>    Add/remove status effect
-  phase <phase> [active]  Change battle phase
+  phase <phase> [active!]  Change battle phase
   turn <number>           Set turn number
   round <number>          Set round number
   clear                   Clear HUD
@@ -103,7 +103,7 @@ function printStats(state: CLIState): void {
     console.log(`\nPriority Order:`);
     const priorityOrder = HUDPureUtils.getSpiritsByPriority(model);
     priorityOrder.forEach((spirit, index) => {
-      console.log(`  ${index + 1}. ${spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO]' : ''}`);
+      console.log(`  ${index + 1}. ${spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO!]' : ''}`);
     });
   }
 }
@@ -299,7 +299,7 @@ async function runCLI(): Promise<void> {
 
       case 'add':
         if (args.length < 4) {
-          console.log('❌ Usage: add <side> <spirit_id> <name> <max_hp> [current_hp] [level] [element]');
+          console.log('❌ Usage: add <side> <spirit_id> <name> <max_hp> [current_hp!] [level!] [element!]');
         } else {
           const side = args[0];
           const spiritId = args[1];
@@ -413,7 +413,7 @@ async function runCLI(): Promise<void> {
         const activeSpiritId = args[1];
 
         if (!phaseName) {
-          console.log('❌ Usage: phase <phase_name> [active_spirit_id]');
+          console.log('❌ Usage: phase <phase_name> [active_spirit_id!]');
         } else {
           state.hudManager.changePhase(phaseName, activeSpiritId, `Action in ${phaseName} phase`);
           console.log(`✅ Changed to phase: ${phaseName}${activeSpiritId ? ` (active: ${activeSpiritId})` : ''}`);

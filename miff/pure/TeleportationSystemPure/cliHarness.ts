@@ -622,7 +622,7 @@ class TeleportationSystemCLI {
 
     if (destinations.length >= 3) {
       for (let i = 0; i < 3; i++) {
-        const dest = destinations[i];
+        const dest = destinations[i!];
         console.log(`\n🚀 Demo teleport ${i + 1}: ${dest.name}`);
         await this.teleport(dest.id);
       }

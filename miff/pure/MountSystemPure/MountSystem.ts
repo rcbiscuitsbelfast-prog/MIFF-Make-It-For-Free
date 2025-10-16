@@ -138,12 +138,12 @@ export class MountManager {
 
   // Core mount/dismount functionality
   mount(rider: string, mountId: string): MountSystemResult {
-    const mount = this.state.mounts[mountId];
+    const mount = this.state.mounts[mountId!];
     if (!mount) {
       return this.error(`Mount ${mountId} not found`);
     }
 
-    if (this.state.mounted[rider]) {
+    if (this.state.mounted[rider!]) {
       return this.error(`Rider ${rider} is already mounted`);
     }
 
@@ -153,7 +153,7 @@ export class MountManager {
     }
 
     // Update mount state
-    this.state.mounted[rider] = mountId;
+    this.state.mounted[rider!] = mountId;
 
     // Reduce stamina for mounting
     mount.stats.stamina = Math.max(0, mount.stats.stamina - 10);
@@ -167,12 +167,12 @@ export class MountManager {
   }
 
   dismount(rider: string): MountSystemResult {
-    if (!this.state.mounted[rider]) {
+    if (!this.state.mounted[rider!]) {
       return this.error(`Rider ${rider} is not mounted`);
     }
 
-    const mountId = this.state.mounted[rider];
-    const mount = this.state.mounts[mountId];
+    const mountId = this.state.mounted[rider!];
+    const mount = this.state.mounts[mountId!];
 
     if (mount) {
       // Restore some stamina when dismounting
@@ -180,7 +180,7 @@ export class MountManager {
         mount.stats.stamina + 5);
     }
 
-    delete this.state.mounted[rider];
+    delete this.state.mounted[rider!];
     this.logEvent({type: 'dismount', rider});
 
     return this.success('Successfully dismounted', {
@@ -190,7 +190,7 @@ export class MountManager {
 
   // Training system
   train(mountId: string, activity: string): MountSystemResult {
-    const mount = this.state.mounts[mountId];
+    const mount = this.state.mounts[mountId!];
     if (!mount) {
       return this.error(`Mount ${mountId} not found`);
     }
@@ -215,7 +215,7 @@ export class MountManager {
 
   // Equipment system
   equip(mountId: string, equipment: MountEquipment): MountSystemResult {
-    const mount = this.state.mounts[mountId];
+    const mount = this.state.mounts[mountId!];
     if (!mount) {
       return this.error(`Mount ${mountId} not found`);
     }
@@ -241,8 +241,8 @@ export class MountManager {
 
   // Breeding system
   breed(mount1Id: string, mount2Id: string): MountSystemResult {
-    const mount1 = this.state.mounts[mount1Id];
-    const mount2 = this.state.mounts[mount2Id];
+    const mount1 = this.state.mounts[mount1Id!];
+    const mount2 = this.state.mounts[mount2Id!];
 
     if (!mount1 || !mount2) {
       return this.error('One or both mounts not found');
@@ -260,7 +260,7 @@ export class MountManager {
     const offspringId = `offspring_${Date.now()}`;
     const offspring: MountInstance = this.createOffspring(mount1, mount2);
 
-    this.state.mounts[offspringId] = offspring;
+    this.state.mounts[offspringId!] = offspring;
 
     // Set breeding cooldown (30 days)
     mount1.breeding.cooldown = 30;
@@ -333,7 +333,7 @@ export class MountManager {
       }
     };
 
-    this.state.mounts[mountId] = mount;
+    this.state.mounts[mountId!] = mount;
 
     // Mark as sold
     selectedMount.id = `sold_${selectedMount.id}`;
@@ -383,7 +383,7 @@ export class MountManager {
 
   private inheritRarity(rarity1: MountRarity, rarity2: MountRarity): MountRarity {
     const rarityValues = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5, mythic: 6 };
-    const avgRarity = (rarityValues[rarity1] + rarityValues[rarity2]) / 2;
+    const avgRarity = (rarityValues[rarity1!] + rarityValues[rarity2!]) / 2;
 
     // Slight chance of improvement
     if (Math.random() < 0.1) {
@@ -463,10 +463,10 @@ export class MountManager {
   }
 
   getMount(mountId: string): MountInstance | undefined {
-    return this.state.mounts[mountId];
+    return this.state.mounts[mountId!];
   }
 
-  getMountedRider(mountId: string): string | undefined {
+  getMountedRider(mountId: string): string {
     for (const [rider, mount] of Object.entries(this.state.mounted)) {
       if (mount === mountId) return rider;
     }

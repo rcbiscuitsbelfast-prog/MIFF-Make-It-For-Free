@@ -504,7 +504,7 @@ export class HUDManager {
    * Handle window resize
    */
   private handleResize(): void {
-    if (!this.config.enableResponsive || !this.activeLayout) {
+    if (!this.config.enableResponsive! || !this.activeLayout) {
       return;
     }
 

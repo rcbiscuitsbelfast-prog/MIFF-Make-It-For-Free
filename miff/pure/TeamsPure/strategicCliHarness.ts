@@ -410,7 +410,7 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log(`\n⚔️  Threat Analysis: ${team.name} vs ${enemyTeam.name}`);
-    const analysis = this.teamManager.analyzeThreats(teamId, [enemyTeam]);
+    const analysis = this.teamManager.analyzeThreats(teamId, [enemyTeam!]);
 
     console.log(`Threat Level: ${analysis.threatLevel.toUpperCase()}`);
     console.log(`Vulnerability Score: ${analysis.vulnerabilityScore}/100`);

@@ -617,7 +617,7 @@ export class InteractableRegistry {
     };
     
     for (const [id, interactable] of this.interactables) {
-      data.interactables[id] = interactable;
+      data.interactables[id!] = interactable;
     }
     
     return data;

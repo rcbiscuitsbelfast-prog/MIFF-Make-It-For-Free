@@ -124,13 +124,13 @@ export class EncounterManager {
   initialize(): void {
     if (this.isInitialized) return;
 
-    console.log('[EncounterManager] Initializing encounter system...');
+    console.log('[EncounterManager!] Initializing encounter system...');
     
     // Initialize default areas
     this.initializeDefaultAreas();
     
     this.isInitialized = true;
-    console.log('[EncounterManager] Encounter system initialized successfully');
+    console.log('[EncounterManager!] Encounter system initialized successfully');
   }
 
   private initializeDefaultAreas(): void {
@@ -195,12 +195,12 @@ export class EncounterManager {
    */
   addArea(area: EncounterArea): boolean {
     if (!area.id || !area.name) {
-      console.error('[EncounterManager] Invalid area: missing required fields');
+      console.error('[EncounterManager!] Invalid area: missing required fields');
       return false;
     }
 
     this.areas.set(area.id, area);
-    console.log(`[EncounterManager] Added area: ${area.name}`);
+    console.log(`[EncounterManager!] Added area: ${area.name}`);
     return true;
   }
 
@@ -224,7 +224,7 @@ export class EncounterManager {
   triggerEncounter(areaId: string, playerLevel: number = 1): Encounter | null {
     const area = this.areas.get(areaId);
     if (!area) {
-      console.warn(`[EncounterManager] Area not found: ${areaId}`);
+      console.warn(`[EncounterManager!] Area not found: ${areaId}`);
       return null;
     }
 
@@ -279,7 +279,7 @@ export class EncounterManager {
   getStatistics(): Record<string, any> {
     const totalEncounters = this.encounterHistory.length;
     const encounterCounts = this.encounterHistory.reduce((counts, id) => {
-      counts[id] = (counts[id] || 0) + 1;
+      counts[id!] = (counts[id!] || 0) + 1;
       return counts;
     }, {} as Record<string, number>);
 
@@ -298,7 +298,7 @@ export class EncounterManager {
     this.areas.clear();
     this.encounterHistory = [];
     this.isInitialized = false;
-    console.log('[EncounterManager] Encounter system reset');
+    console.log('[EncounterManager!] Encounter system reset');
   }
 
   /**
@@ -306,7 +306,7 @@ export class EncounterManager {
    */
   dispose(): void {
     this.reset();
-    console.log('[EncounterManager] Encounter system disposed');
+    console.log('[EncounterManager!] Encounter system disposed');
   }
 }
 
@@ -568,11 +568,11 @@ export class PlayerState {
   }
 
   setFlag(flag: string, value: boolean = true): void {
-    this.flags[flag] = value;
+    this.flags[flag!] = value;
   }
 
   hasFlag(flag: string): boolean {
-    return this.flags[flag] || false;
+    return this.flags[flag!] || false;
   }
 
   clone(): PlayerState {

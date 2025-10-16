@@ -465,7 +465,7 @@ export class WebBridge {
       dir: 'ltr'
     };
 
-    const manifestUrl = this.config.manifestUrl || '/manifest.json';
+    const manifestUrl = this.config.manifestUrl! || '/manifest.json';
     const manifestContent = JSON.stringify(manifest, null, 2);
 
     console.log(`[WebBridge!] PWA manifest generated: ${manifestUrl}`);

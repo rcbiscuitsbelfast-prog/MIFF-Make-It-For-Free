@@ -713,7 +713,7 @@ export class CachingSystemManager {
 
     for (let i = 0; i < cache.entries.length && freedSize < sizeToFree; i++) {
       entriesToRemove.push(i);
-      freedSize += cache.entries[i].size;
+      freedSize += cache.entries[i!].size;
     }
 
     // Remove entries in reverse order to maintain indices

@@ -118,7 +118,7 @@ export class AudioSystem {
       // Create analyser for audio analysis
       if (this.fftEnabled) {
         this.analyser = this.audioContext.createAnalyser();
-        this.analyser.fftSize = this.config.fftSize || 2048;
+        this.analyser.fftSize = this.config.fftSize! || 2048;
         this.analyser.smoothingTimeConstant = 0.8;
         this.analyser.connect(this.masterGain);
       }
@@ -142,8 +142,8 @@ export class AudioSystem {
 
     // Create a realistic reverb impulse response
     const sampleRate = this.audioContext.sampleRate;
-    const decay = this.config.reverbDecay || 2.0;
-    const damping = this.config.reverbDamping || 0.5;
+    const decay = this.config.reverbDecay! || 2.0;
+    const damping = this.config.reverbDamping! || 0.5;
     const length = sampleRate * decay;
 
     const impulse = this.audioContext.createBuffer(2, length, sampleRate);
@@ -476,7 +476,7 @@ export class AudioSystem {
   }
 
   updateSpatialAudio(): void {
-    if (!this.config.spatialAudio || !this.audioContext) return;
+    if (!this.config.spatialAudio! || !this.audioContext) return;
 
     for (const [instanceId, instance] of Array.from(this.activeSounds.entries())) {
       if (instance.spatial) {

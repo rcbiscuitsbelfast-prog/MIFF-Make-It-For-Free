@@ -39,7 +39,7 @@ Commands:
   zone <id>               Set current zone
   table <zone>            Show encounter table for zone
   add <spirit> <weight>   Add encounter entry to current zone
-  trigger <type> [param]  Add trigger to current zone
+  trigger <type> [param!]  Add trigger to current zone
   simulate <steps>        Simulate encounter checks
   state                   Show player state
   setstate <tile> <time>  Set player tile type and time
@@ -256,7 +256,7 @@ async function runCLI(): Promise<void> {
 
       case 'add':
         if (args.length < 2) {
-          console.log('❌ Usage: add <spirit_id> <weight> [min_level] [max_level]');
+          console.log('❌ Usage: add <spirit_id> <weight> [min_level!] [max_level!]');
         } else {
           const spiritId = args[0];
           const weight = parseInt(args[1]);
@@ -292,7 +292,7 @@ async function runCLI(): Promise<void> {
 
       case 'trigger':
         if (args.length < 1) {
-          console.log('❌ Usage: trigger <type> [param]');
+          console.log('❌ Usage: trigger <type> [param!]');
         } else {
           const triggerTypeStr = args[0];
           let triggerType: TriggerType;

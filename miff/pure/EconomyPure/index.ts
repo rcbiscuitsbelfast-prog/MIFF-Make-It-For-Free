@@ -1036,12 +1036,12 @@ export class EconomicEngine {
     this.initializeDefaultMarkets();
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    console.log('[EconomicEngine] Reset to initial state');
+    console.log('[EconomicEngine!] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[EconomicEngine] Disposed successfully');
+    console.log('[EconomicEngine!] Disposed successfully');
   }
 }
 

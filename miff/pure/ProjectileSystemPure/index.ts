@@ -209,7 +209,7 @@ export class ProjectileManager {
       totalTTL += p.ttl;
       
       const type = p.type || 'unknown';
-      typeDistribution[type] = (typeDistribution[type] || 0) + 1;
+      typeDistribution[type!] = (typeDistribution[type!] || 0) + 1;
     }
     
     return {

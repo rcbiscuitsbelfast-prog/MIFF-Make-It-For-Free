@@ -790,7 +790,7 @@ export class CombatSystemManager {
   private processStatusEffects(combat: Combat): void {
     for (const participant of combat.participants) {
       for (let i = participant.effects.length - 1; i >= 0; i--) {
-        const effect = participant.effects[i];
+        const effect = participant.effects[i!];
         effect.duration--;
         
         if (effect.duration <= 0) {

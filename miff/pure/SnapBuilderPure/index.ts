@@ -17,7 +17,7 @@ export type SnapAction =
   | { type: 'snap_point'; point: { x: number; y: number; z: number } };
 
 export function createSnapState(config: SnapConfig): SnapState {
-  return { grid: { ...config.grid }, rules: [...(config.rules || [])] };
+  return { grid: { ...config.grid }, rules: [...(config.rules! || [])] };
 }
 
 export function reduceSnapAction(state: SnapState, action: SnapAction): SnapState | { snapped: { x: number; y: number; z: number } } {

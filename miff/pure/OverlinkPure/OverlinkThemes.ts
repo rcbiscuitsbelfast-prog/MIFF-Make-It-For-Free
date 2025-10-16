@@ -80,11 +80,11 @@ export class OverlinkThemes {
     this.state.availableThemes.set(config.id, config);
     
     // Register theme assets
-    const themeAssets = config.assets || [];
+    const themeAssets = config.assets! || [];
     this.state.themeAssets.set(config.id, themeAssets);
     
     // Register theme draw reducers
-    const themeReducers = config.drawReducers || [];
+    const themeReducers = config.drawReducers! || [];
     this.state.themeReducers.set(config.id, themeReducers);
     
     // Register audio and shader presets
@@ -189,11 +189,11 @@ export class OverlinkThemes {
   }
 
   // Audio and Shader Presets
-  getAudioPreset(themeId: ThemeId): string | undefined {
+  getAudioPreset(themeId: ThemeId): string {
     return this.state.audioPresets.get(themeId);
   }
 
-  getShaderPreset(themeId: ThemeId): string | undefined {
+  getShaderPreset(themeId: ThemeId): string {
     return this.state.shaderPresets.get(themeId);
   }
 

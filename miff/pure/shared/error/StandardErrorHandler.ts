@@ -372,7 +372,7 @@ export class StandardErrorHandler {
       ]
     };
 
-    return suggestions[code] || ['Check the documentation for more information'];
+    return suggestions[code!] || ['Check the documentation for more information'];
   }
 
   private async attemptRecovery(error: StandardError): Promise<boolean> {
@@ -410,7 +410,7 @@ export class StandardErrorHandler {
   private logError(error: StandardError): void {
     const logLevel = this.getLogLevel(error.severity);
     
-    this.logger[logLevel]('StandardErrorHandler', error.message, {
+    this.logger[logLevel!]('StandardErrorHandler', error.message, {
       code: error.code,
       severity: error.severity,
       context: error.context,

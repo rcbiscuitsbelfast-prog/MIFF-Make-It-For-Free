@@ -458,7 +458,7 @@ export class InventoryManager {
     return undefined;
   }
 
-  private findEmptySlot(inventory: InventoryComponent): string | undefined {
+  private findEmptySlot(inventory: InventoryComponent): string {
     for (let i = 0; i < inventory.maxSlots; i++) {
       const slot = `slot_${i}`;
       if (!inventory.items.has(slot)) {

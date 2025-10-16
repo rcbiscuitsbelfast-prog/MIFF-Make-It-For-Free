@@ -350,7 +350,7 @@ export class EnhancedEconomyManager {
       };
     }
 
-    const inventoryItem = vendor.inventory[itemId];
+    const inventoryItem = vendor.inventory[itemId!];
     if (!inventoryItem) {
       return {
         op: 'calculate_price',
@@ -478,7 +478,7 @@ export class EnhancedEconomyManager {
 
     const price = priceResult.result as PriceResult;
     const vendor = this.vendors.get(vendorId)!;
-    const inventoryItem = vendor.inventory[itemId];
+    const inventoryItem = vendor.inventory[itemId!];
 
     if (type === 'buy') {
       if (!price.availability) {

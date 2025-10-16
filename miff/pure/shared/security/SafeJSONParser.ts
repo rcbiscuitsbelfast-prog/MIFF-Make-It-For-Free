@@ -124,7 +124,7 @@ export class SafeJSONParser {
     // Check for functions
     if (!options.allowFunctions) {
       for (const key in obj) {
-        if (typeof obj[key] === 'function') {
+        if (typeof obj[key!] === 'function') {
           throw new Error('Functions not allowed in JSON');
         }
       }
@@ -142,7 +142,7 @@ export class SafeJSONParser {
         throw new Error('Dangerous key detected');
       }
       
-      this.validateObject(obj[key], options, depth + 1);
+      this.validateObject(obj[key!], options, depth + 1);
     }
   }
 

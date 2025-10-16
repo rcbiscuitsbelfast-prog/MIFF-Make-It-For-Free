@@ -361,7 +361,7 @@ export class HUDManager {
 
   onUpdate(cb: (e: IHUDUpdateEvent) => void): void {
     // Replace existing callbacks to match expected single-listener semantics in tests
-    this.callbacks = [cb];
+    this.callbacks = [cb!];
   }
 
   removeUpdateCallback(cb: (e: IHUDUpdateEvent) => void): void {

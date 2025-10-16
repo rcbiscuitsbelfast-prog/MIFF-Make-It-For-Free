@@ -180,7 +180,7 @@ export class Item {
     return this.effect.amount;
   }
 
-  get param(): string | undefined {
+  get param(): string {
     return this.effect.param;
   }
 

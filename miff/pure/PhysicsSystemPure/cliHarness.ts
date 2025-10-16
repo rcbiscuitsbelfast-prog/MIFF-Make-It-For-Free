@@ -198,7 +198,7 @@ function showHelp() {
 PhysicsSystemPure CLI - Advanced 2D Physics Simulation
 
 USAGE:
-  node cliHarness.ts [world_file] [commands_file]
+  node cliHarness.ts [world_file!] [commands_file!]
   node cliHarness.ts help
 
 COMMANDS:

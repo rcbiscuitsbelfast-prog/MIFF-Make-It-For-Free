@@ -369,7 +369,7 @@ export class AudioMixerPure {
     if (effectsChain.length > 0) {
       gainNode.connect(effectsChain[0]);
       for (let i = 0; i < effectsChain.length - 1; i++) {
-        effectsChain[i].connect(effectsChain[i + 1]);
+        effectsChain[i!].connect(effectsChain[i + 1]);
       }
       effectsChain[effectsChain.length - 1].connect(this.masterGain!);
     } else {
@@ -423,7 +423,7 @@ export class AudioMixerPure {
   }
 
   public stopAllAudio(fadeOut: number = 0): void {
-    for (const [instanceId] of this.activeSources) {
+    for (const [instanceId!] of this.activeSources) {
       this.stopAudio(instanceId, fadeOut);
     }
   }
@@ -502,7 +502,7 @@ export class AudioMixerPure {
     // Calculate basic metrics
     let volume = 0;
     for (let i = 0; i < this.timeData.length; i++) {
-      volume += Math.abs(this.timeData[i]);
+      volume += Math.abs(this.timeData[i!]);
     }
     volume /= this.timeData.length;
 
@@ -512,7 +512,7 @@ export class AudioMixerPure {
     const nyquist = this.config.sampleRate / 2;
     for (let i = 0; i < this.fftData.length; i++) {
       const frequency = (i / this.fftData.length) * nyquist;
-      const magnitude = Math.abs(this.fftData[i]);
+      const magnitude = Math.abs(this.fftData[i!]);
       spectralCentroid += frequency * magnitude;
       totalMagnitude += magnitude;
     }
@@ -524,7 +524,7 @@ export class AudioMixerPure {
     let spectralRolloff = 0;
     let currentMagnitude = 0;
     for (let i = 0; i < this.fftData.length; i++) {
-      currentMagnitude += Math.abs(this.fftData[i]);
+      currentMagnitude += Math.abs(this.fftData[i!]);
       if (currentMagnitude >= rolloffMagnitude) {
         spectralRolloff = (i / this.fftData.length) * nyquist;
         break;
@@ -534,7 +534,7 @@ export class AudioMixerPure {
     // Calculate zero crossing rate
     let zeroCrossings = 0;
     for (let i = 1; i < this.timeData.length; i++) {
-      if ((this.timeData[i-1] >= 0) !== (this.timeData[i] >= 0)) {
+      if ((this.timeData[i-1] >= 0) !== (this.timeData[i!] >= 0)) {
         zeroCrossings++;
       }
     }
@@ -700,7 +700,7 @@ export class AudioMixerPure {
     for (let channel = 0; channel < 2; channel++) {
       const channelData = impulse.getChannelData(channel);
       for (let i = 0; i < impulseLength; i++) {
-        channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseLength, 2);
+        channelData[i!] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseLength, 2);
       }
     }
 
@@ -736,7 +736,7 @@ export class AudioMixerPure {
     const curve = new Float32Array(65536);
     for (let i = 0; i < curve.length; i++) {
       const x = (i - 32768) / 32768;
-      curve[i] = Math.tanh(amount * x) / Math.tanh(amount);
+      curve[i!] = Math.tanh(amount * x) / Math.tanh(amount);
     }
 
     waveShaper.curve = curve;

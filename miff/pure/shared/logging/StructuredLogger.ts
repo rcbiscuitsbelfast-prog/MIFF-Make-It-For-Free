@@ -55,7 +55,7 @@ export class StructuredLogger {
       ...config
     };
 
-    if (this.config.enableFile || this.config.enableRemote) {
+    if (this.config.enableFile! || this.config.enableRemote) {
       this.startFlushTimer();
     }
   }

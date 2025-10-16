@@ -17,7 +17,7 @@ export class AvatarAssetRegistryPure {
     const item = reg.items.find(x=>x.id===id);
     if (!item) return null;
     const key = style === '3d' ? '3d' : (style === 'overlay' ? 'overlay' : style as '2d-side');
-    return (item.variants as any)[key] || null;
+    return (item.variants as any)[key!] || null;
   }
 }
 

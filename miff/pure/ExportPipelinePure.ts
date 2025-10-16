@@ -478,7 +478,7 @@ export class ExportPipelinePure {
         engine: config.engine,
         platform: config.platform,
         projectName: config.projectName,
-        version: config.version || '1.0.0',
+        version: config.version! || '1.0.0',
         timestamp: new Date().toISOString(),
         fileCount: (renderPayload.renderData?.length || 0) + 
                   (renderPayload.textures?.length || 0) + 
@@ -1040,7 +1040,7 @@ public class Main : MonoBehaviour
       "projectName": config.projectName,
       "engine": config.engine,
       "platform": config.platform,
-      "version": config.version || "1.0.0",
+      "version": config.version! || "1.0.0",
       "exportedAt": new Date().toISOString()
     };
     

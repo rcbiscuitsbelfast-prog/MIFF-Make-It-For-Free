@@ -602,7 +602,7 @@ export class CPUOptimizer {
     // Remove oldest 20% of entries
     const toRemove = Math.floor(sortedEntries.length * 0.2);
     for (let i = 0; i < toRemove; i++) {
-      this.cache.delete(sortedEntries[i][0]);
+      this.cache.delete(sortedEntries[i!][0]);
     }
   }
 

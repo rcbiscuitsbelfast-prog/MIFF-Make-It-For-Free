@@ -238,7 +238,7 @@ export class RigBuilder {
     const errors: string[] = [];
 
     // Check if root node exists
-    if (!this.config.rootNode || !this.config.nodes[this.config.rootNode]) {
+    if (!this.config.rootNode! || !this.config.nodes[this.config.rootNode]) {
       errors.push('Root node not found');
     }
 

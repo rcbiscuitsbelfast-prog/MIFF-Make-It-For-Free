@@ -348,8 +348,8 @@ class DialogueCLI {
       const previousNode = this.currentNode;
       this.currentNode = result.id;
       
-      const previousNodeData = this.currentDialogue.nodes[previousNode];
-      const choiceText = previousNodeData.choices?.[choiceIndex]?.text || 'Unknown choice';
+      const previousNodeData = this.currentDialogue.nodes[previousNode!];
+      const choiceText = previousNodeData.choices?.[choiceIndex!]?.text || 'Unknown choice';
       
       this.history.push({ 
         node: this.currentNode, 
@@ -406,14 +406,14 @@ class DialogueCLI {
     const maxDepth = 20; // Prevent infinite loops
 
     while (currentNode && depth < maxDepth) {
-      const node = this.currentDialogue.nodes[currentNode];
+      const node = this.currentDialogue.nodes[currentNode!];
       if (!node || !node.choices || node.choices.length === 0) {
         break; // End of dialogue
       }
 
       // Randomly choose a path
       const choiceIndex = Math.floor(Math.random() * node.choices.length);
-      const choice = node.choices[choiceIndex];
+      const choice = node.choices[choiceIndex!];
       
       simulation.push({
         depth,
@@ -465,7 +465,7 @@ class DialogueCLI {
 
       if (node.choices) {
         for (let i = 0; i < node.choices.length; i++) {
-          const choice = node.choices[i];
+          const choice = node.choices[i!];
           if (!choice.text || choice.text.trim() === '') {
             issues.push(`Node '${nodeId}' choice ${i} has empty text`);
           }
@@ -485,7 +485,7 @@ class DialogueCLI {
       if (reachable.has(current)) continue;
       
       reachable.add(current);
-      const node = targetDialogue.nodes[current];
+      const node = targetDialogue.nodes[current!];
       if (node.choices) {
         for (const choice of node.choices) {
           if (!reachable.has(choice.next)) {
@@ -693,7 +693,7 @@ async function main() {
 
   if (process.argv.length < 3) {
     console.error('Usage: cliHarness.ts <operation> [args...]');
-    console.error('Operations: start, next [choiceIndex], dump, simulate, validate, reset, export [format]');
+    console.error('Operations: start, next [choiceIndex!], dump, simulate, validate, reset, export [format!]');
     process.exit(1);
   }
 

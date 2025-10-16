@@ -1115,10 +1115,10 @@ export class AIManager {
     const network = new SimpleNeuralNetwork({
       inputSize,
       outputSize,
-      hiddenLayers: this.config.neuralNetworkLayers || [8, 16, 8],
-      activationFunction: this.config.activationFunction || 'relu',
+      hiddenLayers: this.config.neuralNetworkLayers! || [8, 16, 8],
+      activationFunction: this.config.activationFunction! || 'relu',
       learningRate: this.config.learningRate,
-      batchSize: this.config.batchSize || 32
+      batchSize: this.config.batchSize! || 32
     });
 
     this.neuralNetworks.set(networkId, network);
@@ -1182,7 +1182,7 @@ export class AIManager {
    * Train AI to learn from battle outcomes
    */
   trainFromBattleOutcomes(battleHistory: any[]): boolean {
-    if (!this.config.enableNeuralNetworks || battleHistory.length < 10) {
+    if (!this.config.enableNeuralNetworks! || battleHistory.length < 10) {
       return false;
     }
 

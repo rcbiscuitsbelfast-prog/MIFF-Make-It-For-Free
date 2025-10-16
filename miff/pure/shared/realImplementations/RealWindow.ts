@@ -83,23 +83,23 @@ export class RealWindow {
     
     const windowInfo: WindowInfo = {
       id: windowId,
-      title: config.title || 'Window',
-      width: config.width || 800,
-      height: config.height || 600,
-      x: config.x || 100,
-      y: config.y || 100,
+      title: config.title! || 'Window',
+      width: config.width! || 800,
+      height: config.height! || 600,
+      x: config.x! || 100,
+      y: config.y! || 100,
       visible: config.visible !== false,
       focused: false,
       minimized: false,
       maximized: false,
-      fullscreen: config.fullscreen || false,
+      fullscreen: config.fullscreen! || false,
       resizable: config.resizable !== false,
       movable: config.movable !== false,
       closable: config.closable !== false,
       minimizable: config.minimizable !== false,
       maximizable: config.maximizable !== false,
-      alwaysOnTop: config.alwaysOnTop || false,
-      alpha: config.alpha || 1.0
+      alwaysOnTop: config.alwaysOnTop! || false,
+      alpha: config.alpha! || 1.0
     };
 
     this.windows.set(windowId, windowInfo);

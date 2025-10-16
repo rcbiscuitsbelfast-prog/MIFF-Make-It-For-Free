@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 AvatarAssetRegistryPure CLI Harness - Avatar Asset Registry System
 
-Usage: npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts [command] [options]
+Usage: npx tsx miff/pure/AvatarAssetRegistryPure/cliHarness.ts [command!] [options!]
 
 Commands:
   test                     - Run basic asset registry tests

@@ -486,7 +486,7 @@ export class IdleManagerPure {
       canPrestige: (tier: string) => {
         const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
         const config = prestigeConfigs.get(tier);
-        if (!config || !config.unlocked || config.completed) return false;
+        if (!config || !config.unlocked! || config.completed) return false;
 
         const currencyResource = this.idleSystem.getResource('currency');
         return currencyResource ? currencyResource.currentAmount >= config.requirement : false;

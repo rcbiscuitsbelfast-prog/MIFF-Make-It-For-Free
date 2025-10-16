@@ -259,7 +259,7 @@ class SpiritTamerGame {
   }
 
   private giveStarterSpirit(speciesId: string): void {
-    const species = SPIRIT_SPECIES[speciesId];
+    const species = SPIRIT_SPECIES[speciesId!];
     if (!species) return;
 
     const spirit: PlayerSpirit = {
@@ -293,7 +293,7 @@ class SpiritTamerGame {
       eevee: ['tackle', 'tailwhip', 'growl']
     };
 
-    const moves = movePool[speciesId] || ['tackle', 'growl'];
+    const moves = movePool[speciesId!] || ['tackle', 'growl'];
     return moves.slice(0, Math.min(level / 5 + 1, 4));
   }
 
@@ -405,12 +405,12 @@ class SpiritTamerGame {
       cinnabar_island: ['pikachu', 'magmar', 'magby']
     };
 
-    return encounters[location] || ['pikachu'];
+    return encounters[location!] || ['pikachu'];
   }
 
   private generateWildSpirit(speciesIds: string[]): PlayerSpirit {
     const speciesId = speciesIds[Math.floor(Math.random() * speciesIds.length)];
-    const species = SPIRIT_SPECIES[speciesId];
+    const species = SPIRIT_SPECIES[speciesId!];
 
     const level = Math.floor(Math.random() * 10) + 3; // Levels 3-12
     const stats = { ...species.baseStats };
@@ -506,7 +506,7 @@ class SpiritTamerGame {
 
     console.log('\n⚔️  Available Moves:');
     this.battleState.playerMoves.forEach((move, index) => {
-      const moveData = MOVES[move];
+      const moveData = MOVES[move!];
       console.log(`${index + 1}. ${moveData.name} (${moveData.type}, ${moveData.category})`);
     });
 
@@ -514,7 +514,7 @@ class SpiritTamerGame {
       .then((choice: string) => {
         const moveIndex = parseInt(choice) - 1;
         if (moveIndex >= 0 && moveIndex < this.battleState.playerMoves.length) {
-          const moveName = this.battleState.playerMoves[moveIndex];
+          const moveName = this.battleState.playerMoves[moveIndex!];
           this.executeMove(moveName);
         } else {
           console.log('❌ Invalid move!');
@@ -526,7 +526,7 @@ class SpiritTamerGame {
   private executeMove(moveName: string): void {
     if (!this.battleState) return;
 
-    const moveData = MOVES[moveName];
+    const moveData = MOVES[moveName!];
     const { playerSpirit, enemySpirit } = this.battleState;
 
     console.log(`\n${playerSpirit.name} used ${moveData.name}!`);
@@ -561,7 +561,7 @@ class SpiritTamerGame {
     if (!this.battleState) return;
 
     const { enemySpirit, playerSpirit } = this.battleState;
-    const availableMoves = enemySpirit.moves.filter((move: any) => MOVES[move]);
+    const availableMoves = enemySpirit.moves.filter((move: any) => MOVES[move!]);
 
     if (availableMoves.length === 0) {
       console.log(`${enemySpirit.name} struggles!`);
@@ -569,7 +569,7 @@ class SpiritTamerGame {
     }
 
     const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-    const moveData = MOVES[randomMove];
+    const moveData = MOVES[randomMove!];
 
     console.log(`\n${enemySpirit.name} used ${moveData.name}!`);
 
@@ -593,8 +593,8 @@ class SpiritTamerGame {
   }
 
   private getTypeEffectiveness(attackerType: string, defenderType: string): number {
-    const type1 = SPIRIT_TYPES[attackerType];
-    const type2 = SPIRIT_TYPES[defenderType];
+    const type1 = SPIRIT_TYPES[attackerType!];
+    const type2 = SPIRIT_TYPES[defenderType!];
 
     if (!type1 || !type2) return 1;
 
@@ -645,7 +645,7 @@ class SpiritTamerGame {
       newMoves.forEach((move: any) => {
         if (!spirit.moves.includes(move)) {
           spirit.moves.push(move);
-          console.log(`📚 ${spirit.name} learned ${MOVES[move].name}!`);
+          console.log(`📚 ${spirit.name} learned ${MOVES[move!].name}!`);
         }
       });
 
@@ -672,7 +672,7 @@ class SpiritTamerGame {
       console.log(`\n✨ ${spirit.name} is evolving!`);
 
       spirit.speciesId = evolution;
-      spirit.name = SPIRIT_SPECIES[evolution]?.name || spirit.name;
+      spirit.name = SPIRIT_SPECIES[evolution!]?.name || spirit.name;
       spirit.canEvolve = false;
 
       console.log(`🎉 ${spirit.name} evolved!`);
@@ -702,7 +702,7 @@ class SpiritTamerGame {
       .then((choice: string) => {
         const index = parseInt(choice) - 1;
         if (index >= 0 && index < this.player.activeTeam.length) {
-          const enemy = this.player.activeTeam[index];
+          const enemy = this.player.activeTeam[index!];
           this.startTrainingBattle(enemy);
         } else {
           console.log('❌ Invalid choice!');
@@ -757,7 +757,7 @@ class SpiritTamerGame {
       .then((choice: string) => {
         const index = parseInt(choice) - 1;
         if (index >= 0 && index < items.length) {
-          const item = items[index];
+          const item = items[index!];
           const quantity = this.player.inventory.get(item) || 0;
 
           if (quantity > 0) {

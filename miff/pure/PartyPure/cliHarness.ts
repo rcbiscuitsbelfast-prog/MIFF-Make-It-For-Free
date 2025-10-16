@@ -87,7 +87,7 @@ function printSlots(party: PartyManager): void {
   console.log('\n🎒 Party Slots:');
   party.slots.forEach((slot, index) => {
     if (slot.isEmpty) {
-      console.log(`  ${index}. [Empty]`);
+      console.log(`  ${index}. [Empty!]`);
     } else {
       const member = slot.member!;
       const hpPercent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
@@ -205,7 +205,7 @@ async function runCLI(): Promise<void> {
 
       case 'add':
         if (args.length < 2) {
-          console.log('❌ Usage: add <name> <maxHP> [currentHP]');
+          console.log('❌ Usage: add <name> <maxHP> [currentHP!]');
         } else {
           const name = args[0];
           const maxHP = parseInt(args[1]);

@@ -354,7 +354,7 @@ export class ValidationResult implements IValidationResult {
    * Create failed validation result
    */
   static fail(status: ValidationStatus, message: string): ValidationResult {
-    return new ValidationResult(status, message, [], [message]);
+    return new ValidationResult(status, message, [], [message!]);
   }
 
   /**
@@ -1140,7 +1140,7 @@ export class Team implements ITeam {
       return TeamOperationResult.INVALID_INPUT;
     }
 
-    [this.spirits[indexA], this.spirits[indexB]] = [this.spirits[indexB], this.spirits[indexA]];
+    [this.spirits[indexA!], this.spirits[indexB!]] = [this.spirits[indexB!], this.spirits[indexA!]];
     this.updatedAt = new Date();
     return TeamOperationResult.SUCCESS;
   }
@@ -1180,7 +1180,7 @@ export class Team implements ITeam {
     if (index < 0 || index >= this.spirits.length) {
       return null;
     }
-    return this.spirits[index];
+    return this.spirits[index!];
   }
 
   /**
@@ -1370,8 +1370,8 @@ export class Team implements ITeam {
     let effectivenessBonus = 0;
     for (let i = 0; i < this.spirits.length; i++) {
       for (let j = i + 1; j < this.spirits.length; j++) {
-        const spirit1 = this.spirits[i];
-        const spirit2 = this.spirits[j];
+        const spirit1 = this.spirits[i!];
+        const spirit2 = this.spirits[j!];
         
         // Calculate type effectiveness bonus based on spirit types
         if (spirit1.type && spirit2.type) {
@@ -1400,8 +1400,8 @@ export class Team implements ITeam {
     const type1Lower = type1.toLowerCase();
     const type2Lower = type2.toLowerCase();
     
-    if (compatibilityMatrix[type1Lower] && compatibilityMatrix[type1Lower][type2Lower]) {
-      return compatibilityMatrix[type1Lower][type2Lower] * 5; // Scale to 0-10 range
+    if (compatibilityMatrix[type1Lower!] && compatibilityMatrix[type1Lower!][type2Lower!]) {
+      return compatibilityMatrix[type1Lower!][type2Lower!] * 5; // Scale to 0-10 range
     }
     
     return 1.0 * 5; // Default neutral compatibility
@@ -1503,7 +1503,7 @@ export class Team implements ITeam {
 
     spirits.forEach((spirit: any) => {
       const role = Team.getSpiritRole(spirit);
-      roleCount[role] = (roleCount[role] || 0) + 1;
+      roleCount[role!] = (roleCount[role!] || 0) + 1;
     });
 
     return roleCount;
@@ -1881,11 +1881,11 @@ export const TeamUtils = {
 
     // Add top spirits to team - fill up to maxSize
     for (let i = 0; i < Math.min(sortedSpirits.length, team.maxSize); i++) {
-      const result = team.addSpirit(sortedSpirits[i]);
+      const result = team.addSpirit(sortedSpirits[i!]);
       if (result !== TeamOperationResult.SUCCESS) {
         // If adding to active team fails, try reserves
         if (team.spirits.length < team.maxSize) {
-          console.warn(`Failed to add spirit ${sortedSpirits[i].name} to team: ${result}`);
+          console.warn(`Failed to add spirit ${sortedSpirits[i!].name} to team: ${result}`);
         }
       }
     }
@@ -2606,7 +2606,7 @@ export class SpiritSyncEntry implements ISpiritSyncEntry {
   }
 
   getSyncBonus(statType: string): number {
-    return this.syncBonuses[statType] || 0;
+    return this.syncBonuses[statType!] || 0;
   }
 
   unlockAbility(abilityId: string): boolean {

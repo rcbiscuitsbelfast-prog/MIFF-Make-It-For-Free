@@ -407,8 +407,8 @@ export class UnrealEditorHarnessPure {
         artifacts: [],
         metadata: { error }
       };
-      this.testResults = [errorResult];
-      return [errorResult];
+      this.testResults = [errorResult!];
+      return [errorResult!];
     } finally {
       this.isRunning = false;
     }

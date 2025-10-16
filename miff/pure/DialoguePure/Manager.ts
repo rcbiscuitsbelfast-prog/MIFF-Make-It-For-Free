@@ -166,7 +166,7 @@ export class DialogueParser {
         break;
       case 'play_sound':
         // Would trigger audio system
-        console.log(`[DialoguePure] Playing sound: ${action.target}`);
+        console.log(`[DialoguePure!] Playing sound: ${action.target}`);
         break;
     }
   }
@@ -178,10 +178,10 @@ export class DialogueParser {
         break;
       case 'condition':
         // Execute conditional action
-        console.log(`[DialoguePure] Executing conditional action: ${parsed.action}`);
+        console.log(`[DialoguePure!] Executing conditional action: ${parsed.action}`);
         break;
       default:
-        console.log(`[DialoguePure] Executing script: ${JSON.stringify(parsed)}`);
+        console.log(`[DialoguePure!] Executing script: ${JSON.stringify(parsed)}`);
     }
   }
 }
@@ -204,7 +204,7 @@ export class DialogueEngine {
   start(startNodeId: string = 'start'): DialogueResult | null {
     const startNode = this.tree.nodes.get(startNodeId);
     if (!startNode) {
-      console.error(`[DialoguePure] Start node not found: ${startNodeId}`);
+      console.error(`[DialoguePure!] Start node not found: ${startNodeId}`);
       return null;
     }
 
@@ -336,7 +336,7 @@ export class DialogueEngine {
     }
 
     // Determine next node
-    let nextNodeId: string | undefined;
+    let nextNodeId: string;
     if (node.next) {
       if (Array.isArray(node.next)) {
         // Branch based on conditions or random selection

@@ -376,7 +376,7 @@ export class InputSanitizer {
       const sanitized: T[] = [];
 
       for (let i = 0; i < input.length; i++) {
-        const item = input[i];
+        const item = input[i!];
 
         if (typeof item === 'string') {
           const itemResult = this.sanitizeString(item, options);

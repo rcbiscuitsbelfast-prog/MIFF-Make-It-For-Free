@@ -31,7 +31,7 @@ function main() {
           if (!candidates.includes(cwdPath)) candidates.push(cwdPath);
           if (!candidates.includes(modulePath)) candidates.push(modulePath);
 
-          let fileToRead: string | undefined;
+          let fileToRead: string;
           for (const p of candidates) {
             try {
               if (fs.existsSync(p)) { fileToRead = p; break; }
@@ -212,24 +212,24 @@ function main() {
         result.result = {
           usage: 'SkillTreePure CLI Harness',
           commands: [
-            'load [skillsFile] - Load skills from file',
-            'createTree [id] [name] [description] - Create a skill tree',
-            'getTree [id] - Get skill tree by ID',
+            'load [skillsFile!] - Load skills from file',
+            'createTree [id!] [name!] [description!] - Create a skill tree',
+            'getTree [id!] - Get skill tree by ID',
             'listTrees - List all skill trees',
             'list - List all skill IDs',
             'getUnlocked - List unlocked skill IDs',
-            'get [id] - Get skill by ID',
-            'canUnlock [id] - Check if skill can be unlocked',
-            'unlock [id] - Unlock a skill',
-            'lock [id] - Lock a skill',
-            'levelUp [id] - Level up a skill',
-            'addExperience [id] [amount] - Add experience to skill',
-            'useSkill [id] - Use a skill',
-            'getProgress [id] - Get skill progress',
+            'get [id!] - Get skill by ID',
+            'canUnlock [id!] - Check if skill can be unlocked',
+            'unlock [id!] - Unlock a skill',
+            'lock [id!] - Lock a skill',
+            'levelUp [id!] - Level up a skill',
+            'addExperience [id!] [amount!] - Add experience to skill',
+            'useSkill [id!] - Use a skill',
+            'getProgress [id!] - Get skill progress',
             'getAllProgress - Get all skill progress',
             'getStats - Get skill tree statistics',
-            'listSkills [filterFile] - List skills with optional filter',
-            'export [format] - Export skills (json|csv|markdown)',
+            'listSkills [filterFile!] - List skills with optional filter',
+            'export [format!] - Export skills (json|csv|markdown)',
             'reset - Reset skill tree manager',
             'demo - Run demonstration scenarios',
             'help - Show this help'

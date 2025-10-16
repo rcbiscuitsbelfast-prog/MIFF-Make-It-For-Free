@@ -32,7 +32,7 @@ export function createPrefabState(config: PrefabConfig): PrefabState {
     id: config.id,
     name: config.name,
     blocks: config.blocks.map((b, i) => ({ id: `${config.id}_b${i}`, ...b })),
-    metadata: { tags: [...(config.tags || [])], createdAt: Date.now(), version: 1 }
+    metadata: { tags: [...(config.tags! || [])], createdAt: Date.now(), version: 1 }
   };
 }
 

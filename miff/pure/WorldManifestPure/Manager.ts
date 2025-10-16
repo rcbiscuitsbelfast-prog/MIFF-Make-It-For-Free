@@ -307,9 +307,9 @@ export class WorldManifestManager {
       return { ok: false, errors: [`Zone ${zoneId} not found in world`] };
     }
 
-    const seed = config.seed || Math.floor(Math.random() * 1000000);
-    const density = config.density || 0.5;
-    const assetPool = config.assetPool || ['default-asset'];
+    const seed = config.seed! || Math.floor(Math.random() * 1000000);
+    const density = config.density! || 0.5;
+    const assetPool = config.assetPool! || ['default-asset'];
     
     // Simple seeded random function
     let seedValue = seed;

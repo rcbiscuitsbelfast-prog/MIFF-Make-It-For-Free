@@ -99,7 +99,7 @@ export class Profiler {
 
   // Frame Management
   startFrame(frameNumber: number): void {
-    if (!this.config.enabled || !this.isRunning) return;
+    if (!this.config.enabled! || !this.isRunning) return;
 
     this.currentFrame = {
       frameNumber,
@@ -137,7 +137,7 @@ export class Profiler {
 
   // Sample Management
   beginSample(name: string, category: string = 'default', metadata?: Record<string, any>): string {
-    if (!this.config.enabled || !this.isRunning || !this.currentFrame) return '';
+    if (!this.config.enabled! || !this.isRunning || !this.currentFrame) return '';
 
     const sampleId = this.generateSampleId();
     const sample: ProfilerSample = {
@@ -168,7 +168,7 @@ export class Profiler {
   }
 
   endSample(sampleId: string): void {
-    if (!this.config.enabled || !this.isRunning || !this.currentFrame) return;
+    if (!this.config.enabled! || !this.isRunning || !this.currentFrame) return;
 
     const sample = this.activeSamples.get(sampleId);
     if (!sample) return;
@@ -184,7 +184,7 @@ export class Profiler {
 
   // Metric Management
   recordMetric(name: string, value: number, unit: string = '', category: string = 'default', metadata?: Record<string, any>): void {
-    if (!this.config.enabled || !this.isRunning || !this.currentFrame) return;
+    if (!this.config.enabled! || !this.isRunning || !this.currentFrame) return;
 
     const metricId = this.generateMetricId();
     const metric: ProfilerMetric = {

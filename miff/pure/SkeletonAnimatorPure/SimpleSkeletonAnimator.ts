@@ -120,7 +120,7 @@ export class SimpleRigBuilder {
   validate(): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!this.config.rootNode || !this.config.nodes[this.config.rootNode]) {
+    if (!this.config.rootNode! || !this.config.nodes[this.config.rootNode]) {
       errors.push('Root node not found');
     }
 
