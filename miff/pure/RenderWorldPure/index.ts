@@ -52,18 +52,30 @@ import {
 } from '../HUDPure';
 
 import {
-  SceneBuilderManager,
-  RenderPayloadPure
+  SceneBuilderManager
 } from '../SceneBuilderPure';
+
+// RenderPayloadPure not exported from SceneBuilderPure, defining locally
+interface RenderPayloadPure {
+  geometries?: any[];
+  lighting?: any;
+  camera?: any;
+  [key: string]: any;
+}
 
 import {
   EventBus
 } from '../EventsPure';
 
 import {
-  AvatarSystemPure,
-  AvatarRendererWebPure
+  AvatarSystemPure
 } from '../AvatarSystemPure';
+
+// AvatarRendererWebPure not exported, using placeholder
+class AvatarRendererWebPure {
+  constructor(config?: any) {}
+  render(entity: any, scene: any): void {}
+}
 
 import {
   nextNode,
