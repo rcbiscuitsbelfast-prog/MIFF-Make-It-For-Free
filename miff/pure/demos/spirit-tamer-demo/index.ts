@@ -13,13 +13,13 @@
  * - Save/load functionality
  */
 
-import { HealthSystemPure } from '../../miff/pure/HealthSystemPure/index';
-import { CombatPure } from '../../miff/pure/CombatPure/index';
-import { TeamsPure } from '../../miff/pure/TeamsPure/index';
-import { ItemsPure } from '../../miff/pure/ItemsPure/index';
-import { AIPure } from '../../miff/pure/AIPure/index';
-import { LogPure } from '../../miff/pure/LogPure/index';
-import { SavePure } from '../../miff/pure/SavePure/index';
+import { HealthSystemPure } from '../../HealthSystemPure/index';
+import { CombatPure } from '../../CombatPure/index';
+import { TeamsPure } from '../../TeamsPure/index';
+import { ItemsPure } from '../../ItemsPure/index';
+import { AIPure } from '../../AIPure/index';
+import { LogPure } from '../../LogPure/index';
+import { SavePure } from '../../SaveLoadPure/index';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
