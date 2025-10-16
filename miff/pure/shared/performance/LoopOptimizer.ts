@@ -72,14 +72,14 @@ export class LoopOptimizer {
 
     // Single pass optimization
     for (let outerIndex = 0; outerIndex < outerArray.length; outerIndex++) {
-      const outerItem = outerArray[outerIndex];
+      const outerItem = outerArray[outerIndex!];
       const innerArray = innerArrayAccessor(outerItem);
       
       if (innerArray && innerArray.length > 0) {
         nestedLevel = Math.max(nestedLevel, 1);
         
         for (let innerIndex = 0; innerIndex < innerArray.length; innerIndex++) {
-          const innerItem = innerArray[innerIndex];
+          const innerItem = innerArray[innerIndex!];
           processor(outerItem, innerItem, outerIndex, innerIndex);
           result = resultUpdater(result, outerItem, innerItem);
           totalIterations++;
@@ -129,7 +129,7 @@ export class LoopOptimizer {
 
     // Single pass optimization
     for (let i = 0; i < array.length; i++) {
-      const item = array[i];
+      const item = array[i!];
       iterations++;
 
       // Apply filter if provided
@@ -193,8 +193,8 @@ export class LoopOptimizer {
 
     // Optimized object iteration
     for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const value = obj[key];
+      const key = keys[i!];
+      const value = obj[key!];
       
       processor(key, value, i);
       result = resultUpdater(result, key, value);
@@ -285,7 +285,7 @@ export class LoopOptimizer {
       const batch = array.slice(i, i + batchSize);
       
       for (let j = 0; j < batch.length; j++) {
-        const result = processor(batch[j], i + j);
+        const result = processor(batch[j!], i + j);
         results.push(result);
         iterations++;
       }

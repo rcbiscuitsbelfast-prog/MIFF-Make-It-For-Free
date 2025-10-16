@@ -1037,7 +1037,7 @@ export class TimeSeriesAnalysisPure {
   private calculateMode(values: number[]): number {
     const frequency: Record<number, number> = {};
     values.forEach((val: any) => {
-      frequency[val] = (frequency[val] || 0) + 1;
+      frequency[val!] = (frequency[val!] || 0) + 1;
     });
     
     let maxFreq = 0;
@@ -1100,7 +1100,7 @@ export class TimeSeriesAnalysisPure {
 
     const sumX = x.reduce((sum, val) => sum + val, 0);
     const sumY = y.reduce((sum, val) => sum + val, 0);
-    const sumXY = x.reduce((sum, val, i) => sum + val * y[i], 0);
+    const sumXY = x.reduce((sum, val, i) => sum + val * y[i!], 0);
     const sumXX = x.reduce((sum, val) => sum + val * val, 0);
 
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);

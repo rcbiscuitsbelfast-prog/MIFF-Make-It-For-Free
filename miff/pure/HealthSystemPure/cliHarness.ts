@@ -40,8 +40,8 @@ try {
     case 'create':
       const options: any = {};
       if (args.includes('--current-hp')) options.currentHp = currentHp;
-      if (args.includes('--immunity') && immunity !== 'none') options.immunities = [immunity];
-      if (args.includes('--resistance') && resistance !== 'none') options.resistances = { [resistance]: resistanceValue };
+      if (args.includes('--immunity') && immunity !== 'none') options.immunities = [immunity!];
+      if (args.includes('--resistance') && resistance !== 'none') options.resistances = { [resistance!]: resistanceValue };
       
       output = manager.createEntity(entityId, maxHp, options);
       break;

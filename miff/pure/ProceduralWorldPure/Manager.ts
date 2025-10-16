@@ -37,8 +37,8 @@ export interface RiverOptions {
 export interface RiverSegment { start: [number, number]; end: [number, number] }
 
 export interface WorldAssets {
-	heightmap: number[][]; // [y][x] normalized 0..1
-	biomes?: string[][]; // [y][x]
+	heightmap: number[][]; // [y!][x!] normalized 0..1
+	biomes?: string[][]; // [y!][x!]
 	rivers?: RiverSegment[];
 }
 
@@ -110,7 +110,7 @@ function fbmNoise(width: number, height: number, opts: Required<Pick<TerrainOpti
 					// perlin/simplex approximation via value noise FBM
 					n = valueNoise2D(nx, ny, (ix, iy) => hash.randomAt(ix, iy));
 				}
-				out[y][x] += n * amp;
+				out[y!][x!] += n * amp;
 			}
 		}
 		maxAmp += amp;
@@ -120,7 +120,7 @@ function fbmNoise(width: number, height: number, opts: Required<Pick<TerrainOpti
 	// normalize 0..1
 	for (let y = 0; y < height; y++) {
 		for (let x = 0; x < width; x++) {
-			out[y][x] = Math.max(0, Math.min(1, out[y][x] / maxAmp));
+			out[y!][x!] = Math.max(0, Math.min(1, out[y!][x!] / maxAmp));
 		}
 	}
 	return out;
@@ -147,14 +147,14 @@ export class ProceduralWorldManager {
 		const biomes: string[][] = Array.from({ length: h }, () => Array<string>(w).fill('unknown'));
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
-				const z = heightmap[y][x];
+				const z = heightmap[y!][x!];
 				let chosen = 'unknown';
 				for (const rule of rules.biomes) {
 					const min = rule.minHeight ?? 0;
 					const max = rule.maxHeight ?? 1;
 					if (z >= min && z < max) { chosen = rule.name; break; }
 				}
-				biomes[y][x] = chosen;
+				biomes[y!][x!] = chosen;
 			}
 		}
 		return biomes;
@@ -164,7 +164,7 @@ export class ProceduralWorldManager {
 		const h = heightmap.length; if (h === 0) return [];
 		const w = heightmap[0].length;
 		const flat: { x: number; y: number; z: number }[] = [];
-		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y][x] });
+		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y!][x!] });
 		flat.sort((a: any, b: any) => b.z - a.z);
 		const numSources = Math.max(1, Math.min(flat.length, Math.floor((opts.threshold <= 1 ? opts.threshold : 0.1) * flat.length)));
 		const maxR = opts.maxRivers ?? Math.min(10, numSources);
@@ -174,7 +174,7 @@ export class ProceduralWorldManager {
 		const neighbors = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
 		let started = 0;
 		for (let i = 0; i < flat.length && started < maxR; i++) {
-			const src = flat[i];
+			const src = flat[i!];
 			if (used[src.y][src.x]) continue;
 			let cx = src.x, cy = src.y, cz = src.z;
 			let steps = 0;
@@ -184,15 +184,15 @@ export class ProceduralWorldManager {
 				for (const [dx, dy] of neighbors) {
 					const nx = cx + dx, ny = cy + dy;
 					if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
-					const nz = heightmap[ny][nx];
+					const nz = heightmap[ny!][nx!];
 					const dz = cz - nz;
 					if (dz > bestDz) { bestDz = dz; bestDx = dx; bestDy = dy; }
 				}
 				if (bestDz <= 0.0001) break; // reached basin or flat
 				const nx = cx + bestDx, ny = cy + bestDy;
 				segs.push({ start: [cx, cy], end: [nx, ny] });
-				used[cy][cx] = true;
-				cx = nx; cy = ny; cz = heightmap[cy][cx];
+				used[cy!][cx!] = true;
+				cx = nx; cy = ny; cz = heightmap[cy!][cx!];
 				if (cx === 0 || cy === 0 || cx === w - 1 || cy === h - 1) break; // reached border
 			}
 			started++;

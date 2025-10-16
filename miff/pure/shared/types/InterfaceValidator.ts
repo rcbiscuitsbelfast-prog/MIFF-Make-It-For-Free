@@ -120,7 +120,7 @@ export class InterfaceValidator {
     // Validate each property in the schema
     for (const [key, rule] of Object.entries(schema)) {
       const currentPath = path === 'root' ? key : `${path}.${key}`;
-      const value = data[key];
+      const value = data[key!];
 
       if (TypeGuards.isObject(rule) && !('type' in rule)) {
         // Nested schema

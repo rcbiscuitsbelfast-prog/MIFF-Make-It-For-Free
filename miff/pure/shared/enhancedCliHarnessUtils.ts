@@ -120,7 +120,7 @@ function extractScenarioId(cliPath: string): string | null {
     'QuestScenarioPure': 'quest_scenario'
   };
   
-  return scenarioMap[basename] || null;
+  return scenarioMap[basename!] || null;
 }
 
 /**
@@ -181,7 +181,7 @@ function loadFixture(scenarioId: string): any {
     }
   };
   
-  return fixtures[scenarioId] || null;
+  return fixtures[scenarioId!] || null;
 }
 
 /**
@@ -562,27 +562,27 @@ function generateMockResponse(resolvedPath: string, args: string[]): any {
  */
 export function registerReplayHooks(system: any): void {
   if (!system || typeof system.on !== 'function') {
-    console.warn('[ReplayHook] System does not support event handling');
+    console.warn('[ReplayHook!] System does not support event handling');
     return;
   }
 
   system.on("hookRegistered", (hook: ReplayHook) => {
-    console.log(`[ReplayHook] Registered: ${hook.name}`);
+    console.log(`[ReplayHook!] Registered: ${hook.name}`);
   });
 
   system.on("replayStart", async () => {
     const unresolved = detectUnresolvedHooks(system);
     if (unresolved.length > 0) {
-      console.warn(`[ReplayHook] Unresolved hooks:`, unresolved);
+      console.warn(`[ReplayHook!] Unresolved hooks:`, unresolved);
     }
   });
 
   system.on("replayEnd", () => {
-    console.log('[ReplayHook] Replay session completed');
+    console.log('[ReplayHook!] Replay session completed');
   });
 
   system.on("hookError", (error: Error, hook: ReplayHook) => {
-    console.error(`[ReplayHook] Error in hook ${hook.name}:`, error.message);
+    console.error(`[ReplayHook!] Error in hook ${hook.name}:`, error.message);
   });
 }
 
@@ -662,11 +662,11 @@ export const validationChecklist = {
   },
   
   visualReplayLogsHooks: (logs: string[]): boolean => {
-    return logs.some(log => log.includes('[ReplayHook] Registered:'));
+    return logs.some(log => log.includes('[ReplayHook!] Registered:'));
   },
   
   unresolvedHooksDetected: (warnings: string[]): boolean => {
-    return warnings.some(warning => warning.includes('[ReplayHook] Unresolved hooks:'));
+    return warnings.some(warning => warning.includes('[ReplayHook!] Unresolved hooks:'));
   },
   
   fixturesInjected: (scenarioId: string): boolean => {

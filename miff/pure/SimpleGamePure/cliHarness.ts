@@ -291,7 +291,7 @@ class SimpleGameCLI {
         this.showStats();
         break;
       default:
-        console.log('❓ Clicker commands: [click], "upgrade", "auto", "stats", or "menu"');
+        console.log('❓ Clicker commands: [click!], "upgrade", "auto", "stats", or "menu"');
     }
   }
 

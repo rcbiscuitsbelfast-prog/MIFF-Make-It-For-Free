@@ -736,7 +736,7 @@ export class UnityBridgeManager {
   }
 
   private async initializeBridge(): Promise<void> {
-    console.log('[UnityBridgeManager] Initializing Unity bridge...');
+    console.log('[UnityBridgeManager!] Initializing Unity bridge...');
 
     try {
       // Initialize communication protocol
@@ -755,10 +755,10 @@ export class UnityBridgeManager {
       this.startHeartbeat();
 
       this.isInitialized = true;
-      console.log('[UnityBridgeManager] Unity bridge initialized successfully');
+      console.log('[UnityBridgeManager!] Unity bridge initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[UnityBridgeManager] Failed to initialize Unity bridge:', err instanceof Error ? err.message : String(err));
+      console.error('[UnityBridgeManager!] Failed to initialize Unity bridge:', err instanceof Error ? err.message : String(err));
       throw new Error(`Unity bridge initialization failed: ${error}`);
     }
   }
@@ -786,27 +786,27 @@ export class UnityBridgeManager {
   }
 
   private async initializeMessagePassing(): Promise<void> {
-    console.log('[UnityBridgeManager] Initializing message passing protocol...');
+    console.log('[UnityBridgeManager!] Initializing message passing protocol...');
     // Implementation for message passing communication
   }
 
   private async initializeSharedMemory(): Promise<void> {
-    console.log('[UnityBridgeManager] Initializing shared memory protocol...');
+    console.log('[UnityBridgeManager!] Initializing shared memory protocol...');
     // Implementation for shared memory communication
   }
 
   private async initializeNetworkSocket(): Promise<void> {
-    console.log('[UnityBridgeManager] Initializing network socket protocol...');
+    console.log('[UnityBridgeManager!] Initializing network socket protocol...');
     // Implementation for network socket communication
   }
 
   private async initializeFileSystem(): Promise<void> {
-    console.log('[UnityBridgeManager] Initializing file system protocol...');
+    console.log('[UnityBridgeManager!] Initializing file system protocol...');
     // Implementation for file system communication
   }
 
   private async initializeDatabase(): Promise<void> {
-    console.log('[UnityBridgeManager] Initializing database protocol...');
+    console.log('[UnityBridgeManager!] Initializing database protocol...');
     // Implementation for database communication
   }
 
@@ -874,7 +874,7 @@ export class UnityBridgeManager {
 
   // Core bridge functionality
   async connect(target: string): Promise<boolean> {
-    console.log(`[UnityBridgeManager] Connecting to Unity instance: ${target}`);
+    console.log(`[UnityBridgeManager!] Connecting to Unity instance: ${target}`);
 
     try {
       const connection: UnityConnection = {
@@ -900,16 +900,16 @@ export class UnityBridgeManager {
         connection.status = 'connected';
         this.isConnected = true;
         this.reconnectAttempts = 0;
-        console.log(`[UnityBridgeManager] Successfully connected to Unity instance: ${target}`);
+        console.log(`[UnityBridgeManager!] Successfully connected to Unity instance: ${target}`);
         return true;
       } else {
         connection.status = 'error';
-        console.error(`[UnityBridgeManager] Failed to connect to Unity instance: ${target}`);
+        console.error(`[UnityBridgeManager!] Failed to connect to Unity instance: ${target}`);
         return false;
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[UnityBridgeManager] Connection failed: ${error}`);
+      console.error(`[UnityBridgeManager!] Connection failed: ${error}`);
       return false;
     }
   }
@@ -957,7 +957,7 @@ export class UnityBridgeManager {
   }
 
   async disconnect(): Promise<void> {
-    console.log('[UnityBridgeManager] Disconnecting from Unity...');
+    console.log('[UnityBridgeManager!] Disconnecting from Unity...');
 
     for (const connection of this.connections.values()) {
       connection.status = 'disconnected';
@@ -965,7 +965,7 @@ export class UnityBridgeManager {
     }
 
     this.isConnected = false;
-    console.log('[UnityBridgeManager] Disconnected from Unity');
+    console.log('[UnityBridgeManager!] Disconnected from Unity');
   }
 
   private async closeConnection(connection: UnityConnection): Promise<void> {
@@ -990,7 +990,7 @@ export class UnityBridgeManager {
       return true;
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[UnityBridgeManager] Failed to send message: ${error}`);
+      console.error(`[UnityBridgeManager!] Failed to send message: ${error}`);
       return false;
     }
   }
@@ -1013,7 +1013,7 @@ export class UnityBridgeManager {
         await this.processHeartbeatMessage(message);
         break;
       default:
-        console.warn(`[UnityBridgeManager] Unknown message type: ${message.type}`);
+        console.warn(`[UnityBridgeManager!] Unknown message type: ${message.type}`);
     }
   }
 
@@ -1134,7 +1134,7 @@ export class UnityBridgeManager {
           await handler(event.data);
         } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-          console.error(`[UnityBridgeManager] Event handler failed: ${error}`);
+          console.error(`[UnityBridgeManager!] Event handler failed: ${error}`);
         }
       }
     }
@@ -1428,12 +1428,12 @@ export class UnityBridgeManager {
     this.lastHeartbeat = 0;
     this.reconnectAttempts = 0;
 
-    console.log('[UnityBridgeManager] Reset to initial state');
+    console.log('[UnityBridgeManager!] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    console.log('[UnityBridgeManager] Disposed successfully');
+    console.log('[UnityBridgeManager!] Disposed successfully');
   }
 }

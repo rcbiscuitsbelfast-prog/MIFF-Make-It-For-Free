@@ -434,7 +434,7 @@ export class APIDocumentationGenerator {
     const lines = content.split('\n');
     
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
+      const line = lines[i!].trim();
       
       // Parse interfaces
       if (line.startsWith('export interface ')) {
@@ -482,7 +482,7 @@ export class APIDocumentationGenerator {
    * Parse interface definition
    */
   private parseInterface(lines: string[], startIndex: number, filePath: string): InterfaceInfo | null {
-    const line = lines[startIndex];
+    const line = lines[startIndex!];
     const match = line.match(/export interface (\w+)/);
     if (!match) return null;
 
@@ -498,8 +498,8 @@ export class APIDocumentationGenerator {
 
     // Parse properties
     let i = startIndex + 1;
-    while (i < lines.length && !lines[i].includes('}')) {
-      const propLine = lines[i].trim();
+    while (i < lines.length && !lines[i!].includes('}')) {
+      const propLine = lines[i!].trim();
       if (propLine && !propLine.startsWith('//') && !propLine.startsWith('*')) {
         const property = this.parseProperty(propLine, filePath);
         if (property) {
@@ -516,7 +516,7 @@ export class APIDocumentationGenerator {
    * Parse class definition
    */
   private parseClass(lines: string[], startIndex: number, filePath: string): ClassInfo | null {
-    const line = lines[startIndex];
+    const line = lines[startIndex!];
     const match = line.match(/export class (\w+)/);
     if (!match) return null;
 
@@ -537,7 +537,7 @@ export class APIDocumentationGenerator {
     let inClass = false;
 
     while (i < lines.length) {
-      const line = lines[i].trim();
+      const line = lines[i!].trim();
       
       if (line.includes('{')) {
         braceCount++;
@@ -576,7 +576,7 @@ export class APIDocumentationGenerator {
    * Parse enum definition
    */
   private parseEnum(lines: string[], startIndex: number, filePath: string): EnumInfo | null {
-    const line = lines[startIndex];
+    const line = lines[startIndex!];
     const match = line.match(/export enum (\w+)/);
     if (!match) return null;
 
@@ -592,8 +592,8 @@ export class APIDocumentationGenerator {
 
     // Parse enum values
     let i = startIndex + 1;
-    while (i < lines.length && !lines[i].includes('}')) {
-      const valueLine = lines[i].trim();
+    while (i < lines.length && !lines[i!].includes('}')) {
+      const valueLine = lines[i!].trim();
       if (valueLine && !valueLine.startsWith('//') && !valueLine.startsWith('*')) {
         const value = this.parseEnumValue(valueLine, filePath);
         if (value) {
@@ -610,7 +610,7 @@ export class APIDocumentationGenerator {
    * Parse function definition
    */
   private parseFunction(lines: string[], startIndex: number, filePath: string): FunctionInfo | null {
-    const line = lines[startIndex];
+    const line = lines[startIndex!];
     const match = line.match(/export function (\w+)/);
     if (!match) return null;
 
@@ -630,7 +630,7 @@ export class APIDocumentationGenerator {
    * Parse type definition
    */
   private parseType(lines: string[], startIndex: number, filePath: string): TypeInfo | null {
-    const line = lines[startIndex];
+    const line = lines[startIndex!];
     const match = line.match(/export type (\w+)/);
     if (!match) return null;
 
@@ -649,7 +649,7 @@ export class APIDocumentationGenerator {
    * Parse method definition
    */
   private parseMethod(lines: string[], startIndex: number, filePath: string): MethodInfo | null {
-    const line = lines[startIndex];
+    const line = lines[startIndex!];
     const match = line.match(/(\w+)\s*\(/);
     if (!match) return null;
 
@@ -708,7 +708,7 @@ export class APIDocumentationGenerator {
     let comment = '';
     
     while (i >= 0) {
-      const line = lines[i].trim();
+      const line = lines[i!].trim();
       if (line.startsWith('*/')) {
         break;
       }

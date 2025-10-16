@@ -18,7 +18,7 @@ export function getOverride(): RemixTaggingOverride {
         'MiffAttributionPure': 'remix-required'
       };
       
-      return specialModules[moduleId] || null;
+      return specialModules[moduleId!] || null;
     },
     
     getDependencies: (moduleId: string): string[] => {
@@ -32,7 +32,7 @@ export function getOverride(): RemixTaggingOverride {
         'WebBridgePure': ['BridgeSchemaPure', 'CombatPure']
       };
       
-      return enhancedDeps[moduleId] || [];
+      return enhancedDeps[moduleId!] || [];
     }
   };
 }

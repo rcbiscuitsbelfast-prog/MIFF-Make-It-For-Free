@@ -505,7 +505,7 @@ export class WebExporter {
   }
 
   private async initializeExporter(): Promise<void> {
-    console.log('[WebExporter] Initializing Web exporter...');
+    console.log('[WebExporter!] Initializing Web exporter...');
 
     try {
       // Validate project settings
@@ -518,24 +518,24 @@ export class WebExporter {
       await this.initializeWebProject();
 
       this.isInitialized = true;
-      console.log('[WebExporter] Web exporter initialized successfully');
+      console.log('[WebExporter!] Web exporter initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebExporter] Failed to initialize Web exporter:', err instanceof Error ? err.message : String(err));
+      console.error('[WebExporter!] Failed to initialize Web exporter:', err instanceof Error ? err.message : String(err));
       throw new Error(`Web exporter initialization failed: ${error}`);
     }
   }
 
   private async validateProjectSettings(): Promise<void> {
-    console.log('[WebExporter] Validating project settings...');
+    console.log('[WebExporter!] Validating project settings...');
   }
 
   private async validateBuildConfiguration(): Promise<void> {
-    console.log('[WebExporter] Validating build configuration...');
+    console.log('[WebExporter!] Validating build configuration...');
   }
 
   private async initializeWebProject(): Promise<void> {
-    console.log('[WebExporter] Initializing Web project...');
+    console.log('[WebExporter!] Initializing Web project...');
   }
 
   async exportProject(): Promise<WebExportReport> {
@@ -546,7 +546,7 @@ export class WebExporter {
     const exportId = `export_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = Date.now();
 
-    console.log(`[WebExporter] Starting export: ${exportId}`);
+    console.log(`[WebExporter!] Starting export: ${exportId}`);
 
     const report: WebExportReport = {
       exportId,
@@ -585,7 +585,7 @@ export class WebExporter {
       report.duration = report.endTime - startTime;
       report.exportStatus = 'success';
 
-      console.log(`[WebExporter] Export completed: ${exportId}`);
+      console.log(`[WebExporter!] Export completed: ${exportId}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
       report.endTime = Date.now();
@@ -606,7 +606,7 @@ export class WebExporter {
 
       report.exportErrors.push(exportError);
 
-      console.error(`[WebExporter] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
+      console.error(`[WebExporter!] Export failed: ${exportId}`, err instanceof Error ? err.message : String(err));
     }
 
     this.exportReports.push(report);
@@ -614,27 +614,27 @@ export class WebExporter {
   }
 
   private async exportProjectSettings(): Promise<void> {
-    console.log('[WebExporter] Exporting project settings...');
+    console.log('[WebExporter!] Exporting project settings...');
   }
 
   private async exportPages(): Promise<void> {
-    console.log('[WebExporter] Exporting pages...');
+    console.log('[WebExporter!] Exporting pages...');
   }
 
   private async exportAssets(): Promise<void> {
-    console.log('[WebExporter] Exporting assets...');
+    console.log('[WebExporter!] Exporting assets...');
   }
 
   private async exportResources(): Promise<void> {
-    console.log('[WebExporter] Exporting resources...');
+    console.log('[WebExporter!] Exporting resources...');
   }
 
   private async generateBuildFiles(): Promise<void> {
-    console.log('[WebExporter] Generating build files...');
+    console.log('[WebExporter!] Generating build files...');
   }
 
   private async exportProjectFiles(): Promise<void> {
-    console.log('[WebExporter] Exporting project files...');
+    console.log('[WebExporter!] Exporting project files...');
   }
 
   async buildProject(): Promise<any> {
@@ -642,10 +642,10 @@ export class WebExporter {
       throw new Error('Web exporter not initialized');
     }
 
-    console.log('[WebExporter] Building Web project...');
+    console.log('[WebExporter!] Building Web project...');
 
     // Implementation for building Web project
-    console.log('[WebExporter] Build completed successfully');
+    console.log('[WebExporter!] Build completed successfully');
 
     return {
       buildStatus: 'success',
@@ -702,12 +702,12 @@ export class WebExporter {
 
   reset(): void {
     this.exportReports = [];
-    console.log('[WebExporter] Reset to initial state');
+    console.log('[WebExporter!] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    console.log('[WebExporter] Disposed successfully');
+    console.log('[WebExporter!] Disposed successfully');
   }
 }

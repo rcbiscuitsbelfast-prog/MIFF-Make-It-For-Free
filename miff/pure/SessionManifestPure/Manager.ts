@@ -28,10 +28,10 @@ export class SessionManifestManager {
 
   constructor(config: SessionConfig = {}) {
     this.config = {
-      maxPlayers: config.maxPlayers || 8,
-      autoStart: config.autoStart || false,
-      sessionTimeout: config.sessionTimeout || 60,
-      allowSpectators: config.allowSpectators || true,
+      maxPlayers: config.maxPlayers! || 8,
+      autoStart: config.autoStart! || false,
+      sessionTimeout: config.sessionTimeout! || 60,
+      allowSpectators: config.allowSpectators! || true,
     };
   }
 

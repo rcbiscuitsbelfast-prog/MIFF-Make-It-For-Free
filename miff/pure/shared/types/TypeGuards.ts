@@ -164,23 +164,23 @@ export class TypeGuards {
   }
 
   static hasStringProperty<K extends string>(obj: any, key: K): obj is Record<K, string> {
-    return TypeGuards.hasProperty(obj, key) && TypeGuards.isString(obj[key]);
+    return TypeGuards.hasProperty(obj, key) && TypeGuards.isString(obj[key!]);
   }
 
   static hasNumberProperty<K extends string>(obj: any, key: K): obj is Record<K, number> {
-    return TypeGuards.hasProperty(obj, key) && TypeGuards.isNumber(obj[key]);
+    return TypeGuards.hasProperty(obj, key) && TypeGuards.isNumber(obj[key!]);
   }
 
   static hasBooleanProperty<K extends string>(obj: any, key: K): obj is Record<K, boolean> {
-    return TypeGuards.hasProperty(obj, key) && TypeGuards.isBoolean(obj[key]);
+    return TypeGuards.hasProperty(obj, key) && TypeGuards.isBoolean(obj[key!]);
   }
 
   static hasArrayProperty<K extends string>(obj: any, key: K): obj is Record<K, any[]> {
-    return TypeGuards.hasProperty(obj, key) && TypeGuards.isArray(obj[key]);
+    return TypeGuards.hasProperty(obj, key) && TypeGuards.isArray(obj[key!]);
   }
 
   static hasObjectProperty<K extends string>(obj: any, key: K): obj is Record<K, object> {
-    return TypeGuards.hasProperty(obj, key) && TypeGuards.isObject(obj[key]);
+    return TypeGuards.hasProperty(obj, key) && TypeGuards.isObject(obj[key!]);
   }
 
   /**
@@ -430,8 +430,8 @@ export class TypeGuards {
   /**
    * Safe property access
    */
-  static safeGet<T, K extends keyof T>(obj: T, key: K): T[K] | undefined {
-    return TypeGuards.isObject(obj) && key in obj ? obj[key] : undefined;
+  static safeGet<T, K extends keyof T>(obj: T, key: K): T[K!] | undefined {
+    return TypeGuards.isObject(obj) && key in obj ? obj[key!] : undefined;
   }
 
   static safeGetWithDefault<T, K extends keyof T>(obj: T, key: K, defaultValue: T[K]): T[K] {

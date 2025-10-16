@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 BattleAIPure CLI Harness - Battle AI Management System
 
-Usage: npx tsx miff/pure/BattleAIPure/cliHarness.ts [command] [options]
+Usage: npx tsx miff/pure/BattleAIPure/cliHarness.ts [command!] [options!]
 
 Commands:
   test                     - Run basic battle AI tests
@@ -280,14 +280,14 @@ class BattleAIPureCLI {
     console.log('  profiles          - Show all AI profiles');
     console.log('  spirits           - Show all spirits');
     console.log('  moves             - Show all moves');
-    console.log('  decide [spirit] [opponent] [profile] - Show AI decision');
-    console.log('  battle [spirit1] [spirit2] [profile] - Simulate battle');
-    console.log('  threat [spirit] [opponent] - Evaluate threat level');
-    console.log('  profile [id]      - Show profile details');
-    console.log('  compare [profile1] [profile2] - Compare profiles');
-    console.log('  heal [spirit] [amount] - Heal spirit');
-    console.log('  damage [spirit] [amount] - Damage spirit');
-    console.log('  status [spirit]   - Show spirit status');
+    console.log('  decide [spirit!] [opponent!] [profile!] - Show AI decision');
+    console.log('  battle [spirit1!] [spirit2!] [profile!] - Simulate battle');
+    console.log('  threat [spirit!] [opponent!] - Evaluate threat level');
+    console.log('  profile [id!]      - Show profile details');
+    console.log('  compare [profile1!] [profile2!] - Compare profiles');
+    console.log('  heal [spirit!] [amount!] - Heal spirit');
+    console.log('  damage [spirit!] [amount!] - Damage spirit');
+    console.log('  status [spirit!]   - Show spirit status');
     console.log('  help              - Show this help');
     console.log('  exit              - Exit application');
     console.log('');
@@ -394,14 +394,14 @@ class BattleAIPureCLI {
     console.log('  profiles                - List all AI profiles');
     console.log('  spirits                 - List all available spirits');
     console.log('  moves                   - List all available moves');
-    console.log('  decide [s] [opp] [prof] - Show AI decision for spirit');
-    console.log('  battle [s1] [s2] [prof] - Simulate battle between spirits');
-    console.log('  threat [s] [opp]        - Evaluate threat level of opponent');
-    console.log('  profile [id]            - Show detailed profile info');
-    console.log('  compare [p1] [p2]       - Compare two profiles');
-    console.log('  heal [spirit] [amount]  - Heal spirit (default: 20)');
-    console.log('  damage [spirit] [amount]- Damage spirit (default: 20)');
-    console.log('  status [spirit]         - Show detailed spirit status');
+    console.log('  decide [s!] [opp!] [prof!] - Show AI decision for spirit');
+    console.log('  battle [s1!] [s2!] [prof!] - Simulate battle between spirits');
+    console.log('  threat [s!] [opp!]        - Evaluate threat level of opponent');
+    console.log('  profile [id!]            - Show detailed profile info');
+    console.log('  compare [p1!] [p2!]       - Compare two profiles');
+    console.log('  heal [spirit!] [amount!]  - Heal spirit (default: 20)');
+    console.log('  damage [spirit!] [amount!]- Damage spirit (default: 20)');
+    console.log('  status [spirit!]         - Show detailed spirit status');
     console.log('  exit                    - Exit the application');
     console.log('');
     console.log('Examples:');
@@ -482,7 +482,7 @@ class BattleAIPureCLI {
    */
   private async showDecision(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: decide [spirit] [opponent] [profile]');
+      console.log('❌ Usage: decide [spirit!] [opponent!] [profile!]');
       return;
     }
 
@@ -554,7 +554,7 @@ class BattleAIPureCLI {
    */
   private async simulateBattle(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: battle [spirit1] [spirit2] [profile]');
+      console.log('❌ Usage: battle [spirit1!] [spirit2!] [profile!]');
       return;
     }
 
@@ -643,7 +643,7 @@ class BattleAIPureCLI {
    */
   private showThreatLevel(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: threat [spirit] [opponent]');
+      console.log('❌ Usage: threat [spirit!] [opponent!]');
       return;
     }
 
@@ -689,7 +689,7 @@ class BattleAIPureCLI {
    */
   private showProfileDetails(profileId: string): void {
     if (!profileId) {
-      console.log('❌ Usage: profile [profile_id]');
+      console.log('❌ Usage: profile [profile_id!]');
       return;
     }
 
@@ -732,7 +732,7 @@ class BattleAIPureCLI {
    */
   private compareProfiles(profileId1: string, profileId2: string): void {
     if (!profileId1 || !profileId2) {
-      console.log('❌ Usage: compare [profile1] [profile2]');
+      console.log('❌ Usage: compare [profile1!] [profile2!]');
       return;
     }
 
@@ -824,7 +824,7 @@ class BattleAIPureCLI {
    */
   private showSpiritStatus(spiritId: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: status [spirit_id]');
+      console.log('❌ Usage: status [spirit_id!]');
       return;
     }
 

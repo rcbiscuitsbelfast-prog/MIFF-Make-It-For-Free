@@ -122,7 +122,7 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
 
   // Parse additional arguments
   for (let i = 2; i < args.length; i++) {
-    const arg = args[i];
+    const arg = args[i!];
     
     if (arg.startsWith('--format=')) {
       result.format = arg.split('=')[1] as OutputFormat;
@@ -240,7 +240,7 @@ export function generateHelpText(moduleName: string, operations: CLIOperation[])
 ${moduleName} CLI Harness
 
 Usage:
-  tsx cliHarness.ts <operation> <module> [options]
+  tsx cliHarness.ts <operation> <module> [options!]
 
 Operations:
   ${operations.map((op: any) => `  ${op}`).join('\n')}

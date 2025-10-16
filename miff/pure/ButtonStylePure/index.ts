@@ -515,17 +515,17 @@ export class ButtonStyleManager {
     }
 
     // Start with base style for variant
-    const baseStyle = theme.baseStyles[variant];
+    const baseStyle = theme.baseStyles[variant!];
     if (!baseStyle) {
       throw new Error(`Variant ${variant} not found in theme`);
     }
 
     // Apply size multiplier
-    const sizeMultiplier = theme.sizeMultipliers[size] || 1.0;
+    const sizeMultiplier = theme.sizeMultipliers[size!] || 1.0;
     const scaledStyle = this.applySizeMultiplier(baseStyle, sizeMultiplier);
 
     // Apply state modifiers
-    const stateModifier = theme.stateModifiers[state] || {};
+    const stateModifier = theme.stateModifiers[state!] || {};
     const stateStyle = { ...scaledStyle, ...stateModifier };
 
     // Apply custom overrides

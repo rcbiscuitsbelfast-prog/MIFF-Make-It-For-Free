@@ -284,7 +284,7 @@ export class SafeExpressionEvaluator {
     let result = this.evaluateExpression(parts[0]);
     
     for (let i = 1; i < parts.length; i += 2) {
-      const operator = parts[i];
+      const operator = parts[i!];
       const operand = this.evaluateExpression(parts[i + 1]);
       
       if (operator === '*') {
@@ -312,7 +312,7 @@ export class SafeExpressionEvaluator {
     let result = this.evaluateExpression(parts[0]);
     
     for (let i = 1; i < parts.length; i += 2) {
-      const operator = parts[i];
+      const operator = parts[i!];
       const operand = this.evaluateExpression(parts[i + 1]);
       
       if (operator === '+') {

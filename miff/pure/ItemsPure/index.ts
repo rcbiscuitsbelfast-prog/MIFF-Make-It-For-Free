@@ -574,7 +574,7 @@ export class ItemUsageManager {
     }
 
     // Key items don't require inventory tracking
-    if (item.type !== ItemType.KEY_ITEM && (!this.context.inventory[itemId] || this.context.inventory[itemId] <= 0)) {
+    if (item.type !== ItemType.KEY_ITEM && (!this.context.inventory[itemId!] || this.context.inventory[itemId!] <= 0)) {
       return UsageResult.fail(UsageStatus.INSUFFICIENT_RESOURCES, 'Item not in inventory');
     }
 
@@ -625,7 +625,7 @@ export class ItemUsageManager {
 
     // Consume item (key items are not tracked in inventory)
     if (item.type !== ItemType.KEY_ITEM) {
-      this.context.inventory[itemId]--;
+      this.context.inventory[itemId!]--;
     }
 
     // Apply effects

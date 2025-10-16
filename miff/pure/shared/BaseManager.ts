@@ -323,7 +323,7 @@ export abstract class BaseManager extends EventEmitter {
           .sort(([, a], [, b]) => a.startTime.getTime() - b.startTime.getTime())
           .slice(0, 500);
         
-        for (const [id] of oldestOperations) {
+        for (const [id!] of oldestOperations) {
           this.operations.delete(id);
         }
       }

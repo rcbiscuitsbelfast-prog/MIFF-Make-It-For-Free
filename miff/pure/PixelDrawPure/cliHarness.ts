@@ -161,7 +161,7 @@ function main() {
               height: grid.meta.height,
               cellSize: grid.meta.cellSize,
               totalCells: grid.cells.length,
-              emptyCells: grid.cells.filter(c => c === null).length
+              emptyCells: grid.cells.filter((c: any) => c === null).length
             }
           }
         };
@@ -179,7 +179,7 @@ function main() {
           summary: {
             width: setGrid.meta.width,
             height: setGrid.meta.height,
-            filledCells: setGrid.cells.filter(c => c !== null).length,
+            filledCells: setGrid.cells.filter((c: any) => c !== null).length,
             totalCells: setGrid.cells.length
           }
         };
@@ -197,7 +197,7 @@ function main() {
           summary: {
             width: getGrid.meta.width,
             height: getGrid.meta.height,
-            filledCells: getGrid.cells.filter(c => c !== null).length
+            filledCells: getGrid.cells.filter((c: any) => c !== null).length
           }
         };
         break;
@@ -228,7 +228,7 @@ function main() {
           summary: {
             width: rectGrid.meta.width,
             height: rectGrid.meta.height,
-            filledCells: rectGrid.cells.filter(c => c !== null).length,
+            filledCells: rectGrid.cells.filter((c: any) => c !== null).length,
             totalCells: rectGrid.cells.length
           }
         };
@@ -263,7 +263,7 @@ function main() {
           summary: {
             width: circleGrid.meta.width,
             height: circleGrid.meta.height,
-            filledCells: circleGrid.cells.filter(c => c !== null).length,
+            filledCells: circleGrid.cells.filter((c: any) => c !== null).length,
             totalCells: circleGrid.cells.length
           }
         };
@@ -316,7 +316,7 @@ function main() {
           summary: {
             width: lineGrid.meta.width,
             height: lineGrid.meta.height,
-            filledCells: lineGrid.cells.filter(c => c !== null).length,
+            filledCells: lineGrid.cells.filter((c: any) => c !== null).length,
             totalCells: lineGrid.cells.length
           }
         };
@@ -324,7 +324,7 @@ function main() {
 
       case 'fill':
         const fillGrid = operation.grid!;
-        const originalFilled = fillGrid.cells.filter(c => c !== null).length;
+        const originalFilled = fillGrid.cells.filter((c: any) => c !== null).length;
         
         for (let i = 0; i < fillGrid.cells.length; i++) {
           fillGrid.cells[i] = operation.color!;
@@ -345,7 +345,7 @@ function main() {
 
       case 'clear':
         const clearGrid = operation.grid!;
-        const originalFilledClear = clearGrid.cells.filter(c => c !== null).length;
+        const originalFilledClear = clearGrid.cells.filter((c: any) => c !== null).length;
         
         for (let i = 0; i < clearGrid.cells.length; i++) {
           clearGrid.cells[i] = null;
@@ -372,7 +372,7 @@ function main() {
             width: exportGrid.meta.width,
             height: exportGrid.meta.height,
             cellSize: exportGrid.meta.cellSize,
-            filledCells: exportGrid.cells.filter(c => c !== null).length,
+            filledCells: exportGrid.cells.filter((c: any) => c !== null).length,
             totalCells: exportGrid.cells.length
           }
         };
@@ -451,10 +451,10 @@ function main() {
             exported: exportedDemo,
             summary: {
               totalOperations: houseOperations.length + sunCells.length + 32,
-              filledCells: demoGrid.cells.filter(c => c !== null).length,
-              emptyCells: demoGrid.cells.filter(c => c === null).length,
-              colors: [...new Set(demoGrid.cells.filter(c => c !== null))],
-              fillPercentage: (demoGrid.cells.filter(c => c !== null).length / demoGrid.cells.length * 100).toFixed(1) + '%'
+              filledCells: demoGrid.cells.filter((c: any) => c !== null).length,
+              emptyCells: demoGrid.cells.filter((c: any) => c === null).length,
+              colors: [...new Set(demoGrid.cells.filter((c: any) => c !== null))],
+              fillPercentage: (demoGrid.cells.filter((c: any) => c !== null).length / demoGrid.cells.length * 100).toFixed(1) + '%'
             }
           }
         };

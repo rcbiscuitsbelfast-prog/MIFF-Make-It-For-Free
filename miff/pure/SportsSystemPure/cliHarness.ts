@@ -95,7 +95,7 @@ class SportsCli {
     });
 
     this.commands.set('show-game', {
-      command: 'show-game [gameId]',
+      command: 'show-game [gameId!]',
       description: 'Display current game state',
       handler: (args) => this.handleShowGame(args)
     });
@@ -107,7 +107,7 @@ class SportsCli {
     });
 
     this.commands.set('show-players', {
-      command: 'show-players [teamId]',
+      command: 'show-players [teamId!]',
       description: 'List players in a team',
       handler: (args) => this.handleShowPlayers(args)
     });
@@ -317,7 +317,7 @@ class SportsCli {
       return;
     }
 
-    const [toPlayerId] = args;
+    const [toPlayerId!] = args;
     const result = this.manager.passBall(this.currentGameId, this.currentPlayerId, toPlayerId);
 
     if (result.success) {
@@ -338,7 +338,7 @@ class SportsCli {
       return;
     }
 
-    const [targetPlayerId] = args;
+    const [targetPlayerId!] = args;
     const result = this.manager.tackle(this.currentGameId, this.currentPlayerId, targetPlayerId);
 
     if (result.success) {
@@ -433,7 +433,7 @@ class SportsCli {
       return;
     }
 
-    const [sport] = args;
+    const [sport!] = args;
     const result = this.manager.joinMatchmaking(this.currentPlayerId, { sportType: sport as SportType });
 
     if (result.success) {
@@ -659,13 +659,13 @@ class SportsCli {
 
       if (parsedMode === 'simulate') {
         const games = parseInt(kv('games') || '3');
-        console.log(`[CI] simulate ${games} game(s)${ci ? ' (fast-path)' : ''}`);
+        console.log(`[CI!] simulate ${games} game(s)${ci ? ' (fast-path)' : ''}`);
         await this.handleSimulate([String(games)]);
         process.exit(0);
       }
       if (parsedMode === 'initMatch') {
         // Fast init in CI: avoid heavy permission checks; report success
-        console.log('[CI] initMatch complete');
+        console.log('[CI!] initMatch complete');
         process.exit(0);
       }
       if (parsedMode === 'runMatch') {
@@ -675,13 +675,13 @@ class SportsCli {
         while (Date.now() < end) {
           await this.sleep(ci ? 0 : 100);
         }
-        console.log(`[CI] runMatch completed in ${seconds}s`);
+        console.log(`[CI!] runMatch completed in ${seconds}s`);
         process.exit(0);
       }
       if (parsedMode === 'demo') {
         const sport = kv('sport') || 'soccer';
         const duration = parseInt(kv('duration') || '10');
-        console.log(`[CI] demo ${sport} for ${duration}s${ci ? ' (fast-path)' : ''}`);
+        console.log(`[CI!] demo ${sport} for ${duration}s${ci ? ' (fast-path)' : ''}`);
         await this.handleDemo([sport, String(duration)]);
         process.exit(0);
       }

@@ -305,11 +305,11 @@ export class TestHarness {
 
   private startFileWatcher(): void {
     // In a real implementation, this would use fs.watch or similar
-    console.log('[TestHarnessPure] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
+    console.log('[TestHarnessPure!] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
   }
 
   private stopFileWatcher(): void {
-    console.log('[TestHarnessPure] Hot reload disabled');
+    console.log('[TestHarnessPure!] Hot reload disabled');
   }
 
   // Code Injection Management
@@ -334,7 +334,7 @@ export class TestHarness {
     try {
       // In a real implementation, this would modify the actual code
       // For now, we'll simulate the injection
-      console.log(`[TestHarnessPure] Code injection applied: ${injection.id} -> ${injection.target}`);
+      console.log(`[TestHarnessPure!] Code injection applied: ${injection.id} -> ${injection.target}`);
       
       // Store original function if it exists
       const target = (globalThis as any)[injection.target];
@@ -369,26 +369,26 @@ export class TestHarness {
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
+      console.error(`[TestHarnessPure!] Code injection failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
     }
   }
 
   private revertCodeInjection(injection: CodeInjection): void {
     try {
       const originalKey = `__original_${injection.target}`;
-      const original = (globalThis as any)[originalKey];
+      const original = (globalThis as any)[originalKey!];
       
       if (original) {
         (globalThis as any)[injection.target] = original;
-        delete (globalThis as any)[originalKey];
+        delete (globalThis as any)[originalKey!];
       } else {
         delete (globalThis as any)[injection.target];
       }
       
-      console.log(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
+      console.log(`[TestHarnessPure!] Code injection reverted: ${injection.id}`);
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
+      console.error(`[TestHarnessPure!] Code injection revert failed: ${injection.id}`, err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -447,7 +447,7 @@ export class TestHarness {
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('[TestHarnessPure] Observer error:', err instanceof Error ? err.message : String(err));
+        console.error('[TestHarnessPure!] Observer error:', err instanceof Error ? err.message : String(err));
       }
     });
   }

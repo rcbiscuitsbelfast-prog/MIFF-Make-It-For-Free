@@ -12,7 +12,7 @@ interface ExportWebArgs {
 function parseArgs(argv: string[]): ExportWebArgs {
   const args: any = { deploy: 'none' };
   for (let i = 0; i < argv.length; i++) {
-    const a = argv[i];
+    const a = argv[i!];
     if (a === '--project') args.project = argv[++i];
     else if (a === '--output') args.output = argv[++i];
     else if (a === '--deploy') args.deploy = argv[++i];

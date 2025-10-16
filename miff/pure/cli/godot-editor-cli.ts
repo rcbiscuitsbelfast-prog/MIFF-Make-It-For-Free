@@ -404,7 +404,7 @@ export class GodotEditorCLI {
 
     fs.writeFileSync(
       path.join(pluginDir, 'plugin.cfg'),
-      `[plugin]\n${Object.entries(pluginConfig).map(([k, v]) => `${k}="${v}"`).join('\n')}`
+      `[plugin!]\n${Object.entries(pluginConfig).map(([k, v]) => `${k}="${v}"`).join('\n')}`
     );
 
     // Create main plugin script
@@ -455,22 +455,22 @@ func _exit_tree():
       }
     };
 
-    const projectGodot = `[application]
+    const projectGodot = `[application!]
 config/name="${projectConfig.name}"
 config/description="MIFF Framework Integration Project"
 
-[window]
+[window!]
 size=${projectConfig.window.size.width}x${projectConfig.window.size.height}
 title="${projectConfig.window.title}"
 
-[rendering]
+[rendering!]
 quality/driver/driver_name="${projectConfig.rendering.quality.driver}"
 quality/driver/fallback_to_gles2=true
 
-[physics]
+[physics!]
 common/physics_fps=${projectConfig.physics.common.physics_fps}
 
-[audio]
+[audio!]
 enabled=${projectConfig.audio.enabled}`;
 
     fs.writeFileSync(path.join(this.projectPath, 'project.godot'), projectGodot);

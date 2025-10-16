@@ -496,9 +496,9 @@ export class BridgeSchemaManager {
 
     if (schema.properties && typeof data === 'object') {
       Object.keys(schema.properties).forEach((prop: any) => {
-        if (data[prop] !== undefined) {
-          const propSchema = schema.properties[prop];
-          const propResult = this.validateAgainstJSONSchema(data[prop], propSchema);
+        if (data[prop!] !== undefined) {
+          const propSchema = schema.properties[prop!];
+          const propResult = this.validateAgainstJSONSchema(data[prop!], propSchema);
           errors.push(...propResult.errors.map((e: any) => `${prop}.${e}`));
           warnings.push(...propResult.warnings.map((w: any) => `${prop}.${w}`));
         }
@@ -527,17 +527,17 @@ export class BridgeSchemaManager {
   }
 
   private getValueByPath(obj: any, path: string): any {
-    return path.split('.').reduce((current, key) => current?.[key], obj);
+    return path.split('.').reduce((current, key) => current?.[key!], obj);
   }
 
   private setValueByPath(obj: any, path: string, value: any): void {
     const keys = path.split('.');
     const lastKey = keys.pop()!;
     const target = keys.reduce((current, key) => {
-      if (!(key in current)) current[key] = {};
-      return current[key];
+      if (!(key in current)) current[key!] = {};
+      return current[key!];
     }, obj);
-    target[lastKey] = value;
+    target[lastKey!] = value;
   }
 
   private inferSchemaFromData(data: any): any {
@@ -558,8 +558,8 @@ export class BridgeSchemaManager {
       const required: string[] = [];
 
       Object.keys(data).forEach((key: any) => {
-        properties[key] = this.inferSchemaFromData(data[key]);
-        if (data[key] !== null && data[key] !== undefined) {
+        properties[key!] = this.inferSchemaFromData(data[key!]);
+        if (data[key!] !== null && data[key!] !== undefined) {
           required.push(key);
         }
       });

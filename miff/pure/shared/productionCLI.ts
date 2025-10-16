@@ -426,18 +426,18 @@ class ProductionCLI {
     console.info(`
 🚀 MIFF Production Deployment CLI
 
-Usage: tsx productionCLI.ts <command> [options]
+Usage: tsx productionCLI.ts <command> [options!]
 
 Commands:
-  assess [output]              Assess production readiness
-  setup [output]               Setup deployment pipeline
-  configure [env] [output]     Configure deployment environment
-  monitor [output]             Setup monitoring and alerting
-  security [output]            Perform security audit
-  environments [output]        List deployment environments
-  pipelines [output]           List deployment pipelines
-  report [output]              Generate production deployment report
-  deploy [env] [version]       Deploy to environment
+  assess [output!]              Assess production readiness
+  setup [output!]               Setup deployment pipeline
+  configure [env!] [output!]     Configure deployment environment
+  monitor [output!]             Setup monitoring and alerting
+  security [output!]            Perform security audit
+  environments [output!]        List deployment environments
+  pipelines [output!]           List deployment pipelines
+  report [output!]              Generate production deployment report
+  deploy [env!] [version!]       Deploy to environment
   help                        Show this help
 
 Examples:

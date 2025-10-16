@@ -103,12 +103,12 @@ function main() {
         result.result = {
           usage: 'EntityLinkerPure CLI Harness',
           commands: [
-            'resolveRefs [inputFile] - Resolve entity references',
+            'resolveRefs [inputFile!] - Resolve entity references',
             'dumpLinks - Dump current link status',
-            'validate [inputFile] - Validate entity links',
+            'validate [inputFile!] - Validate entity links',
             'getStats - Get linker statistics',
             'reset - Reset linker state',
-            'export [format] - Export links (json|csv|markdown)',
+            'export [format!] - Export links (json|csv|markdown)',
             'demo - Run demonstration scenarios',
             'help - Show this help'
           ],

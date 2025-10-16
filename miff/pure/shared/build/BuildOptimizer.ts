@@ -126,8 +126,8 @@ export class BuildOptimizer {
       entry: './miff/pure/index.ts',
       output: {
         path: require('path').resolve(__dirname, this.config.outDir),
-        filename: this.config.codeSplitting ? '[name].[contenthash].js' : 'bundle.js',
-        chunkFilename: this.config.codeSplitting ? '[name].[contenthash].chunk.js' : undefined,
+        filename: this.config.codeSplitting ? '[name!].[contenthash!].js' : 'bundle.js',
+        chunkFilename: this.config.codeSplitting ? '[name!].[contenthash!].chunk.js' : undefined,
         clean: true,
         ...(this.config.treeShaking && {
           library: {

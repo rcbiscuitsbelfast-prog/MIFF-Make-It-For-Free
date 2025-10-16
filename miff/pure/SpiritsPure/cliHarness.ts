@@ -49,18 +49,18 @@ class SpiritsPureCLI {
     console.log('='.repeat(70));
     console.log('');
     console.log('Available commands:');
-    console.log('  list [filter]     - List spirits with optional filter');
-    console.log('  add [name]        - Add new spirit');
-    console.log('  remove [id]       - Remove spirit by ID');
-    console.log('  search [query]    - Search spirits by name/description');
-    console.log('  filter [type]     - Apply filter to spirits');
-    console.log('  sort [option]     - Sort spirits');
-    console.log('  capture [id]      - Mark spirit as captured');
-    console.log('  release [id]      - Mark spirit as uncaptured');
-    console.log('  favorite [id]     - Toggle favorite status');
+    console.log('  list [filter!]     - List spirits with optional filter');
+    console.log('  add [name!]        - Add new spirit');
+    console.log('  remove [id!]       - Remove spirit by ID');
+    console.log('  search [query!]    - Search spirits by name/description');
+    console.log('  filter [type!]     - Apply filter to spirits');
+    console.log('  sort [option!]     - Sort spirits');
+    console.log('  capture [id!]      - Mark spirit as captured');
+    console.log('  release [id!]      - Mark spirit as uncaptured');
+    console.log('  favorite [id!]     - Toggle favorite status');
     console.log('  stats             - Show collection statistics');
     console.log('  completion        - Show completion statistics');
-    console.log('  info [id]         - Show detailed spirit info');
+    console.log('  info [id!]         - Show detailed spirit info');
     console.log('  demo              - Reset to demo data');
     console.log('  help              - Show this help');
     console.log('  exit              - Exit application');
@@ -232,7 +232,7 @@ class SpiritsPureCLI {
    */
   private addSpirit(name?: string): void {
     if (!name) {
-      console.log('❌ Usage: add [spirit_name]');
+      console.log('❌ Usage: add [spirit_name!]');
       console.log('Example: add "Fire Dragon"');
       return;
     }
@@ -255,7 +255,7 @@ class SpiritsPureCLI {
    */
   private removeSpirit(spiritId?: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: remove [spirit_id]');
+      console.log('❌ Usage: remove [spirit_id!]');
       return;
     }
 
@@ -272,7 +272,7 @@ class SpiritsPureCLI {
    */
   private searchSpirits(query?: string): void {
     if (!query) {
-      console.log('❌ Usage: search [query]');
+      console.log('❌ Usage: search [query!]');
       console.log('Example: search "dragon"');
       return;
     }
@@ -386,7 +386,7 @@ class SpiritsPureCLI {
    */
   private captureSpirit(spiritId?: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: capture [spirit_id]');
+      console.log('❌ Usage: capture [spirit_id!]');
       return;
     }
 
@@ -416,7 +416,7 @@ class SpiritsPureCLI {
    */
   private releaseSpirit(spiritId?: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: release [spirit_id]');
+      console.log('❌ Usage: release [spirit_id!]');
       return;
     }
 
@@ -445,7 +445,7 @@ class SpiritsPureCLI {
    */
   private toggleFavorite(spiritId?: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: favorite [spirit_id]');
+      console.log('❌ Usage: favorite [spirit_id!]');
       return;
     }
 
@@ -520,7 +520,7 @@ class SpiritsPureCLI {
    */
   private showSpiritInfo(spiritId?: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: info [spirit_id]');
+      console.log('❌ Usage: info [spirit_id!]');
       return;
     }
 
@@ -633,7 +633,7 @@ class SpiritsPureCLI {
       [SpiritType.DEATH]: '💀',
       [SpiritType.BALANCE]: '☯️'
     };
-    return icons[type] || '❓';
+    return icons[type!] || '❓';
   }
 
   /**
@@ -649,7 +649,7 @@ class SpiritsPureCLI {
       [SpiritRarity.MYTHICAL]: '🟠',
       [SpiritRarity.UNIQUE]: '🔴'
     };
-    return icons[rarity] || '⚪';
+    return icons[rarity!] || '⚪';
   }
 }
 

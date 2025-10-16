@@ -76,7 +76,7 @@ export class SaveLoadManager {
       // carry everything for transparency
       ...input,
     };
-    migrated.saves[slotId] = {
+    migrated.saves[slotId!] = {
       id: slotId,
       timestamp: Date.now(),
       data: snapshot,
@@ -97,7 +97,7 @@ export class SaveLoadManager {
   }
 
   load(slotId: string): GameDataV11 {
-    const slot = this.store.saves[slotId];
+    const slot = this.store.saves[slotId!];
     if (!slot) throw new Error(`Slot not found: ${slotId}`);
     this.store.currentSlot = slotId;
     // Return a deep-ish copy to avoid external mutation of store
@@ -115,29 +115,29 @@ export class SaveLoadManager {
     snapshot.saves = {}; // avoid nesting saves within saves
 
     const now = Date.now();
-    this.store.saves[slotId] = {
+    this.store.saves[slotId!] = {
       id: slotId,
       timestamp: now,
       data: snapshot,
-      autosave: this.store.saves[slotId]?.autosave,
-      rollbackCheckpoint: this.store.saves[slotId]?.rollbackCheckpoint,
+      autosave: this.store.saves[slotId!]?.autosave,
+      rollbackCheckpoint: this.store.saves[slotId!]?.rollbackCheckpoint,
     };
     this.store.currentSlot = slotId;
   }
 
   delete(slotId: string): void {
-    delete this.store.saves[slotId];
+    delete this.store.saves[slotId!];
     if (this.store.currentSlot === slotId) this.store.currentSlot = '';
   }
 
   setRollback(slotId: string): void {
-    const slot = this.store.saves[slotId];
+    const slot = this.store.saves[slotId!];
     if (!slot) throw new Error(`Slot not found: ${slotId}`);
     slot.rollbackCheckpoint = JSON.parse(JSON.stringify(slot.data));
   }
 
   rollback(slotId: string): void {
-    const slot = this.store.saves[slotId];
+    const slot = this.store.saves[slotId!];
     if (!slot) throw new Error(`Slot not found: ${slotId}`);
     if (!slot.rollbackCheckpoint) throw new Error(`No rollback checkpoint set for: ${slotId}`);
     slot.data = JSON.parse(JSON.stringify(slot.rollbackCheckpoint));

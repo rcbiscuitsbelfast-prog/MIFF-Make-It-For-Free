@@ -66,7 +66,7 @@ class ProgressionCli {
 
   private setupCommands(): void {
     this.commands.set('create-spirit', {
-      command: 'create-spirit <species> <level> [xp]',
+      command: 'create-spirit <species> <level> [xp!]',
       description: 'Create a test spirit',
       handler: (args) => this.handleCreateSpirit(args)
     });
@@ -78,7 +78,7 @@ class ProgressionCli {
     });
 
     this.commands.set('show-curve', {
-      command: 'show-curve [levels]',
+      command: 'show-curve [levels!]',
       description: 'Display XP curve for levels',
       handler: (args) => this.handleShowCurve(args)
     });
@@ -182,7 +182,7 @@ class ProgressionCli {
 
   private handleCreateSpirit(args: string[]): void {
     if (args.length < 2) {
-      console.log('Usage: create-spirit <species> <level> [xp]');
+      console.log('Usage: create-spirit <species> <level> [xp!]');
       return;
     }
 
@@ -291,7 +291,7 @@ class ProgressionCli {
       return;
     }
 
-    const [spiritId] = args;
+    const [spiritId!] = args;
     const spirit = this.spirits.get(spiritId);
 
     if (!spirit) {
@@ -320,7 +320,7 @@ class ProgressionCli {
       return;
     }
 
-    const [spiritId] = args;
+    const [spiritId!] = args;
     const spirit = this.spirits.get(spiritId);
 
     if (!spirit) {
@@ -413,7 +413,7 @@ class ProgressionCli {
       return;
     }
 
-    const [spiritId] = args;
+    const [spiritId!] = args;
     const spirit = this.spirits.get(spiritId);
 
     if (!spirit) {

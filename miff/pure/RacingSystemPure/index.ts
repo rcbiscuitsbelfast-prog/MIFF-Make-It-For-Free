@@ -648,7 +648,7 @@ export class RacingSystemPure {
     let length = 0;
     for (let i = 1; i < checkpoints.length; i++) {
       const prev = checkpoints[i - 1];
-      const curr = checkpoints[i];
+      const curr = checkpoints[i!];
       length += Math.sqrt(
         (curr.position.x - prev.position.x) ** 2 +
         (curr.position.z - prev.position.z) ** 2
@@ -701,7 +701,7 @@ export class RacingSystemPure {
       }
     };
 
-    return specs[type] || specs.car;
+    return specs[type!] || specs.car;
   }
 
   private getRaceRules(raceType: RaceType): RaceRules {
@@ -769,7 +769,7 @@ export class RacingSystemPure {
       }
     };
 
-    return rules[raceType] || rules.circuit;
+    return rules[raceType!] || rules.circuit;
   }
 
   private initializePositions(vehicles: Vehicle[]): Map<string, number> {

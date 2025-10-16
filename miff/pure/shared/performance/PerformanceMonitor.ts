@@ -187,7 +187,7 @@ export class PerformanceMonitor {
 
     if (this.metrics.length > 0) {
       const lastMetric = this.metrics[this.metrics.length - 1];
-      lastMetric.custom[name] = value;
+      lastMetric.custom[name!] = value;
     }
   }
 

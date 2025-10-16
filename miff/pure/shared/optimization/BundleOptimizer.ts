@@ -341,7 +341,7 @@ export class BundleOptimizer {
     const chunks: string[][] = [];
     const processed = new Set<string>();
 
-    for (const [modulePath] of this.analyzedModules) {
+    for (const [modulePath!] of this.analyzedModules) {
       if (processed.has(modulePath) || this.deadCode.has(modulePath)) continue;
 
       const chunk = this.getChunkForModule(modulePath);
@@ -354,7 +354,7 @@ export class BundleOptimizer {
   }
 
   private getChunkForModule(modulePath: string): string[] {
-    const chunk = [modulePath];
+    const chunk = [modulePath!];
     const dependencies = this.dependencyGraph.get(modulePath) || new Set();
 
     // Add direct dependencies to same chunk for better caching

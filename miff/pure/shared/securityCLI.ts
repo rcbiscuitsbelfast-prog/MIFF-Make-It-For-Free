@@ -346,18 +346,18 @@ class SecurityCLI {
     console.info(`
 🔒 MIFF Security Hardening CLI
 
-Usage: tsx securityCLI.ts <command> [options]
+Usage: tsx securityCLI.ts <command> [options!]
 
 Commands:
   init                        Initialize security hardening
-  audit [output]              Run security audit
-  headers [output]            Show security headers
+  audit [output!]              Run security audit
+  headers [output!]            Show security headers
   validate <input> <type>     Validate input data
   password <password>         Validate password
   encrypt <data>              Encrypt sensitive data
   decrypt <encrypted_data>    Decrypt data
-  events [limit]              Show security events
-  stats [output]              Show security statistics
+  events [limit!]              Show security events
+  stats [output!]              Show security statistics
   block <ip> <reason>         Block IP address
   unblock <ip>                Unblock IP address
   help                        Show this help

@@ -35,7 +35,7 @@ function main() {
           `seed=${seed}`,
           `size=${width}x${height}`,
           `noise=${noise}`
-        ], outputs: [terrain] };
+        ], outputs: [terrain!] };
         break;
       }
       case 'world:apply-biomes': {

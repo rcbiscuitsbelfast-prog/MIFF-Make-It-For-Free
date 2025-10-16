@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 AvatarRendererWebPure CLI Harness - Web Avatar Rendering System
 
-Usage: npx tsx miff/pure/AvatarRendererWebPure/cliHarness.ts [command] [options]
+Usage: npx tsx miff/pure/AvatarRendererWebPure/cliHarness.ts [command!] [options!]
 
 Commands:
   test                     - Run basic web renderer tests
@@ -255,7 +255,7 @@ class AvatarRendererWebCLI {
       // Simulate rendering each avatar
       console.log('2. Simulating rendering process...');
       for (let i = 0; i < avatars.length; i++) {
-        const avatar = avatars[i];
+        const avatar = avatars[i!];
         const mockContext = this.createMockCanvasContext();
         
         console.log(`   🎨 Rendering avatar ${i + 1} (${avatar.assets.style})...`);

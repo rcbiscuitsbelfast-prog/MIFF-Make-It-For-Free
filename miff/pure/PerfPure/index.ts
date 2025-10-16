@@ -162,7 +162,7 @@ export class PerfTimer implements Disposable {
    */
   private logResult(): void {
     const duration = this.elapsedMs;
-    console.log(`[perf] ${this._label}: ${duration.toFixed(2)} ms`);
+    console.log(`[perf!] ${this._label}: ${duration.toFixed(2)} ms`);
   }
 
   /**
@@ -392,7 +392,7 @@ export const PerfUtils = {
     const timer = new PerfTimer(label);
     try {
       const result = fn();
-      console.log(`[perf] ${label}: ${timer.elapsedMs.toFixed(2)} ms`);
+      console.log(`[perf!] ${label}: ${timer.elapsedMs.toFixed(2)} ms`);
       return result;
     } finally {
       timer.dispose();
@@ -428,7 +428,7 @@ export const PerfUtils = {
       endTime: total
     };
 
-    console.log(`[perf] ${result.label}: avg=${average.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms, total=${total.toFixed(2)}ms`);
+    console.log(`[perf!] ${result.label}: avg=${average.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms, total=${total.toFixed(2)}ms`);
 
     return result;
   },

@@ -284,7 +284,7 @@ export class IdleSystemCLI {
 
   private buyGenerator(args: string[]): void {
     if (args.length === 0) {
-      this.log('❌ Usage: buy <generator> [amount]');
+      this.log('❌ Usage: buy <generator> [amount!]');
       this.log('   Available: clicker, auto_clicker, farm, mine');
       return;
     }
@@ -489,7 +489,7 @@ export class IdleSystemCLI {
   private showHelp(): void {
     this.log('\n=== IDLE SYSTEM CLI COMMANDS ===');
     this.log('📊 status/s              - Show game status');
-    this.log('💰 buy <gen> [amt]       - Buy generator');
+    this.log('💰 buy <gen> [amt!]       - Buy generator');
     this.log('⬆️  upgrade/up <upgrade>  - Buy upgrade');
     this.log('🔄 auto                  - Toggle auto-buy');
     this.log('👆 click/c               - Manual click (+1)');
@@ -586,7 +586,7 @@ async function main(): Promise<void> {
   };
 
   for (let i = 0; i < args.length; i++) {
-    switch (args[i]) {
+    switch (args[i!]) {
       case '--mode':
       case '-m':
         options.mode = args[++i] as CLIOptions['mode'];
@@ -610,7 +610,7 @@ async function main(): Promise<void> {
       case '--help':
       case '-h':
         console.log('IdleSystemPure CLI Harness');
-        console.log('Usage: tsx cliHarness.ts [options]');
+        console.log('Usage: tsx cliHarness.ts [options!]');
         console.log('Options:');
         console.log('  --mode, -m <mode>          Mode: interactive, simulate, auto');
         console.log('  --currency, -c <amount>    Initial currency amount');

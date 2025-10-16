@@ -543,7 +543,7 @@ export class CombatEngine {
     this.performanceMetrics.activeSessions++;
     this.performanceMetrics.totalSessions++;
 
-    console.log(`[CombatEngine] Started combat session: ${sessionId}`);
+    console.log(`[CombatEngine!] Started combat session: ${sessionId}`);
     return sessionId;
   }
 
@@ -772,7 +772,7 @@ export class CombatEngine {
 
     for (let i = 0; i < numTargets; i++) {
       const randomIndex = Math.floor(Math.random() * allTargets.length);
-      selectedTargets.push(allTargets[randomIndex]);
+      selectedTargets.push(allTargets[randomIndex!]);
       allTargets.splice(randomIndex, 1);
     }
 
@@ -814,7 +814,7 @@ export class CombatEngine {
     damage *= critMultiplier;
 
     // Apply resistances
-    const resistance = targetEntity.resistances[damageType] || 0;
+    const resistance = targetEntity.resistances[damageType!] || 0;
     const resistanceMultiplier = 1 - (resistance / 100);
     damage *= resistanceMultiplier;
 
@@ -1007,7 +1007,7 @@ export class CombatEngine {
     for (const condition of scenario.defeatConditions) {
       if (this.evaluateCondition(session, condition)) {
         session.state = CombatState.FINISHED;
-        console.log(`[CombatEngine] Defeat condition met: ${condition.description}`);
+        console.log(`[CombatEngine!] Defeat condition met: ${condition.description}`);
         return;
       }
     }
@@ -1019,7 +1019,7 @@ export class CombatEngine {
         session.winner = this.determineWinner(session);
         session.endTime = Date.now();
         session.duration = session.endTime - session.startTime;
-        console.log(`[CombatEngine] Victory condition met: ${condition.description}`);
+        console.log(`[CombatEngine!] Victory condition met: ${condition.description}`);
         return;
       }
     }
@@ -1095,7 +1095,7 @@ export class CombatEngine {
       this.activeSessionId = undefined;
     }
 
-    console.log(`[CombatEngine] Ended session: ${sessionId}`);
+    console.log(`[CombatEngine!] Ended session: ${sessionId}`);
     return true;
   }
 
@@ -1138,12 +1138,12 @@ export class CombatEngine {
     this.activeSessionId = undefined;
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    console.log('[CombatEngine] Reset to initial state');
+    console.log('[CombatEngine!] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[CombatEngine] Disposed successfully');
+    console.log('[CombatEngine!] Disposed successfully');
   }
 }
 

@@ -34,6 +34,6 @@ function main(){
 		return;
 	}
 	const out = runScenario(s);
-	console.log(JSON.stringify({ outputs:[out] }, null, 2));
+	console.log(JSON.stringify({ outputs:[out!] }, null, 2));
 }
 if(import.meta.url === `file://${process.argv[1]}`) main();

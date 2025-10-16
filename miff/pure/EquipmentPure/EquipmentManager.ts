@@ -523,7 +523,7 @@ export class EquipmentManager {
     const properties = ['name', 'level', 'rarity', 'durability', 'maxDurability'];
     for (const prop of properties) {
       if (currentItem?.[prop as keyof EquippedItem] !== newItem[prop as keyof typeof newItem]) {
-        comparison.differences[prop] = {
+        comparison.differences[prop!] = {
           current: currentItem?.[prop as keyof EquippedItem],
           new: newItem[prop as keyof typeof newItem],
           change: currentItem?.[prop as keyof EquippedItem] ?

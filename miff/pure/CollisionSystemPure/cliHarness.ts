@@ -212,7 +212,7 @@ function showHelp() {
 CollisionSystemPure CLI - Advanced 2D Collision Detection
 
 USAGE:
-  node cliHarness.ts [shapes_file] [commands_file]
+  node cliHarness.ts [shapes_file!] [commands_file!]
   node cliHarness.ts help
 
 COMMANDS:
@@ -220,7 +220,7 @@ COMMANDS:
   upsert <shape>         - Add or update a collision shape
   remove <id>            - Remove a shape by ID
   clear                  - Remove all shapes
-  check [filterTags]     - Check for collisions and triggers
+  check [filterTags!]     - Check for collisions and triggers
   resolve                - Resolve collisions by separating shapes
   dump <id>              - Get detailed info about a specific shape
   analytics              - Get collision system analytics

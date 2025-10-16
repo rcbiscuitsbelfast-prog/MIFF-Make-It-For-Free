@@ -99,7 +99,7 @@ export class AudioSystem {
     }
 
     if (this.isHeadless) {
-      console.log('[AudioPure] Running in headless mode - audio events will be logged only');
+      console.log('[AudioPure!] Running in headless mode - audio events will be logged only');
     }
   }
 
@@ -128,10 +128,10 @@ export class AudioSystem {
         await this.createReverbNode();
       }
 
-      console.log('[AudioPure] Audio context initialized successfully');
+      console.log('[AudioPure!] Audio context initialized successfully');
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[AudioPure] Failed to initialize audio context:', err instanceof Error ? err.message : String(err));
+      console.error('[AudioPure!] Failed to initialize audio context:', err instanceof Error ? err.message : String(err));
     }
   }
 
@@ -154,7 +154,7 @@ export class AudioSystem {
       for (let i = 0; i < length; i++) {
         const time = i / sampleRate;
         const envelope = Math.exp(-time * damping);
-        channelData[i] = (Math.random() * 2 - 1) * envelope;
+        channelData[i!] = (Math.random() * 2 - 1) * envelope;
       }
     }
 
@@ -174,7 +174,7 @@ export class AudioSystem {
 
   private emitEvent(event: AudioEvent): void {
     if (this.isHeadless) {
-      console.log(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
+      console.log(`[AudioPure!] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
     }
 
     this.callbacks.forEach((callback: any) => {
@@ -182,7 +182,7 @@ export class AudioSystem {
         callback(event);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('[AudioPure] Callback error:', err instanceof Error ? err.message : String(err));
+        console.error('[AudioPure!] Callback error:', err instanceof Error ? err.message : String(err));
       }
     });
   }
@@ -215,13 +215,13 @@ export class AudioSystem {
   playSound(soundId: string, volume: number = 1.0, pitch: number = 1.0): string | null {
     const sound = this.sounds.get(soundId);
     if (!sound) {
-      console.warn(`[AudioPure] Sound not found: ${soundId}`);
+      console.warn(`[AudioPure!] Sound not found: ${soundId}`);
       return null;
     }
 
     // Check if we've reached the maximum simultaneous sounds
     if (this.activeSounds.size >= this.config.maxSimultaneousSounds) {
-      console.warn(`[AudioPure] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
+      console.warn(`[AudioPure!] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
       return null;
     }
 
@@ -318,7 +318,7 @@ export class AudioSystem {
     // Calculate RMS volume
     let sum = 0;
     for (let i = 0; i < timeData.length; i++) {
-      sum += timeData[i] * timeData[i];
+      sum += timeData[i!] * timeData[i!];
     }
     const rms = Math.sqrt(sum / timeData.length);
 
@@ -329,7 +329,7 @@ export class AudioSystem {
 
     for (let i = 0; i < frequencyData.length; i++) {
       const frequency = (i / frequencyData.length) * nyquist;
-      const magnitude = Math.abs(frequencyData[i]);
+      const magnitude = Math.abs(frequencyData[i!]);
       centroidSum += frequency * magnitude;
       magnitudeSum += magnitude;
     }
@@ -343,7 +343,7 @@ export class AudioSystem {
     let currentMagnitude = 0;
 
     for (let i = 0; i < frequencyData.length; i++) {
-      currentMagnitude += Math.abs(frequencyData[i]);
+      currentMagnitude += Math.abs(frequencyData[i!]);
       if (currentMagnitude >= rolloffMagnitude) {
         spectralRolloff = (i / frequencyData.length) * nyquist;
         break;
@@ -384,12 +384,12 @@ export class AudioSystem {
 
   public enableHRTF(enable: boolean): void {
     this.hrtfEnabled = enable;
-    console.log(`[AudioPure] HRTF ${enable ? 'enabled' : 'disabled'}`);
+    console.log(`[AudioPure!] HRTF ${enable ? 'enabled' : 'disabled'}`);
   }
 
   public enableReverb(enable: boolean): void {
     this.reverbEnabled = enable;
-    console.log(`[AudioPure] Reverb ${enable ? 'enabled' : 'disabled'}`);
+    console.log(`[AudioPure!] Reverb ${enable ? 'enabled' : 'disabled'}`);
   }
 
   public setReverbParameters(decay: number, damping: number): void {

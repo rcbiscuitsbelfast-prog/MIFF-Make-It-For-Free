@@ -131,11 +131,11 @@ class ItemsPureCLI {
     console.log('Available commands:');
     console.log('  items         - Show all items');
     console.log('  spirits       - Show all spirits');
-    console.log('  use [item] [spirit] - Use item on spirit');
-    console.log('  info [item]   - Show item details');
-    console.log('  search [query] - Search items');
-    console.log('  heal [spirit] [amount] - Heal spirit');
-    console.log('  damage [spirit] [amount] - Damage spirit');
+    console.log('  use [item!] [spirit!] - Use item on spirit');
+    console.log('  info [item!]   - Show item details');
+    console.log('  search [query!] - Search items');
+    console.log('  heal [spirit!] [amount!] - Heal spirit');
+    console.log('  damage [spirit!] [amount!] - Damage spirit');
     console.log('  status        - Show system status');
     console.log('  help          - Show this help');
     console.log('  exit          - Exit application');
@@ -230,11 +230,11 @@ class ItemsPureCLI {
     console.log('  help                    - Show this help');
     console.log('  items                   - List all registered items');
     console.log('  spirits                 - List all available spirits');
-    console.log('  use [item] [spirit]     - Use item on spirit');
-    console.log('  info [item]             - Show detailed item information');
-    console.log('  search [query]          - Search items by name or ID');
-    console.log('  heal [spirit] [amount]  - Heal spirit by amount (default: 20)');
-    console.log('  damage [spirit] [amount]- Damage spirit by amount (default: 20)');
+    console.log('  use [item!] [spirit!]     - Use item on spirit');
+    console.log('  info [item!]             - Show detailed item information');
+    console.log('  search [query!]          - Search items by name or ID');
+    console.log('  heal [spirit!] [amount!]  - Heal spirit by amount (default: 20)');
+    console.log('  damage [spirit!] [amount!]- Damage spirit by amount (default: 20)');
     console.log('  status                  - Show system statistics');
     console.log('  exit                    - Exit the application');
     console.log('');
@@ -303,7 +303,7 @@ class ItemsPureCLI {
    */
   private async useItem(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: use [item] [spirit]');
+      console.log('❌ Usage: use [item!] [spirit!]');
       return;
     }
 
@@ -347,7 +347,7 @@ class ItemsPureCLI {
    */
   private showItemInfo(itemId: string): void {
     if (!itemId) {
-      console.log('❌ Usage: info [item]');
+      console.log('❌ Usage: info [item!]');
       return;
     }
 

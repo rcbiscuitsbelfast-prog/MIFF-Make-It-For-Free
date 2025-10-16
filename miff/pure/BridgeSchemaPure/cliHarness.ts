@@ -292,7 +292,7 @@ class BridgeSchemaCLI {
         return { 
           op: 'export', 
           status: 'ok', 
-          result: { [format]: exportData }, 
+          result: { [format!]: exportData }, 
           format, 
           timestamp: Date.now() 
         };

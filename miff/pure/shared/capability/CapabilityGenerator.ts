@@ -439,7 +439,7 @@ export default ${capability.id}Capability;
     
     const byType = modules.reduce((acc, module) => {
       const type = this.determineType(module.name);
-      acc[type] = (acc[type] || 0) + 1;
+      acc[type!] = (acc[type!] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     

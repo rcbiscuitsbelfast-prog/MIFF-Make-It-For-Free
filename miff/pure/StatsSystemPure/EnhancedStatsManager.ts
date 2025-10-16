@@ -587,7 +587,7 @@ export class EnhancedStatsManager {
     }
 
     for (const [statKey, values] of statGroups) {
-      statDistribution[statKey] = {
+      statDistribution[statKey!] = {
         min: Math.min(...values),
         max: Math.max(...values),
         avg: values.reduce((sum, v) => sum + v, 0) / values.length,
@@ -608,7 +608,7 @@ export class EnhancedStatsManager {
 
     for (const [source, effects] of modifierGroups) {
       const totalEffect = effects.reduce((sum, e) => sum + e, 0);
-      modifierEffectiveness[source] = {
+      modifierEffectiveness[source!] = {
         count: effects.length,
         avgEffect: totalEffect / effects.length,
         totalEffect
@@ -638,7 +638,7 @@ export class EnhancedStatsManager {
     }
 
     for (const [category, values] of categoryGroups) {
-      categoryBreakdown[category] = {
+      categoryBreakdown[category!] = {
         count: values.length,
         avgValue: values.reduce((sum, v) => sum + v, 0) / values.length
       };

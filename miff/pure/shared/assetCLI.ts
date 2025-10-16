@@ -274,20 +274,20 @@ class AssetCLI {
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i!];
   }
 
   private showHelp(): void {
     console.info(`
 🎨 MIFF Asset Validation CLI
 
-Usage: tsx assetCLI.ts <command> [options]
+Usage: tsx assetCLI.ts <command> [options!]
 
 Commands:
-  scan [path] [output]           Scan for asset references in codebase
-  validate [path] [output]       Validate asset existence and integrity
-  pipeline [path] [output]       Check pipeline integrity (Unity, Godot, Web)
-  report [input] [output]        Generate HTML report from validation results
+  scan [path!] [output!]           Scan for asset references in codebase
+  validate [path!] [output!]       Validate asset existence and integrity
+  pipeline [path!] [output!]       Check pipeline integrity (Unity, Godot, Web)
+  report [input!] [output!]        Generate HTML report from validation results
   help                          Show this help
 
 Examples:

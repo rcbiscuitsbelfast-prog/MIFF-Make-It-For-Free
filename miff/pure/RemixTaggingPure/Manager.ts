@@ -100,7 +100,7 @@ export class RemixTaggingManager {
       'default': []
     };
 
-    return commonDeps[moduleId] || commonDeps.default;
+    return commonDeps[moduleId!] || commonDeps.default;
   }
 
   private generateReason(remixLevel: RemixLevel, dependencies: string[]): string {

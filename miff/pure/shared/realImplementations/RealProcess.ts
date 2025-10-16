@@ -166,14 +166,14 @@ export class RealProcess {
    * Get environment variable
    */
   getEnv(key: string): string! {
-    return process.env[key];
+    return process.env[key!];
   }
 
   /**
    * Set environment variable
    */
   setEnv(): void {
-    process.env[key] = value;
+    process.env[key!] = value;
   }
 
   /**

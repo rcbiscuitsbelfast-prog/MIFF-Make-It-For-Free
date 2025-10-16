@@ -488,7 +488,7 @@ export class PermissionsManager {
     const retentionTime = this.securityConfig.auditLogRetention;
     const cutoffTime = Date.now() - retentionTime;
 
-    this.auditLog = this.auditLog.filter(entry => entry.timestamp > cutoffTime);
+    this.auditLog = this.auditLog.filter((entry: any) => entry.timestamp > cutoffTime);
 
     // Limit log size to prevent memory issues
     if (this.auditLog.length > 10000) {
@@ -591,26 +591,26 @@ export class PermissionsManager {
     let logs = [...this.auditLog];
 
     if (userId) {
-      logs = logs.filter(log => log.userId === userId);
+      logs = logs.filter((log: any) => log.userId === userId);
     }
 
-    logs.sort((a, b) => b.timestamp - a.timestamp);
+    logs.sort((a: any, b: any) => b.timestamp - a.timestamp);
     return logs.slice(0, limit);
   }
 
   getStats(): PermissionStats {
     const totalPermissions = this.permissions.size;
-    const activePermissions = Array.from(this.permissions.values()).filter(p => p.enabled).length;
-    const deniedPermissions = Array.from(this.permissions.values()).filter(p => !p.enabled).length;
+    const activePermissions = Array.from(this.permissions.values()).filter((p: any) => p.enabled).length;
+    const deniedPermissions = Array.from(this.permissions.values()).filter((p: any) => !p.enabled).length;
 
     const totalRoles = this.roles.size;
-    const activeRoles = Array.from(this.roles.values()).filter(r => !r.systemRole).length;
+    const activeRoles = Array.from(this.roles.values()).filter((r: any) => !r.systemRole).length;
 
     const totalUsers = this.userPermissions.size;
     const activeUsers = Array.from(this.userPermissions.values())
-      .filter(up => !up.expiresAt || up.expiresAt > Date.now()).length;
+      .filter((up: any) => !up.expiresAt || up.expiresAt > Date.now()).length;
 
-    const securityIncidents = this.auditLog.filter(log => !log.granted).length;
+    const securityIncidents = this.auditLog.filter((log: any) => !log.granted).length;
     const auditEntries = this.auditLog.length;
 
     return {

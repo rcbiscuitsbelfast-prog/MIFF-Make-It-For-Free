@@ -92,7 +92,7 @@ function main() {
             preset: operation.preset,
             seed: operation.seed || 12345,
             count: operation.count || 1,
-            assets: assets.map(asset => ({
+            assets: assets.map((asset: any) => ({
               id: asset.id,
               style: asset.style,
               anchor: asset.anchor,
@@ -101,8 +101,8 @@ function main() {
           },
           summary: {
             totalAssets: assets.length,
-            styles: [...new Set(assets.map(a => a.style))],
-            patterns: [...new Set(assets.map(a => a.metadata?.preset))],
+            styles: [...new Set(assets.map((a: any) => a.style))],
+            patterns: [...new Set(assets.map((a: any) => a.metadata?.preset))],
             averageSize: assets.length > 0 ? 
               `${assets[0].metadata?.width}x${assets[0].metadata?.height}` : 'unknown'
           }
@@ -125,7 +125,7 @@ function main() {
           presets,
           summary: {
             totalPresets: presets.length,
-            styles: [...new Set(presets.map(p => p.style))],
+            styles: [...new Set(presets.map((p: any) => p.style))],
             totalColors: presets.reduce((sum, p) => sum + p.colorCount, 0),
             totalPatterns: presets.reduce((sum, p) => sum + p.patternCount, 0)
           }
@@ -176,7 +176,7 @@ function main() {
               colors: preset.colors,
               patterns: preset.patterns
             },
-            generatedAssets: demoAssets.map(asset => ({
+            generatedAssets: demoAssets.map((asset: any) => ({
               id: asset.id,
               style: asset.style,
               anchor: asset.anchor,
@@ -203,7 +203,7 @@ function main() {
             presetGenerations: demoResults,
             customPreset: {
               preset: customPreset,
-              generatedAssets: customAssets.map(asset => ({
+              generatedAssets: customAssets.map((asset: any) => ({
                 id: asset.id,
                 style: asset.style,
                 anchor: asset.anchor,
@@ -213,7 +213,7 @@ function main() {
             summary: {
               totalPresets: Object.keys(PixelGenPure.presets).length,
               totalAssetsGenerated: demoResults.reduce((sum, r) => sum + r.generatedAssets.length, 0) + customAssets.length,
-              styles: [...new Set([...demoResults.map(r => r.presetInfo.style), customPreset.style])],
+              styles: [...new Set([...demoResults.map((r: any) => r.presetInfo.style), customPreset.style])],
               averageDimensions: demoResults.length > 0 ? 
                 demoResults[0].presetInfo.dimensions : 'unknown'
             }

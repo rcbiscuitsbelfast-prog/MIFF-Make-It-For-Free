@@ -378,7 +378,7 @@ export class CLIInterfaceStandardizer {
     const allOptions = [...this.config.globalOptions, ...command.options];
     
     while (i < args.length) {
-      const arg = args[i];
+      const arg = args[i!];
       
       if (arg.startsWith('--')) {
         // Long option
@@ -393,7 +393,7 @@ export class CLIInterfaceStandardizer {
         
         // Parse option value
         if (option.type === 'boolean') {
-          result.options[optionName] = true;
+          result.options[optionName!] = true;
         } else {
           if (i + 1 >= args.length) {
             result.errors.push(`Option ${arg} requires a value`);
@@ -403,7 +403,7 @@ export class CLIInterfaceStandardizer {
           
           const value = this.parseOptionValue(args[i + 1], option);
           if (value !== null) {
-            result.options[optionName] = value;
+            result.options[optionName!] = value;
           } else {
             result.errors.push(`Invalid value for option ${arg}: ${args[i + 1]}`);
           }
@@ -441,7 +441,7 @@ export class CLIInterfaceStandardizer {
       } else {
         // Argument
         const argIndex = i - args.filter((a: any) => !a.startsWith('-')).length;
-        const argument = command.arguments[argIndex];
+        const argument = command.arguments[argIndex!];
         
         if (!argument) {
           result.errors.push(`Unexpected argument: ${arg}`);
@@ -541,7 +541,7 @@ export class CLIInterfaceStandardizer {
    * Generate usage string
    */
   private generateUsage(): string {
-    return `${this.config.moduleName} <command> [options] [arguments]`;
+    return `${this.config.moduleName} <command> [options!] [arguments!]`;
   }
 
   /**

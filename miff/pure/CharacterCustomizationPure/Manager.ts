@@ -665,7 +665,7 @@ export class CharacterCustomizationManager {
       throw new Error('Character Customization System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -676,7 +676,7 @@ export class CharacterCustomizationManager {
       throw new Error('Character Customization System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -1000,7 +1000,7 @@ export class CharacterCustomizationManager {
         return [];
       }
 
-      return system.characters.filter(c => c.type === type);
+      return system.characters.filter((c: any) => c.type === type);
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -1058,7 +1058,7 @@ export class CharacterCustomizationManager {
     for (const system of systems) {
       system.analytics = {
         totalSystems: systems.length,
-        activeSystems: systems.filter(s => s.status === 'active').length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalCharacters: system.characters.length,
         totalPresets: system.presets.length,
         totalAssets: system.assets.length,
@@ -1087,7 +1087,7 @@ export class CharacterCustomizationManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalCharacters = systems.reduce((sum: any, s: any) => sum + s.characters.length, 0);
     const totalPresets = systems.reduce((sum: any, s: any) => sum + s.presets.length, 0);
     const totalAssets = systems.reduce((sum: any, s: any) => sum + s.assets.length, 0);

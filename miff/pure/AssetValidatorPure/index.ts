@@ -197,7 +197,7 @@ function validateAsset(
         if (!manifestAsset.license) {
           result.issues.push(`Missing required property: ${prop}`);
         }
-      } else if (!manifestAsset.properties || !manifestAsset.properties[prop]) {
+      } else if (!manifestAsset.properties || !manifestAsset.properties[prop!]) {
         result.issues.push(`Missing required property: ${prop}`);
       }
     }

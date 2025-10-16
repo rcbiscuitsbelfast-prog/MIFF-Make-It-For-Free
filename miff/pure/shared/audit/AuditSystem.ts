@@ -1174,8 +1174,8 @@ export class AuditSystem {
     
     while (index < content.length && braceCount > 0) {
       index++;
-      if (content[index] === '{') braceCount++;
-      if (content[index] === '}') braceCount--;
+      if (content[index!] === '{') braceCount++;
+      if (content[index!] === '}') braceCount--;
     }
     
     return index;

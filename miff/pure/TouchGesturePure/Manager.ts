@@ -32,7 +32,7 @@ export class TouchGestureManager {
     for (const e of evs) {
       if (e.type === 'down') {
         if (current.length) segments.push(current);
-        current = [e];
+        current = [e!];
       } else if (e.type === 'move') {
         current.push(e);
       } else if (e.type === 'up') {
