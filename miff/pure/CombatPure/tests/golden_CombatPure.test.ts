@@ -1136,6 +1136,7 @@ describe('CombatPure Golden Tests', () => {
         name: 'Defender',
         team: 'enemy',
         typeTag: 'water',
+        moves: ['defend'],
         stats: { hp: 100, maxHp: 100, atk: 40, def: 35, spd: 35, specialAtk: 45, specialDef: 40 }
       };
 
@@ -1150,7 +1151,6 @@ describe('CombatPure Golden Tests', () => {
           actorId: 'attacker',
           targetId: 'defender',
           moveId: 'attack',
-          speed: 40,
           source: ActionSource.PLAYER,
           type: 'attack'
         };
