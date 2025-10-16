@@ -114,7 +114,8 @@ export class CacheManager {
       this.log(`Cache SET: ${key} (${size} bytes)`);
       return true;
     } catch (error) {
-      this.log(`Cache SET failed for ${key}: ${error.message}`, 'error');
+      const err = error instanceof Error ? error : new Error(String(error));
+      this.log(`Cache SET failed for ${key}: ${err.message}`, 'error');
       return false;
     }
   }
@@ -258,7 +259,8 @@ export class CacheManager {
 
         this.log(`✅ Preloaded module: ${moduleName}`);
       } catch (error) {
-        this.log(`❌ Failed to preload module ${moduleName}: ${error.message}`, 'error');
+        const err = error instanceof Error ? error : new Error(String(error));
+        this.log(`❌ Failed to preload module ${moduleName}: ${err.message}`, 'error');
       }
     }
   }
@@ -419,7 +421,8 @@ export class CacheManager {
 
       this.log('Cache persisted to disk');
     } catch (error) {
-      this.log(`Failed to persist cache: ${error.message}`, 'error');
+      const err = error instanceof Error ? error : new Error(String(error));
+      this.log(`Failed to persist cache: ${err.message}`, 'error');
     }
   }
 
