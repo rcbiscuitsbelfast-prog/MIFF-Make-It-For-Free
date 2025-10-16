@@ -14,6 +14,7 @@
  */
 
 import { EventBus } from '../EventBusPure/index.js';
+import { IdleSystemPure } from './index';
 // Types are defined in this file to avoid circular imports
 
 // ============================================================================
@@ -42,7 +43,11 @@ export interface Generator {
   productionMultiplier: number;
   unlocked: boolean;
   level: number;
+  owned: number;
+  maxOwned: number;
   maxLevel: number;
+  producesResource: string;
+  consumesResource?: string;
   requirements: string[];
   effects: Record<string, number>;
 }
@@ -167,15 +172,20 @@ export interface PrestigeManager {
  * Provides comprehensive management of idle game mechanics
  */
 export class IdleManagerPure {
-  private idleSystem: IdleSystemPure;
+  private idleSystem!: any; // Initialized in initialize()
   private eventBus: EventBus;
   private config: IdleManagerConfig;
-  private resourceManager: ResourceManager;
-  private generatorManager: GeneratorManager;
-  private upgradeManager: UpgradeManager;
-  private achievementManager: AchievementManager;
-  private prestigeManager: PrestigeManager;
-  private integrations: IdleIntegration = {};
+  private resourceManager!: ResourceManager; // Initialized in initialize()
+  private generatorManager!: GeneratorManager; // Initialized in initialize()
+  private upgradeManager!: UpgradeManager; // Initialized in initialize()
+  private achievementManager!: AchievementManager; // Initialized in initialize()
+  private prestigeManager!: PrestigeManager; // Initialized in initialize()
+  private integrations: IdleIntegration = {
+    systemId: 'idle-system',
+    enabled: true,
+    priority: 1,
+    callbacks: {}
+  };
   private isInitialized: boolean = false;
   private analyticsData: any[] = [];
   private lastAnalyticsUpdate: number = 0;
@@ -747,6 +757,97 @@ export class IdleManagerPure {
   public cleanup(): void {
     this.analyticsData = [];
     this.idleSystem.setPaused(true);
+  }
+
+  /**
+   * Optimize resource distribution
+   */
+  private optimizeResourceDistribution(resources: Map<string, Resource>, generators: Map<string, Generator>): void {
+    generators.forEach((generator: Generator) => {
+      if (generator.consumesResource) {
+        const consumedResource = resources.get(generator.consumesResource);
+        const producedResource = resources.get(generator.producesResource);
+
+        if (consumedResource && producedResource) {
+          const consumptionRate = generator.owned * 0.1;
+          const productionRate = generator.baseProduction * generator.owned;
+
+          if (consumptionRate > productionRate) {
+            // Trigger optimization events
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Optimize generator production
+   */
+  private optimizeGeneratorProduction(resources: Map<string, Resource>): void {
+    resources.forEach((resource: Resource) => {
+      if (resource.maxAmount && resource.currentAmount >= resource.maxAmount * 0.9) {
+        // Resource nearly full, optimization needed
+      }
+    });
+  }
+
+  /**
+   * Calculate resource production
+   */
+  private calculateResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
+    let production = 0;
+    generators.forEach((generator: Generator) => {
+      if (generator.producesResource === resourceId && generator.owned > 0) {
+        production += generator.baseProduction * generator.owned;
+      }
+    });
+    return production;
+  }
+
+  /**
+   * Calculate max resource production
+   */
+  private calculateMaxResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
+    let maxProduction = 0;
+    generators.forEach((generator: Generator) => {
+      if (generator.producesResource === resourceId) {
+        maxProduction += generator.baseProduction * (generator.maxOwned || 1000);
+      }
+    });
+    return maxProduction;
+  }
+
+  /**
+   * Calculate progress rate for achievement
+   */
+  private calculateProgressRate(achievement: Achievement): number {
+    return 1; // 1 unit per second
+  }
+
+  /**
+   * Predict generator ROI
+   */
+  private predictGeneratorROI(generatorId: string, timeframe: number): number {
+    const generators = this.idleSystem.getGenerators();
+    const generator = generators.get(generatorId);
+    if (!generator) return 0;
+    
+    const production = generator.baseProduction * timeframe;
+    const cost = generator.baseCost;
+    return cost > 0 ? production / cost : 0;
+  }
+
+  /**
+   * Get generator efficiency
+   */
+  private getGeneratorEfficiency(generatorId: string): number {
+    const generators = this.idleSystem.getGenerators();
+    const generator = generators.get(generatorId);
+    if (!generator) return 0;
+    
+    const production = generator.baseProduction;
+    const cost = generator.baseCost;
+    return cost > 0 ? production / cost : 0;
   }
 }
 
