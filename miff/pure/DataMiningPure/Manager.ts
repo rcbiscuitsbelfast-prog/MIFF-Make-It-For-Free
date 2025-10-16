@@ -1061,7 +1061,7 @@ export class DataMiningPure {
     for (const manager of this.managers.values()) {
       totalDatasets += manager.datasets.length;
       totalModels += manager.models.length;
-      trainedModels += manager.models.filter(m => m.status === 'trained').length;
+      trainedModels += manager.models.filter((m: any) => m.status === 'trained').length;
       totalPatterns += manager.patterns.length;
       totalRules += manager.rules.length;
     }

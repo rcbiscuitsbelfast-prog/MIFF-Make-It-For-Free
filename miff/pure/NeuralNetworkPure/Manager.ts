@@ -1327,10 +1327,10 @@ export class NeuralNetworkPure {
 
     for (const manager of this.managers.values()) {
       totalModels += manager.models.length;
-      activeModels += manager.models.filter(m => m.status === 'trained' || m.status === 'deployed').length;
+      activeModels += manager.models.filter((m: any) => m.status === 'trained' || m.status === 'deployed').length;
       totalDatasets += manager.datasets.length;
       totalTrainingJobs += manager.trainingJobs.length;
-      activeTrainingJobs += manager.trainingJobs.filter(j => j.status === 'running').length;
+      activeTrainingJobs += manager.trainingJobs.filter((j: any) => j.status === 'running').length;
     }
 
     this.performanceMetrics.totalModels = totalModels;

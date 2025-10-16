@@ -424,7 +424,7 @@ export class InventoryManager {
   }
 
   private notifyObservers(transaction: InventoryTransaction): void {
-    this.system.observers.forEach(observer => {
+    this.system.observers.forEach((observer: any) => {
       switch (transaction.type) {
         case 'add':
           observer.onItemAdded?.(transaction);

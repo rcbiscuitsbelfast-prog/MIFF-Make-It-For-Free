@@ -1243,7 +1243,7 @@ export class ChallengeManager implements IChallengeManager {
 
       if (this.isChallengeCompleted(challenge.challengeId)) {
         Object.entries(challenge.rewards).forEach(([item, amount]) => {
-          totalRewardsEarned[item] = (totalRewardsEarned[item] || 0) + amount;
+          totalRewardsEarned[item!] = (totalRewardsEarned[item!] || 0) + amount;
         });
       }
     });
@@ -1299,7 +1299,7 @@ export class ChallengeManager implements IChallengeManager {
       [ChallengeDifficulty.LEGENDARY]: 5,
       [ChallengeDifficulty.VARIES]: 3
     };
-    return levels[difficulty] || 2;
+    return levels[difficulty!] || 2;
   }
 }
 
@@ -1445,7 +1445,7 @@ export const ChallengeUtils = {
       [ChallengeDifficulty.LEGENDARY]: 5,
       [ChallengeDifficulty.VARIES]: 3
     };
-    return levels[difficulty] || 2;
+    return levels[difficulty!] || 2;
   },
 
   /**

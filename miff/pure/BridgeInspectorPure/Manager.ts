@@ -137,7 +137,7 @@ export class BridgeInspectorManager {
       return {
         op: 'inspect',
         status: 'ok',
-        inspections: [inspection],
+        inspections: [inspection!],
         summary: {
           totalBridges: 1,
           totalIssues: inspection.summary.totalIssues,
@@ -346,7 +346,7 @@ export class BridgeInspectorManager {
     payload.renderData?.forEach((data: any) => {
       if (data.engineHints) {
         Object.entries(data.engineHints).forEach(([engine, hints]) => {
-          engineSpecific[engine] = (engineSpecific[engine] || 0) + 1;
+          engineSpecific[engine!] = (engineSpecific[engine!] || 0) + 1;
           totalHints++;
 
           // Validate engine hints

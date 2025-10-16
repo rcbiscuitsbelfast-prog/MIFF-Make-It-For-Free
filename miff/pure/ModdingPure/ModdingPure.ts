@@ -165,7 +165,7 @@ export class PluginDiscovery {
    * Get all loaded plugins
    */
   getLoadedPlugins(): PluginInstance[] {
-    return Array.from(this.plugins.values()).filter(p => p.status === 'loaded');
+    return Array.from(this.plugins.values()).filter((p: any) => p.status === 'loaded');
   }
 
   /**
@@ -637,10 +637,10 @@ export class ModdingSystem {
    */
   async loadEnabledPlugins(): Promise<PluginInstance[]> {
     const plugins = await this.discovery.discoverPlugins();
-    const enabledPlugins = plugins.filter(p => p.config.enabled);
+    const enabledPlugins = plugins.filter((p: any) => p.config.enabled);
     
     // Sort by load order
-    enabledPlugins.sort((a, b) => a.config.loadOrder - b.config.loadOrder);
+    enabledPlugins.sort((a: any, b: any) => a.config.loadOrder - b.config.loadOrder);
     
     const loadedPlugins: PluginInstance[] = [];
     
@@ -738,9 +738,9 @@ export class ModdingSystem {
       },
       plugins: {
         total: plugins.length,
-        loaded: plugins.filter(p => p.status === 'loaded').length,
-        errors: plugins.filter(p => p.status === 'error').length,
-        list: plugins.map(p => ({
+        loaded: plugins.filter((p: any) => p.status === 'loaded').length,
+        errors: plugins.filter((p: any) => p.status === 'error').length,
+        list: plugins.map((p: any) => ({
           id: p.id,
           name: p.manifest.name,
           version: p.manifest.version,
@@ -750,7 +750,7 @@ export class ModdingSystem {
       },
       assets: {
         templates: templates.length,
-        available: templates.map(t => ({
+        available: templates.map((t: any) => ({
           id: t.id,
           name: t.name,
           platform: t.platform,

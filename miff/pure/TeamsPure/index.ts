@@ -489,7 +489,7 @@ export class TeamSlot implements ITeamSlot {
     }
 
     if (spirit) {
-      this.requirements.forEach(requirement => {
+      this.requirements.forEach((requirement: any) => {
         if (!this.spiritMeetsRequirement(spirit, requirement)) {
           errors.push(`Spirit does not meet requirement: ${requirement}`);
         }
@@ -754,7 +754,7 @@ export class TeamRules implements ITeamRules {
 
     // Check for duplicates
     if (!this.allowDuplicates) {
-      const speciesIds = new Set(spirits.map(s => s.speciesId));
+      const speciesIds = new Set(spirits.map((s: any) => s.speciesId));
       if (speciesIds.size < spirits.length) {
         errors.push('Duplicate spirits are not allowed in this team');
         return new ValidationResult(ValidationStatus.DUPLICATE_SPECIES, errors[0], [], errors);
@@ -763,7 +763,7 @@ export class TeamRules implements ITeamRules {
 
     // Check type diversity
     if (this.requireTypeDiversity && spirits.length >= 3) {
-      const types = new Set(spirits.map(s => s.type));
+      const types = new Set(spirits.map((s: any) => s.type));
       const minDiversity = Math.min(spirits.length, 3);
       if (types.size < minDiversity) {
         errors.push(`Team requires at least ${minDiversity} different types, has ${types.size}`);
@@ -773,8 +773,8 @@ export class TeamRules implements ITeamRules {
 
     // Check required types
     if (this.requiredTypes && this.requiredTypes.length > 0) {
-      const spiritTypes = new Set(spirits.map(s => s.type));
-      const missingTypes = this.requiredTypes.filter(type => !spiritTypes.has(type));
+      const spiritTypes = new Set(spirits.map((s: any) => s.type));
+      const missingTypes = this.requiredTypes.filter((type: any) => !spiritTypes.has(type));
       if (missingTypes.length > 0) {
         warnings.push(`Team missing recommended types: ${missingTypes.join(', ')}`);
       }
@@ -782,9 +782,9 @@ export class TeamRules implements ITeamRules {
 
     // Check forbidden types
     if (this.forbiddenTypes && this.forbiddenTypes.length > 0) {
-      const forbiddenInTeam = spirits.filter(s => this.forbiddenTypes!.includes(s.type));
+      const forbiddenInTeam = spirits.filter((s: any) => this.forbiddenTypes!.includes(s.type));
       if (forbiddenInTeam.length > 0) {
-        errors.push(`Team contains forbidden types: ${forbiddenInTeam.map(s => s.type).join(', ')}`);
+        errors.push(`Team contains forbidden types: ${forbiddenInTeam.map((s: any) => s.type).join(', ')}`);
         return new ValidationResult(ValidationStatus.INVALID_SYNERGY, errors[0], [], errors);
       }
     }
@@ -805,7 +805,7 @@ export class TeamRules implements ITeamRules {
 
     // Check balance requirements
     if (this.requireBalance && spirits.length >= 3) {
-      const levels = spirits.map(s => s.level);
+      const levels = spirits.map((s: any) => s.level);
       const avgLevel = levels.reduce((sum, level) => sum + level, 0) / levels.length;
       const maxDifference = Math.max(...levels) - Math.min(...levels);
 
@@ -935,17 +935,17 @@ export class TeamRules implements ITeamRules {
     if (spirits.length <= 1) return 1.0;
 
     // Type diversity
-    const types = new Set(spirits.map(s => s.type));
+    const types = new Set(spirits.map((s: any) => s.type));
     const typeDiversity = types.size / spirits.length;
 
     // Level diversity
-    const levels = spirits.map(s => s.level);
+    const levels = spirits.map((s: any) => s.level);
     const avgLevel = levels.reduce((sum, level) => sum + level, 0) / levels.length;
     const levelVariance = levels.reduce((sum, level) => sum + Math.pow(level - avgLevel, 2), 0) / levels.length;
     const levelDiversity = Math.min(1.0, levelVariance / 1000); // Normalize to 0-1
 
     // Role diversity (based on stats)
-    const roles = spirits.map(s => this.classifyRole(s));
+    const roles = spirits.map((s: any) => this.classifyRole(s));
     const roleTypes = new Set(roles);
     const roleDiversity = roleTypes.size / spirits.length;
 
@@ -1072,7 +1072,7 @@ export class Team implements ITeam {
 
     // Check for duplicate species if not allowed
     if (!this.rules.allowDuplicates) {
-      const allSpecies = new Set([...this.spirits, ...this.reserves].map(s => s.speciesId));
+      const allSpecies = new Set([...this.spirits, ...this.reserves].map((s: any) => s.speciesId));
       if (allSpecies.has(spirit.speciesId)) {
         return TeamOperationResult.DUPLICATE_SPIRIT;
       }
@@ -1187,14 +1187,14 @@ export class Team implements ITeam {
    * Get spirits by position
    */
   getSpiritsByPosition(position: TeamPosition): ISpiritInstance[] {
-    return this.spirits.filter(spirit => spirit.position === position);
+    return this.spirits.filter((spirit: any) => spirit.position === position);
   }
 
   /**
    * Get spirits by type
    */
   getSpiritsByType(type: string): ISpiritInstance[] {
-    return this.spirits.filter(spirit => spirit.type === type);
+    return this.spirits.filter((spirit: any) => spirit.type === type);
   }
 
   /**
@@ -1210,7 +1210,7 @@ export class Team implements ITeam {
       specialDefense: 0
     };
 
-    this.spirits.forEach(spirit => {
+    this.spirits.forEach((spirit: any) => {
       total.hp += spirit.stats.hp;
       total.attack += spirit.stats.attack;
       total.defense += spirit.stats.defense;
@@ -1238,7 +1238,7 @@ export class Team implements ITeam {
     if (this.spirits.length === 0) return 0;
 
     let totalSync = 0;
-    this.spirits.forEach(spirit => {
+    this.spirits.forEach((spirit: any) => {
       if (syncMap) {
         totalSync += syncMap.get(spirit.instanceId) || 0;
       } else {
@@ -1284,8 +1284,8 @@ export class Team implements ITeam {
       name: this.name,
       description: this.description,
       maxSize: this.maxSize,
-      spirits: this.spirits.map(spirit => spirit.toJSON()),
-      reserves: this.reserves.map(spirit => spirit.toJSON()),
+      spirits: this.spirits.map((spirit: any) => spirit.toJSON()),
+      reserves: this.reserves.map((spirit: any) => spirit.toJSON()),
       rules: this.rules.toJSON(),
       metadata: this.metadata,
       createdAt: this.createdAt.toISOString(),
@@ -1324,9 +1324,9 @@ export class Team implements ITeam {
    */
   clone(): Team {
     const cloned = new Team(this.teamId, this.name, this.description, this.maxSize, this.rules.clone());
-    cloned.spirits = this.spirits.map(spirit => spirit.clone());
-    cloned.reserves = this.reserves.map(spirit => spirit.clone());
-    cloned.slots = this.slots.map(slot => slot.clone());
+    cloned.spirits = this.spirits.map((spirit: any) => spirit.clone());
+    cloned.reserves = this.reserves.map((spirit: any) => spirit.clone());
+    cloned.slots = this.slots.map((slot: any) => slot.clone());
     cloned.metadata = { ...this.metadata };
     cloned.createdAt = new Date(this.createdAt);
     cloned.updatedAt = new Date(this.updatedAt);
@@ -1362,7 +1362,7 @@ export class Team implements ITeam {
   private calculateTypeSynergy(): number {
     if (this.spirits.length <= 1) return 100;
 
-    const types = this.spirits.map(s => s.type);
+    const types = this.spirits.map((s: any) => s.type);
     const uniqueTypes = new Set(types);
     const diversityRatio = uniqueTypes.size / this.spirits.length;
 
@@ -1414,7 +1414,7 @@ export class Team implements ITeam {
     if (this.spirits.length === 0) return 100;
 
     let totalSync = 0;
-    this.spirits.forEach(spirit => {
+    this.spirits.forEach((spirit: any) => {
       if (syncMap) {
         totalSync += syncMap.get(spirit.instanceId) || 0;
       } else {
@@ -1432,7 +1432,7 @@ export class Team implements ITeam {
   private calculateLevelSynergy(): number {
     if (this.spirits.length <= 1) return 100;
 
-    const levels = this.spirits.map(s => s.level);
+    const levels = this.spirits.map((s: any) => s.level);
     const avgLevel = levels.reduce((sum, level) => sum + level, 0) / levels.length;
     const maxDifference = Math.max(...levels) - Math.min(...levels);
 
@@ -1450,15 +1450,15 @@ export class Team implements ITeam {
     if (this.spirits.length <= 1) return 1.0;
 
     // Type diversity
-    const types = new Set(this.spirits.map(s => s.type));
+    const types = new Set(this.spirits.map((s: any) => s.type));
     const typeDiversity = types.size / this.spirits.length;
 
     // Role diversity
-    const roles = new Set(this.spirits.map(s => Team.getSpiritRole(s)));
+    const roles = new Set(this.spirits.map((s: any) => Team.getSpiritRole(s)));
     const roleDiversity = roles.size / this.spirits.length;
 
     // Level diversity
-    const levels = this.spirits.map(s => s.level);
+    const levels = this.spirits.map((s: any) => s.level);
     const avgLevel = levels.reduce((sum, level) => sum + level, 0) / levels.length;
     const levelVariance = levels.reduce((sum, level) => sum + Math.pow(level - avgLevel, 2), 0) / levels.length;
     const levelDiversity = Math.min(1.0, levelVariance / 1000);
@@ -1488,7 +1488,7 @@ export class Team implements ITeam {
   static calculateTypeBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
     const typeCount: Record<string, number> = {};
 
-    spirits.forEach(spirit => {
+    spirits.forEach((spirit: any) => {
       typeCount[spirit.type] = (typeCount[spirit.type] || 0) + 1;
     });
 
@@ -1501,7 +1501,7 @@ export class Team implements ITeam {
   static getRoleBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
     const roleCount: Record<string, number> = {};
 
-    spirits.forEach(spirit => {
+    spirits.forEach((spirit: any) => {
       const role = Team.getSpiritRole(spirit);
       roleCount[role] = (roleCount[role] || 0) + 1;
     });
@@ -1851,7 +1851,7 @@ export const TeamUtils = {
     if (spirits.length === 0) return 0;
 
     let totalPower = 0;
-    spirits.forEach(spirit => {
+    spirits.forEach((spirit: any) => {
       const stats = spirit.getEffectiveStats();
       const statPower = stats.attack + stats.defense + stats.speed +
                        (stats.specialAttack || 0) + (stats.specialDefense || 0);
@@ -1871,7 +1871,7 @@ export const TeamUtils = {
     const team = Team.create('recommended', 'Recommended team', '', 6, TeamRules.casual());
 
     // Sort spirits by power rating (descending)
-    const sortedSpirits = spirits.sort((a, b) => {
+    const sortedSpirits = spirits.sort((a: any, b: any) => {
       const aStats = a.getEffectiveStats();
       const bStats = b.getEffectiveStats();
       const aPower = aStats.attack + aStats.defense + aStats.speed + (aStats.specialAttack || 0) + (aStats.specialDefense || 0);
@@ -2040,7 +2040,7 @@ export class TeamStrategyAnalyzer {
       const vulnerabilities = this.identifyVulnerabilitiesAgainstEnemy(spirits, enemyAnalysis);
 
       if (vulnerabilities.length > 0) {
-        primaryThreats.push(...vulnerabilities.map(v => `${enemyTeam.name}: ${v}`));
+        primaryThreats.push(...vulnerabilities.map((v: any) => `${enemyTeam.name}: ${v}`));
         vulnerabilityScore += Math.min(100, vulnerabilities.length * 25);
       }
 
@@ -2075,7 +2075,7 @@ export class TeamStrategyAnalyzer {
     if (spirits.length === 0) return 0;
 
     let totalOffense = 0;
-    spirits.forEach(spirit => {
+    spirits.forEach((spirit: any) => {
       const stats = spirit.getEffectiveStats();
       const attack = stats.attack || 0;
       const specialAttack = stats.specialAttack || 0;
@@ -2097,7 +2097,7 @@ export class TeamStrategyAnalyzer {
     if (spirits.length === 0) return 0;
 
     let totalDefense = 0;
-    spirits.forEach(spirit => {
+    spirits.forEach((spirit: any) => {
       const stats = spirit.getEffectiveStats();
       const defense = stats.defense || 0;
       const specialDefense = stats.specialDefense || 0;
@@ -2119,7 +2119,7 @@ export class TeamStrategyAnalyzer {
     if (spirits.length === 0) return 0;
 
     let totalMobility = 0;
-    spirits.forEach(spirit => {
+    spirits.forEach((spirit: any) => {
       const stats = spirit.getEffectiveStats();
       const speed = stats.speed || 0;
       const level = spirit.level;
@@ -2138,7 +2138,7 @@ export class TeamStrategyAnalyzer {
   private static calculateTypeCoverage(spirits: ISpiritInstance[]): number {
     if (spirits.length === 0) return 0;
 
-    const types = new Set(spirits.map(spirit => spirit.type));
+    const types = new Set(spirits.map((spirit: any) => spirit.type));
     const typeCount = types.size;
 
     // Ideal type coverage based on team size
@@ -2254,7 +2254,7 @@ export class TeamStrategyAnalyzer {
       risks.push('Limited type coverage makes team vulnerable to specific types');
     }
 
-    const levels = spirits.map(s => s.level);
+    const levels = spirits.map((s: any) => s.level);
     const maxLevel = Math.max(...levels);
     const minLevel = Math.min(...levels);
     const levelDifference = maxLevel - minLevel;
@@ -2274,7 +2274,7 @@ export class TeamStrategyAnalyzer {
    * Rank spirits by strategic value
    */
   private static rankSpiritsByStrategicValue(spirits: ISpiritInstance[]): ISpiritInstance[] {
-    return spirits.sort((a, b) => {
+    return spirits.sort((a: any, b: any) => {
       const scoreA = this.calculateSpiritStrategicValue(a);
       const scoreB = this.calculateSpiritStrategicValue(b);
       return scoreB - scoreA;
@@ -2315,7 +2315,7 @@ export class TeamStrategyAnalyzer {
       'diverse'      // Maximize type coverage
     ];
 
-    strategies.forEach(strategy => {
+    strategies.forEach((strategy: any) => {
       const composition = this.generateCompositionByStrategy(rankedSpirits, teamSize, strategy);
       if (composition.length > 0) {
         compositions.push(composition);
@@ -2429,7 +2429,7 @@ export class TeamStrategyAnalyzer {
     reasoning.push(`Type coverage: ${typeCoverage.toFixed(1)}%`);
     reasoning.push(`Average level: ${avgLevel.toFixed(1)}`);
 
-    const types = new Set(team.map(s => s.type));
+    const types = new Set(team.map((s: any) => s.type));
     reasoning.push(`Types represented: ${Array.from(types).join(', ')}`);
 
     if (performance > 70) {
@@ -2763,9 +2763,9 @@ export class SyncManager implements ISyncManager {
     }
 
     const totalSync = entries.reduce((sum, entry) => sum + entry.syncLevel, 0);
-    const maxSync = Math.max(...entries.map(entry => entry.syncLevel));
+    const maxSync = Math.max(...entries.map((entry: any) => entry.syncLevel));
     const totalPoints = entries.reduce((sum, entry) => sum + entry.syncPoints, 0);
-    const favoriteCount = entries.filter(entry => entry.isFavorite).length;
+    const favoriteCount = entries.filter((entry: any) => entry.isFavorite).length;
 
     return {
       totalSpirits: entries.length,
@@ -2780,7 +2780,7 @@ export class SyncManager implements ISyncManager {
     const entries = this.getAllSyncEntries(trainerId);
     return {
       trainerId,
-      syncEntries: entries.map(entry => entry.toJSON()),
+      syncEntries: entries.map((entry: any) => entry.toJSON()),
       exportDate: new Date().toISOString()
     };
   }

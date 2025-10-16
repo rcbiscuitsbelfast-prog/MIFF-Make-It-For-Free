@@ -835,8 +835,8 @@ export class NaturalLanguageProcessingPure {
 
     for (const manager of this.managers.values()) {
       totalRequests += manager.requests.length;
-      successfulRequests += manager.requests.filter(req => req.status === 'completed').length;
-      failedRequests += manager.requests.filter(req => req.status === 'failed').length;
+      successfulRequests += manager.requests.filter((req: any) => req.status === 'completed').length;
+      failedRequests += manager.requests.filter((req: any) => req.status === 'failed').length;
     }
 
     this.performanceMetrics.totalRequests = totalRequests;

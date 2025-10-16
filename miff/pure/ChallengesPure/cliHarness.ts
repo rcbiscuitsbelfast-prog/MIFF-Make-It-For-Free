@@ -257,20 +257,20 @@ class ChallengesPureCLI {
     console.log('='.repeat(70));
     console.log('');
     console.log('Available commands:');
-    console.log('  list [filter]     - List challenges');
-    console.log('  show [id]         - Show challenge details');
-    console.log('  start [id]        - Start challenge');
-    console.log('  complete [id]     - Complete challenge');
-    console.log('  search [text]     - Search challenges');
-    console.log('  filter [type]     - Set filter');
+    console.log('  list [filter!]     - List challenges');
+    console.log('  show [id!]         - Show challenge details');
+    console.log('  start [id!]        - Start challenge');
+    console.log('  complete [id!]     - Complete challenge');
+    console.log('  search [text!]     - Search challenges');
+    console.log('  filter [type!]     - Set filter');
     console.log('  stats             - Show challenge statistics');
     console.log('  progress          - Show completion progress');
-    console.log('  setflag [flag]    - Set quest/lore flag');
-    console.log('  setlocation [loc] - Set current location');
-    console.log('  setlevel [level]  - Set player level');
-    console.log('  capturespirit [id]- Capture spirit');
-    console.log('  export [file]     - Export challenges to JSON');
-    console.log('  import [file]     - Import challenges from JSON');
+    console.log('  setflag [flag!]    - Set quest/lore flag');
+    console.log('  setlocation [loc!] - Set current location');
+    console.log('  setlevel [level!]  - Set player level');
+    console.log('  capturespirit [id!]- Capture spirit');
+    console.log('  export [file!]     - Export challenges to JSON');
+    console.log('  import [file!]     - Import challenges from JSON');
     console.log('  clear             - Clear all challenge data');
     console.log('  demo              - Reset demo data');
     console.log('  help              - Show this help');
@@ -464,7 +464,7 @@ class ChallengesPureCLI {
    */
   private showChallenge(challengeId: string): void {
     if (!challengeId) {
-      console.log('❌ Usage: show [challenge_id]');
+      console.log('❌ Usage: show [challenge_id!]');
       return;
     }
 
@@ -527,7 +527,7 @@ class ChallengesPureCLI {
    */
   private startChallenge(challengeId: string): void {
     if (!challengeId) {
-      console.log('❌ Usage: start [challenge_id]');
+      console.log('❌ Usage: start [challenge_id!]');
       return;
     }
 
@@ -559,7 +559,7 @@ class ChallengesPureCLI {
    */
   private completeChallenge(challengeId: string, args: string[]): void {
     if (!challengeId) {
-      console.log('❌ Usage: complete [challenge_id] [victory|defeat|timeout|forfeit] [turns]');
+      console.log('❌ Usage: complete [challenge_id!] [victory|defeat|timeout|forfeit] [turns!]');
       return;
     }
 
@@ -623,7 +623,7 @@ class ChallengesPureCLI {
    */
   private searchChallenges(searchText: string): void {
     if (!searchText) {
-      console.log('❌ Usage: search [text]');
+      console.log('❌ Usage: search [text!]');
       return;
     }
 
@@ -653,7 +653,7 @@ class ChallengesPureCLI {
    */
   private setFilter(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: filter [type] [value]');
+      console.log('❌ Usage: filter [type!] [value!]');
       return;
     }
 
@@ -770,7 +770,7 @@ class ChallengesPureCLI {
    */
   private setFlag(flagId: string): void {
     if (!flagId) {
-      console.log('❌ Usage: setflag [flag_id]');
+      console.log('❌ Usage: setflag [flag_id!]');
       return;
     }
 
@@ -784,7 +784,7 @@ class ChallengesPureCLI {
    */
   private setLocation(locationId: string): void {
     if (!locationId) {
-      console.log('❌ Usage: setlocation [location_id]');
+      console.log('❌ Usage: setlocation [location_id!]');
       return;
     }
 
@@ -797,7 +797,7 @@ class ChallengesPureCLI {
    */
   private setLevel(levelStr: string): void {
     if (!levelStr) {
-      console.log('❌ Usage: setlevel [level]');
+      console.log('❌ Usage: setlevel [level!]');
       return;
     }
 
@@ -816,7 +816,7 @@ class ChallengesPureCLI {
    */
   private captureSpirit(spiritId: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: capturespirit [spirit_id]');
+      console.log('❌ Usage: capturespirit [spirit_id!]');
       return;
     }
 
@@ -829,7 +829,7 @@ class ChallengesPureCLI {
    */
   private exportChallenges(filename: string): void {
     if (!filename) {
-      console.log('❌ Usage: export [filename]');
+      console.log('❌ Usage: export [filename!]');
       return;
     }
 
@@ -849,7 +849,7 @@ class ChallengesPureCLI {
    */
   private importChallenges(filename: string): void {
     if (!filename) {
-      console.log('❌ Usage: import [filename]');
+      console.log('❌ Usage: import [filename!]');
       return;
     }
 

@@ -398,8 +398,8 @@ export class ScoreManager {
     // Update or add entry
     const existingIndex = leaderboard.entries.findIndex(e => e.playerId === playerId);
     if (existingIndex >= 0) {
-      leaderboard.entries[existingIndex].score = score;
-      leaderboard.entries[existingIndex].timestamp = Date.now();
+      leaderboard.entries[existingIndex!].score = score;
+      leaderboard.entries[existingIndex!].timestamp = Date.now();
     } else {
       leaderboard.entries.push({
         playerId,

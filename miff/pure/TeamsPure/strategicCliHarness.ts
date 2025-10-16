@@ -91,22 +91,22 @@ export class TeamsPureStrategicCLI {
   private createDemoTeams(): void {
     // Create offensive team
     const offensiveTeam = this.teamManager.createTeam('offensive_force', 'Offensive Force', 6);
-    const offensiveSpirits = this.mockSpirits.filter(s => ['Fire', 'Electric', 'Psychic'].includes(s.type));
-    offensiveSpirits.forEach(spirit => {
+    const offensiveSpirits = this.mockSpirits.filter((s: any) => ['Fire', 'Electric', 'Psychic'].includes(s.type));
+    offensiveSpirits.forEach((spirit: any) => {
       this.teamManager.addSpiritToTeam('offensive_force', spirit);
     });
 
     // Create defensive team
     const defensiveTeam = this.teamManager.createTeam('defensive_wall', 'Defensive Wall', 6);
-    const defensiveSpirits = this.mockSpirits.filter(s => ['Water', 'Ground', 'Grass'].includes(s.type));
-    defensiveSpirits.forEach(spirit => {
+    const defensiveSpirits = this.mockSpirits.filter((s: any) => ['Water', 'Ground', 'Grass'].includes(s.type));
+    defensiveSpirits.forEach((spirit: any) => {
       this.teamManager.addSpiritToTeam('defensive_wall', spirit);
     });
 
     // Create balanced team
     const balancedTeam = this.teamManager.createTeam('balanced_squad', 'Balanced Squad', 6);
-    const balancedSpirits = this.mockSpirits.filter(s => ['Light', 'Dark', 'Ice', 'Flying'].includes(s.type));
-    balancedSpirits.forEach(spirit => {
+    const balancedSpirits = this.mockSpirits.filter((s: any) => ['Light', 'Dark', 'Ice', 'Flying'].includes(s.type));
+    balancedSpirits.forEach((spirit: any) => {
       this.teamManager.addSpiritToTeam('balanced_squad', spirit);
     });
   }
@@ -263,9 +263,9 @@ export class TeamsPureStrategicCLI {
     }
 
     console.log('\n📋 Available Teams:');
-    teams.forEach(team => {
+    teams.forEach((team: any) => {
       const spirits = team.spirits;
-      const types = new Set(spirits.map(s => s.type));
+      const types = new Set(spirits.map((s: any) => s.type));
       const avgLevel = spirits.length > 0 ? spirits.reduce((sum, s) => sum + s.level, 0) / spirits.length : 0;
 
       console.log(`  ${team.name} (${spirits.length}/${team.maxSize} spirits)`);
@@ -280,7 +280,7 @@ export class TeamsPureStrategicCLI {
    */
   private listSpirits(): void {
     console.log('\n🧬 Available Spirits:');
-    this.mockSpirits.forEach(spirit => {
+    this.mockSpirits.forEach((spirit: any) => {
       const stats = spirit.getEffectiveStats();
       console.log(`  ${spirit.name} (${spirit.type}, Lv${spirit.level})`);
       console.log(`    ATK: ${stats.attack} | DEF: ${stats.defense} | SPD: ${stats.speed} | HP: ${stats.hp}`);
@@ -315,25 +315,25 @@ export class TeamsPureStrategicCLI {
     console.log(`Type Coverage: ${analysis.typeCoverage.toFixed(1)}%`);
 
     console.log('\n💪 Strengths:');
-    analysis.strengths.forEach(strength => {
+    analysis.strengths.forEach((strength: any) => {
       console.log(`  ✅ ${strength}`);
     });
 
     if (analysis.weaknesses.length > 0) {
       console.log('\n⚠️  Weaknesses:');
-      analysis.weaknesses.forEach(weakness => {
+      analysis.weaknesses.forEach((weakness: any) => {
         console.log(`  ⚠️  ${weakness}`);
       });
     }
 
     console.log('\n🎯 Recommended Strategies:');
-    analysis.recommendedStrategies.forEach(strategy => {
+    analysis.recommendedStrategies.forEach((strategy: any) => {
       console.log(`  🎯 ${strategy}`);
     });
 
     if (analysis.riskFactors.length > 0) {
       console.log('\n⚠️  Risk Factors:');
-      analysis.riskFactors.forEach(risk => {
+      analysis.riskFactors.forEach((risk: any) => {
         console.log(`  ⚠️  ${risk}`);
       });
     }
@@ -370,14 +370,14 @@ export class TeamsPureStrategicCLI {
     });
 
     console.log('\n💭 Reasoning:');
-    recommendation.reasoning.forEach(reason => {
+    recommendation.reasoning.forEach((reason: any) => {
       console.log(`  • ${reason}`);
     });
 
     if (recommendation.alternativeCompositions.length > 0) {
       console.log('\n🔄 Alternative Compositions:');
       recommendation.alternativeCompositions.forEach((comp, index) => {
-        const types = new Set(comp.map(s => s.type));
+        const types = new Set(comp.map((s: any) => s.type));
         const avgLevel = comp.reduce((sum, s) => sum + s.level, 0) / comp.length;
         console.log(`  ${index + 1}. ${Array.from(types).join(', ')} (Avg Lv${avgLevel.toFixed(1)})`);
       });
@@ -417,14 +417,14 @@ export class TeamsPureStrategicCLI {
 
     if (analysis.primaryThreats.length > 0) {
       console.log('\n🚨 Primary Threats:');
-      analysis.primaryThreats.forEach(threat => {
+      analysis.primaryThreats.forEach((threat: any) => {
         console.log(`  🚨 ${threat}`);
       });
     }
 
     if (analysis.counterStrategies.length > 0) {
       console.log('\n🛡️  Counter Strategies:');
-      analysis.counterStrategies.forEach(strategy => {
+      analysis.counterStrategies.forEach((strategy: any) => {
         console.log(`  🛡️  ${strategy}`);
       });
     }
@@ -459,7 +459,7 @@ export class TeamsPureStrategicCLI {
     });
 
     console.log('\n🎮 Tactical Tips:');
-    this.generateTacticalTips(analysis).forEach(tip => {
+    this.generateTacticalTips(analysis).forEach((tip: any) => {
       console.log(`  💡 ${tip}`);
     });
   }
@@ -580,7 +580,7 @@ export class TeamsPureStrategicCLI {
 
     // Clear current team
     const currentSpirits = [...team.spirits];
-    currentSpirits.forEach(spirit => {
+    currentSpirits.forEach((spirit: any) => {
       this.teamManager.removeSpiritFromTeam(teamId, spirit.instanceId);
     });
 
@@ -679,7 +679,7 @@ export class TeamsPureStrategicCLI {
       { name: 'Type Coverage', val1: analysis1.typeCoverage, val2: analysis2.typeCoverage }
     ];
 
-    categories.forEach(cat => {
+    categories.forEach((cat: any) => {
       const diff = cat.val1 - cat.val2;
       const symbol = diff > 0 ? '>' : diff < 0 ? '<' : '=';
       console.log(`  ${cat.name}: ${cat.val1} ${symbol} ${cat.val2}`);

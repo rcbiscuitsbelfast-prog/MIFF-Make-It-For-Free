@@ -98,7 +98,7 @@ export class CanvasRenderPlayer {
   }
 
   private drawFrame(i: number, t: number){
-    const curr = this.frames[i];
+    const curr = this.frames[i!];
     const next = this.frames[Math.min(i + 1, this.frames.length - 1)];
     const ctx = this.ctx;
 

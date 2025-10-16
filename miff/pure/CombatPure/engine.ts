@@ -130,10 +130,10 @@ export class TypeEffectiveness {
   }
 
   setMultiplier(attackerType: string, defenderType: string, multiplier: number): void {
-    if (!this.chart[attackerType]) {
-      this.chart[attackerType] = {};
+    if (!this.chart[attackerType!]) {
+      this.chart[attackerType!] = {};
     }
-    this.chart[attackerType][defenderType] = multiplier;
+    this.chart[attackerType!][defenderType!] = multiplier;
   }
 
   exportChart(): Record<string, Record<string, number>> {
@@ -540,7 +540,7 @@ export class CombatEngine {
       case 'flee': actor.status={...(actor.status||{}), fled:true}; break;
     }
   }
-  attack(actor:Combatant, targetId:string){ const tgt = this.state.combatants[targetId]; if(!tgt||tgt.status?.ko) return; const base = Math.max(1, actor.stats.atk - tgt.stats.def); const defendMod = (tgt.status?.defending? 0.5 : 1.0); const dmg = Math.max(1, Math.floor(base*defendMod)); tgt.stats.hp = Math.max(0, tgt.stats.hp - dmg); tgt.status={...(tgt.status||{}), defending:false, ko:(tgt.stats.hp<=0)}; }
+  attack(actor:Combatant, targetId:string){ const tgt = this.state.combatants[targetId!]; if(!tgt||tgt.status?.ko) return; const base = Math.max(1, actor.stats.atk - tgt.stats.def); const defendMod = (tgt.status?.defending? 0.5 : 1.0); const dmg = Math.max(1, Math.floor(base*defendMod)); tgt.stats.hp = Math.max(0, tgt.stats.hp - dmg); tgt.status={...(tgt.status||{}), defending:false, ko:(tgt.stats.hp<=0)}; }
   useItem(actor:Combatant, a:Action){ const item = a.itemId || ''; if(this.inventory && !this.inventory.hasItem(item)){ return; }
     if(item==='potion'){ actor.stats.hp = Math.min(actor.stats.maxHp, actor.stats.hp + 20); }
     if(this.inventory) this.inventory.consumeItem(item);
@@ -720,8 +720,8 @@ export class BattleEngine {
   }
 
   removeCombatant(combatantId: string): boolean {
-    if (this.state.combatants[combatantId]) {
-      delete this.state.combatants[combatantId];
+    if (this.state.combatants[combatantId!]) {
+      delete this.state.combatants[combatantId!];
       this.rebuildOrder();
       return true;
     }
@@ -758,7 +758,7 @@ export class BattleEngine {
 
   // Missing BattleEngine methods
   getCombatant(id: string): ICombatant | null {
-    return this.state.combatants[id] || null;
+    return this.state.combatants[id!] || null;
   }
 
   getAllCombatants(): ICombatant[] {

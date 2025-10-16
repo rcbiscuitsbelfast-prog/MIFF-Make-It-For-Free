@@ -330,7 +330,7 @@ export class SkinMeshGenerator {
 
     const baseVertices = this.skinConfig.meshData.vertices;
     const morphedVertices = baseVertices.map((vertex, index) => {
-      const morphVertex = morphTarget.vertices[index] || vertex;
+      const morphVertex = morphTarget.vertices[index!] || vertex;
       return vertex + (morphVertex - vertex) * strength * morphTarget.weight;
     });
 

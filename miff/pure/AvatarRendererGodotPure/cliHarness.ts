@@ -12,7 +12,7 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log(`
 AvatarRendererGodotPure CLI Harness - Godot Avatar Rendering System
 
-Usage: npx tsx miff/pure/AvatarRendererGodotPure/cliHarness.ts [command] [options]
+Usage: npx tsx miff/pure/AvatarRendererGodotPure/cliHarness.ts [command!] [options!]
 
 Commands:
   test                     - Run basic Godot renderer tests
@@ -310,7 +310,7 @@ class AvatarRendererGodotCLI {
       // Convert each avatar to Godot scene
       console.log('2. Converting avatars to Godot scenes...');
       for (let i = 0; i < avatars.length; i++) {
-        const avatar = avatars[i];
+        const avatar = avatars[i!];
         const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(avatar);
         
         console.log(`   🎨 Converting avatar ${i + 1} (${avatar.assets.style})...`);
@@ -331,7 +331,7 @@ class AvatarRendererGodotCLI {
       // Convert each manifest to Godot nodes
       console.log('4. Converting manifests to Godot nodes...');
       for (let i = 0; i < manifests.length; i++) {
-        const manifest = manifests[i];
+        const manifest = manifests[i!];
         const godotNodes = AvatarRendererGodotPure.manifestToGodotNodes(manifest);
         
         console.log(`   🎨 Converting manifest ${i + 1} (${manifest.base})...`);

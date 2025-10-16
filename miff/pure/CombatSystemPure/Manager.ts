@@ -513,7 +513,7 @@ export class CombatSystemManager {
       throw new Error('Combat System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -524,7 +524,7 @@ export class CombatSystemManager {
       throw new Error('Combat System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -854,7 +854,7 @@ export class CombatSystemManager {
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
     const totalCombats = systems.reduce((sum: any, s: any) => sum + s.combats.length, 0);
-    const activeCombats = systems.reduce((sum: any, s: any) => sum + s.combats.filter(c => c.status === 'active').length, 0);
+    const activeCombats = systems.reduce((sum: any, s: any) => sum + s.combats.filter((c: any) => c.status === 'active').length, 0);
     const totalParticipants = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.participants.length, 0), 0);
     const totalAbilities = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.participants.reduce((sum: any, p: any) => sum + p.abilities.length, 0), 0), 0);
     const totalEffects = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.effects.length, 0), 0);
@@ -862,9 +862,9 @@ export class CombatSystemManager {
     for (const system of systems) {
       system.analytics = {
         totalSystems: systems.length,
-        activeSystems: systems.filter(s => s.status === 'active').length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalCombats: system.combats.length,
-        activeCombats: system.combats.filter(c => c.status === 'active').length,
+        activeCombats: system.combats.filter((c: any) => c.status === 'active').length,
         totalParticipants: system.combats.reduce((sum: any, c: any) => sum + c.participants.length, 0),
         totalAbilities: system.combats.reduce((sum: any, c: any) => sum + c.participants.reduce((sum: any, p: any) => sum + p.abilities.length, 0), 0),
         totalEffects: system.combats.reduce((sum: any, c: any) => sum + c.effects.length, 0),
@@ -893,9 +893,9 @@ export class CombatSystemManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalCombats = systems.reduce((sum: any, s: any) => sum + s.combats.length, 0);
-    const activeCombats = systems.reduce((sum: any, s: any) => sum + s.combats.filter(c => c.status === 'active').length, 0);
+    const activeCombats = systems.reduce((sum: any, s: any) => sum + s.combats.filter((c: any) => c.status === 'active').length, 0);
     const totalParticipants = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.participants.length, 0), 0);
     const totalAbilities = systems.reduce((sum: any, s: any) => sum + s.combats.reduce((sum: any, c: any) => sum + c.participants.reduce((sum: any, p: any) => sum + p.abilities.length, 0), 0), 0);
 

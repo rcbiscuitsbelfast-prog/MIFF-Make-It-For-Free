@@ -235,7 +235,7 @@ export class DialogueEngine {
         canContinue: false,
         isEnd: false,
         context: { ...this.context },
-        choices: currentNode.choices.filter(choice => {
+        choices: currentNode.choices.filter((choice: any) => {
           if (!choice.condition) return true;
           return this.evaluateChoiceCondition(choice.condition);
         })
@@ -256,7 +256,7 @@ export class DialogueEngine {
         context: { ...this.context }
       };
       if (nextNode.type === 'choice' && nextNode.choices) {
-        result.choices = nextNode.choices.filter(choice => {
+        result.choices = nextNode.choices.filter((choice: any) => {
           if (!choice.condition) return true;
           return DialogueParser.parseCondition(choice.condition);
         });
@@ -309,7 +309,7 @@ export class DialogueEngine {
         canContinue: false,
         isEnd: false,
         context: { ...this.context },
-        choices: node.choices.filter(choice => {
+        choices: node.choices.filter((choice: any) => {
           if (!choice.condition) return true;
           return this.evaluateChoiceCondition(choice.condition);
         })
@@ -318,7 +318,7 @@ export class DialogueEngine {
 
     // Execute node actions
     if (node.actions) {
-      node.actions.forEach(action => {
+      node.actions.forEach((action: any) => {
         DialogueParser.executeAction(action, this.context);
       });
     }
@@ -362,7 +362,7 @@ export class DialogueEngine {
 
     if (node.type === 'choice' && node.choices) {
       // Filter choices based on conditions
-      result.choices = node.choices.filter(choice => {
+      result.choices = node.choices.filter((choice: any) => {
         if (!choice.condition) return true;
         return DialogueParser.parseCondition(choice.condition);
       });

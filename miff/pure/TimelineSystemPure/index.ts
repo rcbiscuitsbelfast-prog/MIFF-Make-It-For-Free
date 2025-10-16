@@ -449,11 +449,11 @@ export class TimelineSystemPure {
     if (!activeBranch) return;
 
     // Find events around the current time
-    const relevantEvents = activeBranch.events.filter(event =>
+    const relevantEvents = activeBranch.events.filter((event: any) =>
       Math.abs(event.timestamp - time) < 100 // Within 100ms
     );
 
-    relevantEvents.forEach(event => {
+    relevantEvents.forEach((event: any) => {
       this.applyEventState(event);
     });
 
@@ -634,11 +634,11 @@ export class TimelineSystemPure {
     const activeBranch = timeline.branches.find(b => b.isActive);
     if (!activeBranch) return [];
 
-    const affectedEvents = activeBranch.events.filter(event =>
+    const affectedEvents = activeBranch.events.filter((event: any) =>
       event.timestamp >= fromTime && event.timestamp <= toTime
     );
 
-    return [...new Set(affectedEvents.map(event => event.entityId))];
+    return [...new Set(affectedEvents.map((event: any) => event.entityId))];
   }
 
   public queryEvents(timelineId: string, query: TimelineQuery): TimelineEvent[] {
@@ -652,49 +652,49 @@ export class TimelineSystemPure {
 
     // Apply filters
     if (query.startTime !== undefined) {
-      events = events.filter(e => e.timestamp >= query.startTime!);
+      events = events.filter((e: any) => e.timestamp >= query.startTime!);
     }
 
     if (query.endTime !== undefined) {
-      events = events.filter(e => e.timestamp <= query.endTime!);
+      events = events.filter((e: any) => e.timestamp <= query.endTime!);
     }
 
     if (query.entityId) {
-      events = events.filter(e => e.entityId === query.entityId);
+      events = events.filter((e: any) => e.entityId === query.entityId);
     }
 
     if (query.entityType) {
-      events = events.filter(e => e.entityType === query.entityType);
+      events = events.filter((e: any) => e.entityType === query.entityType);
     }
 
     if (query.eventType) {
-      events = events.filter(e => e.type === query.eventType);
+      events = events.filter((e: any) => e.type === query.eventType);
     }
 
     if (query.state) {
-      events = events.filter(e => e.state === query.state);
+      events = events.filter((e: any) => e.state === query.state);
     }
 
     if (query.tags && query.tags.length > 0) {
-      events = events.filter(e =>
+      events = events.filter((e: any) =>
         query.tags!.some(tag => e.tags.includes(tag))
       );
     }
 
     if (query.importance) {
-      events = events.filter(e =>
+      events = events.filter((e: any) =>
         e.importance >= query.importance!.min && e.importance <= query.importance!.max
       );
     }
 
-    return events.sort((a, b) => a.timestamp - b.timestamp);
+    return events.sort((a: any, b: any) => a.timestamp - b.timestamp);
   }
 
   public getTimelineStats(timelineId: string): TimelineStats | null {
     const timeline = this.timelines.get(timelineId);
     if (!timeline) return null;
 
-    const events = Array.from(this.events.values()).filter(e =>
+    const events = Array.from(this.events.values()).filter((e: any) =>
       e.branchId === timeline.branches.find(b => b.isActive)?.id
     );
 
@@ -726,14 +726,14 @@ export class TimelineSystemPure {
     const timeline = this.timelines.get(timelineId);
     if (!timeline) return '{}';
 
-    const events = Array.from(this.events.values()).filter(e =>
+    const events = Array.from(this.events.values()).filter((e: any) =>
       e.branchId === timeline.branches.find(b => b.isActive)?.id
     );
 
     return JSON.stringify({
       timeline: timeline,
       events: events,
-      snapshots: Array.from(this.snapshots.values()).filter(s =>
+      snapshots: Array.from(this.snapshots.values()).filter((s: any) =>
         s.branchId === timeline.branches.find(b => b.isActive)?.id
       ),
       stats: this.getTimelineStats(timelineId),

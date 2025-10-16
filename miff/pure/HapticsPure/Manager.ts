@@ -261,7 +261,7 @@ export class HapticsManager {
   }
 
   enqueue(requests: HapticRequest | HapticRequest[]): number {
-    const list = Array.isArray(requests) ? requests : [requests];
+    const list = Array.isArray(requests) ? requests : [requests!];
     let added = 0;
 
     for (const request of list) {

@@ -59,7 +59,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
 
   // Platform AABB (static). Wide platform spanning x, at y ∈ [0, 0.5].
   const platform: AABB = { id: 'platform', min: { x: -5, y: 0 }, max: { x: 5, y: 0.5 } };
-  collisions.load([platform]);
+  collisions.load([platform!]);
 
   // Helper to sync the dynamic block to collision AABB
   const half = 0.25; // block half-size (0.5x0.5) to match fixture capture

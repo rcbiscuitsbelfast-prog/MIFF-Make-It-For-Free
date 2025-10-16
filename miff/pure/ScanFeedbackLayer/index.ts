@@ -372,7 +372,7 @@ export class ScanFeedbackManager {
     };
     
     for (const [id, target] of this.targets) {
-      data.targets[id] = {
+      data.targets[id!] = {
         ...target,
         // Don't serialize functions or complex objects
         metadata: target.metadata || {}

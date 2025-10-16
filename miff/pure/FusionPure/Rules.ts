@@ -124,7 +124,7 @@ export class FusionRules {
       }
 
       if (context.gameData?.onboardingFlags) {
-        return context.gameData.onboardingFlags[value] === true;
+        return context.gameData.onboardingFlags[value!] === true;
       }
 
       return false;
@@ -215,7 +215,7 @@ export class FusionRules {
     }
 
     if (context.gameData?.onboardingFlags) {
-      return context.gameData.onboardingFlags[flag] === true;
+      return context.gameData.onboardingFlags[flag!] === true;
     }
 
     return false;
@@ -384,7 +384,7 @@ export class FusionRules {
   }
 
   private buildFusionChain(startRule: FusionPairRule, usedRules: Set<string>): FusionPairRule[] {
-    const chain = [startRule];
+    const chain = [startRule!];
     usedRules.add(startRule.id);
 
     let currentSpecies = startRule.resultSpeciesId;

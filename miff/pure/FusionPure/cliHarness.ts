@@ -108,7 +108,7 @@ class FusionCli {
     });
 
     this.commands.set('energy', {
-      command: 'energy [amount]',
+      command: 'energy [amount!]',
       description: 'Set player energy level',
       handler: (args) => this.handleEnergy(args)
     });
@@ -418,7 +418,7 @@ class FusionCli {
       'steel_spirit': 'Steel'
     };
 
-    return typeMap[species] || 'Normal';
+    return typeMap[species!] || 'Normal';
   }
 
   private getCompatibleSpecies(species: string): string[] {
@@ -431,7 +431,7 @@ class FusionCli {
       'steel_spirit': ['electric_spirit']
     };
 
-    return compatMap[species] || [];
+    return compatMap[species!] || [];
   }
 
   private async sleep(ms: number): Promise<void> {

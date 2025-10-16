@@ -193,7 +193,7 @@ class MagicSystemCLI {
     console.log('\n📚 Available Spells:');
     console.log('===================');
 
-    spells.forEach(spell => {
+    spells.forEach((spell: any) => {
       const isLearned = casterSpells.some(s => s.definition.id === spell.id);
       const status = isLearned ? '✅ Learned' : '❌ Not Learned';
 
@@ -307,7 +307,7 @@ class MagicSystemCLI {
     console.log('\n🧪 Elemental System:');
     console.log('===================');
 
-    elements.forEach(element => {
+    elements.forEach((element: any) => {
       console.log(`${element.name.toUpperCase()} (${element.color})`);
       console.log(`  Description: ${element.description}`);
       console.log(`  Strengths: ${element.strengths.join(', ')}`);
@@ -325,7 +325,7 @@ class MagicSystemCLI {
     console.log('\n🎓 Spell Schools:');
     console.log('=================');
 
-    schools.forEach(school => {
+    schools.forEach((school: any) => {
       console.log(`${school.icon} ${school.name.toUpperCase()} (${school.color})`);
       console.log(`  Description: ${school.description}`);
       console.log(`  Passive Bonus: ${school.passiveBonus}`);
@@ -355,7 +355,7 @@ class MagicSystemCLI {
 
     // Show spell breakdown by school
     const schoolCount = new Map<string, number>();
-    casterSpells.forEach(spell => {
+    casterSpells.forEach((spell: any) => {
       const school = spell.definition.school;
       schoolCount.set(school, (schoolCount.get(school) || 0) + 1);
     });

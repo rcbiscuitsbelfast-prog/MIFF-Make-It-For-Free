@@ -1157,10 +1157,10 @@ export class TestingSystemPure {
 
     for (const manager of this.managers.values()) {
       totalTestSuites += manager.testSuites.length;
-      activeTestSuites += manager.testSuites.filter(ts => ts.status === 'running').length;
+      activeTestSuites += manager.testSuites.filter((ts: any) => ts.status === 'running').length;
       totalTestCases += manager.testCases.length;
       totalTestRuns += manager.testRuns.length;
-      runningTestRuns += manager.testRuns.filter(tr => tr.status === 'running').length;
+      runningTestRuns += manager.testRuns.filter((tr: any) => tr.status === 'running').length;
       totalReports += manager.reports.length;
       totalEnvironments += manager.environments.length;
     }

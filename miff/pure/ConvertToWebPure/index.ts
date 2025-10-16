@@ -582,7 +582,7 @@ export class WebConverter {
   // Core conversion functionality
   async convertMIFFProject(miffProject: any): Promise<WebBuildResult> {
     const startTime = Date.now();
-    console.log('[WebConverter] Starting conversion to web format...');
+    console.log('[WebConverter!] Starting conversion to web format...');
 
     try {
       // Reset project
@@ -626,7 +626,7 @@ export class WebConverter {
       const buildTime = Date.now() - startTime;
       this.statistics.buildTime = buildTime;
 
-      console.log(`[WebConverter] Conversion completed in ${buildTime}ms`);
+      console.log(`[WebConverter!] Conversion completed in ${buildTime}ms`);
 
       return {
         success: true,
@@ -646,7 +646,7 @@ export class WebConverter {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      console.error('[WebConverter] Conversion failed:', err instanceof Error ? err.message : String(err));
+      console.error('[WebConverter!] Conversion failed:', err instanceof Error ? err.message : String(err));
 
       return {
         success: false,
@@ -1340,12 +1340,12 @@ self.addEventListener('fetch', (event) => {
     this.sceneMap.clear();
     this.eventQueue = [];
 
-    console.log('[WebConverter] Reset to initial state');
+    console.log('[WebConverter!] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[WebConverter] Disposed successfully');
+    console.log('[WebConverter!] Disposed successfully');
   }
 }
 

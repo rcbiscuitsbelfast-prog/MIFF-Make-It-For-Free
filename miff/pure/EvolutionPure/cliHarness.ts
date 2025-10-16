@@ -38,7 +38,7 @@ export class EvolutionPureCLI {
   private initializeDemoData(): void {
     // Create a demo evolution chain: Basic -> Intermediate -> Advanced
     const basicEvolutions = EvolutionUtils.createLevelEvolutionChain('basic_spirit', [10, 25]);
-    basicEvolutions.forEach(evolution => this.evolutionManager.registerSpeciesEvolution(evolution));
+    basicEvolutions.forEach((evolution: any) => this.evolutionManager.registerSpeciesEvolution(evolution));
 
     // Create item-based evolutions
     const itemEvolutions = EvolutionUtils.createItemEvolutions({
@@ -46,7 +46,7 @@ export class EvolutionPureCLI {
       'water_spirit': 'water_stone',
       'grass_spirit': 'leaf_stone'
     });
-    itemEvolutions.forEach(evolution => this.evolutionManager.registerSpeciesEvolution(evolution));
+    itemEvolutions.forEach((evolution: any) => this.evolutionManager.registerSpeciesEvolution(evolution));
 
     // Create sync-based evolutions
     const syncEvolutions = EvolutionUtils.createSyncEvolutions({
@@ -54,7 +54,7 @@ export class EvolutionPureCLI {
       'dragon_spirit': 85,
       'fairy_spirit': 60
     });
-    syncEvolutions.forEach(evolution => this.evolutionManager.registerSpeciesEvolution(evolution));
+    syncEvolutions.forEach((evolution: any) => this.evolutionManager.registerSpeciesEvolution(evolution));
 
     // Create complex evolutions with multiple conditions
     const complexEvolution = new SpeciesEvolutionData('starter_spirit', 'legendary_spirit', [
@@ -282,7 +282,7 @@ export class EvolutionPureCLI {
 
     if (availableEvolutions.length > 0) {
       console.log('Available evolutions:');
-      availableEvolutions.forEach(evolution => {
+      availableEvolutions.forEach((evolution: any) => {
         console.log(`  • ${evolution}`);
       });
     }

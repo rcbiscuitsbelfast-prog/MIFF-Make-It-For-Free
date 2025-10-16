@@ -266,7 +266,7 @@ export class RitualManager {
       success: false,
       ritualId: ritual.id,
       leaderId: ritual.leaderId,
-      participants: ritual.participants.map(p => p.id),
+      participants: ritual.participants.map((p: any) => p.id),
       duration: Date.now() - ritual.startTime,
       energySpent: ritual.energySpent,
       quality: ritual.quality,
@@ -326,7 +326,7 @@ export class RitualManager {
    */
   getAvailableRituals(participantId: string): RitualDefinition[] {
     const allRituals = this.getAllRitualDefinitions();
-    return allRituals.filter(ritual => this.canParticipateInRitual(participantId, ritual));
+    return allRituals.filter((ritual: any) => this.canParticipateInRitual(participantId, ritual));
   }
 
   /**

@@ -382,7 +382,7 @@ export class CachingSystemManager {
       throw new Error('Caching System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -393,7 +393,7 @@ export class CachingSystemManager {
       throw new Error('Caching System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -685,16 +685,16 @@ export class CachingSystemManager {
     
     switch (strategy) {
       case 'fifo':
-        cache.entries.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+        cache.entries.sort((a: any, b: any) => a.createdAt.getTime() - b.createdAt.getTime());
         break;
       case 'lru':
-        cache.entries.sort((a, b) => a.lastAccessed.getTime() - b.lastAccessed.getTime());
+        cache.entries.sort((a: any, b: any) => a.lastAccessed.getTime() - b.lastAccessed.getTime());
         break;
       case 'lfu':
-        cache.entries.sort((a, b) => a.accessCount - b.accessCount);
+        cache.entries.sort((a: any, b: any) => a.accessCount - b.accessCount);
         break;
       case 'ttl':
-        cache.entries.sort((a, b) => (a.createdAt.getTime() + a.ttl) - (b.createdAt.getTime() + b.ttl));
+        cache.entries.sort((a: any, b: any) => (a.createdAt.getTime() + a.ttl) - (b.createdAt.getTime() + b.ttl));
         break;
       default:
         // Random eviction
@@ -717,7 +717,7 @@ export class CachingSystemManager {
     }
 
     // Remove entries in reverse order to maintain indices
-    entriesToRemove.reverse().forEach(index => {
+    entriesToRemove.reverse().forEach((index: any) => {
       cache.entries.splice(index, 1);
     });
   }
@@ -751,7 +751,7 @@ export class CachingSystemManager {
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
     const totalCaches = systems.reduce((sum: any, s: any) => sum + s.caches.length, 0);
-    const activeCaches = systems.reduce((sum: any, s: any) => sum + s.caches.filter(c => c.status === 'active').length, 0);
+    const activeCaches = systems.reduce((sum: any, s: any) => sum + s.caches.filter((c: any) => c.status === 'active').length, 0);
     const totalEntries = systems.reduce((sum: any, s: any) => sum + s.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);
     const totalHits = systems.reduce((sum: any, s: any) => sum + s.analytics.totalHits, 0);
     const totalMisses = systems.reduce((sum: any, s: any) => sum + s.analytics.totalMisses, 0);
@@ -759,7 +759,7 @@ export class CachingSystemManager {
     for (const system of systems) {
       system.analytics = {
         totalCaches: system.caches.length,
-        activeCaches: system.caches.filter(c => c.status === 'active').length,
+        activeCaches: system.caches.filter((c: any) => c.status === 'active').length,
         totalEntries: system.caches.reduce((sum: any, c: any) => sum + c.entries.length, 0),
         totalHits: system.analytics.totalHits,
         totalMisses: system.analytics.totalMisses,
@@ -788,7 +788,7 @@ export class CachingSystemManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalCaches = systems.reduce((sum: any, s: any) => sum + s.caches.length, 0);
     const totalEntries = systems.reduce((sum: any, s: any) => sum + s.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);
     const totalHits = systems.reduce((sum: any, s: any) => sum + s.analytics.totalHits, 0);

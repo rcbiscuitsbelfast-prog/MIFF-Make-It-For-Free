@@ -190,7 +190,7 @@ class RitualSystemCLI {
       return;
     }
 
-    ritualDefinitions.forEach(ritual => {
+    ritualDefinitions.forEach((ritual: any) => {
       console.log(`${ritual.name} (${ritual.id})`);
       console.log(`  Category: ${ritual.category} | Tier: ${ritual.tier}`);
       console.log(`  Participants: ${ritual.minParticipants}-${ritual.maxParticipants}`);
@@ -354,14 +354,14 @@ class RitualSystemCLI {
 
       if (result.effectsApplied.length > 0) {
         console.log('   Effects applied:');
-        result.effectsApplied.forEach(effect => {
+        result.effectsApplied.forEach((effect: any) => {
           console.log(`     - ${effect.description}`);
         });
       }
 
       if (result.summonedEntities.length > 0) {
         console.log('   Summoned entities:');
-        result.summonedEntities.forEach(entity => {
+        result.summonedEntities.forEach((entity: any) => {
           console.log(`     - ${entity.name} (${entity.type})`);
         });
       }
@@ -407,7 +407,7 @@ class RitualSystemCLI {
     console.log('\n👥 Ritual Participants:');
     console.log('=======================');
 
-    this.currentRitual.participants.forEach(participant => {
+    this.currentRitual.participants.forEach((participant: any) => {
       console.log(`${participant.name} (${participant.role})`);
       console.log(`  Status: ${participant.status}`);
       console.log(`  Mana Contribution: ${participant.manaContribution || 0}`);

@@ -153,7 +153,7 @@ export class PathfindingManager {
   removeDynamicObstacles(): PathfindingOutput {
     const now = Date.now();
     if (this.grid.dynamic) {
-      this.grid.dynamic = this.grid.dynamic.filter(obs => obs.timestamp > now);
+      this.grid.dynamic = this.grid.dynamic.filter((obs: any) => obs.timestamp > now);
     }
     return {
       op: 'remove-obstacles',
@@ -551,15 +551,15 @@ export class PathfindingManager {
    */
   getPathfindingStats(): PathfindingOutput {
     const totalRequests = this.results.length;
-    const successfulPaths = this.results.filter(r => r.success).length;
+    const successfulPaths = this.results.filter((r: any) => r.success).length;
     const failedPaths = totalRequests - successfulPaths;
     
     const averagePathLength = successfulPaths > 0 
-      ? this.results.filter(r => r.success).reduce((sum, r) => sum + r.path.length, 0) / successfulPaths
+      ? this.results.filter((r: any) => r.success).reduce((sum, r) => sum + r.path.length, 0) / successfulPaths
       : 0;
     
     const averageCost = successfulPaths > 0
-      ? this.results.filter(r => r.success).reduce((sum, r) => sum + r.cost, 0) / successfulPaths
+      ? this.results.filter((r: any) => r.success).reduce((sum, r) => sum + r.cost, 0) / successfulPaths
       : 0;
     
     const averageIterations = totalRequests > 0
@@ -569,14 +569,14 @@ export class PathfindingManager {
     const algorithmUsage: Record<string, number> = {};
     const heuristicUsage: Record<string, number> = {};
     
-    this.results.forEach(result => {
+    this.results.forEach((result: any) => {
       algorithmUsage[result.algorithm] = (algorithmUsage[result.algorithm] || 0) + 1;
       if (result.heuristic) {
         heuristicUsage[result.heuristic] = (heuristicUsage[result.heuristic] || 0) + 1;
       }
     });
 
-    const times = this.results.map(r => Date.now() - r.timestamp);
+    const times = this.results.map((r: any) => Date.now() - r.timestamp);
     const performanceMetrics = {
       averageTime: times.length > 0 ? times.reduce((sum, t) => sum + t, 0) / times.length : 0,
       maxTime: times.length > 0 ? Math.max(...times) : 0,

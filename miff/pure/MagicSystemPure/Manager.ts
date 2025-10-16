@@ -114,7 +114,7 @@ export class MagicManager {
     let totalManaSpent = 0;
     const elementalUsage = new Map<string, number>();
 
-    spells.forEach(spell => {
+    spells.forEach((spell: any) => {
       // Calculate mana spent based on spell usage (simplified)
       totalManaSpent += spell.definition.manaCost * 5; // Assume cast 5 times on average
 
@@ -127,7 +127,7 @@ export class MagicManager {
 
     return {
       totalSpells: spells.length,
-      unlockedSpells: spells.filter(s => s.isUnlocked).length,
+      unlockedSpells: spells.filter((s: any) => s.isUnlocked).length,
       totalManaSpent,
       favoriteSpell,
       elementalPreferences: elementalUsage
@@ -224,11 +224,11 @@ export class MagicManager {
    */
   getLearnableSpells(casterId: string): SpellDefinition[] {
     const casterSpells = this.magicSystem.getSpellsForCaster(casterId);
-    const unlockedSpellIds = new Set(casterSpells.map(s => s.definition.id));
+    const unlockedSpellIds = new Set(casterSpells.map((s: any) => s.definition.id));
 
     return this.magicSystem.getAllSpellDefinitions()
-      .filter(spell => !unlockedSpellIds.has(spell.id))
-      .filter(spell => this.canLearnSpell(casterId, spell));
+      .filter((spell: any) => !unlockedSpellIds.has(spell.id))
+      .filter((spell: any) => this.canLearnSpell(casterId, spell));
   }
 
   /**

@@ -45,7 +45,7 @@ function main() {
     }
   }
 
-  commands.forEach(cmd => {
+  commands.forEach((cmd: any) => {
     try {
       switch (cmd.op) {
         case 'list':

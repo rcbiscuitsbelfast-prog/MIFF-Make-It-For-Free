@@ -217,7 +217,7 @@ export class AudioManager {
       return false;
     }
 
-    const themeBindings = this.config.themeAudioBindings[themeId];
+    const themeBindings = this.config.themeAudioBindings[themeId!];
     if (!themeBindings) {
       console.warn(`No audio bindings found for theme: ${themeId}`);
       this.playbackState.errorCount++;
@@ -378,7 +378,7 @@ export class AudioManager {
   setThemeVolume(themeId: string, volume: number): void {
     if (!this.config) return;
 
-    const themeBindings = this.config.themeAudioBindings[themeId];
+    const themeBindings = this.config.themeAudioBindings[themeId!];
     if (!themeBindings) return;
 
     const clampedVolume = Math.max(0, Math.min(1, volume));
@@ -504,7 +504,7 @@ export class AudioManager {
     output += `Errors: ${this.playbackState.errorCount}\n\n`;
 
     if (themeId) {
-      const themeBindings = this.config.themeAudioBindings[themeId];
+      const themeBindings = this.config.themeAudioBindings[themeId!];
       if (themeBindings) {
         output += `=== Theme: ${themeId} ===\n`;
         output += `Ambient: ${themeBindings.ambient.description}\n`;
@@ -547,7 +547,7 @@ export class AudioManager {
       };
     }
 
-    const themeBindings = this.config.themeAudioBindings[themeId];
+    const themeBindings = this.config.themeAudioBindings[themeId!];
     if (!themeBindings) {
       return {
         theme: themeId,

@@ -308,7 +308,7 @@ export class AdvancedInput {
    */
   private checkInputConditions(mapping: InputMapping, input: InputData): boolean {
     const context: InputContext = {
-      currentInputs: [input],
+      currentInputs: [input!],
       previousInputs: this.inputHistory.slice(-5),
       mousePosition: input.position,
       gamepadState: this.getGamepadState(),
@@ -666,7 +666,7 @@ class GestureRecognition {
 
     if (currentStep >= pattern.inputs.length) return false;
 
-    const expectedInput = pattern.inputs[currentStep];
+    const expectedInput = pattern.inputs[currentStep!];
     
     // Check input type
     if (input.type !== expectedInput.type) return false;

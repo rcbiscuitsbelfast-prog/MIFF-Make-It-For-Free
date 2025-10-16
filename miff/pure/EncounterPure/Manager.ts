@@ -235,7 +235,7 @@ export class EncounterManager {
     }
 
     // Filter encounters by level and requirements
-    const availableEncounters = area.encounters.filter(encounter => {
+    const availableEncounters = area.encounters.filter((encounter: any) => {
       return encounter.level <= playerLevel + 5 && 
              encounter.level >= playerLevel - 2;
     });
@@ -427,7 +427,7 @@ export class EncounterTable {
   }
 
   getEntriesForLevel(level: number): EncounterTableEntry[] {
-    return this.entries.filter(entry => {
+    return this.entries.filter((entry: any) => {
       const minLevel = entry.minLevel || 1;
       const maxLevel = entry.maxLevel || 100;
       return level >= minLevel && level <= maxLevel;
@@ -435,7 +435,7 @@ export class EncounterTable {
   }
 
   sortByWeight(): void {
-    this.entries.sort((a, b) => b.weight - a.weight);
+    this.entries.sort((a: any, b: any) => b.weight - a.weight);
   }
 
   validate(): string[] {

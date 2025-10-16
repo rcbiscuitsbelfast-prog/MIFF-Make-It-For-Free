@@ -116,12 +116,12 @@ class SlicePureCLI {
     console.log('   4. Experience and rewards');
     console.log('');
     console.log('Available commands:');
-    console.log('  roam [steps]      - Roam around and look for encounters');
+    console.log('  roam [steps!]      - Roam around and look for encounters');
     console.log('  battle            - Trigger battle with random spirit');
     console.log('  status            - Show current player state');
-    console.log('  move [direction]  - Move to specific direction (n, s, e, w)');
-    console.log('  time [time]       - Set time of day (dawn, day, dusk, night)');
-    console.log('  weather [weather] - Set weather (clear, rain, fog, storm)');
+    console.log('  move [direction!]  - Move to specific direction (n, s, e, w)');
+    console.log('  time [time!]       - Set time of day (dawn, day, dusk, night)');
+    console.log('  weather [weather!] - Set weather (clear, rain, fog, storm)');
     console.log('  reset             - Reset player state');
     console.log('  demo              - Run automated demo');
     console.log('  help              - Show this help');
@@ -218,12 +218,12 @@ class SlicePureCLI {
     console.log('🎮 SlicePure CLI Help');
     console.log('');
     console.log('Commands:');
-    console.log('  roam [steps]      - Roam around looking for encounters');
+    console.log('  roam [steps!]      - Roam around looking for encounters');
     console.log('  battle            - Trigger battle with random spirit');
     console.log('  status            - Show current player state');
-    console.log('  move [direction]  - Move (n, s, e, w)');
-    console.log('  time [time]       - Set time (dawn, day, dusk, night)');
-    console.log('  weather [weather] - Set weather (clear, rain, fog)');
+    console.log('  move [direction!]  - Move (n, s, e, w)');
+    console.log('  time [time!]       - Set time (dawn, day, dusk, night)');
+    console.log('  weather [weather!] - Set weather (clear, rain, fog)');
     console.log('  reset             - Reset to starting state');
     console.log('  demo              - Run automated demonstration');
     console.log('  help              - Show this help');
@@ -401,7 +401,7 @@ class SlicePureCLI {
    */
   private movePlayer(direction?: string): void {
     if (!direction) {
-      console.log('❌ Usage: move [direction]');
+      console.log('❌ Usage: move [direction!]');
       console.log('Directions: n (north), s (south), e (east), w (west)');
       return;
     }
@@ -456,7 +456,7 @@ class SlicePureCLI {
    */
   private setTimeOfDay(timeStr?: string): void {
     if (!timeStr) {
-      console.log('❌ Usage: time [time_of_day]');
+      console.log('❌ Usage: time [time_of_day!]');
       console.log('Times: dawn, day, dusk, night');
       return;
     }
@@ -489,7 +489,7 @@ class SlicePureCLI {
    */
   private setWeather(weatherStr?: string): void {
     if (!weatherStr) {
-      console.log('❌ Usage: weather [weather_type]');
+      console.log('❌ Usage: weather [weather_type!]');
       console.log('Weather: clear, sunny, rain, fog, storm, wind');
       return;
     }
@@ -657,7 +657,7 @@ class SlicePureCLI {
       'terra': 'ground'
     };
 
-    const type = typeMap[spiritId] || 'neutral';
+    const type = typeMap[spiritId!] || 'neutral';
 
     return {
       id: 2001,

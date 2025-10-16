@@ -68,7 +68,7 @@ export class ProjectileManager {
   }
 
   list(): ListOutput {
-    const activeCount = Array.from(this.projectiles.values()).filter(p => p.ttl > 0).length;
+    const activeCount = Array.from(this.projectiles.values()).filter((p: any) => p.ttl > 0).length;
     return {
       op: 'list',
       ids: Array.from(this.projectiles.keys()),

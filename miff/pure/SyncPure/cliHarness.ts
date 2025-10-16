@@ -36,7 +36,7 @@ Commands:
   sync <id> <amount>      Add sync points to spirit
   reset <id>              Reset spirit sync to 0
   event <id> <trigger>    Trigger sync event for spirit
-  thresholds <id> [vals]  Set thresholds for spirit
+  thresholds <id> [vals!]  Set thresholds for spirit
   challenge <bpm> <diff>  Create rhythm challenge
   play <accuracy>         Play current challenge
   battle <id> <diff>      Simulate battle sync gain

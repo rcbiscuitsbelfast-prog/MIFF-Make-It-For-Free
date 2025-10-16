@@ -328,7 +328,7 @@ function main() {
         ];
 
         // Add spirits to team
-        spirits.forEach(spirit => teamManager.addToTeam(spirit));
+        spirits.forEach((spirit: any) => teamManager.addToTeam(spirit));
         
         // Try some operations
         teamManager.swapTeamMembers(0, 1);

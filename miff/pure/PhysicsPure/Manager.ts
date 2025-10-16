@@ -868,7 +868,7 @@ export class PhysicsPure {
     }
 
     // Remove expired particles
-    manager.particles = manager.particles.filter(particle => particle.age < particle.lifetime);
+    manager.particles = manager.particles.filter((particle: any) => particle.age < particle.lifetime);
 
     const stepTime = Date.now() - startTime;
     this.performanceMetrics.simulationSteps++;

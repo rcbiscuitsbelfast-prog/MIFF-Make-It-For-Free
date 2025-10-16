@@ -173,7 +173,7 @@ export class AvatarSystemPure {
 
     if (component.animation) {
       const animErrors = AvatarSystemPure.validateAnimation(component.animation);
-      errors.push(...animErrors.map(e => `animation: ${e}`));
+      errors.push(...animErrors.map((e: any) => `animation: ${e}`));
     }
 
     return { ok: errors.length === 0, errors };
@@ -347,7 +347,7 @@ export class AvatarSystemPure {
     });
 
     // Clothing meshes
-    for (const clothing of components.filter(c => c.kind === 'shirt' || c.kind === 'cloak')) {
+    for (const clothing of components.filter((c: any) => c.kind === 'shirt' || c.kind === 'cloak')) {
       meshes.push({
         id: `clothing_${clothing.id}`,
         vertices: 512,
@@ -501,7 +501,7 @@ export class AvatarSystemPure {
   private static applyCustomization(components: AvatarComponent[], customization: AvatarCustomization): void {
     // Apply skin tone to body components
     if (customization.skinTone) {
-      const bodyComponents = components.filter(c => ['head', 'torso', 'legs'].includes(c.kind));
+      const bodyComponents = components.filter((c: any) => ['head', 'torso', 'legs'].includes(c.kind));
       for (const component of bodyComponents) {
         component.color = customization.skinTone;
         component.metadata = { ...component.metadata, skinTone: customization.skinTone };
@@ -510,7 +510,7 @@ export class AvatarSystemPure {
 
     // Apply hair color to hair components
     if (customization.hairColor) {
-      const hairComponents = components.filter(c => c.kind === 'hair');
+      const hairComponents = components.filter((c: any) => c.kind === 'hair');
       for (const component of hairComponents) {
         component.color = customization.hairColor;
         component.metadata = { ...component.metadata, hairColor: customization.hairColor };

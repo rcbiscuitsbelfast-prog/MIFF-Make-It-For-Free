@@ -442,7 +442,7 @@ export class LimbAttachment {
         }
       };
 
-      this.rigConfig.nodes[nodeId] = node;
+      this.rigConfig.nodes[nodeId!] = node;
 
       // Update parent's children list
       if (node.parent && this.rigConfig.nodes[node.parent]) {
@@ -488,8 +488,8 @@ export class LimbAttachment {
 
     // Update corresponding rig node
     const nodeId = `${limbId}_${segmentId}`;
-    if (this.rigConfig.nodes[nodeId]) {
-      this.rigConfig.nodes[nodeId].transform = segment.transform;
+    if (this.rigConfig.nodes[nodeId!]) {
+      this.rigConfig.nodes[nodeId!].transform = segment.transform;
     }
 
     return this;
@@ -505,7 +505,7 @@ export class LimbAttachment {
     // Delete all segment nodes
     limb.segments.forEach((segment: any) => {
       const nodeId = `${limbId}_${segment.id}`;
-      delete this.rigConfig.nodes[nodeId];
+      delete this.rigConfig.nodes[nodeId!];
     });
 
     // Remove from parent's children list

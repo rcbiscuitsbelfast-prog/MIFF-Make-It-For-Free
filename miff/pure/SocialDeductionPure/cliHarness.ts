@@ -62,13 +62,13 @@ class SocialDeductionCli {
     });
 
     this.commands.set('cast-vote', {
-      command: 'cast-vote <targetId> [reason]',
+      command: 'cast-vote <targetId> [reason!]',
       description: 'Cast a vote against a player',
       handler: (args) => this.handleCastVote(args)
     });
 
     this.commands.set('use-ability', {
-      command: 'use-ability <abilityId> [targetId]',
+      command: 'use-ability <abilityId> [targetId!]',
       description: 'Use a special ability',
       handler: (args) => this.handleUseAbility(args)
     });
@@ -192,7 +192,7 @@ class SocialDeductionCli {
 
   private handleCastVote(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: cast-vote <targetId> [reason]');
+      console.log('Usage: cast-vote <targetId> [reason!]');
       return;
     }
 
@@ -209,7 +209,7 @@ class SocialDeductionCli {
 
   private handleUseAbility(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: use-ability <abilityId> [targetId]');
+      console.log('Usage: use-ability <abilityId> [targetId!]');
       return;
     }
 

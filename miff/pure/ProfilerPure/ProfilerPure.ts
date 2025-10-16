@@ -280,7 +280,7 @@ export class Profiler {
         }
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        console.error('[ProfilerPure] Observer error:', err instanceof Error ? err.message : String(err));
+        console.error('[ProfilerPure!] Observer error:', err instanceof Error ? err.message : String(err));
       }
     });
   }

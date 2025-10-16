@@ -18,7 +18,7 @@ function runScenario(s:Scenario): Output {
 	const first = s.branches[0];
 	events.push({ type:'npcDialog', id:s.npcs[0]?.id||'npc', choice:first.choice });
 	const inv = { ...s.inventory };
-	for(const [k,v] of Object.entries(first.effect.inventory||{})) inv[k] = (inv[k]||0)+v;
+	for(const [k,v] of Object.entries(first.effect.inventory||{})) inv[k!] = (inv[k!]||0)+v;
 	if(first.effect.statusEffect) events.push({ type:'statusApplied', to:'hero', effect:first.effect.statusEffect });
 	const finalState = { inventory: inv, statuses: first.effect.statusEffect?[first.effect.statusEffect]:[] };
 	return { op:'runScenario', status:'ok', events, finalState };
@@ -33,6 +33,6 @@ function main(){
 		return;
 	}
 	const out = runScenario(s);
-	console.log(JSON.stringify({ outputs:[out] }, null, 2));
+	console.log(JSON.stringify({ outputs:[out!] }, null, 2));
 }
 if(import.meta.url === `file://${process.argv[1]}`) main();

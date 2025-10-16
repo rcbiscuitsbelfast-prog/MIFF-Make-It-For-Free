@@ -409,7 +409,7 @@ export class LicenseAuditManager {
     
     const hasCycle = (depId: string): string[] => {
       if (recursionStack.has(depId)) {
-        return [depId]; // Found cycle
+        return [depId!]; // Found cycle
       }
       
       if (visited.has(depId)) {
@@ -547,11 +547,11 @@ export class LicenseAuditManager {
       // Count by status
       const status = module.issues.some(i => i.severity === 'error') ? 'fail' :
                     module.issues.some(i => i.severity === 'warning') || module.remixSafetyScore < this.config.maxRemixScore! ? 'warning' : 'pass';
-      byStatus[status]++;
+      byStatus[status!]++;
 
       // Count by license type
       const licenseType = module.license.type;
-      byLicenseType[licenseType] = (byLicenseType[licenseType] || 0) + 1;
+      byLicenseType[licenseType!] = (byLicenseType[licenseType!] || 0) + 1;
 
       // Accumulate scores
       totalScore += module.remixSafetyScore;

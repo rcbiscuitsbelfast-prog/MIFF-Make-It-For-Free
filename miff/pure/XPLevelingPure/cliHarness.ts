@@ -302,7 +302,7 @@ try {
         // Add XP and skills to entities
         entityResults.forEach((result, index) => {
           if (result.status === 'ok') {
-            const entity = scenario.entities[index];
+            const entity = scenario.entities[index!];
             manager.addXP(entity.id, 1000);
             manager.setSkillLevel(entity.id, 'combat', 5);
             manager.setStat(entity.id, 'strength', 25);

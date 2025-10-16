@@ -135,8 +135,8 @@ export class AdvancedStatusEffects {
 
     for (let i = 0; i < effects.length; i++) {
       for (let j = i + 1; j < effects.length; j++) {
-        const effect1 = effects[i];
-        const effect2 = effects[j];
+        const effect1 = effects[i!];
+        const effect2 = effects[j!];
         
         const key1 = `${effect1.id}-${effect2.id}`;
         const key2 = `${effect2.id}-${effect1.id}`;
@@ -262,7 +262,7 @@ export class AdvancedStatusEffects {
 
     if (effect1Index !== -1 && effect2Index !== -1) {
       // Remove the effect with lower magnitude
-      if (entity.effects[effect1Index].magnitude < entity.effects[effect2Index].magnitude) {
+      if (entity.effects[effect1Index!].magnitude < entity.effects[effect2Index!].magnitude) {
         entity.effects.splice(effect1Index, 1);
       } else {
         entity.effects.splice(effect2Index, 1);
@@ -299,7 +299,7 @@ export class AdvancedStatusEffects {
         magnitude: effect2.magnitude * interaction.modifier
       };
 
-      entity.effects[effect1Index] = transformedEffect;
+      entity.effects[effect1Index!] = transformedEffect;
     }
   }
 

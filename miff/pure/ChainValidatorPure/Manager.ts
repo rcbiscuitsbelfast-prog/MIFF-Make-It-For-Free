@@ -161,7 +161,7 @@ export class ChainValidatorManager {
   }
 
   listNodes(): ChainNode[] {
-    return Array.from(this.nodes.values()).map(n => ({ ...n }));
+    return Array.from(this.nodes.values()).map((n: any) => ({ ...n }));
   }
 
   listEdges(): ChainEdge[] {

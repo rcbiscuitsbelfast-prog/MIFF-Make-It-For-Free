@@ -193,7 +193,7 @@ export class MagicSystemPure {
       }
     ];
 
-    elements.forEach(element => {
+    elements.forEach((element: any) => {
       this.elements.set(element.name, element);
     });
   }
@@ -244,7 +244,7 @@ export class MagicSystemPure {
       }
     ];
 
-    schools.forEach(school => {
+    schools.forEach((school: any) => {
       this.spellSchools.set(school.name, school);
     });
   }
@@ -334,7 +334,7 @@ export class MagicSystemPure {
       }
     ];
 
-    basicSpells.forEach(spell => {
+    basicSpells.forEach((spell: any) => {
       this.spellDefinitions.set(spell.id, spell);
     });
   }
@@ -595,7 +595,7 @@ export class MagicSystemPure {
     const casterSpells = this.spellInstances.get(casterId);
     if (!casterSpells) return [];
 
-    return Array.from(casterSpells.values()).filter(spell => spell.isUnlocked);
+    return Array.from(casterSpells.values()).filter((spell: any) => spell.isUnlocked);
   }
 
   /**
@@ -616,7 +616,7 @@ export class MagicSystemPure {
    * Get spells by school
    */
   getSpellsBySchool(school: string): SpellDefinition[] {
-    return Array.from(this.spellDefinitions.values()).filter(spell => spell.school === school);
+    return Array.from(this.spellDefinitions.values()).filter((spell: any) => spell.school === school);
   }
 
   /**

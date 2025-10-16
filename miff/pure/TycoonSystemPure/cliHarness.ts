@@ -336,7 +336,7 @@ export class TycoonSystemCLI {
 
   private hireStaff(args: string[]): void {
     if (args.length < 2) {
-      this.log('❌ Usage: hire <facility> <role> [salary]');
+      this.log('❌ Usage: hire <facility> <role> [salary!]');
       this.log('   Roles: manager, worker, specialist, trainee');
       return;
     }
@@ -626,7 +626,7 @@ export class TycoonSystemCLI {
     this.log('\n=== TYCOON SYSTEM CLI COMMANDS ===');
     this.log('📊 status/s              - Show business status');
     this.log('🏭 build <facility>      - Construct facility');
-    this.log('👥 hire <fac> <role> [sal]- Hire staff');
+    this.log('👥 hire <fac> <role> [sal!]- Hire staff');
     this.log('⬆️  upgrade/up <facility> - Upgrade facility');
     this.log('💰 loan <amt> <rate> <term>- Take business loan');
     this.log('💼 invest <id> <amount>  - Make investment');
@@ -726,7 +726,7 @@ async function main(): Promise<void> {
   };
 
   for (let i = 0; i < args.length; i++) {
-    switch (args[i]) {
+    switch (args[i!]) {
       case '--mode':
       case '-m':
         options.mode = args[++i] as CLIOptions['mode'];
@@ -750,7 +750,7 @@ async function main(): Promise<void> {
       case '--help':
       case '-h':
         console.log('TycoonSystemPure CLI Harness');
-        console.log('Usage: tsx cliHarness.ts [options]');
+        console.log('Usage: tsx cliHarness.ts [options!]');
         console.log('Options:');
         console.log('  --mode, -m <mode>          Mode: interactive, simulate, manage');
         console.log('  --capital, -c <amount>     Initial capital amount');

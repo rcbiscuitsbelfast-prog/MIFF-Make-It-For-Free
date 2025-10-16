@@ -84,11 +84,11 @@ export class RigBuilder {
       metadata: {}
     };
 
-    this.config.nodes[id] = node;
+    this.config.nodes[id!] = node;
 
     // Update parent's children list
-    if (parentId && this.config.nodes[parentId]) {
-      this.config.nodes[parentId].children.push(id);
+    if (parentId && this.config.nodes[parentId!]) {
+      this.config.nodes[parentId!].children.push(id);
     }
 
     return node;
@@ -98,7 +98,7 @@ export class RigBuilder {
    * Add snap points to a node
    */
   addSnapPoints(nodeId: string, snapPoints: Omit<SnapPoint, 'id'>[]): RigBuilder {
-    const node = this.config.nodes[nodeId];
+    const node = this.config.nodes[nodeId!];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
     snapPoints.forEach(snapPoint => {
@@ -118,7 +118,7 @@ export class RigBuilder {
    * Add constraints to a node
    */
   addConstraints(nodeId: string, constraints: Omit<Constraint, 'id'>[]): RigBuilder {
-    const node = this.config.nodes[nodeId];
+    const node = this.config.nodes[nodeId!];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
     constraints.forEach((constraint: any) => {
@@ -138,7 +138,7 @@ export class RigBuilder {
    * Update node transform
    */
   updateNodeTransform(nodeId: string, transform: Partial<Transform>): RigBuilder {
-    const node = this.config.nodes[nodeId];
+    const node = this.config.nodes[nodeId!];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
     if (transform.position) node.transform.position = { ...node.transform.position, ...transform.position };
@@ -152,7 +152,7 @@ export class RigBuilder {
    * Delete a node and all its children
    */
   deleteNode(nodeId: string): RigBuilder {
-    const node = this.config.nodes[nodeId];
+    const node = this.config.nodes[nodeId!];
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
     // Delete all children first
@@ -165,7 +165,7 @@ export class RigBuilder {
     }
 
     // Delete the node
-    delete this.config.nodes[nodeId];
+    delete this.config.nodes[nodeId!];
 
     // Update root node if necessary
     if (this.config.rootNode === nodeId) {
@@ -179,7 +179,7 @@ export class RigBuilder {
    * Get node by ID
    */
   getNode(nodeId: string): RigNode | undefined {
-    return this.config.nodes[nodeId];
+    return this.config.nodes[nodeId!];
   }
 
   /**
@@ -266,7 +266,7 @@ export class RigBuilder {
       if (visited.has(nodeId)) return false;
 
       visiting.add(nodeId);
-      const node = this.config.nodes[nodeId];
+      const node = this.config.nodes[nodeId!];
       if (node) {
         for (const childId of node.children) {
           if (hasCycle(childId)) return true;

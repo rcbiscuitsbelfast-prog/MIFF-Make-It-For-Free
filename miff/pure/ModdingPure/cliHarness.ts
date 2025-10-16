@@ -15,7 +15,7 @@ async function main() {
   // Ensure stdout contains ONLY JSON by redirecting logs to stderr
   const originalLog = console.log;
   console.log = (...args: any[]) => {
-    try { process.stderr.write(args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' ') + '\n'); } catch (_) {}
+    try { process.stderr.write(args.map((a: any) => typeof a === 'string' ? a : JSON.stringify(a)).join(' ') + '\n'); } catch (_) {}
   };
   const writeJSON = (obj: any) => {
     try { process.stdout.write(JSON.stringify(obj) + '\n'); } catch (_) { originalLog(obj); }

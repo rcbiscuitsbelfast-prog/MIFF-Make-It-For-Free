@@ -517,7 +517,7 @@ export class RitualSystemPure {
       }
     ];
 
-    basicRituals.forEach(ritual => {
+    basicRituals.forEach((ritual: any) => {
       this.ritualDefinitions.set(ritual.id, ritual);
     });
   }
@@ -695,7 +695,7 @@ export class RitualSystemPure {
     }
 
     // Check required roles
-    const participantRoles = ritual.participants.map(p => p.role);
+    const participantRoles = ritual.participants.map((p: any) => p.role);
     for (const requiredRole of step.participantRoles) {
       if (!participantRoles.includes(requiredRole as any)) {
         return false;
@@ -727,7 +727,7 @@ export class RitualSystemPure {
     }
 
     // Update participants
-    ritual.participants.forEach(participant => {
+    ritual.participants.forEach((participant: any) => {
       participant.energySpent += step.energyCost / ritual.participants.length;
     });
 
@@ -743,7 +743,7 @@ export class RitualSystemPure {
       success: true,
       ritualId: ritual.id,
       leaderId: ritual.leaderId,
-      participants: ritual.participants.map(p => p.id),
+      participants: ritual.participants.map((p: any) => p.id),
       duration: Date.now() - ritual.startTime,
       energySpent: energyConsumed,
       quality: ritual.quality,
@@ -897,7 +897,7 @@ export class RitualSystemPure {
       success: true,
       ritualId: ritual.id,
       leaderId: ritual.leaderId,
-      participants: ritual.participants.map(p => p.id),
+      participants: ritual.participants.map((p: any) => p.id),
       duration,
       energySpent: ritual.energySpent,
       quality,
@@ -1052,13 +1052,13 @@ export class RitualSystemPure {
       this.completedRituals.reduce((sum, r) => sum + r.quality, 0) / this.completedRituals.length : 0;
 
     const categoryCount = new Map<string, number>();
-    this.completedRituals.forEach(result => {
+    this.completedRituals.forEach((result: any) => {
       const category = result.ritualId.split('-')[0]; // Simplified category detection
       categoryCount.set(category, (categoryCount.get(category) || 0) + 1);
     });
 
     const mostCommonCategory = Array.from(categoryCount.entries())
-      .sort((a, b) => b[1] - a[1])[0]?.[0] || 'none';
+      .sort((a: any, b: any) => b[1] - a[1])[0]?.[0] || 'none';
 
     const totalExperienceGranted = this.completedRituals
       .reduce((sum, r) => sum + r.experienceGained, 0);

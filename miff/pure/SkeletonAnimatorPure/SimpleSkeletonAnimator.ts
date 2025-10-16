@@ -95,10 +95,10 @@ export class SimpleRigBuilder {
       metadata: {}
     };
 
-    this.config.nodes[id] = node;
+    this.config.nodes[id!] = node;
 
-    if (parentId && this.config.nodes[parentId]) {
-      this.config.nodes[parentId].children.push(id);
+    if (parentId && this.config.nodes[parentId!]) {
+      this.config.nodes[parentId!].children.push(id);
     }
 
     return node;
@@ -190,8 +190,8 @@ export function createCLI() {
         
         case 'help':
           return `Available commands:
-- create-character [name]: Create a new character
-- export-character [name]: Export character as JSON
+- create-character [name!]: Create a new character
+- export-character [name!]: Export character as JSON
 - validate: Validate character configuration
 - help: Show this help message`;
         

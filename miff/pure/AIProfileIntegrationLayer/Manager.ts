@@ -105,7 +105,7 @@ export class AIProfileIntegrationLayer {
     this.validateProfile(profile);
     
     // Normalize trait values
-    profile.traits = profile.traits.map(trait => ({
+    profile.traits = profile.traits.map((trait: any) => ({
       ...trait,
       value: Math.max(-1, Math.min(1, trait.value)),
       weight: Math.max(0, Math.min(1, trait.weight))
@@ -135,13 +135,13 @@ export class AIProfileIntegrationLayer {
     if (!profile || availableActions.length === 0) return null;
 
     // Apply personality traits to actions
-    const scoredActions = availableActions.map(action => ({
+    const scoredActions = availableActions.map((action: any) => ({
       ...action,
       confidence: this.calculateActionConfidence(profile, action, situation)
     }));
 
     // Sort by confidence
-    scoredActions.sort((a, b) => b.confidence - a.confidence);
+    scoredActions.sort((a: any, b: any) => b.confidence - a.confidence);
 
     const chosenAction = scoredActions[0];
     const alternatives = scoredActions.slice(1, 4); // Top 3 alternatives
@@ -524,7 +524,7 @@ export class AIProfileIntegrationLayer {
 
     const mostActiveProfile = this.decisions.size > 0
       ? Array.from(this.decisions.entries())
-          .sort((a, b) => b[1].length - a[1].length)[0][0]
+          .sort((a: any, b: any) => b[1].length - a[1].length)[0][0]
       : null;
 
     return {

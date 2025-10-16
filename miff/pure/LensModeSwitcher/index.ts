@@ -158,7 +158,7 @@ export class LensModeSwitcher {
       return true; // Already in this mode
     }
 
-    const settings = this.config.modeSettings[mode];
+    const settings = this.config.modeSettings[mode!];
     if (!settings.enabled) {
       console.warn(`Lens mode ${mode} is disabled`);
       return false;
@@ -230,7 +230,7 @@ export class LensModeSwitcher {
     this.overlayManager.setLayerOpacity(`mode_${fromMode}`, 0);
     
     // Fade in new mode effects
-    const settings = this.config.modeSettings[toMode];
+    const settings = this.config.modeSettings[toMode!];
     this.overlayManager.setLayerOpacity(`mode_${toMode}`, settings.overlayOpacity);
   }
 
@@ -249,7 +249,7 @@ export class LensModeSwitcher {
       [LensMode.CINEMATIC]: PerceptionMode.NORMAL
     };
     
-    const perceptionMode = modeMap[lensMode];
+    const perceptionMode = modeMap[lensMode!];
     if (perceptionMode) {
       this.perceptionManager.setMode(perceptionMode);
     }
@@ -272,7 +272,7 @@ export class LensModeSwitcher {
    * Update overlay effects for the mode
    */
   private updateOverlayEffects(lensMode: LensMode): void {
-    const settings = this.config.modeSettings[lensMode];
+    const settings = this.config.modeSettings[lensMode!];
     const layerId = `mode_${lensMode}`;
     
     // Clear existing effects
@@ -438,8 +438,8 @@ export class LensModeSwitcher {
    * Enable/disable a mode
    */
   setModeEnabled(mode: LensMode, enabled: boolean): void {
-    if (this.config.modeSettings[mode]) {
-      this.config.modeSettings[mode].enabled = enabled;
+    if (this.config.modeSettings[mode!]) {
+      this.config.modeSettings[mode!].enabled = enabled;
     }
   }
 
@@ -447,8 +447,8 @@ export class LensModeSwitcher {
    * Update mode settings
    */
   updateModeSettings(mode: LensMode, settings: Partial<ModeSettings>): void {
-    if (this.config.modeSettings[mode]) {
-      this.config.modeSettings[mode] = { ...this.config.modeSettings[mode], ...settings };
+    if (this.config.modeSettings[mode!]) {
+      this.config.modeSettings[mode!] = { ...this.config.modeSettings[mode!], ...settings };
     }
   }
 

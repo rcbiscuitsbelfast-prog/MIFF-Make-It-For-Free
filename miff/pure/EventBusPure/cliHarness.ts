@@ -34,7 +34,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args!]');
     process.exit(1);
   }
 

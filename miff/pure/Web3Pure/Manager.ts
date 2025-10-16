@@ -850,9 +850,9 @@ export class Web3Pure {
 
     for (const manager of this.managers.values()) {
       totalTransactions += manager.transactions.length;
-      pendingTransactions += manager.transactions.filter(t => t.status === 'pending').length;
-      confirmedTransactions += manager.transactions.filter(t => t.status === 'confirmed').length;
-      failedTransactions += manager.transactions.filter(t => t.status === 'failed').length;
+      pendingTransactions += manager.transactions.filter((t: any) => t.status === 'pending').length;
+      confirmedTransactions += manager.transactions.filter((t: any) => t.status === 'confirmed').length;
+      failedTransactions += manager.transactions.filter((t: any) => t.status === 'failed').length;
     }
 
     this.performanceMetrics.totalTransactions = totalTransactions;

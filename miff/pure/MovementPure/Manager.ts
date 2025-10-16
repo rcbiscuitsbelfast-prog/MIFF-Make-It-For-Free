@@ -711,7 +711,7 @@ export class MovementManager {
     // Calculate pattern distribution
     entities.forEach((entity: any) => {
       const type = entity.pattern.type;
-      stats.patternDistribution[type] = (stats.patternDistribution[type] || 0) + 1;
+      stats.patternDistribution[type!] = (stats.patternDistribution[type!] || 0) + 1;
     });
 
     return {

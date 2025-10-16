@@ -76,7 +76,7 @@ function printStatus(controller: EncounterController, playerState: IPlayerState)
   const tables = controller.getAllTables();
   if (tables.length > 0) {
     console.log('\n📋 Zones:');
-    tables.forEach(table => {
+    tables.forEach((table: any) => {
       console.log(`  ${table.zoneId}: ${table.entries.length} entries, ${table.getTotalWeight()} total weight`);
     });
   }
@@ -200,7 +200,7 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
   console.log(`Total Triggers: ${controller.getTriggerCount()}`);
 
   const tables = controller.getAllTables();
-  tables.forEach(table => {
+  tables.forEach((table: any) => {
     console.log(`  ${table.zoneId}: ${table.entries.length} spirits, ${table.getTotalWeight()} total weight`);
   });
 }

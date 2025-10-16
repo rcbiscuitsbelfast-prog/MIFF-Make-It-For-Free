@@ -153,7 +153,7 @@ export class LootTablesManager {
       }
     ];
 
-    defaultTables.forEach(table => this.tables.set(table.id, table));
+    defaultTables.forEach((table: any) => this.tables.set(table.id, table));
   }
 
   /**
@@ -265,7 +265,7 @@ export class LootTablesManager {
     let tables = Array.from(this.tables.values());
 
     if (filter) {
-      tables = tables.filter(table => {
+      tables = tables.filter((table: any) => {
         if (filter.rarity) {
           const hasRarity = table.entries.some(entry => entry.rarity === filter.rarity);
           if (!hasRarity) return false;
@@ -377,19 +377,19 @@ export class LootTablesManager {
     };
 
     // Calculate rarity distribution
-    allEntries.forEach(entry => {
+    allEntries.forEach((entry: any) => {
       stats.rarityDistribution[entry.rarity] = (stats.rarityDistribution[entry.rarity] || 0) + 1;
     });
 
     // Calculate most common items
     const itemFrequency: Record<string, number> = {};
-    allEntries.forEach(entry => {
+    allEntries.forEach((entry: any) => {
       itemFrequency[entry.id] = (itemFrequency[entry.id] || 0) + 1;
     });
 
     stats.mostCommonItems = Object.entries(itemFrequency)
       .map(([id, frequency]) => ({ id, frequency }))
-      .sort((a, b) => b.frequency - a.frequency)
+      .sort((a: any, b: any) => b.frequency - a.frequency)
       .slice(0, 10);
 
     return {
@@ -433,7 +433,7 @@ export class LootTablesManager {
           status: 'ok',
           result: {
             summary: stats.result,
-            tables: tables.map(table => ({
+            tables: tables.map((table: any) => ({
               id: table.id,
               name: table.name,
               entryCount: table.entries.length,
@@ -536,7 +536,7 @@ export class LootTablesManager {
     const rolledStats: Record<string, number> = {};
     
     if (entry.statRolls) {
-      entry.statRolls.forEach(stat => {
+      entry.statRolls.forEach((stat: any) => {
         const random = seed ? this.seededRandom(seed + stat.key.length) : Math.random();
         const value = stat.min + (random * (stat.max - stat.min));
         rolledStats[stat.key] = Math.round(value * 100) / 100;

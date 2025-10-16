@@ -108,7 +108,7 @@ export class SpeciesEvolutionData {
       id: this.id,
       speciesId: this.speciesId,
       evolutionTargetId: this.evolutionTargetId,
-      conditions: this.conditions.map(c => ({
+      conditions: this.conditions.map((c: any) => ({
         id: c.id,
         type: c.type,
         intValue: c.intValue,
@@ -321,7 +321,7 @@ export class EvolutionManager {
     const totalEvolutions = this.speciesData.size;
     const successfulEvolutions = Array.from(this.speciesData.values()).length;
     const failedEvolutions = 0; // This would be tracked in a real implementation
-    const speciesEvolved = Array.from(this.speciesData.values()).map(e => e.speciesId);
+    const speciesEvolved = Array.from(this.speciesData.values()).map((e: any) => e.speciesId);
     const averageLevelRequired = Array.from(this.speciesData.values())
       .reduce((sum, e) => sum + e.conditions.reduce((cSum, c) => cSum + (c.intValue || 0), 0), 0) / totalEvolutions;
     const mostEvolvedSpecies = speciesEvolved[0] || '';
@@ -359,8 +359,8 @@ export class EvolutionManager {
 
   getAvailableEvolutions(spirit: any): SpeciesEvolutionData[] {
     return Array.from(this.speciesData.values())
-      .filter(evolution => evolution.speciesId === spirit.speciesId)
-      .filter(evolution => evolution.conditions.every(condition => condition.isMet(spirit, this.context)));
+      .filter((evolution: any) => evolution.speciesId === spirit.speciesId)
+      .filter((evolution: any) => evolution.conditions.every(condition => condition.isMet(spirit, this.context)));
   }
 
   private initializeDefaultSpecies(): void {
@@ -405,7 +405,7 @@ export class EvolutionManager {
       }
     ];
 
-    defaultSpecies.forEach(species => {
+    defaultSpecies.forEach((species: any) => {
       this.speciesData.set(species.speciesId, species);
     });
   }
@@ -512,7 +512,7 @@ export class EvolutionManager {
     const missingConditions: string[] = [];
     let metConditions = 0;
 
-    data.conditions.forEach(condition => {
+    data.conditions.forEach((condition: any) => {
       if (condition.isMet(spirit, this.context)) {
         metConditions++;
       } else {

@@ -611,7 +611,7 @@ async function main(): Promise<void> {
   };
 
   for (let i = 0; i < args.length; i++) {
-    switch (args[i]) {
+    switch (args[i!]) {
       case '--mode':
       case '-m':
         options.mode = args[++i] as CLIOptions['mode'];
@@ -640,7 +640,7 @@ async function main(): Promise<void> {
       case '-h':
         console.log('WeatherSystemPure CLI Harness');
         console.log('');
-        console.log('Usage: tsx cliHarness.ts [options]');
+        console.log('Usage: tsx cliHarness.ts [options!]');
         console.log('');
         console.log('Options:');
         console.log('  --mode, -m <mode>          Mode: interactive, simulate, test, benchmark, export');

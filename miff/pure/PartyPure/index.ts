@@ -139,14 +139,14 @@ export class PartyManager {
    * Get the current number of party members
    */
   get memberCount(): number {
-    return this._slots.filter(slot => !slot.isEmpty).length;
+    return this._slots.filter((slot: any) => !slot.isEmpty).length;
   }
 
   /**
    * Get the number of active (non-KO) party members
    */
   get activeMemberCount(): number {
-    return this._slots.filter(slot => slot.getActiveMember() !== null).length;
+    return this._slots.filter((slot: any) => slot.getActiveMember() !== null).length;
   }
 
   /**
@@ -608,7 +608,7 @@ export const PartyUtils = {
    */
   getMembersByHP(party: PartyManager, ascending: boolean = true): IPartyMember[] {
     const activeMembers = party.getActiveMembers();
-    return activeMembers.sort((a, b) => {
+    return activeMembers.sort((a: any, b: any) => {
       const aPercent = (a.currentHP / a.maxHP) * 100;
       const bPercent = (b.currentHP / b.maxHP) * 100;
       return ascending ? aPercent - bPercent : bPercent - aPercent;
@@ -620,7 +620,7 @@ export const PartyUtils = {
    */
   getHealableMembers(party: PartyManager): IPartyMember[] {
     const activeMembers = party.getActiveMembers();
-    return activeMembers.filter(member => member.currentHP < member.maxHP);
+    return activeMembers.filter((member: any) => member.currentHP < member.maxHP);
   },
 
   /**
@@ -628,7 +628,7 @@ export const PartyUtils = {
    */
   getCriticalMembers(party: PartyManager): IPartyMember[] {
     const activeMembers = party.getActiveMembers();
-    return activeMembers.filter(member => (member.currentHP / member.maxHP) * 100 < 25);
+    return activeMembers.filter((member: any) => (member.currentHP / member.maxHP) * 100 < 25);
   }
 };
 

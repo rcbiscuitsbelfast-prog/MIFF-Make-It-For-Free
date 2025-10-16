@@ -471,7 +471,7 @@ export class BlockchainManager {
       throw new Error('Blockchain Manager not initialized');
     }
 
-    return Array.from(this.blockchains.values()).filter(blockchain => blockchain.type === type);
+    return Array.from(this.blockchains.values()).filter((blockchain: any) => blockchain.type === type);
   }
 
   /**
@@ -482,7 +482,7 @@ export class BlockchainManager {
       throw new Error('Blockchain Manager not initialized');
     }
 
-    return Array.from(this.blockchains.values()).filter(blockchain => blockchain.status === status);
+    return Array.from(this.blockchains.values()).filter((blockchain: any) => blockchain.status === status);
   }
 
   /**
@@ -737,17 +737,17 @@ export class BlockchainManager {
     const blockchains = Array.from(this.blockchains.values());
     const totalBlocks = blockchains.reduce((sum: any, b: any) => sum + b.blocks.length, 0);
     const totalTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.length, 0);
-    const pendingTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.filter(t => t.status === 'pending').length, 0);
+    const pendingTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.filter((t: any) => t.status === 'pending').length, 0);
     const totalContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.length, 0);
-    const activeContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.filter(c => c.status === 'active').length, 0);
+    const activeContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.filter((c: any) => c.status === 'active').length, 0);
 
     for (const blockchain of blockchains) {
       blockchain.analytics = {
         totalBlocks: blockchain.blocks.length,
         totalTransactions: blockchain.transactions.length,
-        pendingTransactions: blockchain.transactions.filter(t => t.status === 'pending').length,
+        pendingTransactions: blockchain.transactions.filter((t: any) => t.status === 'pending').length,
         totalContracts: blockchain.contracts.length,
-        activeContracts: blockchain.contracts.filter(c => c.status === 'active').length,
+        activeContracts: blockchain.contracts.filter((c: any) => c.status === 'active').length,
         averageBlockTime: blockchain.performance.blockTime,
         lastUpdated: Date.now()
       };
@@ -773,7 +773,7 @@ export class BlockchainManager {
     }
 
     const blockchains = Array.from(this.blockchains.values());
-    const activeBlockchains = blockchains.filter(b => b.status === 'active');
+    const activeBlockchains = blockchains.filter((b: any) => b.status === 'active');
     const totalBlocks = blockchains.reduce((sum: any, b: any) => sum + b.blocks.length, 0);
     const totalTransactions = blockchains.reduce((sum: any, b: any) => sum + b.transactions.length, 0);
     const totalContracts = blockchains.reduce((sum: any, b: any) => sum + b.contracts.length, 0);

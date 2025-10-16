@@ -138,7 +138,7 @@ function runDemo(party: PartyManager, koHandler: KOHandler): void {
   // Heal party
   console.log('\n🩹 Healing party...');
   const revivedMembers = party.healAll();
-  revivedMembers.forEach(member => {
+  revivedMembers.forEach((member: any) => {
     koHandler.revive(member.id.toString());
     console.log(`${member.name} has been revived!`);
   });
@@ -165,7 +165,7 @@ function runDemo(party: PartyManager, koHandler: KOHandler): void {
   // Demonstrate sorting
   console.log('\n📋 Members by HP (ascending):');
   const sortedByHP = PartyUtils.getMembersByHP(party, true);
-  sortedByHP.forEach(member => {
+  sortedByHP.forEach((member: any) => {
     const percent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
     console.log(`  ${member.name}: ${percent}%`);
   });

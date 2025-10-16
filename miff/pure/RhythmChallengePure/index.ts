@@ -283,7 +283,7 @@ export class RhythmChallengePure {
       }
     ];
 
-    defaultMaps.forEach(map => {
+    defaultMaps.forEach((map: any) => {
       this.beatMaps.set(map.id, map);
     });
   }
@@ -513,7 +513,7 @@ export class RhythmChallengePure {
     player.grade = this.calculateGrade(player.accuracy, player.combo);
 
     // Apply effects
-    game.effects.forEach(effect => {
+    game.effects.forEach((effect: any) => {
       this.applyEffect(effect, game, player, note, judgment);
     });
 
@@ -566,7 +566,7 @@ export class RhythmChallengePure {
     game.currentTime += deltaTime;
 
     // Update effects
-    game.effects = game.effects.filter(effect => {
+    game.effects = game.effects.filter((effect: any) => {
       effect.remainingTime -= deltaTime;
       return effect.remainingTime > 0;
     });
@@ -595,11 +595,11 @@ export class RhythmChallengePure {
   private spawnUpcomingNotes(game: GameState): void {
     const spawnTime = game.currentTime + 2000; // Spawn notes 2 seconds early
 
-    const upcomingNotes = game.beatMap.notes.filter(note =>
+    const upcomingNotes = game.beatMap.notes.filter((note: any) =>
       note.time <= spawnTime && note.time > game.currentTime - 100
     );
 
-    upcomingNotes.forEach(note => {
+    upcomingNotes.forEach((note: any) => {
       this.eventBus.publish('rhythm:note_spawned', {
         gameId: game.id,
         noteId: note.id,

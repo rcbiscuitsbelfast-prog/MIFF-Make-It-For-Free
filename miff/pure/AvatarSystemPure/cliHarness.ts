@@ -156,7 +156,7 @@ class AvatarSystemCLI {
       const registrySize = this.registry.items.length;
       console.log(`   ✅ Registry size: ${registrySize} items`);
 
-      const compatibleItems = this.registry.items.filter(item => item.compatibility.includes('web'));
+      const compatibleItems = this.registry.items.filter((item: any) => item.compatibility.includes('web'));
       console.log(`   ✅ Web-compatible items: ${compatibleItems.length}`);
 
       // Test 5: Avatar resolution
@@ -206,7 +206,7 @@ class AvatarSystemCLI {
         console.log('✅ Manifest is valid');
       } else {
         console.log('❌ Manifest validation failed:');
-        result.errors.forEach(error => console.log(`   - ${error}`));
+        result.errors.forEach((error: any) => console.log(`   - ${error}`));
       }
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -293,7 +293,7 @@ class AvatarSystemCLI {
   private listStyles(): void {
     console.log('🎨 Supported Avatar Styles:');
     const styles = ['3d', '2d-side', 'overlay', 'pixel-art', 'voxel', 'skeletal'];
-    styles.forEach(style => {
+    styles.forEach((style: any) => {
       console.log(`   - ${style}`);
     });
   }
@@ -301,7 +301,7 @@ class AvatarSystemCLI {
   private listComponents(): void {
     console.log('🧩 Supported Component Kinds:');
     const components = ['head', 'torso', 'legs', 'boots', 'shirt', 'cloak', 'hat', 'accessory', 'weapon', 'shield', 'hair', 'eyes', 'mouth'];
-    components.forEach(component => {
+    components.forEach((component: any) => {
       console.log(`   - ${component}`);
     });
   }
@@ -309,7 +309,7 @@ class AvatarSystemCLI {
   private listAnimations(): void {
     console.log('🎭 Supported Animation States:');
     const animations = ['idle', 'walk', 'run', 'attack', 'defend', 'cast', 'death', 'victory'];
-    animations.forEach(animation => {
+    animations.forEach((animation: any) => {
       console.log(`   - ${animation}`);
     });
   }
@@ -387,21 +387,21 @@ class AvatarSystemCLI {
       // Simulate component addition
       console.log('2. Adding components...');
       const components = ['head', 'torso', 'legs', 'boots', 'shirt'];
-      components.forEach(component => {
+      components.forEach((component: any) => {
         console.log(`   ✅ Added ${component} component`);
       });
 
       // Simulate animation setup
       console.log('3. Setting up animations...');
       const animations = ['idle', 'walk', 'run', 'attack'];
-      animations.forEach(animation => {
+      animations.forEach((animation: any) => {
         console.log(`   ✅ Configured ${animation} animation`);
       });
 
       // Simulate customization
       console.log('4. Applying customizations...');
       const customizations = ['hair-color', 'eye-color', 'skin-tone'];
-      customizations.forEach(customization => {
+      customizations.forEach((customization: any) => {
         console.log(`   ✅ Applied ${customization} customization`);
       });
 

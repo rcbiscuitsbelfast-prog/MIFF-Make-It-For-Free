@@ -1282,9 +1282,9 @@ export class EcosystemExpansionPure {
 
     for (const manager of this.managers.values()) {
       totalPartnerships += manager.partnerships.length;
-      activePartnerships += manager.partnerships.filter(p => p.status === 'active').length;
+      activePartnerships += manager.partnerships.filter((p: any) => p.status === 'active').length;
       totalIntegrations += manager.integrations.length;
-      activeIntegrations += manager.integrations.filter(i => i.status === 'deployed').length;
+      activeIntegrations += manager.integrations.filter((i: any) => i.status === 'deployed').length;
       totalCommunities += manager.communities.length;
       totalMembers += manager.communities.reduce((sum, c) => sum + c.members, 0);
     }
