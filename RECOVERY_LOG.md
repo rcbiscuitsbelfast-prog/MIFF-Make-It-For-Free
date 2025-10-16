@@ -191,3 +191,30 @@ Moving to Phase 5 (Cherry-pick features) to restore valuable functionality.
 
 ═══════════════════════════════════════════════════════════════════
 
+
+## Module-by-Module Fix Progress
+
+### Infrastructure Fix: EventBusPure ✅
+- Added static methods (on, emit, off, clearAll, getListenerCount)
+- Fixes ~24 errors across multiple modules
+- Now supports both static and instance usage
+
+### Module 1: IdleSystemPure/Manager.ts 🟡
+- Starting errors: 77
+- Current errors: 64  
+- Fixed: 13 errors
+- Status: Partial - needs more work
+
+Fixes applied:
+- Added IdleSystemPure import
+- Added missing properties to interfaces
+- Implemented 7 missing private methods
+- Fixed property initialization
+
+Remaining: Type annotations, export conflicts, method implementations
+
+### Total Progress So Far:
+- TypeScript errors: 1,253 → 1,203 (50 fixed, 4% reduction)
+- Time invested: ~8 hours
+- Modules partially fixed: 2 (EventBus, IdleSystem)
+
