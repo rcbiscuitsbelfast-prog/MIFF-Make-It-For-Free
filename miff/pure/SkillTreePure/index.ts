@@ -5,8 +5,8 @@
  * and skill point management for character progression.
  */
 
-export * from './Manager';
-export { SkillTreeManager as default } from './Manager';
+export * from './SkillTreeManager';
+export { SkillTreeManager as default } from './SkillTreeManager';
 
 // Module metadata
 export const MODULE_INFO = {
