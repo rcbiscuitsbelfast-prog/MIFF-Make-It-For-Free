@@ -5,8 +5,8 @@
  * Provides serialization, compression, and version management.
  */
 
-export * from './Manager';
-export { SaveLoadManager as default } from './Manager';
+export * from './SaveLoadManager';
+export { SaveLoadManager as default } from './SaveLoadManager';
 
 // Module metadata
 export const MODULE_INFO = {
