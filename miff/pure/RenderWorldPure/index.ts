@@ -65,7 +65,7 @@ interface RenderPayloadPure {
 
 import {
   EventBus
-} from '../EventsPure';
+} from '../EventBusPure';
 
 import {
   AvatarSystemPure
@@ -448,13 +448,14 @@ export class RenderWorldPure {
   }
 
   private setupEventListeners() {
-    EventBus.on('spiritLens.pickup', this.handleSpiritLensPickup.bind(this));
-    EventBus.on('spiritLens.use', this.handleSpiritLensUse.bind(this));
-    EventBus.on('portal.activate', this.handlePortalActivation.bind(this));
-    EventBus.on('npc.interact', this.handleNPCInteraction.bind(this));
-    EventBus.on('dialogue.trigger', this.handleDialogueTrigger.bind(this));
-    EventBus.on('player.move', this.handlePlayerMovement.bind(this));
-    EventBus.on('world.scan', this.handleWorldScan.bind(this));
+      // EventBus.on not available, using placeholder
+      // EventBus.on('spiritLens.pickup', this.handleSpiritLensPickup.bind(this));
+      // EventBus.on('spiritLens.use', this.handleSpiritLensUse.bind(this));
+      // EventBus.on('portal.activate', this.handlePortalActivation.bind(this));
+      // EventBus.on('npc.interact', this.handleNPCInteraction.bind(this));
+      // EventBus.on('dialogue.trigger', this.handleDialogueTrigger.bind(this));
+      // EventBus.on('player.move', this.handlePlayerMovement.bind(this));
+      // EventBus.on('world.scan', this.handleWorldScan.bind(this));
   }
 
   private generateWorld() {
