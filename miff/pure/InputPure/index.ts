@@ -139,7 +139,7 @@ export class InputProfile {
    * Get actions by category
    */
   getActionsByCategory(category: string): InputAction[] {
-    return Array.from(this._actions.values()).filter(action => action.category === category);
+    return Array.from(this._actions.values()).filter((action: any) => action.category === category);
   }
 
   /**
@@ -394,7 +394,7 @@ export const InputUtils = {
       ...this.createDebugActions()
     ];
 
-    allActions.forEach(action => profile.registerAction(action));
+    allActions.forEach((action: any) => profile.registerAction(action));
 
     return profile;
   },

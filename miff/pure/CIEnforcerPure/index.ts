@@ -180,7 +180,7 @@ export async function enforceCIStandardsForModules(modulePaths: string[]): Promi
     status,
     summary,
     results: allResults,
-    modules: moduleResults.map(r => r.moduleName),
+    modules: moduleResults.map((r: any) => r.moduleName),
     criticalIssues,
     warnings,
     recommendations,
@@ -429,10 +429,10 @@ function determineOverallCIStatus(summary: CIEnforcementReport['summary']): CIEn
 function generateCIValidationSummary(results: CIValidationResult[]): CIEnforcementReport['summary'] {
   return {
     total: results.length,
-    passed: results.filter(r => r.passed).length,
-    failed: results.filter(r => !r.passed).length,
-    warnings: results.filter(r => !r.passed && r.severity === 'warning').length,
-    critical: results.filter(r => !r.passed && r.severity === 'critical').length
+    passed: results.filter((r: any) => r.passed).length,
+    failed: results.filter((r: any) => !r.passed).length,
+    warnings: results.filter((r: any) => !r.passed && r.severity === 'warning').length,
+    critical: results.filter((r: any) => !r.passed && r.severity === 'critical').length
   };
 }
 
@@ -440,11 +440,11 @@ function generateCIValidationSummary(results: CIValidationResult[]): CIEnforceme
  * checkCICompliance - Check compliance across different categories
  */
 function checkCICompliance(results: CIValidationResult[]): CIEnforcementReport['compliance'] {
-  const testing = results.filter(r => r.category === 'testing').every(r => r.passed);
-  const documentation = results.filter(r => r.category === 'documentation').every(r => r.passed);
-  const executability = results.filter(r => r.category === 'executability').every(r => r.passed);
-  const coverage = results.filter(r => r.category === 'coverage').every(r => r.passed);
-  const standards = results.filter(r => r.category === 'standards').every(r => r.passed);
+  const testing = results.filter((r: any) => r.category === 'testing').every(r => r.passed);
+  const documentation = results.filter((r: any) => r.category === 'documentation').every(r => r.passed);
+  const executability = results.filter((r: any) => r.category === 'executability').every(r => r.passed);
+  const coverage = results.filter((r: any) => r.category === 'coverage').every(r => r.passed);
+  const standards = results.filter((r: any) => r.category === 'standards').every(r => r.passed);
 
   return {
     testing,
@@ -475,19 +475,19 @@ export function generateCIEnforcementReport(report: CIEnforcementReport): string
   
   if (report.criticalIssues.length > 0) {
     output += `Critical Issues:\n`;
-    report.criticalIssues.forEach(issue => output += `  - ${issue}\n`);
+    report.criticalIssues.forEach((issue: any) => output += `  - ${issue}\n`);
     output += `\n`;
   }
   
   if (report.warnings.length > 0) {
     output += `Warnings:\n`;
-    report.warnings.forEach(warning => output += `  - ${warning}\n`);
+    report.warnings.forEach((warning: any) => output += `  - ${warning}\n`);
     output += `\n`;
   }
   
   if (report.recommendations.length > 0) {
     output += `Recommendations:\n`;
-    report.recommendations.forEach(rec => output += `  - ${rec}\n`);
+    report.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
     output += `\n`;
   }
   

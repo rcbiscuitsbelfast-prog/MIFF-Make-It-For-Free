@@ -252,7 +252,7 @@ export class AssetPipeline {
    * Get all assets of specific type
    */
   getAssetsByType(type: string): AssetInfo[] {
-    return Array.from(this.assetRegistry.values()).filter(asset => asset.type === type);
+    return Array.from(this.assetRegistry.values()).filter((asset: any) => asset.type === type);
   }
 
   /**
@@ -375,7 +375,7 @@ export class AssetPipeline {
     }
 
     // Sort by priority and dependencies
-    this.processingQueue.sort((a, b) => {
+    this.processingQueue.sort((a: any, b: any) => {
       if (a.priority !== b.priority) {
         return b.priority - a.priority; // Higher priority first
       }
@@ -671,9 +671,9 @@ export class AssetPipeline {
   }
 
   private updateProcessingStats(): void {
-    const completedTasks = this.processingQueue.filter(t => t.status === 'completed').length +
+    const completedTasks = this.processingQueue.filter((t: any) => t.status === 'completed').length +
                           Array.from(this.completedTasks).length;
-    const failedTasks = this.processingQueue.filter(t => t.status === 'failed').length;
+    const failedTasks = this.processingQueue.filter((t: any) => t.status === 'failed').length;
 
     this.stats.processedAssets = completedTasks;
     this.stats.failedAssets = failedTasks;

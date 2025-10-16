@@ -494,7 +494,7 @@ export class DocumentationGenerator {
     while ((match = classRegex.exec(sourceCode)) !== null) {
       const className = match[1];
       const extendsClass = match[2];
-      const implementsClasses = match[3] ? match[3].split(',').map(s => s.trim()) : [];
+      const implementsClasses = match[3] ? match[3].split(',').map((s: any) => s.trim()) : [];
 
       classes.push({
         name: className,
@@ -524,7 +524,7 @@ export class DocumentationGenerator {
 
     while ((match = interfaceRegex.exec(sourceCode)) !== null) {
       const interfaceName = match[1];
-      const extendsInterfaces = match[2] ? match[2].split(',').map(s => s.trim()) : [];
+      const extendsInterfaces = match[2] ? match[2].split(',').map((s: any) => s.trim()) : [];
 
       interfaces.push({
         name: interfaceName,
@@ -641,7 +641,7 @@ export class DocumentationGenerator {
       {
         title: 'API Reference',
         path: '/api',
-        children: Array.from(this.modules.keys()).map(name => ({
+        children: Array.from(this.modules.keys()).map((name: any) => ({
           title: name,
           path: `/api/${name}`,
           children: [],
@@ -674,11 +674,11 @@ export class DocumentationGenerator {
   private updateSearchIndex(module: ModuleDocumentation): void {
     this.searchIndex.modules.push(module.name);
     
-    module.classes.forEach(cls => {
+    module.classes.forEach((cls: any) => {
       this.searchIndex.classes.push(`${module.name}.${cls.name}`);
     });
     
-    module.interfaces.forEach(iface => {
+    module.interfaces.forEach((iface: any) => {
       this.searchIndex.interfaces.push(`${module.name}.${iface.name}`);
     });
     
@@ -686,7 +686,7 @@ export class DocumentationGenerator {
       this.searchIndex.enums.push(`${module.name}.${enumItem.name}`);
     });
     
-    module.functions.forEach(func => {
+    module.functions.forEach((func: any) => {
       this.searchIndex.functions.push(`${module.name}.${func.name}`);
     });
   }
@@ -748,21 +748,21 @@ ${this.config.license}
 
     if (module.classes.length > 0) {
       markdown += `## Classes\n\n`;
-      module.classes.forEach(cls => {
+      module.classes.forEach((cls: any) => {
         markdown += `### ${cls.name}\n\n${cls.description}\n\n`;
       });
     }
 
     if (module.interfaces.length > 0) {
       markdown += `## Interfaces\n\n`;
-      module.interfaces.forEach(iface => {
+      module.interfaces.forEach((iface: any) => {
         markdown += `### ${iface.name}\n\n${iface.description}\n\n`;
       });
     }
 
     if (module.functions.length > 0) {
       markdown += `## Functions\n\n`;
-      module.functions.forEach(func => {
+      module.functions.forEach((func: any) => {
         markdown += `### ${func.name}\n\n${func.description}\n\n`;
       });
     }
@@ -781,7 +781,7 @@ ${this.config.license}
       
       if (module.classes.length > 0) {
         markdown += `### Classes\n\n`;
-        module.classes.forEach(cls => {
+        module.classes.forEach((cls: any) => {
           markdown += `#### ${cls.name}\n\n${cls.description}\n\n`;
         });
       }
@@ -799,7 +799,7 @@ ${this.config.license}
     for (const [moduleName, module] of this.modules) {
       if (module.examples.length > 0) {
         markdown += `## ${moduleName}\n\n`;
-        module.examples.forEach(example => {
+        module.examples.forEach((example: any) => {
           markdown += `### ${example.title}\n\n${example.description}\n\n`;
           markdown += `\`\`\`${example.language}\n${example.code}\n\`\`\`\n\n`;
         });
@@ -820,9 +820,9 @@ ${this.config.license}
       allEntries.push(...module.changelog);
     }
 
-    allEntries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    allEntries.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    allEntries.forEach(entry => {
+    allEntries.forEach((entry: any) => {
       markdown += `## ${entry.version} - ${entry.date}\n\n`;
       markdown += `**${entry.type}** ${entry.description}\n\n`;
     });
@@ -850,13 +850,13 @@ ${this.config.license}
         </header>
         <nav>
             <ul>
-                ${this.navigation.map(item => `<li><a href="${item.path}">${item.title}</a></li>`).join('')}
+                ${this.navigation.map((item: any) => `<li><a href="${item.path}">${item.title}</a></li>`).join('')}
             </ul>
         </nav>
         <main>
             <h2>Modules</h2>
             <ul>
-                ${Array.from(this.modules.keys()).map(name => `<li><a href="${name}.html">${name}</a></li>`).join('')}
+                ${Array.from(this.modules.keys()).map((name: any) => `<li><a href="${name}.html">${name}</a></li>`).join('')}
             </ul>
         </main>
     </div>
@@ -884,7 +884,7 @@ ${this.config.license}
             <p>${module.description}</p>
         </header>
         <main>
-            ${module.classes.map(cls => `<h2>${cls.name}</h2><p>${cls.description}</p>`).join('')}
+            ${module.classes.map((cls: any) => `<h2>${cls.name}</h2><p>${cls.description}</p>`).join('')}
         </main>
     </div>
     <script src="script.js"></script>
@@ -987,8 +987,8 @@ function search(query) {
     // Simple search implementation
     const terms = query.toLowerCase().split(' ');
     
-    terms.forEach(term => {
-        searchIndex.modules.forEach(module => {
+    terms.forEach((term: any) => {
+        searchIndex.modules.forEach((module: any) => {
             if (module.toLowerCase().includes(term)) {
                 results.push({ type: 'module', name: module });
             }
@@ -1030,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <description>${module.description}</description>
             <classes>`;
       
-      module.classes.forEach(cls => {
+      module.classes.forEach((cls: any) => {
         xml += `
                 <class name="${cls.name}">
                     <description>${cls.description}</description>

@@ -93,7 +93,7 @@ export class SaveLoadManager {
   }
 
   listSlots(): SaveSlot[] {
-    return Object.values(this.store.saves).sort((a, b) => b.timestamp - a.timestamp);
+    return Object.values(this.store.saves).sort((a: any, b: any) => b.timestamp - a.timestamp);
   }
 
   load(slotId: string): GameDataV11 {

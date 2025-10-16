@@ -440,7 +440,7 @@ export class CLIInterfaceStandardizer {
         }
       } else {
         // Argument
-        const argIndex = i - args.filter(a => !a.startsWith('-')).length;
+        const argIndex = i - args.filter((a: any) => !a.startsWith('-')).length;
         const argument = command.arguments[argIndex];
         
         if (!argument) {
@@ -475,7 +475,7 @@ export class CLIInterfaceStandardizer {
         case 'boolean':
           return value.toLowerCase() === 'true';
         case 'array':
-          return value.split(',').map(v => v.trim());
+          return value.split(',').map((v: any) => v.trim());
         default:
           return value;
       }

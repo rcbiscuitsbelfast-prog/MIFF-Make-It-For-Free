@@ -403,7 +403,7 @@ export class AuthenticationSystem {
    */
   getUserSessions(userId: string): Session[] {
     return Array.from(this.sessions.values())
-      .filter(session => session.userId === userId && session.isActive);
+      .filter((session: any) => session.userId === userId && session.isActive);
   }
 
   /**
@@ -430,8 +430,8 @@ export class AuthenticationSystem {
     activeSessions: number;
     config: AuthConfig;
   } {
-    const activeUsers = Array.from(this.users.values()).filter(user => user.isActive).length;
-    const activeSessions = Array.from(this.sessions.values()).filter(session => session.isActive).length;
+    const activeUsers = Array.from(this.users.values()).filter((user: any) => user.isActive).length;
+    const activeSessions = Array.from(this.sessions.values()).filter((session: any) => session.isActive).length;
 
     return {
       totalUsers: this.users.size,

@@ -383,13 +383,13 @@ export class EntityLinkerManager {
 
     // Update most common issues
     const issueCounts = new Map<string, number>();
-    issues.forEach(issue => {
+    issues.forEach((issue: any) => {
       const count = issueCounts.get(issue.code) || 0;
       issueCounts.set(issue.code, count + 1);
     });
     this.stats.mostCommonIssues = Array.from(issueCounts.entries())
       .map(([code, count]) => ({ code, count }))
-      .sort((a, b) => b.count - a.count)
+      .sort((a: any, b: any) => b.count - a.count)
       .slice(0, 10);
 
     const status = issues.some(i => i.severity === 'error') ? 'error' : 
@@ -407,13 +407,13 @@ export class EntityLinkerManager {
   dumpLinks(): DumpLinksOutput {
     const statistics = {
       total: Object.keys(this.resolved).length,
-      resolved: Object.values(this.resolved).filter(r => r.ok).length,
-      unresolved: Object.values(this.resolved).filter(r => !r.ok).length,
+      resolved: Object.values(this.resolved).filter((r: any) => r.ok).length,
+      unresolved: Object.values(this.resolved).filter((r: any) => !r.ok).length,
       byCategory: {} as Record<string, number>
     };
 
     // Calculate category statistics
-    Object.values(this.resolved).forEach(ref => {
+    Object.values(this.resolved).forEach((ref: any) => {
       if (ref.type) {
         statistics.byCategory[ref.type] = (statistics.byCategory[ref.type] || 0) + 1;
       }

@@ -95,10 +95,10 @@ class TestInfrastructureCLI {
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show breakdown by priority
-    const critical = replacements.filter(r => r.priority === 'critical');
-    const high = replacements.filter(r => r.priority === 'high');
-    const medium = replacements.filter(r => r.priority === 'medium');
-    const low = replacements.filter(r => r.priority === 'low');
+    const critical = replacements.filter((r: any) => r.priority === 'critical');
+    const high = replacements.filter((r: any) => r.priority === 'high');
+    const medium = replacements.filter((r: any) => r.priority === 'medium');
+    const low = replacements.filter((r: any) => r.priority === 'low');
 
     console.info('\n📊 Mock Replacements by Priority:');
     console.info(`Critical: ${critical.length}`);
@@ -108,7 +108,7 @@ class TestInfrastructureCLI {
 
     if (critical.length > 0) {
       console.info('\n🚨 Critical Mock Replacements:');
-      critical.forEach(replacement => {
+      critical.forEach((replacement: any) => {
         console.info(`  ${replacement.id}: ${replacement.description}`);
       });
     }
@@ -129,7 +129,7 @@ class TestInfrastructureCLI {
 
     // Show coverage summary
     const avgCoverage = coverage.reduce((sum, c) => sum + c.coveragePercentage, 0) / coverage.length;
-    const lowCoverage = coverage.filter(c => c.coveragePercentage < 70);
+    const lowCoverage = coverage.filter((c: any) => c.coveragePercentage < 70);
 
     console.info('\n📊 Coverage Summary:');
     console.info(`Average coverage: ${avgCoverage.toFixed(1)}%`);
@@ -137,7 +137,7 @@ class TestInfrastructureCLI {
 
     if (lowCoverage.length > 0) {
       console.info('\n⚠️ Low Coverage Modules:');
-      lowCoverage.forEach(module => {
+      lowCoverage.forEach((module: any) => {
         console.info(`  ${module.module}: ${module.coveragePercentage}%`);
       });
     }
@@ -158,7 +158,7 @@ class TestInfrastructureCLI {
 
     // Show quality summary
     const avgQuality = quality.reduce((sum, q) => sum + q.mutationScore, 0) / quality.length;
-    const lowQuality = quality.filter(q => q.mutationScore < 70);
+    const lowQuality = quality.filter((q: any) => q.mutationScore < 70);
 
     console.info('\n📊 Quality Summary:');
     console.info(`Average mutation score: ${avgQuality.toFixed(1)}%`);
@@ -166,7 +166,7 @@ class TestInfrastructureCLI {
 
     if (lowQuality.length > 0) {
       console.info('\n⚠️ Low Quality Modules:');
-      lowQuality.forEach(module => {
+      lowQuality.forEach((module: any) => {
         console.info(`  ${module.module}: ${module.mutationScore}%`);
         if (module.recommendations.length > 0) {
           console.info(`    Recommendations: ${module.recommendations.join(', ')}`);

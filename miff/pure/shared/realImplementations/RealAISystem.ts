@@ -472,7 +472,7 @@ export class RealAISystem {
    * Get tasks by status
    */
   getTasksByStatus(status: AITask['status']): AITask[] {
-    return Array.from(this.tasks.values()).filter(task => task.status === status);
+    return Array.from(this.tasks.values()).filter((task: any) => task.status === status);
   }
 
   /**
@@ -528,7 +528,7 @@ export class RealAISystem {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {
@@ -563,13 +563,13 @@ export class RealAISystem {
    */
   cleanupCompletedTasks(): number {
     const completedTasks = Array.from(this.tasks.values())
-      .filter(task => task.status === 'completed' && task.completedAt)
-      .filter(task => {
+      .filter((task: any) => task.status === 'completed' && task.completedAt)
+      .filter((task: any) => {
         const age = Date.now() - task.completedAt?.getTime();
         return age > 24 * 60 * 60 * 1000; // 24 hours
       });
 
-    completedTasks.forEach(task => {
+    completedTasks.forEach((task: any) => {
       this.tasks.delete(task.id);
     });
 

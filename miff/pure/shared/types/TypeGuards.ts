@@ -386,7 +386,7 @@ export class TypeGuards {
       };
     }
 
-    const missingKeys = requiredKeys.filter(key => !(key in value));
+    const missingKeys = requiredKeys.filter((key: any) => !(key in value));
     if (missingKeys.length > 0) {
       return {
         isValid: false,
@@ -396,7 +396,7 @@ export class TypeGuards {
       };
     }
 
-    const extraKeys = Object.keys(value).filter(key => 
+    const extraKeys = Object.keys(value).filter((key: any) => 
       !requiredKeys.includes(key as keyof T) && !optionalKeys.includes(key as keyof T)
     );
 

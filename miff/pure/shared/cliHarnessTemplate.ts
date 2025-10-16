@@ -243,7 +243,7 @@ Usage:
   tsx cliHarness.ts <operation> <module> [options]
 
 Operations:
-  ${operations.map(op => `  ${op}`).join('\n')}
+  ${operations.map((op: any) => `  ${op}`).join('\n')}
 
 Options:
   --format=<format>    Output format (json, yaml, csv, markdown, html, text)

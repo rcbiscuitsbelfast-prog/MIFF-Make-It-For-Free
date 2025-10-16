@@ -238,7 +238,7 @@ export class RemixTaggingManager {
   }
 
   getTagsByLevel(level: RemixLevel): ModuleTag[] {
-    return this.getAllTags().filter(tag => tag.remixLevel === level);
+    return this.getAllTags().filter((tag: any) => tag.remixLevel === level);
   }
 
   removeTag(moduleId: string): boolean {
@@ -256,12 +256,12 @@ export class RemixTaggingManager {
       'remix-safe': 0
     };
 
-    this.taggedModules.forEach(tag => {
+    this.taggedModules.forEach((tag: any) => {
       byLevel[tag.remixLevel]++;
     });
 
     const lastUpdated = this.taggedModules.size > 0 
-      ? Math.max(...Array.from(this.taggedModules.values()).map(t => new Date(t.lastUpdated).getTime()))
+      ? Math.max(...Array.from(this.taggedModules.values()).map((t: any) => new Date(t.lastUpdated).getTime()))
       : null;
 
     return {

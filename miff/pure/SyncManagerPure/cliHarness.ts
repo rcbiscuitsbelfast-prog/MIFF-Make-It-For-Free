@@ -96,7 +96,7 @@ function main() {
         const snapshot1 = SyncManagerPure.snapshotFromStates(1, sampleStates);
         
         // Move players for second snapshot
-        const movedStates = sampleStates.map(state => ({
+        const movedStates = sampleStates.map((state: any) => ({
           ...state,
           position: {
             x: state.position.x + state.velocity.x,

@@ -180,7 +180,7 @@ export class BundleOptimizer {
 
         // Add transitive dependencies
         const transitiveDeps = this.getTransitiveDependencies(dep);
-        transitiveDeps.forEach(d => dependencies.add(d));
+        transitiveDeps.forEach((d: any) => dependencies.add(d));
       }
 
       this.dependencyGraph.set(modulePath, dependencies);
@@ -264,7 +264,7 @@ export class BundleOptimizer {
     this.log('📦 Generating optimized bundle...');
 
     const modulesToInclude = Array.from(this.analyzedModules.keys())
-      .filter(module => !this.deadCode.has(module));
+      .filter((module: any) => !this.deadCode.has(module));
 
     const bundleContent = await this.buildBundleContent(modulesToInclude);
     const bundlePath = this.writeBundle(bundleContent);
@@ -347,7 +347,7 @@ export class BundleOptimizer {
       const chunk = this.getChunkForModule(modulePath);
       chunks.push(chunk);
 
-      chunk.forEach(mod => processed.add(mod));
+      chunk.forEach((mod: any) => processed.add(mod));
     }
 
     return chunks;
@@ -358,7 +358,7 @@ export class BundleOptimizer {
     const dependencies = this.dependencyGraph.get(modulePath) || new Set();
 
     // Add direct dependencies to same chunk for better caching
-    dependencies.forEach(dep => {
+    dependencies.forEach((dep: any) => {
       if (!this.deadCode.has(dep)) {
         chunk.push(dep);
       }
@@ -377,7 +377,7 @@ export class BundleOptimizer {
 
       // Remove unused exports
       const unused = this.unusedExports.get(modulePath) || new Set();
-      const usedExports = analysis.exports.filter(exp => !unused.has(exp));
+      const usedExports = analysis.exports.filter((exp: any) => !unused.has(exp));
 
       // Generate optimized module content
       const optimizedContent = this.optimizeModuleContent(modulePath, usedExports);

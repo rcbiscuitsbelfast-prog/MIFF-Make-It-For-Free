@@ -406,7 +406,7 @@ export class ContentManagementManager {
       throw new Error('Content Management System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -417,7 +417,7 @@ export class ContentManagementManager {
       throw new Error('Content Management System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -628,7 +628,7 @@ export class ContentManagementManager {
       // Apply text search
       if (query) {
         const searchQuery = query.toLowerCase();
-        results = results.filter(content => 
+        results = results.filter((content: any) => 
           content.name.toLowerCase().includes(searchQuery) ||
           content.data.title.toLowerCase().includes(searchQuery) ||
           content.data.description.toLowerCase().includes(searchQuery) ||
@@ -639,21 +639,21 @@ export class ContentManagementManager {
       // Apply filters
       if (filters) {
         if (filters.type) {
-          results = results.filter(content => content.type === filters.type);
+          results = results.filter((content: any) => content.type === filters.type);
         }
         if (filters.status) {
-          results = results.filter(content => content.status === filters.status);
+          results = results.filter((content: any) => content.status === filters.status);
         }
         if (filters.category) {
-          results = results.filter(content => content.category === filters.category);
+          results = results.filter((content: any) => content.category === filters.category);
         }
         if (filters.tags && filters.tags.length > 0) {
-          results = results.filter(content => 
+          results = results.filter((content: any) => 
             filters.tags?.some(tag => content.tags.includes(tag))
           );
         }
         if (filters.author) {
-          results = results.filter(content => content.author === filters.author);
+          results = results.filter((content: any) => content.author === filters.author);
         }
       }
 
@@ -777,7 +777,7 @@ export class ContentManagementManager {
         return [];
       }
 
-      return system.contents.filter(c => c.type === type);
+      return system.contents.filter((c: any) => c.type === type);
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -835,7 +835,7 @@ export class ContentManagementManager {
     for (const system of systems) {
       system.analytics = {
         totalSystems: systems.length,
-        activeSystems: systems.filter(s => s.status === 'active').length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalContents: system.contents.length,
         totalCategories: system.categories.length,
         totalTags: system.tags.length,
@@ -864,7 +864,7 @@ export class ContentManagementManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalContents = systems.reduce((sum: any, s: any) => sum + s.contents.length, 0);
     const totalCategories = systems.reduce((sum: any, s: any) => sum + s.categories.length, 0);
     const totalTags = systems.reduce((sum: any, s: any) => sum + s.tags.length, 0);

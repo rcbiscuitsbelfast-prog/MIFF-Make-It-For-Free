@@ -137,7 +137,7 @@ export class TestCoverageAnalyzer {
     }
     
     // Module-specific recommendations
-    const lowCoverageModules = modules.filter(m => m.coveragePercentage < 70);
+    const lowCoverageModules = modules.filter((m: any) => m.coveragePercentage < 70);
     
     if (lowCoverageModules.length > 0) {
       recommendations.push(`Focus on improving coverage for ${lowCoverageModules.length} modules with low coverage.`);
@@ -148,14 +148,14 @@ export class TestCoverageAnalyzer {
     }
     
     // Branch coverage recommendations
-    const lowBranchCoverage = modules.filter(m => m.branchCoverage < 60);
+    const lowBranchCoverage = modules.filter((m: any) => m.branchCoverage < 60);
     
     if (lowBranchCoverage.length > 0) {
       recommendations.push(`Improve branch coverage for ${lowBranchCoverage.length} modules.`);
     }
     
     // Function coverage recommendations
-    const lowFunctionCoverage = modules.filter(m => m.functionCoverage < 80);
+    const lowFunctionCoverage = modules.filter((m: any) => m.functionCoverage < 80);
     
     if (lowFunctionCoverage.length > 0) {
       recommendations.push(`Improve function coverage for ${lowFunctionCoverage.length} modules.`);
@@ -283,8 +283,8 @@ export class TestCoverageAnalyzer {
     const overallCoverage = totalLines > 0 ? (coveredLines / totalLines) * 100 : 0;
     
     const criticalModules = modules
-      .filter(m => m.coveragePercentage < 50)
-      .map(m => m.module);
+      .filter((m: any) => m.coveragePercentage < 50)
+      .map((m: any) => m.module);
     
     const recommendations = this.generateRecommendations();
     
@@ -365,7 +365,7 @@ export class TestCoverageAnalyzer {
 
     <div class="module-list">
         <h3>Module Coverage Details</h3>
-        ${modules.map(module => `
+        ${modules.map((module: any) => `
             <div class="module-item">
                 <div class="module-name">${module.module}</div>
                 <div class="module-stats">

@@ -262,8 +262,8 @@ export class PerformanceMonitor {
     }
 
     const uptime = Date.now() - this.startTime;
-    const memoryUsages = this.metrics.map(m => m.memory.percentage);
-    const cpuUsages = this.metrics.map(m => m.cpu.usage);
+    const memoryUsages = this.metrics.map((m: any) => m.memory.percentage);
+    const cpuUsages = this.metrics.map((m: any) => m.cpu.usage);
     const totalRequests = this.metrics.reduce((sum, m) => sum + m.network.requests, 0);
 
     return {

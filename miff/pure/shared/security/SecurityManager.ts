@@ -602,7 +602,7 @@ export class SecurityManager {
    */
   private checkAnomalies(events: SecurityEvent[]): void {
     // Check for unusual event types
-    const eventTypes = events.map(e => e.type);
+    const eventTypes = events.map((e: any) => e.type);
     const uniqueTypes = new Set(eventTypes);
     
     if (uniqueTypes.size > 5) {
@@ -663,9 +663,9 @@ export class SecurityManager {
       timestamp: new Date(),
       standard,
       status: findings.every(f => f.status === 'pass') ? 'compliant' : 'non_compliant',
-      score: (findings.filter(f => f.status === 'pass').length / findings.length) * 100,
+      score: (findings.filter((f: any) => f.status === 'pass').length / findings.length) * 100,
       findings,
-      recommendations: findings.filter(f => f.status !== 'pass').map(f => f.remediation),
+      recommendations: findings.filter((f: any) => f.status !== 'pass').map((f: any) => f.remediation),
       nextAuditDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
     };
     
@@ -733,13 +733,13 @@ export class SecurityManager {
     const cutoffDate = new Date(Date.now() - this.config.auditRetentionDays * 24 * 60 * 60 * 1000);
     
     // Clean up old events
-    this.events = this.events.filter(event => event.timestamp > cutoffDate);
+    this.events = this.events.filter((event: any) => event.timestamp > cutoffDate);
     
     // Clean up old audits
-    this.audits = this.audits.filter(audit => audit.timestamp > cutoffDate);
+    this.audits = this.audits.filter((audit: any) => audit.timestamp > cutoffDate);
     
     // Clean up old compliance reports
-    this.complianceReports = this.complianceReports.filter(report => report.timestamp > cutoffDate);
+    this.complianceReports = this.complianceReports.filter((report: any) => report.timestamp > cutoffDate);
   }
 
   /**
@@ -811,8 +811,8 @@ export class SecurityManager {
     const now = new Date();
     const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     
-    const recentEvents = this.events.filter(event => event.timestamp > last24Hours);
-    const recentAlerts = this.alerts.filter(alert => alert.timestamp > last24Hours);
+    const recentEvents = this.events.filter((event: any) => event.timestamp > last24Hours);
+    const recentAlerts = this.alerts.filter((alert: any) => alert.timestamp > last24Hours);
     
     const eventsByType = recentEvents.reduce((acc, event) => {
       acc[event.type] = (acc[event.type] || 0) + 1;
@@ -824,11 +824,11 @@ export class SecurityManager {
       return acc;
     }, {} as Record<SecurityLevel, number>);
     
-    const activeAlerts = this.alerts.filter(alert => !alert.acknowledged).length;
-    const resolvedAlerts = this.alerts.filter(alert => alert.acknowledged).length;
+    const activeAlerts = this.alerts.filter((alert: any) => !alert.acknowledged).length;
+    const resolvedAlerts = this.alerts.filter((alert: any) => alert.acknowledged).length;
     
     const vulnerabilitiesFound = this.vulnerabilities.length;
-    const vulnerabilitiesResolved = this.vulnerabilities.filter(v => v.status === 'resolved').length;
+    const vulnerabilitiesResolved = this.vulnerabilities.filter((v: any) => v.status === 'resolved').length;
     
     const complianceScore = this.complianceReports.length > 0 
       ? this.complianceReports[this.complianceReports.length - 1].score 
@@ -845,7 +845,7 @@ export class SecurityManager {
       vulnerabilitiesResolved,
       complianceScore,
       averageResponseTime: 0, // Would be calculated from actual data
-      blockedRequests: recentEvents.filter(e => e.type === ThreatType.DDOS).length,
+      blockedRequests: recentEvents.filter((e: any) => e.type === ThreatType.DDOS).length,
       allowedRequests: 0 // Would be calculated from actual data
     };
   }

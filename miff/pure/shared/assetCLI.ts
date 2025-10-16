@@ -107,10 +107,10 @@ class AssetCLI {
     
     if (stats.invalidAssets > 0) {
       console.info('\n❌ Invalid assets:');
-      const invalidResults = results.filter(r => !r.valid);
+      const invalidResults = results.filter((r: any) => !r.valid);
       for (const result of invalidResults.slice(0, 10)) { // Show first 10
         console.info(`  ${result.asset.path} (${result.asset.module})`);
-        result.errors.forEach(error => console.info(`    - ${error}`));
+        result.errors.forEach((error: any) => console.info(`    - ${error}`));
       }
       if (invalidResults.length > 10) {
         console.info(`  ... and ${invalidResults.length - 10} more`);
@@ -142,7 +142,7 @@ class AssetCLI {
       
       if (result.missingAssets.length > 0) {
         console.info(`  Missing assets: ${result.missingAssets.length}`);
-        result.missingAssets.slice(0, 5).forEach(asset => console.info(`    - ${asset}`));
+        result.missingAssets.slice(0, 5).forEach((asset: any) => console.info(`    - ${asset}`));
         if (result.missingAssets.length > 5) {
           console.info(`    ... and ${result.missingAssets.length - 5} more`);
         }
@@ -158,7 +158,7 @@ class AssetCLI {
       
       if (result.recommendations.length > 0) {
         console.info(`  Recommendations:`);
-        result.recommendations.forEach(rec => console.info(`    - ${rec}`));
+        result.recommendations.forEach((rec: any) => console.info(`    - ${rec}`));
       }
     }
     

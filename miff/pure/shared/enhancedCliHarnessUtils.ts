@@ -56,11 +56,11 @@ export function runCLI(cliPath: string, args: string[] = []): string {
     const originalError = console.error;
     
     console.log = (...args: any[]) => {
-      output += args.map(arg => typeof arg === 'string' ? arg : JSON.stringify(arg)).join(' ') + '\n';
+      output += args.map((arg: any) => typeof arg === 'string' ? arg : JSON.stringify(arg)).join(' ') + '\n';
     };
     
     console.error = (...args: any[]) => {
-      output += 'ERROR: ' + args.map(arg => typeof arg === 'string' ? arg : JSON.stringify(arg)).join(' ') + '\n';
+      output += 'ERROR: ' + args.map((arg: any) => typeof arg === 'string' ? arg : JSON.stringify(arg)).join(' ') + '\n';
     };
     
     try {

@@ -300,7 +300,7 @@ export class PerfProfiler {
    * Get results for a specific label
    */
   getResultsForLabel(label: string): PerfResult[] {
-    return this._results.filter(result => result.label === label);
+    return this._results.filter((result: any) => result.label === label);
   }
 
   /**
@@ -311,7 +311,7 @@ export class PerfProfiler {
       return { totalMeasurements: 0, averageMs: 0, minMs: 0, maxMs: 0, totalMs: 0 };
     }
 
-    const durations = this._results.map(r => r.durationMs);
+    const durations = this._results.map((r: any) => r.durationMs);
     const total = durations.reduce((sum, duration) => sum + duration, 0);
     const average = total / durations.length;
     const min = Math.min(...durations);

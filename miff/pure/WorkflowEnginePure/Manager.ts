@@ -1198,13 +1198,13 @@ export class WorkflowEnginePure {
 
     for (const manager of this.managers.values()) {
       totalWorkflows += manager.workflows.length;
-      activeWorkflows += manager.workflows.filter(w => w.status === 'active').length;
+      activeWorkflows += manager.workflows.filter((w: any) => w.status === 'active').length;
       totalTasks += manager.tasks.length;
-      activeTasks += manager.tasks.filter(t => t.status === 'in_progress').length;
+      activeTasks += manager.tasks.filter((t: any) => t.status === 'in_progress').length;
       totalExecutions += manager.executions.length;
-      runningExecutions += manager.executions.filter(e => e.status === 'running').length;
+      runningExecutions += manager.executions.filter((e: any) => e.status === 'running').length;
       totalSchedules += manager.schedules.length;
-      activeSchedules += manager.schedules.filter(s => s.status === 'active').length;
+      activeSchedules += manager.schedules.filter((s: any) => s.status === 'active').length;
       totalMonitors += manager.monitors.length;
     }
 

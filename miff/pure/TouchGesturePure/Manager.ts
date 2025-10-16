@@ -73,7 +73,7 @@ export class TouchGestureManager {
       }
 
       // Pinch detection for this segment
-      const multi = seg.filter(e => e.points.length >= 2);
+      const multi = seg.filter((e: any) => e.points.length >= 2);
       if (multi.length >= 2) {
         const first = multi[0];
         const last = multi[multi.length - 1];

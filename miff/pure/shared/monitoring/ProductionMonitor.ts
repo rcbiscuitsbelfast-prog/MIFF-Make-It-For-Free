@@ -272,8 +272,8 @@ export class ProductionMonitor {
         uptime: Date.now() - this.startTime.getTime(),
         lastUpdated: new Date(),
         totalAlerts: this.alerts.length,
-        activeAlerts: this.alerts.filter(a => !a.resolved).length,
-        resolvedAlerts: this.alerts.filter(a => a.resolved).length
+        activeAlerts: this.alerts.filter((a: any) => !a.resolved).length,
+        resolvedAlerts: this.alerts.filter((a: any) => a.resolved).length
       },
       metrics: {
         current: currentMetrics,
@@ -590,9 +590,9 @@ export class ProductionMonitor {
   }
 
   private determineOverallStatus(): DashboardData['overview']['status'] {
-    const activeAlerts = this.alerts.filter(a => !a.resolved);
-    const criticalAlerts = activeAlerts.filter(a => a.severity === 'critical');
-    const errorAlerts = activeAlerts.filter(a => a.type === 'error');
+    const activeAlerts = this.alerts.filter((a: any) => !a.resolved);
+    const criticalAlerts = activeAlerts.filter((a: any) => a.severity === 'critical');
+    const errorAlerts = activeAlerts.filter((a: any) => a.type === 'error');
 
     if (criticalAlerts.length > 0) {
       return 'critical';
@@ -605,17 +605,17 @@ export class ProductionMonitor {
   }
 
   private getActiveAlerts(): Alert[] {
-    return this.alerts.filter(a => !a.resolved).slice(-10); // Last 10 active alerts
+    return this.alerts.filter((a: any) => !a.resolved).slice(-10); // Last 10 active alerts
   }
 
   private calculateTrends(): DashboardData['metrics']['trends'] {
     const recentMetrics = this.metrics.slice(-100); // Last 100 metrics
 
     return {
-      cpu: recentMetrics.map(m => ({ timestamp: m.timestamp, value: m.system.cpu.usage })),
-      memory: recentMetrics.map(m => ({ timestamp: m.timestamp, value: m.system.memory.usage })),
-      responseTime: recentMetrics.map(m => ({ timestamp: m.timestamp, value: m.application.responseTime })),
-      errorRate: recentMetrics.map(m => ({ timestamp: m.timestamp, value: m.application.errorRate }))
+      cpu: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.system.cpu.usage })),
+      memory: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.system.memory.usage })),
+      responseTime: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.application.responseTime })),
+      errorRate: recentMetrics.map((m: any) => ({ timestamp: m.timestamp, value: m.application.errorRate }))
     };
   }
 

@@ -386,8 +386,8 @@ export class AudioManager {
   private getStats(): any {
     return {
       totalStates: this.audioStates.size,
-      playingStates: Array.from(this.audioStates.values()).filter(s => s.playing).length,
-      pausedStates: Array.from(this.audioStates.values()).filter(s => s.paused).length,
+      playingStates: Array.from(this.audioStates.values()).filter((s: any) => s.playing).length,
+      pausedStates: Array.from(this.audioStates.values()).filter((s: any) => s.paused).length,
       currentTime: this.currentTime,
       features: {
         spatialAudio: true,

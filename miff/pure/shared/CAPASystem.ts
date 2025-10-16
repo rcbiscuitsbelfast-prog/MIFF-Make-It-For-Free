@@ -273,7 +273,7 @@ export class CAPAManager {
     let entries = Array.from(this.registry.entries.values());
 
     if (filter) {
-      entries = entries.filter(entry => {
+      entries = entries.filter((entry: any) => {
         if (filter.category && entry.category !== filter.category) return false;
         if (filter.severity && entry.severity !== filter.severity) return false;
         if (filter.status && entry.status !== filter.status) return false;
@@ -317,7 +317,7 @@ export class CAPAManager {
    */
   generateImpactStatement(): string {
     const relatedEntries = this.getEntries({ module });
-    const openEntries = relatedEntries.filter(e => e.status === CAPAStatus.OPEN);
+    const openEntries = relatedEntries.filter((e: any) => e.status === CAPAStatus.OPEN);
 
     if (openEntries.length === 0) {
       return 'No open CAPA entries for this module.';
@@ -381,13 +381,13 @@ export class CAPAManager {
     const entries = Array.from(this.registry.entries.values());
     
     this.registry.metrics.totalEntries = entries.length;
-    this.registry.metrics.openEntries = entries.filter(e => e.status === CAPAStatus.OPEN).length;
-    this.registry.metrics.resolvedEntries = entries.filter(e => e.status === CAPAStatus.RESOLVED).length;
+    this.registry.metrics.openEntries = entries.filter((e: any) => e.status === CAPAStatus.OPEN).length;
+    this.registry.metrics.resolvedEntries = entries.filter((e: any) => e.status === CAPAStatus.RESOLVED).length;
     
-    const criticalOpen = entries.filter(e => e.severity === CAPASeverity.CRITICAL && e.status === CAPAStatus.OPEN).length;
-    const highOpen = entries.filter(e => e.severity === CAPASeverity.HIGH && e.status === CAPAStatus.OPEN).length;
-    const mediumOpen = entries.filter(e => e.severity === CAPASeverity.MEDIUM && e.status === CAPAStatus.OPEN).length;
-    const lowOpen = entries.filter(e => e.severity === CAPASeverity.LOW && e.status === CAPAStatus.OPEN).length;
+    const criticalOpen = entries.filter((e: any) => e.severity === CAPASeverity.CRITICAL && e.status === CAPAStatus.OPEN).length;
+    const highOpen = entries.filter((e: any) => e.severity === CAPASeverity.HIGH && e.status === CAPAStatus.OPEN).length;
+    const mediumOpen = entries.filter((e: any) => e.severity === CAPASeverity.MEDIUM && e.status === CAPAStatus.OPEN).length;
+    const lowOpen = entries.filter((e: any) => e.severity === CAPASeverity.LOW && e.status === CAPAStatus.OPEN).length;
     
     this.registry.metrics.criticalOpen = criticalOpen;
     this.registry.metrics.highOpen = highOpen;
@@ -395,7 +395,7 @@ export class CAPAManager {
     this.registry.metrics.lowOpen = lowOpen;
 
     // Calculate average resolution time
-    const resolvedEntries = entries.filter(e => e.resolvedAt);
+    const resolvedEntries = entries.filter((e: any) => e.resolvedAt);
     if (resolvedEntries.length > 0) {
       const totalTime = resolvedEntries.reduce((sum, entry) => {
         const resolutionTime = entry.resolvedAt?.getTime() - entry.discoveredAt.getTime();
@@ -405,7 +405,7 @@ export class CAPAManager {
     }
 
     // Calculate prevention coverage
-    const entriesWithPrevention = entries.filter(e => e.preventiveActions.length > 0);
+    const entriesWithPrevention = entries.filter((e: any) => e.preventiveActions.length > 0);
     this.registry.metrics.preventionCoverage = entries.length > 0 ? (entriesWithPrevention.length / entries.length) * 100 : 0;
   }
 }

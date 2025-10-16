@@ -381,7 +381,7 @@ export class RealCanvas {
    * Get visible canvases
    */
   getVisibleCanvases(): CanvasInfo[] {
-    return Array.from(this.canvases.values()).filter(canvas => canvas.isVisible);
+    return Array.from(this.canvases.values()).filter((canvas: any) => canvas.isVisible);
   }
 
   /**
@@ -441,7 +441,7 @@ export class RealCanvas {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {
@@ -464,7 +464,7 @@ export class RealCanvas {
   } {
     const activeCanvas = this.getActiveCanvas();
     const visibleCanvases = this.getVisibleCanvases();
-    const activeAnimations = Array.from(this.animations.values()).filter(a => a.isActive).length;
+    const activeAnimations = Array.from(this.animations.values()).filter((a: any) => a.isActive).length;
     
     return {
       isInitialized: this.isInitialized,

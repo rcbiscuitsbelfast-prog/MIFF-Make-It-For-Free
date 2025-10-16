@@ -1305,15 +1305,15 @@ export class GameLogicPure {
 
     for (const manager of this.managers.values()) {
       totalGameStates += manager.gameStates.length;
-      activeGameStates += manager.gameStates.filter(gs => gs.status === 'active').length;
+      activeGameStates += manager.gameStates.filter((gs: any) => gs.status === 'active').length;
       totalPlayers += manager.players.length;
-      onlinePlayers += manager.players.filter(p => p.status === 'online').length;
+      onlinePlayers += manager.players.filter((p: any) => p.status === 'online').length;
       totalMechanics += manager.mechanics.length;
-      activeMechanics += manager.mechanics.filter(m => m.status === 'active').length;
+      activeMechanics += manager.mechanics.filter((m: any) => m.status === 'active').length;
       totalRules += manager.rules.length;
-      activeRules += manager.rules.filter(r => r.status === 'active').length;
+      activeRules += manager.rules.filter((r: any) => r.status === 'active').length;
       totalEvents += manager.events.length;
-      processedEvents += manager.events.filter(e => e.status === 'completed').length;
+      processedEvents += manager.events.filter((e: any) => e.status === 'completed').length;
     }
 
     this.performanceMetrics.totalGameStates = totalGameStates;

@@ -253,7 +253,7 @@ function main() {
           { id: 'ui_click', name: 'UI Click', category: 'ui', volume: 0.6, loop: false, spatial: false }
         ];
 
-        sounds.forEach(sound => {
+        sounds.forEach((sound: any) => {
           demoAudio.registerSound(sound as SoundDefinition);
         });
 
@@ -297,11 +297,11 @@ function main() {
             events: events,
             summary: {
               totalEvents: events.length,
-              eventTypes: [...new Set(events.map(e => e.type))],
+              eventTypes: [...new Set(events.map((e: any) => e.type))],
               soundsPlayed: playResults.length,
               soundsStopped: 1,
-              spatialSounds: sounds.filter(s => s.spatial).length,
-              ambientSounds: sounds.filter(s => s.category === 'ambient').length
+              spatialSounds: sounds.filter((s: any) => s.spatial).length,
+              ambientSounds: sounds.filter((s: any) => s.category === 'ambient').length
             }
           }
         };

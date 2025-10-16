@@ -238,7 +238,7 @@ export class CacheManager {
    */
   getEntriesByPattern(pattern: string): CacheEntry[] {
     const regex = new RegExp(pattern);
-    return Array.from(this.cache.values()).filter(entry => regex.test(entry.key));
+    return Array.from(this.cache.values()).filter((entry: any) => regex.test(entry.key));
   }
 
   /**
@@ -275,7 +275,7 @@ export class CacheManager {
     const entries = Array.from(this.cache.values());
 
     // Sort by priority for cleanup (oldest, least accessed first)
-    const sortedEntries = entries.sort((a, b) => {
+    const sortedEntries = entries.sort((a: any, b: any) => {
       const aScore = this.calculateCleanupScore(a, now);
       const bScore = this.calculateCleanupScore(b, now);
       return aScore - bScore;
@@ -312,7 +312,7 @@ export class CacheManager {
   private calculateEfficiency(entries: CacheEntry[], now: number): number {
     if (entries.length === 0) return 100;
 
-    const activeEntries = entries.filter(entry =>
+    const activeEntries = entries.filter((entry: any) =>
       (now - entry.timestamp) <= entry.ttl && entry.accessCount > 0
     );
 

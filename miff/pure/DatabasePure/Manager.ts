@@ -951,13 +951,13 @@ export class DatabasePure {
 
     for (const manager of this.managers.values()) {
       totalConnections += manager.connections.length;
-      activeConnections += manager.connections.filter(c => c.status === 'connected').length;
+      activeConnections += manager.connections.filter((c: any) => c.status === 'connected').length;
       totalSchemas += manager.schemas.length;
       totalTables += manager.tables.length;
       totalQueries += manager.queries.length;
-      activeQueries += manager.queries.filter(q => q.status === 'running').length;
+      activeQueries += manager.queries.filter((q: any) => q.status === 'running').length;
       totalTransactions += manager.transactions.length;
-      activeTransactions += manager.transactions.filter(t => t.status === 'active').length;
+      activeTransactions += manager.transactions.filter((t: any) => t.status === 'active').length;
     }
 
     this.performanceMetrics.totalConnections = totalConnections;

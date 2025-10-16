@@ -133,7 +133,7 @@ export class BridgeSchemaValidator {
       } else {
         data.children.forEach((child, index) => {
           const childIssues = this.validateRenderData(child);
-          childIssues.forEach(issue => issues.push(`Child ${index}: ${issue}`));
+          childIssues.forEach((issue: any) => issues.push(`Child ${index}: ${issue}`));
         });
       }
     }
@@ -183,7 +183,7 @@ export class BridgeSchemaValidator {
     if (payload.renderData) {
       payload.renderData.forEach((data, index) => {
         const dataIssues = this.validateRenderData(data);
-        dataIssues.forEach(issue => issues.push(`RenderData ${index}: ${issue}`));
+        dataIssues.forEach((issue: any) => issues.push(`RenderData ${index}: ${issue}`));
       });
     }
 
@@ -317,8 +317,8 @@ export class BridgeSchemaValidator {
       componentType: this.mapToUnityComponent(renderData.type),
       prefab: renderData.asset,
       components: renderData.props,
-      children: renderData.children?.map(child => this.convertToUnity(child)),
-      signals: renderData.signals?.filter(s => s.engine === 'unity').map(signal => ({
+      children: renderData.children?.map((child: any) => this.convertToUnity(child)),
+      signals: renderData.signals?.filter((s: any) => s.engine === 'unity').map((signal: any) => ({
         name: signal.name,
         parameters: signal.parameters,
         connectedTo: signal.connectedTo
@@ -337,8 +337,8 @@ export class BridgeSchemaValidator {
       height: renderData.scale?.y,
       texture: renderData.asset,
       properties: renderData.props,
-      children: renderData.children?.map(child => this.convertToWeb(child)),
-      events: renderData.signals?.filter(s => s.engine === 'web').map(signal => ({
+      children: renderData.children?.map((child: any) => this.convertToWeb(child)),
+      events: renderData.signals?.filter((s: any) => s.engine === 'web').map((signal: any) => ({
         name: signal.name,
         parameters: signal.parameters,
         handlers: signal.connectedTo
@@ -356,8 +356,8 @@ export class BridgeSchemaValidator {
       rotation: renderData.rotation?.z,
       texture: renderData.asset,
       properties: renderData.props,
-      children: renderData.children?.map(child => this.convertToGodot(child)),
-      signals: renderData.signals?.filter(s => s.engine === 'godot').map(signal => ({
+      children: renderData.children?.map((child: any) => this.convertToGodot(child)),
+      signals: renderData.signals?.filter((s: any) => s.engine === 'godot').map((signal: any) => ({
         name: signal.name,
         parameters: signal.parameters,
         connectedTo: signal.connectedTo

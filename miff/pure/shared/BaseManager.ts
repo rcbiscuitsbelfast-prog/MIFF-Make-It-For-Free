@@ -436,7 +436,7 @@ export abstract class BaseManager extends EventEmitter {
   private updateMetrics(): void {
     const now = Date.now();
     const recentOperations = Array.from(this.operations.values())
-      .filter(op => op.endTime && (now - op.endTime.getTime()) < 60000); // Last minute
+      .filter((op: any) => op.endTime && (now - op.endTime.getTime()) < 60000); // Last minute
 
     if (recentOperations.length > 0) {
       this.metrics.operationsPerSecond = recentOperations.length / 60;
@@ -446,7 +446,7 @@ export abstract class BaseManager extends EventEmitter {
       }, 0);
       this.metrics.averageResponseTime = totalResponseTime / recentOperations.length;
       
-      const failedOperations = recentOperations.filter(op => !op.success);
+      const failedOperations = recentOperations.filter((op: any) => !op.success);
       this.metrics.errorRate = failedOperations.length / recentOperations.length;
     }
 

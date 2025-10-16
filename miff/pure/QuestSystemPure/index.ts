@@ -111,7 +111,7 @@ export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResu
           // Check if trigger conditions are met
           if (checkTriggerConditions(step, event.triggerData, newState)) {
             step.completed = true;
-            step.triggers.forEach(t => t.completed = true);
+            step.triggers.forEach((t: any) => t.completed = true);
             
             // Move to next step or complete quest
             if (step.next) {
@@ -216,7 +216,7 @@ export function createQuest(
   timed?: { seconds: number }
 ): Quest {
   const stepMap: Record<string, QuestStep> = {};
-  steps.forEach(step => {
+  steps.forEach((step: any) => {
     stepMap[step.id] = {
       ...step,
       completed: false,
@@ -230,7 +230,7 @@ export function createQuest(
     description,
     steps: stepMap,
     start,
-    rewards: rewards.map(r => ({ ...r, granted: false })),
+    rewards: rewards.map((r: any) => ({ ...r, granted: false })),
     status: 'available',
     currentStep: start,
     progress: 0,
@@ -308,7 +308,7 @@ function determineNextStep(branch: QuestStep['next'], state: QuestState): string
 
 function updateQuestProgress(quest: Quest): void {
   const totalSteps = Object.keys(quest.steps).length;
-  const completedSteps = Object.values(quest.steps).filter(s => s.completed).length;
+  const completedSteps = Object.values(quest.steps).filter((s: any) => s.completed).length;
   quest.progress = Math.round((completedSteps / totalSteps) * 100);
 }
 
@@ -326,7 +326,7 @@ function completeQuest(
   quest.progress = 100;
   
   // Grant rewards
-  quest.rewards.forEach(reward => {
+  quest.rewards.forEach((reward: any) => {
     if (!reward.granted) {
       reward.granted = true;
       rewardsGranted.push(reward);
@@ -370,10 +370,10 @@ function resetQuest(quest: Quest): void {
   quest.status = 'available';
   quest.progress = 0;
   quest.currentStep = quest.start;
-  quest.rewards.forEach(r => r.granted = false);
-  Object.values(quest.steps).forEach(step => {
+  quest.rewards.forEach((r: any) => r.granted = false);
+  Object.values(quest.steps).forEach((step: any) => {
     step.completed = false;
-    step.triggers.forEach(t => t.completed = false);
+    step.triggers.forEach((t: any) => t.completed = false);
   });
   if (quest.timed) {
     quest.timed.startTime = undefined;

@@ -474,7 +474,7 @@ export class RealBrowserAPIs {
       data: eventData
     };
 
-    handlers.forEach(handler => {
+    handlers.forEach((handler: any) => {
       try {
         handler(eventInfo);
       } catch (error: unknown) {
@@ -507,7 +507,7 @@ export class RealBrowserAPIs {
     }
 
     // Remove all children
-    element.children.forEach(child => {
+    element.children.forEach((child: any) => {
       this.removeElement(child.id);
     });
 
@@ -539,7 +539,7 @@ export class RealBrowserAPIs {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {

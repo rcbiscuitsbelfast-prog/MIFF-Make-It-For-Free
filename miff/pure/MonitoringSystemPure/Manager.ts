@@ -1480,15 +1480,15 @@ export class MonitoringSystemPure {
 
     for (const manager of this.managers.values()) {
       totalMetrics += manager.metrics.length;
-      activeMetrics += manager.metrics.filter(m => m.status === 'active').length;
+      activeMetrics += manager.metrics.filter((m: any) => m.status === 'active').length;
       totalAlerts += manager.alerts.length;
-      firingAlerts += manager.alerts.filter(a => a.status === 'firing').length;
+      firingAlerts += manager.alerts.filter((a: any) => a.status === 'firing').length;
       totalDashboards += manager.dashboards.length;
       totalReports += manager.reports.length;
       totalAgents += manager.agents.length;
-      onlineAgents += manager.agents.filter(a => a.status === 'online').length;
+      onlineAgents += manager.agents.filter((a: any) => a.status === 'online').length;
       totalCollectors += manager.collectors.length;
-      activeCollectors += manager.collectors.filter(c => c.status === 'active').length;
+      activeCollectors += manager.collectors.filter((c: any) => c.status === 'active').length;
     }
 
     this.performanceMetrics.totalMetrics = totalMetrics;

@@ -87,7 +87,7 @@ class MutationCLI {
 
     if (stats.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
-      stats.recommendations.forEach(rec => console.info(`  - ${rec}`));
+      stats.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
 
     console.info(`\n📄 Detailed report saved to ${outputFile}`);

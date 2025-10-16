@@ -879,7 +879,7 @@ export class RealPlatformBridge {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {

@@ -1058,7 +1058,7 @@ export class ResourceManagerPure {
 
     for (const manager of this.managers.values()) {
       totalResources += manager.resources.length;
-      loadedResources += manager.resources.filter(r => r.status === 'loaded').length;
+      loadedResources += manager.resources.filter((r: any) => r.status === 'loaded').length;
       totalPools += manager.pools.length;
       totalCaches += manager.caches.length;
       totalStreams += manager.streams.length;

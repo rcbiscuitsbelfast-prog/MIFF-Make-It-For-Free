@@ -405,7 +405,7 @@ export class TestHarness {
   }
 
   private notifyObservers(event: string, data: any): void {
-    this.observers.forEach(observer => {
+    this.observers.forEach((observer: any) => {
       try {
         switch (event) {
           case 'testRunStarted':
@@ -456,10 +456,10 @@ export class TestHarness {
   generateReport(): TestReport {
     const summary = {
       total: this.results.length,
-      passed: this.results.filter(r => r.status === 'passed').length,
-      failed: this.results.filter(r => r.status === 'failed').length,
-      skipped: this.results.filter(r => r.status === 'skipped').length,
-      timeout: this.results.filter(r => r.status === 'timeout').length,
+      passed: this.results.filter((r: any) => r.status === 'passed').length,
+      failed: this.results.filter((r: any) => r.status === 'failed').length,
+      skipped: this.results.filter((r: any) => r.status === 'skipped').length,
+      timeout: this.results.filter((r: any) => r.status === 'timeout').length,
       duration: this.results.reduce((sum, r) => sum + r.duration, 0)
     };
 
@@ -474,16 +474,16 @@ export class TestHarness {
     }>();
 
     for (const suite of this.suites.values()) {
-      const suiteResults = this.results.filter(r => 
+      const suiteResults = this.results.filter((r: any) => 
         suite.tests.some(t => t.id === r.testId)
       );
 
       suites.set(suite.id, {
         name: suite.name,
         total: suiteResults.length,
-        passed: suiteResults.filter(r => r.status === 'passed').length,
-        failed: suiteResults.filter(r => r.status === 'failed').length,
-        skipped: suiteResults.filter(r => r.status === 'skipped').length,
+        passed: suiteResults.filter((r: any) => r.status === 'passed').length,
+        failed: suiteResults.filter((r: any) => r.status === 'failed').length,
+        skipped: suiteResults.filter((r: any) => r.status === 'skipped').length,
         duration: suiteResults.reduce((sum, r) => sum + r.duration, 0)
       });
     }
@@ -500,12 +500,12 @@ export class TestHarness {
     }
 
     const slowTests = this.results
-      .filter(r => r.duration > 1000)
-      .sort((a, b) => b.duration - a.duration)
+      .filter((r: any) => r.duration > 1000)
+      .sort((a: any, b: any) => b.duration - a.duration)
       .slice(0, 5);
     
     if (slowTests.length > 0) {
-      recommendations.push(`Slow tests detected: ${slowTests.map(t => t.name).join(', ')}`);
+      recommendations.push(`Slow tests detected: ${slowTests.map((t: any) => t.name).join(', ')}`);
     }
 
     return {
@@ -543,7 +543,7 @@ export class TestHarness {
       const suite = this.suites.get(suiteId);
       xml += `  <testsuite name="${suite?.name || suiteId}" tests="${suiteStats.total}" failures="${suiteStats.failed}" time="${(suiteStats.duration / 1000).toFixed(3)}">\n`;
       
-      const suiteResults = this.results.filter(r => 
+      const suiteResults = this.results.filter((r: any) => 
         suite?.tests.some(t => t.id === r.testId)
       );
       
@@ -580,7 +580,7 @@ export class TestHarness {
     
     if (report.recommendations.length > 0) {
       output += `\nRecommendations:\n`;
-      report.recommendations.forEach(rec => {
+      report.recommendations.forEach((rec: any) => {
         output += `  - ${rec}\n`;
       });
     }

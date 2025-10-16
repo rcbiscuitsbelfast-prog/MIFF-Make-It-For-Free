@@ -177,7 +177,7 @@ export class AudioSystem {
       console.log(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
     }
 
-    this.callbacks.forEach(callback => {
+    this.callbacks.forEach((callback: any) => {
       try {
         callback(event);
       } catch (error: unknown) {
@@ -686,7 +686,7 @@ export class AudioSystem {
     
     if (activeSounds.length > 0) {
       report += `Active Sound Instances:\n`;
-      activeSounds.forEach(sound => {
+      activeSounds.forEach((sound: any) => {
         report += `  - ${sound.soundId} (${sound.instanceId})\n`;
         report += `    Volume: ${sound.volume.toFixed(2)}, Pitch: ${sound.pitch.toFixed(2)}\n`;
         if (sound.spatial) {

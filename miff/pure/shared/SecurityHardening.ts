@@ -620,7 +620,7 @@ export class SecurityHardening {
    */
   getSecurityEvents(limit: number = 100): SecurityEvent[] {
     return this.securityEvents
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      .sort((a: any, b: any) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit);
   }
 

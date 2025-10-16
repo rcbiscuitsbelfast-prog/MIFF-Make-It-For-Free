@@ -17,7 +17,7 @@ export class AIControllerManager implements IAIControllerManager {
       AIDecisionProfile.defensive('defensive'),
       AIDecisionProfile.trickster('trickster')
     ];
-    profiles.forEach(p => this.profiles.set(p.profileID, p));
+    profiles.forEach((p: any) => this.profiles.set(p.profileID, p));
     return profiles;
   }
 
@@ -80,11 +80,11 @@ export class AIControllerManager implements IAIControllerManager {
   }
 
   getProfilesByStyle(style: AIDecisionStyle): IAIDecisionProfile[] {
-    return this.getAllProfiles().filter(p => p.style === style);
+    return this.getAllProfiles().filter((p: any) => p.style === style);
   }
 
   getProfilesWithTypePreferences(): IAIDecisionProfile[] {
-    return this.getAllProfiles().filter(p => p.preferredTypes && p.preferredTypes.length > 0);
+    return this.getAllProfiles().filter((p: any) => p.preferredTypes && p.preferredTypes.length > 0);
   }
 }
 

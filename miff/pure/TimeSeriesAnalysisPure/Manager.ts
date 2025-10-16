@@ -859,8 +859,8 @@ export class TimeSeriesAnalysisPure {
     }
 
     timeSeries.dataPoints.push(...dataPoints);
-    timeSeries.dataPoints.sort((a, b) => a.timestamp - b.timestamp);
-    timeSeries.endTime = Math.max(timeSeries.endTime, ...dataPoints.map(dp => dp.timestamp));
+    timeSeries.dataPoints.sort((a: any, b: any) => a.timestamp - b.timestamp);
+    timeSeries.endTime = Math.max(timeSeries.endTime, ...dataPoints.map((dp: any) => dp.timestamp));
     
     manager.updatedAt = Date.now();
     this.performanceMetrics.totalDataPoints += dataPoints.length;
@@ -994,7 +994,7 @@ export class TimeSeriesAnalysisPure {
    * Calculate statistics
    */
   private calculateStatistics(dataPoints: DataPoint[]): StatisticalResults {
-    const values = dataPoints.map(dp => dp.value);
+    const values = dataPoints.map((dp: any) => dp.value);
     const n = values.length;
     
     if (n === 0) {
@@ -1005,7 +1005,7 @@ export class TimeSeriesAnalysisPure {
     }
 
     const mean = values.reduce((sum, val) => sum + val, 0) / n;
-    const sortedValues = [...values].sort((a, b) => a - b);
+    const sortedValues = [...values].sort((a: any, b: any) => a - b);
     const median = n % 2 === 0 
       ? (sortedValues[n/2 - 1] + sortedValues[n/2]) / 2 
       : sortedValues[Math.floor(n/2)];
@@ -1036,7 +1036,7 @@ export class TimeSeriesAnalysisPure {
    */
   private calculateMode(values: number[]): number {
     const frequency: Record<number, number> = {};
-    values.forEach(val => {
+    values.forEach((val: any) => {
       frequency[val] = (frequency[val] || 0) + 1;
     });
     
@@ -1076,7 +1076,7 @@ export class TimeSeriesAnalysisPure {
    * Detect patterns
    */
   private detectPatterns(dataPoints: DataPoint[]): PatternResults {
-    const values = dataPoints.map(dp => dp.value);
+    const values = dataPoints.map((dp: any) => dp.value);
     
     return {
       trend: this.detectTrend(values),
@@ -1144,7 +1144,7 @@ export class TimeSeriesAnalysisPure {
    * Detect anomalies
    */
   private detectAnomalies(dataPoints: DataPoint[]): AnomalyPattern[] {
-    const values = dataPoints.map(dp => dp.value);
+    const values = dataPoints.map((dp: any) => dp.value);
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const stdDev = Math.sqrt(values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length);
     
@@ -1172,7 +1172,7 @@ export class TimeSeriesAnalysisPure {
    * Generate forecast
    */
   private generateForecast(dataPoints: DataPoint[], method: ForecastMethod, horizon: number): ForecastPoint[] {
-    const values = dataPoints.map(dp => dp.value);
+    const values = dataPoints.map((dp: any) => dp.value);
     const lastValue = values[values.length - 1] || 0;
     const predictions: ForecastPoint[] = [];
 
@@ -1230,7 +1230,7 @@ export class TimeSeriesAnalysisPure {
       totalTimeSeries += manager.timeSeries.length;
       totalDataPoints += manager.timeSeries.reduce((sum, ts) => sum + ts.dataPoints.length, 0);
       totalAnalyses += manager.analyses.length;
-      completedAnalyses += manager.analyses.filter(a => a.status === 'completed').length;
+      completedAnalyses += manager.analyses.filter((a: any) => a.status === 'completed').length;
       totalForecasts += manager.forecasts.length;
       totalAnomalies += manager.anomalies.length;
     }

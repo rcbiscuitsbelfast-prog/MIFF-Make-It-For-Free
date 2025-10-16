@@ -71,10 +71,10 @@ class FidelityCLI {
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary by priority
-    const critical = mocks.filter(m => m.priority === 'critical');
-    const high = mocks.filter(m => m.priority === 'high');
-    const medium = mocks.filter(m => m.priority === 'medium');
-    const low = mocks.filter(m => m.priority === 'low');
+    const critical = mocks.filter((m: any) => m.priority === 'critical');
+    const high = mocks.filter((m: any) => m.priority === 'high');
+    const medium = mocks.filter((m: any) => m.priority === 'medium');
+    const low = mocks.filter((m: any) => m.priority === 'low');
 
     console.info('\n📊 Mock Implementations by Priority:');
     console.info(`Critical: ${critical.length}`);
@@ -96,7 +96,7 @@ class FidelityCLI {
 
     if (critical.length > 0) {
       console.info('\n🚨 Critical Mock Implementations:');
-      critical.forEach(mock => {
+      critical.forEach((mock: any) => {
         console.info(`  ${mock.module}: ${mock.description} (${mock.filePath}:${mock.lineNumber})`);
       });
     }
@@ -167,7 +167,7 @@ class FidelityCLI {
     
     const criticalMocks = this.manager.getMocksByPriority('critical');
     const highMocks = this.manager.getMocksByPriority('high');
-    const moduleMocks = [...criticalMocks, ...highMocks].filter(m => m.module === moduleName);
+    const moduleMocks = [...criticalMocks, ...highMocks].filter((m: any) => m.module === moduleName);
     
     if (moduleMocks.length === 0) {
       console.info(`✅ No critical or high-priority mocks found for module: ${moduleName}`);
@@ -176,8 +176,8 @@ class FidelityCLI {
 
     console.info(`\n📊 ${moduleName} Runtime Fidelity Analysis:`);
     console.info(`Total mocks: ${moduleMocks.length}`);
-    console.info(`Critical: ${moduleMocks.filter(m => m.priority === 'critical').length}`);
-    console.info(`High: ${moduleMocks.filter(m => m.priority === 'high').length}`);
+    console.info(`Critical: ${moduleMocks.filter((m: any) => m.priority === 'critical').length}`);
+    console.info(`High: ${moduleMocks.filter((m: any) => m.priority === 'high').length}`);
 
     // Show mock details
     console.info('\n📋 Mock Implementations:');

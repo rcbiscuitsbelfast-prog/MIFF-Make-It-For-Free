@@ -224,7 +224,7 @@ export class TestInfrastructureManager {
     console.info('🔄 Replacing critical mocks...');
     
     const criticalReplacements = Array.from(this.mockReplacements.values())
-      .filter(r => r.priority === 'critical' && r.status === 'pending');
+      .filter((r: any) => r.priority === 'critical' && r.status === 'pending');
     
     for (const replacement of criticalReplacements) {
       try {
@@ -270,7 +270,7 @@ export class TestInfrastructureManager {
     }
 
     // Mock replacements
-    const pendingReplacements = replacements.filter(r => r.status === 'pending');
+    const pendingReplacements = replacements.filter((r: any) => r.status === 'pending');
     if (pendingReplacements.length > 0) {
       report += `## Pending Mock Replacements (${pendingReplacements.length})\n`;
       for (const replacement of pendingReplacements) {
@@ -283,7 +283,7 @@ export class TestInfrastructureManager {
     }
 
     // Coverage analysis
-    const lowCoverage = coverage.filter(c => c.coveragePercentage < 70);
+    const lowCoverage = coverage.filter((c: any) => c.coveragePercentage < 70);
     if (lowCoverage.length > 0) {
       report += `## Low Coverage Modules (${lowCoverage.length})\n`;
       for (const module of lowCoverage) {
@@ -293,7 +293,7 @@ export class TestInfrastructureManager {
     }
 
     // Quality analysis
-    const lowQuality = quality.filter(q => q.mutationScore < 70);
+    const lowQuality = quality.filter((q: any) => q.mutationScore < 70);
     if (lowQuality.length > 0) {
       report += `## Low Quality Modules (${lowQuality.length})\n`;
       for (const module of lowQuality) {
@@ -375,12 +375,12 @@ export class TestInfrastructureManager {
     const quality = Array.from(this.testQuality.values());
     
     this.stats.totalModules = modules.length;
-    this.stats.modulesWithTests = modules.filter(m => m.testFiles.length > 0).length;
-    this.stats.modulesWithMocks = modules.filter(m => m.mockFiles.length > 0).length;
+    this.stats.modulesWithTests = modules.filter((m: any) => m.testFiles.length > 0).length;
+    this.stats.modulesWithMocks = modules.filter((m: any) => m.mockFiles.length > 0).length;
     this.stats.totalTestFiles = modules.reduce((sum, m) => sum + m.testFiles.length, 0);
     this.stats.totalMockFiles = modules.reduce((sum, m) => sum + m.mockFiles.length, 0);
-    this.stats.criticalMocks = replacements.filter(r => r.priority === 'critical').length;
-    this.stats.completedReplacements = replacements.filter(r => r.status === 'completed').length;
+    this.stats.criticalMocks = replacements.filter((r: any) => r.priority === 'critical').length;
+    this.stats.completedReplacements = replacements.filter((r: any) => r.status === 'completed').length;
     
     if (coverage.length > 0) {
       this.stats.averageCoverage = coverage.reduce((sum, c) => sum + c.coveragePercentage, 0) / coverage.length;

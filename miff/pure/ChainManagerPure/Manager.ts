@@ -122,7 +122,7 @@ export class ChainManager {
     if (completed && !progress.completedQuests.includes(questId)) {
       progress.completedQuests.push(questId);
     } else if (!completed && progress.completedQuests.includes(questId)) {
-      progress.completedQuests = progress.completedQuests.filter(id => id !== questId);
+      progress.completedQuests = progress.completedQuests.filter((id: any) => id !== questId);
     }
 
     // Update progress percentage
@@ -140,7 +140,7 @@ export class ChainManager {
     }
 
     // Set current quest
-    const remainingQuests = chain.quests.filter(q => !progress.completedQuests.includes(q));
+    const remainingQuests = chain.quests.filter((q: any) => !progress.completedQuests.includes(q));
     progress.currentQuest = remainingQuests[0];
 
     return { ...progress };
@@ -160,7 +160,7 @@ export class ChainManager {
   }
 
   getAvailableChains(): QuestChain[] {
-    return this.getAllChains().filter(chain => {
+    return this.getAllChains().filter((chain: any) => {
       const progress = this.progress.get(chain.id);
       return progress?.status === 'available' || progress?.status === 'active';
     });
@@ -168,7 +168,7 @@ export class ChainManager {
 
   getChainsByQuest(questId: string): QuestChain[] {
     const chainIds = this.questDependencies.get(questId) || [];
-    return chainIds.map(id => this.chains.get(id)).filter(Boolean) as QuestChain[];
+    return chainIds.map((id: any) => this.chains.get(id)).filter(Boolean) as QuestChain[];
   }
 
   // Validation and Export
@@ -292,9 +292,9 @@ exportedAt: ${data.exportedAt}`;
   } {
     const chains = Array.from(this.progress.values());
     const totalChains = chains.length;
-    const completedChains = chains.filter(p => p.status === 'completed').length;
-    const activeChains = chains.filter(p => p.status === 'active').length;
-    const lockedChains = chains.filter(p => p.status === 'locked').length;
+    const completedChains = chains.filter((p: any) => p.status === 'completed').length;
+    const activeChains = chains.filter((p: any) => p.status === 'active').length;
+    const lockedChains = chains.filter((p: any) => p.status === 'locked').length;
     const averageProgress = chains.length > 0 
       ? chains.reduce((sum, p) => sum + p.progress, 0) / chains.length 
       : 0;

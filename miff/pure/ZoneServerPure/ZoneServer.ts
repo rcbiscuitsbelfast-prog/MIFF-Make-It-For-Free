@@ -242,7 +242,7 @@ export class ZoneServerPure {
   }
 
   public getSnapshot(): PlayerStateSnapshot[] {
-    return Array.from(this.players.values()).map(s => ({ ...s }));
+    return Array.from(this.players.values()).map((s: any) => ({ ...s }));
   }
 
   public getPerfSnapshot(): any {
@@ -289,7 +289,7 @@ export class ZoneServerPure {
       this.bridge.send({
         type: 'state-delta',
         zoneId: this.config.zoneId,
-        players: snapshot.map(s => ({
+        players: snapshot.map((s: any) => ({
           playerId: s.identity.playerId,
           position: s.position,
           velocity: s.velocity,
@@ -330,8 +330,8 @@ export class ZoneServerPure {
   public findBestRedirectZone(): string | null {
     // Find the most suitable zone to redirect players to
     const suitableZones = this.zoneConnections
-      .filter(conn => conn.connectionType === 'portal')
-      .map(conn => conn.zoneId);
+      .filter((conn: any) => conn.connectionType === 'portal')
+      .map((conn: any) => conn.zoneId);
 
     if (suitableZones.length === 0) return null;
 
@@ -453,7 +453,7 @@ export class ZoneServerPure {
 
   public getActiveZoneEvents(): ZoneEvent[] {
     const now = Date.now();
-    return this.zoneEvents.filter(event =>
+    return this.zoneEvents.filter((event: any) =>
       event.startTime <= now && (!event.endTime || event.endTime >= now)
     );
   }

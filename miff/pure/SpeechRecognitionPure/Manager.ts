@@ -905,7 +905,7 @@ export class SpeechRecognitionPure {
   private performSpeechRecognition(audioData: AudioData, language: string): Transcript {
     // Simple speech recognition simulation
     const words = this.generateWords(audioData.duration);
-    const text = words.map(w => w.text).join(' ');
+    const text = words.map((w: any) => w.text).join(' ');
     
     return {
       text,
@@ -949,7 +949,7 @@ export class SpeechRecognitionPure {
       currentSentence.push(word);
       if (word.text.endsWith('.') || word.text.endsWith('!') || word.text.endsWith('?')) {
         sentences.push({
-          text: currentSentence.map(w => w.text).join(' '),
+          text: currentSentence.map((w: any) => w.text).join(' '),
           startTime: currentSentence[0].startTime,
           endTime: currentSentence[currentSentence.length - 1].endTime,
           confidence: currentSentence.reduce((sum, w) => sum + w.confidence, 0) / currentSentence.length,
@@ -1039,9 +1039,9 @@ export class SpeechRecognitionPure {
 
     for (const manager of this.managers.values()) {
       totalSessions += manager.sessions.length;
-      activeSessions += manager.sessions.filter(s => s.status === 'active').length;
+      activeSessions += manager.sessions.filter((s: any) => s.status === 'active').length;
       totalCommands += manager.commands.length;
-      successfulCommands += manager.commands.filter(c => c.enabled).length;
+      successfulCommands += manager.commands.filter((c: any) => c.enabled).length;
     }
 
     this.performanceMetrics.totalSessions = totalSessions;

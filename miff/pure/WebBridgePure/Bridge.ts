@@ -132,7 +132,7 @@ export class WebBridge {
         case 'npcs':
           const npcs = this.npcsManager.listNPCs();
           if (npcs.status === 'ok' && npcs.result) {
-            entities = (npcs.result as NPC[]).map(npc => this.createWebEntity(npc, config));
+            entities = (npcs.result as NPC[]).map((npc: any) => this.createWebEntity(npc, config));
             components = this.createNPCComponents(npcs.result as NPC[]);
             sprites = ['npc_sprite.png', 'quest_icon.png', 'merchant_icon.png'];
             sounds = ['npc_greeting.mp3', 'quest_accept.mp3'];
@@ -209,7 +209,7 @@ export class WebBridge {
   }
 
   private createNPCComponents(npcs: NPC[]): WebComponent[] {
-    return npcs.map(npc => ({ type: 'NPCController', data: { npcId: npc.id, behavior: npc.behavior, movementPattern: npc.movementPattern, questIds: npc.questIds, stats: npc.stats }, enabled: true }));
+    return npcs.map((npc: any) => ({ type: 'NPCController', data: { npcId: npc.id, behavior: npc.behavior, movementPattern: npc.movementPattern, questIds: npc.questIds, stats: npc.stats }, enabled: true }));
   }
 
   private createCombatEntities(data: CombatData, config: WebBridgeConfig): WebEntity[] {

@@ -255,7 +255,7 @@ export class HealthCheckSystem {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
-    const recentHistory = this.healthHistory.filter(h => h.timestamp >= cutoffDate);
+    const recentHistory = this.healthHistory.filter((h: any) => h.timestamp >= cutoffDate);
 
     const statusTrend = this.calculateStatusTrend(recentHistory);
     const performanceTrend = this.calculatePerformanceTrend(recentHistory);
@@ -444,7 +444,7 @@ export class HealthCheckSystem {
   private async runAllChecks(): Promise<HealthStatus['checks']> {
     const results: HealthStatus['checks'] = [];
     const checkPromises = Array.from(this.checks.values())
-      .filter(check => check.enabled)
+      .filter((check: any) => check.enabled)
       .map(async (check) => {
         const startTime = Date.now();
         try {
@@ -488,10 +488,10 @@ export class HealthCheckSystem {
 
   private calculateSummary(checks: HealthStatus['checks']): HealthStatus['summary'] {
     const totalChecks = checks.length;
-    const passedChecks = checks.filter(c => c.status === 'pass').length;
-    const failedChecks = checks.filter(c => c.status === 'fail').length;
-    const warnings = checks.filter(c => c.status === 'warning').length;
-    const criticalIssues = checks.filter(c => c.status === 'critical').length;
+    const passedChecks = checks.filter((c: any) => c.status === 'pass').length;
+    const failedChecks = checks.filter((c: any) => c.status === 'fail').length;
+    const warnings = checks.filter((c: any) => c.status === 'warning').length;
+    const criticalIssues = checks.filter((c: any) => c.status === 'critical').length;
     const successRate = totalChecks > 0 ? (passedChecks / totalChecks) * 100 : 0;
 
     return {
@@ -537,7 +537,7 @@ export class HealthCheckSystem {
     const alerts: HealthStatus['alerts'] = [];
 
     // Check for critical issues
-    checks.filter(c => c.status === 'critical').forEach(check => {
+    checks.filter((c: any) => c.status === 'critical').forEach((check: any) => {
       alerts.push({
         id: `critical_${check.name}_${Date.now()}`,
         type: 'critical',

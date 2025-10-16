@@ -153,7 +153,7 @@ export class InterfaceValidator {
     // Check for extra properties not in schema
     const schemaKeys = Object.keys(schema);
     const dataKeys = Object.keys(data);
-    const extraKeys = dataKeys.filter(key => !schemaKeys.includes(key));
+    const extraKeys = dataKeys.filter((key: any) => !schemaKeys.includes(key));
     
     if (extraKeys.length > 0) {
       warnings.push({

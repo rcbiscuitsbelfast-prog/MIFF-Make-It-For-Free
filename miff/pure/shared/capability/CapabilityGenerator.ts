@@ -138,7 +138,7 @@ export class CapabilityGenerator {
     // Extract interfaces
     const interfaceMatches = content.match(/interface\s+(\w+)/g);
     if (interfaceMatches) {
-      moduleInfo.interfaces = interfaceMatches.map(match => 
+      moduleInfo.interfaces = interfaceMatches.map((match: any) => 
         match.replace('interface ', '')
       );
     }
@@ -146,7 +146,7 @@ export class CapabilityGenerator {
     // Extract classes
     const classMatches = content.match(/class\s+(\w+)/g);
     if (classMatches) {
-      moduleInfo.classes = classMatches.map(match => 
+      moduleInfo.classes = classMatches.map((match: any) => 
         match.replace('class ', '')
       );
     }
@@ -154,7 +154,7 @@ export class CapabilityGenerator {
     // Extract functions
     const functionMatches = content.match(/function\s+(\w+)/g);
     if (functionMatches) {
-      moduleInfo.functions = functionMatches.map(match => 
+      moduleInfo.functions = functionMatches.map((match: any) => 
         match.replace('function ', '')
       );
     }
@@ -166,7 +166,7 @@ export class CapabilityGenerator {
   private extractExports(content: string, moduleInfo: ModuleInfo): void {
     const exportMatches = content.match(/export\s+(?:const|function|class|interface|type)\s+(\w+)/g);
     if (exportMatches) {
-      moduleInfo.exports = exportMatches.map(match => 
+      moduleInfo.exports = exportMatches.map((match: any) => 
         match.replace(/export\s+(?:const|function|class|interface|type)\s+/, '')
       );
     }
@@ -433,9 +433,9 @@ export default ${capability.id}Capability;
   } {
     const modules = Array.from(this.modules.values());
     
-    const withManager = modules.filter(m => m.hasManager).length;
-    const withCLI = modules.filter(m => m.hasCLI).length;
-    const withIndex = modules.filter(m => m.hasIndex).length;
+    const withManager = modules.filter((m: any) => m.hasManager).length;
+    const withCLI = modules.filter((m: any) => m.hasCLI).length;
+    const withIndex = modules.filter((m: any) => m.hasIndex).length;
     
     const byType = modules.reduce((acc, module) => {
       const type = this.determineType(module.name);

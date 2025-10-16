@@ -237,7 +237,7 @@ export class SchemaStandardizer {
 
     // Check for additional fields if strict mode
     if (schema.validation.strict && !schema.validation.allowAdditional) {
-      const allowedFields = new Set(schema.fields.map(f => f.name));
+      const allowedFields = new Set(schema.fields.map((f: any) => f.name));
       for (const key in data) {
         if (!allowedFields.has(key)) {
           result.warnings.push(`Unexpected field '${key}' found`);
@@ -279,7 +279,7 @@ export class SchemaStandardizer {
    */
   standardizeData(): any {
     const moduleSchemas = Array.from(this.schemas.values())
-      .filter(schema => schema.module === module);
+      .filter((schema: any) => schema.module === module);
 
     if (moduleSchemas.length === 0) {
       console.warn('No schemas found for module', { module });
@@ -287,7 +287,7 @@ export class SchemaStandardizer {
     }
 
     // Use the latest schema for standardization
-    const latestSchema = moduleSchemas.sort((a, b) => 
+    const latestSchema = moduleSchemas.sort((a: any, b: any) => 
       b.version.localeCompare(a.version)
     )[0];
 
@@ -322,11 +322,11 @@ export class SchemaStandardizer {
     // Check for schema inconsistencies
     for (const module of modules) {
       const moduleSchemas = Array.from(this.schemas.values())
-        .filter(schema => schema.module === module);
+        .filter((schema: any) => schema.module === module);
 
       if (moduleSchemas.length > 1) {
         // Check for version inconsistencies
-        const versions = moduleSchemas.map(s => s.version);
+        const versions = moduleSchemas.map((s: any) => s.version);
         const uniqueVersions = new Set(versions);
         
         if (uniqueVersions.size > 1) {
@@ -339,9 +339,9 @@ export class SchemaStandardizer {
         }
 
         // Check for field inconsistencies
-        const fieldSets = moduleSchemas.map(s => new Set(s.fields.map(f => f.name)));
+        const fieldSets = moduleSchemas.map((s: any) => new Set(s.fields.map((f: any) => f.name)));
         const commonFields = fieldSets.reduce((acc, fields) => 
-          new Set([...acc].filter(f => fields.has(f)))
+          new Set([...acc].filter((f: any) => fields.has(f)))
         );
 
         if (commonFields.size === 0) {

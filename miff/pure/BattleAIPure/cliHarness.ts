@@ -123,7 +123,7 @@ class MockSpiritInstance {
   }
 
   removeStatusEffect(effect: string): void {
-    this.statusEffects = this.statusEffects.filter(s => s !== effect);
+    this.statusEffects = this.statusEffects.filter((s: any) => s !== effect);
   }
 
   addMove(moveId: string): void {
@@ -241,7 +241,7 @@ class BattleAIPureCLI {
       new MockMoveData('toxic', 'Toxic', MoveCategory.STATUS, 0, 0.85, 6, 'poison')
     ];
 
-    moves.forEach(move => {
+    moves.forEach((move: any) => {
       this.moves.set(move.moveId, move);
     });
 
@@ -723,7 +723,7 @@ class BattleAIPureCLI {
       console.log('✅ Profile is valid');
     } else {
       console.log('❌ Validation errors:');
-      errors.forEach(error => console.log(`   - ${error}`));
+      errors.forEach((error: any) => console.log(`   - ${error}`));
     }
   }
 
@@ -900,7 +900,7 @@ class BattleAIPureCLI {
    * Reset spirits to full health
    */
   private resetSpirits(): void {
-    this.spirits.forEach(spirit => {
+    this.spirits.forEach((spirit: any) => {
       spirit.currentHP = spirit.maxHP;
       spirit.statusEffects = [];
     });

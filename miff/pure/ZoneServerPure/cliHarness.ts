@@ -462,7 +462,7 @@ async function main(): Promise<void> {
 
       const activeEvents = zoneServer.getActiveZoneEvents();
       console.log(`Active Events: ${activeEvents.length}`);
-      activeEvents.forEach(event => {
+      activeEvents.forEach((event: any) => {
         console.log(`  - ${event.id}: ${event.description}`);
       });
       break;
@@ -480,7 +480,7 @@ async function main(): Promise<void> {
 
       console.log('=== ZONE TRANSITIONS & CONNECTIONS ===');
       console.log(`Zone Connections: ${connections.length}`);
-      connections.forEach(conn => {
+      connections.forEach((conn: any) => {
         console.log(`  → ${conn.zoneId} (${conn.connectionType})`);
         if (conn.requirements) {
           console.log(`    Requirements: ${conn.requirements.join(', ')}`);
@@ -488,7 +488,7 @@ async function main(): Promise<void> {
       });
 
       console.log(`Active Events: ${activeEvents.length}`);
-      activeEvents.forEach(event => {
+      activeEvents.forEach((event: any) => {
         console.log(`  📅 ${event.id}: ${event.description}`);
       });
       break;

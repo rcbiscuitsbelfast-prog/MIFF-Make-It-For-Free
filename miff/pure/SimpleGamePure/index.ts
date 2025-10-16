@@ -201,7 +201,7 @@ export class SimpleGameBuilder {
    */
   static validateGameType(gameType: GameType, availableModules: string[]): string[] {
     const required = this.getRequiredModules(gameType);
-    const missing = required.filter(module => !availableModules.includes(module));
+    const missing = required.filter((module: any) => !availableModules.includes(module));
 
     if (missing.length > 0) {
       return [`Missing required modules: ${missing.join(', ')}`];
@@ -516,7 +516,7 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   private updateEnemies(deltaTime: number): void {
-    this.enemies.forEach(enemy => {
+    this.enemies.forEach((enemy: any) => {
       enemy.x += enemy.speed * (deltaTime / 16); // 60fps target
 
       // Bounce off screen edges

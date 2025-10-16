@@ -317,7 +317,7 @@ export class IdleSystemPure {
       }
     ];
 
-    resources.forEach(resource => {
+    resources.forEach((resource: any) => {
       this.resources.set(resource.id, resource);
     });
   }
@@ -393,7 +393,7 @@ export class IdleSystemPure {
       }
     ];
 
-    generators.forEach(generator => {
+    generators.forEach((generator: any) => {
       this.generators.set(generator.id, generator);
     });
   }
@@ -465,7 +465,7 @@ export class IdleSystemPure {
       }
     ];
 
-    upgrades.forEach(upgrade => {
+    upgrades.forEach((upgrade: any) => {
       this.upgrades.set(upgrade.id, upgrade);
     });
   }
@@ -517,7 +517,7 @@ export class IdleSystemPure {
       }
     ];
 
-    achievements.forEach(achievement => {
+    achievements.forEach((achievement: any) => {
       this.achievements.set(achievement.id, achievement);
     });
   }
@@ -553,7 +553,7 @@ export class IdleSystemPure {
       }
     ];
 
-    prestigeConfigs.forEach(config => {
+    prestigeConfigs.forEach((config: any) => {
       this.prestigeConfigs.set(config.tier, config);
     });
   }
@@ -748,7 +748,7 @@ export class IdleSystemPure {
     // Upgrade effects
     this.upgrades.forEach((upgrade) => {
       if (upgrade.currentLevel > 0) {
-        upgrade.effects.forEach(effect => {
+        upgrade.effects.forEach((effect: any) => {
           if (effect.target === generatorId && effect.type === 'multiplier') {
             multiplier *= Math.pow(effect.value, upgrade.currentLevel);
           }
@@ -780,7 +780,7 @@ export class IdleSystemPure {
     // Upgrade effects
     this.upgrades.forEach((upgrade) => {
       if (upgrade.currentLevel > 0) {
-        upgrade.effects.forEach(effect => {
+        upgrade.effects.forEach((effect: any) => {
           if (effect.target === generatorId && effect.type === 'efficiency') {
             efficiency += effect.value * upgrade.currentLevel;
           }
@@ -1171,7 +1171,7 @@ export class IdleSystemPure {
     // Reapply all upgrade effects
     this.upgrades.forEach((upgrade) => {
       if (upgrade.currentLevel > 0) {
-        upgrade.effects.forEach(effect => {
+        upgrade.effects.forEach((effect: any) => {
           switch (effect.type) {
             case 'multiplier':
               const current = this.productionMultipliers.get(effect.target) || 1;
@@ -1251,7 +1251,7 @@ export class IdleSystemPure {
       totalPlayTime: this.totalPlayTime,
       totalIdleTime: this.totalIdleTime,
       currentProduction: this.getTotalProduction(),
-      unlockedAchievements: Array.from(this.achievements.values()).filter(a => a.unlocked).length
+      unlockedAchievements: Array.from(this.achievements.values()).filter((a: any) => a.unlocked).length
     };
   }
 

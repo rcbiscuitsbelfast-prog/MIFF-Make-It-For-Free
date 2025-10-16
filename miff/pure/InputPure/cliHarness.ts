@@ -58,11 +58,11 @@ function printActions(profile: InputProfile, category?: string): void {
     return;
   }
 
-  const categories = new Set(actions.map(a => a.category));
+  const categories = new Set(actions.map((a: any) => a.category));
   for (const cat of Array.from(categories).sort()) {
     console.log(`\n  ${cat.toUpperCase()}:`);
-    const catActions = actions.filter(a => a.category === cat);
-    catActions.forEach(action => {
+    const catActions = actions.filter((a: any) => a.category === cat);
+    catActions.forEach((action: any) => {
       const bindings = Array.from(profile.getBindings().entries())
         .filter(([_, actionId]) => actionId === action.actionId)
         .map(([input, _]) => input);
@@ -146,7 +146,7 @@ function runDemo(profile: InputProfile): void {
   console.log('\n🧪 Testing inputs...');
   const testInputs = ['w', 'ArrowUp', 'd', 'F3', 'unknown_input'];
 
-  testInputs.forEach(input => {
+  testInputs.forEach((input: any) => {
     const action = profile.getActionForInput(input);
     console.log(`Input '${input}' → ${action ? action.actionId : 'no action'}`);
   });
@@ -260,19 +260,19 @@ async function runCLI(): Promise<void> {
               console.log('✅ Loaded standard preset');
               break;
             case 'movement':
-              InputUtils.createMovementActions().forEach(action => state.profile.registerAction(action));
+              InputUtils.createMovementActions().forEach((action: any) => state.profile.registerAction(action));
               console.log('✅ Loaded movement preset');
               break;
             case 'combat':
-              InputUtils.createCombatActions().forEach(action => state.profile.registerAction(action));
+              InputUtils.createCombatActions().forEach((action: any) => state.profile.registerAction(action));
               console.log('✅ Loaded combat preset');
               break;
             case 'ui':
-              InputUtils.createUIActions().forEach(action => state.profile.registerAction(action));
+              InputUtils.createUIActions().forEach((action: any) => state.profile.registerAction(action));
               console.log('✅ Loaded UI preset');
               break;
             case 'debug':
-              InputUtils.createDebugActions().forEach(action => state.profile.registerAction(action));
+              InputUtils.createDebugActions().forEach((action: any) => state.profile.registerAction(action));
               console.log('✅ Loaded debug preset');
               break;
             default:

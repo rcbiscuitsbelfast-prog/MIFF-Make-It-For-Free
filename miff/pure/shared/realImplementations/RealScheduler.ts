@@ -174,7 +174,7 @@ export class RealScheduler {
 
     this.tasks.set(taskId, task);
     this.taskQueue.push(task);
-    this.taskQueue.sort((a, b) => b.priority - a.priority);
+    this.taskQueue.sort((a: any, b: any) => b.priority - a.priority);
 
     this.emit('taskAdded', { task });
     return taskId;
@@ -198,7 +198,7 @@ export class RealScheduler {
    * Get tasks by status
    */
   getTasksByStatus(status: Task['status']): Task[] {
-    return Array.from(this.tasks.values()).filter(task => task.status === status);
+    return Array.from(this.tasks.values()).filter((task: any) => task.status === status);
   }
 
   /**
@@ -232,7 +232,7 @@ export class RealScheduler {
     task.retryCount++;
     task.scheduledFor = new Date();
     this.taskQueue.push(task);
-    this.taskQueue.sort((a, b) => b.priority - a.priority);
+    this.taskQueue.sort((a: any, b: any) => b.priority - a.priority);
 
     this.emit('taskRetried', { task });
     return true;
@@ -284,7 +284,7 @@ export class RealScheduler {
 
     const availableSlots = this.config.maxConcurrentTasks - this.runningTasks.size;
     const tasksToRun = this.taskQueue
-      .filter(task => task.status === 'pending' && task.scheduledFor <= new Date())
+      .filter((task: any) => task.status === 'pending' && task.scheduledFor <= new Date())
       .slice(0, availableSlots);
 
     for (const task of tasksToRun) {
@@ -382,8 +382,8 @@ export class RealScheduler {
    */
   getMetrics(): SchedulerMetrics {
     const tasks = Array.from(this.tasks.values());
-    const completedTasks = tasks.filter(t => t.status === 'completed');
-    const failedTasks = tasks.filter(t => t.status === 'failed');
+    const completedTasks = tasks.filter((t: any) => t.status === 'completed');
+    const failedTasks = tasks.filter((t: any) => t.status === 'failed');
 
     const averageExecutionTime = completedTasks.length > 0
       ? completedTasks.reduce((sum, task) => {
@@ -398,11 +398,11 @@ export class RealScheduler {
 
     return {
       totalTasks: tasks.length,
-      pendingTasks: tasks.filter(t => t.status === 'pending').length,
+      pendingTasks: tasks.filter((t: any) => t.status === 'pending').length,
       runningTasks: this.runningTasks.size,
       completedTasks: completedTasks.length,
       failedTasks: failedTasks.length,
-      cancelledTasks: tasks.filter(t => t.status === 'cancelled').length,
+      cancelledTasks: tasks.filter((t: any) => t.status === 'cancelled').length,
       averageExecutionTime,
       throughput: completedTasks.length,
       errorRate
@@ -415,7 +415,7 @@ export class RealScheduler {
   cleanup(): void {
     const cutoffTime = new Date(Date.now() - 24 * 60 * 60 * 1000); // 24 hours ago
     const tasksToRemove = Array.from(this.tasks.values())
-      .filter(task => task.completedAt && task.completedAt < cutoffTime);
+      .filter((task: any) => task.completedAt && task.completedAt < cutoffTime);
 
     for (const task of tasksToRemove) {
       this.tasks.delete(task.id);
@@ -448,7 +448,7 @@ export class RealScheduler {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {

@@ -169,7 +169,7 @@ export class RuntimeFidelityManager {
     console.info('🔄 Replacing critical mock implementations...');
     
     const criticalMocks = Array.from(this.mockImplementations.values())
-      .filter(mock => mock.priority === 'critical');
+      .filter((mock: any) => mock.priority === 'critical');
     
     for (const mock of criticalMocks) {
       try {
@@ -305,7 +305,7 @@ export class RuntimeFidelityManager {
    */
   getMocksByPriority(priority: 'critical' | 'high' | 'medium' | 'low'): MockImplementation[] {
     return Array.from(this.mockImplementations.values())
-      .filter(mock => mock.priority === priority);
+      .filter((mock: any) => mock.priority === priority);
   }
 
   private async findTypeScriptFiles(rootPath: string): Promise<string[]> {
@@ -431,12 +431,12 @@ export class RuntimeFidelityManager {
   }
 
   private updateStats(): void {
-    this.stats.totalModules = new Set(Array.from(this.mockImplementations.values()).map(m => m.module)).size;
+    this.stats.totalModules = new Set(Array.from(this.mockImplementations.values()).map((m: any) => m.module)).size;
     this.stats.modulesWithMocks = this.stats.totalModules;
     this.stats.totalMocks = this.mockImplementations.size;
     this.stats.replacedMocks = 0; // This would be updated when mocks are actually replaced
     this.stats.averageFidelityScore = 75; // Mock score
-    this.stats.criticalMocks = Array.from(this.mockImplementations.values()).filter(m => m.priority === 'critical').length;
+    this.stats.criticalMocks = Array.from(this.mockImplementations.values()).filter((m: any) => m.priority === 'critical').length;
     this.stats.transportLayers = this.transportLayers.size;
     this.stats.lifecycleHooks = this.lifecycleHooks.size;
   }

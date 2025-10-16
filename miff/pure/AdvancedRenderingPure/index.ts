@@ -43,7 +43,7 @@ export const AdvancedRenderingPure = {
 	applyOutline(matrix: PixelMatrix, options: OutlineOptions): PixelMatrix {
 		const h = matrix.length;
 		const w = matrix[0]?.length || 0;
-		const result: PixelMatrix = matrix.map(row => row.slice());
+		const result: PixelMatrix = matrix.map((row: any) => row.slice());
 		const dirs = [
 			[-1, 0], [1, 0], [0, -1], [0, 1],
 			[-1, -1], [1, -1], [-1, 1], [1, 1]
@@ -71,7 +71,7 @@ export const AdvancedRenderingPure = {
 		const w = matrix[0]?.length || 0;
 		const ambient = clamp01(options.ambient);
 		const strength = clamp01(options.strength);
-		const result: PixelMatrix = matrix.map(row => row.slice());
+		const result: PixelMatrix = matrix.map((row: any) => row.slice());
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
 				const p = matrix[y][x];
@@ -88,7 +88,7 @@ export const AdvancedRenderingPure = {
 		const h = matrix.length;
 		const w = matrix[0]?.length || 0;
 		const tintRGB = hexToRgb(options.int);
-		const result: PixelMatrix = matrix.map(row => row.slice());
+		const result: PixelMatrix = matrix.map((row: any) => row.slice());
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
 				const p = matrix[y][x];

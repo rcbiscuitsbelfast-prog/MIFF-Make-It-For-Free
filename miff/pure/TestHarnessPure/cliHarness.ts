@@ -179,10 +179,10 @@ async function main() {
           results: suiteResults,
           summary: {
             totalTests: suiteResults.length,
-            passed: suiteResults.filter(r => r.status === 'passed').length,
-            failed: suiteResults.filter(r => r.status === 'failed').length,
-            skipped: suiteResults.filter(r => r.status === 'skipped').length,
-            timeout: suiteResults.filter(r => r.status === 'timeout').length,
+            passed: suiteResults.filter((r: any) => r.status === 'passed').length,
+            failed: suiteResults.filter((r: any) => r.status === 'failed').length,
+            skipped: suiteResults.filter((r: any) => r.status === 'skipped').length,
+            timeout: suiteResults.filter((r: any) => r.status === 'timeout').length,
             totalDuration: suiteResults.reduce((sum, r) => sum + r.duration, 0)
           }
         };
@@ -366,7 +366,7 @@ async function main() {
                 testCount: asyncSuite.tests.length
               }
             },
-            results: demoReport.results.map(r => ({
+            results: demoReport.results.map((r: any) => ({
               testId: r.testId,
               name: r.name,
               category: r.category,

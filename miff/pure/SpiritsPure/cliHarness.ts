@@ -572,7 +572,7 @@ class SpiritsPureCLI {
     console.log(`Growth Rate: ${spirit.growthRate}`);
     console.log('');
     console.log(`Moves: ${spirit.moves.length}/4`);
-    spirit.moves.forEach(move => {
+    spirit.moves.forEach((move: any) => {
       console.log(`  - ${move.name} (${move.type}, ${move.power} power)`);
     });
   }

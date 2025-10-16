@@ -245,7 +245,7 @@ export class AssetValidator {
     report += `\n`;
 
     // Invalid assets
-    const invalidAssets = results.filter(r => !r.valid);
+    const invalidAssets = results.filter((r: any) => !r.valid);
     if (invalidAssets.length > 0) {
       report += `## Invalid Assets (${invalidAssets.length})\n`;
       for (const result of invalidAssets) {
@@ -256,17 +256,17 @@ export class AssetValidator {
         
         if (result.errors.length > 0) {
           report += `- **Errors:**\n`;
-          result.errors.forEach(error => report += `  - ${error}\n`);
+          result.errors.forEach((error: any) => report += `  - ${error}\n`);
         }
         
         if (result.warnings.length > 0) {
           report += `- **Warnings:**\n`;
-          result.warnings.forEach(warning => report += `  - ${warning}\n`);
+          result.warnings.forEach((warning: any) => report += `  - ${warning}\n`);
         }
         
         if (result.suggestions.length > 0) {
           report += `- **Suggestions:**\n`;
-          result.suggestions.forEach(suggestion => report += `  - ${suggestion}\n`);
+          result.suggestions.forEach((suggestion: any) => report += `  - ${suggestion}\n`);
         }
         
         report += `\n`;
@@ -354,7 +354,7 @@ export class AssetValidator {
   private async checkUnityPipeline(rootPath: string): Promise<PipelineIntegrityResult | null> {
     // Check for Unity-specific assets and references
     const unityAssets = Array.from(this.assetReferences.values())
-      .filter(asset => asset.type === AssetType.PREFAB || asset.path.includes('.unity'));
+      .filter((asset: any) => asset.type === AssetType.PREFAB || asset.path.includes('.unity'));
     
     if (unityAssets.length === 0) return null;
     
@@ -382,7 +382,7 @@ export class AssetValidator {
   private async checkGodotPipeline(rootPath: string): Promise<PipelineIntegrityResult | null> {
     // Check for Godot-specific assets and references
     const godotAssets = Array.from(this.assetReferences.values())
-      .filter(asset => asset.type === AssetType.SCENE || asset.path.includes('.tscn'));
+      .filter((asset: any) => asset.type === AssetType.SCENE || asset.path.includes('.tscn'));
     
     if (godotAssets.length === 0) return null;
     
@@ -410,7 +410,7 @@ export class AssetValidator {
   private async checkWebPipeline(rootPath: string): Promise<PipelineIntegrityResult | null> {
     // Check for Web-specific assets and references
     const webAssets = Array.from(this.assetReferences.values())
-      .filter(asset => asset.type === AssetType.IMAGE || asset.type === AssetType.AUDIO || asset.type === AssetType.VIDEO);
+      .filter((asset: any) => asset.type === AssetType.IMAGE || asset.type === AssetType.AUDIO || asset.type === AssetType.VIDEO);
     
     if (webAssets.length === 0) return null;
     
@@ -548,11 +548,11 @@ export class AssetValidator {
   private calculateStats(): AssetValidationStats {
     const results = Array.from(this.validationResults.values());
     const totalAssets = results.length;
-    const validAssets = results.filter(r => r.valid).length;
-    const invalidAssets = results.filter(r => !r.valid).length;
-    const missingAssets = results.filter(r => r.errors.some(e => e.includes('not found'))).length;
-    const brokenReferences = results.filter(r => r.errors.some(e => e.includes('broken'))).length;
-    const versionMismatches = results.filter(r => r.errors.some(e => e.includes('version'))).length;
+    const validAssets = results.filter((r: any) => r.valid).length;
+    const invalidAssets = results.filter((r: any) => !r.valid).length;
+    const missingAssets = results.filter((r: any) => r.errors.some(e => e.includes('not found'))).length;
+    const brokenReferences = results.filter((r: any) => r.errors.some(e => e.includes('broken'))).length;
+    const versionMismatches = results.filter((r: any) => r.errors.some(e => e.includes('version'))).length;
     
     const totalSize = results.reduce((sum, r) => sum + (r.asset.size || 0), 0);
     const averageSize = totalAssets > 0 ? totalSize / totalAssets : 0;

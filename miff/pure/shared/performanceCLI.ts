@@ -100,10 +100,10 @@ class PerformanceCLI {
     console.info(`📄 Targets saved to ${outputFile}`);
 
     // Show targets by priority
-    const critical = targets.filter(t => t.priority === 'critical');
-    const high = targets.filter(t => t.priority === 'high');
-    const medium = targets.filter(t => t.priority === 'medium');
-    const low = targets.filter(t => t.priority === 'low');
+    const critical = targets.filter((t: any) => t.priority === 'critical');
+    const high = targets.filter((t: any) => t.priority === 'high');
+    const medium = targets.filter((t: any) => t.priority === 'medium');
+    const low = targets.filter((t: any) => t.priority === 'low');
 
     console.info('\n📊 Optimization Targets by Priority:');
     console.info(`Critical: ${critical.length}`);
@@ -112,10 +112,10 @@ class PerformanceCLI {
     console.info(`Low: ${low.length}`);
 
     // Show targets by type
-    const memory = targets.filter(t => t.type === 'memory');
-    const cpu = targets.filter(t => t.type === 'cpu');
-    const network = targets.filter(t => t.type === 'network');
-    const cache = targets.filter(t => t.type === 'cache');
+    const memory = targets.filter((t: any) => t.type === 'memory');
+    const cpu = targets.filter((t: any) => t.type === 'cpu');
+    const network = targets.filter((t: any) => t.type === 'network');
+    const cache = targets.filter((t: any) => t.type === 'cache');
 
     console.info('\n📊 Optimization Targets by Type:');
     console.info(`Memory: ${memory.length}`);
@@ -125,7 +125,7 @@ class PerformanceCLI {
 
     if (critical.length > 0) {
       console.info('\n🚨 Critical Optimization Targets:');
-      critical.forEach(target => {
+      critical.forEach((target: any) => {
         console.info(`  ${target.module} (${target.type}): ${target.description}`);
         console.info(`    Current: ${target.currentValue}, Target: ${target.targetValue}, Improvement: ${target.improvement}%`);
       });
@@ -178,7 +178,7 @@ class PerformanceCLI {
     
     await this.optimizer.implementMemoryOptimizations();
     
-    const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'memory');
+    const targets = this.optimizer.getOptimizationTargets('critical').filter((t: any) => t.type === 'memory');
     console.info(`✅ Implemented memory optimizations for ${targets.length} critical targets`);
     console.info(`📄 Memory optimization results saved to ${outputFile}`);
   }
@@ -190,7 +190,7 @@ class PerformanceCLI {
     
     await this.optimizer.implementCPUOptimizations();
     
-    const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'cpu');
+    const targets = this.optimizer.getOptimizationTargets('critical').filter((t: any) => t.type === 'cpu');
     console.info(`✅ Implemented CPU optimizations for ${targets.length} critical targets`);
     console.info(`📄 CPU optimization results saved to ${outputFile}`);
   }
@@ -202,7 +202,7 @@ class PerformanceCLI {
     
     await this.optimizer.implementNetworkOptimizations();
     
-    const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'network');
+    const targets = this.optimizer.getOptimizationTargets('critical').filter((t: any) => t.type === 'network');
     console.info(`✅ Implemented network optimizations for ${targets.length} critical targets`);
     console.info(`📄 Network optimization results saved to ${outputFile}`);
   }
@@ -214,7 +214,7 @@ class PerformanceCLI {
     
     await this.optimizer.implementCachingStrategies();
     
-    const targets = this.optimizer.getOptimizationTargets('critical').filter(t => t.type === 'cache');
+    const targets = this.optimizer.getOptimizationTargets('critical').filter((t: any) => t.type === 'cache');
     console.info(`✅ Implemented caching strategies for ${targets.length} critical targets`);
     console.info(`📄 Cache optimization results saved to ${outputFile}`);
   }
@@ -333,7 +333,7 @@ class PerformanceCLI {
 
     <div class="targets">
         <h3>Optimization Targets (${report.optimizations.length})</h3>
-        ${report.optimizations.map(target => `
+        ${report.optimizations.map((target: any) => `
             <div class="target-item target-${target.priority}">
                 <div class="target-name"><strong>${target.module}</strong> - ${target.type.toUpperCase()}</div>
                 <div class="target-description">${target.description}</div>
@@ -345,7 +345,7 @@ class PerformanceCLI {
 
     <div class="recommendations">
         <h3>Recommendations (${report.recommendations.length})</h3>
-        ${report.recommendations.map(rec => `
+        ${report.recommendations.map((rec: any) => `
             <div class="recommendation-item">${rec}</div>
         `).join('')}
     </div>

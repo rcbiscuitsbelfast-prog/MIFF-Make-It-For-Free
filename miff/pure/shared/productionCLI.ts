@@ -84,14 +84,14 @@ class ProductionCLI {
     console.info(`Overall Score: ${report.overallScore}/100`);
     console.info(`Readiness Level: ${report.readinessLevel}`);
     console.info(`Total Checks: ${report.checks.length}`);
-    console.info(`Passed Checks: ${report.checks.filter(c => c.status === 'pass').length}`);
-    console.info(`Failed Checks: ${report.checks.filter(c => c.status === 'fail').length}`);
-    console.info(`Warning Checks: ${report.checks.filter(c => c.status === 'warning').length}`);
+    console.info(`Passed Checks: ${report.checks.filter((c: any) => c.status === 'pass').length}`);
+    console.info(`Failed Checks: ${report.checks.filter((c: any) => c.status === 'fail').length}`);
+    console.info(`Warning Checks: ${report.checks.filter((c: any) => c.status === 'warning').length}`);
 
     // Show critical issues
     if (report.criticalIssues.length > 0) {
       console.info('\n🚨 Critical Issues:');
-      report.criticalIssues.forEach(issue => {
+      report.criticalIssues.forEach((issue: any) => {
         console.info(`  - ${issue}`);
       });
     }
@@ -99,7 +99,7 @@ class ProductionCLI {
     // Show recommendations
     if (report.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
-      report.recommendations.slice(0, 5).forEach(rec => {
+      report.recommendations.slice(0, 5).forEach((rec: any) => {
         console.info(`  - ${rec}`);
       });
       if (report.recommendations.length > 5) {
@@ -110,7 +110,7 @@ class ProductionCLI {
     // Show next steps
     if (report.nextSteps.length > 0) {
       console.info('\n🎯 Next Steps:');
-      report.nextSteps.forEach(step => {
+      report.nextSteps.forEach((step: any) => {
         console.info(`  - ${step}`);
       });
     }
@@ -129,7 +129,7 @@ class ProductionCLI {
     // Show pipeline status
     const pipelines = this.manager.getDeploymentPipelines();
     console.info('\n📊 Deployment Pipelines:');
-    pipelines.forEach(pipeline => {
+    pipelines.forEach((pipeline: any) => {
       console.info(`  ${pipeline.name}: ${pipeline.status} (${pipeline.successRate.toFixed(1)}% success rate)`);
     });
   }
@@ -148,7 +148,7 @@ class ProductionCLI {
     // Show environment status
     const environments = this.manager.getDeploymentEnvironments();
     console.info('\n📊 Deployment Environments:');
-    environments.forEach(env => {
+    environments.forEach((env: any) => {
       console.info(`  ${env.name} (${env.type}): ${env.status} - ${env.url}`);
     });
   }
@@ -196,7 +196,7 @@ class ProductionCLI {
     const environments = this.manager.getDeploymentEnvironments();
     
     console.info(`\n📊 Deployment Environments (${environments.length}):`);
-    environments.forEach(env => {
+    environments.forEach((env: any) => {
       console.info(`\n${env.name} (${env.type})`);
       console.info(`  Status: ${env.status}`);
       console.info(`  URL: ${env.url}`);
@@ -221,13 +221,13 @@ class ProductionCLI {
     const pipelines = this.manager.getDeploymentPipelines();
     
     console.info(`\n📊 Deployment Pipelines (${pipelines.length}):`);
-    pipelines.forEach(pipeline => {
+    pipelines.forEach((pipeline: any) => {
       console.info(`\n${pipeline.name}`);
       console.info(`  Status: ${pipeline.status}`);
       console.info(`  Success Rate: ${pipeline.successRate.toFixed(1)}%`);
       console.info(`  Last Run: ${pipeline.lastRun.toLocaleString()}`);
       console.info(`  Stages: ${pipeline.stages.length}`);
-      pipeline.stages.forEach(stage => {
+      pipeline.stages.forEach((stage: any) => {
         console.info(`    - ${stage.name} (${stage.type}): ${stage.status}`);
       });
     });
@@ -330,7 +330,7 @@ class ProductionCLI {
 
     <div class="checks">
         <h3>Production Readiness Checks (${report.checks.length})</h3>
-        ${report.checks.map(check => `
+        ${report.checks.map((check: any) => `
             <div class="check-item check-${check.status}">
                 <div style="font-weight: bold;">${check.name}</div>
                 <div style="color: #666; margin: 5px 0;">${check.description}</div>
@@ -345,7 +345,7 @@ class ProductionCLI {
                     <div style="margin: 5px 0;">
                         <strong>Recommendations:</strong>
                         <ul style="margin: 5px 0; padding-left: 20px;">
-                            ${check.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                            ${check.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
                         </ul>
                     </div>
                 ` : ''}
@@ -355,7 +355,7 @@ class ProductionCLI {
 
     <div class="environments">
         <h3>Deployment Environments (${report.environments.length})</h3>
-        ${report.environments.map(env => `
+        ${report.environments.map((env: any) => `
             <div class="environment-item">
                 <div style="font-weight: bold;">${env.name}</div>
                 <div style="color: #666; margin: 5px 0;">${env.type.toUpperCase()} - ${env.url}</div>
@@ -378,7 +378,7 @@ class ProductionCLI {
 
     <div class="pipelines">
         <h3>Deployment Pipelines (${report.pipelines.length})</h3>
-        ${report.pipelines.map(pipeline => `
+        ${report.pipelines.map((pipeline: any) => `
             <div class="pipeline-item">
                 <div style="font-weight: bold;">${pipeline.name}</div>
                 <div style="color: #666; margin: 5px 0;">Success Rate: ${pipeline.successRate.toFixed(1)}%</div>
@@ -388,7 +388,7 @@ class ProductionCLI {
                     </span>
                 </div>
                 <div style="margin: 5px 0;">
-                    <strong>Stages:</strong> ${pipeline.stages.map(stage => `${stage.name} (${stage.status})`).join(', ')}
+                    <strong>Stages:</strong> ${pipeline.stages.map((stage: any) => `${stage.name} (${stage.status})`).join(', ')}
                 </div>
             </div>
         `).join('')}
@@ -398,7 +398,7 @@ class ProductionCLI {
         <div class="critical-issues">
             <h3>🚨 Critical Issues (${report.criticalIssues.length})</h3>
             <ul>
-                ${report.criticalIssues.map(issue => `<li>${issue}</li>`).join('')}
+                ${report.criticalIssues.map((issue: any) => `<li>${issue}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
@@ -407,7 +407,7 @@ class ProductionCLI {
         <div class="recommendations">
             <h3>💡 Recommendations (${report.recommendations.length})</h3>
             <ul>
-                ${report.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                ${report.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
@@ -415,7 +415,7 @@ class ProductionCLI {
     <div style="margin: 20px 0;">
         <h3>🎯 Next Steps</h3>
         <ul>
-            ${report.nextSteps.map(step => `<li>${step}</li>`).join('')}
+            ${report.nextSteps.map((step: any) => `<li>${step}</li>`).join('')}
         </ul>
     </div>
 </body>

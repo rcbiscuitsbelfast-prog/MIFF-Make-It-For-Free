@@ -748,9 +748,9 @@ export class APIDocumentationGenerator {
     const paramMatch = line.match(/\(([^)]*)\)/);
     if (!paramMatch) return [];
 
-    const params = paramMatch[1].split(',').map(p => p.trim()).filter(p => p);
-    return params.map(param => {
-      const [name, type] = param.split(':').map(s => s.trim());
+    const params = paramMatch[1].split(',').map((p: any) => p.trim()).filter((p: any) => p);
+    return params.map((param: any) => {
+      const [name, type] = param.split(':').map((s: any) => s.trim());
       return {
         name: name.replace('?', ''),
         type: type || 'any',
@@ -809,7 +809,7 @@ export class APIDocumentationGenerator {
         if (cls.constructor) {
           content += `#### Constructor\n\n`;
           content += `\`\`\`typescript\n`;
-          content += `constructor(${cls.constructor.parameters.map(p => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')})\n`;
+          content += `constructor(${cls.constructor.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')})\n`;
           content += `\`\`\`\n\n`;
         }
         
@@ -822,7 +822,7 @@ export class APIDocumentationGenerator {
                 content += `${method.description}\n\n`;
               }
               content += `\`\`\`typescript\n`;
-              content += `${method.visibility} ${method.static ? 'static ' : ''}${method.async ? 'async ' : ''}${method.name}(${method.parameters.map(p => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${method.returnType}\n`;
+              content += `${method.visibility} ${method.static ? 'static ' : ''}${method.async ? 'async ' : ''}${method.name}(${method.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${method.returnType}\n`;
               content += `\`\`\`\n\n`;
             }
           }
@@ -897,7 +897,7 @@ export class APIDocumentationGenerator {
         }
         
         content += `\`\`\`typescript\n`;
-        content += `function ${func.name}(${func.parameters.map(p => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${func.returnType}\n`;
+        content += `function ${func.name}(${func.parameters.map((p: any) => `${p.name}${p.optional ? '?' : ''}: ${p.type}`).join(', ')}): ${func.returnType}\n`;
         content += `\`\`\`\n\n`;
       }
     }

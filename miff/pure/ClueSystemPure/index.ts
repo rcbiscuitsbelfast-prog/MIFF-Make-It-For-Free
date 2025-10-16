@@ -225,7 +225,7 @@ export class ClueSystemPure {
   }
 
   public getDiscoveredClues(): Clue[] {
-    return Array.from(this.clues.values()).filter(c => c.state === 'discovered' || c.state === 'analyzed');
+    return Array.from(this.clues.values()).filter((c: any) => c.state === 'discovered' || c.state === 'analyzed');
   }
 
   private startAnalysisTimer(): void {
@@ -279,7 +279,7 @@ export class ClueSystemPure {
       }
     ];
 
-    rules.forEach(rule => {
+    rules.forEach((rule: any) => {
       this.deductionRules.set(rule.id, rule);
     });
   }
@@ -295,7 +295,7 @@ export class ClueSystemPure {
     if (!investigation) return;
 
     // Apply deduction rules
-    this.deductionRules.forEach(rule => {
+    this.deductionRules.forEach((rule: any) => {
       if (this.evaluateRule(rule, investigation)) {
         this.applyRuleConclusion(rule, investigation);
       }
@@ -382,11 +382,11 @@ export class ClueSystemPure {
   private updateInvestigationProgress(investigation: Investigation): void {
     const totalClues = investigation.clues.size;
     const analyzedClues = Array.from(investigation.clues.values())
-      .filter(clue => clue.state === 'analyzed' || clue.state === 'linked').length;
+      .filter((clue: any) => clue.state === 'analyzed' || clue.state === 'linked').length;
     const linkedClues = Array.from(investigation.clues.values())
-      .filter(clue => clue.state === 'linked' || clue.state === 'resolved').length;
+      .filter((clue: any) => clue.state === 'linked' || clue.state === 'resolved').length;
     const resolvedClues = Array.from(investigation.clues.values())
-      .filter(clue => clue.state === 'resolved').length;
+      .filter((clue: any) => clue.state === 'resolved').length;
 
     const progress = Math.min(100,
       (analyzedClues * 20 + linkedClues * 40 + resolvedClues * 40) / Math.max(totalClues, 1)
@@ -438,7 +438,7 @@ export class ClueSystemPure {
     }
 
     // Check for conflicting evidence
-    const conflictingConnections = clue1.connections.filter(conn =>
+    const conflictingConnections = clue1.connections.filter((conn: any) =>
       conn.relatedClueId === clue2.id && conn.relationshipType === 'contradicts'
     );
 
@@ -460,7 +460,7 @@ export class ClueSystemPure {
   }
 
   private updateTimelineConsistency(investigation: Investigation): void {
-    const events = investigation.timeline.sort((a, b) => a.timestamp - b.timestamp);
+    const events = investigation.timeline.sort((a: any, b: any) => a.timestamp - b.timestamp);
 
     let isConsistent = true;
     let lastTimestamp = 0;
@@ -715,7 +715,7 @@ export class ClueSystemPure {
     };
 
     investigation.timeline.push(event);
-    investigation.timeline.sort((a, b) => a.timestamp - b.timestamp);
+    investigation.timeline.sort((a: any, b: any) => a.timestamp - b.timestamp);
 
     this.eventBus.publish('clue:timeline_event_added', {
       investigationId: investigationId,
@@ -745,17 +745,17 @@ export class ClueSystemPure {
 
     return {
       totalClues: clues.length,
-      analyzedClues: clues.filter(c => c.state === 'analyzed').length,
-      linkedClues: clues.filter(c => c.state === 'linked').length,
-      resolvedClues: clues.filter(c => c.state === 'resolved').length,
+      analyzedClues: clues.filter((c: any) => c.state === 'analyzed').length,
+      linkedClues: clues.filter((c: any) => c.state === 'linked').length,
+      resolvedClues: clues.filter((c: any) => c.state === 'resolved').length,
       hypotheses: hypotheses.length,
-      confirmedHypotheses: hypotheses.filter(h => h.status === 'confirmed').length,
-      refutedHypotheses: hypotheses.filter(h => h.status === 'refuted').length,
+      confirmedHypotheses: hypotheses.filter((h: any) => h.status === 'confirmed').length,
+      refutedHypotheses: hypotheses.filter((h: any) => h.status === 'refuted').length,
       evidenceChains: chains.length,
-      completeChains: chains.filter(c => c.isComplete).length,
+      completeChains: chains.filter((c: any) => c.isComplete).length,
       suspects: suspects.length,
-      clearedSuspects: suspects.filter(s => s.status === 'cleared' || s.status === 'innocent').length,
-      guiltySuspects: suspects.filter(s => s.status === 'guilty').length,
+      clearedSuspects: suspects.filter((s: any) => s.status === 'cleared' || s.status === 'innocent').length,
+      guiltySuspects: suspects.filter((s: any) => s.status === 'guilty').length,
       averageClueReliability: clues.reduce((sum, c) => sum + c.reliability, 0) / clues.length || 0,
       deductionAccuracy: 85, // This would be calculated from historical data
       investigationProgress: investigation.progress

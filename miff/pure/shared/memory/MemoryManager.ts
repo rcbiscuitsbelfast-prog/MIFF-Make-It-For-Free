@@ -70,7 +70,7 @@ export class MemoryManager {
    */
   executeCleanup(): void {
     const callbacks = Array.from(this.cleanupCallbacks.values())
-      .sort((a, b) => b.priority - a.priority);
+      .sort((a: any, b: any) => b.priority - a.priority);
 
     for (const { callback } of callbacks) {
       try {

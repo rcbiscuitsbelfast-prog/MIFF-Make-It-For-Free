@@ -1225,7 +1225,7 @@ export class RecommendationSystemPure {
 
     for (const manager of this.managers.values()) {
       totalModels += manager.models.length;
-      activeModels += manager.models.filter(m => m.status === 'deployed').length;
+      activeModels += manager.models.filter((m: any) => m.status === 'deployed').length;
       totalUsers += manager.users.length;
       totalItems += manager.items.length;
       totalInteractions += manager.interactions.length;

@@ -215,7 +215,7 @@ export class XPManager {
   }
 
   private applyLevelUpEffects(spirit: SpiritInstance): void {
-    this.levelUpEffects.forEach(effect => {
+    this.levelUpEffects.forEach((effect: any) => {
       switch (effect.type) {
         case 'stat_boost':
           this.applyStatBoost(spirit, effect);

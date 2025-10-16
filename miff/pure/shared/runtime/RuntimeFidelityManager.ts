@@ -285,8 +285,8 @@ export class RuntimeFidelityManager {
    */
   getRuntimeFidelityReport(): RuntimeFidelityReport {
     const bridges = Array.from(this.bridges.values());
-    const activeBridges = bridges.filter(b => b.status === 'active').length;
-    const errorBridges = bridges.filter(b => b.status === 'error').length;
+    const activeBridges = bridges.filter((b: any) => b.status === 'active').length;
+    const errorBridges = bridges.filter((b: any) => b.status === 'error').length;
     
     const averageResponseTime = bridges.length > 0 
       ? bridges.reduce((sum, b) => sum + b.performance.responseTime, 0) / bridges.length 
@@ -446,7 +446,7 @@ export class RuntimeFidelityManager {
     }> = [];
 
     // Check for performance inconsistencies
-    const responseTimes = bridges.map(b => b.performance.responseTime);
+    const responseTimes = bridges.map((b: any) => b.performance.responseTime);
     const avgResponseTime = responseTimes.reduce((sum, time) => sum + time, 0) / responseTimes.length;
     
     for (const bridge of bridges) {
@@ -497,8 +497,8 @@ export class RuntimeFidelityManager {
     if (totalBridges === 0) return 'excellent';
 
     const healthRatio = activeBridges / totalBridges;
-    const criticalIssues = inconsistencies.filter(i => i.severity === 'critical').length;
-    const highIssues = inconsistencies.filter(i => i.severity === 'high').length;
+    const criticalIssues = inconsistencies.filter((i: any) => i.severity === 'critical').length;
+    const highIssues = inconsistencies.filter((i: any) => i.severity === 'high').length;
 
     if (criticalIssues > 0 || healthRatio < 0.5) return 'critical';
     if (highIssues > 2 || healthRatio < 0.7 || averageSuccessRate < 80) return 'poor';
@@ -518,7 +518,7 @@ export class RuntimeFidelityManager {
 
     // Add recommendations from inconsistencies
     const uniqueRecommendations = new Set(
-      inconsistencies.map(i => i.recommendation)
+      inconsistencies.map((i: any) => i.recommendation)
     );
     recommendations.push(...Array.from(uniqueRecommendations));
 
@@ -527,12 +527,12 @@ export class RuntimeFidelityManager {
       recommendations.push('No bridges registered - consider adding bridge modules');
     }
 
-    const errorBridges = bridges.filter(b => b.status === 'error');
+    const errorBridges = bridges.filter((b: any) => b.status === 'error');
     if (errorBridges.length > 0) {
       recommendations.push(`Fix ${errorBridges.length} bridges in error state`);
     }
 
-    const lowSuccessRate = bridges.filter(b => b.successRate < 90);
+    const lowSuccessRate = bridges.filter((b: any) => b.successRate < 90);
     if (lowSuccessRate.length > 0) {
       recommendations.push('Improve success rates for underperforming bridges');
     }
@@ -554,8 +554,8 @@ export class RuntimeFidelityManager {
     
     return {
       totalBridges: bridges.length,
-      activeBridges: bridges.filter(b => b.status === 'active').length,
-      errorBridges: bridges.filter(b => b.status === 'error').length,
+      activeBridges: bridges.filter((b: any) => b.status === 'active').length,
+      errorBridges: bridges.filter((b: any) => b.status === 'error').length,
       averageSuccessRate: bridges.length > 0 
         ? bridges.reduce((sum, b) => sum + b.successRate, 0) / bridges.length 
         : 100,

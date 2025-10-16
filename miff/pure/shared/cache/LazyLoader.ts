@@ -102,7 +102,7 @@ export class LazyLoader {
    */
   async preloadModules(strategyName?: string): Promise<void> {
     const strategies = strategyName
-      ? this.loadingStrategies.filter(s => s.name === strategyName)
+      ? this.loadingStrategies.filter((s: any) => s.name === strategyName)
       : this.loadingStrategies;
 
     for (const strategy of strategies) {
@@ -173,7 +173,7 @@ export class LazyLoader {
     this.log('Optimizing loading strategy based on user behavior...');
 
     // Adjust loading strategies
-    this.loadingStrategies.forEach(strategy => {
+    this.loadingStrategies.forEach((strategy: any) => {
       const priorityBoost = interactionData.mostUsedModules.includes(strategy.name) ? 2 : 1;
       strategy.priority = Math.min(10, strategy.priority * priorityBoost);
     });
@@ -326,7 +326,7 @@ export class LazyLoader {
       }
     ];
 
-    coreModules.forEach(module => this.registerModule(module));
+    coreModules.forEach((module: any) => this.registerModule(module));
   }
 
   private initializeLoadingStrategies(): void {
@@ -366,7 +366,7 @@ export class LazyLoader {
     if (typeof window !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(
         (entries) => {
-          entries.forEach(entry => {
+          entries.forEach((entry: any) => {
             if (entry.isIntersecting) {
               const moduleName = entry.target.getAttribute('data-module');
               if (moduleName && !this.loadedModules.has(moduleName)) {
@@ -390,7 +390,7 @@ export class LazyLoader {
 
   private calculateAverageLoadTime(): number {
     const modules = Array.from(this.moduleRegistry.values());
-    const loadedModules = modules.filter(m => m.loadTime > 0);
+    const loadedModules = modules.filter((m: any) => m.loadTime > 0);
 
     if (loadedModules.length === 0) return 0;
 

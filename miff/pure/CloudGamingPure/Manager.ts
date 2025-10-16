@@ -1072,13 +1072,13 @@ export class CloudGamingPure {
 
     for (const manager of this.managers.values()) {
       totalSessions += manager.sessions.length;
-      activeSessions += manager.sessions.filter(s => s.status === 'active').length;
+      activeSessions += manager.sessions.filter((s: any) => s.status === 'active').length;
       totalStreams += manager.streams.length;
-      activeStreams += manager.streams.filter(s => s.status === 'active').length;
+      activeStreams += manager.streams.filter((s: any) => s.status === 'active').length;
       totalServers += manager.servers.length;
-      activeServers += manager.servers.filter(s => s.status === 'active').length;
+      activeServers += manager.servers.filter((s: any) => s.status === 'active').length;
       totalClients += manager.clients.length;
-      connectedClients += manager.clients.filter(c => c.status === 'connected').length;
+      connectedClients += manager.clients.filter((c: any) => c.status === 'connected').length;
     }
 
     this.performanceMetrics.totalSessions = totalSessions;

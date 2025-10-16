@@ -101,7 +101,7 @@ export class RenderPayloadManager {
       }
     ];
 
-    defaultAssets.forEach(asset => this.assets.set(asset.id, asset));
+    defaultAssets.forEach((asset: any) => this.assets.set(asset.id, asset));
   }
 
   private initializeDefaultAnimations() {
@@ -132,7 +132,7 @@ export class RenderPayloadManager {
       }
     ];
 
-    defaultAnimations.forEach(anim => this.animations.set(anim.id, anim));
+    defaultAnimations.forEach((anim: any) => this.animations.set(anim.id, anim));
   }
 
   /**
@@ -352,7 +352,7 @@ export class RenderPayloadManager {
   private calculateComplexity(payload: RenderPayload): number {
     let complexity = 0;
     
-    payload.renderData.forEach(data => {
+    payload.renderData.forEach((data: any) => {
       complexity += 1; // Base complexity
       if (data.children) complexity += data.children.length * 0.5;
       if (data.signals) complexity += data.signals.length * 0.3;
@@ -440,17 +440,17 @@ export class RenderPayloadManager {
   private extractUsedAssets(frame: RenderPayload): AssetReference[] {
     const usedAssetIds = new Set<string>();
     
-    frame.renderData.forEach(data => {
+    frame.renderData.forEach((data: any) => {
       if (data.asset) usedAssetIds.add(data.asset);
       if (data.children) {
-        data.children.forEach(child => {
+        data.children.forEach((child: any) => {
           if (child.asset) usedAssetIds.add(child.asset);
         });
       }
     });
 
     return Array.from(usedAssetIds)
-      .map(id => this.assets.get(id))
+      .map((id: any) => this.assets.get(id))
       .filter((asset): asset is AssetReference => asset !== undefined);
   }
 
@@ -468,7 +468,7 @@ export class RenderPayloadManager {
       : 0;
 
     const engineDistribution: Record<string, number> = {};
-    frames.forEach(frame => {
+    frames.forEach((frame: any) => {
       const engine = frame.metadata?.engine || 'unified';
       engineDistribution[engine] = (engineDistribution[engine] || 0) + 1;
     });

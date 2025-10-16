@@ -115,7 +115,7 @@ export class AIDecisionProfile implements IAIDecisionProfile {
 
   removePreferredType(type: string): boolean {
     const before = this.preferredTypes.length;
-    this.preferredTypes = this.preferredTypes.filter(t => t !== type);
+    this.preferredTypes = this.preferredTypes.filter((t: any) => t !== type);
     return this.preferredTypes.length < before;
   }
 

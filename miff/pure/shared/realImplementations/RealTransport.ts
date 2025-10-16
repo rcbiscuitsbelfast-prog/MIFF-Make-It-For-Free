@@ -148,7 +148,7 @@ export class RealTransport {
 
   private handleMessage(message: TransportMessage): void {
     const handlers = this.messageHandlers.get(message.type) || [];
-    handlers.forEach(handler => {
+    handlers.forEach((handler: any) => {
       try {
         handler(message.data);
       } catch (error: unknown) {

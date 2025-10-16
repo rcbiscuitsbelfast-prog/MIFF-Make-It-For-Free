@@ -507,7 +507,7 @@ export class RealDialogueEngine {
    * Execute dialogue actions
    */
   private executeActions(actions: DialogueAction[], context: DialogueContext): void {
-    actions.forEach(action => {
+    actions.forEach((action: any) => {
       switch (action.type) {
         case 'set_variable':
           context.variables.set(action.key, action.value);
@@ -686,7 +686,7 @@ export class RealDialogueEngine {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {
@@ -722,7 +722,7 @@ export class RealDialogueEngine {
   cleanupDialogueHistory(): number {
     let cleanedCount = 0;
 
-    this.characters.forEach(character => {
+    this.characters.forEach((character: any) => {
       if (character.dialogueHistory.length > maxHistory) {
         const removed = character.dialogueHistory.splice(0, character.dialogueHistory.length - maxHistory);
         cleanedCount += removed.length;

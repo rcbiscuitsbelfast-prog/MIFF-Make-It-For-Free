@@ -24,11 +24,11 @@ export class AudioManager {
   }
 
   stop(audioId: string): void {
-    this.playing = this.playing.filter(c => c.id !== audioId);
+    this.playing = this.playing.filter((c: any) => c.id !== audioId);
   }
 
   setVolume(audioId: string, volume: number): void {
-    this.playing = this.playing.map(c => c.id === audioId ? { ...c, volume } : c);
+    this.playing = this.playing.map((c: any) => c.id === audioId ? { ...c, volume } : c);
   }
 
   getPlaying(): AudioClip[] {

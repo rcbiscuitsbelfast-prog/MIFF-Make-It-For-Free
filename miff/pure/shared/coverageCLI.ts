@@ -78,7 +78,7 @@ class CoverageCLI {
 
     if (report.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
-      report.recommendations.forEach(rec => console.info(`  - ${rec}`));
+      report.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
   }
 
@@ -119,7 +119,7 @@ class CoverageCLI {
 
     if (coverage.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
-      coverage.recommendations.forEach(rec => console.info(`  - ${rec}`));
+      coverage.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
   }
 
@@ -162,10 +162,10 @@ class CoverageCLI {
     
     if (lowCoverageModules.length > 0) {
       console.info('\n📊 Low Coverage Modules:');
-      lowCoverageModules.forEach(module => {
+      lowCoverageModules.forEach((module: any) => {
         console.info(`  ${module.module}: ${module.coveragePercentage.toFixed(1)}%`);
         if (module.recommendations.length > 0) {
-          module.recommendations.forEach(rec => console.info(`    - ${rec}`));
+          module.recommendations.forEach((rec: any) => console.info(`    - ${rec}`));
         }
       });
     }

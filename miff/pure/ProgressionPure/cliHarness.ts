@@ -206,7 +206,7 @@ class ProgressionCli {
     console.log('ID              | Species       | Level | XP      | HP    | Attack | Sp.Att');
     console.log('─'.repeat(60));
 
-    this.spirits.forEach(spirit => {
+    this.spirits.forEach((spirit: any) => {
       const id = spirit.instanceId.substring(0, 15).padEnd(15);
       const species = spirit.speciesId.padEnd(13);
       const level = spirit.level.toString().padEnd(5);

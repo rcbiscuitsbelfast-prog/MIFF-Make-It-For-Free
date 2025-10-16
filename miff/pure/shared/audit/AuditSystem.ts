@@ -613,7 +613,7 @@ export class AuditSystem {
       /token\s*=\s*['"][^'"]+['"]/i
     ];
 
-    secretPatterns.forEach(pattern => {
+    secretPatterns.forEach((pattern: any) => {
       if (pattern.test(content)) {
         this.addIssue({
           id: this.generateId(),
@@ -954,19 +954,19 @@ export class AuditSystem {
     const issues = Array.from(this.issues.values());
     
     this.metrics.totalIssues = issues.length;
-    this.metrics.resolvedIssues = issues.filter(i => i.status === 'resolved').length;
-    this.metrics.openIssues = issues.filter(i => i.status === 'open').length;
+    this.metrics.resolvedIssues = issues.filter((i: any) => i.status === 'resolved').length;
+    this.metrics.openIssues = issues.filter((i: any) => i.status === 'open').length;
     
     // Count by level
-    Object.keys(AuditLevel).forEach(level => {
+    Object.keys(AuditLevel).forEach((level: any) => {
       this.metrics.issuesByLevel[level as AuditLevel] = 
-        issues.filter(i => i.level === level).length;
+        issues.filter((i: any) => i.level === level).length;
     });
     
     // Count by category
-    Object.keys(AuditCategory).forEach(category => {
+    Object.keys(AuditCategory).forEach((category: any) => {
       this.metrics.issuesByCategory[category as AuditCategory] = 
-        issues.filter(i => i.category === category).length;
+        issues.filter((i: any) => i.category === category).length;
     });
     
     // Calculate scores (simplified)
@@ -993,14 +993,14 @@ export class AuditSystem {
    */
   private calculateCategoryScore(category: AuditCategory): number {
     const categoryIssues = Array.from(this.issues.values())
-      .filter(i => i.category === category);
+      .filter((i: any) => i.category === category);
     
     if (categoryIssues.length === 0) return 100;
     
-    const criticalIssues = categoryIssues.filter(i => i.level === AuditLevel.CRITICAL).length;
-    const highIssues = categoryIssues.filter(i => i.level === AuditLevel.HIGH).length;
-    const mediumIssues = categoryIssues.filter(i => i.level === AuditLevel.MEDIUM).length;
-    const lowIssues = categoryIssues.filter(i => i.level === AuditLevel.LOW).length;
+    const criticalIssues = categoryIssues.filter((i: any) => i.level === AuditLevel.CRITICAL).length;
+    const highIssues = categoryIssues.filter((i: any) => i.level === AuditLevel.HIGH).length;
+    const mediumIssues = categoryIssues.filter((i: any) => i.level === AuditLevel.MEDIUM).length;
+    const lowIssues = categoryIssues.filter((i: any) => i.level === AuditLevel.LOW).length;
     
     const score = Math.max(0, 100 - (criticalIssues * 20 + highIssues * 10 + mediumIssues * 5 + lowIssues * 2));
     return Math.round(score);
@@ -1058,7 +1058,7 @@ export class AuditSystem {
     
     // Add recommendations based on issues
     const criticalIssues = Array.from(this.issues.values())
-      .filter(i => i.level === AuditLevel.CRITICAL);
+      .filter((i: any) => i.level === AuditLevel.CRITICAL);
     
     if (criticalIssues.length > 0) {
       recommendations.push({
@@ -1143,7 +1143,7 @@ export class AuditSystem {
    * Load custom rules
    */
   private loadCustomRules(): void {
-    this.config.config.customRules.forEach(rule => {
+    this.config.config.customRules.forEach((rule: any) => {
       this.customRules.set(rule.id, rule);
     });
   }

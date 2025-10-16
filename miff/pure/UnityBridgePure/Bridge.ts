@@ -135,7 +135,7 @@ export class UnityBridge {
         case 'npcs':
           const npcs = this.npcsManager.listNPCs();
           if (npcs.status === 'ok' && npcs.result) {
-            entities = (npcs.result as NPC[]).map(npc => this.createUnityEntity(npc, config));
+            entities = (npcs.result as NPC[]).map((npc: any) => this.createUnityEntity(npc, config));
             components = this.createNPCComponents(npcs.result as NPC[]);
             prefabs = ['NPCPrefab', 'QuestGiverPrefab', 'MerchantPrefab'];
             scripts = ['NPCController', 'QuestGiver', 'MerchantBehavior'];
@@ -240,7 +240,7 @@ export class UnityBridge {
   }
 
   private createNPCComponents(npcs: NPC[]): UnityComponent[] {
-    return npcs.map(npc => ({
+    return npcs.map((npc: any) => ({
       type: 'NPCController',
       data: {
         npcId: npc.id,

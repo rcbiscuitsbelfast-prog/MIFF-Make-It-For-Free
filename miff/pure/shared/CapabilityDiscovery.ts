@@ -276,7 +276,7 @@ describe('${result.moduleName} Capabilities', () => {
    * Get results by status
    */
   getResultsByStatus(status: 'success' | 'error' | 'warning'): DiscoveryResult[] {
-    return Array.from(this.discoveryResults.values()).filter(r => r.status === status);
+    return Array.from(this.discoveryResults.values()).filter((r: any) => r.status === status);
   }
 
   private async findCapableFiles(rootPath: string): Promise<string[]> {
@@ -397,7 +397,7 @@ describe('${result.moduleName} Capabilities', () => {
 
   private generateTestParameters(inputSchema: any[]): string {
     if (inputSchema.length === 0) return '';
-    return inputSchema.map(p => `/* ${p.name}: ${p.integrationType} */`).join(', ');
+    return inputSchema.map((p: any) => `/* ${p.name}: ${p.integrationType} */`).join(', ');
   }
 
   private generateTestData(integrationType: string): string {
@@ -435,9 +435,9 @@ describe('${result.moduleName} Capabilities', () => {
 
   private updateStats(results: DiscoveryResult[]): void {
     this.stats.totalModules = results.length;
-    this.stats.successfulDiscoveries = results.filter(r => r.status === 'success').length;
-    this.stats.failedDiscoveries = results.filter(r => r.status === 'error').length;
-    this.stats.warningDiscoveries = results.filter(r => r.status === 'warning').length;
+    this.stats.successfulDiscoveries = results.filter((r: any) => r.status === 'success').length;
+    this.stats.failedDiscoveries = results.filter((r: any) => r.status === 'error').length;
+    this.stats.warningDiscoveries = results.filter((r: any) => r.status === 'warning').length;
     
     const totalCapabilities = results.reduce((sum, r) => {
       if (r.status === 'success' && r.capabilities.operations) {

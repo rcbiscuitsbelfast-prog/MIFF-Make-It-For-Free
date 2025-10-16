@@ -602,7 +602,7 @@ export class WebBridge {
           },
           webWorkers: {
             count: this.webWorkers.length,
-            active: this.webWorkers.filter(w => !w.toString().includes('terminated')).length
+            active: this.webWorkers.filter((w: any) => !w.toString().includes('terminated')).length
           }
         }
       }

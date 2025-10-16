@@ -79,7 +79,7 @@ class CPUOptimizerCLI {
     
     console.info(`Average Improvement: ${averageImprovement.toFixed(2)}%`);
     
-    results.forEach(result => {
+    results.forEach((result: any) => {
       const statusIcon = result.status === 'applied' ? '✅' : 
                         result.status === 'failed' ? '❌' : '⏳';
       console.info(`  ${statusIcon} ${result.description}: ${result.improvement.toFixed(2)}% improvement`);
@@ -102,7 +102,7 @@ class CPUOptimizerCLI {
     // Display metrics
     console.info('\n📊 Current CPU Metrics:');
     console.info(`CPU Usage: ${metrics.usage.toFixed(2)}%`);
-    console.info(`Load Average: ${metrics.loadAverage.map(avg => avg.toFixed(2)).join(', ')}`);
+    console.info(`Load Average: ${metrics.loadAverage.map((avg: any) => avg.toFixed(2)).join(', ')}`);
     console.info(`Process Count: ${metrics.processCount}`);
     console.info(`Memory Usage: ${metrics.memory.toFixed(2)} MB`);
     console.info(`Response Time: ${metrics.responseTime.toFixed(2)} ms`);
@@ -221,7 +221,7 @@ class CPUOptimizerCLI {
     const stats = this.optimizer.getResourcePoolStats();
     const poolIds = Array.from(stats.keys());
     
-    poolIds.forEach(id => {
+    poolIds.forEach((id: any) => {
       console.info(`  - ${id}`);
     });
   }
@@ -244,7 +244,7 @@ class CPUOptimizerCLI {
     console.info(`📄 Results saved to ${outputFile}`);
 
     // Display results
-    results.forEach(result => {
+    results.forEach((result: any) => {
       const statusIcon = result.status === 'applied' ? '✅' : 
                         result.status === 'failed' ? '❌' : '⏳';
       console.info(`\n${statusIcon} ${result.description}`);

@@ -259,7 +259,7 @@ export class RealConsole {
    * Write to custom destinations
    */
   private writeToCustomDestinations(entry: LogEntry): void {
-    this.config.customDestinations.forEach(destination => {
+    this.config.customDestinations.forEach((destination: any) => {
       if (destination.enabled) {
         try {
           destination.write(entry);
@@ -319,11 +319,11 @@ export class RealConsole {
     let filtered = this.logHistory;
 
     if (level) {
-      filtered = filtered.filter(entry => entry.level === level);
+      filtered = filtered.filter((entry: any) => entry.level === level);
     }
 
     if (category) {
-      filtered = filtered.filter(entry => entry.category === category);
+      filtered = filtered.filter((entry: any) => entry.category === category);
     }
 
     return filtered;
@@ -380,7 +380,7 @@ export class RealConsole {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {

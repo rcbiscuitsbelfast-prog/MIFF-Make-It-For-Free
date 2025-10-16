@@ -70,7 +70,7 @@ export class SafeObjectUtils {
     }
 
     if (Array.isArray(obj)) {
-      return obj.map(item => this.safeClone(item)) as T;
+      return obj.map((item: any) => this.safeClone(item)) as T;
     }
 
     const cloned = this.createSafeObject({});

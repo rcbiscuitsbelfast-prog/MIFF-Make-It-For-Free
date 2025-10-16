@@ -129,7 +129,7 @@ export class Item {
 
     if (this.effect) {
       const effectErrors = this.effect.validate();
-      errors.push(...effectErrors.map(error => `Effect: ${error}`));
+      errors.push(...effectErrors.map((error: any) => `Effect: ${error}`));
     }
 
     if (this.targetRule && !['any', 'notfainted', 'faintedonly'].includes(this.targetRule)) {
@@ -470,14 +470,14 @@ export class ItemsManager {
    * Get all items by type
    */
   getItemsByType(type: string): Item[] {
-    return Array.from(this.items.values()).filter(item => item.type === type);
+    return Array.from(this.items.values()).filter((item: any) => item.type === type);
   }
 
   /**
    * Get all items by rarity
    */
   getItemsByRarity(rarity: string): Item[] {
-    return Array.from(this.items.values()).filter(item => item.rarity === rarity);
+    return Array.from(this.items.values()).filter((item: any) => item.rarity === rarity);
   }
 
   /**
@@ -485,7 +485,7 @@ export class ItemsManager {
    */
   searchItems(query: string): Item[] {
     const lowerQuery = query.toLowerCase();
-    return Array.from(this.items.values()).filter(item => 
+    return Array.from(this.items.values()).filter((item: any) => 
       item.name.toLowerCase().includes(lowerQuery) ||
       item.description.toLowerCase().includes(lowerQuery)
     );
@@ -652,7 +652,7 @@ export class ItemUsageManager {
 
   searchItems(query: string): Item[] {
     const lowerQuery = query.toLowerCase();
-    return Array.from(this.registeredItems.values()).filter(item =>
+    return Array.from(this.registeredItems.values()).filter((item: any) =>
       item.name.toLowerCase().includes(lowerQuery) ||
       item.description.toLowerCase().includes(lowerQuery) ||
       item.itemID.toLowerCase().includes(lowerQuery)
@@ -672,13 +672,13 @@ export class ItemUsageManager {
   }
 
   getUsableItems(spirit?: ISpiritInstance): Item[] {
-    return Array.from(this.registeredItems.values()).filter(item =>
+    return Array.from(this.registeredItems.values()).filter((item: any) =>
       item.canUseOn(spirit)
     );
   }
 
   getItemsByType(type: ItemType): Item[] {
-    return Array.from(this.registeredItems.values()).filter(item =>
+    return Array.from(this.registeredItems.values()).filter((item: any) =>
       item.type === type
     );
   }
@@ -810,25 +810,25 @@ export class ItemUtils {
   }
 
   static filterItemsByType(items: Item[], type: ItemType): Item[] {
-    return items.filter(item => item.type === type);
+    return items.filter((item: any) => item.type === type);
   }
 
   static filterItemsByEffectType(items: Item[], effectType: ItemEffectType): Item[] {
-    return items.filter(item =>
+    return items.filter((item: any) =>
       item.properties.effectType === effectType
     );
   }
 
   static filterItemsByRarity(items: Item[], rarity: ItemRarity): Item[] {
-    return items.filter(item => item.rarity === rarity);
+    return items.filter((item: any) => item.rarity === rarity);
   }
 
   static sortItemsByName(items: Item[]): Item[] {
-    return [...items].sort((a, b) => a.name.localeCompare(b.name));
+    return [...items].sort((a: any, b: any) => a.name.localeCompare(b.name));
   }
 
   static sortItemsByValue(items: Item[]): Item[] {
-    return [...items].sort((a, b) => b.value - a.value);
+    return [...items].sort((a: any, b: any) => b.value - a.value);
   }
 
   static getItemStatistics(items: Item[]): {
@@ -846,7 +846,7 @@ export class ItemUtils {
     let totalValue = 0;
     let consumableCount = 0;
 
-    items.forEach(item => {
+    items.forEach((item: any) => {
       byType[item.type] = (byType[item.type] || 0) + 1;
       byRarity[item.rarity] = (byRarity[item.rarity] || 0) + 1;
       byEffect[item.effect.effectType] = (byEffect[item.effect.effectType] || 0) + 1;
@@ -871,7 +871,7 @@ export class ItemUtils {
     targetRule?: string;
     hasEffect?: boolean;
   }): Item[] {
-    return items.filter(item => {
+    return items.filter((item: any) => {
       if (criteria.type && item.type !== criteria.type) return false;
       if (criteria.effectType && item.effect.effectType !== criteria.effectType) return false;
       if (criteria.targetRule && item.targetRule !== criteria.targetRule) return false;
@@ -884,9 +884,9 @@ export class ItemUtils {
     const errors: string[] = [];
     const itemIds = new Set<string>();
 
-    items.forEach(item => {
+    items.forEach((item: any) => {
       const itemErrors = this.validateItem(item);
-      errors.push(...itemErrors.map(error => `${item.itemID}: ${error}`));
+      errors.push(...itemErrors.map((error: any) => `${item.itemID}: ${error}`));
 
       if (itemIds.has(item.itemID)) {
         errors.push(`${item.itemID}: Duplicate item ID`);
@@ -898,7 +898,7 @@ export class ItemUtils {
   }
 
   static filterItems(items: Item[], criteria: any): Item[] {
-    return items.filter(item => {
+    return items.filter((item: any) => {
       if (criteria.type && item.type !== criteria.type) return false;
       if (criteria.effectType && item.effect.effectType !== criteria.effectType) return false;
       if (criteria.targetRule && item.targetRule !== criteria.targetRule) return false;
@@ -914,13 +914,13 @@ export class ItemUtils {
     const sorted = [...items];
     switch (sortBy) {
       case 'name':
-        return sorted.sort((a, b) => a.name.localeCompare(b.name));
+        return sorted.sort((a: any, b: any) => a.name.localeCompare(b.name));
       case 'type':
-        return sorted.sort((a, b) => a.type.localeCompare(b.type));
+        return sorted.sort((a: any, b: any) => a.type.localeCompare(b.type));
       case 'id':
-        return sorted.sort((a, b) => a.itemID.localeCompare(b.itemID));
+        return sorted.sort((a: any, b: any) => a.itemID.localeCompare(b.itemID));
       case 'value':
-        return sorted.sort((a, b) => b.value - a.value);
+        return sorted.sort((a: any, b: any) => b.value - a.value);
       default:
         return sorted;
     }
@@ -928,7 +928,7 @@ export class ItemUtils {
 
   static searchItems(items: Item[], query: string): Item[] {
     const lowerQuery = query.toLowerCase();
-    return items.filter(item =>
+    return items.filter((item: any) =>
       item.name.toLowerCase().includes(lowerQuery) ||
       item.description.toLowerCase().includes(lowerQuery) ||
       item.itemID.toLowerCase().includes(lowerQuery)

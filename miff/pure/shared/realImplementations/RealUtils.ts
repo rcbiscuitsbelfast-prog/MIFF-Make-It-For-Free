@@ -226,7 +226,7 @@ export class RealUtils {
       }, {} as Record<string, T[]>);
     },
     sortBy: <T>(arr: T[], key: keyof T) => {
-      return [...arr].sort((a, b) => {
+      return [...arr].sort((a: any, b: any) => {
         const aVal = a[key];
         const bVal = b[key];
         return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
@@ -244,8 +244,8 @@ export class RealUtils {
       const shuffled = this.array.shuffle(arr);
       return shuffled.slice(0, count);
     },
-    difference: <T>(arr1: T[], arr2: T[]) => arr1.filter(item => !arr2.includes(item)),
-    intersection: <T>(arr1: T[], arr2: T[]) => arr1.filter(item => arr2.includes(item)),
+    difference: <T>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => !arr2.includes(item)),
+    intersection: <T>(arr1: T[], arr2: T[]) => arr1.filter((item: any) => arr2.includes(item)),
     union: <T>(arr1: T[], arr2: T[]) => this.array.unique([...arr1, ...arr2]),
     zip: <T, U>(arr1: T[], arr2: U[]) => {
       const length = Math.min(arr1.length, arr2.length);
@@ -273,7 +273,7 @@ export class RealUtils {
     deepClone: <T>(obj: T): T => {
       if (obj === null || typeof obj !== 'object') return obj;
       if (obj instanceof Date) return new Date(obj.getTime()) as any;
-      if (obj instanceof Array) return obj.map(item => this.object.deepClone(item)) as any;
+      if (obj instanceof Array) return obj.map((item: any) => this.object.deepClone(item)) as any;
       if (typeof obj === 'object') {
         const cloned: any = {};
         for (const key in obj) {
@@ -494,7 +494,7 @@ export class RealUtils {
     sum: (...values: number[]) => values.reduce((sum, val) => sum + val, 0),
     average: (...values: number[]) => values.reduce((sum, val) => sum + val, 0) / values.length,
     median: (...values: number[]) => {
-      const sorted = values.sort((a, b) => a - b);
+      const sorted = values.sort((a: any, b: any) => a - b);
       const mid = Math.floor(sorted.length / 2);
       return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
     },
@@ -514,7 +514,7 @@ export class RealUtils {
     },
     variance: (...values: number[]) => {
       const avg = this.math.average(...values);
-      const squaredDiffs = values.map(val => Math.pow(val - avg, 2));
+      const squaredDiffs = values.map((val: any) => Math.pow(val - avg, 2));
       return this.math.average(...squaredDiffs);
     },
     standardDeviation: (...values: number[]) => Math.sqrt(this.math.variance(...values)),
@@ -582,7 +582,7 @@ export class RealUtils {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {

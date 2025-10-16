@@ -248,7 +248,7 @@ export class RealWindow {
    * Get visible windows
    */
   getVisibleWindows(): WindowInfo[] {
-    return Array.from(this.windows.values()).filter(window => window.visible);
+    return Array.from(this.windows.values()).filter((window: any) => window.visible);
   }
 
   /**
@@ -333,7 +333,7 @@ export class RealWindow {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {

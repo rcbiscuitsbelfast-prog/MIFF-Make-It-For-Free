@@ -293,7 +293,7 @@ export class RacingSystemPure {
 
     if (!race) return;
 
-    race.track.checkpoints.forEach(checkpoint => {
+    race.track.checkpoints.forEach((checkpoint: any) => {
       const distance = Math.sqrt(
         (vehicle.position.x - checkpoint.position.x) ** 2 +
         (vehicle.position.y - checkpoint.position.y) ** 2 +
@@ -468,7 +468,7 @@ export class RacingSystemPure {
       throw new Error(`Track ${trackId} not found`);
     }
 
-    const vehicles = vehicleIds.map(id => {
+    const vehicles = vehicleIds.map((id: any) => {
       const vehicle = this.vehicles.get(id);
       if (!vehicle) {
         throw new Error(`Vehicle ${id} not found`);
@@ -498,7 +498,7 @@ export class RacingSystemPure {
     this.races.set(race.id, race);
 
     // Create ghost racers for AI competition
-    vehicles.forEach(vehicle => {
+    vehicles.forEach((vehicle: any) => {
       if (!this.ghostRacers.has(vehicle.id)) {
         this.createGhostRacer(vehicle.id, `Ghost ${vehicle.id.slice(0, 8)}`, vehicle.type);
       }
@@ -574,13 +574,13 @@ export class RacingSystemPure {
     const race = this.races.get(raceId);
     if (!race) return [];
 
-    return race.vehicles.map(vehicle => ({
+    return race.vehicles.map((vehicle: any) => ({
       position: race.positions.get(vehicle.id) || 0,
       vehicleId: vehicle.id,
       lapTime: Date.now() - race.lapStartTime,
       bestLap: race.bestLapTime,
       laps: race.completedLaps
-    })).sort((a, b) => a.position - b.position);
+    })).sort((a: any, b: any) => a.position - b.position);
   }
 
   private createGhostRacer(vehicleId: string, name: string, vehicleType: VehicleType): GhostRacer {
@@ -789,7 +789,7 @@ export class RacingSystemPure {
     race.state = 'finished';
 
     // Calculate final positions and results
-    const results: RaceResult[] = race.vehicles.map(vehicle => ({
+    const results: RaceResult[] = race.vehicles.map((vehicle: any) => ({
       raceId: raceId,
       position: race.positions.get(vehicle.id) || 0,
       totalTime: Date.now() - race.startTime,

@@ -1200,10 +1200,10 @@ export class NotificationSystemPure {
 
     for (const manager of this.managers.values()) {
       totalNotifications += manager.notifications.length;
-      sentNotifications += manager.notifications.filter(n => n.status === 'sent' || n.status === 'delivered').length;
-      failedNotifications += manager.notifications.filter(n => n.status === 'failed').length;
+      sentNotifications += manager.notifications.filter((n: any) => n.status === 'sent' || n.status === 'delivered').length;
+      failedNotifications += manager.notifications.filter((n: any) => n.status === 'failed').length;
       totalChannels += manager.channels.length;
-      activeChannels += manager.channels.filter(c => c.status === 'active').length;
+      activeChannels += manager.channels.filter((c: any) => c.status === 'active').length;
       totalTemplates += manager.templates.length;
       totalUsers += manager.users.length;
     }

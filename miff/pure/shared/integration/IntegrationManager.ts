@@ -303,7 +303,7 @@ export class IntegrationManager {
   addHook(hook: IntegrationHook): boolean {
     const hooks = this.hooks.get(hook.integrationId) || [];
     hooks.push(hook);
-    hooks.sort((a, b) => b.priority - a.priority);
+    hooks.sort((a: any, b: any) => b.priority - a.priority);
     this.hooks.set(hook.integrationId, hooks);
     return true;
   }
@@ -620,7 +620,7 @@ export class IntegrationManager {
    * Get active integrations
    */
   getActiveIntegrations(): IntegrationConfig[] {
-    return this.getAllIntegrations().filter(config => {
+    return this.getAllIntegrations().filter((config: any) => {
       const health = this.healthStatus.get(config.id);
       return health && health.status === IntegrationStatus.ACTIVE;
     });

@@ -28,8 +28,8 @@ function ensureDir(dir: string) {
 }
 
 function emitManifest(buildDir: string) {
-  const files = fs.readdirSync(buildDir).filter(f => /\.(wasm|js|pck|png|jpg|ogg|mp3|json|html)$/i.test(f));
-  const manifest = files.map(name => ({ name, size: fs.statSync(path.join(buildDir, name)).size }));
+  const files = fs.readdirSync(buildDir).filter((f: any) => /\.(wasm|js|pck|png|jpg|ogg|mp3|json|html)$/i.test(f));
+  const manifest = files.map((name: any) => ({ name, size: fs.statSync(path.join(buildDir, name)).size }));
   fs.writeFileSync(path.join(buildDir, 'preload.manifest.json'), JSON.stringify({ files: manifest }, null, 2));
 }
 

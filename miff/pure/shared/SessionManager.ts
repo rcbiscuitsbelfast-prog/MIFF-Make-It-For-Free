@@ -384,7 +384,7 @@ export class SessionManager {
    */
   getEvents(limit: number = 100): SessionEvent[] {
     return this.events
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      .sort((a: any, b: any) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit);
   }
 
@@ -393,8 +393,8 @@ export class SessionManager {
    */
   getUserEvents(userId: string, limit: number = 50): SessionEvent[] {
     return this.events
-      .filter(event => event.userId === userId)
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      .filter((event: any) => event.userId === userId)
+      .sort((a: any, b: any) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit);
   }
 
@@ -482,8 +482,8 @@ export class SessionManager {
 
   private updateStats(): void {
     const sessions = Array.from(this.authSystem['sessions'].values());
-    const activeSessions = sessions.filter(s => s.isActive);
-    const expiredSessions = sessions.filter(s => !s.isActive);
+    const activeSessions = sessions.filter((s: any) => s.isActive);
+    const expiredSessions = sessions.filter((s: any) => !s.isActive);
 
     // Count sessions by user
     const sessionsByUser = new Map<string, number>();
@@ -493,7 +493,7 @@ export class SessionManager {
     }
 
     // Calculate average session duration
-    const completedSessions = sessions.filter(s => !s.isActive);
+    const completedSessions = sessions.filter((s: any) => !s.isActive);
     const totalDuration = completedSessions.reduce((sum, s) => 
       sum + (s.lastActivity.getTime() - s.createdAt.getTime()), 0);
     const averageDuration = completedSessions.length > 0 ? totalDuration / completedSessions.length : 0;

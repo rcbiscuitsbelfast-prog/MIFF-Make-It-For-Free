@@ -163,7 +163,7 @@ export class RealQuestSystem {
       };
 
       // Initialize objective progress
-      quest.objectives.forEach(objective => {
+      quest.objectives.forEach((objective: any) => {
         progress.objectives[objective.id] = 0;
       });
 
@@ -341,7 +341,7 @@ export class RealQuestSystem {
   private emit(event: string, data: any): void {
     const handlers = this.questEvents.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {
@@ -390,7 +390,7 @@ export class RealQuestSystem {
    * Award quest rewards
    */
   private awardRewards(quest: Quest, playerId: string): void {
-    quest.rewards.forEach(reward => {
+    quest.rewards.forEach((reward: any) => {
       // This would integrate with player systems to award rewards
       console.info(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
     });
@@ -433,7 +433,7 @@ export class RealQuestSystem {
       }
     ];
 
-    defaultQuests.forEach(quest => {
+    defaultQuests.forEach((quest: any) => {
       this.addQuest(quest);
     });
   }

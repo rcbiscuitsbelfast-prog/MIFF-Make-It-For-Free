@@ -1019,9 +1019,9 @@ export class LoggingSystemPure {
 
     for (const manager of this.managers.values()) {
       totalLoggers += manager.loggers.length;
-      activeLoggers += manager.loggers.filter(l => l.status === 'active').length;
+      activeLoggers += manager.loggers.filter((l: any) => l.status === 'active').length;
       totalAppenders += manager.appenders.length;
-      activeAppenders += manager.appenders.filter(a => a.status === 'active').length;
+      activeAppenders += manager.appenders.filter((a: any) => a.status === 'active').length;
       totalFilters += manager.filters.length;
       totalFormatters += manager.formatters.length;
       totalDestinations += manager.destinations.length;

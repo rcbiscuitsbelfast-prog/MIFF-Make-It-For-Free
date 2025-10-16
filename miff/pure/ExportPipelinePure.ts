@@ -920,7 +920,7 @@ function initGame() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // Render game objects
-        renderData.forEach(item => {
+        renderData.forEach((item: any) => {
             if (item.type === 'sprite') {
                 ctx.fillStyle = item.color || '#fff';
                 ctx.fillRect(item.x || 0, item.y || 0, item.width || 32, item.height || 32);
@@ -1064,7 +1064,7 @@ public class Main : MonoBehaviour
     const exportResult = this.activeExports.get(exportId);
     if (exportResult) {
       exportResult.success = false;
-      exportResult.steps.forEach(step => {
+      exportResult.steps.forEach((step: any) => {
         if (step.status === ExportStatus.PROCESSING) {
           step.status = ExportStatus.CANCELLED;
           step.endTime = Date.now();

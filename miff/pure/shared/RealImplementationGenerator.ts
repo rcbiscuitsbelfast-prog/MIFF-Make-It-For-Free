@@ -258,7 +258,7 @@ export class RealImplementationGenerator {
    */
   getModuleImplementations(moduleId: string): GeneratedImplementation[] {
     return Array.from(this.generatedImplementations.values())
-      .filter(impl => impl.moduleId === moduleId);
+      .filter((impl: any) => impl.moduleId === moduleId);
   }
 
   /**

@@ -125,13 +125,13 @@ function createDemoTests(): CLITest[] {
         }
 
         // Sort
-        arr.sort((a, b) => a - b);
+        arr.sort((a: any, b: any) => a - b);
 
         // Filter
-        const filtered = arr.filter(x => x > 0.5);
+        const filtered = arr.filter((x: any) => x > 0.5);
 
         // Map
-        const mapped = filtered.map(x => x * x);
+        const mapped = filtered.map((x: any) => x * x);
 
         // Reduce
         const sum = mapped.reduce((acc, x) => acc + x, 0);
@@ -197,7 +197,7 @@ function createDemoTests(): CLITest[] {
         }
 
         // Quick sort simulation (using built-in sort)
-        arr1.sort((a, b) => a - b);
+        arr1.sort((a: any, b: any) => a - b);
 
         // Bubble sort simulation
         for (let i = 0; i < size - 1; i++) {

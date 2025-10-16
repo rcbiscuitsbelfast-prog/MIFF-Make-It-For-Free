@@ -145,7 +145,7 @@ export class RealValidation {
       score = this.calculateValidationScore(issues);
 
       const result: ValidationResult = {
-        valid: issues.filter(i => i.type === 'error').length === 0,
+        valid: issues.filter((i: any) => i.type === 'error').length === 0,
         issues,
         score,
         suggestions: this.generateSuggestions(issues)
@@ -196,7 +196,7 @@ export class RealValidation {
     }
 
     return {
-      valid: issues.filter(i => i.type === 'error').length === 0,
+      valid: issues.filter((i: any) => i.type === 'error').length === 0,
       issues,
       score: this.calculateValidationScore(issues),
       suggestions: this.generateSuggestions(issues)
@@ -255,7 +255,7 @@ export class RealValidation {
     });
 
     return {
-      valid: issues.filter(i => i.type === 'error').length === 0,
+      valid: issues.filter((i: any) => i.type === 'error').length === 0,
       issues,
       score: this.calculateValidationScore(issues),
       suggestions: this.generateSuggestions(issues)
@@ -321,7 +321,7 @@ export class RealValidation {
     }
 
     return {
-      valid: issues.filter(i => i.type === 'error').length === 0,
+      valid: issues.filter((i: any) => i.type === 'error').length === 0,
       issues,
       score: this.calculateValidationScore(issues),
       suggestions: this.generateSuggestions(issues)
@@ -337,19 +337,19 @@ export class RealValidation {
     commonIssues: Array<{ code: string; count: number }>;
   } {
     const total = this.validationHistory.length;
-    const successful = this.validationHistory.filter(v => v.result.valid).length;
+    const successful = this.validationHistory.filter((v: any) => v.result.valid).length;
     
     // Count common issues
     const issueCounts: Map<string, number> = new Map();
-    this.validationHistory.forEach(validation => {
-      validation.result.issues.forEach(issue => {
+    this.validationHistory.forEach((validation: any) => {
+      validation.result.issues.forEach((issue: any) => {
         issueCounts.set(issue.code, (issueCounts.get(issue.code) || 0) + 1);
       });
     });
 
     const commonIssues = Array.from(issueCounts.entries())
       .map(([code, count]) => ({ code, count }))
-      .sort((a, b) => b.count - a.count)
+      .sort((a: any, b: any) => b.count - a.count)
       .slice(0, 10);
 
     return {
@@ -379,7 +379,7 @@ export class RealValidation {
 
     // Validate nested objects
     if (schema.properties && typeof data === 'object' && data !== null) {
-      Object.keys(schema.properties).forEach(key => {
+      Object.keys(schema.properties).forEach((key: any) => {
         if (data[key] !== undefined) {
           this.validateTypes(data[key], schema.properties[key], issues);
         }
@@ -414,7 +414,7 @@ export class RealValidation {
       const allowedKeys = Object.keys(schema.properties);
       const dataKeys = Object.keys(data);
 
-      dataKeys.forEach(key => {
+      dataKeys.forEach((key: any) => {
         if (!allowedKeys.includes(key)) {
           issues.push({
             type: 'warning',
@@ -580,7 +580,7 @@ export class RealValidation {
    */
   private calculateValidationScore(issues: ValidationIssue[]): number {
     let score = 100;
-    issues.forEach(issue => {
+    issues.forEach((issue: any) => {
       score -= issue.severity;
     });
     return Math.max(0, score);
@@ -592,7 +592,7 @@ export class RealValidation {
   private generateSuggestions(issues: ValidationIssue[]): string[] {
     const suggestions: string[] = [];
     
-    issues.forEach(issue => {
+    issues.forEach((issue: any) => {
       if (issue.suggestion) {
         suggestions.push(issue.suggestion);
       } else {

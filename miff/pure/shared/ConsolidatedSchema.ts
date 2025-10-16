@@ -431,7 +431,7 @@ export class ConsolidatedSchemaManager {
 
     const mostUsedSchemas = Array.from(this.usageStats.entries())
       .map(([id, usage]) => ({ id, usage }))
-      .sort((a, b) => b.usage - a.usage)
+      .sort((a: any, b: any) => b.usage - a.usage)
       .slice(0, 5);
 
     return {

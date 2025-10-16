@@ -653,7 +653,7 @@ export class PerformanceOptimizer {
    * Get active alerts
    */
   getActiveAlerts(): PerformanceAlert[] {
-    return this.alerts.filter(alert => !alert.resolved);
+    return this.alerts.filter((alert: any) => !alert.resolved);
   }
 
   /**

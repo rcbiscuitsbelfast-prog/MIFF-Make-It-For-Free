@@ -304,7 +304,7 @@ Bundle Analysis:
 ` : 'No bundle analysis available'}
 
 Recommendations:
-${recommendations.length > 0 ? recommendations.map(r => `- ${r}`).join('\n') : '- No recommendations'}
+${recommendations.length > 0 ? recommendations.map((r: any) => `- ${r}`).join('\n') : '- No recommendations'}
 
 ================================
     `.trim();

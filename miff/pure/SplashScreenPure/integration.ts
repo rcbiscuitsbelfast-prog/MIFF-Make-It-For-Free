@@ -520,7 +520,7 @@ export function splashScreenIntegrationDemo(): any {
       'Cross-platform compatibility (Web, Unity, Godot, Unreal)',
       'Theme support and customization options'
     ],
-    cliCommands: integration.getCLICommands().map(cmd => ({
+    cliCommands: integration.getCLICommands().map((cmd: any) => ({
       name: cmd.name,
       description: cmd.description,
       flags: cmd.flags

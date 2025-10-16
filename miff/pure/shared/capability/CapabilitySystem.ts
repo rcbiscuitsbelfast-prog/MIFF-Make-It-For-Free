@@ -484,7 +484,7 @@ export class CapabilitySystem {
    */
   getCapabilitiesByCategory(category: string): Capability[] {
     const capabilityIds = this.registry.categories.get(category) || [];
-    return capabilityIds.map(id => this.registry.capabilities.get(id)!);
+    return capabilityIds.map((id: any) => this.registry.capabilities.get(id)!);
   }
 
   /**
@@ -492,14 +492,14 @@ export class CapabilitySystem {
    */
   getCapabilitiesByTag(tag: string): Capability[] {
     const capabilityIds = this.registry.tags.get(tag) || [];
-    return capabilityIds.map(id => this.registry.capabilities.get(id)!);
+    return capabilityIds.map((id: any) => this.registry.capabilities.get(id)!);
   }
 
   /**
    * Get capabilities by type
    */
   getCapabilitiesByType(type: string): Capability[] {
-    return this.getAllCapabilities().filter(cap => cap.type === type);
+    return this.getAllCapabilities().filter((cap: any) => cap.type === type);
   }
 
   /**
@@ -507,7 +507,7 @@ export class CapabilitySystem {
    */
   searchCapabilities(query: string): Capability[] {
     const lowerQuery = query.toLowerCase();
-    return this.getAllCapabilities().filter(cap => 
+    return this.getAllCapabilities().filter((cap: any) => 
       cap.name.toLowerCase().includes(lowerQuery) ||
       cap.description.toLowerCase().includes(lowerQuery) ||
       cap.tags.some(tag => tag.toLowerCase().includes(lowerQuery))

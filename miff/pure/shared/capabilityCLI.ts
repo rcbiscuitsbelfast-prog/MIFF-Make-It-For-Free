@@ -89,7 +89,7 @@ class CapabilityCLI {
     const failed = this.discovery.getResultsByStatus('error');
     if (failed.length > 0) {
       console.info('\n❌ Failed Discoveries:');
-      failed.forEach(result => {
+      failed.forEach((result: any) => {
         console.info(`  ${result.moduleName}: ${result.errors.join(', ')}`);
       });
     }
@@ -130,7 +130,7 @@ class CapabilityCLI {
     // Operations
     if (capabilities.operations && capabilities.operations.length > 0) {
       console.info(`\n🔧 Operations (${capabilities.operations.length}):`);
-      capabilities.operations.forEach(op => {
+      capabilities.operations.forEach((op: any) => {
         console.info(`  ${op.name}: ${op.description}`);
         console.info(`    Input Schema: ${op.inputSchema.schemaId} v${op.inputSchema.version}`);
         console.info(`    Output Schema: ${op.outputSchema?.schemaId || 'N/A'} v${op.outputSchema?.version || 'N/A'}`);
@@ -140,7 +140,7 @@ class CapabilityCLI {
     // Data processing
     if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
       console.info(`\n📊 Data Processing (${capabilities.dataProcessing.length}):`);
-      capabilities.dataProcessing.forEach(dp => {
+      capabilities.dataProcessing.forEach((dp: any) => {
         console.info(`  ${dp.name}: ${dp.description}`);
         console.info(`    Input: ${dp.inputTypes.join(', ')} → Output: ${dp.outputTypes.join(', ')}`);
       });
@@ -149,7 +149,7 @@ class CapabilityCLI {
     // Integrations
     if (capabilities.integrations && capabilities.integrations.length > 0) {
       console.info(`\n🔗 Integrations (${capabilities.integrations.length}):`);
-      capabilities.integrations.forEach(integration => {
+      capabilities.integrations.forEach((integration: any) => {
         console.info(`  ${integration.name}: ${integration.description}`);
         console.info(`    Type: ${integration.integrationType}, Auth Required: ${integration.authenticationRequired ? 'Yes' : 'No'}`);
       });
@@ -268,12 +268,12 @@ class CapabilityCLI {
     
     if (result.errors.length > 0) {
       console.info(`Errors: ${result.errors.length}`);
-      result.errors.forEach(error => console.info(`  - ${error}`));
+      result.errors.forEach((error: any) => console.info(`  - ${error}`));
     }
     
     if (result.warnings.length > 0) {
       console.info(`Warnings: ${result.warnings.length}`);
-      result.warnings.forEach(warning => console.info(`  - ${warning}`));
+      result.warnings.forEach((warning: any) => console.info(`  - ${warning}`));
     }
     
     if (result.status === 'success') {
@@ -341,7 +341,7 @@ class CapabilityCLI {
 
     <div class="module-list">
         <h3>Module Capabilities</h3>
-        ${results.map(result => `
+        ${results.map((result: any) => `
             <div class="module-item">
                 <div class="module-name">${result.moduleName}</div>
                 <div class="module-status">

@@ -134,7 +134,7 @@ class SecurityCLI {
     
     if (audit.vulnerabilities.length > 0) {
       console.info('\n🚨 Vulnerabilities:');
-      audit.vulnerabilities.forEach(vuln => {
+      audit.vulnerabilities.forEach((vuln: any) => {
         const severityIcon = vuln.severity === 'critical' ? '🔴' : 
                             vuln.severity === 'high' ? '🟠' : 
                             vuln.severity === 'medium' ? '🟡' : '🟢';
@@ -144,7 +144,7 @@ class SecurityCLI {
     
     if (audit.recommendations.length > 0) {
       console.info('\n💡 Recommendations:');
-      audit.recommendations.forEach(rec => {
+      audit.recommendations.forEach((rec: any) => {
         console.info(`  - ${rec}`);
       });
     }
@@ -192,7 +192,7 @@ class SecurityCLI {
     } else {
       console.info('❌ Input is invalid');
       console.info('Errors:');
-      result.errors.forEach(error => {
+      result.errors.forEach((error: any) => {
         console.info(`  - ${error}`);
       });
     }
@@ -215,7 +215,7 @@ class SecurityCLI {
     } else {
       console.info('❌ Password is invalid');
       console.info('Errors:');
-      result.errors.forEach(error => {
+      result.errors.forEach((error: any) => {
         console.info(`  - ${error}`);
       });
     }
@@ -270,7 +270,7 @@ class SecurityCLI {
       return;
     }
 
-    events.forEach(event => {
+    events.forEach((event: any) => {
       const severityIcon = event.severity === 'critical' ? '🔴' : 
                           event.severity === 'high' ? '🟠' : 
                           event.severity === 'medium' ? '🟡' : '🟢';

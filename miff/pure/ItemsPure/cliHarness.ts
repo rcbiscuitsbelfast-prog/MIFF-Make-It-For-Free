@@ -97,7 +97,7 @@ class ItemsPureCLI {
    */
   private initializeItems(): void {
     this.items = ItemUtils.createStandardItemSet();
-    this.items.forEach(item => this.manager.registerItem(item));
+    this.items.forEach((item: any) => this.manager.registerItem(item));
     console.log(`Loaded ${this.items.length} items into registry`);
   }
 
@@ -113,7 +113,7 @@ class ItemsPureCLI {
       new MockSpiritInstance('spirit5', 'Light Spirit', 70, 35, 80) // High sync, can evolve
     ];
 
-    spirits.forEach(spirit => {
+    spirits.forEach((spirit: any) => {
       this.spirits.set(spirit.id, spirit);
     });
 
@@ -384,7 +384,7 @@ class ItemsPureCLI {
       console.log('✅ Item is valid');
     } else {
       console.log('❌ Validation errors:');
-      errors.forEach(error => console.log(`   - ${error}`));
+      errors.forEach((error: any) => console.log(`   - ${error}`));
     }
   }
 
@@ -498,7 +498,7 @@ class ItemsPureCLI {
     console.log('');
 
     console.log('Active Spirits:');
-    Array.from(this.spirits.values()).forEach(spirit => {
+    Array.from(this.spirits.values()).forEach((spirit: any) => {
       const status = spirit.isFainted() ? '💀 Fainted' : '✅ Active';
       const syncInfo = spirit.syncLevel !== undefined ? ` | Sync: ${spirit.syncLevel}` : '';
       const evolveStatus = spirit.canEvolve() ? ' ✨ Can Evolve' : '';

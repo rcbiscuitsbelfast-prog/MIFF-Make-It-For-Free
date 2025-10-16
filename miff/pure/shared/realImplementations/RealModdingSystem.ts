@@ -347,14 +347,14 @@ export class RealModdingSystem {
    * Get enabled mods
    */
   getEnabledMods(): Mod[] {
-    return Array.from(this.mods.values()).filter(mod => mod.enabled);
+    return Array.from(this.mods.values()).filter((mod: any) => mod.enabled);
   }
 
   /**
    * Get loaded mods
    */
   getLoadedMods(): Mod[] {
-    return Array.from(this.mods.values()).filter(mod => this.loadedMods.has(mod.id));
+    return Array.from(this.mods.values()).filter((mod: any) => this.loadedMods.has(mod.id));
   }
 
   /**
@@ -562,10 +562,10 @@ export class RealModdingSystem {
    */
   private updateLoadOrder(): void {
     const enabledMods = Array.from(this.mods.values())
-      .filter(mod => mod.enabled)
-      .sort((a, b) => a.loadOrder - b.loadOrder);
+      .filter((mod: any) => mod.enabled)
+      .sort((a: any, b: any) => a.loadOrder - b.loadOrder);
     
-    this.modOrder = enabledMods.map(mod => mod.id);
+    this.modOrder = enabledMods.map((mod: any) => mod.id);
   }
 
   /**
@@ -599,8 +599,8 @@ export class RealModdingSystem {
     totalAssets: number;
   } {
     const mods = Array.from(this.mods.values());
-    const enabledMods = mods.filter(mod => mod.enabled);
-    const loadedMods = mods.filter(mod => this.loadedMods.has(mod.id));
+    const enabledMods = mods.filter((mod: any) => mod.enabled);
+    const loadedMods = mods.filter((mod: any) => this.loadedMods.has(mod.id));
     
     const totalFiles = mods.reduce((sum, mod) => sum + mod.files.length, 0);
     const totalScripts = mods.reduce((sum, mod) => sum + mod.scripts.length, 0);
@@ -639,7 +639,7 @@ export class RealModdingSystem {
   private emit(event: string, data: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
+      handlers.forEach((handler: any) => {
         try {
           handler(data);
         } catch (error: unknown) {
@@ -662,7 +662,7 @@ export class RealModdingSystem {
     return {
       isInitialized: this.isInitialized,
       modCount: this.mods.size,
-      enabledMods: Array.from(this.mods.values()).filter(mod => mod.enabled).length,
+      enabledMods: Array.from(this.mods.values()).filter((mod: any) => mod.enabled).length,
       loadedMods: this.loadedMods.size
     };
   }

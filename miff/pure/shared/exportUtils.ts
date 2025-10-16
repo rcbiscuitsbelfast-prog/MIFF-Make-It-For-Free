@@ -77,8 +77,8 @@ function exportArrayToCSV(array: any[], options: ExportOptions): string {
     const headers = Object.keys(firstItem);
     let csv = headers.join(',') + '\n';
     
-    array.forEach(item => {
-      const row = headers.map(header => {
+    array.forEach((item: any) => {
+      const row = headers.map((header: any) => {
         const value = item[header];
         if (value === null || value === undefined) return '';
         if (typeof value === 'object') return JSON.stringify(value);
@@ -145,8 +145,8 @@ function exportArrayToMarkdown(array: any[]): string {
     let markdown = '| ' + headers.join(' | ') + ' |\n';
     markdown += '| ' + headers.map(() => '---').join(' | ') + ' |\n';
     
-    array.forEach(item => {
-      const row = headers.map(header => {
+    array.forEach((item: any) => {
+      const row = headers.map((header: any) => {
         const value = item[header];
         if (value === null || value === undefined) return '';
         if (typeof value === 'object') return JSON.stringify(value);
@@ -158,7 +158,7 @@ function exportArrayToMarkdown(array: any[]): string {
     return markdown + '\n';
   } else {
     // Simple array - create list
-    return array.map(item => `- ${String(item)}`).join('\n') + '\n';
+    return array.map((item: any) => `- ${String(item)}`).join('\n') + '\n';
   }
 }
 
@@ -233,14 +233,14 @@ function exportArrayToHTML(array: any[]): string {
     // Object array - create table
     const headers = Object.keys(firstItem);
     let html = '<table>\n<tr>';
-    headers.forEach(header => {
+    headers.forEach((header: any) => {
       html += `<th>${header}</th>`;
     });
     html += '</tr>\n';
     
-    array.forEach(item => {
+    array.forEach((item: any) => {
       html += '<tr>';
-      headers.forEach(header => {
+      headers.forEach((header: any) => {
         const value = item[header];
         let cellContent = '';
         if (value === null || value === undefined) {
@@ -260,7 +260,7 @@ function exportArrayToHTML(array: any[]): string {
   } else {
     // Simple array - create list
     let html = '<ul>\n';
-    array.forEach(item => {
+    array.forEach((item: any) => {
       html += `<li>${String(item)}</li>\n`;
     });
     html += '</ul>';

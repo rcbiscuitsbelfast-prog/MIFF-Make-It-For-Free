@@ -1209,12 +1209,12 @@ export class ErrorHandlingPure {
 
     for (const manager of this.managers.values()) {
       totalErrors += manager.errors.length;
-      newErrors += manager.errors.filter(e => e.status === 'new').length;
-      resolvedErrors += manager.errors.filter(e => e.status === 'resolved').length;
+      newErrors += manager.errors.filter((e: any) => e.status === 'new').length;
+      resolvedErrors += manager.errors.filter((e: any) => e.status === 'resolved').length;
       totalHandlers += manager.handlers.length;
-      activeHandlers += manager.handlers.filter(h => h.status === 'active').length;
+      activeHandlers += manager.handlers.filter((h: any) => h.status === 'active').length;
       totalPolicies += manager.policies.length;
-      activePolicies += manager.policies.filter(p => p.status === 'active').length;
+      activePolicies += manager.policies.filter((p: any) => p.status === 'active').length;
       totalReports += manager.reports.length;
       totalMonitors += manager.monitors.length;
     }

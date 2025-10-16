@@ -93,7 +93,7 @@ export class RealEventBus extends EventEmitter {
     eventSubs.push(subscription);
     
     // Sort by priority (higher priority first)
-    eventSubs.sort((a, b) => b.priority - a.priority);
+    eventSubs.sort((a: any, b: any) => b.priority - a.priority);
 
     // Add to EventEmitter
     if (subscription.once) {
@@ -143,7 +143,7 @@ export class RealEventBus extends EventEmitter {
     this.metrics.eventHistory.push({
       event,
       timestamp: new Date(),
-      args: args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg)
+      args: args.map((arg: any) => typeof arg === 'object' ? JSON.stringify(arg) : arg)
     });
     
     if (this.metrics.eventHistory.length > 100) {

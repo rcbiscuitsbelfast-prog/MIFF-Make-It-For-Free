@@ -534,7 +534,7 @@ export class DataStorageManager {
       throw new Error('Data Storage System not initialized');
     }
 
-    return Array.from(this.storages.values()).filter(storage => storage.type === type);
+    return Array.from(this.storages.values()).filter((storage: any) => storage.type === type);
   }
 
   /**
@@ -545,7 +545,7 @@ export class DataStorageManager {
       throw new Error('Data Storage System not initialized');
     }
 
-    return Array.from(this.storages.values()).filter(storage => storage.status === status);
+    return Array.from(this.storages.values()).filter((storage: any) => storage.status === status);
   }
 
   /**
@@ -887,7 +887,7 @@ export class DataStorageManager {
     for (const storage of storages) {
       storage.analytics = {
         totalStorages: storages.length,
-        activeStorages: storages.filter(s => s.status === 'active').length,
+        activeStorages: storages.filter((s: any) => s.status === 'active').length,
         totalDatabases: storage.databases.length,
         totalConnections: storage.connections.length,
         totalTables: storage.databases.reduce((sum: any, d: any) => sum + d.tables.length, 0),
@@ -916,7 +916,7 @@ export class DataStorageManager {
     }
 
     const storages = Array.from(this.storages.values());
-    const activeStorages = storages.filter(s => s.status === 'active');
+    const activeStorages = storages.filter((s: any) => s.status === 'active');
     const totalDatabases = storages.reduce((sum: any, s: any) => sum + s.databases.length, 0);
     const totalConnections = storages.reduce((sum: any, s: any) => sum + s.connections.length, 0);
     const totalTables = storages.reduce((sum: any, s: any) => sum + s.databases.reduce((sum: any, d: any) => sum + d.tables.length, 0), 0);

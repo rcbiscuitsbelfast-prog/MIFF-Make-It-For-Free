@@ -214,7 +214,7 @@ export class GenericUtils {
     }
 
     if (obj instanceof Array) {
-      return obj.map(item => this.deepClone(item)) as T;
+      return obj.map((item: any) => this.deepClone(item)) as T;
     }
 
     if (typeof obj === 'object') {

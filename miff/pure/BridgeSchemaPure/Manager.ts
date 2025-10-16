@@ -282,7 +282,7 @@ export class BridgeSchemaManager {
     let schemas = Array.from(this.registry.schemas.values());
     
     if (engine) {
-      schemas = schemas.filter(s => s.engine === engine);
+      schemas = schemas.filter((s: any) => s.engine === engine);
     }
 
     return { ok: true, schemas, total: schemas.length };
@@ -386,12 +386,12 @@ export class BridgeSchemaManager {
     const schemas = Array.from(this.registry.schemas.values());
     const schemasByEngine: Record<string, number> = {};
     
-    schemas.forEach(schema => {
+    schemas.forEach((schema: any) => {
       schemasByEngine[schema.engine] = (schemasByEngine[schema.engine] || 0) + 1;
     });
 
     // Mock usage data - in real implementation, this would be tracked
-    const mostUsedSchemas = schemas.slice(0, 3).map(schema => ({
+    const mostUsedSchemas = schemas.slice(0, 3).map((schema: any) => ({
       id: schema.id,
       usage: Math.floor(Math.random() * 100) + 10
     }));
@@ -495,12 +495,12 @@ export class BridgeSchemaManager {
     }
 
     if (schema.properties && typeof data === 'object') {
-      Object.keys(schema.properties).forEach(prop => {
+      Object.keys(schema.properties).forEach((prop: any) => {
         if (data[prop] !== undefined) {
           const propSchema = schema.properties[prop];
           const propResult = this.validateAgainstJSONSchema(data[prop], propSchema);
-          errors.push(...propResult.errors.map(e => `${prop}.${e}`));
-          warnings.push(...propResult.warnings.map(w => `${prop}.${w}`));
+          errors.push(...propResult.errors.map((e: any) => `${prop}.${e}`));
+          warnings.push(...propResult.warnings.map((w: any) => `${prop}.${w}`));
         }
       });
     }
@@ -557,7 +557,7 @@ export class BridgeSchemaManager {
       const properties: any = {};
       const required: string[] = [];
 
-      Object.keys(data).forEach(key => {
+      Object.keys(data).forEach((key: any) => {
         properties[key] = this.inferSchemaFromData(data[key]);
         if (data[key] !== null && data[key] !== undefined) {
           required.push(key);

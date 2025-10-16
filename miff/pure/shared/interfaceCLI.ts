@@ -78,7 +78,7 @@ class InterfaceCLI {
     const nonCompliant = this.standardizer.getNonCompliantModules();
     if (nonCompliant.length > 0) {
       console.info('\n❌ Non-Compliant Modules:');
-      nonCompliant.forEach(result => {
+      nonCompliant.forEach((result: any) => {
         console.info(`  ${result.module} (${result.interface}): ${result.score}%`);
         if (result.missingMethods.length > 0) {
           console.info(`    Missing methods: ${result.missingMethods.join(', ')}`);
@@ -116,32 +116,32 @@ class InterfaceCLI {
 
     if (result.missingMethods.length > 0) {
       console.info(`\n❌ Missing Methods:`);
-      result.missingMethods.forEach(method => console.info(`  - ${method}`));
+      result.missingMethods.forEach((method: any) => console.info(`  - ${method}`));
     }
 
     if (result.extraMethods.length > 0) {
       console.info(`\n⚠️ Extra Methods:`);
-      result.extraMethods.forEach(method => console.info(`  - ${method}`));
+      result.extraMethods.forEach((method: any) => console.info(`  - ${method}`));
     }
 
     if (result.missingProperties.length > 0) {
       console.info(`\n❌ Missing Properties:`);
-      result.missingProperties.forEach(prop => console.info(`  - ${prop}`));
+      result.missingProperties.forEach((prop: any) => console.info(`  - ${prop}`));
     }
 
     if (result.extraProperties.length > 0) {
       console.info(`\n⚠️ Extra Properties:`);
-      result.extraProperties.forEach(prop => console.info(`  - ${prop}`));
+      result.extraProperties.forEach((prop: any) => console.info(`  - ${prop}`));
     }
 
     if (result.missingEvents.length > 0) {
       console.info(`\n❌ Missing Events:`);
-      result.missingEvents.forEach(event => console.info(`  - ${event}`));
+      result.missingEvents.forEach((event: any) => console.info(`  - ${event}`));
     }
 
     if (result.extraEvents.length > 0) {
       console.info(`\n⚠️ Extra Events:`);
-      result.extraEvents.forEach(event => console.info(`  - ${event}`));
+      result.extraEvents.forEach((event: any) => console.info(`  - ${event}`));
     }
 
     // Lifecycle compliance
@@ -164,7 +164,7 @@ class InterfaceCLI {
 
     if (result.recommendations.length > 0) {
       console.info(`\n💡 Recommendations:`);
-      result.recommendations.forEach(rec => console.info(`  - ${rec}`));
+      result.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
   }
 
@@ -213,7 +213,7 @@ class InterfaceCLI {
     const fixes = this.generateFixSuggestions(result);
     
     console.info(`\n💡 Fix Suggestions for ${result.module}:`);
-    fixes.forEach(fix => console.info(`  - ${fix}`));
+    fixes.forEach((fix: any) => console.info(`  - ${fix}`));
     
     // Save fix suggestions to file
     const fixFile = `${moduleName}-interface-fixes.md`;

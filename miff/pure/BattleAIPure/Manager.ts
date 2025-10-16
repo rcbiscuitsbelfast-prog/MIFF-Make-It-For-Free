@@ -359,7 +359,7 @@ export class BattleAIManager {
         action,
         reasoning: this.generateReasoning(strategy, action, context, aiState),
         confidence: action.confidence,
-        alternatives: actions.filter(a => a.id !== action.id),
+        alternatives: actions.filter((a: any) => a.id !== action.id),
         expectedOutcome: this.calculateExpectedOutcome(action, context, aiState),
         timestamp: Date.now()
       };
@@ -371,7 +371,7 @@ export class BattleAIManager {
       this.decisionHistory.push(decision);
       
       // Notify integrations
-      this.integrations.forEach(integration => {
+      this.integrations.forEach((integration: any) => {
         integration.callbacks.onDecisionMade?.(decision);
       });
 
@@ -401,9 +401,9 @@ export class BattleAIManager {
    */
   private getAvailableStrategies(context: AIContext, aiState: AIState): AIStrategyConfig[] {
     return Array.from(this.strategies.values())
-      .filter(strategy => strategy.isActive)
-      .filter(strategy => this.evaluateConditions(strategy.conditions, context, aiState))
-      .sort((a, b) => b.priority - a.priority);
+      .filter((strategy: any) => strategy.isActive)
+      .filter((strategy: any) => this.evaluateConditions(strategy.conditions, context, aiState))
+      .sort((a: any, b: any) => b.priority - a.priority);
   }
 
   /**
@@ -427,12 +427,12 @@ export class BattleAIManager {
    */
   private generateActions(strategy: AIStrategyConfig, context: AIContext, aiState: AIState): AIAction[] {
     return strategy.actions
-      .filter(action => this.canExecuteAction(action, context, aiState))
-      .map(action => ({
+      .filter((action: any) => this.canExecuteAction(action, context, aiState))
+      .map((action: any) => ({
         ...action,
         confidence: this.calculateActionConfidence(action, context, aiState)
       }))
-      .sort((a, b) => b.priority - a.priority);
+      .sort((a: any, b: any) => b.priority - a.priority);
   }
 
   /**
@@ -641,7 +641,7 @@ export class BattleAIManager {
       this.currentStrategy = strategy;
       
       // Notify integrations
-      this.integrations.forEach(integration => {
+      this.integrations.forEach((integration: any) => {
         integration.callbacks.onStrategyChanged?.(oldStrategy!, strategy);
       });
       

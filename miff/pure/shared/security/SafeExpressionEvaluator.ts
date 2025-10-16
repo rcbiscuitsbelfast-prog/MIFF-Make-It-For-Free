@@ -175,12 +175,12 @@ export class SafeExpressionEvaluator {
     });
     
     result = result.replace(/\bmin\s*\(([^)]+)\)/gi, (match, arg) => {
-      const values = arg.split(',').map(v => this.evaluateExpression(v.trim()));
+      const values = arg.split(',').map((v: any) => this.evaluateExpression(v.trim()));
       return Math.min(...values).toString();
     });
     
     result = result.replace(/\bmax\s*\(([^)]+)\)/gi, (match, arg) => {
-      const values = arg.split(',').map(v => this.evaluateExpression(v.trim()));
+      const values = arg.split(',').map((v: any) => this.evaluateExpression(v.trim()));
       return Math.max(...values).toString();
     });
     
