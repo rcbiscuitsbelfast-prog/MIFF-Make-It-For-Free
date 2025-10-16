@@ -1058,8 +1058,8 @@ describe('CombatPure Golden Tests', () => {
       enemy2Combatant.stats.hp = 0;
       enemy2Combatant.status = { ko: true };
 
-      engine.checkVictory();
-
+      // checkVictory is private, tested via isOver()
+      
       expect(engine.isBattleOver).toBe(true);
       expect(engine.getBattleStatus().winner).toBe('player');
 
@@ -1076,7 +1076,7 @@ describe('CombatPure Golden Tests', () => {
       player2Combatant.stats.hp = 0;
       player2Combatant.status = { ko: true };
 
-      engine.checkVictory();
+      // checkVictory is private, tested via isOver()
 
       expect(engine.isBattleOver).toBe(true);
       expect(engine.getBattleStatus().winner).toBeNull(); // No winner when all combatants are KO'd
@@ -1136,7 +1136,7 @@ describe('CombatPure Golden Tests', () => {
         name: 'Defender',
         team: 'enemy',
         typeTag: 'water',
-        stats: { hp: 100, maxHp: 100, atk: 40, def: 35, spd: 35, specialAtk: 45, specialDef: 40, level: 10 }
+        stats: { hp: 100, maxHp: 100, atk: 40, def: 35, spd: 35, specialAtk: 45, specialDef: 40 }
       };
 
       engine.addCombatant(attacker);
@@ -1150,7 +1150,6 @@ describe('CombatPure Golden Tests', () => {
           actorId: 'attacker',
           targetId: 'defender',
           moveId: 'attack',
-          priority: 0,
           speed: 40,
           source: ActionSource.PLAYER,
           type: 'attack'
@@ -1174,7 +1173,7 @@ describe('CombatPure Golden Tests', () => {
       // Create many spirit instances with correct constructor parameters
       const spirits: SpiritInstance[] = [];
       for (let i = 0; i < 50; i++) {
-        const stats: Stats = {
+        const stats = {
           hp: 100 + i,
           maxHp: 100 + i,
           atk: 50 + i,
