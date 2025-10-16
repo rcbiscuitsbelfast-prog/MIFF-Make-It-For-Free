@@ -273,7 +273,7 @@ export class CPUOptimizer {
     for (let i = 0; i < data.length; i += batchSize) {
       const batch = data.slice(i, i + batchSize);
       const batchResults = await Promise.all(
-        batch.map(item => processor(item))
+        batch.map((item: any) => processor(item))
       );
       results.push(...batchResults);
 
@@ -366,7 +366,7 @@ export class CPUOptimizer {
     const entries = Array.from(this.cache.values());
     const totalAccesses = entries.reduce((sum, entry) => sum + entry.accessCount, 0);
     const hitRate = totalAccesses > 0 ? 
-      entries.filter(entry => entry.accessCount > 0).length / entries.length : 0;
+      entries.filter((entry: any) => entry.accessCount > 0).length / entries.length : 0;
     const averageAccessTime = entries.length > 0 ?
       entries.reduce((sum, entry) => sum + (Date.now() - entry.lastAccessed.getTime()), 0) / entries.length : 0;
 
@@ -597,7 +597,7 @@ export class CPUOptimizer {
 
   private async cleanupCache(): Promise<void> {
     const entries = Array.from(this.cache.entries());
-    const sortedEntries = entries.sort((a, b) => a[1].lastAccessed.getTime() - b[1].lastAccessed.getTime());
+    const sortedEntries = entries.sort((a: any, b: any) => a[1].lastAccessed.getTime() - b[1].lastAccessed.getTime());
     
     // Remove oldest 20% of entries
     const toRemove = Math.floor(sortedEntries.length * 0.2);

@@ -1202,9 +1202,9 @@ export class SecuritySystemPure {
 
     for (const manager of this.managers.values()) {
       totalUsers += manager.users.length;
-      activeUsers += manager.users.filter(u => u.status === 'active').length;
+      activeUsers += manager.users.filter((u: any) => u.status === 'active').length;
       totalSessions += manager.sessions.length;
-      activeSessions += manager.sessions.filter(s => s.status === 'active').length;
+      activeSessions += manager.sessions.filter((s: any) => s.status === 'active').length;
       totalRoles += manager.roles.length;
       totalPermissions += manager.permissions.length;
       totalPolicies += manager.policies.length;

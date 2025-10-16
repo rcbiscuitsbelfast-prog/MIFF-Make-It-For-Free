@@ -82,7 +82,7 @@ export class OverlayFXManager {
     const layer = this.layers.get(layerId);
     if (!layer) return false;
 
-    layer.effects = layer.effects.filter(e => e.type !== effectType);
+    layer.effects = layer.effects.filter((e: any) => e.type !== effectType);
     this.activeEffects.delete(`${layerId}_${effectType}`);
     return true;
   }
@@ -126,7 +126,7 @@ export class OverlayFXManager {
       }
     }
     
-    return effects.sort((a, b) => {
+    return effects.sort((a: any, b: any) => {
       const layerA = Array.from(this.layers.values()).find(l => 
         l.effects.some(e => e === a)
       );

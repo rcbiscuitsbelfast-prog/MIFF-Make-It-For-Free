@@ -527,7 +527,7 @@ export class CharacterControllerManager {
       throw new Error('Character Controller not initialized');
     }
 
-    return Array.from(this.controllers.values()).filter(controller => controller.type === type);
+    return Array.from(this.controllers.values()).filter((controller: any) => controller.type === type);
   }
 
   /**
@@ -538,7 +538,7 @@ export class CharacterControllerManager {
       throw new Error('Character Controller not initialized');
     }
 
-    return Array.from(this.controllers.values()).filter(controller => controller.status === status);
+    return Array.from(this.controllers.values()).filter((controller: any) => controller.status === status);
   }
 
   /**
@@ -800,7 +800,7 @@ export class CharacterControllerManager {
         return [];
       }
 
-      return controller.characters.filter(c => c.type === type);
+      return controller.characters.filter((c: any) => c.type === type);
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -838,14 +838,14 @@ export class CharacterControllerManager {
   private updateAnalytics(): void {
     const controllers = Array.from(this.controllers.values());
     const totalCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.length, 0);
-    const activeCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.filter(ch => ch.status === 'active').length, 0);
+    const activeCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.filter((ch: any) => ch.status === 'active').length, 0);
 
     for (const controller of controllers) {
       controller.analytics = {
         totalControllers: controllers.length,
-        activeControllers: controllers.filter(c => c.status === 'active').length,
+        activeControllers: controllers.filter((c: any) => c.status === 'active').length,
         totalCharacters: controller.characters.length,
-        activeCharacters: controller.characters.filter(ch => ch.status === 'active').length,
+        activeCharacters: controller.characters.filter((ch: any) => ch.status === 'active').length,
         totalMovements: controller.analytics.totalMovements,
         totalAnimations: controller.analytics.totalAnimations,
         averagePerformance: 85, // Simulate performance score
@@ -872,7 +872,7 @@ export class CharacterControllerManager {
     }
 
     const controllers = Array.from(this.controllers.values());
-    const activeControllers = controllers.filter(c => c.status === 'active');
+    const activeControllers = controllers.filter((c: any) => c.status === 'active');
     const totalCharacters = controllers.reduce((sum: any, c: any) => sum + c.characters.length, 0);
     const totalMovements = controllers.reduce((sum: any, c: any) => sum + c.analytics.totalMovements, 0);
     const totalAnimations = controllers.reduce((sum: any, c: any) => sum + c.analytics.totalAnimations, 0);

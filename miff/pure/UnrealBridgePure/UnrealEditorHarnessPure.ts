@@ -390,7 +390,7 @@ export class UnrealEditorHarnessPure {
         results.push(await this.testPerformance());
       }
 
-      console.log(`✅ Test suite completed: ${results.filter(r => r.success).length}/${results.length} passed`);
+      console.log(`✅ Test suite completed: ${results.filter((r: any) => r.success).length}/${results.length} passed`);
       this.testResults = results;
 
       return results;

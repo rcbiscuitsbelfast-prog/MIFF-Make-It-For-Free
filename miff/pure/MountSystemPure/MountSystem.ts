@@ -279,7 +279,7 @@ export class MountManager {
   updateStamina(deltaTime: number): void {
     const staminaRecoveryRate = 1; // per minute
 
-    Object.values(this.state.mounts).forEach(mount => {
+    Object.values(this.state.mounts).forEach((mount: any) => {
       if (mount.stats.stamina < mount.stats.maxStamina) {
         mount.stats.stamina = Math.min(mount.stats.maxStamina,
           mount.stats.stamina + (staminaRecoveryRate * deltaTime));
@@ -295,7 +295,7 @@ export class MountManager {
   // Market system
   purchaseMount(buyer: string, mountType: MountType): MountSystemResult {
     const available = this.state.market.availableMounts
-      .filter(m => m.type === mountType && !m.id.startsWith('sold_'));
+      .filter((m: any) => m.type === mountType && !m.id.startsWith('sold_'));
 
     if (available.length === 0) {
       return this.error(`No ${mountType} mounts available for purchase`);

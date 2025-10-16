@@ -473,7 +473,7 @@ export class TopplerDemo {
   private generatePhysicsObjects() {
     // Generate physics objects for current level
     const currentLevel = this.state.world.levels.get(this.state.world.currentLevel)!;
-    currentLevel.platforms.forEach(platform => {
+    currentLevel.platforms.forEach((platform: any) => {
       this.physicsEngine.addObject(platform);
       this.state.world.physicsObjects.set(platform.id, platform);
     });
@@ -501,7 +501,7 @@ export class TopplerDemo {
       }
     ];
 
-    collectibles.forEach(collectible => {
+    collectibles.forEach((collectible: any) => {
       const physicsObj: PhysicsObject = {
         id: collectible.id,
         position: collectible.position,
@@ -538,7 +538,7 @@ export class TopplerDemo {
       }
     ];
 
-    enemies.forEach(enemy => {
+    enemies.forEach((enemy: any) => {
       const physicsObj: PhysicsObject = {
         id: enemy.id,
         position: enemy.position,
@@ -576,7 +576,7 @@ export class TopplerDemo {
       { id: 'spinning_enemy', frames: 8, size: { w: 24, h: 24 } }
     ];
 
-    sprites.forEach(sprite => {
+    sprites.forEach((sprite: any) => {
       this.generateSpriteAsset(sprite);
     });
   }
@@ -592,7 +592,7 @@ export class TopplerDemo {
       { id: 'mountain', layers: ['sky', 'mountains', 'snow', 'platforms'], parallax: true }
     ];
 
-    backgrounds.forEach(bg => {
+    backgrounds.forEach((bg: any) => {
       this.generateBackgroundAsset(bg);
     });
   }
@@ -612,7 +612,7 @@ export class TopplerDemo {
       { id: 'hurt_sound', type: 'sfx', duration: 1.0 }
     ];
 
-    audioAssets.forEach(audio => {
+    audioAssets.forEach((audio: any) => {
       console.log(`Generated audio asset: ${audio.id}`);
     });
   }
@@ -626,7 +626,7 @@ export class TopplerDemo {
       { id: 'pause_menu', type: 'ui', size: { w: 400, h: 300 } }
     ];
 
-    uiAssets.forEach(ui => {
+    uiAssets.forEach((ui: any) => {
       console.log(`Generated UI asset: ${ui.id}`);
     });
   }
@@ -639,7 +639,7 @@ export class TopplerDemo {
       { id: 'explosion', frames: 12, size: { w: 32, h: 32 } }
     ];
 
-    effects.forEach(effect => {
+    effects.forEach((effect: any) => {
       console.log(`Generated particle effect: ${effect.id}`);
     });
   }
@@ -733,7 +733,7 @@ export class TopplerDemo {
     this.state.world.physicsObjects.clear();
 
     // Load new level objects
-    level.platforms.forEach(platform => {
+    level.platforms.forEach((platform: any) => {
       this.physicsEngine.addObject(platform);
       this.state.world.physicsObjects.set(platform.id, platform);
     });
@@ -819,7 +819,7 @@ export class TopplerDemo {
     };
 
     // Check player collisions with platforms
-    this.state.world.physicsObjects.forEach(obj => {
+    this.state.world.physicsObjects.forEach((obj: any) => {
       if (this.checkCollision(playerObj, obj)) {
         this.handleCollision(playerObj, obj);
       }

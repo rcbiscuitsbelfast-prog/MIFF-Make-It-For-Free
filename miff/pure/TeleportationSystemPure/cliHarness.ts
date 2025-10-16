@@ -98,7 +98,7 @@ class TeleportationSystemCLI {
       }
     ];
 
-    zones.forEach(zone => {
+    zones.forEach((zone: any) => {
       this.teleportationSystem.addZone(zone);
     });
 
@@ -315,7 +315,7 @@ class TeleportationSystemCLI {
       return;
     }
 
-    allAnchors.forEach(anchor => {
+    allAnchors.forEach((anchor: any) => {
       const zone = zones.find(z => z.id === anchor.zoneId);
       const zoneName = zone ? zone.name : 'Unknown Zone';
 
@@ -345,7 +345,7 @@ class TeleportationSystemCLI {
       return;
     }
 
-    allPortals.forEach(portal => {
+    allPortals.forEach((portal: any) => {
       const sourceAnchor = allAnchors.find(a => a.id === portal.sourceAnchor.id);
       const destAnchor = allAnchors.find(a => a.id === portal.destinationAnchor.id);
 
@@ -369,7 +369,7 @@ class TeleportationSystemCLI {
     console.log('\n🏛️ Zones:');
     console.log('=========');
 
-    zones.forEach(zone => {
+    zones.forEach((zone: any) => {
       const anchors = this.teleportationSystem.getAnchorsInZone(zone.id);
 
       console.log(`${zone.name} (${zone.id})`);
@@ -404,7 +404,7 @@ class TeleportationSystemCLI {
 
       if (result.sideEffects && result.sideEffects.length > 0) {
         console.log('  Side effects:');
-        result.sideEffects.forEach(effect => {
+        result.sideEffects.forEach((effect: any) => {
           console.log(`    - ${effect.description} (${effect.magnitude})`);
         });
       }
@@ -427,7 +427,7 @@ class TeleportationSystemCLI {
       return;
     }
 
-    destinations.forEach(dest => {
+    destinations.forEach((dest: any) => {
       console.log(`${dest.name} (${dest.type})`);
       console.log(`  Position: (${dest.position.x}, ${dest.position.y}, ${dest.position.z})`);
       console.log(`  Energy Cost: ${dest.energyCost}`);
@@ -463,7 +463,7 @@ class TeleportationSystemCLI {
 
     // Add anchors
     const anchors = this.teleportationSystem.getAllAnchors();
-    anchors.forEach(anchor => {
+    anchors.forEach((anchor: any) => {
       if (anchor.isActive) {
         const distance = this.calculateDistance(currentPosition, anchor.position);
         destinations.push({
@@ -480,7 +480,7 @@ class TeleportationSystemCLI {
 
     // Add portals
     const portals = this.teleportationSystem.getAllPortals();
-    portals.forEach(portal => {
+    portals.forEach((portal: any) => {
       if (portal.isActive) {
         destinations.push({
           id: portal.id,
@@ -494,7 +494,7 @@ class TeleportationSystemCLI {
       }
     });
 
-    return destinations.sort((a, b) => a.distance - b.distance);
+    return destinations.sort((a: any, b: any) => a.distance - b.distance);
   }
 
   /**

@@ -133,7 +133,7 @@ class WorldManifestCLI {
       op: 'list',
       status: 'ok',
       result: {
-        worlds: result.worlds.map(world => ({
+        worlds: result.worlds.map((world: any) => ({
           id: world.zones[0]?.id || 'unknown',
           name: world.metadata?.title || 'Unnamed World',
           zones: world.zones.length,
@@ -439,7 +439,7 @@ class WorldManifestCLI {
     if (obj === null || obj === undefined) return 'null';
     if (typeof obj !== 'object') return String(obj);
     if (Array.isArray(obj)) {
-      return obj.map(v => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+      return obj.map((v: any) => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
     }
     return Object.entries(obj).map(([k, v]) => {
       const val = typeof v === 'object' && v !== null ? `\n${this.toYAML(v, indent + 1)}` : `${this.toYAML(v, 0)}`;
@@ -450,7 +450,7 @@ class WorldManifestCLI {
   private toXML(obj: any, tag = 'root'): string {
     if (obj === null || obj === undefined) return `<${tag}/>`;
     if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
-    if (Array.isArray(obj)) return `<${tag}>${obj.map(v => this.toXML(v, 'item')).join('')}</${tag}>`;
+    if (Array.isArray(obj)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
     const children = Object.entries(obj).map(([k, v]) => this.toXML(v as any, k)).join('');
     return `<${tag}>${children}</${tag}>`;
   }

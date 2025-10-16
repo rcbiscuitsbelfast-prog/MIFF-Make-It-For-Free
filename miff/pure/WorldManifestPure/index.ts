@@ -58,7 +58,7 @@ export const WorldManifestPure = {
 		if (!zone) throw new Error(`Zone not found: ${zoneId}`);
 		
 		// Remove existing tile at this position and layer
-		zone.tiles = zone.tiles.filter(t => !(t.x === x && t.y === y && t.layer === layer));
+		zone.tiles = zone.tiles.filter((t: any) => !(t.x === x && t.y === y && t.layer === layer));
 		
 		// Add new tile
 		zone.tiles.push({ x, y, assetId, layer });
@@ -69,9 +69,9 @@ export const WorldManifestPure = {
 		if (!zone) throw new Error(`Zone not found: ${zoneId}`);
 		
 		if (layer !== undefined) {
-			zone.tiles = zone.tiles.filter(t => !(t.x === x && t.y === y && t.layer === layer));
+			zone.tiles = zone.tiles.filter((t: any) => !(t.x === x && t.y === y && t.layer === layer));
 		} else {
-			zone.tiles = zone.tiles.filter(t => !(t.x === x && t.y === y));
+			zone.tiles = zone.tiles.filter((t: any) => !(t.x === x && t.y === y));
 		}
 	},
 

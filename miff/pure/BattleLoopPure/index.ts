@@ -167,7 +167,7 @@ export class BattlePhaseManager {
 
   addPhase(phase: BattlePhase): void {
     this.phases.push(phase);
-    this.phases.sort((a, b) => a.order - b.order);
+    this.phases.sort((a: any, b: any) => a.order - b.order);
   }
 
   removePhase(phaseName: string): boolean {

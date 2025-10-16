@@ -189,8 +189,8 @@ export class RealUtils {
   string: StringUtils = {
     capitalize: (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(),
     camelCase: (str: string) => str.replace(/[-_\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : ''),
-    kebabCase: (str: string) => str.replace(/([a-z])([A-Z])/g, '-$2').toLowerCase(),
-    snakeCase: (str: string) => str.replace(/([a-z])([A-Z])/g, '_$2').toLowerCase(),
+    kebabCase: (str: string) => str.replace(/([a-z])([A-Z])/g, '-').toLowerCase(),
+    snakeCase: (str: string) => str.replace(/([a-z])([A-Z])/g, '_').toLowerCase(),
     pascalCase: (str: string) => str.replace(/(?:^|[-_\s])(.)/g, (_, c) => c.toUpperCase()),
     truncate: (str: string, length: number) => str.length > length ? str.slice(0, length) + '...' : str,
     padLeft: (str: string, length: number, char: string = ' ') => str.padStart(length, char),

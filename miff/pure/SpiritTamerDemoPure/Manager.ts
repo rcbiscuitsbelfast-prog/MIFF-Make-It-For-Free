@@ -192,7 +192,7 @@ export class SpiritTamerManager {
       }
     ];
 
-    defaultSpirits.forEach(spirit => {
+    defaultSpirits.forEach((spirit: any) => {
       this.spirits.set(spirit.id, spirit);
     });
   }
@@ -238,11 +238,11 @@ export class SpiritTamerManager {
     let spirits = Array.from(this.spirits.values());
 
     if (location) {
-      spirits = spirits.filter(s => s.location === location);
+      spirits = spirits.filter((s: any) => s.location === location);
     }
 
     if (!includeWild) {
-      spirits = spirits.filter(s => !s.isWild || this.player.tamedSpirits.includes(s.id));
+      spirits = spirits.filter((s: any) => !s.isWild || this.player.tamedSpirits.includes(s.id));
     }
 
     return { ok: true, spirits, total: spirits.length };
@@ -321,8 +321,8 @@ export class SpiritTamerManager {
       }
 
       // Calculate progress
-      const hitBeats = session.beats.filter(b => b.hit && b.expected).length;
-      const expectedBeats = session.beats.filter(b => b.expected).length;
+      const hitBeats = session.beats.filter((b: any) => b.hit && b.expected).length;
+      const expectedBeats = session.beats.filter((b: any) => b.expected).length;
       const accuracy = expectedBeats > 0 ? hitBeats / expectedBeats : 0;
       const progress = Math.min(100, accuracy * 100);
 
@@ -483,9 +483,9 @@ export class SpiritTamerManager {
    * Get game statistics
    */
   getStats(): { ok: boolean; stats: any } {
-    const wildSpirits = Array.from(this.spirits.values()).filter(s => s.isWild).length;
+    const wildSpirits = Array.from(this.spirits.values()).filter((s: any) => s.isWild).length;
     const tamedSpirits = this.player.tamedSpirits.length;
-    const completedSessions = Array.from(this.tamingSessions.values()).filter(s => s.result !== 'in_progress').length;
+    const completedSessions = Array.from(this.tamingSessions.values()).filter((s: any) => s.result !== 'in_progress').length;
 
     return {
       ok: true,
@@ -578,7 +578,7 @@ export class SpiritTamerManager {
       beats.push({ time, expected });
     }
 
-    return beats.sort((a, b) => a.time - b.time);
+    return beats.sort((a: any, b: any) => a.time - b.time);
   }
 
   /**

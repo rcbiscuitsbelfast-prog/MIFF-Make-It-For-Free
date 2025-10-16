@@ -576,7 +576,7 @@ class TopplerGame {
     }
 
     // Update collectibles
-    level.objects.forEach(obj => {
+    level.objects.forEach((obj: any) => {
       if (obj.type === 'collectible' && obj.active) {
         // Simple floating animation
         obj.position.y += Math.sin(this.gameState.gameTime * 0.01) * 0.5;
@@ -594,7 +594,7 @@ class TopplerGame {
 
     player.onGround = false;
 
-    level.objects.forEach(obj => {
+    level.objects.forEach((obj: any) => {
       if (!obj.active) return;
 
       if (this.checkAABBCollision(player, obj)) {
@@ -726,7 +726,7 @@ class TopplerGame {
     this.gameState.victory = false;
 
     // Reset collectibles
-    this.gameState.level.objects.forEach(obj => {
+    this.gameState.level.objects.forEach((obj: any) => {
       if (obj.collectible) {
         obj.active = true;
       }
@@ -756,7 +756,7 @@ class TopplerGame {
     this.ctx.translate(-this.gameState.camera.x, -this.gameState.camera.y);
 
     // Render level objects
-    this.gameState.level.objects.forEach(obj => {
+    this.gameState.level.objects.forEach((obj: any) => {
       if (obj.active) {
         this.renderObject(obj);
       }

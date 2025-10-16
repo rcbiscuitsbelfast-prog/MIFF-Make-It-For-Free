@@ -896,7 +896,7 @@ export class UnrealAssetManagerPure {
 
   private evictCacheEntries(): void {
     const entries = Array.from(this.assetCache.values())
-      .sort((a, b) => (a.priority * a.accessCount) - (b.priority * b.accessCount));
+      .sort((a: any, b: any) => (a.priority * a.accessCount) - (b.priority * b.accessCount));
 
     const entriesToRemove = entries.slice(0, Math.floor(this.assetCache.size * 0.1));
 

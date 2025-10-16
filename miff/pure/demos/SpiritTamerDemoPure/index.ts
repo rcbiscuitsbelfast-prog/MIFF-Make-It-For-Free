@@ -313,7 +313,7 @@ export class SpiritTamerDemo {
       }
     ];
 
-    npcs.forEach(npc => {
+    npcs.forEach((npc: any) => {
       this.state.world.npcs.set(npc.id, npc);
     });
   }
@@ -359,7 +359,7 @@ export class SpiritTamerDemo {
         questData.id,
         questData.title,
         questData.description,
-        questData.objectives.map(obj =>
+        questData.objectives.map((obj: any) =>
           new QuestObjective(obj, false)
         ),
         questData.rewards,
@@ -387,7 +387,7 @@ export class SpiritTamerDemo {
       )
     ];
 
-    items.forEach(item => {
+    items.forEach((item: any) => {
       this.engines.items.registerItem(item);
     });
   }
@@ -410,7 +410,7 @@ export class SpiritTamerDemo {
       { id: 'ancient_spirit', type: 'npc', frames: 4, size: { w: 28, h: 36 } }
     ];
 
-    sprites.forEach(sprite => {
+    sprites.forEach((sprite: any) => {
       this.generateSpriteAsset(sprite);
     });
   }
@@ -427,7 +427,7 @@ export class SpiritTamerDemo {
       { id: 'mountain', layers: ['sky', 'peaks', 'rocks'], parallax: true }
     ];
 
-    backgrounds.forEach(bg => {
+    backgrounds.forEach((bg: any) => {
       this.generateBackgroundAsset(bg);
     });
   }
@@ -447,7 +447,7 @@ export class SpiritTamerDemo {
       { id: 'battle_start', type: 'sfx', duration: 1 }
     ];
 
-    audioAssets.forEach(audio => {
+    audioAssets.forEach((audio: any) => {
       console.log(`Generated audio asset: ${audio.id}`);
     });
   }
@@ -460,7 +460,7 @@ export class SpiritTamerDemo {
       { id: 'dialogue_box', type: 'ui', size: { w: 500, h: 150 } }
     ];
 
-    uiAssets.forEach(ui => {
+    uiAssets.forEach((ui: any) => {
       console.log(`Generated UI asset: ${ui.id}`);
     });
   }

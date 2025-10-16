@@ -158,7 +158,7 @@ class CoverageCLI {
 
     // Show module-specific recommendations
     const modules = this.analyzer.getAllModuleCoverages();
-    const lowCoverageModules = modules.filter(m => m.coveragePercentage < 70);
+    const lowCoverageModules = modules.filter((m: any) => m.coveragePercentage < 70);
     
     if (lowCoverageModules.length > 0) {
       console.info('\n📊 Low Coverage Modules:');

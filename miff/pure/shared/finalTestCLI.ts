@@ -86,8 +86,8 @@ class FinalTestCLI {
       console.info(`Status: ${e2eSuite.status}`);
       console.info(`Duration: ${e2eSuite.duration}ms`);
       console.info(`Test Cases: ${e2eSuite.testCases.length}`);
-      console.info(`Passed: ${e2eSuite.testCases.filter(tc => tc.status === 'passed').length}`);
-      console.info(`Failed: ${e2eSuite.testCases.filter(tc => tc.status === 'failed').length}`);
+      console.info(`Passed: ${e2eSuite.testCases.filter((tc: any) => tc.status === 'passed').length}`);
+      console.info(`Failed: ${e2eSuite.testCases.filter((tc: any) => tc.status === 'failed').length}`);
     }
   }
 
@@ -107,14 +107,14 @@ class FinalTestCLI {
     // Display summary
     console.info('\n📊 Integration Testing Summary:');
     console.info(`Total Tests: ${integrationTests.length}`);
-    console.info(`Passed: ${integrationTests.filter(it => it.status === 'passed').length}`);
-    console.info(`Failed: ${integrationTests.filter(it => it.status === 'failed').length}`);
+    console.info(`Passed: ${integrationTests.filter((it: any) => it.status === 'passed').length}`);
+    console.info(`Failed: ${integrationTests.filter((it: any) => it.status === 'failed').length}`);
     
     // Show failed tests
-    const failedTests = integrationTests.filter(it => it.status === 'failed');
+    const failedTests = integrationTests.filter((it: any) => it.status === 'failed');
     if (failedTests.length > 0) {
       console.info('\n❌ Failed Integration Tests:');
-      failedTests.forEach(test => {
+      failedTests.forEach((test: any) => {
         console.info(`  - ${test.name}: ${test.errorMessage || 'Unknown error'}`);
       });
     }
@@ -135,7 +135,7 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Performance Testing Summary:');
-    performanceTests.forEach(test => {
+    performanceTests.forEach((test: any) => {
       console.info(`\n${test.name} (${test.type}):`);
       console.info(`  Status: ${test.status}`);
       console.info(`  Duration: ${test.duration}ms`);
@@ -165,7 +165,7 @@ class FinalTestCLI {
 
     // Display summary
     console.info('\n📊 Security Testing Summary:');
-    securityTests.forEach(test => {
+    securityTests.forEach((test: any) => {
       console.info(`\n${test.name} (${test.type}):`);
       console.info(`  Status: ${test.status}`);
       console.info(`  Duration: ${test.duration}ms`);
@@ -173,7 +173,7 @@ class FinalTestCLI {
       
       if (test.findings.length > 0) {
         console.info('  Security Findings:');
-        test.findings.forEach(finding => {
+        test.findings.forEach((finding: any) => {
           const severityColor = finding.severity === 'critical' ? '🔴' : 
                                finding.severity === 'high' ? '🟠' : 
                                finding.severity === 'medium' ? '🟡' : '🟢';
@@ -199,11 +199,11 @@ class FinalTestCLI {
     // Display summary
     console.info('\n📊 User Acceptance Testing Summary:');
     console.info(`Total Tests: ${uatTests.length}`);
-    console.info(`Passed: ${uatTests.filter(uat => uat.status === 'passed').length}`);
-    console.info(`Failed: ${uatTests.filter(uat => uat.status === 'failed').length}`);
+    console.info(`Passed: ${uatTests.filter((uat: any) => uat.status === 'passed').length}`);
+    console.info(`Failed: ${uatTests.filter((uat: any) => uat.status === 'failed').length}`);
     
     // Show test details
-    uatTests.forEach(test => {
+    uatTests.forEach((test: any) => {
       console.info(`\n${test.name}:`);
       console.info(`  Status: ${test.status}`);
       console.info(`  User Story: ${test.userStory}`);
@@ -247,21 +247,21 @@ class FinalTestCLI {
       
       if (report.criticalIssues.length > 0) {
         console.info('\n🚨 Critical Issues:');
-        report.criticalIssues.forEach(issue => {
+        report.criticalIssues.forEach((issue: any) => {
           console.info(`  - ${issue}`);
         });
       }
       
       if (report.recommendations.length > 0) {
         console.info('\n💡 Recommendations:');
-        report.recommendations.forEach(rec => {
+        report.recommendations.forEach((rec: any) => {
           console.info(`  - ${rec}`);
         });
       }
       
       if (report.nextSteps.length > 0) {
         console.info('\n🎯 Next Steps:');
-        report.nextSteps.forEach(step => {
+        report.nextSteps.forEach((step: any) => {
           console.info(`  - ${step}`);
         });
       }
@@ -317,7 +317,7 @@ class FinalTestCLI {
     
     // Show test suite status
     console.info('\n📋 Test Suite Status:');
-    testSuites.forEach(suite => {
+    testSuites.forEach((suite: any) => {
       const statusIcon = suite.status === 'passed' ? '✅' : 
                         suite.status === 'failed' ? '❌' : 
                         suite.status === 'running' ? '🔄' : '⏳';
@@ -326,7 +326,7 @@ class FinalTestCLI {
     
     // Show integration test status
     console.info('\n🔗 Integration Test Status:');
-    integrationTests.forEach(test => {
+    integrationTests.forEach((test: any) => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
@@ -335,7 +335,7 @@ class FinalTestCLI {
     
     // Show performance test status
     console.info('\n⚡ Performance Test Status:');
-    performanceTests.forEach(test => {
+    performanceTests.forEach((test: any) => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
@@ -344,7 +344,7 @@ class FinalTestCLI {
     
     // Show security test status
     console.info('\n🔒 Security Test Status:');
-    securityTests.forEach(test => {
+    securityTests.forEach((test: any) => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
@@ -353,7 +353,7 @@ class FinalTestCLI {
     
     // Show UAT status
     console.info('\n👥 User Acceptance Test Status:');
-    uatTests.forEach(test => {
+    uatTests.forEach((test: any) => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
@@ -409,7 +409,7 @@ class FinalTestCLI {
 
     <div class="tests">
         <h3>Test Suite Results (${report.testSuites.length})</h3>
-        ${report.testSuites.map(suite => `
+        ${report.testSuites.map((suite: any) => `
             <div class="test-item test-${suite.status}">
                 <div style="font-weight: bold;">${suite.name}</div>
                 <div style="color: #666; margin: 5px 0;">${suite.description}</div>
@@ -426,7 +426,7 @@ class FinalTestCLI {
 
     <div class="test-section">
         <h3>Integration Tests (${report.integrationTests.length})</h3>
-        ${report.integrationTests.map(test => `
+        ${report.integrationTests.map((test: any) => `
             <div class="test-item test-${test.status}">
                 <div style="font-weight: bold;">${test.name}</div>
                 <div style="color: #666; margin: 5px 0;">${test.description}</div>
@@ -442,7 +442,7 @@ class FinalTestCLI {
 
     <div class="test-section">
         <h3>Performance Tests (${report.performanceTests.length})</h3>
-        ${report.performanceTests.map(test => `
+        ${report.performanceTests.map((test: any) => `
             <div class="test-item test-${test.status}">
                 <div style="font-weight: bold;">${test.name}</div>
                 <div style="color: #666; margin: 5px 0;">${test.description}</div>
@@ -465,7 +465,7 @@ class FinalTestCLI {
 
     <div class="test-section">
         <h3>Security Tests (${report.securityTests.length})</h3>
-        ${report.securityTests.map(test => `
+        ${report.securityTests.map((test: any) => `
             <div class="test-item test-${test.status}">
                 <div style="font-weight: bold;">${test.name}</div>
                 <div style="color: #666; margin: 5px 0;">${test.description}</div>
@@ -482,7 +482,7 @@ class FinalTestCLI {
 
     <div class="test-section">
         <h3>User Acceptance Tests (${report.userAcceptanceTests.length})</h3>
-        ${report.userAcceptanceTests.map(test => `
+        ${report.userAcceptanceTests.map((test: any) => `
             <div class="test-item test-${test.status}">
                 <div style="font-weight: bold;">${test.name}</div>
                 <div style="color: #666; margin: 5px 0;">${test.userStory}</div>
@@ -499,7 +499,7 @@ class FinalTestCLI {
         <div class="critical-issues">
             <h3>🚨 Critical Issues (${report.criticalIssues.length})</h3>
             <ul>
-                ${report.criticalIssues.map(issue => `<li>${issue}</li>`).join('')}
+                ${report.criticalIssues.map((issue: any) => `<li>${issue}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
@@ -508,7 +508,7 @@ class FinalTestCLI {
         <div class="recommendations">
             <h3>💡 Recommendations (${report.recommendations.length})</h3>
             <ul>
-                ${report.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                ${report.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
             </ul>
         </div>
     ` : ''}
@@ -516,7 +516,7 @@ class FinalTestCLI {
     <div class="next-steps">
         <h3>🎯 Next Steps</h3>
         <ul>
-            ${report.nextSteps.map(step => `<li>${step}</li>`).join('')}
+            ${report.nextSteps.map((step: any) => `<li>${step}</li>`).join('')}
         </ul>
     </div>
 

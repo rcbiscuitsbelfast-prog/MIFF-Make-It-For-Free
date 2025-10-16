@@ -1998,7 +1998,7 @@ export class UnrealBridgeManager {
     this.statistics.errorRate = this.statistics.totalErrors / Math.max(1, this.statistics.totalMessages);
     this.statistics.averageMessageSize = this.statistics.dataTransferred / Math.max(1, this.statistics.totalMessages);
     this.statistics.queueDepth = this.messageQueue.length + this.eventQueue.length + this.commandQueue.length + this.queryQueue.length;
-    this.statistics.activeConnections = Array.from(this.connections.values()).filter(c => c.status === 'connected').length;
+    this.statistics.activeConnections = Array.from(this.connections.values()).filter((c: any) => c.status === 'connected').length;
     this.statistics.actorCount = this.actors.size;
     this.statistics.componentCount = this.components.size;
     this.statistics.systemCount = this.systems.size;

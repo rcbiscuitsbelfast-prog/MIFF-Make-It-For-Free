@@ -91,7 +91,7 @@ function showStats(eventBus: EventBus): void {
   console.log(`Total Subscriptions: ${eventBus.getTotalSubscriptions()}`);
   console.log(`Active Topics: ${eventBus.getActiveTopics().join(', ') || 'none'}`);
 
-  eventBus.getActiveTopics().forEach(topic => {
+  eventBus.getActiveTopics().forEach((topic: any) => {
     console.log(`  ${topic}: ${eventBus.getSubscriberCount(topic)} subscribers`);
   });
 }

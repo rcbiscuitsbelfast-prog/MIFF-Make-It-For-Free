@@ -210,7 +210,7 @@ export class TimeManager {
     };
     
     this.scheduled.push(scheduled);
-    this.scheduled.sort((a, b) => a.at - b.at);
+    this.scheduled.sort((a: any, b: any) => a.at - b.at);
     this.stats.scheduledEvents++;
     
     return {
@@ -473,27 +473,27 @@ export class TimeManager {
       }
 
       if (filter.category) {
-        timers = timers.filter(t => t.metadata?.category === filter.category);
-        cooldowns = cooldowns.filter(c => c.category === filter.category);
+        timers = timers.filter((t: any) => t.metadata?.category === filter.category);
+        cooldowns = cooldowns.filter((c: any) => c.category === filter.category);
       }
 
       if (filter.minDuration !== undefined) {
-        timers = timers.filter(t => t.duration >= filter.minDuration!);
-        cooldowns = cooldowns.filter(c => c.duration >= filter.minDuration!);
+        timers = timers.filter((t: any) => t.duration >= filter.minDuration!);
+        cooldowns = cooldowns.filter((c: any) => c.duration >= filter.minDuration!);
       }
 
       if (filter.maxDuration !== undefined) {
-        timers = timers.filter(t => t.duration <= filter.maxDuration!);
-        cooldowns = cooldowns.filter(c => c.duration <= filter.maxDuration!);
+        timers = timers.filter((t: any) => t.duration <= filter.maxDuration!);
+        cooldowns = cooldowns.filter((c: any) => c.duration <= filter.maxDuration!);
       }
 
       if (filter.active !== undefined) {
         if (filter.active) {
-          timers = timers.filter(t => t.remaining > 0);
-          cooldowns = cooldowns.filter(c => c.remaining > 0);
+          timers = timers.filter((t: any) => t.remaining > 0);
+          cooldowns = cooldowns.filter((c: any) => c.remaining > 0);
         } else {
-          timers = timers.filter(t => t.remaining <= 0);
-          cooldowns = cooldowns.filter(c => c.remaining <= 0);
+          timers = timers.filter((t: any) => t.remaining <= 0);
+          cooldowns = cooldowns.filter((c: any) => c.remaining <= 0);
         }
       }
     }
@@ -502,10 +502,10 @@ export class TimeManager {
       op: 'list',
       status: 'ok',
       result: {
-        timers: timers.map(t => ({ id: t.id, remaining: this.round(t.remaining), duration: t.duration })),
-        cooldowns: cooldowns.map(c => ({ id: c.id, remaining: this.round(c.remaining), duration: c.duration })),
-        scheduled: scheduled.map(s => ({ id: s.id, at: s.at })),
-        scales: scales.map(s => ({ id: s.id, factor: s.factor, startTime: s.startTime }))
+        timers: timers.map((t: any) => ({ id: t.id, remaining: this.round(t.remaining), duration: t.duration })),
+        cooldowns: cooldowns.map((c: any) => ({ id: c.id, remaining: this.round(c.remaining), duration: c.duration })),
+        scheduled: scheduled.map((s: any) => ({ id: s.id, at: s.at })),
+        scales: scales.map((s: any) => ({ id: s.id, factor: s.factor, startTime: s.startTime }))
       }
     };
   }
@@ -637,15 +637,15 @@ export class TimeManager {
       status: 'ok',
       result: {
         time: this.round(this.time),
-        timers: Array.from(this.timers.values()).map(t => ({
+        timers: Array.from(this.timers.values()).map((t: any) => ({
           ...t,
           remaining: this.round(t.remaining)
         })),
-        cooldowns: Array.from(this.cooldowns.values()).map(c => ({
+        cooldowns: Array.from(this.cooldowns.values()).map((c: any) => ({
           ...c,
           remaining: this.round(c.remaining)
         })),
-        scheduled: this.scheduled.map(s => ({ ...s })),
+        scheduled: this.scheduled.map((s: any) => ({ ...s })),
         scales: Array.from(this.timeScales.values()),
         paused: this.paused,
         timeScale: this.timeScale

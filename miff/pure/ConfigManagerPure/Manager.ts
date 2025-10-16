@@ -470,7 +470,7 @@ export class ConfigManagerManager {
       throw new Error('Config Manager not initialized');
     }
 
-    return Array.from(this.managers.values()).filter(manager => manager.type === type);
+    return Array.from(this.managers.values()).filter((manager: any) => manager.type === type);
   }
 
   /**
@@ -481,7 +481,7 @@ export class ConfigManagerManager {
       throw new Error('Config Manager not initialized');
     }
 
-    return Array.from(this.managers.values()).filter(manager => manager.status === status);
+    return Array.from(this.managers.values()).filter((manager: any) => manager.status === status);
   }
 
   /**
@@ -820,7 +820,7 @@ export class ConfigManagerManager {
     for (const manager of managers) {
       manager.analytics = {
         totalManagers: managers.length,
-        activeManagers: managers.filter(m => m.status === 'active').length,
+        activeManagers: managers.filter((m: any) => m.status === 'active').length,
         totalConfigs: manager.configs.length,
         totalSchemas: manager.schemas.length,
         totalValidators: manager.validators.length,
@@ -848,7 +848,7 @@ export class ConfigManagerManager {
     }
 
     const managers = Array.from(this.managers.values());
-    const activeManagers = managers.filter(m => m.status === 'active');
+    const activeManagers = managers.filter((m: any) => m.status === 'active');
     const totalConfigs = managers.reduce((sum: any, m: any) => sum + m.configs.length, 0);
     const totalSchemas = managers.reduce((sum: any, m: any) => sum + m.schemas.length, 0);
     const totalValidators = managers.reduce((sum: any, m: any) => sum + m.validators.length, 0);

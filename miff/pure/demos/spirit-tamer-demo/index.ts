@@ -416,7 +416,7 @@ class SpiritTamerGame {
     const stats = { ...species.baseStats };
 
     // Scale stats with level
-    Object.keys(stats).forEach(key => {
+    Object.keys(stats).forEach((key: any) => {
       stats[key as keyof typeof stats] = Math.floor(stats[key as keyof typeof stats] * (level / 5));
     });
 
@@ -561,7 +561,7 @@ class SpiritTamerGame {
     if (!this.battleState) return;
 
     const { enemySpirit, playerSpirit } = this.battleState;
-    const availableMoves = enemySpirit.moves.filter(move => MOVES[move]);
+    const availableMoves = enemySpirit.moves.filter((move: any) => MOVES[move]);
 
     if (availableMoves.length === 0) {
       console.log(`${enemySpirit.name} struggles!`);
@@ -609,7 +609,7 @@ class SpiritTamerGame {
     console.log(`\n⭐ Gained ${expGained} experience points!`);
 
     // Distribute XP to all active team members
-    this.player.activeTeam.forEach(spirit => {
+    this.player.activeTeam.forEach((spirit: any) => {
       if (spirit.currentHp > 0) {
         spirit.experience += expGained;
         this.checkLevelUp(spirit);
@@ -642,7 +642,7 @@ class SpiritTamerGame {
 
       // Learn new moves
       const newMoves = this.getMovesForLevel(spirit.speciesId, spirit.level);
-      newMoves.forEach(move => {
+      newMoves.forEach((move: any) => {
         if (!spirit.moves.includes(move)) {
           spirit.moves.push(move);
           console.log(`📚 ${spirit.name} learned ${MOVES[move].name}!`);
@@ -829,7 +829,7 @@ class SpiritTamerGame {
 
     this.askQuestion('Choose spirits to switch (format: 1 2): ')
       .then((choice: string) => {
-        const indices = choice.trim().split(' ').map(n => parseInt(n) - 1);
+        const indices = choice.trim().split(' ').map((n: any) => parseInt(n) - 1);
 
         if (indices.length === 2 && indices.every(i => i >= 0 && i < this.player.spirits.length)) {
           const spirit1 = this.player.spirits[indices[0]];

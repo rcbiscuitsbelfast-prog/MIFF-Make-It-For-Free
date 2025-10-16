@@ -127,7 +127,7 @@ export class SkillTreeManager {
       description,
       skills: Array.from(this.skills.values()),
       categories: this.getCategories(),
-      maxLevel: Math.max(...Array.from(this.skills.values()).map(s => s.maxLevel || 1)),
+      maxLevel: Math.max(...Array.from(this.skills.values()).map((s: any) => s.maxLevel || 1)),
       totalCost: this.calculateTotalCost(),
       metadata: {}
     };
@@ -270,36 +270,36 @@ export class SkillTreeManager {
     
     if (filter) {
       if (filter.category) {
-        skills = skills.filter(s => s.category === filter.category);
+        skills = skills.filter((s: any) => s.category === filter.category);
       }
       
       if (filter.unlocked !== undefined) {
-        skills = skills.filter(s => this.unlocked.has(s.id) === filter.unlocked);
+        skills = skills.filter((s: any) => this.unlocked.has(s.id) === filter.unlocked);
       }
       
       if (filter.level !== undefined) {
-        skills = skills.filter(s => (s.level || 1) === filter.level);
+        skills = skills.filter((s: any) => (s.level || 1) === filter.level);
       }
       
       if (filter.minLevel !== undefined) {
-        skills = skills.filter(s => (s.level || 1) >= filter.minLevel);
+        skills = skills.filter((s: any) => (s.level || 1) >= filter.minLevel);
       }
       
       if (filter.maxLevel !== undefined) {
-        skills = skills.filter(s => (s.level || 1) <= filter.maxLevel);
+        skills = skills.filter((s: any) => (s.level || 1) <= filter.maxLevel);
       }
       
       if (filter.cost !== undefined) {
-        skills = skills.filter(s => (s.cost || 0) === filter.cost);
+        skills = skills.filter((s: any) => (s.cost || 0) === filter.cost);
       }
       
       if (filter.maxCost !== undefined) {
-        skills = skills.filter(s => (s.cost || 0) <= filter.maxCost);
+        skills = skills.filter((s: any) => (s.cost || 0) <= filter.maxCost);
       }
       
       if (filter.search) {
         const searchLower = filter.search.toLowerCase();
-        skills = skills.filter(s => 
+        skills = skills.filter((s: any) => 
           s.name.toLowerCase().includes(searchLower) ||
           (s.description && s.description.toLowerCase().includes(searchLower))
         );
@@ -318,7 +318,7 @@ export class SkillTreeManager {
       
       case 'csv':
         let csv = 'ID,Name,Description,Category,Level,Cost,Unlocked\n';
-        skills.forEach(skill => {
+        skills.forEach((skill: any) => {
           const progress = this.progress.get(skill.id);
           csv += `${skill.id},${skill.name},${skill.description || ''},${skill.category || ''},${skill.level || 1},${skill.cost || 0},${progress?.unlocked || false}\n`;
         });
@@ -326,7 +326,7 @@ export class SkillTreeManager {
       
       case 'markdown':
         let md = '# Skill Tree\n\n';
-        skills.forEach(skill => {
+        skills.forEach((skill: any) => {
           const progress = this.progress.get(skill.id);
           md += `## ${skill.name}\n`;
           md += `- **ID**: ${skill.id}\n`;
@@ -399,7 +399,7 @@ export class SkillTreeManager {
 
   private getCategories(): string[] {
     const categories = new Set<string>();
-    this.skills.forEach(skill => {
+    this.skills.forEach((skill: any) => {
       if (skill.category) {
         categories.add(skill.category);
       }
@@ -422,7 +422,7 @@ export class SkillTreeManager {
     
     // Update categories
     this.stats.categories = {};
-    skills.forEach(skill => {
+    skills.forEach((skill: any) => {
       if (skill.category) {
         this.stats.categories[skill.category] = (this.stats.categories[skill.category] || 0) + 1;
       }

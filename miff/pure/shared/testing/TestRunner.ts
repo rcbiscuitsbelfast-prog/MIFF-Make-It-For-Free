@@ -307,7 +307,7 @@ export class TestRunner {
     if (this.config.parallel) {
       // Run tests in parallel
       const chunks = this.chunkArray(files, this.config.maxWorkers);
-      const promises = chunks.map(chunk => this.runTestChunk(chunk));
+      const promises = chunks.map((chunk: any) => this.runTestChunk(chunk));
       const chunkResults = await Promise.all(promises);
       
       for (const chunkResult of chunkResults) {
@@ -330,7 +330,7 @@ export class TestRunner {
   private async runTestChunk(files: string[]): Promise<TestResult[]> {
     const results: TestResult[] = [];
     
-    const promises = files.map(file => this.runTestFile(file));
+    const promises = files.map((file: any) => this.runTestFile(file));
     const fileResults = await Promise.all(promises);
     
     for (const fileResult of fileResults) {
@@ -680,12 +680,12 @@ export class TestRunner {
     // Calculate statistics
     const totalSuites = suites.length;
     const totalTests = results.length;
-    const passedSuites = suites.filter(s => s.status === TestStatus.PASSED).length;
-    const passedTests = results.filter(t => t.status === TestStatus.PASSED).length;
-    const failedSuites = suites.filter(s => s.status === TestStatus.FAILED).length;
-    const failedTests = results.filter(t => t.status === TestStatus.FAILED).length;
-    const skippedSuites = suites.filter(s => s.status === TestStatus.SKIPPED).length;
-    const skippedTests = results.filter(t => t.status === TestStatus.SKIPPED).length;
+    const passedSuites = suites.filter((s: any) => s.status === TestStatus.PASSED).length;
+    const passedTests = results.filter((t: any) => t.status === TestStatus.PASSED).length;
+    const failedSuites = suites.filter((s: any) => s.status === TestStatus.FAILED).length;
+    const failedTests = results.filter((t: any) => t.status === TestStatus.FAILED).length;
+    const skippedSuites = suites.filter((s: any) => s.status === TestStatus.SKIPPED).length;
+    const skippedTests = results.filter((t: any) => t.status === TestStatus.SKIPPED).length;
     
     // Calculate performance metrics
     const performance = this.calculatePerformanceMetrics(results);
@@ -747,7 +747,7 @@ export class TestRunner {
       };
     }
     
-    const durations = results.map(r => r.duration);
+    const durations = results.map((r: any) => r.duration);
     const totalDuration = durations.reduce((sum, d) => sum + d, 0);
     const averageTestDuration = totalDuration / results.length;
     
@@ -805,26 +805,26 @@ export class TestRunner {
     const recommendations: string[] = [];
     
     // Check for slow tests
-    const slowTests = results.filter(r => r.duration > 5000); // 5 seconds
+    const slowTests = results.filter((r: any) => r.duration > 5000); // 5 seconds
     if (slowTests.length > 0) {
       recommendations.push(`Consider optimizing ${slowTests.length} slow tests (>5s)`);
     }
     
     // Check for flaky tests
-    const flakyTests = results.filter(r => r.retries > 0);
+    const flakyTests = results.filter((r: any) => r.retries > 0);
     if (flakyTests.length > 0) {
       recommendations.push(`Investigate ${flakyTests.length} flaky tests that required retries`);
     }
     
     // Check for test coverage
-    const uncoveredTests = results.filter(r => !r.coverage);
+    const uncoveredTests = results.filter((r: any) => !r.coverage);
     if (uncoveredTests.length > 0) {
       recommendations.push(`Add coverage reporting for ${uncoveredTests.length} tests`);
     }
     
     // Check for test organization
-    const unitTests = results.filter(r => r.type === TestType.UNIT);
-    const integrationTests = results.filter(r => r.type === TestType.INTEGRATION);
+    const unitTests = results.filter((r: any) => r.type === TestType.UNIT);
+    const integrationTests = results.filter((r: any) => r.type === TestType.INTEGRATION);
     
     if (unitTests.length < integrationTests.length) {
       recommendations.push('Consider adding more unit tests for better test pyramid');
@@ -884,13 +884,13 @@ export class TestRunner {
     
     <div class="suites">
         <h2>Test Suites</h2>
-        ${report.suites.map(suite => `
+        ${report.suites.map((suite: any) => `
             <div class="suite">
                 <h3>${suite.name} <span class="${suite.status}">(${suite.status})</span></h3>
                 <p>File: ${suite.file}</p>
                 <p>Duration: ${suite.duration}ms</p>
                 <div class="tests">
-                    ${suite.tests.map(test => `
+                    ${suite.tests.map((test: any) => `
                         <div class="test">
                             <span class="${test.status}">${test.name}</span>
                             ${test.error ? `<div class="error">${test.error}</div>` : ''}
@@ -904,7 +904,7 @@ export class TestRunner {
     <div class="recommendations">
         <h2>Recommendations</h2>
         <ul>
-            ${report.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+            ${report.recommendations.map((rec: any) => `<li>${rec}</li>`).join('')}
         </ul>
     </div>
 </body>

@@ -203,7 +203,7 @@ export class EnhancedEconomyManager {
       }
     ];
 
-    defaultCurrencies.forEach(currency => this.currencies.set(currency.id, currency));
+    defaultCurrencies.forEach((currency: any) => this.currencies.set(currency.id, currency));
 
     // Default price rules
     const defaultRules: PriceRule[] = [
@@ -237,7 +237,7 @@ export class EnhancedEconomyManager {
       }
     ];
 
-    defaultRules.forEach(rule => this.rules.set(rule.id, rule));
+    defaultRules.forEach((rule: any) => this.rules.set(rule.id, rule));
 
     // Default vendors
     const defaultVendors: VendorState[] = [
@@ -278,7 +278,7 @@ export class EnhancedEconomyManager {
       }
     ];
 
-    defaultVendors.forEach(vendor => this.vendors.set(vendor.id, vendor));
+    defaultVendors.forEach((vendor: any) => this.vendors.set(vendor.id, vendor));
 
     // Initialize market data
     this.updateMarketData();
@@ -570,11 +570,11 @@ export class EnhancedEconomyManager {
     const vendors = Array.from(this.vendors.values());
     const rules = Array.from(this.rules.values());
     const currencies = Array.from(this.currencies.values());
-    const activeEvents = Array.from(this.economicEvents.values()).filter(e => this.isEventActive(e));
+    const activeEvents = Array.from(this.economicEvents.values()).filter((e: any) => this.isEventActive(e));
 
     // Calculate market volume
     const marketVolume = this.transactions
-      .filter(tx => tx.timestamp > Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
+      .filter((tx: any) => tx.timestamp > Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
       .reduce((sum, tx) => sum + tx.totalPrice, 0);
 
     // Calculate category statistics
@@ -585,7 +585,7 @@ export class EnhancedEconomyManager {
         categoryStats.set(rule.category, { volume: 0, totalPrice: 0, count: 0 });
       }
       
-      const categoryTransactions = this.transactions.filter(tx => tx.itemId === rule.itemId);
+      const categoryTransactions = this.transactions.filter((tx: any) => tx.itemId === rule.itemId);
       const volume = categoryTransactions.reduce((sum, tx) => sum + tx.quantity, 0);
       const totalPrice = categoryTransactions.reduce((sum, tx) => sum + tx.totalPrice, 0);
       
@@ -601,19 +601,19 @@ export class EnhancedEconomyManager {
         volume: stats.volume,
         avgPrice: stats.count > 0 ? stats.totalPrice / stats.count : 0
       }))
-      .sort((a, b) => b.volume - a.volume)
+      .sort((a: any, b: any) => b.volume - a.volume)
       .slice(0, 5);
 
     // Calculate vendor statistics
-    const vendorStats = vendors.map(vendor => {
-      const vendorTransactions = this.transactions.filter(tx => tx.vendorId === vendor.id);
+    const vendorStats = vendors.map((vendor: any) => {
+      const vendorTransactions = this.transactions.filter((tx: any) => tx.vendorId === vendor.id);
       const revenue = vendorTransactions.reduce((sum, tx) => sum + tx.totalPrice, 0);
       return {
         vendorId: vendor.id,
         revenue,
         marketShare: vendor.marketShare
       };
-    }).sort((a, b) => b.revenue - a.revenue).slice(0, 5);
+    }).sort((a: any, b: any) => b.revenue - a.revenue).slice(0, 5);
 
     // Calculate economic health (0-100)
     const averageInflation = currencies.reduce((sum, c) => sum + c.inflationRate, 0) / currencies.length;
@@ -666,7 +666,7 @@ export class EnhancedEconomyManager {
 
       // Calculate average price from recent transactions
       const recentTransactions = this.transactions
-        .filter(tx => tx.itemId === rule.itemId && tx.timestamp > now - 24 * 60 * 60 * 1000)
+        .filter((tx: any) => tx.itemId === rule.itemId && tx.timestamp > now - 24 * 60 * 60 * 1000)
         .slice(-20); // Last 20 transactions
 
       if (recentTransactions.length > 0) {
@@ -687,7 +687,7 @@ export class EnhancedEconomyManager {
 
         // Calculate volatility and trend
         if (marketData.priceHistory.length >= 2) {
-          const prices = marketData.priceHistory.map(h => h.price);
+          const prices = marketData.priceHistory.map((h: any) => h.price);
           const mean = prices.reduce((sum, p) => sum + p, 0) / prices.length;
           const variance = prices.reduce((sum, p) => sum + Math.pow(p - mean, 2), 0) / prices.length;
           marketData.volatility = Math.sqrt(variance) / mean;
@@ -708,12 +708,12 @@ export class EnhancedEconomyManager {
 
         // Calculate total volume
         marketData.totalVolume = this.transactions
-          .filter(tx => tx.itemId === rule.itemId)
+          .filter((tx: any) => tx.itemId === rule.itemId)
           .reduce((sum, tx) => sum + tx.quantity, 0);
 
         // Calculate top vendors
         const vendorVolumes = new Map<string, number>();
-        recentTransactions.forEach(tx => {
+        recentTransactions.forEach((tx: any) => {
           vendorVolumes.set(tx.vendorId, (vendorVolumes.get(tx.vendorId) || 0) + tx.quantity);
         });
 
@@ -722,7 +722,7 @@ export class EnhancedEconomyManager {
             vendorId,
             marketShare: volume / marketData!.totalVolume
           }))
-          .sort((a, b) => b.marketShare - a.marketShare)
+          .sort((a: any, b: any) => b.marketShare - a.marketShare)
           .slice(0, 5);
       }
 

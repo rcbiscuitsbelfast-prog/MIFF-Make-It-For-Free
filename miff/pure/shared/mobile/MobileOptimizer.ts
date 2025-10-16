@@ -505,7 +505,7 @@ export class MobileOptimizer {
     // Clear unused caches
     if (typeof caches !== 'undefined') {
       caches.keys().then(names => {
-        names.forEach(name => {
+        names.forEach((name: any) => {
           if (name.startsWith('temp-')) {
             caches.delete(name);
           }
@@ -829,7 +829,7 @@ export class MobileOptimizer {
 
     // Remove all touch event listeners
     for (const [event, listeners] of this.touchEventListeners) {
-      listeners.forEach(listener => {
+      listeners.forEach((listener: any) => {
         if (typeof window !== 'undefined') {
           window.removeEventListener(event, listener as EventListener);
         }

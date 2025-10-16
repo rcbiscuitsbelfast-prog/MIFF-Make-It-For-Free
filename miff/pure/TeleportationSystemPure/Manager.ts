@@ -212,7 +212,7 @@ export class TeleportationManager {
 
     // Get recent failure reasons
     const recentFailures = Array.from(stats.failureReasons.entries())
-      .sort((a, b) => b[1] - a[1])
+      .sort((a: any, b: any) => b[1] - a[1])
       .slice(0, 5)
       .map(([reason]) => reason);
 
@@ -231,9 +231,9 @@ export class TeleportationManager {
    */
   private getPortalsInZone(zoneId: string): Portal[] {
     const anchorsInZone = this.teleportationSystem.getAnchorsInZone(zoneId);
-    const anchorIds = anchorsInZone.map(anchor => anchor.id);
+    const anchorIds = anchorsInZone.map((anchor: any) => anchor.id);
 
-    return this.teleportationSystem.getAllPortals().filter(portal =>
+    return this.teleportationSystem.getAllPortals().filter((portal: any) =>
       anchorIds.includes(portal.sourceAnchor.id) || anchorIds.includes(portal.destinationAnchor.id)
     );
   }
@@ -296,7 +296,7 @@ export class TeleportationManager {
     }
 
     // Sort by distance
-    return destinations.sort((a, b) => a.distance - b.distance);
+    return destinations.sort((a: any, b: any) => a.distance - b.distance);
   }
 
   /**

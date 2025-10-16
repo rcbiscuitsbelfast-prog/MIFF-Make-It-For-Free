@@ -62,7 +62,7 @@ export class DialogSim {
     this.inventory.clear();
     this.quests.clear();
     this.log.push(`DIALOG ${dialogId}`);
-    const nodes = new Map(d.nodes.map(n => [n.id, n] as const));
+    const nodes = new Map(d.nodes.map((n: any) => [n.id, n] as const));
     // pick first node as start
     let cur = d.nodes[0];
     while (cur) {
@@ -86,7 +86,7 @@ export class DialogSim {
     this.inventory.clear();
     this.quests.clear();
     this.log.push(`CHOICE_RUN ${dialogId} ${choiceId}`);
-    const nodes = new Map(d.nodes.map(n => [n.id, n] as const));
+    const nodes = new Map(d.nodes.map((n: any) => [n.id, n] as const));
     const start = d.nodes[0];
     const choice = (start.choices || []).find(c => c.id === choiceId);
     if (!choice) throw new Error(`Choice not found on start node: ${choiceId}`);

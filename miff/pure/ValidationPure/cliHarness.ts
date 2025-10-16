@@ -241,7 +241,7 @@ try {
         }
       ];
 
-      const scenarioResults = sampleScenarios.map(scenario => {
+      const scenarioResults = sampleScenarios.map((scenario: any) => {
         const result = manager.validateAll(scenario.input);
         return {
           scenario: scenario.id,

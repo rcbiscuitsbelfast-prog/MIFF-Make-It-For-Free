@@ -556,7 +556,7 @@ class EffectsPureCLI {
     ];
 
     console.log(`📊 Stats for ${entityId}:`);
-    stats.forEach(stat => {
+    stats.forEach((stat: any) => {
       const value = this.entityContext.getEntityStat(entityId, stat);
       const icon = this.getStatIcon(stat);
       console.log(`  ${icon} ${stat.toUpperCase()}: ${value}`);

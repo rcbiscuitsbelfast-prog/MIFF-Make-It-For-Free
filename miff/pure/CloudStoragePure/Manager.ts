@@ -473,7 +473,7 @@ export class CloudStorageManager {
       throw new Error('Cloud Storage not initialized');
     }
 
-    return Array.from(this.storages.values()).filter(storage => storage.type === type);
+    return Array.from(this.storages.values()).filter((storage: any) => storage.type === type);
   }
 
   /**
@@ -484,7 +484,7 @@ export class CloudStorageManager {
       throw new Error('Cloud Storage not initialized');
     }
 
-    return Array.from(this.storages.values()).filter(storage => storage.status === status);
+    return Array.from(this.storages.values()).filter((storage: any) => storage.status === status);
   }
 
   /**
@@ -789,7 +789,7 @@ export class CloudStorageManager {
   private updateAnalytics(): void {
     const storages = Array.from(this.storages.values());
     const totalProviders = storages.reduce((sum: any, s: any) => sum + s.providers.length, 0);
-    const activeProviders = storages.reduce((sum: any, s: any) => sum + s.providers.filter(p => p.status === 'active').length, 0);
+    const activeProviders = storages.reduce((sum: any, s: any) => sum + s.providers.filter((p: any) => p.status === 'active').length, 0);
     const totalFiles = storages.reduce((sum: any, s: any) => sum + s.files.length, 0);
     const totalBuckets = storages.reduce((sum: any, s: any) => sum + s.buckets.length, 0);
     const totalSize = storages.reduce((sum: any, s: any) => sum + s.files.reduce((sum: any, f: any) => sum + f.size, 0), 0);
@@ -797,9 +797,9 @@ export class CloudStorageManager {
     for (const storage of storages) {
       storage.analytics = {
         totalStorages: storages.length,
-        activeStorages: storages.filter(s => s.status === 'active').length,
+        activeStorages: storages.filter((s: any) => s.status === 'active').length,
         totalProviders: storage.providers.length,
-        activeProviders: storage.providers.filter(p => p.status === 'active').length,
+        activeProviders: storage.providers.filter((p: any) => p.status === 'active').length,
         totalFiles: storage.files.length,
         totalBuckets: storage.buckets.length,
         totalSize: storage.files.reduce((sum: any, f: any) => sum + f.size, 0),
@@ -828,7 +828,7 @@ export class CloudStorageManager {
     }
 
     const storages = Array.from(this.storages.values());
-    const activeStorages = storages.filter(s => s.status === 'active');
+    const activeStorages = storages.filter((s: any) => s.status === 'active');
     const totalProviders = storages.reduce((sum: any, s: any) => sum + s.providers.length, 0);
     const totalFiles = storages.reduce((sum: any, s: any) => sum + s.files.length, 0);
     const totalBuckets = storages.reduce((sum: any, s: any) => sum + s.buckets.length, 0);

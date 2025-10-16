@@ -842,9 +842,9 @@ export class CryptocurrencyPure {
 
     for (const manager of this.managers.values()) {
       totalWallets += manager.wallets.length;
-      activeWallets += manager.wallets.filter(w => w.isActive).length;
+      activeWallets += manager.wallets.filter((w: any) => w.isActive).length;
       totalTransactions += manager.transactions.length;
-      pendingTransactions += manager.transactions.filter(t => t.status === 'pending').length;
+      pendingTransactions += manager.transactions.filter((t: any) => t.status === 'pending').length;
       totalPortfolioValue += manager.portfolios.reduce((sum: any, p: any) => sum + p.totalValueUSD, 0);
     }
 

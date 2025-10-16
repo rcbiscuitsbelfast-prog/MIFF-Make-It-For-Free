@@ -93,7 +93,7 @@ export class SurvivalSystemPure {
       }
     ];
 
-    resources.forEach(resource => {
+    resources.forEach((resource: any) => {
       this.resources.set(resource.type, resource);
     });
   }

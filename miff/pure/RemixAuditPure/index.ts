@@ -168,7 +168,7 @@ export async function auditModules(modulePaths: string[]): Promise<RemixAuditRep
     status,
     summary,
     results: allResults,
-    modules: moduleResults.map(r => r.moduleName),
+    modules: moduleResults.map((r: any) => r.moduleName),
     criticalIssues,
     warnings,
     recommendations,
@@ -391,10 +391,10 @@ function determineOverallStatus(summary: RemixAuditReport['summary']): RemixAudi
 function generateAuditSummary(results: AuditResult[]): RemixAuditReport['summary'] {
   return {
     total: results.length,
-    passed: results.filter(r => r.passed).length,
-    failed: results.filter(r => !r.passed).length,
-    warnings: results.filter(r => !r.passed && r.severity === 'warning').length,
-    critical: results.filter(r => !r.passed && r.severity === 'critical').length
+    passed: results.filter((r: any) => r.passed).length,
+    failed: results.filter((r: any) => !r.passed).length,
+    warnings: results.filter((r: any) => !r.passed && r.severity === 'warning').length,
+    critical: results.filter((r: any) => !r.passed && r.severity === 'critical').length
   };
 }
 
@@ -402,11 +402,11 @@ function generateAuditSummary(results: AuditResult[]): RemixAuditReport['summary
  * checkCompliance - Check compliance across different categories
  */
 function checkCompliance(results: AuditResult[]): RemixAuditReport['compliance'] {
-  const licensing = results.filter(r => r.category === 'licensing').every(r => r.passed);
-  const attribution = results.filter(r => r.category === 'attribution').every(r => r.passed);
-  const dependencies = results.filter(r => r.category === 'dependencies').every(r => r.passed);
-  const documentation = results.filter(r => r.category === 'documentation').every(r => r.passed);
-  const assets = results.filter(r => r.category === 'assets').every(r => r.passed);
+  const licensing = results.filter((r: any) => r.category === 'licensing').every(r => r.passed);
+  const attribution = results.filter((r: any) => r.category === 'attribution').every(r => r.passed);
+  const dependencies = results.filter((r: any) => r.category === 'dependencies').every(r => r.passed);
+  const documentation = results.filter((r: any) => r.category === 'documentation').every(r => r.passed);
+  const assets = results.filter((r: any) => r.category === 'assets').every(r => r.passed);
 
   return {
     licensing,
@@ -436,19 +436,19 @@ export function generateAuditReport(report: RemixAuditReport): string {
   
   if (report.criticalIssues.length > 0) {
     output += `Critical Issues:\n`;
-    report.criticalIssues.forEach(issue => output += `  - ${issue}\n`);
+    report.criticalIssues.forEach((issue: any) => output += `  - ${issue}\n`);
     output += `\n`;
   }
   
   if (report.warnings.length > 0) {
     output += `Warnings:\n`;
-    report.warnings.forEach(warning => output += `  - ${warning}\n`);
+    report.warnings.forEach((warning: any) => output += `  - ${warning}\n`);
     output += `\n`;
   }
   
   if (report.recommendations.length > 0) {
     output += `Recommendations:\n`;
-    report.recommendations.forEach(rec => output += `  - ${rec}\n`);
+    report.recommendations.forEach((rec: any) => output += `  - ${rec}\n`);
     output += `\n`;
   }
   

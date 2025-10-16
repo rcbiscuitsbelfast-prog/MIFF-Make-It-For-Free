@@ -95,11 +95,11 @@ export class ObstacleCoursePure {
       }
     ];
 
-    obstacles.forEach(obstacle => {
+    obstacles.forEach((obstacle: any) => {
       this.obstacles.set(obstacle.id, obstacle);
     });
 
-    checkpoints.forEach(checkpoint => {
+    checkpoints.forEach((checkpoint: any) => {
       this.checkpoints.set(checkpoint.id, checkpoint);
     });
   }

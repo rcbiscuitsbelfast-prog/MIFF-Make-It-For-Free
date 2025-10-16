@@ -271,30 +271,30 @@ export class PetCollectionManager {
       // Apply filters
       if (filter) {
         if (filter.rarity) {
-          pets = pets.filter(pet => filter.rarity!.includes(pet.rarity));
+          pets = pets.filter((pet: any) => filter.rarity!.includes(pet.rarity));
         }
         if (filter.type) {
-          pets = pets.filter(pet => filter.type!.includes(pet.type));
+          pets = pets.filter((pet: any) => filter.type!.includes(pet.type));
         }
         if (filter.species) {
-          pets = pets.filter(pet => filter.species!.includes(pet.species));
+          pets = pets.filter((pet: any) => filter.species!.includes(pet.species));
         }
         if (filter.level) {
-          pets = pets.filter(pet =>
+          pets = pets.filter((pet: any) =>
             pet.level >= filter.level!.min && pet.level <= filter.level!.max
           );
         }
         if (filter.isFavorite !== undefined) {
-          pets = pets.filter(pet => pet.isFavorite === filter.isFavorite);
+          pets = pets.filter((pet: any) => pet.isFavorite === filter.isFavorite);
         }
         if (filter.isLocked !== undefined) {
-          pets = pets.filter(pet => pet.isLocked === filter.isLocked);
+          pets = pets.filter((pet: any) => pet.isLocked === filter.isLocked);
         }
       }
 
       // Apply sorting
       if (sort) {
-        pets.sort((a, b) => {
+        pets.sort((a: any, b: any) => {
           let aValue: any;
           let bValue: any;
 
@@ -406,7 +406,7 @@ export class PetCollectionManager {
       }
 
       const activeTrades = Array.from(this.petSystem['trades'].values())
-        .filter(trade => trade.ownerId === ownerId && trade.status === 'pending');
+        .filter((trade: any) => trade.ownerId === ownerId && trade.status === 'pending');
 
       if (activeTrades.length >= this.config.maxActiveTradesPerPlayer!) {
         return {

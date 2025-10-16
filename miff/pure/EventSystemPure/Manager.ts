@@ -1046,10 +1046,10 @@ export class EventSystemPure {
 
     for (const manager of this.managers.values()) {
       totalEvents += manager.events.length;
-      processedEvents += manager.events.filter(e => e.status === 'completed').length;
-      failedEvents += manager.events.filter(e => e.status === 'failed').length;
+      processedEvents += manager.events.filter((e: any) => e.status === 'completed').length;
+      failedEvents += manager.events.filter((e: any) => e.status === 'failed').length;
       totalHandlers += manager.handlers.length;
-      activeHandlers += manager.handlers.filter(h => h.status === 'active').length;
+      activeHandlers += manager.handlers.filter((h: any) => h.status === 'active').length;
     }
 
     this.performanceMetrics.totalEvents = totalEvents;

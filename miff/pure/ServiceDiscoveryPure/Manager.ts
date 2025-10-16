@@ -2058,7 +2058,7 @@ export class ServiceDiscoveryPure {
 
     for (const manager of this.managers.values()) {
       totalServices += manager.services.length;
-      activeServices += manager.services.filter(s => s.status === 'active').length;
+      activeServices += manager.services.filter((s: any) => s.status === 'active').length;
       totalInstances += manager.instances.length;
       totalRegistries += manager.registries.length;
       totalLoadBalancers += manager.loadBalancers.length;

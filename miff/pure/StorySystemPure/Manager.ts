@@ -123,7 +123,7 @@ export class StoryManager {
 
     // Check for unreachable nodes
     const reachableNodes = this.findReachableNodes(arc, arc.startNode);
-    const unreachableNodes = Array.from(arc.nodes.keys()).filter(id => !reachableNodes.has(id));
+    const unreachableNodes = Array.from(arc.nodes.keys()).filter((id: any) => !reachableNodes.has(id));
     if (unreachableNodes.length > 0) {
       warnings.push(`Unreachable nodes: ${unreachableNodes.join(', ')}`);
     }
@@ -391,7 +391,7 @@ export class StoryManager {
 
   private calculateProgress(arc: StoryArc): number {
     const totalNodes = arc.nodes.size;
-    const completedNodes = Array.from(arc.progress.values()).filter(p => p.completed).length;
+    const completedNodes = Array.from(arc.progress.values()).filter((p: any) => p.completed).length;
     return Math.round((completedNodes / totalNodes) * 100);
   }
 
@@ -407,7 +407,7 @@ export class StoryManager {
     progress.completed = true;
     progress.completedAt = Date.now();
     progress.rewards.push(...rewards);
-    progress.flags.push(...flags.map(f => f.id));
+    progress.flags.push(...flags.map((f: any) => f.id));
 
     arc.progress.set(nodeId, progress);
   }
@@ -459,7 +459,7 @@ export class StoryManager {
     const averageProgress = arcs.length > 0 
       ? arcs.reduce((sum, arc) => sum + this.calculateProgress(arc), 0) / arcs.length 
       : 0;
-    const completedArcs = arcs.filter(arc => this.calculateProgress(arc) === 100).length;
+    const completedArcs = arcs.filter((arc: any) => this.calculateProgress(arc) === 100).length;
 
     return {
       totalArcs: arcs.length,

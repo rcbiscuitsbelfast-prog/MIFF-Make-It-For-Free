@@ -463,7 +463,7 @@ export class ChatSystemManager {
       throw new Error('Chat System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -474,7 +474,7 @@ export class ChatSystemManager {
       throw new Error('Chat System not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -694,7 +694,7 @@ export class ChatSystemManager {
       }
 
       return channel.messages
-        .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+        .sort((a: any, b: any) => b.timestamp.getTime() - a.timestamp.getTime())
         .slice(0, limit);
 
     } catch (error: unknown) {
@@ -832,7 +832,7 @@ export class ChatSystemManager {
     for (const system of systems) {
       system.analytics = {
         totalSystems: systems.length,
-        activeSystems: systems.filter(s => s.status === 'active').length,
+        activeSystems: systems.filter((s: any) => s.status === 'active').length,
         totalChannels: system.channels.length,
         totalUsers: system.users.length,
         totalMessages: system.messages.length,
@@ -861,7 +861,7 @@ export class ChatSystemManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalChannels = systems.reduce((sum: any, s: any) => sum + s.channels.length, 0);
     const totalUsers = systems.reduce((sum: any, s: any) => sum + s.users.length, 0);
     const totalMessages = systems.reduce((sum: any, s: any) => sum + s.messages.length, 0);

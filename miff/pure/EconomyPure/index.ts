@@ -730,8 +730,8 @@ export class EconomicEngine {
     const totalPrice = market.statistics.priceHistory.reduce((sum, point) => sum + point.price, 0);
     market.statistics.averagePrice = totalPrice / market.statistics.priceHistory.length;
 
-    market.statistics.highestPrice = Math.max(...market.statistics.priceHistory.map(p => p.price));
-    market.statistics.lowestPrice = Math.min(...market.statistics.priceHistory.map(p => p.price));
+    market.statistics.highestPrice = Math.max(...market.statistics.priceHistory.map((p: any) => p.price));
+    market.statistics.lowestPrice = Math.min(...market.statistics.priceHistory.map((p: any) => p.price));
   }
 
   private checkEconomicTriggers(transaction: Transaction): void {
@@ -915,7 +915,7 @@ export class EconomicEngine {
   private calculateVolatility(priceHistory: PricePoint[]): number {
     if (priceHistory.length < 2) return 0;
 
-    const prices = priceHistory.map(p => p.price);
+    const prices = priceHistory.map((p: any) => p.price);
     const mean = prices.reduce((sum, price) => sum + price, 0) / prices.length;
     const variance = prices.reduce((sum, price) => sum + Math.pow(price - mean, 2), 0) / prices.length;
 

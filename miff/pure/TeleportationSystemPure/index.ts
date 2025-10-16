@@ -209,7 +209,7 @@ export class TeleportationSystemPure {
       }
     ];
 
-    zones.forEach(zone => {
+    zones.forEach((zone: any) => {
       this.zones.set(zone.id, zone);
     });
   }
@@ -499,14 +499,14 @@ export class TeleportationSystemPure {
    * Get all anchors in a zone
    */
   getAnchorsInZone(zoneId: string): SpatialAnchor[] {
-    return Array.from(this.anchors.values()).filter(anchor => anchor.zoneId === zoneId);
+    return Array.from(this.anchors.values()).filter((anchor: any) => anchor.zoneId === zoneId);
   }
 
   /**
    * Get all portals for an anchor
    */
   getPortalsForAnchor(anchorId: string): Portal[] {
-    return Array.from(this.portals.values()).filter(portal =>
+    return Array.from(this.portals.values()).filter((portal: any) =>
       portal.sourceAnchor.id === anchorId || portal.destinationAnchor.id === anchorId
     );
   }
@@ -571,7 +571,7 @@ export class TeleportationSystemPure {
 
     // Remove all anchors in this zone
     const anchorsToRemove = this.getAnchorsInZone(zoneId);
-    anchorsToRemove.forEach(anchor => {
+    anchorsToRemove.forEach((anchor: any) => {
       this.anchors.delete(anchor.id);
     });
 

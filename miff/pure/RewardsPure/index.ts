@@ -203,7 +203,7 @@ export class DropTable implements IDropTable {
    */
   removeEntriesByItem(itemId: string): number {
     const initialLength = this.entries.length;
-    this.entries = this.entries.filter(entry => entry.itemId !== itemId);
+    this.entries = this.entries.filter((entry: any) => entry.itemId !== itemId);
     return initialLength - this.entries.length;
   }
 
@@ -218,7 +218,7 @@ export class DropTable implements IDropTable {
    * Get entries sorted by weight (descending)
    */
   getEntriesByWeight(): DropEntry[] {
-    return [...this.entries].sort((a, b) => b.weight - a.weight);
+    return [...this.entries].sort((a: any, b: any) => b.weight - a.weight);
   }
 
   /**
@@ -244,7 +244,7 @@ export class DropTable implements IDropTable {
 
     this.entries.forEach((entry, index) => {
       const entryErrors = entry.validate();
-      entryErrors.forEach(error => {
+      entryErrors.forEach((error: any) => {
         errors.push(`Entry ${index}: ${error}`);
       });
     });
@@ -256,7 +256,7 @@ export class DropTable implements IDropTable {
    * Create a copy of this table
    */
   clone(): DropTable {
-    return new DropTable(this.entries.map(entry => entry.clone()));
+    return new DropTable(this.entries.map((entry: any) => entry.clone()));
   }
 }
 
@@ -437,7 +437,7 @@ export class DropResolver {
     const results = new Map<string, number>();
 
     // Initialize results map
-    table.entries.forEach(entry => {
+    table.entries.forEach((entry: any) => {
       results.set(entry.itemId, 0);
     });
 
@@ -522,12 +522,12 @@ export const RewardUtils = {
     const table = new DropTable();
 
     // Add common items with normal weight
-    commonItems.forEach(item => {
+    commonItems.forEach((item: any) => {
       table.addEntry(new DropEntry(item.itemId, item.weight));
     });
 
     // Add rare items with reduced weight
-    rareItems.forEach(item => {
+    rareItems.forEach((item: any) => {
       table.addEntry(new DropEntry(item.itemId, item.weight * rareChance));
     });
 
@@ -555,7 +555,7 @@ export const RewardUtils = {
   mergeRewards(rewards: IRewardStub[]): RewardStub {
     const merged = new RewardStub();
 
-    rewards.forEach(reward => {
+    rewards.forEach((reward: any) => {
       merged.currency += reward.currency;
       merged.xpGain += reward.xpGain;
       if (reward.itemId && !merged.itemId) {

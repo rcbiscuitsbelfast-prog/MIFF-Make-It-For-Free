@@ -343,7 +343,7 @@ export class TycoonSystemCLI {
 
     const facilityId = args[0];
     const role = args[1] as any;
-    const salary = args[2] ? parseFloat(args[2]) : 20; // Default $20/hour
+    const salary = args[2] ? parseFloat(args[2]) : 20; // Default 0/hour
 
     const success = this.tycoonSystem.hireStaff(facilityId, role, salary);
 

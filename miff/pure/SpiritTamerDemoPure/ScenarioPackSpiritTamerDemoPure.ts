@@ -52,7 +52,7 @@ function buildBeats(bpm: number, count: number): Beat[] {
 
 function defaultTapScript(bpm: number): Tap[] {
 	const interval = 60 / bpm;
-	return [0.5 * interval * 1, 0.5 * interval * 2, interval * 3].map(t => ({ t: round(t) }));
+	return [0.5 * interval * 1, 0.5 * interval * 2, interval * 3].map((t: any) => ({ t: round(t) }));
 }
 
 export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
@@ -62,7 +62,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 	const threshold = config.threshold ?? 3;
 	const dt = config.dt ?? 0.1;
 	const beats = buildBeats(bpm, totalBeats);
-	const taps: Tap[] = (config.taps && config.taps.length ? config.taps : defaultTapScript(bpm)).map(t => ({ t: round(t.t) }));
+	const taps: Tap[] = (config.taps && config.taps.length ? config.taps : defaultTapScript(bpm)).map((t: any) => ({ t: round(t.t) }));
 
 	// Interaction zones — static trigger overlap to validate collision system usage
 	const col = new CollisionManager();
@@ -86,7 +86,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 
 	const beatIndexByTime = new Map<number, number>();
 	beats.forEach((b, i) => beatIndexByTime.set(b.t, i));
-	const beatSet = new Set(beats.map(b => b.t));
+	const beatSet = new Set(beats.map((b: any) => b.t));
 
 	// process taps by simulation time
 	const tapsByTime = new Map<number, Tap[]>();
@@ -134,7 +134,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 		}
 	}
 
-	const beatsOut = beats.map(b => ({ t: b.t, expected: true }));
+	const beatsOut = beats.map((b: any) => ({ t: b.t, expected: true }));
 	
 	// Extract events for golden fixture compatibility
 	const events = [];

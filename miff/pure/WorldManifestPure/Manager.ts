@@ -164,7 +164,7 @@ export class WorldManifestManager {
 
     // Clean up asset anchors for this zone
     this.assetRegistry.forEach((anchors, assetId) => {
-      const filtered = anchors.filter(a => a.zoneId !== zoneId);
+      const filtered = anchors.filter((a: any) => a.zoneId !== zoneId);
       if (filtered.length > 0) {
         this.assetRegistry.set(assetId, filtered);
       } else {
@@ -235,8 +235,8 @@ export class WorldManifestManager {
 
     // Get tiles that will be removed
     const tilesToRemove = layer !== undefined
-      ? zone.tiles.filter(t => t.x === x && t.y === y && t.layer === layer)
-      : zone.tiles.filter(t => t.x === x && t.y === y);
+      ? zone.tiles.filter((t: any) => t.x === x && t.y === y && t.layer === layer)
+      : zone.tiles.filter((t: any) => t.x === x && t.y === y);
 
     if (tilesToRemove.length === 0) {
       return { ok: false, errors: [`No tiles found at position (${x}, ${y})${layer !== undefined ? ` layer ${layer}` : ''}`] };
@@ -247,9 +247,9 @@ export class WorldManifestManager {
       this.worlds.set(worldId, world);
 
       // Update asset registry
-      tilesToRemove.forEach(tile => {
+      tilesToRemove.forEach((tile: any) => {
         const anchors = this.assetRegistry.get(tile.assetId) || [];
-        const filtered = anchors.filter(a => !(a.x === x && a.y === y && a.layer === tile.layer && a.zoneId === zoneId));
+        const filtered = anchors.filter((a: any) => !(a.x === x && a.y === y && a.layer === tile.layer && a.zoneId === zoneId));
         if (filtered.length > 0) {
           this.assetRegistry.set(tile.assetId, filtered);
         } else {
@@ -291,7 +291,7 @@ export class WorldManifestManager {
     const minY = Math.min(startY, endY);
     const maxY = Math.max(startY, endY);
 
-    const tiles = zone.tiles.filter(t => 
+    const tiles = zone.tiles.filter((t: any) => 
       t.x >= minX && t.x <= maxX && t.y >= minY && t.y <= maxY
     );
 
@@ -390,16 +390,16 @@ export class WorldManifestManager {
 
     // Layer distribution
     const layerDistribution: Record<number, number> = {};
-    world.zones.forEach(zone => {
-      zone.tiles.forEach(tile => {
+    world.zones.forEach((zone: any) => {
+      zone.tiles.forEach((tile: any) => {
         layerDistribution[tile.layer] = (layerDistribution[tile.layer] || 0) + 1;
       });
     });
 
     // Asset usage
     const assetUsage: Record<string, number> = {};
-    world.zones.forEach(zone => {
-      zone.tiles.forEach(tile => {
+    world.zones.forEach((zone: any) => {
+      zone.tiles.forEach((tile: any) => {
         assetUsage[tile.assetId] = (assetUsage[tile.assetId] || 0) + 1;
       });
     });
@@ -459,8 +459,8 @@ export class WorldManifestManager {
       
       case 'tiles':
         const allTiles: Array<WorldTile & { zoneId: string; zoneName: string }> = [];
-        world.zones.forEach(zone => {
-          zone.tiles.forEach(tile => {
+        world.zones.forEach((zone: any) => {
+          zone.tiles.forEach((tile: any) => {
             allTiles.push({
               ...tile,
               zoneId: zone.id,
@@ -485,9 +485,9 @@ export class WorldManifestManager {
 
     // Clean up asset registry for all zones in this world
     const world = this.worlds.get(id)!;
-    world.zones.forEach(zone => {
+    world.zones.forEach((zone: any) => {
       this.assetRegistry.forEach((anchors, assetId) => {
-        const filtered = anchors.filter(a => a.zoneId !== zone.id);
+        const filtered = anchors.filter((a: any) => a.zoneId !== zone.id);
         if (filtered.length > 0) {
           this.assetRegistry.set(assetId, filtered);
         } else {

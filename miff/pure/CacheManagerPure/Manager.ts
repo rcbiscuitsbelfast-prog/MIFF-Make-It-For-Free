@@ -382,7 +382,7 @@ export class CacheManagerManager {
       throw new Error('Cache Manager not initialized');
     }
 
-    return Array.from(this.managers.values()).filter(manager => manager.type === type);
+    return Array.from(this.managers.values()).filter((manager: any) => manager.type === type);
   }
 
   /**
@@ -393,7 +393,7 @@ export class CacheManagerManager {
       throw new Error('Cache Manager not initialized');
     }
 
-    return Array.from(this.managers.values()).filter(manager => manager.status === status);
+    return Array.from(this.managers.values()).filter((manager: any) => manager.status === status);
   }
 
   /**
@@ -685,16 +685,16 @@ export class CacheManagerManager {
     
     switch (strategy) {
       case 'fifo':
-        cache.entries.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+        cache.entries.sort((a: any, b: any) => a.createdAt.getTime() - b.createdAt.getTime());
         break;
       case 'lru':
-        cache.entries.sort((a, b) => a.lastAccessed.getTime() - b.lastAccessed.getTime());
+        cache.entries.sort((a: any, b: any) => a.lastAccessed.getTime() - b.lastAccessed.getTime());
         break;
       case 'lfu':
-        cache.entries.sort((a, b) => a.accessCount - b.accessCount);
+        cache.entries.sort((a: any, b: any) => a.accessCount - b.accessCount);
         break;
       case 'ttl':
-        cache.entries.sort((a, b) => (a.createdAt.getTime() + a.ttl) - (b.createdAt.getTime() + b.ttl));
+        cache.entries.sort((a: any, b: any) => (a.createdAt.getTime() + a.ttl) - (b.createdAt.getTime() + b.ttl));
         break;
       default:
         // Random eviction
@@ -717,7 +717,7 @@ export class CacheManagerManager {
     }
 
     // Remove entries in reverse order to maintain indices
-    entriesToRemove.reverse().forEach(index => {
+    entriesToRemove.reverse().forEach((index: any) => {
       cache.entries.splice(index, 1);
     });
   }
@@ -751,7 +751,7 @@ export class CacheManagerManager {
   private updateAnalytics(): void {
     const managers = Array.from(this.managers.values());
     const totalCaches = managers.reduce((sum: any, m: any) => sum + m.caches.length, 0);
-    const activeCaches = managers.reduce((sum: any, m: any) => sum + m.caches.filter(c => c.status === 'active').length, 0);
+    const activeCaches = managers.reduce((sum: any, m: any) => sum + m.caches.filter((c: any) => c.status === 'active').length, 0);
     const totalEntries = managers.reduce((sum: any, m: any) => sum + m.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);
     const totalHits = managers.reduce((sum: any, m: any) => sum + m.analytics.totalHits, 0);
     const totalMisses = managers.reduce((sum: any, m: any) => sum + m.analytics.totalMisses, 0);
@@ -759,7 +759,7 @@ export class CacheManagerManager {
     for (const manager of managers) {
       manager.analytics = {
         totalCaches: manager.caches.length,
-        activeCaches: manager.caches.filter(c => c.status === 'active').length,
+        activeCaches: manager.caches.filter((c: any) => c.status === 'active').length,
         totalEntries: manager.caches.reduce((sum: any, c: any) => sum + c.entries.length, 0),
         totalHits: manager.analytics.totalHits,
         totalMisses: manager.analytics.totalMisses,
@@ -788,7 +788,7 @@ export class CacheManagerManager {
     }
 
     const managers = Array.from(this.managers.values());
-    const activeManagers = managers.filter(m => m.status === 'active');
+    const activeManagers = managers.filter((m: any) => m.status === 'active');
     const totalCaches = managers.reduce((sum: any, m: any) => sum + m.caches.length, 0);
     const totalEntries = managers.reduce((sum: any, m: any) => sum + m.caches.reduce((s: any, c: any) => s + c.entries.length, 0), 0);
     const totalHits = managers.reduce((sum: any, m: any) => sum + m.analytics.totalHits, 0);

@@ -87,14 +87,14 @@ function printStats(state: CLIState): void {
   console.log(`Player Health Average: ${stats.playerAverage.toFixed(1)}%`);
   console.log(`Opponent Health Average: ${stats.opponentAverage.toFixed(1)}%`);
 
-  const livingSpirits = model.player.filter(s => !s.isKO);
-  const koSpirits = model.player.filter(s => s.isKO);
+  const livingSpirits = model.player.filter((s: any) => !s.isKO);
+  const koSpirits = model.player.filter((s: any) => s.isKO);
 
   console.log(`Player Living: ${livingSpirits.length}/${model.player.length}`);
   console.log(`Player KO'd: ${koSpirits.length}/${model.player.length}`);
 
-  const opponentLiving = model.opponent.filter(s => !s.isKO);
-  const opponentKO = model.opponent.filter(s => s.isKO);
+  const opponentLiving = model.opponent.filter((s: any) => !s.isKO);
+  const opponentKO = model.opponent.filter((s: any) => s.isKO);
 
   console.log(`Opponent Living: ${opponentLiving.length}/${model.opponent.length}`);
   console.log(`Opponent KO'd: ${opponentKO.length}/${model.opponent.length}`);
@@ -202,8 +202,8 @@ function runSimulation(state: CLIState, turns: number): void {
   // Create a copy for simulation
   const simManager = new HUDManager(
     HUDPureUtils.createStandardHUD(
-      model.player.map(s => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects)),
-      model.opponent.map(s => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects))
+      model.player.map((s: any) => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects)),
+      model.opponent.map((s: any) => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects))
     )
   );
 
@@ -211,8 +211,8 @@ function runSimulation(state: CLIState, turns: number): void {
     console.log(`\n--- Turn ${turn} ---`);
 
     // Random action phase
-    const randomPlayer = simManager.getModel().player.filter(s => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.filter(s => !s.isKO).length))];
-    const randomOpponent = simManager.getModel().opponent.filter(s => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().opponent.filter(s => !s.isKO).length))];
+    const randomPlayer = simManager.getModel().player.filter((s: any) => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.filter((s: any) => !s.isKO).length))];
+    const randomOpponent = simManager.getModel().opponent.filter((s: any) => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().opponent.filter((s: any) => !s.isKO).length))];
 
     if (randomPlayer && randomOpponent) {
       simManager.changePhase('SelectAction', randomPlayer.spiritId, `${randomPlayer.name}_attack -> ${randomOpponent.name}`);
@@ -226,7 +226,7 @@ function runSimulation(state: CLIState, turns: number): void {
     }
 
     // Check for KO
-    const livingOpponents = simManager.getModel().opponent.filter(s => !s.isKO);
+    const livingOpponents = simManager.getModel().opponent.filter((s: any) => !s.isKO);
     if (livingOpponents.length === 0) {
       console.log('  🎉 All opponents defeated! Battle simulation ends.');
       break;
@@ -237,7 +237,7 @@ function runSimulation(state: CLIState, turns: number): void {
       const statusEffects = ['poison', 'burn', 'freeze', 'stun', 'regen'];
       const randomEffect = statusEffects[Math.floor(Math.random() * statusEffects.length)];
       const targetSpirit = [...simManager.getModel().player, ...simManager.getModel().opponent]
-        .filter(s => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.length + simManager.getModel().opponent.length))];
+        .filter((s: any) => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.length + simManager.getModel().opponent.length))];
 
       if (targetSpirit && !targetSpirit.hasStatusEffect(randomEffect)) {
         simManager.updateSpirit(targetSpirit.spiritId, { statusEffects: [...targetSpirit.statusEffects, randomEffect] });

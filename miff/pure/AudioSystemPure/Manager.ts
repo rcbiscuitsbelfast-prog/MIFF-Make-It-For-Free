@@ -498,7 +498,7 @@ export class AudioSystemManager {
       throw new Error('Audio System Manager not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.type === type);
+    return Array.from(this.systems.values()).filter((system: any) => system.type === type);
   }
 
   /**
@@ -509,7 +509,7 @@ export class AudioSystemManager {
       throw new Error('Audio System Manager not initialized');
     }
 
-    return Array.from(this.systems.values()).filter(system => system.status === status);
+    return Array.from(this.systems.values()).filter((system: any) => system.status === status);
   }
 
   /**
@@ -811,11 +811,11 @@ export class AudioSystemManager {
    */
   private updateAnalytics(): void {
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalDevices = systems.reduce((sum, s) => sum + s.devices.length, 0);
-    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter(d => d.status === 'connected').length, 0);
+    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter((d: any) => d.status === 'connected').length, 0);
     const totalContexts = systems.reduce((sum, s) => sum + s.contexts.length, 0);
-    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter(c => c.status === 'active').length, 0);
+    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter((c: any) => c.status === 'active').length, 0);
     const totalLatency = systems.reduce((sum, s) => sum + s.performance.latency, 0);
 
     for (const system of systems) {
@@ -852,11 +852,11 @@ export class AudioSystemManager {
     }
 
     const systems = Array.from(this.systems.values());
-    const activeSystems = systems.filter(s => s.status === 'active');
+    const activeSystems = systems.filter((s: any) => s.status === 'active');
     const totalDevices = systems.reduce((sum, s) => sum + s.devices.length, 0);
-    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter(d => d.status === 'connected').length, 0);
+    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter((d: any) => d.status === 'connected').length, 0);
     const totalContexts = systems.reduce((sum, s) => sum + s.contexts.length, 0);
-    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter(c => c.status === 'active').length, 0);
+    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter((c: any) => c.status === 'active').length, 0);
     const totalLatency = systems.reduce((sum, s) => sum + s.performance.latency, 0);
 
     const systemsByType: Record<SystemType, number> = {

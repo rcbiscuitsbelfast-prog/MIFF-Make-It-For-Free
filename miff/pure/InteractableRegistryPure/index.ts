@@ -154,14 +154,14 @@ export class InteractableRegistry {
    * Get interactables of a specific type
    */
   getByType(type: InteractableType): InteractableObject[] {
-    return Array.from(this.interactables.values()).filter(i => i.type === type);
+    return Array.from(this.interactables.values()).filter((i: any) => i.type === type);
   }
 
   /**
    * Get interactables with a specific behavior
    */
   getByBehavior(behavior: InteractionBehavior): InteractableObject[] {
-    return Array.from(this.interactables.values()).filter(i => 
+    return Array.from(this.interactables.values()).filter((i: any) => 
       i.behaviors.includes(behavior)
     );
   }

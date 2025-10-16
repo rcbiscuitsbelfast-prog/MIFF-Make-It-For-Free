@@ -166,7 +166,7 @@ class AvatarAssetRegistryCLI {
       } else {
         console.log(`❌ Asset not found: ${id} (${style})`);
         console.log('   Available assets:');
-        this.registry.items.forEach(item => {
+        this.registry.items.forEach((item: any) => {
           console.log(`   - ${item.id}`);
         });
       }
@@ -294,7 +294,7 @@ class AvatarAssetRegistryCLI {
     const totalAssets = this.registry.items.length;
     if (totalAssets === 0) return 0;
     
-    const assetsWithStyle = this.registry.items.filter(item => 
+    const assetsWithStyle = this.registry.items.filter((item: any) => 
       item.variants[style as keyof typeof item.variants]
     ).length;
     
@@ -352,7 +352,7 @@ class AvatarAssetRegistryCLI {
       console.log('4. Final registry state...');
       console.log(`   Assets: ${this.registry.items.length}`);
       
-      const styleCoverage = ['3d', '2d-side', 'overlay'].map(style => 
+      const styleCoverage = ['3d', '2d-side', 'overlay'].map((style: any) => 
         `${style}: ${this.getStyleCoverage(style as AvatarStyle)}%`
       ).join(', ');
       console.log(`   Style Coverage: ${styleCoverage}`);

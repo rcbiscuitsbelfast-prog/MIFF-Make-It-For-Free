@@ -78,8 +78,8 @@ class MigrationCLI {
       const compatibility = this.migrationManager.checkCompatibility(fromVersion, toVersion);
       if (!compatibility.compatible) {
         console.error('❌ Migration not compatible:');
-        compatibility.conflicts.forEach(conflict => console.error(`  - ${conflict}`));
-        compatibility.recommendations.forEach(rec => console.error(`  💡 ${rec}`));
+        compatibility.conflicts.forEach((conflict: any) => console.error(`  - ${conflict}`));
+        compatibility.recommendations.forEach((rec: any) => console.error(`  💡 ${rec}`));
         return;
       }
 
@@ -94,7 +94,7 @@ class MigrationCLI {
         
         if (result.warnings.length > 0) {
           console.info('⚠️ Warnings:');
-          result.warnings.forEach(warning => console.info(`  - ${warning}`));
+          result.warnings.forEach((warning: any) => console.info(`  - ${warning}`));
         }
 
         // Save migrated data
@@ -103,7 +103,7 @@ class MigrationCLI {
 
       } else {
         console.error('❌ Migration failed:');
-        result.errors.forEach(error => console.error(`  - ${error}`));
+        result.errors.forEach((error: any) => console.error(`  - ${error}`));
         
         if (result.rollbackData) {
           const rollbackFile = outputFile.replace('.json', '_rollback.json');
@@ -150,20 +150,20 @@ class MigrationCLI {
 
       if (compatibility.conflicts.length > 0) {
         console.info('\n⚠️ Conflicts:');
-        compatibility.conflicts.forEach(conflict => console.info(`  - ${conflict}`));
+        compatibility.conflicts.forEach((conflict: any) => console.info(`  - ${conflict}`));
       }
 
       if (compatibility.recommendations.length > 0) {
         console.info('\n💡 Recommendations:');
-        compatibility.recommendations.forEach(rec => console.info(`  - ${rec}`));
+        compatibility.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
       }
 
     } else {
       console.info('❌ Migration is not compatible');
       console.info('\n🚫 Conflicts:');
-      compatibility.conflicts.forEach(conflict => console.info(`  - ${conflict}`));
+      compatibility.conflicts.forEach((conflict: any) => console.info(`  - ${conflict}`));
       console.info('\n💡 Recommendations:');
-      compatibility.recommendations.forEach(rec => console.info(`  - ${rec}`));
+      compatibility.recommendations.forEach((rec: any) => console.info(`  - ${rec}`));
     }
   }
 
@@ -177,7 +177,7 @@ class MigrationCLI {
 
     console.info(`📋 Available migration paths (${paths.length}):\n`);
     
-    paths.forEach(path => {
+    paths.forEach((path: any) => {
       console.info(`🔄 ${path.fromVersion} → ${path.toVersion}`);
       console.info(`   Steps: ${path.steps.length}`);
       console.info(`   Duration: ${path.estimatedDuration}ms`);
@@ -199,7 +199,7 @@ class MigrationCLI {
     
     if (stats.mostUsedMigrations.length > 0) {
       console.info('\n🔥 Most used migrations:');
-      stats.mostUsedMigrations.forEach(migration => {
+      stats.mostUsedMigrations.forEach((migration: any) => {
         console.info(`  ${migration.stepId}: ${migration.usage} uses`);
       });
     }
@@ -216,7 +216,7 @@ class MigrationCLI {
 
     console.info(`📋 Recent migration history (${history.length} entries):\n`);
     
-    history.forEach(entry => {
+    history.forEach((entry: any) => {
       const status = entry.success ? '✅' : '❌';
       const duration = entry.duration.toFixed(1);
       const timestamp = entry.timestamp.toISOString().split('T')[0];
@@ -248,7 +248,7 @@ class MigrationCLI {
         console.info(`💾 Rolled back data saved to ${outputFile}`);
       } else {
         console.error('❌ Rollback failed:');
-        result.errors.forEach(error => console.error(`  - ${error}`));
+        result.errors.forEach((error: any) => console.error(`  - ${error}`));
       }
 
     } catch (error: unknown) {

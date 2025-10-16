@@ -286,7 +286,7 @@ export class RenderReplayManager {
       
       if (step.annotations && step.annotations.length > 0) {
         lines.push('### Annotations:');
-        step.annotations.forEach(annotation => {
+        step.annotations.forEach((annotation: any) => {
           lines.push(`- ${annotation}`);
         });
         lines.push('');
@@ -294,7 +294,7 @@ export class RenderReplayManager {
 
       if (step.issues && step.issues.length > 0) {
         lines.push('### Issues:');
-        step.issues.forEach(issue => {
+        step.issues.forEach((issue: any) => {
           lines.push(`- ⚠️ ${issue}`);
         });
         lines.push('');
@@ -407,7 +407,7 @@ export class RenderReplayManager {
       });
     }
 
-    return payloads.filter(payload => 
+    return payloads.filter((payload: any) => 
       payload.renderData && Array.isArray(payload.renderData)
     );
   }
@@ -416,7 +416,7 @@ export class RenderReplayManager {
     const payloads: RenderPayload[] = [];
     const lines = cliOutput.split('\n');
 
-    lines.forEach(line => {
+    lines.forEach((line: any) => {
       try {
         const parsed = JSON.parse(line.trim());
         if (parsed.renderData && Array.isArray(parsed.renderData)) {
@@ -501,9 +501,9 @@ export class RenderReplayManager {
     // Add engine-specific annotations
     if (payload.renderData && payload.renderData.length > 0) {
       const engineHints = payload.renderData
-        .map(data => data.engineHints)
-        .filter(hints => hints)
-        .map(hints => Object.keys(hints || {}))
+        .map((data: any) => data.engineHints)
+        .filter((hints: any) => hints)
+        .map((hints: any) => Object.keys(hints || {}))
         .flat();
 
       const uniqueEngines = [...new Set(engineHints)];
@@ -553,14 +553,14 @@ export class RenderReplayManager {
     lines.push(`<p><strong>Issues:</strong> ${session.summary.totalIssues}</p>`);
     lines.push(`<p><strong>Duration:</strong> ${session.summary.duration}</p>`);
 
-    session.steps.forEach(step => {
+    session.steps.forEach((step: any) => {
       lines.push(`<div class="step">`);
       lines.push(`<h2>Step ${step.step} (${step.timestamp})</h2>`);
       
       if (step.annotations && step.annotations.length > 0) {
         lines.push('<h3>Annotations:</h3>');
         lines.push('<ul>');
-        step.annotations.forEach(annotation => {
+        step.annotations.forEach((annotation: any) => {
           lines.push(`<li class="annotation">${annotation}</li>`);
         });
         lines.push('</ul>');
@@ -569,7 +569,7 @@ export class RenderReplayManager {
       if (step.issues && step.issues.length > 0) {
         lines.push('<h3>Issues:</h3>');
         lines.push('<ul>');
-        step.issues.forEach(issue => {
+        step.issues.forEach((issue: any) => {
           lines.push(`<li class="issue">⚠️ ${issue}</li>`);
         });
         lines.push('</ul>');

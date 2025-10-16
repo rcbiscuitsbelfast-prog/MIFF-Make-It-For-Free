@@ -222,11 +222,11 @@ export class EnhancedTestRunner {
   private generateTestReport(): void {
     const totalTests = this.results.reduce((sum, suite) => sum + suite.tests.length, 0);
     const passedTests = this.results.reduce((sum, suite) => 
-      sum + suite.tests.filter(test => test.status === 'passed').length, 0);
+      sum + suite.tests.filter((test: any) => test.status === 'passed').length, 0);
     const failedTests = this.results.reduce((sum, suite) => 
-      sum + suite.tests.filter(test => test.status === 'failed').length, 0);
+      sum + suite.tests.filter((test: any) => test.status === 'failed').length, 0);
     const skippedTests = this.results.reduce((sum, suite) => 
-      sum + suite.tests.filter(test => test.status === 'skipped').length, 0);
+      sum + suite.tests.filter((test: any) => test.status === 'skipped').length, 0);
 
     const totalDuration = this.results.reduce((sum, suite) => sum + suite.duration, 0);
     const totalMemory = this.results.reduce((sum, suite) => sum + suite.memoryUsage, 0);
@@ -256,14 +256,14 @@ ${this.performanceMonitor.getPerformanceReport()}
     `);
 
     // Log failed tests details
-    const failedTestSuites = this.results.filter(suite => 
+    const failedTestSuites = this.results.filter((suite: any) => 
       suite.tests.some(test => test.status === 'failed'));
     
     if (failedTestSuites.length > 0) {
       console.log('\n❌ Failed Tests Details:');
-      failedTestSuites.forEach(suite => {
-        const failedTests = suite.tests.filter(test => test.status === 'failed');
-        failedTests.forEach(test => {
+      failedTestSuites.forEach((suite: any) => {
+        const failedTests = suite.tests.filter((test: any) => test.status === 'failed');
+        failedTests.forEach((test: any) => {
           console.log(`  ${suite.name} > ${test.name}`);
           if (test.error) {
             console.log(`    Error: ${test.error}`);
@@ -282,7 +282,7 @@ ${this.performanceMonitor.getPerformanceReport()}
     functions: number;
     lines: number;
   } {
-    const suitesWithCoverage = this.results.filter(suite => suite.coverage);
+    const suitesWithCoverage = this.results.filter((suite: any) => suite.coverage);
     
     if (suitesWithCoverage.length === 0) {
       return { statements: 0, branches: 0, functions: 0, lines: 0 };
@@ -331,11 +331,11 @@ ${this.performanceMonitor.getPerformanceReport()}
   } {
     const totalTests = this.results.reduce((sum, suite) => sum + suite.tests.length, 0);
     const passedTests = this.results.reduce((sum, suite) => 
-      sum + suite.tests.filter(test => test.status === 'passed').length, 0);
+      sum + suite.tests.filter((test: any) => test.status === 'passed').length, 0);
     const failedTests = this.results.reduce((sum, suite) => 
-      sum + suite.tests.filter(test => test.status === 'failed').length, 0);
+      sum + suite.tests.filter((test: any) => test.status === 'failed').length, 0);
     const skippedTests = this.results.reduce((sum, suite) => 
-      sum + suite.tests.filter(test => test.status === 'skipped').length, 0);
+      sum + suite.tests.filter((test: any) => test.status === 'skipped').length, 0);
     const totalDuration = this.results.reduce((sum, suite) => sum + suite.duration, 0);
 
     return {

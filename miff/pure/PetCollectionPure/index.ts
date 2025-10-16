@@ -202,11 +202,11 @@ export class PetCollectionPure {
   }
 
   public getPetsByOwner(ownerId: string): Pet[] {
-    return Array.from(this.pets.values()).filter(pet => pet.ownerId === ownerId);
+    return Array.from(this.pets.values()).filter((pet: any) => pet.ownerId === ownerId);
   }
 
   public getEggsByOwner(ownerId: string): Egg[] {
-    return Array.from(this.eggs.values()).filter(egg => egg.ownerId === ownerId);
+    return Array.from(this.eggs.values()).filter((egg: any) => egg.ownerId === ownerId);
   }
 
   public getCollectionStats(ownerId: string): CollectionStats {
@@ -214,11 +214,11 @@ export class PetCollectionPure {
     const eggs = this.getEggsByOwner(ownerId);
 
     const totalPets = pets.length;
-    const uniqueSpecies = new Set(pets.map(p => p.species)).size;
+    const uniqueSpecies = new Set(pets.map((p: any) => p.species)).size;
     const averageRarity = pets.reduce((sum, p) => sum + this.getRarityValue(p.rarity), 0) / totalPets || 0;
-    const totalTrades = Array.from(this.trades.values()).filter(t => t.ownerId === ownerId).length;
+    const totalTrades = Array.from(this.trades.values()).filter((t: any) => t.ownerId === ownerId).length;
     const eggsHatched = pets.length;
-    const favoritePets = pets.filter(p => p.isFavorite).length;
+    const favoritePets = pets.filter((p: any) => p.isFavorite).length;
     const maxLevel = pets.reduce((max, p) => Math.max(max, p.level), 0);
     const collectionValue = pets.reduce((sum, p) => sum + this.calculatePetValue(p), 0);
 

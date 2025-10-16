@@ -260,7 +260,7 @@ export class HUDManager {
     this.updateStats();
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onElementCreated?.(element);
     });
 
@@ -287,7 +287,7 @@ export class HUDManager {
     this.updateStats();
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onElementUpdated?.(updatedElement);
     });
 
@@ -308,7 +308,7 @@ export class HUDManager {
     if (element.parentId) {
       const parent = this.elements.get(element.parentId);
       if (parent) {
-        parent.children = parent.children.filter(id => id !== elementId);
+        parent.children = parent.children.filter((id: any) => id !== elementId);
       }
     }
 
@@ -321,7 +321,7 @@ export class HUDManager {
     this.updateStats();
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onElementDeleted?.(elementId);
     });
 
@@ -347,7 +347,7 @@ export class HUDManager {
    * Get visible elements
    */
   getVisibleElements(): HUDElement[] {
-    return this.getAllElements().filter(element => element.visible);
+    return this.getAllElements().filter((element: any) => element.visible);
   }
 
   /**
@@ -412,7 +412,7 @@ export class HUDManager {
       return false;
     }
 
-    element.animations = element.animations.filter(anim => anim.id !== animationId);
+    element.animations = element.animations.filter((anim: any) => anim.id !== animationId);
     this.updateElement(elementId, { animations: element.animations });
     return true;
   }
@@ -459,7 +459,7 @@ export class HUDManager {
     this.activeLayout = layout;
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onLayoutChanged?.(layout);
     });
 
@@ -486,7 +486,7 @@ export class HUDManager {
     }
 
     // Notify integrations
-    this.integrations.forEach(integration => {
+    this.integrations.forEach((integration: any) => {
       integration.callbacks.onThemeChanged?.(theme);
     });
 
@@ -593,8 +593,8 @@ export class HUDManager {
   private updateAnimations(): void {
     let activeAnimations = 0;
 
-    this.elements.forEach(element => {
-      element.animations.forEach(animation => {
+    this.elements.forEach((element: any) => {
+      element.animations.forEach((animation: any) => {
         if (this.isAnimationActive(animation)) {
           activeAnimations++;
           this.updateAnimation(element, animation);
@@ -687,8 +687,8 @@ export class HUDManager {
   private updateStats(): void {
     const elements = this.getAllElements();
     this.stats.totalElements = elements.length;
-    this.stats.visibleElements = elements.filter(e => e.visible).length;
-    this.stats.hiddenElements = elements.filter(e => !e.visible).length;
+    this.stats.visibleElements = elements.filter((e: any) => e.visible).length;
+    this.stats.hiddenElements = elements.filter((e: any) => !e.visible).length;
     this.stats.lastUpdateTime = Date.now();
   }
 

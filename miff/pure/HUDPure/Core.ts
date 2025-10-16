@@ -65,7 +65,7 @@ export class SpiritHUDState {
 
   removeStatusEffect(effect: string): boolean {
     const before = this.statusEffects.length;
-    this.statusEffects = this.statusEffects.filter(e => e !== effect);
+    this.statusEffects = this.statusEffects.filter((e: any) => e !== effect);
     return this.statusEffects.length !== before;
   }
 
@@ -200,11 +200,11 @@ export class BattleHUDModel {
   }
 
   get livingSpirits(): SpiritHUDState[] {
-    return this.allSpirits.filter(s => !s.isKO);
+    return this.allSpirits.filter((s: any) => !s.isKO);
   }
 
   get koSpirits(): SpiritHUDState[] {
-    return this.allSpirits.filter(s => s.isKO);
+    return this.allSpirits.filter((s: any) => s.isKO);
   }
 
   addSpirit(spirit: SpiritHUDState, side: 'player' | 'opponent'): boolean {
@@ -216,10 +216,10 @@ export class BattleHUDModel {
 
   removeSpirit(spiritId: string): boolean {
     const pLen = this.player.length;
-    this.player = this.player.filter(s => s.spiritId !== spiritId);
+    this.player = this.player.filter((s: any) => s.spiritId !== spiritId);
     if (this.player.length !== pLen) return true;
     const oLen = this.opponent.length;
-    this.opponent = this.opponent.filter(s => s.spiritId !== spiritId);
+    this.opponent = this.opponent.filter((s: any) => s.spiritId !== spiritId);
     return this.opponent.length !== oLen;
   }
 
@@ -252,8 +252,8 @@ export class BattleHUDModel {
     return {
       playerCount: this.player.length,
       opponentCount: this.opponent.length,
-      playerLiving: this.player.filter(s => !s.isKO).length,
-      opponentLiving: this.opponent.filter(s => !s.isKO).length,
+      playerLiving: this.player.filter((s: any) => !s.isKO).length,
+      opponentLiving: this.opponent.filter((s: any) => !s.isKO).length,
       totalDamage,
       battlePhase: this.turn.phaseName
     };
@@ -274,16 +274,16 @@ export class BattleHUDModel {
 
   clone(): BattleHUDModel {
     return new BattleHUDModel(
-      this.player.map(s => s.clone()),
-      this.opponent.map(s => s.clone()),
+      this.player.map((s: any) => s.clone()),
+      this.opponent.map((s: any) => s.clone()),
       this.turn.clone()
     );
   }
 
   snapshot(): any {
     return {
-      player: this.player.map(s => s.snapshot()),
-      opponent: this.opponent.map(s => s.snapshot()),
+      player: this.player.map((s: any) => s.snapshot()),
+      opponent: this.opponent.map((s: any) => s.snapshot()),
       turn: { ...this.turn }
     };
   }
@@ -314,9 +314,9 @@ export class CLIHUDRenderer {
     if (!model) return '(no HUD)';
     const lines: string[] = [];
     lines.push('=== Player Spirits ===');
-    model.player.forEach(s => lines.push(this.renderSpirit(s)));
+    model.player.forEach((s: any) => lines.push(this.renderSpirit(s)));
     lines.push('=== Opponent Spirits ===');
-    model.opponent.forEach(s => lines.push(this.renderSpirit(s)));
+    model.opponent.forEach((s: any) => lines.push(this.renderSpirit(s)));
     lines.push(this.renderTurn(model.turn));
     return lines.join('\n');
   }
@@ -365,11 +365,11 @@ export class HUDManager {
   }
 
   removeUpdateCallback(cb: (e: IHUDUpdateEvent) => void): void {
-    this.callbacks = this.callbacks.filter(f => f !== cb);
+    this.callbacks = this.callbacks.filter((f: any) => f !== cb);
   }
 
   private emit(event: IHUDUpdateEvent): void {
-    this.callbacks.forEach(cb => cb(event));
+    this.callbacks.forEach((cb: any) => cb(event));
   }
 
   updateModel(partial: Partial<BattleHUDModel>): void {
@@ -421,8 +421,8 @@ export const HUDPureUtils = {
     opponentSpirits: Array<{ spiritId: string; name: string; currentHP: number; maxHP: number; statusEffects?: string[]; level?: number; element?: string }>,
     turnState: { phaseName: string; activeSpiritId?: string }
   ): BattleHUDModel {
-    const p = playerSpirits.map(s => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects || [], s.level, s.element));
-    const o = opponentSpirits.map(s => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects || [], s.level, s.element));
+    const p = playerSpirits.map((s: any) => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects || [], s.level, s.element));
+    const o = opponentSpirits.map((s: any) => new SpiritHUDState(s.spiritId, s.name, s.currentHP, s.maxHP, s.statusEffects || [], s.level, s.element));
     const t = new TurnHUDState(turnState.phaseName, turnState.activeSpiritId);
     return new BattleHUDModel(p, o, t);
   },
@@ -447,7 +447,7 @@ export const HUDPureUtils = {
   },
 
   getSpiritsByPriority(model: BattleHUDModel): SpiritHUDState[] {
-    return [...model.opponent, ...model.player].sort((a, b) => a.currentHP - b.currentHP);
+    return [...model.opponent, ...model.player].sort((a: any, b: any) => a.currentHP - b.currentHP);
   },
 
   validateHUDModel(model: BattleHUDModel): string[] {

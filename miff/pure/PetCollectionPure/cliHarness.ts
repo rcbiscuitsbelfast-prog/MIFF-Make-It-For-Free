@@ -258,7 +258,7 @@ class PetCollectionCli {
       console.log('Name                    | Species    | Rarity    | Lvl | HP  | ATK | DEF | Fav');
       console.log('─'.repeat(80));
 
-      pets.forEach(pet => {
+      pets.forEach((pet: any) => {
         const name = pet.name.padEnd(23);
         const species = pet.species.padEnd(10);
         const rarity = pet.rarity.padEnd(9);
@@ -296,7 +296,7 @@ class PetCollectionCli {
       console.log('Species    | Rarity    | Progress | Time Left');
       console.log('─'.repeat(60));
 
-      eggs.forEach(egg => {
+      eggs.forEach((egg: any) => {
         const species = egg.species.padEnd(10);
         const rarity = egg.rarity.padEnd(9);
         const progress = `${Math.round(egg.progress)}%`.padEnd(8);

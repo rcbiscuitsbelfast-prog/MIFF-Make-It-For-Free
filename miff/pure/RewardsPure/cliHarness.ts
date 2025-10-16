@@ -105,7 +105,7 @@ function printHistory(rewardHistory: RewardStub[]): void {
   // Calculate totals
   const totalCurrency = rewardHistory.reduce((sum, r) => sum + r.currency, 0);
   const totalXP = rewardHistory.reduce((sum, r) => sum + r.xpGain, 0);
-  const itemCount = rewardHistory.filter(r => r.itemId).length;
+  const itemCount = rewardHistory.filter((r: any) => r.itemId).length;
 
   console.log(`\n💰 Totals: ${totalCurrency} currency, ${totalXP} XP, ${itemCount} items`);
 }
@@ -141,7 +141,7 @@ function runDemo(state: CLIState): void {
     { type: 'boss', playerLevel: 20, enemyLevel: 25 }
   ];
 
-  scenarios.forEach(scenario => {
+  scenarios.forEach((scenario: any) => {
     const reward = state.rewardManager.generateRewards(
       scenario.type,
       scenario.playerLevel,
@@ -165,7 +165,7 @@ function runDemo(state: CLIState): void {
   }
 
   console.log('Drop Results:');
-  Array.from(dropResults.entries()).sort((a, b) => b[1] - a[1]).forEach(([item, count]) => {
+  Array.from(dropResults.entries()).sort((a: any, b: any) => b[1] - a[1]).forEach(([item, count]) => {
     const rate = (count / 100 * 100).toFixed(2);
     console.log(`  ${item}: ${count} (${rate}%)`);
   });
@@ -176,7 +176,7 @@ function runDemo(state: CLIState): void {
   console.log(`Base reward: ${baseReward.toString()}`);
 
   const bonusTypes: Array<'rare' | 'epic' | 'legendary'> = ['rare', 'epic', 'legendary'];
-  bonusTypes.forEach(type => {
+  bonusTypes.forEach((type: any) => {
     const bonusReward = state.rewardManager.generateBonusRewards(baseReward, type);
     console.log(`${type} bonus: ${bonusReward.toString()}`);
   });
@@ -210,7 +210,7 @@ function runSimulation(state: CLIState, runs: number): void {
   console.log(`Generated ${runs} rewards`);
   console.log(`Total currency: ${state.rewardHistory.slice(-runs).reduce((sum, r) => sum + r.currency, 0)}`);
   console.log(`Total XP: ${state.rewardHistory.slice(-runs).reduce((sum, r) => sum + r.xpGain, 0)}`);
-  console.log(`Items received: ${state.rewardHistory.slice(-runs).filter(r => r.itemId).length}`);
+  console.log(`Items received: ${state.rewardHistory.slice(-runs).filter((r: any) => r.itemId).length}`);
 }
 
 async function runCLI(): Promise<void> {
@@ -330,7 +330,7 @@ async function runCLI(): Promise<void> {
             }
 
             console.log('Drop Results:');
-            Array.from(results.entries()).sort((a, b) => b[1] - a[1]).forEach(([item, count]) => {
+            Array.from(results.entries()).sort((a: any, b: any) => b[1] - a[1]).forEach(([item, count]) => {
               const rate = ((count / count) * 100).toFixed(2);
               console.log(`  ${item}: ${count} (${rate}%)`);
             });
@@ -409,7 +409,7 @@ async function runCLI(): Promise<void> {
           const results = resolver.testDropRates(state.currentDropTable, simulations);
 
           console.log('Drop Rate Results:');
-          Array.from(results.entries()).sort((a, b) => b[1] - a[1]).forEach(([item, rate]) => {
+          Array.from(results.entries()).sort((a: any, b: any) => b[1] - a[1]).forEach(([item, rate]) => {
             const percentage = (rate * 100).toFixed(2);
             console.log(`  ${item}: ${percentage}%`);
           });

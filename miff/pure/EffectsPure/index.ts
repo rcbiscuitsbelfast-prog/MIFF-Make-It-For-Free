@@ -867,7 +867,7 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    */
   getTotalAdditive(): number {
     return this.additive
-      .filter(mod => mod.type === ModifierType.FLAT)
+      .filter((mod: any) => mod.type === ModifierType.FLAT)
       .reduce((sum, mod) => sum + mod.value, 0);
   }
 
@@ -876,7 +876,7 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    */
   getTotalMultiplicative(): number {
     return this.multiplicative
-      .filter(mod => mod.type === ModifierType.PERCENT)
+      .filter((mod: any) => mod.type === ModifierType.PERCENT)
       .reduce((product, mod) => product * (1 + mod.value), 1);
   }
 }
@@ -1105,7 +1105,7 @@ export class EffectResolver implements IEffectResolver {
     const immuneTags = new Set(targetImmunities);
 
     // Filter out immune effects
-    resolvedEffects = resolvedEffects.filter(effect => {
+    resolvedEffects = resolvedEffects.filter((effect: any) => {
       // Check if effect has immunity tags
       const effectTags = effect.effect.triggers || 0;
       const effectName = effect.effect.name.toLowerCase();
@@ -1134,7 +1134,7 @@ export class EffectResolver implements IEffectResolver {
       );
 
       if (hasCleanse) {
-        resolvedEffects = resolvedEffects.filter(effect =>
+        resolvedEffects = resolvedEffects.filter((effect: any) =>
           effect.effect.effectType !== EffectType.STUN
         );
       }
@@ -1144,7 +1144,7 @@ export class EffectResolver implements IEffectResolver {
     resolvedEffects = this.resolveOverwrites(resolvedEffects);
 
     // Sort by effect order
-    resolvedEffects.sort((a, b) => {
+    resolvedEffects.sort((a: any, b: any) => {
       // Custom ordering logic could be added here
       return 0;
     });
@@ -1159,7 +1159,7 @@ export class EffectResolver implements IEffectResolver {
     const effectGroups = new Map<string, IActiveEffect[]>();
 
     // Group effects by ID
-    effects.forEach(effect => {
+    effects.forEach((effect: any) => {
       const key = effect.effect.effectId;
       if (!effectGroups.has(key)) {
         effectGroups.set(key, []);
@@ -1170,7 +1170,7 @@ export class EffectResolver implements IEffectResolver {
     const resolvedEffects: IActiveEffect[] = [];
 
     // For each group, keep the effect with highest absolute value
-    effectGroups.forEach(group => {
+    effectGroups.forEach((group: any) => {
       if (group.length === 1) {
         resolvedEffects.push(group[0]);
       } else {
@@ -1364,7 +1364,7 @@ export class EffectManager implements IEffectManager {
    */
   getEffectsByType(entityId: string, effectType: EffectType): IActiveEffect[] {
     const activeEffects = this.getActiveEffects(entityId);
-    return activeEffects.filter(effect => effect.effect.effectType === effectType);
+    return activeEffects.filter((effect: any) => effect.effect.effectType === effectType);
   }
 
   /**
@@ -1413,7 +1413,7 @@ export class EffectManager implements IEffectManager {
       });
 
       // Remove expired effects
-      const remainingEffects = activeEffects.filter(effect => !effect.isExpired());
+      const remainingEffects = activeEffects.filter((effect: any) => !effect.isExpired());
       this.entityEffects.set(entityId, remainingEffects);
 
       if (remainingEffects.length === 0) {
@@ -1646,7 +1646,7 @@ export const EffectUtils = {
    * Sort effects by priority
    */
   sortEffectsByPriority(effects: IActiveEffect[]): IActiveEffect[] {
-    return [...effects].sort((a, b) => {
+    return [...effects].sort((a: any, b: any) => {
       const priorityA = this.getEffectPriority(a.effect);
       const priorityB = this.getEffectPriority(b.effect);
       return priorityB - priorityA;
@@ -1657,21 +1657,21 @@ export const EffectUtils = {
    * Filter effects by type
    */
   filterEffectsByType(effects: IActiveEffect[], effectType: EffectType): IActiveEffect[] {
-    return effects.filter(effect => effect.effect.effectType === effectType);
+    return effects.filter((effect: any) => effect.effect.effectType === effectType);
   },
 
   /**
    * Filter effects by target stat
    */
   filterEffectsByStat(effects: IActiveEffect[], targetStat: TargetStat): IActiveEffect[] {
-    return effects.filter(effect => effect.effect.targetStat === targetStat);
+    return effects.filter((effect: any) => effect.effect.targetStat === targetStat);
   },
 
   /**
    * Get effects that modify specific stat
    */
   getStatModifyingEffects(effects: IActiveEffect[]): IActiveEffect[] {
-    return effects.filter(effect => effect.effect.effectType === EffectType.STAT_MODIFIER);
+    return effects.filter((effect: any) => effect.effect.effectType === EffectType.STAT_MODIFIER);
   }
 };
 

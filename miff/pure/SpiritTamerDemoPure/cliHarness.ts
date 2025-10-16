@@ -99,7 +99,7 @@ class SpiritTamerCLI {
       result: {
         scene: 'grove',
         player: playerResult.player.location,
-        spirits: spiritsResult.spirits.map(s => s.id),
+        spirits: spiritsResult.spirits.map((s: any) => s.id),
         orchestrationReady: true,
         metadata: {
           scenario: 'spirit-tamer-trial-of-grove',
@@ -178,7 +178,7 @@ class SpiritTamerCLI {
       op: 'list',
       status: 'ok',
       result: {
-        spirits: result.spirits.map(spirit => ({
+        spirits: result.spirits.map((spirit: any) => ({
           id: spirit.id,
           name: spirit.name,
           type: spirit.type,
@@ -284,7 +284,7 @@ class SpiritTamerCLI {
       op: 'sessions',
       status: 'ok',
       result: {
-        sessions: result.sessions.map(session => ({
+        sessions: result.sessions.map((session: any) => ({
           id: session.id,
           spiritId: session.spiritId,
           result: session.result,
@@ -426,7 +426,7 @@ class SpiritTamerCLI {
     if (obj === null || obj === undefined) return 'null';
     if (typeof obj !== 'object') return String(obj);
     if (Array.isArray(obj)) {
-      return obj.map(v => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+      return obj.map((v: any) => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
     }
     return Object.entries(obj).map(([k, v]) => {
       const val = typeof v === 'object' && v !== null ? `\n${this.toYAML(v, indent + 1)}` : `${this.toYAML(v, 0)}`;
@@ -437,7 +437,7 @@ class SpiritTamerCLI {
   private toXML(obj: any, tag = 'root'): string {
     if (obj === null || obj === undefined) return `<${tag}/>`;
     if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
-    if (Array.isArray(obj)) return `<${tag}>${obj.map(v => this.toXML(v, 'item')).join('')}</${tag}>`;
+    if (Array.isArray(obj)) return `<${tag}>${obj.map((v: any) => this.toXML(v, 'item')).join('')}</${tag}>`;
     const children = Object.entries(obj).map(([k, v]) => this.toXML(v as any, k)).join('');
     return `<${tag}>${children}</${tag}>`;
   }

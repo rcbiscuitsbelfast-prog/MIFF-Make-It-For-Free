@@ -541,7 +541,7 @@ export class WitcherExplorerDemo {
       )
     ];
 
-    items.forEach(item => {
+    items.forEach((item: any) => {
       this.engines.items.registerItem(item);
     });
   }
@@ -566,7 +566,7 @@ export class WitcherExplorerDemo {
       { id: 'ciri_idle', type: 'npc', frames: 6, size: { w: 30, h: 46 } }
     ];
 
-    characters.forEach(char => {
+    characters.forEach((char: any) => {
       this.generateCharacterAsset(char);
     });
   }
@@ -585,7 +585,7 @@ export class WitcherExplorerDemo {
       { id: 'novigrad_map', type: 'map', size: { w: 1000, h: 700 } }
     ];
 
-    worldAssets.forEach(asset => {
+    worldAssets.forEach((asset: any) => {
       this.generateWorldAsset(asset);
     });
   }
@@ -603,7 +603,7 @@ export class WitcherExplorerDemo {
       { id: 'yrden_stone_icon', type: 'item', size: { w: 22, h: 22 } }
     ];
 
-    itemAssets.forEach(asset => {
+    itemAssets.forEach((asset: any) => {
       console.log(`Generated item asset: ${asset.id}`);
     });
   }
@@ -618,7 +618,7 @@ export class WitcherExplorerDemo {
       { id: 'character_sheet', type: 'ui', size: { w: 600, h: 400 } }
     ];
 
-    uiAssets.forEach(asset => {
+    uiAssets.forEach((asset: any) => {
       console.log(`Generated UI asset: ${asset.id}`);
     });
   }
@@ -637,7 +637,7 @@ export class WitcherExplorerDemo {
       { id: 'footstep_stone', type: 'sfx', duration: 0.4 }
     ];
 
-    audioAssets.forEach(asset => {
+    audioAssets.forEach((asset: any) => {
       console.log(`Generated audio asset: ${asset.id}`);
     });
   }
