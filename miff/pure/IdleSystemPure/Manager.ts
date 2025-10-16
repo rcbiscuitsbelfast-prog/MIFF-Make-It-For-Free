@@ -69,12 +69,18 @@ export interface Achievement {
   id: string;
   name: string;
   description: string;
+  type: string;
+  requirement: any;
+  reward: any;
   unlocked: boolean;
+  progress: number;
+  maxProgress: number;
   unlockedAt?: Date;
-  requirements: Record<string, number>;
-  rewards: Record<string, number>;
-  category: string;
-  hidden: boolean;
+  requirements?: Record<string, number>;
+  rewards?: Record<string, number>;
+  category?: string;
+  hidden?: boolean;
+  metadata?: Record<string, any>;
 }
 
 export interface PrestigeConfig {
@@ -827,16 +833,6 @@ export class IdleManagerPure {
     const cost = generator.baseCost;
     return cost > 0 ? production / cost : 0;
   }
-  
-  private recordAnalytics(type: string, data: any): void {
-    if (this.config.enableAnalytics) {
-      this.analyticsData.push({
-        type,
-        data,
-        timestamp: Date.now()
-      });
-    }
-  }
 
   /**
    * Get generator efficiency
@@ -858,84 +854,7 @@ export class IdleManagerPure {
   }
 }
 
-// ============================================================================
-// HELPER METHODS
-// ============================================================================
-
-/**
- * Optimize resource distribution
- */
-function optimizeResourceDistribution(resources: Map<string, Resource>, generators: Map<string, Generator>): void {
-  // Balance resource generation based on consumption
-  generators.forEach((generator, generatorId) => {
-    if (generator.consumesResource) {
-      const consumedResource = resources.get(generator.consumesResource);
-      const producedResource = resources.get(generator.producesResource);
-
-      if (consumedResource && producedResource) {
-        // Adjust production based on consumption rates
-        const consumptionRate = generator.owned * 0.1; // Simplified
-        const productionRate = generator.baseProduction * generator.owned;
-
-        // Balance if consumption exceeds production
-        if (consumptionRate > productionRate) {
-          // Could trigger optimization events
-        }
-      }
-    }
-  });
-}
-
-/**
- * Optimize generator production
- */
-function optimizeGeneratorProduction(resources: Map<string, Resource>): void {
-  // Optimize based on resource availability
-  resources.forEach((resource, resourceId) => {
-    if (resource.maxAmount && resource.currentAmount >= resource.maxAmount * 0.9) {
-      // Resource is nearly full, reduce production of that resource
-      // This would trigger optimization events in a full implementation
-    }
-  });
-}
-
-/**
- * Calculate resource production
- */
-function calculateResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
-  let production = 0;
-
-  generators.forEach((generator, generatorId) => {
-    if (generator.producesResource === resourceId && generator.owned > 0) {
-      production += generator.baseProduction * generator.owned;
-    }
-  });
-
-  return production;
-}
-
-/**
- * Calculate max resource production
- */
-function calculateMaxResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
-  let maxProduction = 0;
-
-  generators.forEach((generator, generatorId) => {
-    if (generator.producesResource === resourceId) {
-      maxProduction += generator.baseProduction * (generator.maxOwned || 1000);
-    }
-  });
-
-  return maxProduction;
-}
-
-/**
- * Calculate progress rate for achievement
- */
-function calculateProgressRate(achievement: Achievement): number {
-  // Simplified progress rate calculation
-  return 1; // 1 unit per second
-}
+// Helper functions have been moved to private methods in IdleManagerPure class
 
 // ============================================================================
 // TYPE EXPORTS
