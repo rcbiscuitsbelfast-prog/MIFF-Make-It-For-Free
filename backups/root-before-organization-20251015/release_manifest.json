@@ -1,0 +1,21 @@
+{
+  "name": "miff-framework",
+  "version": "1.0.0",
+  "artifacts": [
+    {
+      "name": "sampler.site",
+      "path": "site/index.html",
+      "type": "site"
+    },
+    {
+      "name": "miff.replay",
+      "path": "miff/replay/index.html",
+      "type": "tool"
+    },
+    {
+      "name": "toppler.standalone",
+      "path": "games/toppler/toppler.html",
+      "type": "game"
+    }
+  ]
+}

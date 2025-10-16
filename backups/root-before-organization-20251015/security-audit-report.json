@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-09T14:37:18.867Z",
+  "score": 80,
+  "vulnerabilities": [
+    {
+      "id": "ssl_disabled",
+      "type": "security_misconfiguration",
+      "severity": "high",
+      "description": "SSL/TLS is not enabled",
+      "impact": "Data transmitted in plain text",
+      "remediation": "Enable SSL/TLS with proper certificates",
+      "status": "open"
+    }
+  ],
+  "recommendations": [
+    "Enable SSL/TLS encryption"
+  ],
+  "compliance": {
+    "gdpr": true,
+    "ccpa": true,
+    "sox": false,
+    "pci": false,
+    "hipaa": false,
+    "overall": true
+  }
+}

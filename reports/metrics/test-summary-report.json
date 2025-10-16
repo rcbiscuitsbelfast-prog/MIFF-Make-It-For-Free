@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-09-25T14:07:05Z",
+  "testEnvironment": {
+    "nodeVersion": "v22.16.0",
+    "platform": "Linux cursor 6.1.147 #1 SMP PREEMPT_DYNAMIC Tue Aug  5 21:01:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux",
+    "testTimeout": "300000",
+    "parallelJobs": "4"
+  },
+  "results": {
+    "unitTests": false,
+    "integrationTests": false,
+    "performanceTests": true,
+    "goldenTests": false,
+    "cliTests": false,
+    "coverageAnalysis": false
+  },
+  "summary": {
+    "totalTests": 0364,
+    "passedTests": 1,
+    "failedTests": 5,
+    "successRate": "0%"
+  }
+}

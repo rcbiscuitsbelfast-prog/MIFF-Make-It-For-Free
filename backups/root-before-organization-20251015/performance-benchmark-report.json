@@ -1,0 +1,48 @@
+{
+  "timestamp": "2025-09-24T08:15:36.889Z",
+  "summary": {
+    "totalTests": 5,
+    "passed": 3,
+    "failed": 2,
+    "averageScore": 99.05712976445481
+  },
+  "modules": {
+    "HealthSystemPure": {
+      "name": "HealthSystem",
+      "iterations": 3,
+      "average": "3.67",
+      "min": "2.43",
+      "max": "4.78",
+      "stdDev": "0.96",
+      "score": 98.07934368526844
+    },
+    "CombatPure": {
+      "name": "CombatSystem",
+      "iterations": 3,
+      "average": "0.80",
+      "min": "0.48",
+      "max": "1.15",
+      "stdDev": "0.28",
+      "score": 99.44318753170329
+    },
+    "TeamsPure": {
+      "name": "TeamsSystem",
+      "iterations": 3,
+      "average": "0.33",
+      "min": "0.21",
+      "max": "0.58",
+      "stdDev": "0.18",
+      "score": 99.64885807639266
+    }
+  },
+  "system": {
+    "nodeVersion": "v22.16.0",
+    "platform": "linux",
+    "arch": "x64",
+    "memory": {
+      "total": 5,
+      "used": 4,
+      "external": 1
+    }
+  }
+}

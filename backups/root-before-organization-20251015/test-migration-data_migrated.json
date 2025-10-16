@@ -1,0 +1,25 @@
+{
+  "version": "latest",
+  "types": [
+    "string",
+    "array",
+    "ZoneRef"
+  ],
+  "data": {
+    "entities": [
+      {
+        "id": "entity_1",
+        "stats": [
+          {
+            "key": "health",
+            "base": 100
+          },
+          {
+            "key": "mana",
+            "base": 50
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-10-10T17:33:51.037Z",
+  "stats": {
+    "before": 415,
+    "after": 205,
+    "removed": 210
+  },
+  "target": {
+    "goal": 200,
+    "achieved": false
+  }
+}

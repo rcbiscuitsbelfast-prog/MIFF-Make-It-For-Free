@@ -1,0 +1,398 @@
+[
+  {
+    "module": "Combat",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "HealthSystem",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "MagicSystem",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "Teams",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "Items",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "AI",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "Log",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "Save",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "StatsSystem",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "UnityBridge",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "GodotBridge",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "module": "WebBridge",
+    "interfaceName": "MockInterface",
+    "compliance": "partial",
+    "score": 75,
+    "issues": [
+      {
+        "type": "missing_method",
+        "severity": "high",
+        "message": "Missing required method: initialize()",
+        "suggestion": "Add initialize(): Promise<void> method"
+      },
+      {
+        "type": "naming_convention",
+        "severity": "medium",
+        "message": "Method name should follow camelCase convention",
+        "suggestion": "Rename method to follow camelCase"
+      }
+    ],
+    "recommendations": [
+      "Implement all required methods from the standard interface",
+      "Follow consistent naming conventions",
+      "Add proper error handling"
+    ],
+    "fixes": [
+      {
+        "type": "add_method",
+        "description": "Add missing initialize method",
+        "code": "async initialize(): Promise<void> { /* implementation */ }",
+        "priority": "high"
+      }
+    ]
+  }
+]

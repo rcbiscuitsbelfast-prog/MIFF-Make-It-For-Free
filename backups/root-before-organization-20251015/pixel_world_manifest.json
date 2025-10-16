@@ -1,0 +1,1196 @@
+{
+  "schema": "miff.pixel.world.v1",
+  "name": "Pixel City",
+  "zones": [
+    {
+      "id": "arcade_district",
+      "name": "Arcade District",
+      "width": 64,
+      "height": 64,
+      "spawns": [
+        {
+          "id": "char_005",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": "char_010",
+          "x": 4,
+          "y": 2
+        },
+        {
+          "id": "char_015",
+          "x": 6,
+          "y": 2
+        },
+        {
+          "id": "char_020",
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": "char_025",
+          "x": 10,
+          "y": 2
+        },
+        {
+          "id": "char_030",
+          "x": 12,
+          "y": 2
+        },
+        {
+          "id": "char_035",
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": "char_040",
+          "x": 16,
+          "y": 2
+        },
+        {
+          "id": "char_045",
+          "x": 18,
+          "y": 2
+        },
+        {
+          "id": "char_050",
+          "x": 20,
+          "y": 2
+        },
+        {
+          "id": "char_055",
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": "char_060",
+          "x": 4,
+          "y": 5
+        },
+        {
+          "id": "char_065",
+          "x": 6,
+          "y": 5
+        },
+        {
+          "id": "char_070",
+          "x": 8,
+          "y": 5
+        },
+        {
+          "id": "char_075",
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": "char_080",
+          "x": 12,
+          "y": 5
+        },
+        {
+          "id": "char_085",
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": "char_090",
+          "x": 16,
+          "y": 5
+        },
+        {
+          "id": "char_095",
+          "x": 18,
+          "y": 5
+        },
+        {
+          "id": "char_100",
+          "x": 20,
+          "y": 5
+        }
+      ],
+      "ambient": [
+        {
+          "id": "arcade_district_amb_1",
+          "type": "sfx",
+          "bus": "ambient",
+          "intensity": 0.2
+        }
+      ],
+      "tiles": [
+        {
+          "x": 2,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_005"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_010"
+        },
+        {
+          "x": 6,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_015"
+        },
+        {
+          "x": 8,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_020"
+        },
+        {
+          "x": 10,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_025"
+        },
+        {
+          "x": 12,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_030"
+        },
+        {
+          "x": 14,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_035"
+        },
+        {
+          "x": 16,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_040"
+        },
+        {
+          "x": 18,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_045"
+        },
+        {
+          "x": 20,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_050"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_055"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_060"
+        },
+        {
+          "x": 6,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_065"
+        },
+        {
+          "x": 8,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_070"
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_075"
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_080"
+        },
+        {
+          "x": 14,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_085"
+        },
+        {
+          "x": 16,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_090"
+        },
+        {
+          "x": 18,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_095"
+        },
+        {
+          "x": 20,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_100"
+        }
+      ]
+    },
+    {
+      "id": "fantasy_grove",
+      "name": "Fantasy Grove",
+      "width": 64,
+      "height": 64,
+      "spawns": [
+        {
+          "id": "char_001",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": "char_006",
+          "x": 4,
+          "y": 2
+        },
+        {
+          "id": "char_011",
+          "x": 6,
+          "y": 2
+        },
+        {
+          "id": "char_016",
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": "char_021",
+          "x": 10,
+          "y": 2
+        },
+        {
+          "id": "char_026",
+          "x": 12,
+          "y": 2
+        },
+        {
+          "id": "char_031",
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": "char_036",
+          "x": 16,
+          "y": 2
+        },
+        {
+          "id": "char_041",
+          "x": 18,
+          "y": 2
+        },
+        {
+          "id": "char_046",
+          "x": 20,
+          "y": 2
+        },
+        {
+          "id": "char_051",
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": "char_056",
+          "x": 4,
+          "y": 5
+        },
+        {
+          "id": "char_061",
+          "x": 6,
+          "y": 5
+        },
+        {
+          "id": "char_066",
+          "x": 8,
+          "y": 5
+        },
+        {
+          "id": "char_071",
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": "char_076",
+          "x": 12,
+          "y": 5
+        },
+        {
+          "id": "char_081",
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": "char_086",
+          "x": 16,
+          "y": 5
+        },
+        {
+          "id": "char_091",
+          "x": 18,
+          "y": 5
+        },
+        {
+          "id": "char_096",
+          "x": 20,
+          "y": 5
+        }
+      ],
+      "ambient": [
+        {
+          "id": "fantasy_grove_amb_1",
+          "type": "sfx",
+          "bus": "ambient",
+          "intensity": 0.2
+        }
+      ],
+      "tiles": [
+        {
+          "x": 2,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_001"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_006"
+        },
+        {
+          "x": 6,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_011"
+        },
+        {
+          "x": 8,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_016"
+        },
+        {
+          "x": 10,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_021"
+        },
+        {
+          "x": 12,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_026"
+        },
+        {
+          "x": 14,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_031"
+        },
+        {
+          "x": 16,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_036"
+        },
+        {
+          "x": 18,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_041"
+        },
+        {
+          "x": 20,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_046"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_051"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_056"
+        },
+        {
+          "x": 6,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_061"
+        },
+        {
+          "x": 8,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_066"
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_071"
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_076"
+        },
+        {
+          "x": 14,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_081"
+        },
+        {
+          "x": 16,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_086"
+        },
+        {
+          "x": 18,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_091"
+        },
+        {
+          "x": 20,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_096"
+        }
+      ]
+    },
+    {
+      "id": "industrial_outpost",
+      "name": "Industrial Outpost",
+      "width": 64,
+      "height": 64,
+      "spawns": [
+        {
+          "id": "char_002",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": "char_007",
+          "x": 4,
+          "y": 2
+        },
+        {
+          "id": "char_012",
+          "x": 6,
+          "y": 2
+        },
+        {
+          "id": "char_017",
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": "char_022",
+          "x": 10,
+          "y": 2
+        },
+        {
+          "id": "char_027",
+          "x": 12,
+          "y": 2
+        },
+        {
+          "id": "char_032",
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": "char_037",
+          "x": 16,
+          "y": 2
+        },
+        {
+          "id": "char_042",
+          "x": 18,
+          "y": 2
+        },
+        {
+          "id": "char_047",
+          "x": 20,
+          "y": 2
+        },
+        {
+          "id": "char_052",
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": "char_057",
+          "x": 4,
+          "y": 5
+        },
+        {
+          "id": "char_062",
+          "x": 6,
+          "y": 5
+        },
+        {
+          "id": "char_067",
+          "x": 8,
+          "y": 5
+        },
+        {
+          "id": "char_072",
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": "char_077",
+          "x": 12,
+          "y": 5
+        },
+        {
+          "id": "char_082",
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": "char_087",
+          "x": 16,
+          "y": 5
+        },
+        {
+          "id": "char_092",
+          "x": 18,
+          "y": 5
+        },
+        {
+          "id": "char_097",
+          "x": 20,
+          "y": 5
+        }
+      ],
+      "ambient": [
+        {
+          "id": "industrial_outpost_amb_1",
+          "type": "sfx",
+          "bus": "ambient",
+          "intensity": 0.2
+        }
+      ],
+      "tiles": [
+        {
+          "x": 2,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_002"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_007"
+        },
+        {
+          "x": 6,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_012"
+        },
+        {
+          "x": 8,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_017"
+        },
+        {
+          "x": 10,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_022"
+        },
+        {
+          "x": 12,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_027"
+        },
+        {
+          "x": 14,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_032"
+        },
+        {
+          "x": 16,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_037"
+        },
+        {
+          "x": 18,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_042"
+        },
+        {
+          "x": 20,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_047"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_052"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_057"
+        },
+        {
+          "x": 6,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_062"
+        },
+        {
+          "x": 8,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_067"
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_072"
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_077"
+        },
+        {
+          "x": 14,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_082"
+        },
+        {
+          "x": 16,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_087"
+        },
+        {
+          "x": 18,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_092"
+        },
+        {
+          "x": 20,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_097"
+        }
+      ]
+    },
+    {
+      "id": "historical_plaza",
+      "name": "Historical Plaza",
+      "width": 64,
+      "height": 64,
+      "spawns": [
+        {
+          "id": "char_003",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": "char_008",
+          "x": 4,
+          "y": 2
+        },
+        {
+          "id": "char_013",
+          "x": 6,
+          "y": 2
+        },
+        {
+          "id": "char_018",
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": "char_023",
+          "x": 10,
+          "y": 2
+        },
+        {
+          "id": "char_028",
+          "x": 12,
+          "y": 2
+        },
+        {
+          "id": "char_033",
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": "char_038",
+          "x": 16,
+          "y": 2
+        },
+        {
+          "id": "char_043",
+          "x": 18,
+          "y": 2
+        },
+        {
+          "id": "char_048",
+          "x": 20,
+          "y": 2
+        },
+        {
+          "id": "char_053",
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": "char_058",
+          "x": 4,
+          "y": 5
+        },
+        {
+          "id": "char_063",
+          "x": 6,
+          "y": 5
+        },
+        {
+          "id": "char_068",
+          "x": 8,
+          "y": 5
+        },
+        {
+          "id": "char_073",
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": "char_078",
+          "x": 12,
+          "y": 5
+        },
+        {
+          "id": "char_083",
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": "char_088",
+          "x": 16,
+          "y": 5
+        },
+        {
+          "id": "char_093",
+          "x": 18,
+          "y": 5
+        },
+        {
+          "id": "char_098",
+          "x": 20,
+          "y": 5
+        }
+      ],
+      "ambient": [
+        {
+          "id": "historical_plaza_amb_1",
+          "type": "sfx",
+          "bus": "ambient",
+          "intensity": 0.2
+        }
+      ],
+      "tiles": [
+        {
+          "x": 2,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_003"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_008"
+        },
+        {
+          "x": 6,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_013"
+        },
+        {
+          "x": 8,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_018"
+        },
+        {
+          "x": 10,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_023"
+        },
+        {
+          "x": 12,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_028"
+        },
+        {
+          "x": 14,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_033"
+        },
+        {
+          "x": 16,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_038"
+        },
+        {
+          "x": 18,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_043"
+        },
+        {
+          "x": 20,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_048"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_053"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_058"
+        },
+        {
+          "x": 6,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_063"
+        },
+        {
+          "x": 8,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_068"
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_073"
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_078"
+        },
+        {
+          "x": 14,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_083"
+        },
+        {
+          "x": 16,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_088"
+        },
+        {
+          "x": 18,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_093"
+        },
+        {
+          "x": 20,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_098"
+        }
+      ]
+    },
+    {
+      "id": "export_terminal",
+      "name": "Export Terminal",
+      "width": 64,
+      "height": 64,
+      "spawns": [
+        {
+          "id": "char_004",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": "char_009",
+          "x": 4,
+          "y": 2
+        },
+        {
+          "id": "char_014",
+          "x": 6,
+          "y": 2
+        },
+        {
+          "id": "char_019",
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": "char_024",
+          "x": 10,
+          "y": 2
+        },
+        {
+          "id": "char_029",
+          "x": 12,
+          "y": 2
+        },
+        {
+          "id": "char_034",
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": "char_039",
+          "x": 16,
+          "y": 2
+        },
+        {
+          "id": "char_044",
+          "x": 18,
+          "y": 2
+        },
+        {
+          "id": "char_049",
+          "x": 20,
+          "y": 2
+        },
+        {
+          "id": "char_054",
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": "char_059",
+          "x": 4,
+          "y": 5
+        },
+        {
+          "id": "char_064",
+          "x": 6,
+          "y": 5
+        },
+        {
+          "id": "char_069",
+          "x": 8,
+          "y": 5
+        },
+        {
+          "id": "char_074",
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": "char_079",
+          "x": 12,
+          "y": 5
+        },
+        {
+          "id": "char_084",
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": "char_089",
+          "x": 16,
+          "y": 5
+        },
+        {
+          "id": "char_094",
+          "x": 18,
+          "y": 5
+        },
+        {
+          "id": "char_099",
+          "x": 20,
+          "y": 5
+        }
+      ],
+      "ambient": [
+        {
+          "id": "export_terminal_amb_1",
+          "type": "sfx",
+          "bus": "ambient",
+          "intensity": 0.2
+        }
+      ],
+      "tiles": [
+        {
+          "x": 2,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_004"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_009"
+        },
+        {
+          "x": 6,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_014"
+        },
+        {
+          "x": 8,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_019"
+        },
+        {
+          "x": 10,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_024"
+        },
+        {
+          "x": 12,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_029"
+        },
+        {
+          "x": 14,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_034"
+        },
+        {
+          "x": 16,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_039"
+        },
+        {
+          "x": 18,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_044"
+        },
+        {
+          "x": 20,
+          "y": 2,
+          "layer": 2,
+          "assetId": "npc:char_049"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_054"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_059"
+        },
+        {
+          "x": 6,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_064"
+        },
+        {
+          "x": 8,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_069"
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_074"
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_079"
+        },
+        {
+          "x": 14,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_084"
+        },
+        {
+          "x": 16,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_089"
+        },
+        {
+          "x": 18,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_094"
+        },
+        {
+          "x": 20,
+          "y": 5,
+          "layer": 2,
+          "assetId": "npc:char_099"
+        }
+      ]
+    }
+  ]
+}

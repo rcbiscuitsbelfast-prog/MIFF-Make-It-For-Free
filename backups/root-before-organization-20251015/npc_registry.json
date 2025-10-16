@@ -1,0 +1,3506 @@
+{
+  "schema": "miff.npc.registry.v1",
+  "total": 100,
+  "npcs": [
+    {
+      "id": "char_001",
+      "name": "Ranger 1",
+      "role": "Ranger",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_001_dlg",
+        "text": "Welcome to fantasy_grove. I am Ranger 1.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_001_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_001_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      }
+    },
+    {
+      "id": "char_002",
+      "name": "Ranger 2",
+      "role": "Ranger",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_002_dlg",
+        "text": "Welcome to industrial_outpost. I am Ranger 2.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_002_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_002_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_003",
+      "name": "Priest 3",
+      "role": "Priest",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_003_dlg",
+        "text": "Welcome to historical_plaza. I am Priest 3.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_003_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_003_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_004",
+      "name": "Bard 4",
+      "role": "Bard",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_004_dlg",
+        "text": "Welcome to export_terminal. I am Bard 4.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_004_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_004_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_005",
+      "name": "Priestess 5",
+      "role": "Priestess",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_005_dlg",
+        "text": "Welcome to arcade_district. I am Priestess 5.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_005_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_005_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_006",
+      "name": "Cheerleader 6",
+      "role": "Cheerleader",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_006_dlg",
+        "text": "Welcome to fantasy_grove. I am Cheerleader 6.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_006_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_006_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_007",
+      "name": "Thief 7",
+      "role": "Thief",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_007_dlg",
+        "text": "Welcome to industrial_outpost. I am Thief 7.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_007_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_007_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_008",
+      "name": "Miner 8",
+      "role": "Miner",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_008_dlg",
+        "text": "Welcome to historical_plaza. I am Miner 8.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_008_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_008_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_009",
+      "name": "Archer 9",
+      "role": "Archer",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_009_dlg",
+        "text": "Welcome to export_terminal. I am Archer 9.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_009_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_009_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_010",
+      "name": "Archer 10",
+      "role": "Archer",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_010_dlg",
+        "text": "Welcome to arcade_district. I am Archer 10.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_010_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_010_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_011",
+      "name": "Nun 11",
+      "role": "Nun",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_011_dlg",
+        "text": "Welcome to fantasy_grove. I am Nun 11.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_011_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_011_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_012",
+      "name": "Carpenter 12",
+      "role": "Carpenter",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_012_dlg",
+        "text": "Welcome to industrial_outpost. I am Carpenter 12.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_012_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_012_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_013",
+      "name": "Knight 13",
+      "role": "Knight",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_013_dlg",
+        "text": "Welcome to historical_plaza. I am Knight 13.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_013_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_013_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_014",
+      "name": "Pirate 14",
+      "role": "Pirate",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_014_dlg",
+        "text": "Welcome to export_terminal. I am Pirate 14.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_014_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_014_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_015",
+      "name": "Druid 15",
+      "role": "Druid",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_015_dlg",
+        "text": "Welcome to arcade_district. I am Druid 15.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_015_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_015_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_016",
+      "name": "Archer 16",
+      "role": "Archer",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_016_dlg",
+        "text": "Welcome to fantasy_grove. I am Archer 16.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_016_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_016_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      }
+    },
+    {
+      "id": "char_017",
+      "name": "Necromancer 17",
+      "role": "Necromancer",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_017_dlg",
+        "text": "Welcome to industrial_outpost. I am Necromancer 17.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_017_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_017_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_018",
+      "name": "Priest 18",
+      "role": "Priest",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_018_dlg",
+        "text": "Welcome to historical_plaza. I am Priest 18.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_018_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_018_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_019",
+      "name": "Firefighter 19",
+      "role": "Firefighter",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_019_dlg",
+        "text": "Welcome to export_terminal. I am Firefighter 19.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_019_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_019_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_020",
+      "name": "Surgeon 20",
+      "role": "Surgeon",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_020_dlg",
+        "text": "Welcome to arcade_district. I am Surgeon 20.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_020_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_020_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_021",
+      "name": "Priest 21",
+      "role": "Priest",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_021_dlg",
+        "text": "Welcome to fantasy_grove. I am Priest 21.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_021_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_021_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_022",
+      "name": "Tailor 22",
+      "role": "Tailor",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_022_dlg",
+        "text": "Welcome to industrial_outpost. I am Tailor 22.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_022_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_022_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_023",
+      "name": "Painter 23",
+      "role": "Painter",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_023_dlg",
+        "text": "Welcome to historical_plaza. I am Painter 23.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_023_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_023_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_024",
+      "name": "Pilot 24",
+      "role": "Pilot",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_024_dlg",
+        "text": "Welcome to export_terminal. I am Pilot 24.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_024_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_024_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_025",
+      "name": "Engineer 25",
+      "role": "Engineer",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_025_dlg",
+        "text": "Welcome to arcade_district. I am Engineer 25.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_025_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_025_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_026",
+      "name": "Mechanic 26",
+      "role": "Mechanic",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_026_dlg",
+        "text": "Welcome to fantasy_grove. I am Mechanic 26.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_026_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_026_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_027",
+      "name": "Gardener 27",
+      "role": "Gardener",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_027_dlg",
+        "text": "Welcome to industrial_outpost. I am Gardener 27.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_027_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_027_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_028",
+      "name": "Engineer 28",
+      "role": "Engineer",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_028_dlg",
+        "text": "Welcome to historical_plaza. I am Engineer 28.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_028_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_028_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_029",
+      "name": "Druid 29",
+      "role": "Druid",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_029_dlg",
+        "text": "Welcome to export_terminal. I am Druid 29.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_029_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_029_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_030",
+      "name": "Mechanic 30",
+      "role": "Mechanic",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_030_dlg",
+        "text": "Welcome to arcade_district. I am Mechanic 30.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_030_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_030_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_031",
+      "name": "Alchemist 31",
+      "role": "Alchemist",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_031_dlg",
+        "text": "Welcome to fantasy_grove. I am Alchemist 31.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_031_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_031_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      }
+    },
+    {
+      "id": "char_032",
+      "name": "Gladiator 32",
+      "role": "Gladiator",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_032_dlg",
+        "text": "Welcome to industrial_outpost. I am Gladiator 32.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_032_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_032_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_033",
+      "name": "Scientist 33",
+      "role": "Scientist",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_033_dlg",
+        "text": "Welcome to historical_plaza. I am Scientist 33.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_033_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_033_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_034",
+      "name": "Tailor 34",
+      "role": "Tailor",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_034_dlg",
+        "text": "Welcome to export_terminal. I am Tailor 34.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_034_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_034_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_035",
+      "name": "Priest 35",
+      "role": "Priest",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_035_dlg",
+        "text": "Welcome to arcade_district. I am Priest 35.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_035_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_035_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_036",
+      "name": "Pilot 36",
+      "role": "Pilot",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_036_dlg",
+        "text": "Welcome to fantasy_grove. I am Pilot 36.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_036_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_036_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_037",
+      "name": "Gladiator 37",
+      "role": "Gladiator",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_037_dlg",
+        "text": "Welcome to industrial_outpost. I am Gladiator 37.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_037_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_037_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_038",
+      "name": "Miner 38",
+      "role": "Miner",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_038_dlg",
+        "text": "Welcome to historical_plaza. I am Miner 38.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_038_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_038_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_039",
+      "name": "Ranger 39",
+      "role": "Ranger",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_039_dlg",
+        "text": "Welcome to export_terminal. I am Ranger 39.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_039_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_039_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_040",
+      "name": "Chef 40",
+      "role": "Chef",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_040_dlg",
+        "text": "Welcome to arcade_district. I am Chef 40.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_040_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_040_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_041",
+      "name": "Ninja 41",
+      "role": "Ninja",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_041_dlg",
+        "text": "Welcome to fantasy_grove. I am Ninja 41.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_041_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_041_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_042",
+      "name": "Fairy 42",
+      "role": "Fairy",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_042_dlg",
+        "text": "Welcome to industrial_outpost. I am Fairy 42.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_042_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_042_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_043",
+      "name": "Blacksmith 43",
+      "role": "Blacksmith",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_043_dlg",
+        "text": "Welcome to historical_plaza. I am Blacksmith 43.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_043_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_043_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_044",
+      "name": "Cheerleader 44",
+      "role": "Cheerleader",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_044_dlg",
+        "text": "Welcome to export_terminal. I am Cheerleader 44.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_044_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_044_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_045",
+      "name": "Priest 45",
+      "role": "Priest",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_045_dlg",
+        "text": "Welcome to arcade_district. I am Priest 45.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_045_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_045_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_046",
+      "name": "Necromancer 46",
+      "role": "Necromancer",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_046_dlg",
+        "text": "Welcome to fantasy_grove. I am Necromancer 46.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_046_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_046_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      }
+    },
+    {
+      "id": "char_047",
+      "name": "Necromancer 47",
+      "role": "Necromancer",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_047_dlg",
+        "text": "Welcome to industrial_outpost. I am Necromancer 47.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_047_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_047_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_048",
+      "name": "Librarian 48",
+      "role": "Librarian",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_048_dlg",
+        "text": "Welcome to historical_plaza. I am Librarian 48.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_048_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_048_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_049",
+      "name": "Priest 49",
+      "role": "Priest",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_049_dlg",
+        "text": "Welcome to export_terminal. I am Priest 49.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_049_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_049_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_050",
+      "name": "Blacksmith 50",
+      "role": "Blacksmith",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_050_dlg",
+        "text": "Welcome to arcade_district. I am Blacksmith 50.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_050_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_050_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_051",
+      "name": "Alchemist 51",
+      "role": "Alchemist",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_051_dlg",
+        "text": "Welcome to fantasy_grove. I am Alchemist 51.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_051_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_051_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_052",
+      "name": "Pirate 52",
+      "role": "Pirate",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_052_dlg",
+        "text": "Welcome to industrial_outpost. I am Pirate 52.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_052_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_052_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_053",
+      "name": "Wizard 53",
+      "role": "Wizard",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_053_dlg",
+        "text": "Welcome to historical_plaza. I am Wizard 53.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_053_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_053_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_054",
+      "name": "Bard 54",
+      "role": "Bard",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_054_dlg",
+        "text": "Welcome to export_terminal. I am Bard 54.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_054_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_054_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_055",
+      "name": "Alchemist 55",
+      "role": "Alchemist",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_055_dlg",
+        "text": "Welcome to arcade_district. I am Alchemist 55.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_055_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_055_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_056",
+      "name": "Ninja 56",
+      "role": "Ninja",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_056_dlg",
+        "text": "Welcome to fantasy_grove. I am Ninja 56.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_056_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_056_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_057",
+      "name": "Painter 57",
+      "role": "Painter",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_057_dlg",
+        "text": "Welcome to industrial_outpost. I am Painter 57.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_057_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_057_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_058",
+      "name": "Assassin 58",
+      "role": "Assassin",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_058_dlg",
+        "text": "Welcome to historical_plaza. I am Assassin 58.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_058_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_058_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_059",
+      "name": "Mechanic 59",
+      "role": "Mechanic",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_059_dlg",
+        "text": "Welcome to export_terminal. I am Mechanic 59.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_059_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_059_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_060",
+      "name": "Carpenter 60",
+      "role": "Carpenter",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_060_dlg",
+        "text": "Welcome to arcade_district. I am Carpenter 60.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_060_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_060_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_061",
+      "name": "Soldier 61",
+      "role": "Soldier",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_061_dlg",
+        "text": "Welcome to fantasy_grove. I am Soldier 61.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_061_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_061_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      }
+    },
+    {
+      "id": "char_062",
+      "name": "Soldier 62",
+      "role": "Soldier",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_062_dlg",
+        "text": "Welcome to industrial_outpost. I am Soldier 62.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_062_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_062_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_063",
+      "name": "Baker 63",
+      "role": "Baker",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_063_dlg",
+        "text": "Welcome to historical_plaza. I am Baker 63.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_063_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_063_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_064",
+      "name": "Footballer 64",
+      "role": "Footballer",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_064_dlg",
+        "text": "Welcome to export_terminal. I am Footballer 64.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_064_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_064_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_065",
+      "name": "Cheerleader 65",
+      "role": "Cheerleader",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_065_dlg",
+        "text": "Welcome to arcade_district. I am Cheerleader 65.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_065_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_065_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_066",
+      "name": "Ninja 66",
+      "role": "Ninja",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_066_dlg",
+        "text": "Welcome to fantasy_grove. I am Ninja 66.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_066_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_066_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_067",
+      "name": "Monk 67",
+      "role": "Monk",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_067_dlg",
+        "text": "Welcome to industrial_outpost. I am Monk 67.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_067_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_067_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_068",
+      "name": "Wizard 68",
+      "role": "Wizard",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_068_dlg",
+        "text": "Welcome to historical_plaza. I am Wizard 68.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_068_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_068_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_069",
+      "name": "Pilot 69",
+      "role": "Pilot",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_069_dlg",
+        "text": "Welcome to export_terminal. I am Pilot 69.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_069_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_069_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_070",
+      "name": "Ranger 70",
+      "role": "Ranger",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_070_dlg",
+        "text": "Welcome to arcade_district. I am Ranger 70.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_070_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_070_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_071",
+      "name": "Gardener 71",
+      "role": "Gardener",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_071_dlg",
+        "text": "Welcome to fantasy_grove. I am Gardener 71.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_071_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_071_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_072",
+      "name": "Mime 72",
+      "role": "Mime",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_072_dlg",
+        "text": "Welcome to industrial_outpost. I am Mime 72.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_072_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_072_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_073",
+      "name": "Priest 73",
+      "role": "Priest",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_073_dlg",
+        "text": "Welcome to historical_plaza. I am Priest 73.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_073_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_073_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_074",
+      "name": "Alchemist 74",
+      "role": "Alchemist",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_074_dlg",
+        "text": "Welcome to export_terminal. I am Alchemist 74.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_074_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_074_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_075",
+      "name": "Pirate 75",
+      "role": "Pirate",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_075_dlg",
+        "text": "Welcome to arcade_district. I am Pirate 75.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_075_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_075_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_076",
+      "name": "Hunter 76",
+      "role": "Hunter",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_076_dlg",
+        "text": "Welcome to fantasy_grove. I am Hunter 76.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_076_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_076_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      }
+    },
+    {
+      "id": "char_077",
+      "name": "Tailor 77",
+      "role": "Tailor",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_077_dlg",
+        "text": "Welcome to industrial_outpost. I am Tailor 77.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_077_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_077_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_078",
+      "name": "Pirate 78",
+      "role": "Pirate",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_078_dlg",
+        "text": "Welcome to historical_plaza. I am Pirate 78.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_078_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_078_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_079",
+      "name": "Alchemist 79",
+      "role": "Alchemist",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_079_dlg",
+        "text": "Welcome to export_terminal. I am Alchemist 79.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_079_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_079_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_080",
+      "name": "Blacksmith 80",
+      "role": "Blacksmith",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_080_dlg",
+        "text": "Welcome to arcade_district. I am Blacksmith 80.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_080_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_080_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_081",
+      "name": "Priestess 81",
+      "role": "Priestess",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_081_dlg",
+        "text": "Welcome to fantasy_grove. I am Priestess 81.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_081_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_081_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_082",
+      "name": "Priest 82",
+      "role": "Priest",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_082_dlg",
+        "text": "Welcome to industrial_outpost. I am Priest 82.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_082_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_082_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_083",
+      "name": "Alchemist 83",
+      "role": "Alchemist",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_083_dlg",
+        "text": "Welcome to historical_plaza. I am Alchemist 83.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_083_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_083_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_084",
+      "name": "Alien 84",
+      "role": "Alien",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_084_dlg",
+        "text": "Welcome to export_terminal. I am Alien 84.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_084_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_084_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_085",
+      "name": "Pirate 85",
+      "role": "Pirate",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_085_dlg",
+        "text": "Welcome to arcade_district. I am Pirate 85.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_085_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_085_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_086",
+      "name": "Bard 86",
+      "role": "Bard",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_086_dlg",
+        "text": "Welcome to fantasy_grove. I am Bard 86.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_086_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_086_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_087",
+      "name": "Baker 87",
+      "role": "Baker",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_087_dlg",
+        "text": "Welcome to industrial_outpost. I am Baker 87.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_087_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_087_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_088",
+      "name": "Alien 88",
+      "role": "Alien",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_088_dlg",
+        "text": "Welcome to historical_plaza. I am Alien 88.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_088_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_088_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_089",
+      "name": "Painter 89",
+      "role": "Painter",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_089_dlg",
+        "text": "Welcome to export_terminal. I am Painter 89.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_089_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_089_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_090",
+      "name": "Footballer 90",
+      "role": "Footballer",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_090_dlg",
+        "text": "Welcome to arcade_district. I am Footballer 90.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_090_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_090_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_091",
+      "name": "Samurai 91",
+      "role": "Samurai",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_091_dlg",
+        "text": "Welcome to fantasy_grove. I am Samurai 91.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_091_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_091_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      }
+    },
+    {
+      "id": "char_092",
+      "name": "Nun 92",
+      "role": "Nun",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_092_dlg",
+        "text": "Welcome to industrial_outpost. I am Nun 92.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_092_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_092_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_093",
+      "name": "Ninja 93",
+      "role": "Ninja",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_093_dlg",
+        "text": "Welcome to historical_plaza. I am Ninja 93.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_093_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_093_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_094",
+      "name": "Bard 94",
+      "role": "Bard",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_094_dlg",
+        "text": "Welcome to export_terminal. I am Bard 94.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_094_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_094_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_095",
+      "name": "Ninja 95",
+      "role": "Ninja",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_095_dlg",
+        "text": "Welcome to arcade_district. I am Ninja 95.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_095_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_095_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_096",
+      "name": "Alien 96",
+      "role": "Alien",
+      "zone": "fantasy_grove",
+      "dialogue": {
+        "id": "char_096_dlg",
+        "text": "Welcome to fantasy_grove. I am Alien 96.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_096_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_096_quest_intro",
+          "kind": "intro",
+          "targetZone": "fantasy_grove"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_097",
+      "name": "Nun 97",
+      "role": "Nun",
+      "zone": "industrial_outpost",
+      "dialogue": {
+        "id": "char_097_dlg",
+        "text": "Welcome to industrial_outpost. I am Nun 97.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_097_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_097_quest_intro",
+          "kind": "intro",
+          "targetZone": "industrial_outpost"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_098",
+      "name": "Priestess 98",
+      "role": "Priestess",
+      "zone": "historical_plaza",
+      "dialogue": {
+        "id": "char_098_dlg",
+        "text": "Welcome to historical_plaza. I am Priestess 98.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_098_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_098_quest_intro",
+          "kind": "intro",
+          "targetZone": "historical_plaza"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_099",
+      "name": "Sailor 99",
+      "role": "Sailor",
+      "zone": "export_terminal",
+      "dialogue": {
+        "id": "char_099_dlg",
+        "text": "Welcome to export_terminal. I am Sailor 99.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_099_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_099_quest_intro",
+          "kind": "intro",
+          "targetZone": "export_terminal"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    },
+    {
+      "id": "char_100",
+      "name": "Necromancer 100",
+      "role": "Necromancer",
+      "zone": "arcade_district",
+      "dialogue": {
+        "id": "char_100_dlg",
+        "text": "Welcome to arcade_district. I am Necromancer 100.",
+        "options": [
+          {
+            "text": "Quest?",
+            "nextNodeId": "quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_100_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Bye",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_100_quest_intro",
+          "kind": "intro",
+          "targetZone": "arcade_district"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      }
+    }
+  ]
+}
