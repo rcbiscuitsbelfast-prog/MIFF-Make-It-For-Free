@@ -92,3 +92,25 @@ Completing Phase 2 with current fixes:
 - Foundation laid for future error fixes
 - Moving to Phase 3 (Config cherry-picks) and Phase 4 (additional fixes)
 
+
+## Phase 3: Cherry-Pick Config & Workflows (In Progress)
+
+Selectively cherry-picking config commits:
+- ✅ 14077616: Added 5 new CI workflows (validation, coverage, schema drift, etc.)
+- Attempting 14ffd70d: Workflow permissions fixes
+- Will skip commits that recreate Manager files (those were part of problematic fixes)
+
+Strategy: Cherry-pick workflow improvements only, skip Manager recreations.
+
+
+**Phase 3 Results:**
+Successfully cherry-picked config commits:
+- ✅ Added 5 new CI workflows for validation and analysis
+- ✅ Fixed workflow permissions in 6 workflow files
+- ✅ Refactored CI workflows and coverage reporting
+- Total: 3 config commits successfully restored
+
+Skipped commits that recreate Manager files (from problematic automated fix period).
+
+**Phase 3 Complete**
+
