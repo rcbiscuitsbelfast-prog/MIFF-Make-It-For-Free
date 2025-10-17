@@ -536,7 +536,7 @@ export class AudioSystemManager {
       system.devices.push(device);
       this.updateAnalytics();
 
-      StructuredLogger.info('Device added to system', { context: { context: { message: { systemId, device.id: device.id, deviceName: device.name } } } });
+      StructuredLogger.info('Device added to system', { id: device.id, deviceName: device.name } } } });
       return device;
 
     } catch (error: unknown) {
