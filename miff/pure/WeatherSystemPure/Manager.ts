@@ -1,620 +1,770 @@
 /**
- * WeatherSystemPure Manager - Core Weather Management
+ * WeatherSystemPure Manager - Advanced Weather System
  *
- * AAA-quality weather management with:
- * - Advanced weather simulation algorithms
- * - Integration with multiple game systems
- * - Performance-optimized rendering
- * - Mobile-first responsive design
- * - Comprehensive error handling
+ * Comprehensive weather system with:
+ * - Real-time weather simulation
+ * - Dynamic weather transitions
+ * - Environmental effects
+ * - Performance optimization
+ * - Multi-zone weather support
  *
  * @version 1.0.0
  * @author MIFF Framework
  */
 
-// ============================================================================
-// WEATHER SYSTEM TYPES
-// ============================================================================
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
 
-/**
- * Weather types enumeration
- */
-export enum WeatherType {
-  CLEAR = 'clear',
-  CLOUDY = 'cloudy',
-  RAINY = 'rainy',
-  STORMY = 'stormy',
-  SNOWY = 'snowy',
-  FOGGY = 'foggy',
-  WINDY = 'windy',
-  SUNNY = 'sunny',
-  OVERCAST = 'overcast',
-  THUNDERSTORM = 'thunderstorm'
+export interface WeatherSystemConfig {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  enableRealTimeWeather: boolean;
+  enableDynamicTransitions: boolean;
+  enableEnvironmentalEffects: boolean;
+  enableMultiZone: boolean;
+  updateInterval: number;
+  transitionDuration: number;
+  enableDebugging: boolean;
+  enableLogging: boolean;
+  logLevel: LogLevel;
 }
 
-/**
- * Weather intensity levels
- */
-export enum WeatherIntensity {
-  NONE = 0,
-  LIGHT = 1,
-  MODERATE = 2,
-  HEAVY = 3,
-  EXTREME = 4
-}
-
-/**
- * Weather effect interface
- */
-export interface WeatherEffect {
-  id: string;
-  type: WeatherType;
-  intensity: WeatherIntensity;
-  duration: number;
-  startTime: number;
-  endTime?: number;
-  properties: Record<string, any>;
-}
-
-/**
- * Weather state interface
- */
-export interface WeatherState {
-  current: WeatherType;
-  intensity: WeatherIntensity;
+export interface WeatherData {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
   temperature: number;
   humidity: number;
+  pressure: number;
   windSpeed: number;
   windDirection: number;
+  precipitation: PrecipitationData;
+  clouds: CloudData;
   visibility: number;
-  effects: WeatherEffect[];
-  timestamp: number;
+  uvIndex: number;
+  airQuality: AirQualityData;
 }
 
-/**
- * Weather pattern interface
- */
-export interface WeatherPattern {
-  id: string;
-  name: string;
-  type: WeatherType;
-  intensity: WeatherIntensity;
-  duration: number;
+export interface PrecipitationData {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  type: PrecipitationType;
+  intensity: number;
   probability: number;
-  conditions: Record<string, any>;
+  amount: number;
+  duration: number;
+  startTime: number;
+  endTime: number;
 }
 
-/**
- * Weather integration interface
- */
-export interface WeatherIntegration {
-  systemId: string;
+export interface CloudData {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  coverage: number;
+  altitude: number;
+  thickness: number;
+  type: CloudType;
+  opacity: number;
+  speed: number;
+  direction: number;
+}
+
+export interface AirQualityData {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  aqi: number;
+  pm25: number;
+  pm10: number;
+  o3: number;
+  no2: number;
+  so2: number;
+  co: number;
+  level: AirQualityLevel;
+}
+
+export interface WeatherZone {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  bounds: WeatherBounds;
+  weather: WeatherData;
+  effects: WeatherEffect[];
   enabled: boolean;
   priority: number;
-  callbacks: {
-    onWeatherChange?: (state: WeatherState) => void;
-    onEffectStart?: (effect: WeatherEffect) => void;
-    onEffectEnd?: (effect: WeatherEffect) => void;
-  };
+  lastUpdate: number;
 }
 
-/**
- * EventBus type (simplified)
- */
-export interface EventBus {
-  publish: (event: string, data: any) => void;
-  subscribe: (event: string, callback: (data: any) => void) => string;
-  unsubscribe: (id: string) => boolean;
+export interface WeatherBounds {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  minX: number;
+  minY: number;
+  minZ: number;
+  maxX: number;
+  maxY: number;
+  maxZ: number;
 }
 
-// ============================================================================
-// WEATHER MANAGER INTERFACES
-// ============================================================================
-
-/**
- * Weather manager configuration
- */
-export interface WeatherManagerConfig {
-  initialWeather?: WeatherType;
-  initialIntensity?: WeatherIntensity;
-  seed?: number;
-  performanceMode?: 'high' | 'medium' | 'low';
-  updateInterval?: number;
-  enableForecasting?: boolean;
-  enableEffects?: boolean;
-  debugMode?: boolean;
+export interface WeatherEffect {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  type: EffectType;
+  intensity: number;
+  duration: number;
+  startTime: number;
+  endTime: number;
+  enabled: boolean;
+  properties: Map<string, any>;
 }
 
-/**
- * Weather event listener
- */
-export interface WeatherEventListener {
-  onWeatherChange: (oldWeather: WeatherState, newWeather: WeatherState) => void;
-  onLightningStrike: (position: { x: number; y: number }, intensity: number) => void;
-  onWeatherEffect: (effect: WeatherEffect, delta: number) => void;
-  onWeatherForecast: (forecast: WeatherState[]) => void;
+export interface WeatherTransition {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  fromWeather: WeatherData;
+  toWeather: WeatherData;
+  duration: number;
+  startTime: number;
+  endTime: number;
+  progress: number;
+  easing: EasingType;
+  completed: boolean;
 }
 
-/**
- * Weather rendering interface
- */
-export interface WeatherRenderer {
-  updateVisibility: (visibility: number) => void;
-  updateParticles: (weatherType: WeatherType, intensity: WeatherIntensity) => void;
-  updateLighting: (lightLevel: number, lightning: boolean) => void;
-  updateAudio: (weatherType: WeatherType, intensity: WeatherIntensity) => void;
-  cleanup: () => void;
+export interface WeatherForecast {
+  id?: string;
+  name?: string;
+  status?: string;
+  data?: any;
+  result?: any;
+  errors?: string[];
+  ok?: boolean;
+  timestamp?: number;
+  createdAt?: number;
+  updatedAt?: number;
+  metadata?: Record<string, any>;
+  zoneId: string;
+  forecasts: WeatherData[];
+  startTime: number;
+  endTime: number;
+  accuracy: number;
+  source: string;
+  lastUpdate: number;
 }
 
-/**
- * Weather persistence interface
- */
-export interface WeatherPersistence {
-  saveWeatherState: (state: WeatherState) => Promise<void>;
-  loadWeatherState: () => Promise<WeatherState | null>;
-  saveSettings: (settings: WeatherManagerConfig) => Promise<void>;
-  loadSettings: () => Promise<WeatherManagerConfig | null>;
-}
+export type PrecipitationType = 'none' | 'rain' | 'snow' | 'sleet' | 'hail' | 'drizzle' | 'shower';
+export type CloudType = 'clear' | 'few' | 'scattered' | 'broken' | 'overcast' | 'cumulus' | 'stratus' | 'cirrus';
+export type AirQualityLevel = 'good' | 'moderate' | 'unhealthy_sensitive' | 'unhealthy' | 'very_unhealthy' | 'hazardous';
+export type EffectType = 'rain' | 'snow' | 'fog' | 'wind' | 'lightning' | 'rainbow' | 'aurora' | 'sandstorm';
+export type EasingType = 'linear' | 'ease_in' | 'ease_out' | 'ease_in_out' | 'bounce' | 'elastic';
 
-// ============================================================================
-// WEATHER MANAGER IMPLEMENTATION
-// ============================================================================
+export class WeatherSystemManager {
+  private config: WeatherSystemConfig;
+  
+  private memoryId: string;
+  private isRunning: boolean = false;
+  private zones: Map<string, WeatherZone> = new Map();
+  private transitions: Map<string, WeatherTransition> = new Map();
+  private forecasts: Map<string, WeatherForecast> = new Map();
+  private effects: Map<string, WeatherEffect> = new Map();
+  private performanceOptimizer: PerformanceOptimizer;
+  private updateInterval: NodeJS.Timeout | null = null;
+  private transitionInterval: NodeJS.Timeout | null = null;
 
-/**
- * WeatherManagerPure - Advanced Weather Management System
- * Provides comprehensive weather control with AAA-quality features
- */
-export class WeatherManagerPure {
-  private weatherSystem: WeatherSystemPure;
-  private config: WeatherManagerConfig;
-  private eventListeners: Set<WeatherEventListener> = new Set();
-  private renderer: WeatherRenderer | null = null;
-  private persistence: WeatherPersistence | null = null;
-  private isInitialized: boolean = false;
-  private lastWeatherState: WeatherState | null = null;
-  private forecastCache: Map<number, WeatherState[]> = new Map();
-  private performanceMetrics: Map<string, number> = new Map();
+  constructor(config: WeatherSystemConfig = {
+    enableRealTimeWeather: true,
+    enableDynamicTransitions: true,
+    enableEnvironmentalEffects: true,
+    enableMultiZone: true,
+    updateInterval: 1000, // 1 second
+    transitionDuration: 5000, // 5 seconds
+    enableDebugging: false,
+    enableLogging: true,
+    logLevel: LogLevel.INFO
+  }) {
+    this.config = config;
 
-  // Manager state
-  private currentTime: number = 0;
-  private currentSeason: string = 'summer';
-  private playerPosition: { x: number; y: number } = { x: 0, y: 0 };
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: config.logLevel,
+      enableConsole: config.enableLogging,
+      performanceMonitoring: true,
+      modules: {
+        'WeatherSystemManager': LogLevel.DEBUG
+      }
+    });
 
-  constructor(eventBus: EventBus, config: WeatherManagerConfig = {}) {
-    const managerId = this.id ?? `manager_${Date.now()}`;
-    this.config = {
-      initialWeather: 'clear',
-      initialIntensity: 'light',
-      seed: Math.random(),
-      performanceMode: 'high',
-      updateInterval: 1000,
-      enableForecasting: true,
-      enableEffects: true,
-      debugMode: false,
-      ...config
+    // Initialize performance optimizer
+    this.performanceOptimizer = new PerformanceOptimizer({
+      enableOptimization: true,
+      enableMemoryOptimization: true,
+      enableCPUOptimization: true,
+      enableGPUOptimization: true,
+      enableNetworkOptimization: false
+    });
+
+    // Register with memory manager
+    this.memoryId = `WeatherSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'WeatherSystemManager');
+
+    console.info('WeatherSystemManager initialized', {
+      config: this.config,
+      memoryId: this.memoryId
+    });
+  }
+
+  /**
+   * Start weather system
+   */
+  public start(): void {
+    if (this.isRunning) {
+      console.warn('WeatherSystemPure', 'Weather system is already running');
+      return;
+    }
+
+    this.isRunning = true;
+    console.info('WeatherSystemPure', 'Starting weather system');
+
+    // Start update interval
+    if (this.config.enableRealTimeWeather) {
+      this.updateInterval = setInterval(() => {
+        this.updateWeather();
+      }, this.config.updateInterval);
+    }
+
+    // Start transition interval
+    if (this.config.enableDynamicTransitions) {
+      this.transitionInterval = setInterval(() => {
+        this.updateTransitions();
+      }, 100); // Update transitions every 100ms
+    }
+
+    console.info('WeatherSystemPure', 'Weather system started');
+  }
+
+  /**
+   * Stop weather system
+   */
+  public stop(): void {
+    if (!this.isRunning) {
+      console.warn('WeatherSystemPure', 'Weather system is not running');
+      return;
+    }
+
+    this.isRunning = false;
+    console.info('WeatherSystemPure', 'Stopping weather system');
+
+    // Stop update interval
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+      this.updateInterval = null;
+    }
+
+    // Stop transition interval
+    if (this.transitionInterval) {
+      clearInterval(this.transitionInterval);
+      this.transitionInterval = null;
+    }
+
+    console.info('WeatherSystemPure', 'Weather system stopped');
+  }
+
+  /**
+   * Create weather zone
+   */
+  public createWeatherZone(zoneData: Partial<WeatherZone>): WeatherZone {
+    const zoneId = `zone_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const timestamp = Date.now();
+
+    const zone: WeatherZone = {
+      id: zoneId,
+      name: zoneData.name || 'Unnamed Zone',
+      bounds: zoneData.bounds || {
+        minX: 0, minY: 0, minZ: 0,
+        maxX: 100, maxY: 100, maxZ: 100
+      },
+      weather: zoneData.weather || this.generateRandomWeather(),
+      effects: zoneData.effects || [],
+      enabled: zoneData.enabled !== undefined ? zoneData.enabled : true,
+      priority: zoneData.priority || 1,
+      lastUpdate: timestamp
     };
 
-    this.weatherSystem = new WeatherSystemPure(eventBus, this.config.seed);
-    this.setupIntegrations(eventBus);
-    this.initialize();
+    this.zones.set(zoneId, zone);
+    console.info('Weather zone created', { zoneId, name: zone.name });
+
+    return zone;
   }
 
   /**
-   * Initialize the weather manager
+   * Get weather zone
    */
-  private async initialize(): Promise<void> {
-    try {
-      // Load persisted state if available
-      if (this.persistence) {
-        const savedState = await this.persistence.loadWeatherState();
-        if (savedState) {
-          this.weatherSystem.setWeather(savedState.type, savedState.intensity, savedState.duration);
-        }
-
-        const savedSettings = await this.persistence.loadSettings();
-        if (savedSettings) {
-          this.config = { ...this.config, ...savedSettings };
-        }
-      }
-
-      // Set initial weather if specified
-      if (this.config.initialWeather && this.config.initialIntensity) {
-        this.weatherSystem.setWeather(
-          this.config.initialWeather,
-          this.config.initialIntensity
-        );
-      }
-
-      // Set performance mode
-      this.weatherSystem.setPerformanceMode(this.config.performanceMode!);
-
-      // Set up time integration
-      this.setupTimeIntegration();
-
-      this.isInitialized = true;
-
-      // Emit initialization event
-      this.weatherSystem['eventBus'].emit('weather:manager_initialized', {
-        config: this.config,
-        timestamp: new Date()
-      });
-
-    } catch (error: unknown) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      console.error('WeatherManager initialization failed:', err instanceof Error ? message: String(err));
-      throw new Error(`WeatherManager initialization failed: ${error}`);
-    }
+  public getWeatherZone(zoneId: string): WeatherZone | null {
+    return this.zones.get(zoneId) || null;
   }
 
   /**
-   * Set up system integrations
+   * Update weather zone
    */
-  private setupIntegrations(eventBus: EventBus): void {
-    // Weather change integration
-    this.weatherSystem.setIntegrations({
-      onWeatherChange: (oldWeather: WeatherState, newWeather: WeatherState) => {
-        this.handleWeatherChange(oldWeather, newWeather);
-      },
-
-      onLightningStrike: (position: { x: number; y: number }) => {
-        this.handleLightningStrike(position);
-      },
-
-      onWeatherEffect: (effect: WeatherEffect, intensity: number) => {
-        this.handleWeatherEffect(effect, intensity);
-      },
-
-      getCurrentTime: () => this.currentTime,
-
-      getCurrentSeason: () => this.currentSeason,
-
-      getPlayerPosition: () => this.playerPosition
-    });
-  }
-
-  /**
-   * Set up time system integration
-   */
-  private setupTimeIntegration(): void {
-    // Update current time every minute
-    setInterval(() => {
-      this.currentTime = Date.now();
-      this.updateSeason();
-    }, 60000);
-  }
-
-  /**
-   * Update season based on current date
-   */
-  private updateSeason(): void {
-    const month = new Date(this.currentTime).getMonth() + 1;
-    if (month >= 3 && month <= 5) this.currentSeason = 'spring';
-    else if (month >= 6 && month <= 8) this.currentSeason = 'summer';
-    else if (month >= 9 && month <= 11) this.currentSeason = 'autumn';
-    else this.currentSeason = 'winter';
-  }
-
-  /**
-   * Handle weather change events
-   */
-  private handleWeatherChange(oldWeather: WeatherState, newWeather: WeatherState): void {
-    // Update renderer if available
-    if (this.renderer) {
-      this.renderer.updateVisibility(newWeather.effects.visibility);
-      this.renderer.updateParticles(newWeather.type, newWeather.intensity);
-      this.renderer.updateLighting(
-        this.calculateLightLevel(newWeather),
-        newWeather.effects.lightningFrequency > 0.5
-      );
-      this.renderer.updateAudio(newWeather.type, newWeather.intensity);
+  public updateWeatherZone(zoneId: string, updates: Partial<WeatherZone>): boolean {
+    const zone = this.zones.get(zoneId);
+    if (!zone) {
+      console.warn('Weather zone not found', { zoneId });
+      return false;
     }
 
-    // Notify event listeners
-    this.eventListeners.forEach((listener: any) => {
-      listener.onWeatherChange(oldWeather, newWeather);
-    });
+    Object.assign(zone, updates);
+    zone.lastUpdate = Date.now();
 
-    // Update last weather state
-    this.lastWeatherState = newWeather;
+    console.debug('Weather zone updated', { zoneId, updates });
+    return true;
+  }
 
-    // Clear forecast cache when weather changes significantly
-    if (oldWeather.type !== newWeather.type) {
-      this.forecastCache.clear();
+  /**
+   * Delete weather zone
+   */
+  public deleteWeatherZone(zoneId: string): boolean {
+    const zone = this.zones.get(zoneId);
+    if (!zone) {
+      console.warn('Weather zone not found', { zoneId });
+      return false;
     }
 
-    // Performance tracking
-    this.performanceMetrics.set('lastWeatherChange', Date.now());
+    this.zones.delete(zoneId);
+    console.info('Weather zone deleted', { zoneId, name: zone.name });
+    return true;
   }
 
   /**
-   * Handle lightning strike events
+   * Get weather at position
    */
-  private handleLightningStrike(position: { x: number; y: number }): void {
-    // Update renderer
-    if (this.renderer) {
-      this.renderer.updateLighting(0.1, true); // Flash effect
-      setTimeout(() => {
-        const currentWeather = this.weatherSystem.getCurrentWeather();
-        this.renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
-      }, 200);
+  public getWeatherAtPosition(x: number, y: number, z: number): WeatherData | null {
+    const zones = Array.from(this.zones.values())
+      .filter(zone => zone.enabled && this.isPositionInZone(x, y, z, zone.bounds))
+      .sort((a, b) => b.priority - a.priority);
+
+    if (zones.length === 0) {
+      return null;
     }
 
-    // Notify event listeners
-    this.eventListeners.forEach((listener: any) => {
-      listener.onLightningStrike(position, 0.8); // High intensity lightning
-    });
+    // Return weather from highest priority zone
+    return zones[0].weather;
   }
 
   /**
-   * Handle weather effect updates
+   * Set weather for zone
    */
-  private handleWeatherEffect(effect: WeatherEffect, intensity: number): void {
-    // Notify event listeners
-    this.eventListeners.forEach((listener: any) => {
-      listener.onWeatherEffect(effect, intensity);
-    });
-  }
-
-  /**
-   * Calculate light level based on weather
-   */
-  private calculateLightLevel(weather: WeatherState): number {
-    const baseLight = this.getBaseLightLevel();
-    const weatherMultiplier = 1 - (1 - weather.effects.visibility) * 0.7;
-    const intensityMultiplier = this.getIntensityLightMultiplier(weather.intensity);
-
-    return Math.max(0.1, Math.min(1.0, baseLight * weatherMultiplier * intensityMultiplier));
-  }
-
-  /**
-   * Get base light level based on time of day
-   */
-  private getBaseLightLevel(): number {
-    const hour = new Date(this.currentTime).getHours();
-    if (hour >= 6 && hour < 12) return 0.8; // Morning
-    if (hour >= 12 && hour < 18) return 1.0; // Afternoon
-    if (hour >= 18 && hour < 22) return 0.6; // Evening
-    return 0.3; // Night
-  }
-
-  /**
-   * Get light multiplier based on weather intensity
-   */
-  private getIntensityLightMultiplier(intensity: WeatherIntensity): number {
-    switch (intensity) {
-      case 'light': return 0.9;
-      case 'moderate': return 0.7;
-      case 'heavy': return 0.4;
-      case 'extreme': return 0.2;
-      default: return 1.0;
+  public setWeatherForZone(zoneId: string, weather: WeatherData, transition: boolean = true): boolean {
+    const zone = this.zones.get(zoneId);
+    if (!zone) {
+      console.warn('Weather zone not found', { zoneId });
+      return false;
     }
-  }
 
-  // ============================================================================
-  // PUBLIC API METHODS
-  // ============================================================================
+    if (transition && this.config.enableDynamicTransitions) {
+      this.createWeatherTransition(zoneId, zone.weather, weather);
+    } else {
+      zone.weather = weather;
+      zone.lastUpdate = Date.now();
+    }
 
-  /**
-   * Set weather renderer
-   */
-  public setRenderer(renderer: WeatherRenderer): void {
-    this.renderer = renderer;
-    const currentWeather = this.weatherSystem.getCurrentWeather();
-
-    // Initialize renderer with current weather
-    renderer.updateVisibility(currentWeather.effects.visibility);
-    renderer.updateParticles(currentWeather.type, currentWeather.intensity);
-    renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
-    renderer.updateAudio(currentWeather.type, currentWeather.intensity);
+    console.info('Weather set for zone', { zoneId, weather: weather.temperature });
+    return true;
   }
 
   /**
-   * Set weather persistence
+   * Create weather transition
    */
-  public setPersistence(persistence: WeatherPersistence): void {
-    this.persistence = persistence;
+  public createWeatherTransition(zoneId: string, fromWeather: WeatherData, toWeather: WeatherData): string {
+    const transitionId = `transition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const startTime = Date.now();
+
+    const transition: WeatherTransition = {
+      id: transitionId,
+      fromWeather,
+      toWeather,
+      duration: this.config.transitionDuration,
+      startTime,
+      endTime: startTime + this.config.transitionDuration,
+      progress: 0,
+      easing: 'ease_in_out',
+      completed: false
+    };
+
+    this.transitions.set(transitionId, transition);
+    console.info('Weather transition created', { transitionId, zoneId });
+
+    return transitionId;
   }
 
   /**
-   * Add event listener
+   * Add weather effect
    */
-  public addEventListener(listener: WeatherEventListener): void {
-    this.eventListeners.add(listener);
+  public addWeatherEffect(zoneId: string, effect: WeatherEffect): boolean {
+    const zone = this.zones.get(zoneId);
+    if (!zone) {
+      console.warn('Weather zone not found', { zoneId });
+      return false;
+    }
+
+    zone.effects.push(effect);
+    this.effects.set(effect.id, effect);
+
+    console.info('Weather effect added', { zoneId, effectId: effect.id, type: effect.type });
+    return true;
   }
 
   /**
-   * Remove event listener
+   * Remove weather effect
    */
-  public removeEventListener(listener: WeatherEventListener): void {
-    this.eventListeners.delete(listener);
-  }
+  public removeWeatherEffect(zoneId: string, effectId: string): boolean {
+    const zone = this.zones.get(zoneId);
+    if (!zone) {
+      console.warn('Weather zone not found', { zoneId });
+      return false;
+    }
 
-  /**
-   * Get current weather state
-   */
-  public getCurrentWeather(): WeatherState {
-    return this.weatherSystem.getCurrentWeather();
-  }
+    const effectIndex = zone.effects.findIndex(effect => effect.id === effectId);
+    if (effectIndex === -1) {
+      console.warn('Weather effect not found', { zoneId, effectId });
+      return false;
+    }
 
-  /**
-   * Get current weather effects
-   */
-  public getCurrentWeatherEffects(): WeatherEffect {
-    return this.weatherSystem.getCurrentWeatherEffects();
-  }
+    zone.effects.splice(effectIndex, 1);
+    this.effects.delete(effectId);
 
-  /**
-   * Set weather immediately
-   */
-  public setWeather(type: WeatherType, intensity: WeatherIntensity, duration?: number): void {
-    this.weatherSystem.setWeather(type, intensity, duration);
+    console.info('Weather effect removed', { zoneId, effectId });
+    return true;
   }
 
   /**
    * Get weather forecast
    */
-  public getWeatherForecast(hours: number = 24): WeatherState[] {
-    if (!this.config.enableForecasting) {
-      return [];
+  public getWeatherForecast(zoneId: string, hours: number = 24): WeatherForecast | null {
+    const forecast = this.forecasts.get(zoneId);
+    if (!forecast) {
+      console.warn('Weather forecast not found', { zoneId });
+      return null;
     }
 
-    // Check cache first
-    if (this.forecastCache.has(hours)) {
-      return this.forecastCache.get(hours)!;
-    }
-
-    const forecast = this.weatherSystem.getWeatherForecast(hours);
-    this.forecastCache.set(hours, forecast);
-
-    // Notify listeners
-    this.eventListeners.forEach((listener: any) => {
-      listener.onWeatherForecast(forecast);
-    });
-
-    return forecast;
-  }
-
-  /**
-   * Update player position for location-based effects
-   */
-  public updatePlayerPosition(position: { x: number; y: number }): void {
-    this.playerPosition = position;
-  }
-
-  /**
-   * Update current time (for testing or time manipulation)
-   */
-  public updateTime(time: number): void {
-    this.currentTime = time;
-    this.updateSeason();
-  }
-
-  /**
-   * Pause weather system
-   */
-  public pause(): void {
-    this.weatherSystem.setPaused(true);
-  }
-
-  /**
-   * Resume weather system
-   */
-  public resume(): void {
-    this.weatherSystem.setPaused(false);
-  }
-
-  /**
-   * Set performance mode
-   */
-  public setPerformanceMode(mode: 'high' | 'medium' | 'low'): void {
-    this.config.performanceMode = mode;
-    this.weatherSystem.setPerformanceMode(mode);
-  }
-
-  /**
-   * Get system statistics
-   */
-  public getStats(): {
-    const managerData = this.getStats();
-    currentWeather: WeatherType;
-    isInitialized: boolean;
-    performanceMode: string;
-    forecastEnabled: boolean;
-    effectsEnabled: boolean;
-    activeListeners: number;
-    lastUpdateTime: number;
-    weatherChanges: number;
-  } {
-    const stats = this.weatherSystem.getStats();
-    const managerData = this.getStats();
+    // Return forecast with requested number of hours
+    const requestedForecasts = forecast.forecasts.slice(0, hours);
     return {
-      ...stats,
-      isInitialized: this.isInitialized,
-      performanceMode: this.config.performanceMode!,
-      forecastEnabled: this.config.enableForecasting!,
-      effectsEnabled: this.config.enableEffects!,
-      activeListeners: this.eventListeners.size,
-      lastUpdateTime: this.performanceMetrics.get('lastWeatherChange') || 0,
-      weatherChanges: this.performanceMetrics.get('weatherChangeCount') || 0
+      ...forecast,
+      forecasts: requestedForecasts
     };
   }
 
   /**
-   * Get all weather patterns
+   * Update weather forecast
    */
-  public getAllWeatherPatterns(): WeatherPattern[] {
-    return this.weatherSystem.getAllWeatherPatterns();
+  public updateWeatherForecast(zoneId: string, forecast: WeatherForecast): void {
+    this.forecasts.set(zoneId, forecast);
+    console.info('Weather forecast updated', { zoneId, hours: forecast.forecasts.length });
   }
 
   /**
-   * Get weather pattern by ID
+   * Update weather system
    */
-  public getWeatherPattern(patternId: string): WeatherPattern | null {
-    return this.weatherSystem.getWeatherPattern(patternId);
-  }
+  private updateWeather(): void {
+    for (const zone of this.zones.values()) {
+      if (!zone.enabled) continue;
 
-  /**
-   * Save current state
-   */
-  public async saveState(): Promise<void> {
-    if (!this.persistence) {
-      throw new Error('Persistence not configured');
+      // Update weather data
+      this.updateZoneWeather(zone);
+
+      // Update effects
+      this.updateZoneEffects(zone);
+
+      zone.lastUpdate = Date.now();
     }
 
-    const currentWeather = this.weatherSystem.getCurrentWeather();
-    await this.persistence.saveWeatherState(currentWeather);
-    await this.persistence.saveSettings(this.config);
+    console.debug('Weather system updated', { zones: this.zones.size });
   }
 
   /**
-   * Load saved state
+   * Update zone weather
    */
-  public async loadState(): Promise<void> {
-    if (!this.persistence) {
-      throw new Error('Persistence not configured');
-    }
+  private updateZoneWeather(zone: WeatherZone): void {
+    // Simulate weather changes
+    const weather = zone.weather;
+    
+    // Random small changes to weather
+    weather.temperature += (Math.random() - 0.5) * 0.5;
+    weather.humidity += (Math.random() - 0.5) * 1;
+    weather.pressure += (Math.random() - 0.5) * 0.1;
+    weather.windSpeed += (Math.random() - 0.5) * 0.2;
+    weather.windDirection += (Math.random() - 0.5) * 5;
 
-    const savedWeather = await this.persistence.loadWeatherState();
-    if (savedWeather) {
-      this.weatherSystem.setWeather(savedWeather.type, savedWeather.intensity);
+    // Clamp values to realistic ranges
+    weather.temperature = Math.max(-50, Math.min(50, weather.temperature));
+    weather.humidity = Math.max(0, Math.min(100, weather.humidity));
+    weather.pressure = Math.max(800, Math.min(1100, weather.pressure));
+    weather.windSpeed = Math.max(0, Math.min(100, weather.windSpeed));
+    weather.windDirection = ((weather.windDirection % 360) + 360) % 360;
+
+    weather.timestamp = Date.now();
+  }
+
+  /**
+   * Update zone effects
+   */
+  private updateZoneEffects(zone: WeatherZone): void {
+    const currentTime = Date.now();
+
+    for (let i = zone.effects.length - 1; i >= 0; i--) {
+      const effect = zone.effects[i];
+      
+      // Check if effect has expired
+      if (effect.endTime > 0 && currentTime > effect.endTime) {
+        zone.effects.splice(i, 1);
+        this.effects.delete(effect.id);
+        console.debug('Weather effect expired', { effectId: effect.id, type: effect.type });
+        continue;
+      }
+
+      // Update effect intensity based on time
+      const elapsed = currentTime - effect.startTime;
+      const progress = effect.duration > 0 ? elapsed / effect.duration : 1;
+      
+      if (progress < 1) {
+        effect.intensity = this.calculateEffectIntensity(effect, progress);
+      }
     }
   }
 
   /**
-   * Reset weather to default state
+   * Update transitions
    */
-  public resetWeather(): void {
-    this.weatherSystem.setWeather('clear', 'light');
-    this.forecastCache.clear();
-    this.performanceMetrics.clear();
+  private updateTransitions(): void {
+    const currentTime = Date.now();
+
+    for (const transition of this.transitions.values()) {
+      if (transition.completed) continue;
+
+      const elapsed = currentTime - transition.startTime;
+      const progress = Math.min(elapsed / transition.duration, 1);
+
+      transition.progress = this.applyEasing(progress, transition.easing);
+
+      if (progress >= 1) {
+        transition.completed = true;
+        console.info('Weather transition completed', { transitionId: transition.id });
+      }
+    }
+
+    // Remove completed transitions
+    for (const [id, transition] of this.transitions.entries()) {
+      if (transition.completed) {
+        this.transitions.delete(id);
+      }
+    }
+  }
+
+  /**
+   * Check if position is in zone bounds
+   */
+  private isPositionInZone(x: number, y: number, z: number, bounds: WeatherBounds): boolean {
+    return x >= bounds.minX && x <= bounds.maxX &&
+           y >= bounds.minY && y <= bounds.maxY &&
+           z >= bounds.minZ && z <= bounds.maxZ;
+  }
+
+  /**
+   * Generate random weather data
+   */
+  private generateRandomWeather(): WeatherData {
+    return {
+      temperature: Math.random() * 40 - 10, // -10 to 30 degrees
+      humidity: Math.random() * 100,
+      pressure: 900 + Math.random() * 200, // 900 to 1100 hPa
+      windSpeed: Math.random() * 30,
+      windDirection: Math.random() * 360,
+      precipitation: {
+        type: Math.random() > 0.7 ? 'rain' : 'none',
+        intensity: Math.random(),
+        probability: Math.random(),
+        amount: Math.random() * 10,
+        duration: Math.random() * 3600000, // 0 to 1 hour
+        startTime: Date.now(),
+        endTime: Date.now() + Math.random() * 3600000
+      },
+      clouds: {
+        coverage: Math.random() * 100,
+        altitude: 1000 + Math.random() * 4000,
+        thickness: Math.random() * 1000,
+        type: 'cumulus',
+        opacity: Math.random(),
+        speed: Math.random() * 20,
+        direction: Math.random() * 360
+      },
+      visibility: 1000 + Math.random() * 9000,
+      uvIndex: Math.random() * 11,
+      airQuality: {
+        aqi: Math.floor(Math.random() * 500),
+        pm25: Math.random() * 100,
+        pm10: Math.random() * 150,
+        o3: Math.random() * 200,
+        no2: Math.random() * 100,
+        so2: Math.random() * 50,
+        co: Math.random() * 20,
+        level: 'good'
+      },
+      timestamp: Date.now()
+    };
+  }
+
+  /**
+   * Calculate effect intensity
+   */
+  private calculateEffectIntensity(effect: WeatherEffect, progress: number): number {
+    // Simple linear interpolation for now
+    return effect.intensity * (1 - progress);
+  }
+
+  /**
+   * Apply easing function
+   */
+  private applyEasing(t: number, easing: EasingType): number {
+    switch (easing) {
+      case 'linear':
+        return t;
+      case 'ease_in':
+        return t * t;
+      case 'ease_out':
+        return 1 - (1 - t) * (1 - t);
+      case 'ease_in_out':
+        return t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t);
+      case 'bounce':
+        return t < 0.5 ? 4 * t * t : 1 - 4 * (1 - t) * (1 - t);
+      case 'elastic':
+        return t === 0 ? 0 : t === 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * (2 * Math.PI) / 3) + 1;
+      default:
+        return t;
+    }
+  }
+
+  /**
+   * Get all weather zones
+   */
+  public getAllWeatherZones(): WeatherZone[] {
+    return Array.from(this.zones.values());
+  }
+
+  /**
+   * Get active transitions
+   */
+  public getActiveTransitions(): WeatherTransition[] {
+    return Array.from(this.transitions.values()).filter(t => !t.completed);
+  }
+
+  /**
+   * Get all weather effects
+   */
+  public getAllWeatherEffects(): WeatherEffect[] {
+    return Array.from(this.effects.values());
+  }
+
+  /**
+   * Get manager configuration
+   */
+  public getConfig(): WeatherSystemConfig {
+    return { ...this.config };
+  }
+
+  /**
+   * Update manager configuration
+   */
+  public updateConfig(newConfig: Partial<WeatherSystemConfig>): void {
+    this.config = { ...this.config, ...newConfig };
+    console.info('WeatherSystemManager configuration updated', { config: this.config });
   }
 
   /**
    * Cleanup resources
    */
-  public cleanup(): void {
-    if (this.renderer) {
-      this.renderer.cleanup();
-    }
-    this.eventListeners.clear();
-    this.forecastCache.clear();
-    this.performanceMetrics.clear();
+  public destroy(): void {
+    this.stop();
+    MemoryManager.unregisterObject(this.memoryId);
+    console.info('WeatherSystemPure', 'WeatherSystemManager destroyed');
   }
 }
-
-// ============================================================================
-// TYPE EXPORTS
-// ============================================================================
-
-export type {
-  WeatherManagerConfig,
-  WeatherEventListener,
-  WeatherRenderer,
-  WeatherPersistence
-};
-
-// ============================================================================
-// DEFAULT EXPORT
-// ============================================================================
-
-export default WeatherManagerPure;
