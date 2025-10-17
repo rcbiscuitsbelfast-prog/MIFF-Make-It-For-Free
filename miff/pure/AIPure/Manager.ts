@@ -1221,7 +1221,7 @@ export class AIManager {
   /**
    * Extract features from battle state for neural network input
    */
-  private extractFeaturesFromBattleState(battleState: any): number[] {
+  private extractFeaturesFromBattleState(battleState): number[] {
     const features: number[] = [];
 
     if (battleState.playerSpirit) {

@@ -182,7 +182,7 @@ export class RenderReplayManager {
   /**
    * Load a session from data
    */
-  loadSession(sessionData: any): { ok: boolean; session?: ReplaySession; issues?: string[] } {
+  loadSession(sessionData): { ok: boolean; session?: ReplaySession; issues?: string[] } {
     try {
       // Validate session data
       if (!sessionData || !sessionData.id) {
@@ -354,7 +354,7 @@ export class RenderReplayManager {
     }
   }
 
-  private extractRenderPayloads(testData: any): RenderPayload[] {
+  private extractRenderPayloads(testData): RenderPayload[] {
     const payloads: RenderPayload[] = [];
 
     // Extract from various test data structures

@@ -393,7 +393,7 @@ function main() {
   }
 }
 
-function convertToCSV(data: any): string {
+function convertToCSV(data): string {
   if (!data.harness) return 'No data available';
 
   const harness = data.harness;
@@ -435,7 +435,7 @@ function convertToCSV(data: any): string {
   return lines.join('\n');
 }
 
-function convertToMarkdown(data: any): string {
+function convertToMarkdown(data): string {
   if (!data.harness) return '# No data available';
 
   const harness = data.harness;
@@ -484,7 +484,7 @@ function convertToMarkdown(data: any): string {
   return lines.join('\n');
 }
 
-function convertToHTML(data: any): string {
+function convertToHTML(data): string {
   if (!data.harness) return '<html><body><h1>No data available</h1></body></html>';
 
   const harness = data.harness;

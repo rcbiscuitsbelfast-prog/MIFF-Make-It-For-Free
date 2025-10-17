@@ -453,7 +453,7 @@ export class TopplerDemo {
     ];
   }
 
-  private createLevelFromData(levelData: any): LevelData {
+  private createLevelFromData(levelData): LevelData {
     return {
       id: levelData.id,
       name: levelData.name,

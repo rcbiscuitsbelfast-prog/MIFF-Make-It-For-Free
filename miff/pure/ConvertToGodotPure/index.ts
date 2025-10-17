@@ -308,7 +308,7 @@ export class GodotConverter {
   }
 
   // Core conversion functionality
-  async convertMIFFProject(miffProject: any): Promise<ConversionResult> {
+  async convertMIFFProject(miffProject): Promise<ConversionResult> {
     this.conversionStartTime = Date.now();
     const warnings: string[] = [];
     const errors: string[] = [];
@@ -402,7 +402,7 @@ export class GodotConverter {
     }
   }
 
-  private convertProjectSettings(miffSettings: any): void {
+  private convertProjectSettings(miffSettings): void {
     if (!miffSettings) return;
 
     // Convert application settings
@@ -699,7 +699,7 @@ export class GodotConverter {
     return script;
   }
 
-  private mapEntityToNodeType(entityData: any): string {
+  private mapEntityToNodeType(entityData): string {
     if (entityData.components?.sprite) return 'Sprite';
     if (entityData.components?.audio) return 'AudioStreamPlayer2D';
     if (entityData.components?.physics?.rigidBody) return 'RigidBody2D';
@@ -708,7 +708,7 @@ export class GodotConverter {
     return 'Node2D';
   }
 
-  private mapSystemToNodeType(systemData: any): string {
+  private mapSystemToNodeType(systemData): string {
     switch (systemData.type) {
       case 'audio': return 'AudioStreamPlayer';
       case 'animation': return 'AnimationPlayer';

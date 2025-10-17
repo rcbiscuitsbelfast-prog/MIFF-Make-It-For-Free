@@ -499,7 +499,7 @@ export class GodotBridge {
     return baseScripts.map((script: any) => `res://miff/scripts/${script}${extension}`);
   }
 
-  private convertFromGodot(godotData: any): any {
+  private convertFromGodot(godotData): any {
     // Convert Godot-specific data back to MIFF format
     return {
       id: godotData.id,

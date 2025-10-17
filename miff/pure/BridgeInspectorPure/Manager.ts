@@ -730,7 +730,7 @@ export class BridgeInspectorManager {
     }
   }
 
-  private extractRenderPayloads(testData: any): RenderPayload[] {
+  private extractRenderPayloads(testData): RenderPayload[] {
     const payloads: RenderPayload[] = [];
 
     // Extract from various test data structures

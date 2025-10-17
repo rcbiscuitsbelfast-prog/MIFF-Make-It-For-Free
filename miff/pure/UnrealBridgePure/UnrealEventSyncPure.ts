@@ -588,7 +588,7 @@ export class UnrealEventSyncPure {
     console.log('[UnrealEventSyncPure] Event processing started');
   }
 
-  async syncEvent(miffEvent: any): Promise<boolean> {
+  async syncEvent(miffEvent): Promise<boolean> {
     if (!this.isInitialized) {
       throw new Error('Event synchronization not initialized');
     }
@@ -657,7 +657,7 @@ export class UnrealEventSyncPure {
     }
   }
 
-  private async convertMiffEventToUnreal(miffEvent: any): Promise<UnrealEvent | null> {
+  private async convertMiffEventToUnreal(miffEvent): Promise<UnrealEvent | null> {
     // Find event mapping
     const mapping = this.eventMappings.get(miffEvent.type || miffEvent.name);
     if (!mapping) {

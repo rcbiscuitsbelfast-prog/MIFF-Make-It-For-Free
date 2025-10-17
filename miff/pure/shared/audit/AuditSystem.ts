@@ -658,7 +658,7 @@ export class AuditSystem {
   /**
    * Check dependency issues
    */
-  private checkDependencyIssues(packageJson: any): void {
+  private checkDependencyIssues(packageJson): void {
     const dependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
     
     Object.entries(dependencies).forEach(([name, version]) => {

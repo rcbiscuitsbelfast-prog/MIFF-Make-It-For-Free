@@ -511,7 +511,7 @@ export class TestRunner {
   /**
    * Parse test assertions
    */
-  private parseAssertions(assertionResult: any): TestAssertion[] {
+  private parseAssertions(assertionResult): TestAssertion[] {
     const assertions: TestAssertion[] = [];
     
     if (assertionResult.failureMessages) {

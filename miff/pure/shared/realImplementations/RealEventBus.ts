@@ -273,8 +273,8 @@ export const globalEventBus = new RealEventBus();
   
   // Additional real functionality
   clearAll: () => globalEventBus.clearAll(),
-  clearEvent: (event: string) => globalEventBus.clearEvent(event: any),
-  hasSubscribers: (event: string) => globalEventBus.hasSubscribers(event: any),
+  clearEvent: (event: string) => globalEventBus.clearEvent(event),
+  hasSubscribers: (event: string) => globalEventBus.hasSubscribers(event),
   getMetrics: () => globalEventBus.getMetrics(),
   destroy: () => globalEventBus.destroy()
 };*/

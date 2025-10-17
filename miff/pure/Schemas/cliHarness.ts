@@ -137,7 +137,7 @@ function prompt(question: string, defaultValue?: string): string {
   return answer.trim() || (defaultValue || '');
 }
 
-function formatValidationResult(result: any): void {
+function formatValidationResult(result): void {
   console.log('\n📊 Validation Result:');
   console.log(`Status: ${result.isValid ? '✅ Valid' : '❌ Invalid'}`);
 

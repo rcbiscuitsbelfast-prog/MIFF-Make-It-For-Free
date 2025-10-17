@@ -162,7 +162,7 @@ function exportArrayToMarkdown(array: any[]): string {
   }
 }
 
-function exportObjectToMarkdown(obj: any): string {
+function exportObjectToMarkdown(obj): string {
   let markdown = '';
   
   Object.entries(obj).forEach(([key, value]) => {
@@ -268,7 +268,7 @@ function exportArrayToHTML(array: any[]): string {
   }
 }
 
-function exportObjectToHTML(obj: any): string {
+function exportObjectToHTML(obj): string {
   let html = '';
   
   Object.entries(obj).forEach(([key, value]) => {

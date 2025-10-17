@@ -325,7 +325,7 @@ function executeScenario(scenarioId: string, fixture: any, args: string[]): any 
 /**
  * Extract outputs from final state
  */
-function extractOutputs(finalState: any): any[] {
+function extractOutputs(finalState): any[] {
   if (finalState.timeline) {
     return [{ op: "scenario", timeline: finalState.timeline, issues: [] }];
   }
@@ -374,7 +374,7 @@ function collectLogs(): string[] {
 }
 
 // Helper functions for generating scenario-specific data
-function generateTopplerTimeline(fixture: any): any[] {
+function generateTopplerTimeline(fixture): any[] {
   return [
     { t: 0, position: { x: 0, y: -1.5 }, velocity: { x: 0, y: 0 }, collided: false },
     { t: 0.5, position: { x: 0, y: -0.03 }, velocity: { x: 0, y: 4.91 }, collided: true },
@@ -382,7 +382,7 @@ function generateTopplerTimeline(fixture: any): any[] {
   ];
 }
 
-function generateCombatEvents(fixture: any): any[] {
+function generateCombatEvents(fixture): any[] {
   return [
     { type: "combat", attacker: "hero", defender: "slime", damage: 6, victory: true },
     { type: "loot", from: "slime", drops: [{ id: "coin", rarity: "common" }] },
@@ -391,7 +391,7 @@ function generateCombatEvents(fixture: any): any[] {
   ];
 }
 
-function generateCombatLog(fixture: any): any[] {
+function generateCombatLog(fixture): any[] {
   return [
     { op: "list", ids: ["hero", "slime"] },
     { attackerId: "hero", defenderId: "slime", damage: 6, defenderHpAfter: 4, victory: false },
@@ -399,7 +399,7 @@ function generateCombatLog(fixture: any): any[] {
   ];
 }
 
-function generateSkillTreeOutputs(finalState: any): any[] {
+function generateSkillTreeOutputs(finalState): any[] {
   return [
     { op: "list", skills: ["root", "strike", "guard"] },
     { op: "canUnlock", id: "strike", ok: false },
@@ -410,7 +410,7 @@ function generateSkillTreeOutputs(finalState: any): any[] {
   ];
 }
 
-function generateAIProfiles(fixture: any): any {
+function generateAIProfiles(fixture): any {
   return {
     elder: { role: "questGiver", actions: ["offerQuest:village_help", "talk", "schedule:08:00:at_square"] },
     merchant: { role: "vendor", actions: ["openShop", "talk", "schedule:09:00:open_shop"] },
@@ -418,11 +418,11 @@ function generateAIProfiles(fixture: any): any {
   };
 }
 
-function generateSchedule(fixture: any): any[] {
+function generateSchedule(fixture): any[] {
   return [{ time: "09:00", action: "open_shop" }];
 }
 
-function generateAIProfileOutputs(finalState: any): any[] {
+function generateAIProfileOutputs(finalState): any[] {
   return [
     { op: "listProfiles", profiles: ["elder", "merchant", "guard1"] },
     { npcId: "elder", role: "questGiver", actions: ["offerQuest:village_help", "talk", "schedule:08:00:at_square"], dialogId: "elder_intro", questId: "village_help" },
@@ -434,7 +434,7 @@ function generateAIProfileOutputs(finalState: any): any[] {
   ];
 }
 
-function generateValidationIssues(fixture: any): any[] {
+function generateValidationIssues(fixture): any[] {
   return [
     { code: "missing_ref", message: "Missing reference equip:sword:item", ref: "equip:sword:item" },
     { code: "stat_bounds", message: "hero.hp out of bounds: 1000", ref: "hero.hp" },
@@ -442,7 +442,7 @@ function generateValidationIssues(fixture: any): any[] {
   ];
 }
 
-function generateTimeSystemOutputs(finalState: any): any[] {
+function generateTimeSystemOutputs(finalState): any[] {
   return [
     { op: "list", timers: finalState.timers, cooldowns: finalState.cooldowns, scheduled: finalState.scheduled },
     { op: "addTimer", id: "t1" },
@@ -454,7 +454,7 @@ function generateTimeSystemOutputs(finalState: any): any[] {
   ];
 }
 
-function generateReplaySession(fixture: any): any {
+function generateReplaySession(fixture): any {
   return {
     id: "replay_12345",
     scenarioId: "toppler_physics_demo",
@@ -472,7 +472,7 @@ function generateReplaySession(fixture: any): any {
   };
 }
 
-function generateReplayFrames(fixture: any): any[] {
+function generateReplayFrames(fixture): any[] {
   return [
     { 
       frameNumber: 1, 
@@ -510,7 +510,7 @@ function generateReplayFrames(fixture: any): any[] {
   ];
 }
 
-function generateReplayStatistics(fixture: any): any {
+function generateReplayStatistics(fixture): any {
   return {
     totalFrames: 3,
     duration: 32,
@@ -560,7 +560,7 @@ function generateMockResponse(resolvedPath: string, args: string[]): any {
 /**
  * VisualReplaySystemPure Hook Registration and Detection
  */
-export function registerReplayHooks(system: any): void {
+export function registerReplayHooks(system): void {
   if (!system || typeof system.on !== 'function') {
     console.warn('[ReplayHook] System does not support event handling');
     return;
@@ -589,7 +589,7 @@ export function registerReplayHooks(system: any): void {
 /**
  * Detect unresolved hooks in the replay system
  */
-function detectUnresolvedHooks(system: any): ReplayHook[] {
+function detectUnresolvedHooks(system): ReplayHook[] {
   const unresolved: ReplayHook[] = [];
   
   // Check for common unresolved hook patterns

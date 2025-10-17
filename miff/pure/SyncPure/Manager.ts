@@ -496,7 +496,7 @@ export class SyncManager {
   /**
    * Import data
    */
-  importData(exportedData: any): void {
+  importData(exportedData): void {
     if (exportedData.data) {
       this.data = new Map(exportedData.data.map((d: SyncData) => [d.id, d]));
     }

@@ -114,7 +114,7 @@ export interface Hashable {
 export interface TypeFactory<T extends object> {
   create(): T;
   createFrom(data: Partial<T extends object>): T;
-  validate(data: any): data is T;
+  validate(data): data is T;
   clone(instance: T): T;
   equals(a: T, b: T): boolean;
 }
@@ -146,8 +146,8 @@ export class GenericTypeFactory<T extends object> implements TypeFactory<T exten
     return { ...data } as T;
   }
 
-  validate(data: any): data is T {
-    const isValid = this.validator(data: any);
+  validate(data): data is T {
+    const isValid = this.validator(data);
     if (!isValid) {
       StructuredLogger.warn('Validation failed' ?? 'unknown', { data, type: typeof data });
     }

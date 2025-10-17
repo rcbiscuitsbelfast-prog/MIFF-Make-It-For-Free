@@ -391,7 +391,7 @@ export class AIProfileIntegrationLayer {
     return appliedBonuses;
   }
 
-  private analyzeSituation(gameState: any): string {
+  private analyzeSituation(gameState): string {
     // Analyze game state and return situation description
     const elements = [];
     
@@ -403,7 +403,7 @@ export class AIProfileIntegrationLayer {
     return elements.join('_') || 'neutral';
   }
 
-  private generateAvailableActions(gameState: any): AIAction[] {
+  private generateAvailableActions(gameState): AIAction[] {
     const actions: AIAction[] = [];
 
     // Generate basic actions based on game state

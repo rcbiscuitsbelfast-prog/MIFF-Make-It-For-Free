@@ -154,7 +154,7 @@ class CombatCLI {
   }
 
   // Add a combatant to the current battle
-  public addCombatant(combatantData: any): CLIResult {
+  public addCombatant(combatantData): CLIResult {
     try {
       const combatant = new SpiritInstance(
         combatantData.id,
@@ -250,7 +250,7 @@ class CombatCLI {
   }
 
   // Create a move
-  public createMove(moveData: any): CLIResult {
+  public createMove(moveData): CLIResult {
     try {
       const move = new MoveData(
         moveData.id,

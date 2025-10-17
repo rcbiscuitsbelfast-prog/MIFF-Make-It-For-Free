@@ -86,7 +86,7 @@ function parseArgs(): { command: string; args: string[]; options: any } {
   return parseComplexCLIArgs(process.argv);
 }
 
-function updateConfig(options: any): void {
+function updateConfig(options): void {
   if (options.showOp !== undefined) {
     manager['config'].showOp = options.showOp;
   }

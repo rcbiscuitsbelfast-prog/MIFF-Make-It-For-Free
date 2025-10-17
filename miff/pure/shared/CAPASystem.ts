@@ -187,7 +187,7 @@ export class CAPAManager {
   private registry: CAPARegistry;
   private eventBus: any;
 
-  constructor(eventBus: any) {
+  constructor(eventBus) {
     this.registry = {
       entries: new Map(),
       metrics: this.initializeMetrics(),

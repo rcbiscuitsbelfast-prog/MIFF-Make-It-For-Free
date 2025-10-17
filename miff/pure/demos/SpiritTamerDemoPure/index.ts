@@ -261,7 +261,7 @@ export class SpiritTamerDemo {
     });
   }
 
-  private createSpiritFromData(spiritData: any): SpiritInstance {
+  private createSpiritFromData(spiritData): SpiritInstance {
     // Create comprehensive spirit with all properties
     const moves = spiritData.moves.map((moveId: string) =>
       new MoveData(moveId, `${moveId}_move`, 'physical', 50, 0.9, 10, 'neutral')

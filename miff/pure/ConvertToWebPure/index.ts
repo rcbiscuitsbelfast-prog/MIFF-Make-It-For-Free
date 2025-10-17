@@ -580,7 +580,7 @@ export class WebConverter {
   }
 
   // Core conversion functionality
-  async convertMIFFProject(miffProject: any): Promise<WebBuildResult> {
+  async convertMIFFProject(miffProject): Promise<WebBuildResult> {
     const startTime = Date.now();
     console.log('[WebConverter] Starting conversion to web format...');
 
@@ -783,7 +783,7 @@ export class WebConverter {
     return gameObject;
   }
 
-  private createRendererComponent(rendererData: any): WebComponent {
+  private createRendererComponent(rendererData): WebComponent {
     return {
       id: `renderer_${Math.random().toString(36).substr(2, 9)}`,
       type: 'renderer',
@@ -794,7 +794,7 @@ export class WebConverter {
     };
   }
 
-  private createAudioComponent(audioData: any): WebComponent {
+  private createAudioComponent(audioData): WebComponent {
     return {
       id: `audio_${Math.random().toString(36).substr(2, 9)}`,
       type: 'audio',
@@ -805,7 +805,7 @@ export class WebConverter {
     };
   }
 
-  private createInputComponent(inputData: any): WebComponent {
+  private createInputComponent(inputData): WebComponent {
     return {
       id: `input_${Math.random().toString(36).substr(2, 9)}`,
       type: 'input',
@@ -833,7 +833,7 @@ export class WebConverter {
     };
   }
 
-  private createPhysicsComponent(physicsData: any): WebComponent {
+  private createPhysicsComponent(physicsData): WebComponent {
     return {
       id: `physics_${Math.random().toString(36).substr(2, 9)}`,
       type: 'physics',
@@ -844,7 +844,7 @@ export class WebConverter {
     };
   }
 
-  private createAnimationComponent(animationData: any): WebComponent {
+  private createAnimationComponent(animationData): WebComponent {
     return {
       id: `animation_${Math.random().toString(36).substr(2, 9)}`,
       type: 'animation',

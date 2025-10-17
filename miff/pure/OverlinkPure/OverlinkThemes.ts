@@ -247,7 +247,7 @@ export class OverlinkThemes {
   }
 
   // Audio Management
-  setAudioManager(audioManager: any): void {
+  setAudioManager(audioManager): void {
     this.audioManager = audioManager;
   }
 

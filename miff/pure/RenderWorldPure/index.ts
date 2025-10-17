@@ -772,7 +772,7 @@ export class RenderWorldPure {
     return scanResults;
   }
 
-  private highlightNearbyElements(scanResults: any) {
+  private highlightNearbyElements(scanResults) {
     // Increase portal glow intensity based on scan results
     scanResults.portals.forEach((result: any) => {
       const portal = result.portal;

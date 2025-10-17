@@ -195,7 +195,7 @@ export class BridgeSchemaValidator {
     return issues;
   }
 
-  static convertFromUnity(unityData: any): RenderData {
+  static convertFromUnity(unityData): RenderData {
     return {
       id: unityData.id || unityData.gameObject,
       type: this.mapUnityType(unityData),
@@ -223,7 +223,7 @@ export class BridgeSchemaValidator {
     };
   }
 
-  static convertFromWeb(webData: any): RenderData {
+  static convertFromWeb(webData): RenderData {
     return {
       id: webData.id,
       type: this.mapWebType(webData),
@@ -250,7 +250,7 @@ export class BridgeSchemaValidator {
     };
   }
 
-  static convertFromGodot(godotData: any): RenderData {
+  static convertFromGodot(godotData): RenderData {
     return {
       id: godotData.id,
       type: this.mapGodotType(godotData),
@@ -278,7 +278,7 @@ export class BridgeSchemaValidator {
     };
   }
 
-  private static mapUnityType(unityData: any): RenderDataType {
+  private static mapUnityType(unityData): RenderDataType {
     if (unityData.componentType === 'Transform') return 'node';
     if (unityData.componentType === 'SpriteRenderer') return 'sprite';
     if (unityData.componentType === 'TextMesh') return 'text';
@@ -287,7 +287,7 @@ export class BridgeSchemaValidator {
     return 'component';
   }
 
-  private static mapWebType(webData: any): RenderDataType {
+  private static mapWebType(webData): RenderDataType {
     if (webData.type === 'sprite') return 'sprite';
     if (webData.type === 'text') return 'text';
     if (webData.type === 'audio') return 'sound';
@@ -296,7 +296,7 @@ export class BridgeSchemaValidator {
     return 'component';
   }
 
-  private static mapGodotType(godotData: any): RenderDataType {
+  private static mapGodotType(godotData): RenderDataType {
     if (godotData.type === 'Sprite') return 'sprite';
     if (godotData.type === 'Label') return 'text';
     if (godotData.type === 'AudioStreamPlayer') return 'sound';

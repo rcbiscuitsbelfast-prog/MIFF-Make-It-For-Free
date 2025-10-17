@@ -43,116 +43,116 @@ export class TypeGuards {
   /**
    * Basic type guards
    */
-  static isString(value: any): value is string {
+  static isString(value): value is string {
     return typeof value === 'string';
   }
 
-  static isNumber(value: any): value is number {
+  static isNumber(value): value is number {
     return typeof value === 'number' && !isNaN(value);
   }
 
-  static isBoolean(value: any): value is boolean {
+  static isBoolean(value): value is boolean {
     return typeof value === 'boolean';
   }
 
-  static isObject(value: any): value is Record<string, any> {
+  static isObject(value): value is Record<string, any> {
     return typeof value === 'object' && value !== null && !Array.isArray(value);
   }
 
-  static isArray(value: any): value is any[] {
+  static isArray(value): value is any[] {
     return Array.isArray(value);
   }
 
-  static isFunction(value: any): value is Function {
+  static isFunction(value): value is Function {
     return typeof value === 'function';
   }
 
-  static isDate(value: any): value is Date {
+  static isDate(value): value is Date {
     return value instanceof Date && !isNaN(value.getTime());
   }
 
-  static isRegExp(value: any): value is RegExp {
+  static isRegExp(value): value is RegExp {
     return value instanceof RegExp;
   }
 
-  static isError(value: any): value is Error {
+  static isError(value): value is Error {
     return value instanceof Error;
   }
 
-  static isPromise(value: any): value is Promise<any> {
+  static isPromise(value): value is Promise<any> {
     return value && typeof value.then === 'function';
   }
 
   /**
    * Advanced type guards with validation
    */
-  static isNonEmptyString(value: any): value is string {
+  static isNonEmptyString(value): value is string {
     return TypeGuards.isString(value) && value.length > 0;
   }
 
-  static isPositiveNumber(value: any): value is number {
+  static isPositiveNumber(value): value is number {
     return TypeGuards.isNumber(value) && value > 0;
   }
 
-  static isNonNegativeNumber(value: any): value is number {
+  static isNonNegativeNumber(value): value is number {
     return TypeGuards.isNumber(value) && value >= 0;
   }
 
-  static isInteger(value: any): value is number {
+  static isInteger(value): value is number {
     return TypeGuards.isNumber(value) && Number.isInteger(value);
   }
 
-  static isPositiveInteger(value: any): value is number {
+  static isPositiveInteger(value): value is number {
     return TypeGuards.isInteger(value) && value > 0;
   }
 
-  static isNonEmptyArray(value: any): value is any[] {
+  static isNonEmptyArray(value): value is any[] {
     return TypeGuards.isArray(value) && value.length > 0;
   }
 
-  static isNonEmptyObject(value: any): value is object {
+  static isNonEmptyObject(value): value is object {
     return TypeGuards.isObject(value) && Object.keys(value).length > 0;
   }
 
   /**
    * Union type guards
    */
-  static isStringOrNumber(value: any): value is string | number {
+  static isStringOrNumber(value): value is string | number {
     return TypeGuards.isString(value) || TypeGuards.isNumber(value);
   }
 
-  static isStringOrNull(value: any): value is string | null {
+  static isStringOrNull(value): value is string | null {
     return TypeGuards.isString(value) || value === null;
   }
 
-  static isNumberOrNull(value: any): value is number | null {
+  static isNumberOrNull(value): value is number | null {
     return TypeGuards.isNumber(value) || value === null;
   }
 
-  static isStringOrUndefined(value: any): value is string | undefined {
+  static isStringOrUndefined(value): value is string | undefined {
     return TypeGuards.isString(value) || value === undefined;
   }
 
-  static isNumberOrUndefined(value: any): value is number | undefined {
+  static isNumberOrUndefined(value): value is number | undefined {
     return TypeGuards.isNumber(value) || value === undefined;
   }
 
   /**
    * Array type guards
    */
-  static isStringArray(value: any): value is string[] {
+  static isStringArray(value): value is string[] {
     return TypeGuards.isArray(value) && value.every(item => TypeGuards.isString(item));
   }
 
-  static isNumberArray(value: any): value is number[] {
+  static isNumberArray(value): value is number[] {
     return TypeGuards.isArray(value) && value.every(item => TypeGuards.isNumber(item));
   }
 
-  static isBooleanArray(value: any): value is boolean[] {
+  static isBooleanArray(value): value is boolean[] {
     return TypeGuards.isArray(value) && value.every(item => TypeGuards.isBoolean(item));
   }
 
-  static isObjectArray(value: any): value is object[] {
+  static isObjectArray(value): value is object[] {
     return TypeGuards.isArray(value) && value.every(item => TypeGuards.isObject(item));
   }
 
