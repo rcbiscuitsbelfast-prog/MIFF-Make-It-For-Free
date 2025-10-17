@@ -73,7 +73,7 @@ export class InterfaceValidator {
    */
   registerSchema(name: string, schema: InterfaceSchema): void {
     this.schemas.set(name, schema);
-    StructuredLogger.debug('Schema registered', { message: { name, keys: Object.keys(schema }) });
+    StructuredLogger.debug('Schema registered', { context: { message: { name, keys: Object.keys(schema } }) });
   }
 
   /**

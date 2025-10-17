@@ -368,12 +368,12 @@ export class CharacterControllerManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('CharacterControllerPure' ?? 'unknown', { message: 'Character Controller already initialized' });
+      StructuredLogger.warn('CharacterControllerPure' ?? 'unknown', { context: { message: 'Character Controller already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger.info('CharacterControllerPure', { message: 'Initializing Character Controller...' });
+      StructuredLogger.info('CharacterControllerPure', { context: { message: 'Initializing Character Controller...' } });
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -386,7 +386,7 @@ export class CharacterControllerManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('CharacterControllerPure', { message: 'Character Controller initialized successfully' });
+      StructuredLogger.info('CharacterControllerPure', { context: { message: 'Character Controller initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -425,7 +425,7 @@ export class CharacterControllerManager {
       this.controllers.set(controller.id, controller);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character controller created', { message: { controllerId: controller.id, controllerName: controller.name } });
+      StructuredLogger.info('Character controller created', { context: { message: { controllerId: controller.id, controllerName: controller.name } } });
       return controller;
 
     } catch (error: unknown) {
@@ -457,7 +457,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return null;
       }
 
@@ -471,7 +471,7 @@ export class CharacterControllerManager {
       this.controllers.set(controllerId, updatedController);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character controller updated', { message: { controllerId, controllerName: updatedController.name } });
+      StructuredLogger.info('Character controller updated', { context: { message: { controllerId, controllerName: updatedController.name } } });
       return updatedController;
 
     } catch (error: unknown) {
@@ -492,14 +492,14 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
       this.controllers.delete(controllerId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character controller deleted', { message: { controllerId, controllerName: controller.name } });
+      StructuredLogger.info('Character controller deleted', { context: { message: { controllerId, controllerName: controller.name } } });
       return true;
 
     } catch (error: unknown) {
@@ -553,7 +553,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return null;
       }
 
@@ -565,7 +565,7 @@ export class CharacterControllerManager {
       controller.characters.push(character);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character added to controller', { message: { controllerId, characterId: character.id, characterName: character.name } });
+      StructuredLogger.info('Character added to controller', { context: { message: { controllerId, characterId: character.id, characterName: character.name } } });
       return character;
 
     } catch (error: unknown) {
@@ -586,20 +586,20 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
       const characterIndex = controller.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { controllerId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
       controller.characters.splice(characterIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character removed from controller', { message: { controllerId, characterId } });
+      StructuredLogger.info('Character removed from controller', { context: { message: { controllerId, characterId } } });
       return true;
 
     } catch (error: unknown) {
@@ -620,13 +620,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { controllerId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
@@ -654,13 +654,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { controllerId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
@@ -689,13 +689,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { controllerId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
@@ -736,13 +736,13 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return false;
       }
 
       const character = controller.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { controllerId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { controllerId, characterId } } });
         return false;
       }
 
@@ -773,7 +773,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return null;
       }
 
@@ -797,7 +797,7 @@ export class CharacterControllerManager {
     try {
       const controller = this.controllers.get(controllerId);
       if (!controller) {
-        StructuredLogger.warn('Controller not found' ?? 'unknown', { message: { controllerId } });
+        StructuredLogger.warn('Controller not found' ?? 'unknown', { context: { message: { controllerId } } });
         return [];
       }
 
@@ -914,12 +914,12 @@ export class CharacterControllerManager {
    * Destroy the Character Controller
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('CharacterControllerPure', { message: 'Destroying Character Controller...' });
+    StructuredLogger.info('CharacterControllerPure', { context: { message: 'Destroying Character Controller...' } });
 
     this.controllers.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('CharacterControllerPure', { message: 'Character Controller destroyed' });
+    StructuredLogger.info('CharacterControllerPure', { context: { message: 'Character Controller destroyed' } });
   }
 }
 

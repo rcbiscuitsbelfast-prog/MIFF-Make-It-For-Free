@@ -504,7 +504,7 @@ export class AssetPipelineValidator {
 
           if (asset.extension === '.prefab') {
             // Check for Unity-specific prefab structure
-            if (!asset.metadata.guid) {
+            if (!asset.metadata?.guid) {
               result.valid = false;
               result.errors?.push('Unity prefab missing GUID');
               result.suggestions.push('Generate GUID for prefab');
@@ -535,7 +535,7 @@ export class AssetPipelineValidator {
 
           if (asset.extension === '.tscn') {
             // Check for Godot-specific scene structure
-            if (!asset.metadata.resource_type) {
+            if (!asset.metadata?.resource_type) {
               result.valid = false;
               result.errors?.push('Godot scene missing resource type');
               result.suggestions.push('Add resource_type to scene metadata');
@@ -566,7 +566,7 @@ export class AssetPipelineValidator {
 
           if (asset.extension === '.uasset') {
             // Check for Unreal-specific asset structure
-            if (!asset.metadata.asset_class) {
+            if (!asset.metadata?.asset_class) {
               result.valid = false;
               result.errors?.push('Unreal asset missing asset class');
               result.suggestions.push('Add asset_class to asset metadata');

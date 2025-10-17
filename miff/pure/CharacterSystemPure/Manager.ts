@@ -376,12 +376,12 @@ export class CharacterSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('CharacterSystemPure' ?? 'unknown', { message: 'Character System already initialized' });
+      StructuredLogger.warn('CharacterSystemPure' ?? 'unknown', { context: { message: 'Character System already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger.info('CharacterSystemPure', { message: 'Initializing Character System...' });
+      StructuredLogger.info('CharacterSystemPure', { context: { message: 'Initializing Character System...' } });
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -394,7 +394,7 @@ export class CharacterSystemManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('CharacterSystemPure', { message: 'Character System initialized successfully' });
+      StructuredLogger.info('CharacterSystemPure', { context: { message: 'Character System initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -433,7 +433,7 @@ export class CharacterSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character system created', { message: { systemId: system.id, systemName: system.name } });
+      StructuredLogger.info('Character system created', { context: { message: { systemId: system.id, systemName: system.name } } });
       return system;
 
     } catch (error: unknown) {
@@ -465,7 +465,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -479,7 +479,7 @@ export class CharacterSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character system updated', { message: { systemId, systemName: updatedSystem.name } });
+      StructuredLogger.info('Character system updated', { context: { message: { systemId, systemName: updatedSystem.name } } });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -500,14 +500,14 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character system deleted', { message: { systemId, systemName: system.name } });
+      StructuredLogger.info('Character system deleted', { context: { message: { systemId, systemName: system.name } } });
       return true;
 
     } catch (error: unknown) {
@@ -561,7 +561,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -573,7 +573,7 @@ export class CharacterSystemManager {
       system.characters.push(character);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character added to system', { message: { systemId, characterId: character.id, characterName: character.name } });
+      StructuredLogger.info('Character added to system', { context: { message: { systemId, characterId: character.id, characterName: character.name } } });
       return character;
 
     } catch (error: unknown) {
@@ -594,20 +594,20 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const characterIndex = system.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { systemId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { systemId, characterId } } });
         return false;
       }
 
       system.characters.splice(characterIndex, 1);
       this.updateAnalytics();
 
-      StructuredLogger.info('Character removed from system', { message: { systemId, characterId } });
+      StructuredLogger.info('Character removed from system', { context: { message: { systemId, characterId } } });
       return true;
 
     } catch (error: unknown) {
@@ -628,13 +628,13 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { systemId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { systemId, characterId } } });
         return false;
       }
 
@@ -662,13 +662,13 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { systemId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { systemId, characterId } } });
         return false;
       }
 
@@ -697,20 +697,20 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { systemId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { systemId, characterId } } });
         return false;
       }
 
       // Find animation in system
       const animationClip = system.animations.animations.find(a => a.name === animationName);
       if (!animationClip) {
-        StructuredLogger.warn('Animation not found' ?? 'unknown', { message: { systemId, animationName } });
+        StructuredLogger.warn('Animation not found' ?? 'unknown', { context: { message: { systemId, animationName } } });
         return false;
       }
 
@@ -751,19 +751,19 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        StructuredLogger.warn('Character not found' ?? 'unknown', { message: { systemId, characterId } });
+        StructuredLogger.warn('Character not found' ?? 'unknown', { context: { message: { systemId, characterId } } });
         return false;
       }
 
       const animation = character.animations.find(a => a.name === animationName);
       if (!animation) {
-        StructuredLogger.warn('Animation not found' ?? 'unknown', { message: { systemId, characterId, animationName } });
+        StructuredLogger.warn('Animation not found' ?? 'unknown', { context: { message: { systemId, characterId, animationName } } });
         return false;
       }
 
@@ -791,7 +791,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -815,7 +815,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return [];
       }
 
@@ -940,12 +940,12 @@ export class CharacterSystemManager {
    * Destroy the Character System
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('CharacterSystemPure', { message: 'Destroying Character System...' });
+    StructuredLogger.info('CharacterSystemPure', { context: { message: 'Destroying Character System...' } });
 
     this.systems.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('CharacterSystemPure', { message: 'Character System destroyed' });
+    StructuredLogger.info('CharacterSystemPure', { context: { message: 'Character System destroyed' } });
   }
 }
 

@@ -68,7 +68,7 @@ export class TimerOptimizer {
     const timerId = config?.id || `timer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (config?.enableLogging) {
-      StructuredLogger.debug('Timer created', { message: { timerId, delay, priority: config.priority } });
+      StructuredLogger.debug('Timer created', { context: { message: { timerId, delay, priority: config.priority } } });
     }
 
     const startTime = performance.now();
@@ -79,7 +79,7 @@ export class TimerOptimizer {
         this.updateMetrics(duration);
         
         if (config?.enableLogging) {
-          StructuredLogger.debug('Timer completed', { message: { timerId, duration } });
+          StructuredLogger.debug('Timer completed', { context: { message: { timerId, duration } } });
         }
         
         callback();
@@ -88,7 +88,7 @@ export class TimerOptimizer {
         this.activeTimers.delete(timerId);
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Timer callback error', { message: { timerId, error: error.message } });
+        StructuredLogger.error('Timer callback error', { context: { message: { timerId, error: error.message } } });
         config?.onError?.(error as Error);
       }
     }, delay);
@@ -107,7 +107,7 @@ export class TimerOptimizer {
     const timerId = config?.id || `interval_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (config?.enableLogging) {
-      StructuredLogger.debug('Interval created', { message: { timerId, interval, priority: config.priority } });
+      StructuredLogger.debug('Interval created', { context: { message: { timerId, interval, priority: config.priority } } });
     }
 
     const startTime = performance.now();
@@ -119,7 +119,7 @@ export class TimerOptimizer {
         const duration = performance.now() - startTime;
         
         if (config?.enableLogging) {
-          StructuredLogger.debug('Interval execution', { message: { timerId, executionCount, duration } });
+          StructuredLogger.debug('Interval execution', { context: { message: { timerId, executionCount, duration } } });
         }
         
         callback();
@@ -127,7 +127,7 @@ export class TimerOptimizer {
         
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Interval callback error', { message: { timerId, error: error.message } });
+        StructuredLogger.error('Interval callback error', { context: { message: { timerId, error: error.message } } });
         config?.onError?.(error as Error);
         this.clearInterval(timerId);
       }
@@ -147,7 +147,7 @@ export class TimerOptimizer {
     const frameId = config?.id || `frame_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (config?.enableLogging) {
-      StructuredLogger.debug('Animation frame requested', { message: { frameId } });
+      StructuredLogger.debug('Animation frame requested', { context: { message: { frameId } } });
     }
 
     const startTime = performance.now();
@@ -159,7 +159,7 @@ export class TimerOptimizer {
         const duration = performance.now() - startTime;
         
         if (config?.enableLogging) {
-          StructuredLogger.debug('Animation frame executed', { message: { frameId, frameCount, duration } });
+          StructuredLogger.debug('Animation frame executed', { context: { message: { frameId, frameCount, duration } } });
         }
         
         callback(timestamp);
@@ -178,7 +178,7 @@ export class TimerOptimizer {
         
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-        StructuredLogger.error('Animation frame error', { message: { frameId, error: error.message } });
+        StructuredLogger.error('Animation frame error', { context: { message: { frameId, error: error.message } } });
         this.cancelAnimationFrame(frameId);
       }
     };
@@ -202,7 +202,7 @@ export class TimerOptimizer {
       this.performanceMetrics.activeTimers--;
       this.performanceMetrics.completedTimers++;
       
-      StructuredLogger.debug('Timer cleared', { message: { timerId } });
+      StructuredLogger.debug('Timer cleared', { context: { message: { timerId } } });
       return true;
     }
     return false;
@@ -219,7 +219,7 @@ export class TimerOptimizer {
       this.performanceMetrics.activeTimers--;
       this.performanceMetrics.completedTimers++;
       
-      StructuredLogger.debug('Interval cleared', { message: { timerId } });
+      StructuredLogger.debug('Interval cleared', { context: { message: { timerId } } });
       return true;
     }
     return false;
@@ -236,7 +236,7 @@ export class TimerOptimizer {
       this.performanceMetrics.activeTimers--;
       this.performanceMetrics.completedTimers++;
       
-      StructuredLogger.debug('Animation frame cancelled', { message: { frameId } });
+      StructuredLogger.debug('Animation frame cancelled', { context: { message: { frameId } } });
       return true;
     }
     return false;

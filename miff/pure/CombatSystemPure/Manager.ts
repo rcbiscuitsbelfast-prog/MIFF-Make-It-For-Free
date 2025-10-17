@@ -353,12 +353,12 @@ export class CombatSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      StructuredLogger.warn('CombatSystemPure' ?? 'unknown', { message: 'Combat System already initialized' });
+      StructuredLogger.warn('CombatSystemPure' ?? 'unknown', { context: { message: 'Combat System already initialized' } });
       return;
     }
 
     try {
-      StructuredLogger.info('CombatSystemPure', { message: 'Initializing Combat System...' });
+      StructuredLogger.info('CombatSystemPure', { context: { message: 'Initializing Combat System...' } });
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization ?? false) {
@@ -371,7 +371,7 @@ export class CombatSystemManager {
       }
 
       this.isInitialized = true;
-      StructuredLogger.info('CombatSystemPure', { message: 'Combat System initialized successfully' });
+      StructuredLogger.info('CombatSystemPure', { context: { message: 'Combat System initialized successfully' } });
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -411,7 +411,7 @@ export class CombatSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat system created', { message: { systemId: system.id, systemName: system.name } });
+      StructuredLogger.info('Combat system created', { context: { message: { systemId: system.id, systemName: system.name } } });
       return system;
 
     } catch (error: unknown) {
@@ -443,7 +443,7 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -457,7 +457,7 @@ export class CombatSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat system updated', { message: { systemId, systemName: updatedSystem.name } });
+      StructuredLogger.info('Combat system updated', { context: { message: { systemId, systemName: updatedSystem.name } } });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -478,14 +478,14 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat system deleted', { message: { systemId, systemName: system.name } });
+      StructuredLogger.info('Combat system deleted', { context: { message: { systemId, systemName: system.name } } });
       return true;
 
     } catch (error: unknown) {
@@ -539,7 +539,7 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
@@ -554,7 +554,7 @@ export class CombatSystemManager {
       system.combats.push(combat);
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat created', { message: { systemId, combatId: combat.id, combatName: combat.name } });
+      StructuredLogger.info('Combat created', { context: { message: { systemId, combatId: combat.id, combatName: combat.name } } });
       return combat;
 
     } catch (error: unknown) {
@@ -575,13 +575,13 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return null;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { message: { systemId, combatId } });
+        StructuredLogger.warn('Combat not found' ?? 'unknown', { context: { message: { systemId, combatId } } });
         return null;
       }
 
@@ -594,7 +594,7 @@ export class CombatSystemManager {
       combat.turnOrder.push(participant.id);
       this.updateAnalytics();
 
-      StructuredLogger.info('Participant added to combat', { message: { systemId, combatId, participantId: participant.id, participantName: participant.name } });
+      StructuredLogger.info('Participant added to combat', { context: { message: { systemId, combatId, participantId: participant.id, participantName: participant.name } } });
       return participant;
 
     } catch (error: unknown) {
@@ -615,18 +615,18 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { message: { systemId, combatId } });
+        StructuredLogger.warn('Combat not found' ?? 'unknown', { context: { message: { systemId, combatId } } });
         return false;
       }
 
       if (combat.participants.length < 2) {
-        StructuredLogger.warn('Not enough participants to start combat' ?? 'unknown', { message: { systemId, combatId, participantCount: combat.participants.length } });
+        StructuredLogger.warn('Not enough participants to start combat' ?? 'unknown', { context: { message: { systemId, combatId, participantCount: combat.participants.length } } });
         return false;
       }
 
@@ -635,7 +635,7 @@ export class CombatSystemManager {
       combat.round = 1;
       this.updateAnalytics();
 
-      StructuredLogger.info('Combat started', { message: { systemId, combatId } });
+      StructuredLogger.info('Combat started', { context: { message: { systemId, combatId } } });
       return true;
 
     } catch (error: unknown) {
@@ -656,37 +656,37 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { message: { systemId, combatId } });
+        StructuredLogger.warn('Combat not found' ?? 'unknown', { context: { message: { systemId, combatId } } });
         return false;
       }
 
       const participant = combat.participants.find(p => p.id === participantId);
       if (!participant) {
-        StructuredLogger.warn('Participant not found' ?? 'unknown', { message: { systemId, combatId, participantId } });
+        StructuredLogger.warn('Participant not found' ?? 'unknown', { context: { message: { systemId, combatId, participantId } } });
         return false;
       }
 
       const ability = participant.abilities.find(a => a.id === abilityId);
       if (!ability) {
-        StructuredLogger.warn('Ability not found' ?? 'unknown', { message: { systemId, combatId, participantId, abilityId } });
+        StructuredLogger.warn('Ability not found' ?? 'unknown', { context: { message: { systemId, combatId, participantId, abilityId } } });
         return false;
       }
 
       // Check if it's the participant's turn
       if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { message: { systemId, combatId, participantId, currentTurn: combat.currentTurn } });
+        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { context: { message: { systemId, combatId, participantId, currentTurn: combat.currentTurn } } });
         return false;
       }
 
       // Check mana cost
       if (participant.mana < ability.cost) {
-        StructuredLogger.warn('Insufficient mana' ?? 'unknown', { message: { systemId, combatId, participantId, abilityId, required: ability.cost, available: participant.mana } });
+        StructuredLogger.warn('Insufficient mana' ?? 'unknown', { context: { message: { systemId, combatId, participantId, abilityId, required: ability.cost, available: participant.mana } } });
         return false;
       }
 
@@ -708,7 +708,7 @@ export class CombatSystemManager {
 
       this.updateAnalytics();
 
-      StructuredLogger.info('Ability executed', { message: { systemId, combatId, participantId, abilityId, targetId } });
+      StructuredLogger.info('Ability executed', { context: { message: { systemId, combatId, participantId, abilityId, targetId } } });
       return true;
 
     } catch (error: unknown) {
@@ -748,19 +748,19 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        StructuredLogger.warn('System not found' ?? 'unknown', { message: { systemId } });
+        StructuredLogger.warn('System not found' ?? 'unknown', { context: { message: { systemId } } });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        StructuredLogger.warn('Combat not found' ?? 'unknown', { message: { systemId, combatId } });
+        StructuredLogger.warn('Combat not found' ?? 'unknown', { context: { message: { systemId, combatId } } });
         return false;
       }
 
       // Check if it's the participant's turn
       if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { message: { systemId, combatId, participantId, currentTurn: combat.currentTurn } });
+        StructuredLogger.warn('Not participant\'s turn' ?? 'unknown', { context: { message: { systemId, combatId, participantId, currentTurn: combat.currentTurn } } });
         return false;
       }
 
@@ -775,7 +775,7 @@ export class CombatSystemManager {
 
       this.updateAnalytics();
 
-      StructuredLogger.info('Turn ended', { message: { systemId, combatId, participantId, currentTurn: combat.currentTurn, round: combat.round } });
+      StructuredLogger.info('Turn ended', { context: { message: { systemId, combatId, participantId, currentTurn: combat.currentTurn, round: combat.round } } });
       return true;
 
     } catch (error: unknown) {
@@ -936,12 +936,12 @@ export class CombatSystemManager {
    * Destroy the Combat System
    */
   async destroy(): Promise<void> {
-    StructuredLogger.info('CombatSystemPure', { message: 'Destroying Combat System...' });
+    StructuredLogger.info('CombatSystemPure', { context: { message: 'Destroying Combat System...' } });
 
     this.systems.clear();
     this.isInitialized = false;
 
-    StructuredLogger.info('CombatSystemPure', { message: 'Combat System destroyed' });
+    StructuredLogger.info('CombatSystemPure', { context: { message: 'Combat System destroyed' } });
   }
 }
 
