@@ -1423,7 +1423,7 @@ describe('TeamsPure Golden Tests', () => {
       try {
         team.importTeam(malformedData);
         // Should not throw, but may not work correctly
-      } catch (error) {
+      } catch (error: unknown) {
         // May throw depending on implementation
       }
     });

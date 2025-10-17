@@ -306,7 +306,7 @@ export class CollisionManager {
           data = {
             schema: 'CollisionWorld',
             version: '2.0',
-            timestamp: Date.now().toISOString(),
+            timestamp: new Date().toISOString(),
             data: { shapes: allShapes },
             metadata: {
               totalShapes: allShapes.length,

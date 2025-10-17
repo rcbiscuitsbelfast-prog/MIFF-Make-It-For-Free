@@ -421,7 +421,7 @@ export class LootTablesManager {
             schema: 'miff.loot.export.v1',
             tables,
             rollHistory: this.rollHistory.slice(-100), // Last 100 rolls
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             total: tables.length
           }
         };

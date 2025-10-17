@@ -412,7 +412,7 @@ describe('FusionPure Module', () => {
 
         try {
           fusionManager.fuse(spiritA, spiritB);
-        } catch (error) {
+        } catch (error: unknown) {
           // Expected some failures due to history tracking
         }
       }

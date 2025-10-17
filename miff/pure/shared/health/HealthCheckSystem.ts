@@ -158,12 +158,12 @@ export class HealthCheckSystem {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Health check system already initialized');
+      StructuredLogger.warn('Health check system already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing health check system...');
+      StructuredLogger.info('Initializing health check system...');
 
       // Register default health checks
       await this.registerDefaultChecks();
@@ -174,7 +174,7 @@ export class HealthCheckSystem {
       }
 
       this.isInitialized = true;
-      this.logger.info('Health check system initialized successfully');
+      StructuredLogger.info('Health check system initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -222,7 +222,7 @@ export class HealthCheckSystem {
    */
   registerCheck(check: HealthCheck): void {
     this.checks.set(check.name, check);
-    this.logger.info('Health check registered', { name: check.name, category: check.category });
+    StructuredLogger.info('Health check registered', { name: check.name, category: check.category });
   }
 
   /**
@@ -230,7 +230,7 @@ export class HealthCheckSystem {
    */
   unregisterCheck(name: string): void {
     if (this.checks.delete(name)) {
-      this.logger.info('Health check unregistered', { name });
+      StructuredLogger.info('Health check unregistered', { name });
     }
   }
 
@@ -273,18 +273,18 @@ export class HealthCheckSystem {
    */
   async startMonitoring(): Promise<void> {
     if (this.monitoringInterval) {
-      this.logger.warn('Monitoring already started');
+      StructuredLogger.warn('Monitoring already started');
       return;
     }
 
-    this.logger.info('Starting health monitoring...');
+    StructuredLogger.info('Starting health monitoring...');
 
     this.monitoringInterval = setInterval(async () => {
       try {
         const healthStatus = await this.getHealthStatus();
         
         if (this.config.loggingEnabled) {
-          this.logger.info('Health check completed', {
+          StructuredLogger.info('Health check completed', {
             status: healthStatus.status,
             successRate: healthStatus.summary.successRate,
             totalChecks: healthStatus.summary.totalChecks
@@ -307,7 +307,7 @@ export class HealthCheckSystem {
       }
     }, this.config.interval);
 
-    this.logger.info('Health monitoring started', { interval: this.config.interval });
+    StructuredLogger.info('Health monitoring started', { interval: this.config.interval });
   }
 
   /**
@@ -317,7 +317,7 @@ export class HealthCheckSystem {
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval);
       this.monitoringInterval = undefined;
-      this.logger.info('Health monitoring stopped');
+      StructuredLogger.info('Health monitoring stopped');
     }
   }
 
@@ -326,14 +326,14 @@ export class HealthCheckSystem {
    */
   async destroy(): Promise<void> {
     try {
-      this.logger.info('Destroying health check system...');
+      StructuredLogger.info('Destroying health check system...');
 
       await this.stopMonitoring();
       this.checks.clear();
       this.healthHistory = [];
 
       this.isInitialized = false;
-      this.logger.info('Health check system destroyed');
+      StructuredLogger.info('Health check system destroyed');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -438,7 +438,7 @@ export class HealthCheckSystem {
       }
     });
 
-    this.logger.info('Default health checks registered', { count: this.checks.size });
+    StructuredLogger.info('Default health checks registered', { count: this.checks.size });
   }
 
   private async runAllChecks(): Promise<HealthStatus['checks']> {
@@ -568,7 +568,7 @@ export class HealthCheckSystem {
   private async handleAlerts(alerts: HealthStatus['alerts']): Promise<void> {
     for (const alert of alerts) {
       if (this.config.notificationEnabled) {
-        this.logger.warn('Health alert triggered', {
+        StructuredLogger.warn('Health alert triggered', {
           id: alert.id,
           type: alert.type,
           message: alert.message,
@@ -580,12 +580,12 @@ export class HealthCheckSystem {
   }
 
   private async attemptAutoRecovery(healthStatus: HealthStatus): Promise<void> {
-    this.logger.info('Attempting auto-recovery...');
+    StructuredLogger.info('Attempting auto-recovery...');
 
     // Implement auto-recovery logic based on health status
     // This would typically involve restarting services, clearing caches, etc.
     
-    this.logger.info('Auto-recovery completed');
+    StructuredLogger.info('Auto-recovery completed');
   }
 
   private trimHistory(): void {

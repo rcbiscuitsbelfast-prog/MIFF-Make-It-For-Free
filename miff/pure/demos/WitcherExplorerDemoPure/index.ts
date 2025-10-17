@@ -648,7 +648,7 @@ export class WitcherExplorerDemo {
 
     // Check reputation requirements
     if (npc.reputation > player.reputation) {
-      EventBus.emit('dialogue.start', {
+      EventBus.publish('dialogue.start', {
         npcId: npc.id,
         attitude: 'hostile',
         dialogue: `${npc.name}: You are not welcome here, outsider.`
@@ -657,7 +657,7 @@ export class WitcherExplorerDemo {
     }
 
     // Start dialogue
-    EventBus.emit('dialogue.start', {
+    EventBus.publish('dialogue.start', {
       npcId: npc.id,
       attitude: npc.attitude,
       dialogue: this.getNPCDialogue(npc.id, 'greeting')
@@ -667,7 +667,7 @@ export class WitcherExplorerDemo {
     npc.quests.forEach((questId: string) => {
       const quest = this.engines.quests.getQuest(questId);
       if (quest && quest.status === QuestStatus.AVAILABLE) {
-        EventBus.emit('quest.offered', { quest, npc });
+        EventBus.publish('quest.offered', { quest, npc });
       }
     });
   }
@@ -712,7 +712,7 @@ export class WitcherExplorerDemo {
       this.startCombat(player, monster);
     } else {
       // Monster is too strong - flee or find help
-      EventBus.emit('monster.too_strong', {
+      EventBus.publish('monster.too_strong', {
         monster,
         player,
         recommendedLevel: difficulty
@@ -752,7 +752,7 @@ export class WitcherExplorerDemo {
         }
       });
 
-      EventBus.emit('quest.completed', { quest, player });
+      EventBus.publish('quest.completed', { quest, player });
     }
   }
 
@@ -760,7 +760,7 @@ export class WitcherExplorerDemo {
     const item = event.item;
     this.state.player.inventory.push(item);
 
-    EventBus.emit('inventory.updated', {
+    EventBus.publish('inventory.updated', {
       item,
       player: this.state.player
     });
@@ -770,7 +770,7 @@ export class WitcherExplorerDemo {
     const location = event.location;
     if (!this.state.world.discoveredLocations.includes(location.id)) {
       this.state.world.discoveredLocations.push(location.id);
-      EventBus.emit('map.updated', { location });
+      EventBus.publish('map.updated', { location });
     }
   }
 
@@ -789,7 +789,7 @@ export class WitcherExplorerDemo {
 
     // Get next dialogue
     const nextDialogue = this.getNPCDialogue(npcId, choice.next);
-    EventBus.emit('dialogue.continue', {
+    EventBus.publish('dialogue.continue', {
       npcId,
       dialogue: nextDialogue,
       choices: this.getDialogueChoices(npcId, choice.next)
@@ -804,7 +804,7 @@ export class WitcherExplorerDemo {
   private startCombat(player: any, monster: any) {
     // Initialize combat with Witcher-specific mechanics
     // Include alchemy, signs, sword styles, etc.
-    EventBus.emit('combat.started', {
+    EventBus.publish('combat.started', {
       player,
       monster,
       type: 'witcher_combat'

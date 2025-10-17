@@ -375,12 +375,12 @@ export class CharacterSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('CharacterSystemPure', 'Character System already initialized');
+      StructuredLogger.warn('CharacterSystemPure', 'Character System already initialized');
       return;
     }
 
     try {
-      this.logger.info('CharacterSystemPure', 'Initializing Character System...');
+      StructuredLogger.info('CharacterSystemPure', 'Initializing Character System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -393,7 +393,7 @@ export class CharacterSystemManager {
       }
 
       this.isInitialized = true;
-      this.logger.info('CharacterSystemPure', 'Character System initialized successfully');
+      StructuredLogger.info('CharacterSystemPure', 'Character System initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -432,7 +432,7 @@ export class CharacterSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Character system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Character system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -464,7 +464,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -478,7 +478,7 @@ export class CharacterSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Character system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Character system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -499,14 +499,14 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Character system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Character system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -560,7 +560,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -572,7 +572,7 @@ export class CharacterSystemManager {
       system.characters.push(character);
       this.updateAnalytics();
 
-      this.logger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
+      StructuredLogger.info('Character added to system', { systemId, characterId: character.id, characterName: character.name });
       return character;
 
     } catch (error: unknown) {
@@ -593,20 +593,20 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const characterIndex = system.characters.findIndex(c => c.id === characterId);
       if (characterIndex === -1) {
-        this.logger.warn('Character not found', { systemId, characterId });
+        StructuredLogger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       system.characters.splice(characterIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Character removed from system', { systemId, characterId });
+      StructuredLogger.info('Character removed from system', { systemId, characterId });
       return true;
 
     } catch (error: unknown) {
@@ -627,13 +627,13 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        this.logger.warn('Character not found', { systemId, characterId });
+        StructuredLogger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
@@ -661,13 +661,13 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        this.logger.warn('Character not found', { systemId, characterId });
+        StructuredLogger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
@@ -696,20 +696,20 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        this.logger.warn('Character not found', { systemId, characterId });
+        StructuredLogger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       // Find animation in system
       const animationClip = system.animations.animations.find(a => a.name === animationName);
       if (!animationClip) {
-        this.logger.warn('Animation not found', { systemId, animationName });
+        StructuredLogger.warn('Animation not found', { systemId, animationName });
         return false;
       }
 
@@ -750,19 +750,19 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const character = system.characters.find(c => c.id === characterId);
       if (!character) {
-        this.logger.warn('Character not found', { systemId, characterId });
+        StructuredLogger.warn('Character not found', { systemId, characterId });
         return false;
       }
 
       const animation = character.animations.find(a => a.name === animationName);
       if (!animation) {
-        this.logger.warn('Animation not found', { systemId, characterId, animationName });
+        StructuredLogger.warn('Animation not found', { systemId, characterId, animationName });
         return false;
       }
 
@@ -790,7 +790,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -814,7 +814,7 @@ export class CharacterSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return [];
       }
 
@@ -939,12 +939,12 @@ export class CharacterSystemManager {
    * Destroy the Character System
    */
   async destroy(): Promise<void> {
-    this.logger.info('CharacterSystemPure', 'Destroying Character System...');
+    StructuredLogger.info('CharacterSystemPure', 'Destroying Character System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('CharacterSystemPure', 'Character System destroyed');
+    StructuredLogger.info('CharacterSystemPure', 'Character System destroyed');
   }
 }
 

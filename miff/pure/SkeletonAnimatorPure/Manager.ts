@@ -421,7 +421,7 @@ export class SkeletonAnimatorManager {
       skeletonState: this.skeletonState,
       status: this.getStatus(),
       exportFormat: 'miff-skeleton-state-v1',
-      timestamp: Date.now().toISOString()
+      timestamp: new Date().toISOString()
     };
     return JSON.stringify(exportData, null, 2);
   }

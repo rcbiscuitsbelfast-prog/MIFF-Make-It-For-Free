@@ -520,7 +520,7 @@ describe('PerfPure Golden Tests', () => {
 
         // Should not throw errors during construction
         expect(() => new PerfTimer('Fallback Test')).not.toThrow();
-      } catch (error) {
+      } catch (error: unknown) {
         // If performance.now is not available, timer creation might fail
         // This is expected behavior in some environments
         expect(error).toBeDefined();

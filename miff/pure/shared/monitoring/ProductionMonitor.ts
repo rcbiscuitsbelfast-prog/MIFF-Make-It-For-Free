@@ -198,12 +198,12 @@ export class ProductionMonitor {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Production monitor already initialized');
+      StructuredLogger.warn('Production monitor already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing production monitor...');
+      StructuredLogger.info('Initializing production monitor...');
 
       // Initialize dependencies
       await this.performanceOptimizer.initialize();
@@ -216,7 +216,7 @@ export class ProductionMonitor {
       }
 
       this.isInitialized = true;
-      this.logger.info('Production monitor initialized successfully');
+      StructuredLogger.info('Production monitor initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -298,7 +298,7 @@ export class ProductionMonitor {
     };
 
     this.alerts.push(newAlert);
-    this.logger.warn('Alert created', { id: newAlert.id, type: newAlert.type, severity: newAlert.severity });
+    StructuredLogger.warn('Alert created', { id: newAlert.id, type: newAlert.type, severity: newAlert.severity });
 
     // Trigger alert actions
     this.handleAlert(newAlert);
@@ -319,7 +319,7 @@ export class ProductionMonitor {
     alert.acknowledgedAt = new Date();
     alert.acknowledgedBy = acknowledgedBy;
 
-    this.logger.info('Alert acknowledged', { id: alertId, acknowledgedBy });
+    StructuredLogger.info('Alert acknowledged', { id: alertId, acknowledgedBy });
     return true;
   }
 
@@ -335,7 +335,7 @@ export class ProductionMonitor {
     alert.resolved = true;
     alert.resolvedAt = new Date();
 
-    this.logger.info('Alert resolved', { id: alertId });
+    StructuredLogger.info('Alert resolved', { id: alertId });
     return true;
   }
 
@@ -364,18 +364,18 @@ export class ProductionMonitor {
    */
   async startMonitoring(): Promise<void> {
     if (this.monitoringInterval) {
-      this.logger.warn('Monitoring already started');
+      StructuredLogger.warn('Monitoring already started');
       return;
     }
 
-    this.logger.info('Starting production monitoring...');
+    StructuredLogger.info('Starting production monitoring...');
 
     this.monitoringInterval = setInterval(async () => {
       try {
         const metrics = await this.getMetrics();
         
         if (this.config.loggingEnabled) {
-          this.logger.debug('Metrics collected', {
+          StructuredLogger.debug('Metrics collected', {
             timestamp: metrics.timestamp,
             cpu: metrics.system.cpu.usage,
             memory: metrics.system.memory.usage,
@@ -392,7 +392,7 @@ export class ProductionMonitor {
       }
     }, this.config.interval);
 
-    this.logger.info('Production monitoring started', { interval: this.config.interval });
+    StructuredLogger.info('Production monitoring started', { interval: this.config.interval });
   }
 
   /**
@@ -402,7 +402,7 @@ export class ProductionMonitor {
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval);
       this.monitoringInterval = undefined;
-      this.logger.info('Production monitoring stopped');
+      StructuredLogger.info('Production monitoring stopped');
     }
   }
 
@@ -411,14 +411,14 @@ export class ProductionMonitor {
    */
   async destroy(): Promise<void> {
     try {
-      this.logger.info('Destroying production monitor...');
+      StructuredLogger.info('Destroying production monitor...');
 
       await this.stopMonitoring();
       this.metrics = [];
       this.alerts = [];
 
       this.isInitialized = false;
-      this.logger.info('Production monitor destroyed');
+      StructuredLogger.info('Production monitor destroyed');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -547,7 +547,7 @@ export class ProductionMonitor {
       } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
         action.status = 'failed';
-        this.logger.error('Alert action failed', { alertId: alert.id, action: action.type, error: error.message });
+        StructuredLogger.error('Alert action failed', { alertId: alert.id, action: action.type, error: error.message });
       }
     }
   }
@@ -571,22 +571,22 @@ export class ProductionMonitor {
 
   private async sendNotification(alert: Alert): Promise<void> {
     // Send notification to configured channels
-    this.logger.info('Sending notification', { alertId: alert.id, channels: this.config.notificationChannels });
+    StructuredLogger.info('Sending notification', { alertId: alert.id, channels: this.config.notificationChannels });
   }
 
   private async executeAutoResponse(alert: Alert): Promise<void> {
     // Execute automatic response based on alert type
-    this.logger.info('Executing auto-response', { alertId: alert.id, type: alert.type });
+    StructuredLogger.info('Executing auto-response', { alertId: alert.id, type: alert.type });
   }
 
   private async escalateAlert(alert: Alert): Promise<void> {
     // Escalate alert to higher level
-    this.logger.info('Escalating alert', { alertId: alert.id, severity: alert.severity });
+    StructuredLogger.info('Escalating alert', { alertId: alert.id, severity: alert.severity });
   }
 
   private async executeCustomAction(alert: Alert, details?: Record<string, any>): Promise<void> {
     // Execute custom action
-    this.logger.info('Executing custom action', { alertId: alert.id, details });
+    StructuredLogger.info('Executing custom action', { alertId: alert.id, details });
   }
 
   private determineOverallStatus(): DashboardData['overview']['status'] {

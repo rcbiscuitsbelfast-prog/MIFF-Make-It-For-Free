@@ -471,7 +471,7 @@ export class LicenseAuditManager {
       license,
       dependencies,
       licenseFiles,
-      lastAudited: Date.now().toISOString(),
+      lastAudited: new Date().toISOString(),
       issues,
       warnings,
       remixSafetyScore
@@ -490,7 +490,7 @@ export class LicenseAuditManager {
       warnings,
       recommendations,
       metadata: {
-        auditedAt: Date.now().toISOString(),
+        auditedAt: new Date().toISOString(),
         config: this.config,
         dependencies,
         licenseFiles

@@ -137,31 +137,31 @@ export class GenericTypeFactory<T> implements TypeFactory<T> {
   }
 
   create(): T {
-    this.logger.debug('Creating new instance');
+    StructuredLogger.debug('Creating new instance');
     return {} as T;
   }
 
   createFrom(data: Partial<T>): T {
-    this.logger.debug('Creating instance from partial data', { data });
+    StructuredLogger.debug('Creating instance from partial data', { data });
     return { ...data } as T;
   }
 
   validate(data: any): data is T {
     const isValid = this.validator(data);
     if (!isValid) {
-      this.logger.warn('Validation failed', { data, type: typeof data });
+      StructuredLogger.warn('Validation failed', { data, type: typeof data });
     }
     return isValid;
   }
 
   clone(instance: T): T {
-    this.logger.debug('Cloning instance');
+    StructuredLogger.debug('Cloning instance');
     return this.cloner(instance);
   }
 
   equals(a: T, b: T): boolean {
     const isEqual = this.equalizer(a, b);
-    this.logger.debug('Comparing instances', { isEqual });
+    StructuredLogger.debug('Comparing instances', { isEqual });
     return isEqual;
   }
 }
@@ -187,7 +187,7 @@ export class GenericUtils {
    */
   static safeAccess<T, K extends keyof T>(obj: T, key: K): T[K!] | undefined {
     if (!TypeGuards.isObject(obj)) {
-      this.logger.warn('Attempted to access property on non-object', { obj, key });
+      StructuredLogger.warn('Attempted to access property on non-object', { obj, key });
       return undefined;
     }
     return obj[key!];

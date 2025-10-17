@@ -42,7 +42,7 @@ function runCLI(cliPath: string, args: string[] = []): any {
     }
     
     return JSON.parse(output);
-  } catch (error) {
+  } catch (error: unknown) {
     throw new Error(`CLI execution failed: ${error instanceof Error ? error.message : String(error)}`);
   }
 }

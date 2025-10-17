@@ -520,7 +520,7 @@ export class ScoreManager {
             achievements,
             leaderboards,
             stats: this.stats,
-            exportedAt: Date.now().toISOString()
+            exportedAt: new Date().toISOString()
           }
         };
       

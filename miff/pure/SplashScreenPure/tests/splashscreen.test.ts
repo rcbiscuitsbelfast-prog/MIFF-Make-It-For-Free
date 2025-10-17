@@ -151,7 +151,7 @@ describe('SplashScreenPure', () => {
       const showSpy = jest.fn();
       splashScreen.show = showSpy;
 
-      EventBus.emit('splashscreen.show');
+      EventBus.publish('splashscreen.show');
 
       // Should trigger show method
       expect(showSpy).toHaveBeenCalled();
@@ -163,7 +163,7 @@ describe('SplashScreenPure', () => {
       const hideSpy = jest.fn();
       splashScreen.hide = hideSpy;
 
-      EventBus.emit('splashscreen.hide');
+      EventBus.publish('splashscreen.hide');
 
       // Should trigger hide method
       expect(hideSpy).toHaveBeenCalled();
@@ -174,7 +174,7 @@ describe('SplashScreenPure', () => {
       splashScreen.updateConfig = updateSpy;
 
       const newConfig = { duration: 1500 };
-      EventBus.emit('splashscreen.updateConfig', newConfig);
+      EventBus.publish('splashscreen.updateConfig', newConfig);
 
       expect(updateSpy).toHaveBeenCalledWith(newConfig);
     });

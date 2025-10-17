@@ -278,7 +278,7 @@ export class PhysicsManager {
           data = {
             schema: 'PhysicsWorld',
             version: '2.0',
-            timestamp: Date.now().toISOString(),
+            timestamp: new Date().toISOString(),
             data: world,
             metadata: {
               simulationTime: this.simulationTime,

@@ -64,7 +64,7 @@ export class EventListenerManager {
     const listenerId = config.id! || `listener_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     if (this.listeners.has(listenerId)) {
-      this.logger.warn('Listener ID already exists', { listenerId });
+      StructuredLogger.warn('Listener ID already exists', { listenerId });
       return listenerId;
     }
 
@@ -86,7 +86,7 @@ export class EventListenerManager {
       this.metrics.activeListeners++;
 
       if (config.enableLogging) {
-        this.logger.debug('Event listener added', {
+        StructuredLogger.debug('Event listener added', {
           listenerId,
           event: config.event,
           target: config.target.constructor.name,
@@ -98,7 +98,7 @@ export class EventListenerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.logger.error('Failed to add event listener', {
+      StructuredLogger.error('Failed to add event listener', {
         listenerId,
         event: config.event,
         error: error.message
@@ -113,7 +113,7 @@ export class EventListenerManager {
   removeEventListener(listenerId: string): boolean {
     const config = this.listeners.get(listenerId);
     if (!config) {
-      this.logger.warn('Listener not found', { listenerId });
+      StructuredLogger.warn('Listener not found', { listenerId });
       return false;
     }
 
@@ -138,7 +138,7 @@ export class EventListenerManager {
       this.metrics.cleanedUpListeners++;
 
       if (config.enableLogging) {
-        this.logger.debug('Event listener removed', {
+        StructuredLogger.debug('Event listener removed', {
           listenerId,
           event: config.event,
           target: config.target.constructor.name
@@ -149,7 +149,7 @@ export class EventListenerManager {
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      this.logger.error('Failed to remove event listener', {
+      StructuredLogger.error('Failed to remove event listener', {
         listenerId,
         event: config.event,
         error: error.message
@@ -177,7 +177,7 @@ export class EventListenerManager {
       }
     }
 
-    this.logger.info('Removed all listeners for target', {
+    StructuredLogger.info('Removed all listeners for target', {
       target: target.constructor.name,
       removedCount
     });
@@ -204,7 +204,7 @@ export class EventListenerManager {
       }
     }
 
-    this.logger.info('Removed all listeners for event', {
+    StructuredLogger.info('Removed all listeners for event', {
       event,
       removedCount
     });
@@ -225,7 +225,7 @@ export class EventListenerManager {
       }
     }
 
-    this.logger.info('Cleaned up all event listeners', {
+    StructuredLogger.info('Cleaned up all event listeners', {
       totalCleaned: cleanedCount,
       remainingActive: this.metrics.activeListeners
     });

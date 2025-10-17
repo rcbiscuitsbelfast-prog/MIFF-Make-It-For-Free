@@ -767,7 +767,7 @@ export class BridgeInspectorManager {
     
     lines.push('# Bridge Inspection Report');
     lines.push('');
-    lines.push(`Generated: ${Date.now().toISOString()}`);
+    lines.push(`Generated: ${new Date().toISOString()}`);
     lines.push(`Total Bridges: ${inspections.length}`);
     lines.push('');
 
@@ -846,7 +846,7 @@ export class BridgeInspectorManager {
     
     lines.push('<div class="header">');
     lines.push('<h1>Bridge Inspection Report</h1>');
-    lines.push(`<p><strong>Generated:</strong> ${Date.now().toISOString()}</p>`);
+    lines.push(`<p><strong>Generated:</strong> ${new Date().toISOString()}</p>`);
     lines.push(`<p><strong>Total Bridges:</strong> ${inspections.length}</p>`);
     lines.push('</div>');
 

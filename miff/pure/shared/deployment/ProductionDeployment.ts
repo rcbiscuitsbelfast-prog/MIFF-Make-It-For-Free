@@ -183,12 +183,12 @@ export class ProductionDeployment {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('Production deployment system already initialized');
+      StructuredLogger.warn('Production deployment system already initialized');
       return;
     }
 
     try {
-      this.logger.info('Initializing production deployment system...');
+      StructuredLogger.info('Initializing production deployment system...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -208,7 +208,7 @@ export class ProductionDeployment {
       await this.loadDeploymentHistory();
 
       this.isInitialized = true;
-      this.logger.info('Production deployment system initialized successfully');
+      StructuredLogger.info('Production deployment system initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -230,7 +230,7 @@ export class ProductionDeployment {
     this.status.progress = 0;
 
     try {
-      this.logger.info('Starting production deployment...');
+      StructuredLogger.info('Starting production deployment...');
 
       // Step 1: Pre-deployment validation
       this.status.progress = 10;
@@ -274,7 +274,7 @@ export class ProductionDeployment {
       this.status.endTime = new Date();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
 
-      this.logger.info('Production deployment completed successfully');
+      StructuredLogger.info('Production deployment completed successfully');
       this.addLog('info', 'Production deployment completed successfully');
 
       // Save deployment history
@@ -289,7 +289,7 @@ export class ProductionDeployment {
       this.status.endTime = new Date();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
-      this.logger.error('Production deployment failed', { error: error.message });
+      StructuredLogger.error('Production deployment failed', { error: error.message });
       this.addLog('error', 'Production deployment failed', { error: error.message });
 
       // Attempt rollback if enabled
@@ -310,7 +310,7 @@ export class ProductionDeployment {
     }
 
     try {
-      this.logger.info('Starting rollback...');
+      StructuredLogger.info('Starting rollback...');
 
       this.status.status = 'in_progress';
       this.status.startTime = new Date();
@@ -345,7 +345,7 @@ export class ProductionDeployment {
         previousVersion: this.getPreviousVersion()
       };
 
-      this.logger.info('Rollback completed successfully');
+      StructuredLogger.info('Rollback completed successfully');
       this.addLog('info', 'Rollback completed successfully', { reason });
 
       return this.status;
@@ -357,7 +357,7 @@ export class ProductionDeployment {
       this.status.endTime = new Date();
       this.status.duration = this.status.endTime.getTime() - this.status.startTime.getTime();
       
-      this.logger.error('Rollback failed', { error: error.message });
+      StructuredLogger.error('Rollback failed', { error: error.message });
       this.addLog('error', 'Rollback failed', { error: error.message });
 
       throw error;
@@ -383,7 +383,7 @@ export class ProductionDeployment {
    */
   async destroy(): Promise<void> {
     try {
-      this.logger.info('Destroying production deployment system...');
+      StructuredLogger.info('Destroying production deployment system...');
 
       // Stop monitoring
       await this.stopMonitoring();
@@ -394,7 +394,7 @@ export class ProductionDeployment {
       await this.errorHandler.destroy();
 
       this.isInitialized = false;
-      this.logger.info('Production deployment system destroyed');
+      StructuredLogger.info('Production deployment system destroyed');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -410,22 +410,22 @@ export class ProductionDeployment {
     const env = process.env.NODE_ENV || 'production';
     this.config.environment = env as 'staging' | 'production';
     
-    this.logger.info('Environment configuration loaded', { environment: env });
+    StructuredLogger.info('Environment configuration loaded', { environment: env });
   }
 
   private async loadDeploymentHistory(): Promise<void> {
     // Load deployment history from storage
-    this.logger.info('Deployment history loaded', { count: this.deploymentHistory.length });
+    StructuredLogger.info('Deployment history loaded', { count: this.deploymentHistory.length });
   }
 
   private async saveDeploymentHistory(): Promise<void> {
     // Save deployment history to storage
     this.deploymentHistory.push({ ...this.status });
-    this.logger.info('Deployment history saved');
+    StructuredLogger.info('Deployment history saved');
   }
 
   private async preDeploymentValidation(): Promise<void> {
-    this.logger.info('Running pre-deployment validation...');
+    StructuredLogger.info('Running pre-deployment validation...');
     
     // Run comprehensive validation
     const validation = {
@@ -456,7 +456,7 @@ export class ProductionDeployment {
   }
 
   private async optimizeBuild(): Promise<void> {
-    this.logger.info('Optimizing build for production...');
+    StructuredLogger.info('Optimizing build for production...');
     
     // Optimize build configuration
     const buildMetrics = {
@@ -473,14 +473,14 @@ export class ProductionDeployment {
   }
 
   private async runSecurityScan(): Promise<void> {
-    this.logger.info('Running security scan...');
+    StructuredLogger.info('Running security scan...');
     
     // Run comprehensive security scan
     this.addLog('info', 'Security scan completed', { vulnerabilities: 0, warnings: 0 });
   }
 
   private async optimizePerformance(): Promise<void> {
-    this.logger.info('Optimizing performance for production...');
+    StructuredLogger.info('Optimizing performance for production...');
     
     // Optimize performance settings
     await this.performanceOptimizer.optimize();
@@ -488,67 +488,67 @@ export class ProductionDeployment {
   }
 
   private async createBackup(): Promise<void> {
-    this.logger.info('Creating backup of current version...');
+    StructuredLogger.info('Creating backup of current version...');
     
     // Create backup
     this.addLog('info', 'Backup created successfully');
   }
 
   private async deployNewVersion(): Promise<void> {
-    this.logger.info('Deploying new version...');
+    StructuredLogger.info('Deploying new version...');
     
     // Deploy new version
     this.addLog('info', 'New version deployed successfully');
   }
 
   private async postDeploymentValidation(): Promise<void> {
-    this.logger.info('Running post-deployment validation...');
+    StructuredLogger.info('Running post-deployment validation...');
     
     // Run post-deployment validation
     this.addLog('info', 'Post-deployment validation completed');
   }
 
   private async enableMonitoring(): Promise<void> {
-    this.logger.info('Enabling production monitoring...');
+    StructuredLogger.info('Enabling production monitoring...');
     
     // Enable monitoring
     this.addLog('info', 'Production monitoring enabled');
   }
 
   private async finalHealthCheck(): Promise<void> {
-    this.logger.info('Running final health check...');
+    StructuredLogger.info('Running final health check...');
     
     // Run final health check
     this.addLog('info', 'Final health check completed');
   }
 
   private async attemptRollback(): Promise<void> {
-    this.logger.info('Attempting automatic rollback...');
+    StructuredLogger.info('Attempting automatic rollback...');
     
     try {
       await this.rollback('Automatic rollback due to deployment failure');
     } catch (rollbackError) {
-      this.logger.error('Automatic rollback failed', { error: rollbackError.message });
+      StructuredLogger.error('Automatic rollback failed', { error: rollbackError.message });
     }
   }
 
   private async stopCurrentVersion(): Promise<void> {
-    this.logger.info('Stopping current version...');
+    StructuredLogger.info('Stopping current version...');
     this.addLog('info', 'Current version stopped');
   }
 
   private async restorePreviousVersion(): Promise<void> {
-    this.logger.info('Restoring previous version...');
+    StructuredLogger.info('Restoring previous version...');
     this.addLog('info', 'Previous version restored');
   }
 
   private async validateRollback(): Promise<void> {
-    this.logger.info('Validating rollback...');
+    StructuredLogger.info('Validating rollback...');
     this.addLog('info', 'Rollback validation completed');
   }
 
   private async stopMonitoring(): Promise<void> {
-    this.logger.info('Stopping monitoring...');
+    StructuredLogger.info('Stopping monitoring...');
     this.addLog('info', 'Monitoring stopped');
   }
 

@@ -522,7 +522,7 @@ export class SpiritTamerManager {
               spirits: Object.fromEntries(this.spirits.entries()),
               sessions: Object.fromEntries(this.tamingSessions.entries()),
               activeSession: this.activeSession?.id || null,
-              exportedAt: Date.now().toISOString()
+              exportedAt: new Date().toISOString()
             }
           };
 

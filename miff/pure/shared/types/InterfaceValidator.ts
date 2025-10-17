@@ -73,7 +73,7 @@ export class InterfaceValidator {
    */
   registerSchema(name: string, schema: InterfaceSchema): void {
     this.schemas.set(name, schema);
-    this.logger.debug('Schema registered', { name, keys: Object.keys(schema) });
+    StructuredLogger.debug('Schema registered', { name, keys: Object.keys(schema) });
   }
 
   /**
@@ -442,7 +442,7 @@ export class InterfaceValidator {
    */
   clearSchemas(): void {
     this.schemas.clear();
-    this.logger.debug('All schemas cleared');
+    StructuredLogger.debug('All schemas cleared');
   }
 }
 

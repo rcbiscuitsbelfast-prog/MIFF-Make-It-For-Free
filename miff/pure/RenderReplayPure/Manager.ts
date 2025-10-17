@@ -205,7 +205,7 @@ export class RenderReplayManager {
         config: this.config,
         steps: sessionData.frames.map((frame: any, index: number) => ({
           step: index + 1,
-          timestamp: frame.timestamp || Date.now().toISOString(),
+          timestamp: frame.timestamp || new Date().toISOString(),
           renderData: frame.data ? [frame.data] : [],
           issues: frame.issues || [],
           annotations: frame.annotations || []
@@ -440,7 +440,7 @@ export class RenderReplayManager {
     payloads.forEach((payload, index) => {
       const step: ReplayStep = {
         step: index + 1,
-        timestamp: Date.now().toISOString(),
+        timestamp: new Date().toISOString(),
         renderData: payload.renderData || [],
         issues: payload.issues ?? [],
         annotations: this.generateAnnotations(payload, index)

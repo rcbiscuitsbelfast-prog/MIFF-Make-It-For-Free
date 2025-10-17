@@ -352,12 +352,12 @@ export class CombatSystemManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('CombatSystemPure', 'Combat System already initialized');
+      StructuredLogger.warn('CombatSystemPure', 'Combat System already initialized');
       return;
     }
 
     try {
-      this.logger.info('CombatSystemPure', 'Initializing Combat System...');
+      StructuredLogger.info('CombatSystemPure', 'Initializing Combat System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -370,7 +370,7 @@ export class CombatSystemManager {
       }
 
       this.isInitialized = true;
-      this.logger.info('CombatSystemPure', 'Combat System initialized successfully');
+      StructuredLogger.info('CombatSystemPure', 'Combat System initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -410,7 +410,7 @@ export class CombatSystemManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Combat system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Combat system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -442,7 +442,7 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -456,7 +456,7 @@ export class CombatSystemManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Combat system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Combat system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -477,14 +477,14 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Combat system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Combat system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -538,7 +538,7 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -553,7 +553,7 @@ export class CombatSystemManager {
       system.combats.push(combat);
       this.updateAnalytics();
 
-      this.logger.info('Combat created', { systemId, combatId: combat.id, combatName: combat.name });
+      StructuredLogger.info('Combat created', { systemId, combatId: combat.id, combatName: combat.name });
       return combat;
 
     } catch (error: unknown) {
@@ -574,13 +574,13 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        this.logger.warn('Combat not found', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return null;
       }
 
@@ -593,7 +593,7 @@ export class CombatSystemManager {
       combat.turnOrder.push(participant.id);
       this.updateAnalytics();
 
-      this.logger.info('Participant added to combat', { systemId, combatId, participantId: participant.id, participantName: participant.name });
+      StructuredLogger.info('Participant added to combat', { systemId, combatId, participantId: participant.id, participantName: participant.name });
       return participant;
 
     } catch (error: unknown) {
@@ -614,18 +614,18 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        this.logger.warn('Combat not found', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return false;
       }
 
       if (combat.participants.length < 2) {
-        this.logger.warn('Not enough participants to start combat', { systemId, combatId, participantCount: combat.participants.length });
+        StructuredLogger.warn('Not enough participants to start combat', { systemId, combatId, participantCount: combat.participants.length });
         return false;
       }
 
@@ -634,7 +634,7 @@ export class CombatSystemManager {
       combat.round = 1;
       this.updateAnalytics();
 
-      this.logger.info('Combat started', { systemId, combatId });
+      StructuredLogger.info('Combat started', { systemId, combatId });
       return true;
 
     } catch (error: unknown) {
@@ -655,37 +655,37 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        this.logger.warn('Combat not found', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return false;
       }
 
       const participant = combat.participants.find(p => p.id === participantId);
       if (!participant) {
-        this.logger.warn('Participant not found', { systemId, combatId, participantId });
+        StructuredLogger.warn('Participant not found', { systemId, combatId, participantId });
         return false;
       }
 
       const ability = participant.abilities.find(a => a.id === abilityId);
       if (!ability) {
-        this.logger.warn('Ability not found', { systemId, combatId, participantId, abilityId });
+        StructuredLogger.warn('Ability not found', { systemId, combatId, participantId, abilityId });
         return false;
       }
 
       // Check if it's the participant's turn
       if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        this.logger.warn('Not participant\'s turn', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
+        StructuredLogger.warn('Not participant\'s turn', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
         return false;
       }
 
       // Check mana cost
       if (participant.mana < ability.cost) {
-        this.logger.warn('Insufficient mana', { systemId, combatId, participantId, abilityId, required: ability.cost, available: participant.mana });
+        StructuredLogger.warn('Insufficient mana', { systemId, combatId, participantId, abilityId, required: ability.cost, available: participant.mana });
         return false;
       }
 
@@ -707,7 +707,7 @@ export class CombatSystemManager {
 
       this.updateAnalytics();
 
-      this.logger.info('Ability executed', { systemId, combatId, participantId, abilityId, targetId });
+      StructuredLogger.info('Ability executed', { systemId, combatId, participantId, abilityId, targetId });
       return true;
 
     } catch (error: unknown) {
@@ -747,19 +747,19 @@ export class CombatSystemManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const combat = system.combats.find(c => c.id === combatId);
       if (!combat) {
-        this.logger.warn('Combat not found', { systemId, combatId });
+        StructuredLogger.warn('Combat not found', { systemId, combatId });
         return false;
       }
 
       // Check if it's the participant's turn
       if (combat.turnOrder[combat.currentTurn] !== participantId) {
-        this.logger.warn('Not participant\'s turn', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
+        StructuredLogger.warn('Not participant\'s turn', { systemId, combatId, participantId, currentTurn: combat.currentTurn });
         return false;
       }
 
@@ -774,7 +774,7 @@ export class CombatSystemManager {
 
       this.updateAnalytics();
 
-      this.logger.info('Turn ended', { systemId, combatId, participantId, currentTurn: combat.currentTurn, round: combat.round });
+      StructuredLogger.info('Turn ended', { systemId, combatId, participantId, currentTurn: combat.currentTurn, round: combat.round });
       return true;
 
     } catch (error: unknown) {
@@ -935,12 +935,12 @@ export class CombatSystemManager {
    * Destroy the Combat System
    */
   async destroy(): Promise<void> {
-    this.logger.info('CombatSystemPure', 'Destroying Combat System...');
+    StructuredLogger.info('CombatSystemPure', 'Destroying Combat System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('CombatSystemPure', 'Combat System destroyed');
+    StructuredLogger.info('CombatSystemPure', 'Combat System destroyed');
   }
 }
 

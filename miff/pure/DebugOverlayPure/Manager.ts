@@ -710,7 +710,7 @@ export class DebugOverlayManager {
       op: payload.op,
       status: payload.status,
       issues: payload.issues,
-      timestamp: Date.now().toISOString(),
+      timestamp: new Date().toISOString(),
       renderDataCount: payload.renderData?.length || 0,
       engineHints: uniqueEngineHints,
       signalsCount,
@@ -1327,7 +1327,7 @@ export class DebugOverlayManager {
       debugInfo: {
         op: 'unknown',
         status: 'error',
-        timestamp: Date.now().toISOString(),
+        timestamp: new Date().toISOString(),
         renderDataCount: 0,
         engineHints: [],
         signalsCount: 0

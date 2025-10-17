@@ -548,7 +548,7 @@ export class NPCsManager {
           result: {
             schema: 'miff.npcs.export.v1',
             npcs,
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             total: npcs.length
           }
         };

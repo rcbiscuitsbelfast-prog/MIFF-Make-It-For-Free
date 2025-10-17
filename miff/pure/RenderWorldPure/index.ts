@@ -693,7 +693,7 @@ export class RenderWorldPure {
     this.state.world.spiritLens.active = true;
 
     // Add ambient sound for Spirit Lens
-    EventBus.emit('audio.ambient', {
+    EventBus.publish('audio.ambient', {
       source: 'spirit_lens',
       sound: 'lens_hum',
       position: this.state.world.spiritLens.position,
@@ -721,8 +721,8 @@ export class RenderWorldPure {
     this.state.player.holdingSpiritLens = true;
     this.state.world.spiritLens.active = false;
 
-    EventBus.emit('audio.play', { sound: 'lens_pickup', volume: 0.8 });
-    EventBus.emit('ui.notification', {
+    EventBus.publish('audio.play', { sound: 'lens_pickup', volume: 0.8 });
+    EventBus.publish('ui.notification', {
       message: 'Spirit Lens acquired - use it to scan for hidden paths',
       type: 'info',
       duration: 3000
@@ -735,7 +735,7 @@ export class RenderWorldPure {
     const scanResult = this.performSpiritLensScan();
     this.highlightNearbyElements(scanResult);
 
-    EventBus.emit('world.scan', scanResult);
+    EventBus.publish('world.scan', scanResult);
   }
 
   private performSpiritLensScan(): any {
@@ -780,7 +780,7 @@ export class RenderWorldPure {
                        portal.shimmer ? portal.shimmer.intensity + result.intensity :
                        portal.glow.intensity + result.intensity;
 
-      EventBus.emit('portal.highlight', {
+      EventBus.publish('portal.highlight', {
         portalId: portal.destination.toLowerCase(),
         intensity: intensity,
         duration: 5000
@@ -810,7 +810,7 @@ export class RenderWorldPure {
 
     const dialogue = npc.dialogueTree[Math.floor(Math.random() * npc.dialogueTree.length)];
 
-    EventBus.emit('dialogue.start', {
+    EventBus.publish('dialogue.start', {
       npcId: npc.id,
       dialogue: dialogue,
       position: npc.position
@@ -828,14 +828,14 @@ export class RenderWorldPure {
 
     if (!portal || !portal.active) return;
 
-    EventBus.emit('scene.transition', {
+    EventBus.publish('scene.transition', {
       destination: portal.destination,
       transitionType: 'portal',
       portalData: portal
     });
 
     // Play portal activation sound
-    EventBus.emit('audio.play', {
+    EventBus.publish('audio.play', {
       sound: 'portal_activate',
       position: portal.position,
       volume: 1.0
@@ -856,7 +856,7 @@ export class RenderWorldPure {
     // Handle dialogue system interactions
     this.state.ui.dialogueVisible = true;
 
-    EventBus.emit('ui.dialogue', event.dialogue);
+    EventBus.publish('ui.dialogue', event.dialogue);
   }
 
   private handlePlayerMovement(event: any) {
@@ -879,7 +879,7 @@ export class RenderWorldPure {
     if (!this.state.player.holdingSpiritLens) {
       const lensDistance = this.calculateDistance(this.state.player.position, this.state.world.spiritLens.position);
       if (lensDistance <= 2) {
-        EventBus.emit('spiritLens.pickup', { player: this.state.player });
+        EventBus.publish('spiritLens.pickup', { player: this.state.player });
       }
     }
 
@@ -887,7 +887,7 @@ export class RenderWorldPure {
     Object.values(this.state.world.portals).forEach((portal: any) => {
       const portalDistance = this.calculateDistance(this.state.player.position, portal.position);
       if (portalDistance <= 3) {
-        EventBus.emit('portal.proximity', {
+        EventBus.publish('portal.proximity', {
           portalId: portal.destination.toLowerCase(),
           distance: portalDistance
         });
@@ -898,7 +898,7 @@ export class RenderWorldPure {
   private handleWorldScan(event: any) {
     // Process scan results and update world state
     if (event.portals && event.portals.length > 0) {
-      EventBus.emit('ui.notification', {
+      EventBus.publish('ui.notification', {
         message: `${event.portals.length} portals detected nearby`,
         type: 'scan',
         duration: 2000
@@ -906,7 +906,7 @@ export class RenderWorldPure {
     }
 
     if (event.npcs && event.npcs.length > 0) {
-      EventBus.emit('ui.notification', {
+      EventBus.publish('ui.notification', {
         message: `${event.npcs.length} entities detected - approach for interaction`,
         type: 'scan',
         duration: 3000
@@ -1022,7 +1022,7 @@ export class RenderWorldPure {
     this.state.world.spiritLens.glowIntensity = 0.8 + Math.sin(time * 2) * 0.2;
 
     // Update ambient sound
-    EventBus.emit('audio.update', {
+    EventBus.publish('audio.update', {
       source: 'spirit_lens',
       volume: this.state.world.spiritLens.glowIntensity * 0.3
     });
@@ -1089,7 +1089,7 @@ export class RenderWorldPure {
       }
     };
 
-    EventBus.emit('debug.update', debugData);
+    EventBus.publish('debug.update', debugData);
   }
 
   public render() {
@@ -1122,7 +1122,7 @@ export class RenderWorldPure {
     // Portal-specific rendering with emissive effects
     const emissiveColor = portal.aura || portal.shimmer || portal.glow;
 
-    EventBus.emit('render.portal', {
+    EventBus.publish('render.portal', {
       portal: portal,
       emissive: emissiveColor,
       intensity: 1.0,
@@ -1131,7 +1131,7 @@ export class RenderWorldPure {
   }
 
   private renderSpiritLens() {
-    EventBus.emit('render.spiritLens', {
+    EventBus.publish('render.spiritLens', {
       position: this.state.world.spiritLens.position,
       glowIntensity: this.state.world.spiritLens.glowIntensity,
       color: { r: 0.8, g: 0.9, b: 1.0 },
@@ -1140,7 +1140,7 @@ export class RenderWorldPure {
   }
 
   private renderNPC(npc: any) {
-    EventBus.emit('render.npc', {
+    EventBus.publish('render.npc', {
       npc: npc,
       state: npc.state,
       position: npc.position,
@@ -1151,18 +1151,18 @@ export class RenderWorldPure {
   private renderUI() {
     // Render HUD elements
     if (this.state.ui.hudVisible) {
-      EventBus.emit('render.hud');
+      EventBus.publish('render.hud');
     }
 
     // Render dialogue if active
     if (this.state.ui.dialogueVisible) {
-      EventBus.emit('render.dialogue');
+      EventBus.publish('render.dialogue');
     }
   }
 
   private renderEffects() {
     // Render particle effects, post-processing
-    EventBus.emit('render.effects', {
+    EventBus.publish('render.effects', {
       glowEffects: true,
       ambientOcclusion: true,
       bloom: true

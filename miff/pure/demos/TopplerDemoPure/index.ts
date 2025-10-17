@@ -647,7 +647,7 @@ export class TopplerDemo {
   private handlePlayerLanded(event: any) {
     // Player landed on a platform
     this.state.player.velocity.y = 0;
-    EventBus.emit('audio.play', { sound: 'land_sound' });
+    EventBus.publish('audio.play', { sound: 'land_sound' });
   }
 
   private handlePlayerHit(event: any) {
@@ -664,8 +664,8 @@ export class TopplerDemo {
       }
     }
 
-    EventBus.emit('audio.play', { sound: 'hurt_sound' });
-    EventBus.emit('camera.shake', { intensity: 5, duration: 0.5 });
+    EventBus.publish('audio.play', { sound: 'hurt_sound' });
+    EventBus.publish('camera.shake', { intensity: 5, duration: 0.5 });
   }
 
   private handleCollectible(event: any) {
@@ -679,13 +679,13 @@ export class TopplerDemo {
     // Apply collectible effect
     if (collectible.type === 'coin') {
       player.score += collectible.value;
-      EventBus.emit('score.update', { amount: collectible.value });
+      EventBus.publish('score.update', { amount: collectible.value });
     } else if (collectible.type === 'power_up') {
       player.powerUps.push(collectible.effect);
-      EventBus.emit('powerup.acquired', { effect: collectible.effect });
+      EventBus.publish('powerup.acquired', { effect: collectible.effect });
     }
 
-    EventBus.emit('audio.play', { sound: 'collect_sound' });
+    EventBus.publish('audio.play', { sound: 'collect_sound' });
   }
 
   private handleLevelComplete(event: any) {
@@ -699,7 +699,7 @@ export class TopplerDemo {
 
   private handleGameOver() {
     this.state.game.gameOver = true;
-    EventBus.emit('game.gameOver', {
+    EventBus.publish('game.gameOver', {
       finalScore: this.state.game.score,
       completedLevels: this.state.game.completedLevels.length
     });
@@ -751,7 +751,7 @@ export class TopplerDemo {
 
   private handleGameComplete() {
     this.state.game.gameOver = true;
-    EventBus.emit('game.completed', {
+    EventBus.publish('game.completed', {
       finalScore: this.state.game.score,
       completionTime: this.state.game.time,
       perfectLevels: this.calculatePerfectLevels()
@@ -840,7 +840,7 @@ export class TopplerDemo {
       // Player landed on platform
       this.state.player.position.y = obj2.position.y - obj2.radius - obj1.radius;
       this.state.player.velocity.y = 0;
-      EventBus.emit('player.landed', { platform: obj2 });
+      EventBus.publish('player.landed', { platform: obj2 });
     }
   }
 

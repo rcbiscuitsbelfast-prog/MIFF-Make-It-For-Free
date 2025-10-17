@@ -535,7 +535,7 @@ export class XPLevelingManager {
             entities,
             curves,
             history: this.levelUpHistory.slice(-100), // Last 100 level ups
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             total: entities.length
           }
         };

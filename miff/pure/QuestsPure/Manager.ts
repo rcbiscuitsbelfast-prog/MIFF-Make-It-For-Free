@@ -504,7 +504,7 @@ export class QuestsManager {
             schema: 'miff.quests.export.v1',
             quests,
             progress: Array.from(this.questProgress.values()),
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             total: quests.length
           }
         };

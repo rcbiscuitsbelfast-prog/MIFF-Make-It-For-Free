@@ -776,7 +776,7 @@ export class MovementManager {
             events: this.events.slice(-100), // Last 100 events
             obstacles: this.obstacles,
             worldBounds: this.worldBounds,
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             total: entities.length
           }
         };

@@ -250,7 +250,7 @@ export class ChainValidatorManager {
       nodes: this.listNodes(),
       edges: this.listEdges(),
       stats: this.getStats().result,
-      exportedAt: Date.now().toISOString(),
+      exportedAt: new Date().toISOString(),
       version: '1.0.0'
     };
     switch (format) {

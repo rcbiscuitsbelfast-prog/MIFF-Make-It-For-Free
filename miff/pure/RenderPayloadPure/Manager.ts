@@ -151,7 +151,7 @@ export class RenderPayloadManager {
         metadata: {
           schemaVersion: 'v1',
           engine,
-          timestamp: Date.now().toISOString(),
+          timestamp: new Date().toISOString(),
           module: 'render_payload_pure',
           frameId: id,
           frameName: name
@@ -397,7 +397,7 @@ export class RenderPayloadManager {
               frame,
               assets: Array.from(this.assets.values()),
               animations: Array.from(this.animations.values()),
-              exportedAt: Date.now().toISOString()
+              exportedAt: new Date().toISOString()
             }
           };
         
@@ -558,7 +558,7 @@ export class RenderPayloadBuilder {
       metadata: {
         schemaVersion: 'v1',
         engine: options.engine || 'unified',
-        timestamp: options.timestamp || Date.now().toISOString(),
+        timestamp: options.timestamp || new Date().toISOString(),
         module: options.module || 'generic'
       }
     };

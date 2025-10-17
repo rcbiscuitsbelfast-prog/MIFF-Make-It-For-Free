@@ -194,7 +194,7 @@ export class ChainManager {
     const exportData = {
       chain,
       progress,
-      exportedAt: Date.now().toISOString(),
+      exportedAt: new Date().toISOString(),
       version: '1.0.0'
     };
 
@@ -218,7 +218,7 @@ export class ChainManager {
       status: 'ok',
       format,
       data,
-      exportedAt: Date.now().toISOString()
+      exportedAt: new Date().toISOString()
     };
   }
 

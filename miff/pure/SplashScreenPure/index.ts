@@ -115,7 +115,7 @@ export class SplashScreenPure {
 
     this.cleanup();
     this.onCompleteCallback?.();
-    EventBus.emit('splashscreen.complete');
+    EventBus.publish('splashscreen.complete');
   }
 
   private createContainer(): void {

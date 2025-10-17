@@ -659,7 +659,7 @@ async function runTestSuite(suite: GoldenTestSuite): Promise<TestResult[]> {
       }
 
       results.push(result);
-    } catch (error) {
+    } catch (error: unknown) {
       console.log(`   💥 Test ${i + 1}: Exception thrown - ${error.message}`);
       results.push({
         passed: false,

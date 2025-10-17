@@ -557,7 +557,7 @@ export class TimeManager {
             cooldowns: Array.from(this.cooldowns.values()),
             scheduled: this.scheduled,
             scales: Array.from(this.timeScales.values()),
-            exportedAt: Date.now().toISOString(),
+            exportedAt: new Date().toISOString(),
             stats: this.stats
           }
         };

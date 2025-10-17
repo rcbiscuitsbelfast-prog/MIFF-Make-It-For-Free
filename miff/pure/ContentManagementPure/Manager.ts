@@ -246,12 +246,12 @@ export class ContentManagementManager {
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) {
-      this.logger.warn('ContentManagementPure', 'Content Management System already initialized');
+      StructuredLogger.warn('ContentManagementPure', 'Content Management System already initialized');
       return;
     }
 
     try {
-      this.logger.info('ContentManagementPure', 'Initializing Content Management System...');
+      StructuredLogger.info('ContentManagementPure', 'Initializing Content Management System...');
 
       // Initialize performance optimizer
       if (this.config.enablePerformanceOptimization) {
@@ -264,7 +264,7 @@ export class ContentManagementManager {
       }
 
       this.isInitialized = true;
-      this.logger.info('ContentManagementPure', 'Content Management System initialized successfully');
+      StructuredLogger.info('ContentManagementPure', 'Content Management System initialized successfully');
 
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
@@ -303,7 +303,7 @@ export class ContentManagementManager {
       this.systems.set(system.id, system);
       this.updateAnalytics();
 
-      this.logger.info('Content management system created', { systemId: system.id, systemName: system.name });
+      StructuredLogger.info('Content management system created', { systemId: system.id, systemName: system.name });
       return system;
 
     } catch (error: unknown) {
@@ -335,7 +335,7 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -349,7 +349,7 @@ export class ContentManagementManager {
       this.systems.set(systemId, updatedSystem);
       this.updateAnalytics();
 
-      this.logger.info('Content management system updated', { systemId, systemName: updatedSystem.name });
+      StructuredLogger.info('Content management system updated', { systemId, systemName: updatedSystem.name });
       return updatedSystem;
 
     } catch (error: unknown) {
@@ -370,14 +370,14 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       this.systems.delete(systemId);
       this.updateAnalytics();
 
-      this.logger.info('Content management system deleted', { systemId, systemName: system.name });
+      StructuredLogger.info('Content management system deleted', { systemId, systemName: system.name });
       return true;
 
     } catch (error: unknown) {
@@ -431,7 +431,7 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -445,7 +445,7 @@ export class ContentManagementManager {
       system.contents.push(content);
       this.updateAnalytics();
 
-      this.logger.info('Content added to system', { systemId, contentId: content.id, contentName: content.name });
+      StructuredLogger.info('Content added to system', { systemId, contentId: content.id, contentName: content.name });
       return content;
 
     } catch (error: unknown) {
@@ -466,20 +466,20 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const contentIndex = system.contents.findIndex(c => c.id === contentId);
       if (contentIndex === -1) {
-        this.logger.warn('Content not found', { systemId, contentId });
+        StructuredLogger.warn('Content not found', { systemId, contentId });
         return false;
       }
 
       system.contents.splice(contentIndex, 1);
       this.updateAnalytics();
 
-      this.logger.info('Content removed from system', { systemId, contentId });
+      StructuredLogger.info('Content removed from system', { systemId, contentId });
       return true;
 
     } catch (error: unknown) {
@@ -500,13 +500,13 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
       const content = system.contents.find(c => c.id === contentId);
       if (!content) {
-        this.logger.warn('Content not found', { systemId, contentId });
+        StructuredLogger.warn('Content not found', { systemId, contentId });
         return null;
       }
 
@@ -521,7 +521,7 @@ export class ContentManagementManager {
       system.contents[contentIndex!] = updatedContent;
       this.updateAnalytics();
 
-      this.logger.info('Content updated', { systemId, contentId });
+      StructuredLogger.info('Content updated', { systemId, contentId });
       return updatedContent;
 
     } catch (error: unknown) {
@@ -542,13 +542,13 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const content = system.contents.find(c => c.id === contentId);
       if (!content) {
-        this.logger.warn('Content not found', { systemId, contentId });
+        StructuredLogger.warn('Content not found', { systemId, contentId });
         return false;
       }
 
@@ -557,7 +557,7 @@ export class ContentManagementManager {
       content.modified = Date.now();
       this.updateAnalytics();
 
-      this.logger.info('Content published', { systemId, contentId });
+      StructuredLogger.info('Content published', { systemId, contentId });
       return true;
 
     } catch (error: unknown) {
@@ -578,13 +578,13 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return false;
       }
 
       const content = system.contents.find(c => c.id === contentId);
       if (!content) {
-        this.logger.warn('Content not found', { systemId, contentId });
+        StructuredLogger.warn('Content not found', { systemId, contentId });
         return false;
       }
 
@@ -592,7 +592,7 @@ export class ContentManagementManager {
       content.modified = Date.now();
       this.updateAnalytics();
 
-      this.logger.info('Content archived', { systemId, contentId });
+      StructuredLogger.info('Content archived', { systemId, contentId });
       return true;
 
     } catch (error: unknown) {
@@ -619,7 +619,7 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return [];
       }
 
@@ -659,7 +659,7 @@ export class ContentManagementManager {
 
       this.updateAnalytics();
 
-      this.logger.debug('Content search completed', { systemId, query, resultCount: results.length });
+      StructuredLogger.debug('Content search completed', { systemId, query, resultCount: results.length });
       return results;
 
     } catch (error: unknown) {
@@ -680,7 +680,7 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -694,7 +694,7 @@ export class ContentManagementManager {
       system.categories.push(category);
       this.updateAnalytics();
 
-      this.logger.info('Category added to system', { systemId, categoryId: category.id, categoryName: category.name });
+      StructuredLogger.info('Category added to system', { systemId, categoryId: category.id, categoryName: category.name });
       return category;
 
     } catch (error: unknown) {
@@ -715,7 +715,7 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -728,7 +728,7 @@ export class ContentManagementManager {
       system.tags.push(tag);
       this.updateAnalytics();
 
-      this.logger.info('Tag added to system', { systemId, tagId: tag.id, tagName: tag.name });
+      StructuredLogger.info('Tag added to system', { systemId, tagId: tag.id, tagName: tag.name });
       return tag;
 
     } catch (error: unknown) {
@@ -749,7 +749,7 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return null;
       }
 
@@ -773,7 +773,7 @@ export class ContentManagementManager {
     try {
       const system = this.systems.get(systemId);
       if (!system) {
-        this.logger.warn('System not found', { systemId });
+        StructuredLogger.warn('System not found', { systemId });
         return [];
       }
 
@@ -905,12 +905,12 @@ export class ContentManagementManager {
    * Destroy the Content Management System
    */
   async destroy(): Promise<void> {
-    this.logger.info('ContentManagementPure', 'Destroying Content Management System...');
+    StructuredLogger.info('ContentManagementPure', 'Destroying Content Management System...');
 
     this.systems.clear();
     this.isInitialized = false;
 
-    this.logger.info('ContentManagementPure', 'Content Management System destroyed');
+    StructuredLogger.info('ContentManagementPure', 'Content Management System destroyed');
   }
 }
 
