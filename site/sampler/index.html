@@ -1,46 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>MIFF Sampler Tools</title>
-	<style>
-		body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
-		header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
-		.wrap{padding:12px;max-width:1200px;margin:0 auto}
-		.zone-card{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622;padding:16px;margin-bottom:12px}
-		.zone-card h3{margin:0 0 8px 0;color:#58a6ff}
-		.zone-card p{margin:0 0 12px 0;color:#a9b8c6;font-size:14px}
-		.card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-		.btn-primary{background:#238636;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:500}
-		.btn-primary:hover{background:#2ea043}
-		.btn-secondary{background:#21262d;color:#e6edf3;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:500;border:1px solid #30363d}
-		.btn-secondary:hover{background:#30363d}
-		.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-	</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MIFF Sampler - Interactive game demos showcasing MIFF's modular capabilities">
+  <title>MIFF Sampler | Interactive Game Demos</title>
+  <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-	<header>
-		<strong>MIFF Sampler Tools</strong>
-		<nav class="toolbar">
-			<a href="../index.html" style="color:#58a6ff;text-decoration:none">← Back to MIFF</a>
-		</nav>
-	</header>
-	<div class="wrap">
-		<div class="zone-card">
-			<h3>🌀 RenderWorld</h3>
-			<p>Real-time MIFF-native renderer and hub.</p>
-			<div class="card-actions">
-				<a href="../renderworld/index.html" class="btn-primary" aria-label="Open RenderWorld">Open RenderWorld</a>
-			</div>
-		</div>
-		<div class="zone-card">
-			<h3>🏙️ Explore Pixel City</h3>
-			<p>A procedurally generated world of retro characters, quests, and ambient effects</p>
-			<div class="card-actions">
-				<a href="../renderworld/index.html#pixel-city" class="btn-primary" aria-label="Enter Pixel World">Enter Pixel World</a>
-			</div>
-		</div>
-	</div>
+  <!-- Header -->
+  <header>
+    <nav class="container">
+      <div class="logo"><a href="../index.html" style="text-decoration: none;">⛶ MIFF</a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../sampler/index.html">Sampler</a></li>
+        <li><a href="../studio/index.html">Studio</a></li>
+        <li><a href="../docs/index.html">Docs</a></li>
+        <li><a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>🎮 MIFF Sampler</h1>
+      <p>Explore interactive game demos showcasing MIFF's modular capabilities</p>
+    </div>
+  </section>
+
+  <!-- Demos -->
+  <section class="features">
+    <div class="container">
+      <h2 class="text-center mb-3">Interactive Demos</h2>
+      <div class="grid grid-2">
+        
+        <!-- Spirit Tamer -->
+        <div class="card">
+          <h3>🦋 Spirit Tamer</h3>
+          <p>A creature collection RPG featuring turn-based combat, spirit management, and team building. Demonstrates MIFF's combat system, inventory, and AI profiles.</p>
+          <ul style="margin: 1rem 0; color: var(--text-gray);">
+            <li>Turn-based battle system</li>
+            <li>6-spirit team management</li>
+            <li>Type effectiveness calculations</li>
+            <li>Status effects and abilities</li>
+          </ul>
+          <a href="../zones/spirit_tamer/index.html" class="btn btn-primary">Play Demo →</a>
+        </div>
+
+        <!-- Toppler -->
+        <div class="card">
+          <h3>🏰 Toppler</h3>
+          <p>A fast-paced platformer inspired by classic arcade games. Showcases MIFF's physics engine, collision detection, and real-time rendering.</p>
+          <ul style="margin: 1rem 0; color: var(--text-gray);">
+            <li>2D physics simulation</li>
+            <li>Precise collision detection</li>
+            <li>60fps gameplay</li>
+            <li>Multiple difficulty levels</li>
+          </ul>
+          <a href="../zones/toppler/index.html" class="btn btn-primary">Play Demo →</a>
+        </div>
+
+        <!-- Witcher Grove -->
+        <div class="card">
+          <h3>🌲 Witcher Grove</h3>
+          <p>An exploration-focused adventure in a mysterious 3D forest. Features dynamic world generation, quest system, and narrative dialogue.</p>
+          <ul style="margin: 1rem 0; color: var(--text-gray);">
+            <li>3D world exploration</li>
+            <li>Quest and dialogue systems</li>
+            <li>Dynamic map generation</li>
+            <li>Inventory and equipment</li>
+          </ul>
+          <a href="../zones/witcher_grove/index.html" class="btn btn-primary">Play Demo →</a>
+        </div>
+
+        <!-- Remix Lab -->
+        <div class="card">
+          <h3>🧪 Remix Lab</h3>
+          <p>Experimental sandbox for testing MIFF modules. Mix and match systems to create unique gameplay experiences.</p>
+          <ul style="margin: 1rem 0; color: var(--text-gray);">
+            <li>Module experimentation</li>
+            <li>Live code editing</li>
+            <li>System composition</li>
+            <li>Real-time preview</li>
+          </ul>
+          <a href="../zones/remix_lab/index.html" class="btn btn-primary">Open Lab →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Additional Demos -->
+  <section class="features" style="background: var(--bg-white);">
+    <div class="container">
+      <h2 class="text-center mb-3">Feature Demos</h2>
+      <div class="grid grid-3">
+        
+        <div class="card">
+          <h3>👤 Avatar System</h3>
+          <p>Character customization and rendering demo</p>
+          <a href="avatar.html" class="btn btn-secondary">View Demo</a>
+        </div>
+
+        <div class="card">
+          <h3>🌍 Pixel World</h3>
+          <p>2D tile-based world rendering</p>
+          <a href="pixel-world.html" class="btn btn-secondary">View Demo</a>
+        </div>
+
+        <div class="card">
+          <h3>👥 Multiplayer</h3>
+          <p>Networked gameplay example</p>
+          <a href="multiplayer.html" class="btn btn-secondary">View Demo</a>
+        </div>
+
+        <div class="card">
+          <h3>📼 Replay System</h3>
+          <p>Game state recording and playback</p>
+          <a href="replay.html" class="btn btn-secondary">View Demo</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Showcase -->
+  <section class="stats">
+    <div class="container">
+      <h2>Powered by MIFF Modules</h2>
+      <p style="margin-top: 1rem; opacity: 0.9;">Every demo uses real MIFF modules - the same systems you can use in your games</p>
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-number">235+</div>
+          <div class="stat-label">Modules Available</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">60fps</div>
+          <div class="stat-label">Real-time Performance</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">TypeScript</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">Open</div>
+          <div class="stat-label">Source</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>MIFF Framework</h4>
+          <p>Make It For Free</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../studio/index.html">Studio</a></li>
+            <li><a href="../docs/index.html">Documentation</a></li>
+            <li><a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free">GitHub</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Demos</h4>
+          <ul>
+            <li><a href="../zones/spirit_tamer/index.html">Spirit Tamer</a></li>
+            <li><a href="../zones/toppler/index.html">Toppler</a></li>
+            <li><a href="../zones/witcher_grove/index.html">Witcher Grove</a></li>
+            <li><a href="../zones/remix_lab/index.html">Remix Lab</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>License</h4>
+          <p>AGPL-3.0 • Open Source</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 MIFF Framework
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
