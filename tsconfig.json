@@ -23,6 +23,7 @@
     "**/*.test.ts",
     "**/cliHarness.ts",
     "**/cli/**",
+    "cli/**",
     "coverage",
     "miff-nextjs/tailwind.config.ts",
     "scenarios/**/*.ts",

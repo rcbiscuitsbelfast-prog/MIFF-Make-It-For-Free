@@ -114,7 +114,8 @@ export class CacheManager {
       this.log(`Cache SET: ${key} (${size} bytes)`);
       return true;
     } catch (error) {
-      this.log(`Cache SET failed for ${key}: ${error.message}`, 'error');
+      const message = error instanceof Error ? error.message : String(error);
+      this.log(`Cache SET failed for ${key}: ${message}`, 'error');
       return false;
     }
   }

@@ -1390,7 +1390,10 @@ export class UnityConverter {
         buildTargetRemoteBuild: false,
         buildTargetCustomBuild: false,
         buildDependencies: [],
-        buildStrippingInfo: {
+      } as UnityBuildSummary;
+
+      // attach optional build stripping info on instance (not part of summary type)
+      (this as any).buildStrippingInfo = {
           enabled: false,
           strippingLevel: 'disabled',
           stripAssemblies: false,
@@ -2015,7 +2018,7 @@ export class UnityConverter {
         stripUnusedBuildParticleSystemTrailErrorComponents: false,
         stripUnusedBuildParticleSystemCustomDataErrorComponents: false,
       }
-    };
+      };
 
     // Implementation for building Unity project
     console.log('[UnityConverter] Build completed successfully');
